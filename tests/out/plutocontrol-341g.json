@@ -1,0 +1,1758 @@
+{
+ "version": "w341g-plutocontrol-1",
+ "libVersion": "w341g-plutocontrol-lib-1",
+ "generator": "tests/exp-w341g-plutocontrol.mjs",
+ "target": "tests/lib-w341g-plutocontrol.mjs",
+ "ruling": "原仮定者の補足(2026-11-18 —— 第141報)「冥王星は、太陽から遠く、斜め軌道で赤道面から離れる期間が長く、カロンと互いに潮汐ロックしている。冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・原仮定者の指示(2026-11-11 —— 第135報)「冥王星とカロンが、連星のヒントになると想定」・統括の検証項目 R370",
+ "decl": {
+  "alpha": 2,
+  "phasesDeg": [0,90,180],
+  "nPts": 400,
+  "w0Src": "第337便l の DECL.W0・DECL.wbg(第337便a の正本 supply-337a.json の読み i〔背景が静止〕の解の写し)",
+  "indexRef": "÷ n(角速度)・÷ n a(速度)",
+  "t2Bands": [
+   "Req",
+   "Rsun",
+   "au01"
+  ],
+  "t2N": 7200,
+  "t2Lambda": 6.56e-7,
+  "t2LambdaSrc": "第337便i の代表の組の λ(PHYSICS〔第339便a〕・題の追記の 6.560e-7 の写し)—— 本の倍率 1e5・2e6 は掛けない",
+  "t3Steps": [360,720,1440,2880],
+  "t3Orbits": 1,
+  "defDiffS": 7.216805050382391,
+  "sigmaS": 0.02592,
+  "pBuieS": 551856.43872,
+  "t4Coef": [1,0.5]
+ },
+ "lit": {
+  "note": "リポジトリの中の値(第337便c の BODY_SRC = paper/data/solar-observations.csv と jovian-satellites.csv の写し・paper/data の行)を先に使う。無いものは文献の値・未照合(この環境から一次資料に届かない)",
+  "plutoCharonGM": {
+   "plu060": 975400000000,
+   "buie": 972030063028.3296,
+   "aPlu060Mean": 19595764,
+   "aBuie": 19573000,
+   "src": "tests/out/charoninput-w280d.json の sameDef(GM = Brozović & Jacobson 2024 Table 8 の冥王星 + カロン・a = 同 Table 10 の 400 年平均/Buie 2012 の二体解 a 19573 km と含意の GM)の写し"
+  },
+  "saturn": {
+   "M": 5.6834e+26,
+   "R": 60268000,
+   "spin": 38362,
+   "aHel": 1433500000000,
+   "src": "NASA NSSDC の Saturn Fact Sheet(質量・赤道半径・自転 10.656 h・半長軸)—— 文献の値・未照合・確かさ 高"
+  },
+  "titan": {
+   "M": 1.3452e+23,
+   "R": 2574700,
+   "a": 1221870000,
+   "porb": 1377686.7072,
+   "e": 0.029,
+   "src": "周期と離心率は paper/data/solar-observations.csv(SOL-6041b21e・SOL-7665efd8 —— Jacobson 2022)・質量・半径・半長軸は NASA NSSDC の土星の衛星の表 —— 文献の値・未照合・確かさ 高"
+  },
+  "j0737": {
+   "MA": 2.660982861e+30,
+   "MB": 2.483370041e+30,
+   "R": 11750,
+   "a": 878836600,
+   "porb": 8834.534723278,
+   "e": 0.087777036,
+   "PA": 0.02269937898645,
+   "PB": 2.77346074724,
+   "src": "paper/data/solar-observations.csv の PSR J0737-3039 A/B の行(SOL-7ba92aa0・SOL-3b7d7d41・SOL-8c6303f4・SOL-6674817e・SOL-cf1e8fbf・SOL-40d95cf1・SOL-91ac7b68・SOL-649c64b4)"
+  },
+  "moonE": {
+   "e": 0.0549,
+   "src": "月の離心率 0.0549(NASA NSSDC の Moon Fact Sheet)—— 文献の値・未照合・確かさ 高"
+  },
+  "ioE": {
+   "e": 0.0041,
+   "src": "イオの離心率 0.0041(NASA NSSDC の木星の衛星の表)—— 文献の値・未照合・確かさ 高"
+  },
+  "charonE": {
+   "e": 0.0002,
+   "src": "第334便d の DECL.sync.ecc の 2e-4(冥王星–カロンの離心率の桁 —— 文献の値・未照合)。paper/data/solar-observations.csv の SOL-5f236ce9 は 0.0(表の丸め)"
+  },
+  "venusE": 0.007,
+  "mercuryE": 0.20563593,
+  "helio": {
+   "mercury": [0.3871,0.20563,7.005,48.331,77.456],
+   "venus": [0.72333,0.00677,3.3946,76.68,131.53],
+   "earth": [1,0.01671,0.00005,-11.26,102.947],
+   "mars": [1.52366,0.0934,1.85,49.558,336.04],
+   "jupiter": [5.20336,0.04839,1.303,100.464,14.331],
+   "saturn": [9.53707,0.05415,2.485,113.666,92.599],
+   "uranus": [19.1913,0.04717,0.773,74.006,170.954],
+   "neptune": [30.069,0.00859,1.77,131.784,44.965],
+   "pluto": [39.4817,0.24883,17.16,110.3,224.07]
+  },
+  "helioSrc": "a・i・Ω は第337便j の LIT(NASA NSSDC —— 水星と金星は同じ表)・e と近日点の経度 ϖ は JPL の惑星の近似の要素(J2000)—— 文献の値・未照合・確かさ 高(冥王星の ϖ は確かさ 中)",
+  "invariable": {
+   "iDeg": 1.578694,
+   "nodeDeg": 107.582222,
+   "src": "不変面(Souami & Souchay 2012 A&A 543 A133 の黄道 J2000 に対する傾きと昇交点)—— 文献の値・未照合・確かさ 中"
+  },
+  "plutoHelioP": 7824391344,
+  "plutoHelioPSrc": "冥王星の公転周期 247.94 年(NASA NSSDC の Pluto Fact Sheet)—— 文献の値・未照合・確かさ 高"
+ },
+ "plan": {
+  "systems": [
+   "plutoCharon",
+   "earthMoon",
+   "jupiterIo",
+   "saturnTitan",
+   "sunMercury",
+   "sunVenus",
+   "j0737"
+  ],
+  "t1Cols": [
+   "fExt",
+   "dExt",
+   "mutAxCirc",
+   "mutAxObs",
+   "extAx",
+   "gloc"
+  ]
+ },
+ "amend": [],
+ "notClaim": [
+  "冥王星とカロンの一致を結果として書かない(掲載の 🥶・🟪 は較正が保留のまま)",
+  "引きずりの不在を結果として書かない(項ごとの大きさの表 —— 外の寄与を初めから 0 と置かない)",
+  "理想の連星の導出を結果として書かない(補足 3 は原仮定者の補足として引く)",
+  "入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)",
+  "順位は記録 —— 「少ない」の判定には使わない",
+  "🛟 の型を冥王星に当てた数は探索用の型での数",
+  "文献の値は未照合(行の出どころを書く)"
+ ],
+ "pure": {
+  "scenes": {
+   "lockZero": 0,
+   "async": {
+    "closed": 0,
+    "rotMismatch": 0.0007795657369642004
+   },
+   "ratio": 10.058173572930086,
+   "syncZ": 0,
+   "intRel": 5.421400269792575e-13,
+   "split": 7.216805050382391,
+   "back": 17.16,
+   "reject": {
+    "n": 4,
+    "of": 4
+   }
+  },
+  "gates": {
+   "lockZero": true,
+   "async": true,
+   "ratio": true,
+   "syncZ": true,
+   "intRel": true,
+   "split": true,
+   "back": true,
+   "reject": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "key": "plutoCharon",
+    "ja": "冥王星–カロン",
+    "mutualLock": true,
+    "n": 0.000011385591834674098,
+    "a": 19596000,
+    "e": 0.0002,
+    "ext": "sun",
+    "ex": {
+     "fSelf": 0.9546229944879464,
+     "fMut": 0.007500384207633057,
+     "fSun": 0.000012599325296260288,
+     "fBg": 0.03786402197912417,
+     "dRotOverNa": 0.0000032125513186536415,
+     "dGradOverNa": 0.000006423245475383294,
+     "dBgOverNa": 3.5768401514097387e-13,
+     "dSumOverNa": 0.00000963579715172095,
+     "vRelOverC": 0.05717951535127664,
+     "extAxialOverN": 0.0000033642374489421617,
+     "bgAxialOverN": 3.5768401514097387e-13
+    },
+    "mutCirc": {
+     "maxOmOverN": 0,
+     "maxRotMismatchOverN": 0
+    },
+    "mutObs": {
+     "e": 0.0002,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.007798752242460594,
+         "omClosedOverN": 0.0000030959466612893503,
+         "omNumOverN": 0.0000030970683646524436,
+         "floorOverN": 6.467326797359472e-12,
+         "numAboveFloor": true,
+         "errRel": 0.00036231352985465767,
+         "rotMismatchOverN": 0
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.007795657988432848,
+         "omClosedOverN": 4.6409316683341283e-10,
+         "omNumOverN": 4.642387547238643e-10,
+         "floorOverN": 6.467326732673272e-12,
+         "numAboveFloor": true,
+         "errRel": 0.0003137040164689985,
+         "rotMismatchOverN": 0
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.007792564333900426,
+         "omClosedOverN": 0.0000030919631114965454,
+         "omNumOverN": 0.0000030930825259249097,
+         "floorOverN": 6.467326797333601e-12,
+         "numAboveFloor": true,
+         "errRel": 0.00036204003346688237,
+         "rotMismatchOverN": 0
+        }
+       ],
+       "maxOmOverN": 0.0000030959466612893503,
+       "maxNumOverN": 0.0000030970683646524436,
+       "maxRotMismatchOverN": 0
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.0004473384226744614,
+         "omClosedOverN": 1.7890004896887176e-7,
+         "omNumOverN": 1.7916307849197505e-7,
+         "floorOverN": 3.2989899319863968e-12,
+         "numAboveFloor": true,
+         "errRel": 0.001470259648442193,
+         "rotMismatchOverN": 0
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.00044715962096036557,
+         "omClosedOverN": 2.6817581581473627e-11,
+         "omNumOverN": 2.6851935142001535e-11,
+         "floorOverN": 3.2989898989899012e-12,
+         "numAboveFloor": true,
+         "errRel": 0.001281008894241179,
+         "rotMismatchOverN": 0
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.0004469808549390873,
+         "omClosedOverN": 1.7866775783569876e-7,
+         "omNumOverN": 1.7893023599520813e-7,
+         "floorOverN": 3.298989931973201e-12,
+         "numAboveFloor": true,
+         "errRel": 0.0014690852042301002,
+         "rotMismatchOverN": 0
+        }
+       ],
+       "maxOmOverN": 1.7890004896887176e-7,
+       "maxNumOverN": 1.7916307849197505e-7,
+       "maxRotMismatchOverN": 0
+      }
+     },
+     "maxOmOverN": 0.0000030959466612893503,
+     "maxNumOverN": 0.0000030970683646524436,
+     "maxRotMismatchOverN": 0
+    },
+    "sync": {
+     "q": 0.12171910974673829,
+     "circ": 0,
+     "ecc": 0.00020001000200035174
+    },
+    "gloc": {
+     "eta": 0.0967365355883843,
+     "rho1": 0.12898204745117914,
+     "eps": 5.538924193378159e-13,
+     "rateOverN": 2.1432654351469746e-13
+    },
+    "idx": {
+     "fExt": 0.037876621304420426,
+     "dExt": 0.00000963579715172095,
+     "mutAxCirc": 0,
+     "mutAxObs": 0.0000030959466612893503,
+     "extAx": 0.0000033642374489421617,
+     "gloc": 2.1432654351469746e-13
+    }
+   },
+   {
+    "key": "earthMoon",
+    "ja": "地球–月",
+    "mutualLock": false,
+    "n": 0.0000026616994724158407,
+    "a": 384400000,
+    "e": 0.0549,
+    "ext": "sun",
+    "ex": {
+     "fSelf": 0.9877935289399987,
+     "fMut": 0.0016414173366117804,
+     "fSun": 0.0036083386238961093,
+     "fBg": 0.006956715099493336,
+     "dRotOverNa": 0.00393556114510924,
+     "dGradOverNa": 0.007304855545126361,
+     "dBgOverNa": 2.81108254496443e-13,
+     "dSumOverNa": 0.01124041669051671,
+     "vRelOverC": 0.0013493175657075037,
+     "extAxialOverN": 0.003683988480251239,
+     "bgAxialOverN": 2.8110825449644294e-13
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.043717612475207085,
+     "maxRotMismatchOverN": 0.04379025806857222
+    },
+    "mutObs": {
+     "e": 0.0549,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.0018569068527561122,
+         "omClosedOverN": 0.04870629869793955,
+         "omNumOverN": 0.04870607060154242,
+         "floorOverN": 5.962445861009264e-10,
+         "numAboveFloor": true,
+         "errRel": 0.000004683098556534295,
+         "rotMismatchOverN": 0.04901577263284559
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.0016689729470018004,
+         "omClosedOverN": 0.04397389437121986,
+         "omNumOverN": 0.0439737118442039,
+         "floorOverN": 6.265120000017743e-10,
+         "numAboveFloor": true,
+         "errRel": 0.000004150803984215152,
+         "rotMismatchOverN": 0.04405498228367784
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.001491015751766609,
+         "omClosedOverN": 0.03945180645844423,
+         "omNumOverN": 0.03945166209492903,
+         "floorOverN": 6.603665454557371e-10,
+         "numAboveFloor": true,
+         "errRel": 0.0000036592371342574593,
+         "rotMismatchOverN": 0.03935754180243863
+        }
+       ],
+       "maxOmOverN": 0.04870629869793955,
+       "maxNumOverN": 0.04870607060154242,
+       "maxRotMismatchOverN": 0.04901577263284559
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.0000037806921965817915,
+         "omClosedOverN": 4.4560612374580367e-7,
+         "omNumOverN": 4.2724214956872235e-7,
+         "floorOverN": 1.2076792980035405e-11,
+         "numAboveFloor": true,
+         "errRel": 0.041211224887827295,
+         "rotMismatchOverN": 0.0000997969008662848
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.0000033974173686323564,
+         "omClosedOverN": 1.541779482448236e-8,
+         "omNumOverN": 5.460958056942298e-10,
+         "floorOverN": 1.2067206894811369e-11,
+         "numAboveFloor": true,
+         "errRel": 0.9645801613063972,
+         "rotMismatchOverN": 0.0000896798011341261
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.00000303462189243019,
+         "omClosedOverN": 3.117533119593982e-7,
+         "omNumOverN": 3.236504175132144e-7,
+         "floorOverN": 1.207579234456882e-11,
+         "numAboveFloor": true,
+         "errRel": 0.038161921934499445,
+         "rotMismatchOverN": 0.0000801032838482125
+        }
+       ],
+       "maxOmOverN": 4.4560612374580367e-7,
+       "maxNumOverN": 4.2724214956872235e-7,
+       "maxRotMismatchOverN": 0.0000997969008662848
+      }
+     },
+     "maxOmOverN": 0.04870629869793955,
+     "maxNumOverN": 0.04870607060154242,
+     "maxRotMismatchOverN": 0.04901577263284559
+    },
+    "sync": {
+     "q": 0.012293627139077726,
+     "circ": 0,
+     "ecc": 0.055696671121300355
+    },
+    "gloc": {
+     "eta": 0.011996844549283748,
+     "rho1": 0.01599579273237839,
+     "eps": 1.1679433674867114e-11,
+     "rateOverN": 5.621597560104174e-13
+    },
+    "idx": {
+     "fExt": 0.010565053723389445,
+     "dExt": 0.01124041669051671,
+     "mutAxCirc": 0.043717612475207085,
+     "mutAxObs": 0.04870629869793955,
+     "extAx": 0.003683988480251239,
+     "gloc": 5.621597560104174e-13
+    }
+   },
+   {
+    "key": "jupiterIo",
+    "ja": "木星–イオ",
+    "mutualLock": false,
+    "n": 0.00004125530833185668,
+    "a": 421700000,
+    "e": 0.0041,
+    "ext": "sun",
+    "ex": {
+     "fSelf": 0.7127619586560991,
+     "fMut": 0.28261532088660585,
+     "fSun": 0.00008686211666108854,
+     "fBg": 0.004535858340633996,
+     "dRotOverNa": 0.000006112360583881594,
+     "dGradOverNa": 0.000012153050519561869,
+     "dBgOverNa": 1.1825187739780897e-14,
+     "dSumOverNa": 0.00001826541111526865,
+     "vRelOverC": 0.007495824755052831,
+     "extAxialOverN": 0.000008523984955581718,
+     "bgAxialOverN": 1.1825187739780897e-14
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.6633133144928272,
+     "maxRotMismatchOverN": 0.9263218869160889
+    },
+    "mutObs": {
+     "e": 0.0041,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.28560139398553674,
+         "omClosedOverN": 0.663982001137934,
+         "omNumOverN": 0.6639776632367611,
+         "floorOverN": 1.215178884324367e-10,
+         "numAboveFloor": true,
+         "errRel": 0.000006533161767610596,
+         "rotMismatchOverN": 0.9317819001353618
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.28393467540477296,
+         "omClosedOverN": 0.6633178248512683,
+         "omNumOverN": 0.6633135276395468,
+         "floorOverN": 1.2182608578151284e-10,
+         "numAboveFloor": true,
+         "errRel": 0.000006478361060094376,
+         "rotMismatchOverN": 0.9263441878591617
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.2822670290217741,
+         "omClosedOverN": 0.6626155532009278,
+         "omNumOverN": 0.662611296974325,
+         "floorOverN": 1.2213721151124922e-10,
+         "numAboveFloor": true,
+         "errRel": 0.000006423373585936883,
+         "rotMismatchOverN": 0.9209034486042853
+        }
+       ],
+       "maxOmOverN": 0.663982001137934,
+       "maxNumOverN": 0.6639776632367611,
+       "maxRotMismatchOverN": 0.9317819001353618
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.0000013637139352639835,
+         "omClosedOverN": 1.1240032291186158e-8,
+         "omNumOverN": 6.718988092378439e-8,
+         "floorOverN": 1.1797173935060739e-12,
+         "numAboveFloor": true,
+         "errRel": 6.977730135757071,
+         "rotMismatchOverN": 0.000004449151819986199
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.000001352599894084663,
+         "omClosedOverN": 3.410647685960075e-11,
+         "omNumOverN": 7.724310068923572e-8,
+         "floorOverN": 1.1797124154584878e-12,
+         "numAboveFloor": true,
+         "errRel": 2265.7634056186207,
+         "rotMismatchOverN": 0.000004412891974529092
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.000001341531327006238,
+         "omClosedOverN": 1.094444045053824e-8,
+         "omNumOverN": 8.708005121126742e-8,
+         "floorOverN": 1.179717352852082e-12,
+         "numAboveFloor": true,
+         "errRel": 6.956555883692711,
+         "rotMismatchOverN": 0.000004376780489496799
+        }
+       ],
+       "maxOmOverN": 1.1240032291186158e-8,
+       "maxNumOverN": 8.708005121126742e-8,
+       "maxRotMismatchOverN": 0.000004449151819986199
+      }
+     },
+     "maxOmOverN": 0.663982001137934,
+     "maxNumOverN": 0.6639776632367611,
+     "maxRotMismatchOverN": 0.9317819001353618
+    },
+    "sync": {
+     "q": 0.0000470595363540569,
+     "circ": 0,
+     "ecc": 0.00410421978345105
+    },
+    "gloc": {
+     "eta": 0.000047055107466767706,
+     "rho1": 0.00006274014328910837,
+     "eps": 3.3425457642865313e-9,
+     "rateOverN": 6.291459765490834e-13
+    },
+    "idx": {
+     "fExt": 0.004622720457295085,
+     "dExt": 0.00001826541111526865,
+     "mutAxCirc": 0.6633133144928272,
+     "mutAxObs": 0.663982001137934,
+     "extAx": 0.000008523984955581718,
+     "gloc": 6.291459765490834e-13
+    }
+   },
+   {
+    "key": "saturnTitan",
+    "ja": "土星–タイタン",
+    "mutualLock": false,
+    "n": 0.00000456067789167356,
+    "a": 1221870000,
+    "e": 0.029,
+    "ext": "sun",
+    "ex": {
+     "fSelf": 0.9734739798208794,
+     "fMut": 0.018262026732551263,
+     "fSun": 0.00004642099058186779,
+     "fBg": 0.008217572455987554,
+     "dRotOverNa": 0.000029549041574118274,
+     "dGradOverNa": 0.00005895870516108894,
+     "dBgOverNa": 1.9379498792951212e-13,
+     "dSumOverNa": 0.0000885077469290022,
+     "vRelOverC": 0.013849372397460261,
+     "extAxialOverN": 0.00003028114801942624,
+     "bgAxialOverN": 1.9379498792951212e-13
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.6310529464813769,
+     "maxRotMismatchOverN": 0.6428912760281189
+    },
+    "mutObs": {
+     "e": 0.029,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.019508769628216863,
+         "omClosedOverN": 0.6666670756252089,
+         "omNumOverN": 0.6666663743935074,
+         "floorOverN": 1.7037347990746222e-9,
+         "numAboveFloor": true,
+         "errRel": 0.0000010518469069679288,
+         "rotMismatchOverN": 0.6811057079960326
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.018444641375046675,
+         "omClosedOverN": 0.6320536509836411,
+         "omNumOverN": 0.6320530291263194,
+         "floorOverN": 1.750369488037839e-9,
+         "numAboveFloor": true,
+         "errRel": 9.838679370523067e-7,
+         "rotMismatchOverN": 0.6439540146249778
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.017408717733859515,
+         "omClosedOverN": 0.5981636057328563,
+         "omNumOverN": 0.5981630561021414,
+         "floorOverN": 1.7998309002819278e-9,
+         "numAboveFloor": true,
+         "errRel": 9.18863517824178e-7,
+         "rotMismatchOverN": 0.6077870231382317
+        }
+       ],
+       "maxOmOverN": 0.6666670756252089,
+       "maxNumOverN": 0.6666663743935074,
+       "maxRotMismatchOverN": 0.6811057079960326
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 6.107499864624499e-7,
+         "omClosedOverN": 3.675377176362725e-8,
+         "omNumOverN": 3.731431129873909e-9,
+         "floorOverN": 4.055666406945426e-12,
+         "numAboveFloor": true,
+         "errRel": 0.8984757398476956,
+         "rotMismatchOverN": 0.000021322990114989437
+        },
+        {
+         "phaseDeg": 90,
+         "f": 5.768099338723653e-7,
+         "omClosedOverN": 7.284110002423805e-10,
+         "omNumOverN": 2.875673832839437e-8,
+         "floorOverN": 4.054789328443529e-12,
+         "numAboveFloor": true,
+         "errRel": 40.47872594773395,
+         "rotMismatchOverN": 0.00002013804795875234
+        },
+        {
+         "phaseDeg": 180,
+         "f": 5.438400727924962e-7,
+         "omClosedOverN": 3.0437817432138166e-8,
+         "omNumOverN": 5.667536735421434e-8,
+         "floorOverN": 4.055616929615698e-12,
+         "numAboveFloor": true,
+         "errRel": 0.8620050155313382,
+         "rotMismatchOverN": 0.000018986977901476376
+        }
+       ],
+       "maxOmOverN": 3.675377176362725e-8,
+       "maxNumOverN": 5.667536735421434e-8,
+       "maxRotMismatchOverN": 0.000021322990114989437
+      }
+     },
+     "maxOmOverN": 0.6666670756252089,
+     "maxNumOverN": 0.6666663743935074,
+     "maxRotMismatchOverN": 0.6811057079960326
+    },
+    "sync": {
+     "q": 0.00023668930569729386,
+     "circ": 0,
+     "ecc": 0.029216483806734785
+    },
+    "gloc": {
+     "eta": 0.00023657730180918316,
+     "rho1": 0.0003154364024124945,
+     "eps": 3.4550180415513134e-10,
+     "rateOverN": 3.2722673607420103e-13
+    },
+    "idx": {
+     "fExt": 0.008263993446569423,
+     "dExt": 0.0000885077469290022,
+     "mutAxCirc": 0.6310529464813769,
+     "mutAxObs": 0.6666670756252089,
+     "extAx": 0.00003028114801942624,
+     "gloc": 3.2722673607420103e-13
+    }
+   },
+   {
+    "key": "sunMercury",
+    "ja": "太陽–水星",
+    "mutualLock": false,
+    "n": 8.266781726111516e-7,
+    "a": 57909000000,
+    "e": 0.20563593,
+    "ext": "background",
+    "ex": {
+     "fSelf": 0.9864071148482914,
+     "fMut": 0.01054623101497719,
+     "fSun": 0,
+     "fBg": 0.003046654136731587,
+     "dRotOverNa": 0,
+     "dGradOverNa": 0,
+     "dBgOverNa": 3.9638305741420524e-13,
+     "dSumOverNa": 3.9638305741420524e-13,
+     "vRelOverC": null,
+     "extAxialOverN": null,
+     "bgAxialOverN": 3.9638305741420524e-13
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.02628923129107809,
+     "maxRotMismatchOverN": 0.021281072974643652
+    },
+    "mutObs": {
+     "e": 0.20563593,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.01666115463928509,
+         "omClosedOverN": 0.03212578199051536,
+         "omNumOverN": 0.03212578196938408,
+         "floorOverN": 9.545626106593256e-9,
+         "numAboveFloor": true,
+         "errRel": 6.577672542526087e-10,
+         "rotMismatchOverN": 0.0335178513960512
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.011522227428060514,
+         "omClosedOverN": 0.027844748769539237,
+         "omNumOverN": 0.027844748763447003,
+         "floorOverN": 1.0459219453445931e-8,
+         "numAboveFloor": true,
+         "errRel": 2.187928700423221e-10,
+         "rotMismatchOverN": 0.023179684424428873
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.007301733588726883,
+         "omClosedOverN": 0.020574434679402117,
+         "omNumOverN": 0.020574434678605806,
+         "floorOverN": 1.1976263957528981e-8,
+         "numAboveFloor": true,
+         "errRel": 3.87039402140111e-11,
+         "rotMismatchOverN": 0.014689163305851453
+        }
+       ],
+       "maxOmOverN": 0.03212578199051536,
+       "maxNumOverN": 0.03212578196938408,
+       "maxRotMismatchOverN": 0.0335178513960512
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 3.8003780515360485e-11,
+         "omClosedOverN": 1.933696696000003e-12,
+         "omNumOverN": 0,
+         "floorOverN": 2.016423818133807e-11,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 7.645358892465427e-11
+        },
+        {
+         "phaseDeg": 90,
+         "f": 2.6145348605321603e-11,
+         "omClosedOverN": 1.1322100469942472e-11,
+         "omNumOverN": 0,
+         "floorOverN": 2.063249547331047e-11,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 5.2597549703117484e-11
+        },
+        {
+         "phaseDeg": 180,
+         "f": 1.649808821345228e-11,
+         "omClosedOverN": 1.3639562089946373e-11,
+         "omNumOverN": 0,
+         "floorOverN": 2.1800454998388254e-11,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 3.318980473019396e-11
+        }
+       ],
+       "maxOmOverN": 1.3639562089946373e-11,
+       "maxNumOverN": 0,
+       "maxRotMismatchOverN": 7.645358892465427e-11
+      }
+     },
+     "maxOmOverN": 0.03212578199051536,
+     "maxNumOverN": 0.03212578196938408,
+     "maxRotMismatchOverN": 0.0335178513960512
+    },
+    "sync": {
+     "q": 1.6601205952315097e-7,
+     "circ": 0,
+     "ecc": 0.21880035893336772
+    },
+    "gloc": {
+     "eta": 1.6601200440315685e-7,
+     "rho1": 2.2134933930217926e-7,
+     "eps": 2.5499834847405688e-8,
+     "rateOverN": 1.7680766060396852e-14
+    },
+    "idx": {
+     "fExt": 0.003046654136731587,
+     "dExt": 3.9638305741420524e-13,
+     "mutAxCirc": 0.02628923129107809,
+     "mutAxObs": 0.03212578199051536,
+     "extAx": 3.9638305741420524e-13,
+     "gloc": 1.7680766060396852e-14
+    }
+   },
+   {
+    "key": "sunVenus",
+    "ja": "太陽–金星",
+    "mutualLock": false,
+    "n": 3.2363920127827824e-7,
+    "a": 108208000000,
+    "e": 0.007,
+    "ext": "background",
+    "ex": {
+     "fSelf": 0.997441397783111,
+     "fMut": 0.0012737742974625267,
+     "fSun": 0,
+     "fBg": 0.0012848279194264333,
+     "dRotOverNa": 0,
+     "dGradOverNa": 0,
+     "dBgOverNa": 4.269846314652582e-13,
+     "dSumOverNa": 4.269846314652582e-13,
+     "vRelOverC": null,
+     "extAxialOverN": null,
+     "bgAxialOverN": 4.2698463146525827e-13
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.01015220397837058,
+     "maxRotMismatchOverN": 0.012619829041059516
+    },
+    "mutObs": {
+     "e": 0.007,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 0.0012934346763892428,
+         "omClosedOverN": 0.010277225447832211,
+         "omNumOverN": 0.010277225436575393,
+         "floorOverN": 1.7732400479983003e-8,
+         "numAboveFloor": true,
+         "errRel": 1.0953169092262623e-9,
+         "rotMismatchOverN": 0.012798148286687502
+        },
+        {
+         "phaseDeg": 90,
+         "f": 0.0012755378238907542,
+         "omClosedOverN": 0.010153102791018092,
+         "omNumOverN": 0.010153102780032144,
+         "floorOverN": 1.7831442980695965e-8,
+         "numAboveFloor": true,
+         "errRel": 1.0820285823896242e-9,
+         "rotMismatchOverN": 0.012621064297583364
+        },
+        {
+         "phaseDeg": 180,
+         "f": 0.0012577651776764362,
+         "omClosedOverN": 0.010029339471857643,
+         "omNumOverN": 0.010029339461088515,
+         "floorOverN": 1.7931970111588198e-8,
+         "numAboveFloor": true,
+         "errRel": 1.0737625275910484e-9,
+         "rotMismatchOverN": 0.012445209292417854
+        }
+       ],
+       "maxOmOverN": 0.010277225447832211,
+       "maxNumOverN": 0.010277225436575393,
+       "maxRotMismatchOverN": 0.012798148286687502
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 1.0270418935211873e-10,
+         "omClosedOverN": 1.9911506516378496e-10,
+         "omNumOverN": 1.9909372635388979e-10,
+         "floorOverN": 2.9930594298261574e-11,
+         "numAboveFloor": true,
+         "errRel": 0.00010716823399390017,
+         "rotMismatchOverN": 1.016227157804209e-9
+        },
+        {
+         "phaseDeg": 90,
+         "f": 1.0128128852971099e-10,
+         "omClosedOverN": 1.9493344793919418e-10,
+         "omNumOverN": 1.949124982666228e-10,
+         "floorOverN": 2.992206243677783e-11,
+         "numAboveFloor": true,
+         "errRel": 0.00010747089733877936,
+         "rotMismatchOverN": 1.002147980823072e-9
+        },
+        {
+         "phaseDeg": 180,
+         "f": 9.98683132735741e-11,
+         "omClosedOverN": 1.9082056615810585e-10,
+         "omNumOverN": 1.9079983960597716e-10,
+         "floorOverN": 2.991417749486287e-11,
+         "numAboveFloor": true,
+         "errRel": 0.00010861802030037135,
+         "rotMismatchOverN": 9.881670143440056e-10
+        }
+       ],
+       "maxOmOverN": 1.9911506516378496e-10,
+       "maxNumOverN": 1.9909372635388979e-10,
+       "maxRotMismatchOverN": 1.016227157804209e-9
+      }
+     },
+     "maxOmOverN": 0.010277225447832211,
+     "maxNumOverN": 0.010277225436575393,
+     "maxRotMismatchOverN": 0.012798148286687502
+    },
+    "sync": {
+     "q": 0.000002447861923991813,
+     "circ": 0,
+     "ecc": 0.0070123362033571385
+    },
+    "gloc": {
+     "eta": 0.0000024478499399798177,
+     "rho1": 0.0000032637999201057255,
+     "eps": 1.364661860229327e-8,
+     "rateOverN": 1.3362604578787783e-13
+    },
+    "idx": {
+     "fExt": 0.0012848279194264333,
+     "dExt": 4.269846314652582e-13,
+     "mutAxCirc": 0.01015220397837058,
+     "mutAxObs": 0.010277225447832211,
+     "extAx": 4.2698463146525827e-13,
+     "gloc": 1.3362604578787783e-13
+    }
+   },
+   {
+    "key": "j0737",
+    "ja": "PSR J0737−3039",
+    "mutualLock": false,
+    "n": 0.000711207268292704,
+    "a": 878836600,
+    "e": 0.087777036,
+    "ext": "background",
+    "ex": {
+     "fSelf": 0.9999999998084502,
+     "fMut": 1.9154027315703082e-10,
+     "fSun": 0,
+     "fBg": 9.523291601589142e-15,
+     "dRotOverNa": 0,
+     "dGradOverNa": 0,
+     "dBgOverNa": 1.4401883559652661e-27,
+     "dSumOverNa": 1.4401883559652661e-27,
+     "vRelOverC": null,
+     "extAxialOverN": null,
+     "bgAxialOverN": 1.4401883559652663e-27
+    },
+    "mutCirc": {
+     "maxOmOverN": 0.00007454674627674605,
+     "maxRotMismatchOverN": 0.00007393680870082583
+    },
+    "mutObs": {
+     "e": 0.087777036,
+     "recv": {
+      "comp": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 2.3017497293707444e-10,
+         "omClosedOverN": 0.00008958317921903875,
+         "omNumOverN": 0,
+         "floorOverN": 0.0026554755766513903,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.00008885025932804139
+        },
+        {
+         "phaseDeg": 90,
+         "f": 1.9452630090192828e-10,
+         "omClosedOverN": 0.00007570889465504575,
+         "omNumOverN": 0,
+         "floorOverN": 0.002888564004821634,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.0000750894506936077
+        },
+        {
+         "phaseDeg": 180,
+         "f": 1.6187520448170365e-10,
+         "omClosedOverN": 0.00006300123990446495,
+         "omNumOverN": 0,
+         "floorOverN": 0.003166509537316512,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.00006248574166623688
+        }
+       ],
+       "maxOmOverN": 0.00008958317921903875,
+       "maxNumOverN": 0,
+       "maxRotMismatchOverN": 0.00008885025932804139
+      },
+      "host": {
+       "rows": [
+        {
+         "phaseDeg": 0,
+         "f": 2.0047343009817115e-10,
+         "omClosedOverN": 6.383446765077308e-7,
+         "omNumOverN": 0,
+         "floorOverN": 0.00002174183046814242,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.00007738511283532978
+        },
+        {
+         "phaseDeg": 90,
+         "f": 1.694248262021097e-10,
+         "omClosedOverN": 5.395115596163129e-7,
+         "omNumOverN": 0,
+         "floorOverN": 0.00002364891678524419,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.00006539998485752454
+        },
+        {
+         "phaseDeg": 180,
+         "f": 1.409869938330596e-10,
+         "omClosedOverN": 4.489788821846076e-7,
+         "omNumOverN": 0,
+         "floorOverN": 0.000025923078635353534,
+         "numAboveFloor": false,
+         "errRel": null,
+         "rotMismatchOverN": 0.00005442264553832659
+        }
+       ],
+       "maxOmOverN": 6.383446765077308e-7,
+       "maxNumOverN": 0,
+       "maxRotMismatchOverN": 0.00007738511283532978
+      }
+     },
+     "maxOmOverN": 0.00008958317921903875,
+     "maxNumOverN": 0,
+     "maxRotMismatchOverN": 0.00008885025932804139
+    },
+    "sync": {
+     "q": 0.9332529259759107,
+     "circ": 0,
+     "ecc": 0.08988450037144385
+    },
+    "gloc": {
+     "eta": 0.24970199255011258,
+     "rho1": 0.33293599006681696,
+     "eps": 0.0000043469729334392425,
+     "rateOverN": 0.000004375503627733903
+    },
+    "idx": {
+     "fExt": 9.523291601589142e-15,
+     "dExt": 1.4401883559652661e-27,
+     "mutAxCirc": 0.00007454674627674605,
+     "mutAxObs": 0.00008958317921903875,
+     "extAx": 1.4401883559652663e-27,
+     "gloc": 0.000004375503627733903
+    }
+   }
+  ],
+  "rank": {
+   "fExt": {
+    "plutoCharon": 7,
+    "earthMoon": 6,
+    "jupiterIo": 4,
+    "saturnTitan": 5,
+    "sunMercury": 3,
+    "sunVenus": 2,
+    "j0737": 1
+   },
+   "dExt": {
+    "plutoCharon": 4,
+    "earthMoon": 7,
+    "jupiterIo": 5,
+    "saturnTitan": 6,
+    "sunMercury": 2,
+    "sunVenus": 3,
+    "j0737": 1
+   },
+   "mutAxCirc": {
+    "plutoCharon": 1,
+    "earthMoon": 5,
+    "jupiterIo": 7,
+    "saturnTitan": 6,
+    "sunMercury": 4,
+    "sunVenus": 3,
+    "j0737": 2
+   },
+   "mutAxObs": {
+    "plutoCharon": 1,
+    "earthMoon": 5,
+    "jupiterIo": 6,
+    "saturnTitan": 7,
+    "sunMercury": 4,
+    "sunVenus": 3,
+    "j0737": 2
+   },
+   "extAx": {
+    "plutoCharon": 4,
+    "earthMoon": 7,
+    "jupiterIo": 5,
+    "saturnTitan": 6,
+    "sunMercury": 2,
+    "sunVenus": 3,
+    "j0737": 1
+   },
+   "gloc": {
+    "plutoCharon": 3,
+    "earthMoon": 5,
+    "jupiterIo": 6,
+    "saturnTitan": 4,
+    "sunMercury": 1,
+    "sunVenus": 2,
+    "j0737": 7
+   }
+  },
+  "plutoRank": {
+   "fExt": 7,
+   "dExt": 4,
+   "mutAxCirc": 1,
+   "mutAxObs": 1,
+   "extAx": 4,
+   "gloc": 3
+  },
+  "plutoMutCirc": 0,
+  "plutoSyncCirc": 0
+ },
+ "t2": {
+  "ReqSun": 17513.738415422995,
+  "Rsun": 695700000,
+  "lambda": 6.56e-7,
+  "rows": [
+   {
+    "key": "mercury",
+    "aAU": 0.3871,
+    "e": 0.20563,
+    "iEclDeg": 7.005,
+    "incSunDeg": 3.381029062628407,
+    "incInvDeg": 6.343894831406505,
+    "meanZoverR": 0.03816456961668846,
+    "zMaxAU": 0.027198410456505322,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.8715277777777778,
+     "au01": 0
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.1284722222222222,
+     "au01": 1
+    },
+    "insideGuide": {
+     "Req": 0.0000032646468259361264,
+     "Rsun": 0.13059593223746388,
+     "au01": 1
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "venus",
+    "aAU": 0.72333,
+    "e": 0.00677,
+    "iEclDeg": 3.3946,
+    "incSunDeg": 3.857937047517375,
+    "incInvDeg": 2.1950465045981056,
+    "meanZoverR": 0.0428339683954385,
+    "zMaxAU": 0.048942306874636125,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9390277777777778,
+     "au01": 0
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.06097222222222222,
+     "au01": 1
+    },
+    "insideGuide": {
+     "Req": 0.000001531414682806498,
+     "Rsun": 0.0609254981460007,
+     "au01": 1
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "earth",
+    "aAU": 1,
+    "e": 0.01671,
+    "iEclDeg": 0.00005,
+    "incSunDeg": 7.251724213065313,
+    "incInvDeg": 1.5787181205726208,
+    "meanZoverR": 0.08035322602842752,
+    "zMaxAU": 0.1271783942034177,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9765277777777778,
+     "au01": 0.4177777777777778
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.02347222222222222,
+     "au01": 0.5822222222222222
+    },
+    "insideGuide": {
+     "Req": 5.904390075369261e-7,
+     "Rsun": 0.023459377279770204,
+     "au01": 0.5821413216991297
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "mars",
+    "aAU": 1.52366,
+    "e": 0.0934,
+    "iEclDeg": 1.85,
+    "incSunDeg": 5.650964984453068,
+    "incInvDeg": 1.67955309800141,
+    "meanZoverR": 0.06290822721530774,
+    "zMaxAU": 0.1632966461635262,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9804166666666667,
+     "au01": 0.5356944444444445
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.019583333333333335,
+     "au01": 0.4643055555555556
+    },
+    "insideGuide": {
+     "Req": 4.967636916706978e-7,
+     "Rsun": 0.019736155522692256,
+     "au01": 0.4644378455988941
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "jupiter",
+    "aAU": 5.20336,
+    "e": 0.04839,
+    "iEclDeg": 1.303,
+    "incSunDeg": 6.092169473989692,
+    "incInvDeg": 0.32819126721465713,
+    "meanZoverR": 0.06759380149460448,
+    "zMaxAU": 0.5742643985568165,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9945833333333334,
+     "au01": 0.8841666666666667
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.005416666666666667,
+     "au01": 0.11583333333333333
+    },
+    "insideGuide": {
+     "Req": 1.349643280160337e-7,
+     "Rsun": 0.005361265004201163,
+     "au01": 0.1159226223108676
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "saturn",
+    "aAU": 9.53707,
+    "e": 0.05415,
+    "iEclDeg": 2.485,
+    "incSunDeg": 5.505538022418618,
+    "incInvDeg": 0.9303560481097826,
+    "meanZoverR": 0.06104171010420356,
+    "zMaxAU": 0.9409375647542683,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9966666666666667,
+     "au01": 0.9302777777777778
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.0033333333333333335,
+     "au01": 0.06972222222222223
+    },
+    "insideGuide": {
+     "Req": 8.145354602864347e-8,
+     "Rsun": 0.003235601365933587,
+     "au01": 0.06971478655666244
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "uranus",
+    "aAU": 19.1913,
+    "e": 0.04717,
+    "iEclDeg": 0.773,
+    "incSunDeg": 6.479134654016421,
+    "incInvDeg": 1.0277737225568964,
+    "meanZoverR": 0.07191578264534816,
+    "zMaxAU": 2.26731906748137,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9986111111111111,
+     "au01": 0.9705555555555555
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.001388888888888889,
+     "au01": 0.029444444444444443
+    },
+    "insideGuide": {
+     "Req": 3.441603173066003e-8,
+     "Rsun": 0.0013671125552824847,
+     "au01": 0.029407750879482338
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "neptune",
+    "aAU": 30.069,
+    "e": 0.00859,
+    "iEclDeg": 1.77,
+    "incSunDeg": 6.431219354236094,
+    "incInvDeg": 0.726401628404309,
+    "meanZoverR": 0.07130588653283275,
+    "zMaxAU": 3.3767121399574536,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9991666666666666,
+     "au01": 0.9811111111111112
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.0008333333333333334,
+     "au01": 0.01888888888888889
+    },
+    "insideGuide": {
+     "Req": 2.212871700993424e-8,
+     "Rsun": 0.0008790215401425858,
+     "au01": 0.018904561896165187
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   },
+   {
+    "key": "pluto",
+    "aAU": 39.4817,
+    "e": 0.24883,
+    "iEclDeg": 17.16,
+    "incSunDeg": 11.896415077295073,
+    "incInvDeg": 15.58325609267485,
+    "meanZoverR": 0.135289577107621,
+    "zMaxAU": 10.159466630273823,
+    "outside": {
+     "Req": 1,
+     "Rsun": 0.9997222222222222,
+     "au01": 0.9925
+    },
+    "inside": {
+     "Req": 0,
+     "Rsun": 0.0002777777777777778,
+     "au01": 0.0075
+    },
+    "insideGuide": {
+     "Req": 9.15733739521027e-9,
+     "Rsun": 0.0003637578580537761,
+     "au01": 0.007822160028540626
+    },
+    "fieldTimeFrac": 0,
+    "fieldMaxOverNa": 0,
+    "fieldMeanOverNa": 0
+   }
+  ],
+  "plutoIncSunRank": 1,
+  "plutoMeanZRank": 1,
+  "anyFieldTime": false
+ },
+ "t3": {
+  "st1": {
+   "P": 551863.6555250504,
+   "minusBuie": 7.216805050382391,
+   "mutAxOverN": 0,
+   "mutAxNumOverN": 0,
+   "rotMismatchOverN": 0,
+   "syncD": 0,
+   "conv": [
+    {
+     "steps": 360,
+     "dP": -0.001290244166739285,
+     "relErr": -2.337976334954926e-9
+    },
+    {
+     "steps": 720,
+     "dP": -0.00007699185516685247,
+     "relErr": -1.3951245818788594e-10
+    },
+    {
+     "steps": 1440,
+     "dP": -0.000004712259396910667,
+     "relErr": -8.538810899636726e-12
+    },
+    {
+     "steps": 2880,
+     "dP": 0,
+     "relErr": 0
+    }
+   ]
+  },
+  "st2": {
+   "e": 0.0002,
+   "mutAxOverN": 0.0000030959466612893503,
+   "syncD": 0.00020001000200035174,
+   "conv": [
+    {
+     "steps": 360,
+     "dP": -0.0012894426472485065,
+     "relErr": -2.336523948151131e-9
+    },
+    {
+     "steps": 720,
+     "dP": -0.00007694121450185776,
+     "relErr": -1.3942069518721045e-10
+    },
+    {
+     "steps": 1440,
+     "dP": -0.00000470760278403759,
+     "relErr": -8.53037292256312e-12
+    },
+    {
+     "steps": 2880,
+     "dP": 0,
+     "relErr": 0
+    }
+   ],
+   "split": {
+    "closedBuie": 551856.4387199999,
+    "closedBuieMinusObs": -1.1641532182693481e-10,
+    "aPart": 963.018844452803,
+    "gmPart": -955.8020394023042,
+    "total": 7.216805050382391,
+    "aGapKm": 22.764,
+    "gmGapKm3s2": 3.36993697167041
+   },
+   "relDef": 0.0000130773232747295,
+   "relSigma": 4.696873712322716e-8
+  },
+  "st3": {
+   "rows": [
+    {
+     "at": "近日点",
+     "DAU": 29.657468588999997,
+     "fSun": 0.00002232902663906838,
+     "dExtOverNa": 0.00001707457740311112,
+     "extAxOverN": 0.000005960990898321383,
+     "tideOverMutual": 2.3444680758348846e-8
+    },
+    {
+     "at": "平均の距離",
+     "DAU": 39.4817,
+     "fSun": 0.000012599418081382635,
+     "dExtOverNa": 0.000009635868102144687,
+     "extAxOverN": 0.0000033642622186920468,
+     "tideOverMutual": 9.937085534252843e-9
+    },
+    {
+     "at": "遠日点",
+     "DAU": 49.30593141099999,
+     "fSun": 0.000008078780424449987,
+     "dExtOverNa": 0.000006178994651537958,
+     "extAxOverN": 0.000002157410636178301,
+     "tideOverMutual": 5.102101087784749e-9
+    }
+   ],
+   "mutIncDeg": 119.61601837290344,
+   "nodeRateOverN": 2.0292512214132706e-9,
+   "nodePeriodYr": 8617563.149914581,
+   "rotVertTimeFrac": 0
+  },
+  "st4": {
+   "fBgPluto": 0.018208064803256645,
+   "fBgCharon": 0.03786402197561091,
+   "commonRotOverN": 1.720032206395452e-13,
+   "diffRotOverN": 1.8568079446824054e-13,
+   "commonDetect": 0
+  },
+  "cand": [
+   {
+    "key": "mutAxObs",
+    "ja": "(2) 相互の部位差分(離心率の桁)",
+    "v": 0.0000030959466612893503,
+    "overDef": false,
+    "overSigma": true
+   },
+   {
+    "key": "dExtPeri",
+    "ja": "(3) 太陽の並進引きずりの 2 体の間の差(近日点)",
+    "v": 0.00001707457740311112,
+    "overDef": true,
+    "overSigma": true
+   },
+   {
+    "key": "extAxPeri",
+    "ja": "(3) 太陽の部位差分(近日点)",
+    "v": 0.000005960990898321383,
+    "overDef": false,
+    "overSigma": true
+   },
+   {
+    "key": "tidePeri",
+    "ja": "(3) 太陽の重力の潮汐 ÷ 相互の重力(近日点 —— 候補の型の外・対照の物差し)",
+    "v": 2.3444680758348846e-8,
+    "overDef": false,
+    "overSigma": false
+   },
+   {
+    "key": "nodeRate",
+    "ja": "(3) 太陽の重力の潮汐による交点の回りの率 ÷ n(候補の型の外・対照の物差し)",
+    "v": 2.0292512214132706e-9,
+    "overDef": false,
+    "overSigma": false
+   },
+   {
+    "key": "bgDiff",
+    "ja": "(4) 背景軸引きずりの取り分の差の分",
+    "v": 1.8568079446824054e-13,
+    "overDef": false,
+    "overSigma": false
+   },
+   {
+    "key": "gloc",
+    "ja": "(v) G_loc の型の残差の近点の率 ÷ n",
+    "v": 2.1432654351469746e-13,
+    "overDef": false,
+    "overSigma": false
+   }
+  ],
+  "nOverDef": 1,
+  "nOverSigma": 3
+ },
+ "t4": {
+  "pts": [
+   {
+    "key": "plutoCharon",
+    "put": "a",
+    "coef": 1,
+    "omOverN": 0.0000030959466612893503
+   },
+   {
+    "key": "plutoCharon",
+    "put": "a",
+    "coef": 0.5,
+    "omOverN": 0.0000015479733306446752
+   },
+   {
+    "key": "plutoCharon",
+    "put": "b",
+    "coef": 1,
+    "omOverN": 0.000006191893322578701
+   },
+   {
+    "key": "plutoCharon",
+    "put": "b",
+    "coef": 0.5,
+    "omOverN": 0.0000030959466612893503
+   },
+   {
+    "key": "earthMoon",
+    "put": "a",
+    "coef": 1,
+    "omOverN": 0.04870629869793955
+   },
+   {
+    "key": "earthMoon",
+    "put": "a",
+    "coef": 0.5,
+    "omOverN": 0.024353149348969774
+   },
+   {
+    "key": "earthMoon",
+    "put": "b",
+    "coef": 1,
+    "omOverN": 0.0974125973958791
+   },
+   {
+    "key": "earthMoon",
+    "put": "b",
+    "coef": 0.5,
+    "omOverN": 0.04870629869793955
+   }
+  ],
+  "note": "係数を自分の式として持たない —— 第341便b の列(天体の特性の係数)に次の便で当てる"
+ },
+ "timing": {
+  "pure": {
+   "wallSec": 0.036
+  },
+  "t1": {
+   "wallSec": 0.053
+  },
+  "t2": {
+   "wallSec": 0.174
+  },
+  "t3": {
+   "wallSec": 0.271
+  },
+  "t4": {
+   "wallSec": 0.271
+  }
+ },
+ "gates": {
+  "pure": true,
+  "t1Complete": true,
+  "lockZero": true,
+  "nonLockNonZero": true,
+  "t2Complete": true,
+  "conv": true,
+  "split": true,
+  "t4": true
+ },
+ "ok": true,
+ "elapsedS": 0.705,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第341便g",
+  "target": "tests/lib-w341g-plutocontrol.mjs",
+  "targetSha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+  "generatedAt": "2026-11-18T00:50:08.717Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w341g-plutocontrol.mjs",
+    "bytes": 7699,
+    "sha256": "3e9f34e20e7ac769d357a2fa9021d78ee09586d41cbcf54fd81f9de0ca36ee75",
+    "mtime": "2026-11-18T00:50:07.703Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-18T00:50:07.701Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33136,
+    "sha256": "79b8b37d6a4ece47e0f5b93ad9705d32e7ee165d361ad6fdd69bf705ccdee655",
+    "mtime": "2026-11-18T00:17:12.790Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-18T00:17:12.782Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-18T00:17:12.778Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-18T00:17:12.794Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 6425,
+    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
+    "mtime": "2026-11-18T00:17:12.794Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-18T00:17:12.790Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-18T00:17:12.790Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-18T00:17:12.786Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-18T00:17:12.790Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-18T00:17:12.738Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-18T00:17:12.790Z"
+   }
+  ],
+  "codeSha256": "2094ac3d67db7e98f782217c6acb701eb2645bd05cf5f491a4f942994576fd59",
+  "harnessVersion": "w341g-plutocontrol-1",
+  "stage": "plutocontrol",
+  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 二体の RK4 は自前)",
+  "notClaim": [
+   "冥王星とカロンの一致を結果として書かない(掲載の 🥶・🟪 は較正が保留のまま)",
+   "引きずりの不在を結果として書かない(項ごとの大きさの表 —— 外の寄与を初めから 0 と置かない)",
+   "理想の連星の導出を結果として書かない(補足 3 は原仮定者の補足として引く)",
+   "入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)",
+   "順位は記録 —— 「少ない」の判定には使わない",
+   "🛟 の型を冥王星に当てた数は探索用の型での数",
+   "文献の値は未照合(行の出どころを書く)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 771,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
