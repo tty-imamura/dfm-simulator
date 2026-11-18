@@ -1085,6 +1085,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluidconv340g docs.fluidconv340g"
 #   正本の 3 値の判定・変異の試しの記録 / docs.thinAngle340h —— PHYSICS〔第340便h〕・AI_SPEC §255・CHANGELOG・訂正の行)。段は足していない(作り直した段は既存の段)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.thinAngle340h docs.thinAngle340h"
 # ==== 第340便h の塊(ここまで)====
+# ==== 第341便b の塊(ここから)====
+# 第341便b(原仮定者の回答(2026-11-18 —— 第141報)AN790・統括の検証項目 R365 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.bodycoef341b —— 純関数の場面・器を走らせ直して
+#   正本と照合〔第338便c の recheckRun〕・C_b 1 と ½ が第340便b の正本の置き方 (b)・(a) と同じ・独立の照合 / docs.bodycoef341b —— 正本の門と表 13 本が PHYSICS〔第341便b〕に逐語・文書)と、新しい段 bodycoef-341b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bodycoef341b docs.bodycoef341b"
+# ==== 第341便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
