@@ -109528,7 +109528,7 @@ function view340aOf341a(eq) {
     const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
     if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('② PHYSICS〔第341便d〕が無いか〔第340便h〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
     const want = ['原仮定者の回答(2026-11-17 —— 第140報の回答)', '原仮定者の補足(2026-11-18 —— 第141報)', 'R367', 'tests/exp-w341d-oblatering.mjs', 'tests/out/oblatering-341d.json', 'tests/lib-w341d-oblatering.mjs', 'oblatering-341d',
-      '区切り', '61440', '収束した桁', 'Richardson', '区切りで消える差', '細かくしても残る差', '点の源', '軸の傾き', '扁平の則', '一様厚みの区間', '引きずり半径', '帯を入力として与えた型', '落ち方から帯が出るか',
+      '区切り', '61440', '落ち着いた桁', 'Richardson', '区切りで消える差', '細かくしても残る差', '点の源', '軸の傾き', '扁平の則', '一様厚みの区間', '引きずり半径', '帯を入力として与えた型', '落ち方から帯が出るか',
       '座標変換', '動いた分', '動かなかった分', '傾ける力の仕事のノブ', 'AN803', '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態',
       'このノブの組では', '決断事項の候補', '次の便へ', 'behavior.oblatering341d', 'docs.oblatering341d', '書かないこと', 'atan2', '第340便d'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第341便d〕に「' + w + '」が無い');
@@ -109546,7 +109546,7 @@ function view340aOf341a(eq) {
     if (!(PM.indexOf('# ==== 第341便d の塊(ここから)====') >= 0 && /behavior\.oblatering341d/.test(PM) && /docs\.oblatering341d/.test(PM))) bad.push('③ post-merge の ③′ に第341便d の塊');
     cases.push('③ AI_SPEC §259・CHANGELOG・段の行・.gitignore・post-merge の ③′');
     const strip = (t) => t.replace(/「[^」]*」/g, '');
-    const NOT = [/フィットした/, /較正した/, /収束した(?!桁)/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
     const NOT340 = [/κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bm_d\b/];
     const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
     // 第341便d の書かない語(引用符「」の外で —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・扁平で回転引きずりが強くなると分かった・一様厚みが導けた・負の熱が解消した・環が薄い理由が分かった
