@@ -108918,7 +108918,7 @@ function view338aOf340a(eq) {
       const nList = (htmlTx342a.split(lists[0]).length - 1) + (htmlTx342a.split(lists[1]).length - 1) + (htmlTx342a.split(lists[2]).length - 1);
       const ops = ['S.tauSurf[i]=S.tauSurf[i]*wi+S.tauSurf[j]*wj;', 'S.tauSurf[j]=S.tauSurf[i];', 'S.tauSurf[jj]=S.tauSurf[i];', 'if(S.tauSurf) S.tauSurf[i]/=k;', 'S.tau.fill(0); S.tauSurf.fill(0);'].filter((w) => htmlTx342a.indexOf(w) < 0);
       if (!(fusOk && nFus > 0 && nFis > 0 && nList === 4 && ops.length === 0)) bad.push('(vii) 合体・分裂で配列が追随しない(ビット ' + fusOk + '・合体 ' + nFus + '・分裂 ' + nFis + '・一覧 ' + nList + '/4・操作の欠け ' + ops.join(' '));
-      cases.push(`(vii) 🌀 selfRotor(分裂の宣言なし/あり × 300 步): 自己の項 0 の写しで tauSurf = tau が全步でビット同一(合体 ${nFus}・分裂 ${nFis})・自己の項ありでは 0 < tauSurf ≤ tau・配列の一覧 ${nList}/4(_compact・_grow・cloneSimState・CK_ARRS)・合体/分裂/放出/時間の尺度/リセットの操作`);
+      cases.push(`(vii) 🥚 selfRotor(分裂の宣言なし/あり × 300 步): 自己の項 0 の写しで tauSurf = tau が全步でビット同一(合体 ${nFus}・分裂 ${nFis})・自己の項ありでは 0 < tauSurf ≤ tau・配列の一覧 ${nList}/4(_compact・_grow・cloneSimState・CK_ARRS)・合体/分裂/放出/時間の尺度/リセットの操作`);
       // (viii) 説明の文の数
       const bk = (id) => H.HP.allPresets().find((q) => q.id === id);
       const g = bk('gclock'), gr = bk('grcal'), f3 = (x) => x.toFixed(3);
@@ -108938,7 +108938,7 @@ function view338aOf340a(eq) {
           if (!same) diffIds.push(id);
         }
         if (diffIds.length) bad.push('(ii) 点の時計・位置・速度が基準の html と違う: ' + diffIds.join(','));
-        cases.push('(ii) 点の時計 tau・位置・速度が基準の html(beta/_w341_base.html)と同じビット(⏱️ 🛰️ 🕰️ 🔭 🌀 × 200 步)');
+        cases.push('(ii) 点の時計 tau・位置・速度が基準の html(beta/_w341_base.html)と同じビット(⏱️ 🛰️ 🕰️ 💡 🥚 × 200 步)');
       } else cases.push('(ii) 基準の html が無い(統合の後の木 —— 在位の全本の署名と 600 步は枝の報告と鎖で見る)');
     } catch (e) { bad.push('測れない: ' + String(e && e.stack || e).slice(0, 200)); }
     add('behavior.surfclock342a', bad.length === 0,
