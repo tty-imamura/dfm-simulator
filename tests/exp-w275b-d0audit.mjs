@@ -33,7 +33,7 @@ import { DSPLIT_VERSION, ASSUMPTIONS, assumptionRows, determinacySum, splitInvar
   ruleBackgroundSI, d0UnitSI } from './lib-w275b-dsplit.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第319便c(原仮定者の指示(第121報)・決断事項 AN454・統括の検証項目 R260): 領域の宣言(器と lib から deriveScope で引いた下限 —— html 全体の刻印をやめ、表示の文だけの変更では作り直さない。値は宣言の前と同じ)
-import { scopeStamp as w319cScopeStamp } from './lib-w281a-scope.mjs';
+import { scopeStamp as w319cScopeStamp, stableInputs as w341cStableInputs } from './lib-w281a-scope.mjs';   // 第341便c(BL-117): JSON の入力の安定 hash
 const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.frameWeightPow","HP.sim","HP.validatePreset","T","clamp","dfmGeoToyStep"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -339,7 +339,11 @@ const CODE = ['tests/exp-w275b-d0audit.mjs', 'tests/lib-w275b-dsplit.mjs',
   'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第275便b', target: TARGET,
-    code: CODE, inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE), {
+    code: CODE, inputs: [TARGET, 'tests/out/calaudit-w249.json'] }), w319cScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE),
+    // 第341便c(統括の検証項目 R366・BL-117): calaudit の正本を安定 hash(来歴・壁時計・同一性 meta の欄を除いた hash —— 随伴 diag の行も)でも刻む。
+    //   この器が読むのは presets[].quantities の obs・obsErr・meas・name・kind・version・unit・method・sigmaNote・gate だけで、除外の Pointer(presets[].run の来歴と壁時計・
+    //   fourValues の時刻と sha・meta)と重ならない —— 安定 hash が同じなら読む値も同じ(契約を緩めない)。物理の値が 1 つでも変われば走る
+    w341cStableInputs(ROOT, ['tests/out/calaudit-w249.json']), {
     harness: 'tests/exp-w275b-d0audit.mjs', harnessVersion: HARNESS_VERSION,
     dsplitVersion: DSPLIT_VERSION,
     definition: 'D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2)(p=1 で M/L・p=2 で M/L²)',
