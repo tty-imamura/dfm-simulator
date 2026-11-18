@@ -53,7 +53,7 @@ export function gatesOf(J) {
     t3Closed: t3.rows.filter((x) => x.closed !== null).every((x) => Math.abs(x.overPN - x.closed) < 1e-4) && Math.abs(t3.pn.arcsecCy - 42.98) < 0.01,
     t3Conservative: t3.rows.filter((x) => x.kind !== 'type3').every((x) => Math.abs(x.dLnAperOrbit) < 1e-12) && r('type3', (k) => k.sym).dLnAperOrbit < 0 && r('type3', (k) => !k.sym).dLnAperOrbit < 0,
     single: t4.single.maxSlip === 0 && t4.single.maxForce === 0 && t4.single.maxHeat === 0,
-    staticPair: t4.staticPair.type0 === 1 && t4.staticPair.type2 === 1 && t4.staticPair.type3 === 1 && t4.staticPair.type1replace < 1 && t4.staticPair.type1added > 1.99,
+    staticPair: t4.staticPair.type0 === 1 && Math.abs(t4.staticPair.type2 - 1) < 1e-12 && Math.abs(t4.staticPair.type3 - 1) < 1e-12 && t4.staticPair.type1replace < 1 && t4.staticPair.type1added > 1.99,
     lowOrder: [t4.low.type1psi0].concat(t4.low.type2, t4.low.type3).every((x) => Math.abs(x.order - 2) < 1e-3),
   };
 }

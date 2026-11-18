@@ -108935,7 +108935,7 @@ function view338aOf340a(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第341便e〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第341便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の補足(2026-11-18 —— 第141報)', 'R368', 'AN806', 'tests/exp-w341e-lightmass.mjs', 'tests/out/lightmass-341e.json', 'tests/lib-w341e-lightmass.mjs', 'lightmass-341e',

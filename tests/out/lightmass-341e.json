@@ -1144,19 +1144,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.077
+   "wallSec": 0.09
   },
   "t1": {
-   "wallSec": 0.148
+   "wallSec": 0.164
   },
   "t2": {
-   "wallSec": 0.763
+   "wallSec": 0.803
   },
   "t3": {
-   "wallSec": 1.127
+   "wallSec": 1.157
   },
   "t4": {
-   "wallSec": 1.128
+   "wallSec": 1.158
   }
  },
  "gates": {
@@ -1173,26 +1173,26 @@
   "lowOrder": true
  },
  "ok": true,
- "elapsedS": 4.264,
+ "elapsedS": 4.466,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第341便e",
   "target": "tests/lib-w341e-lightmass.mjs",
-  "targetSha256": "a1b45a6a77894dafdbe9a2ca1206913093189953728ceab6e930c0084bc75e91",
-  "generatedAt": "2026-11-18T00:48:09.051Z",
+  "targetSha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
+  "generatedAt": "2026-11-18T00:53:53.752Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w341e-lightmass.mjs",
-    "bytes": 9116,
-    "sha256": "d2203f2d29e84ac50e2dd3668c528c6d4f92740c40dcf03cd9500fd91fca9320",
-    "mtime": "2026-11-18T00:47:42.034Z"
+    "bytes": 9148,
+    "sha256": "cd883a7b84c2b02f5af3db6545186148832bc361bba4d5856b9dea6026daf5ae",
+    "mtime": "2026-11-18T00:53:48.935Z"
    },
    {
     "file": "tests/lib-w341e-lightmass.mjs",
-    "bytes": 24850,
-    "sha256": "a1b45a6a77894dafdbe9a2ca1206913093189953728ceab6e930c0084bc75e91",
-    "mtime": "2026-11-18T00:43:42.728Z"
+    "bytes": 24950,
+    "sha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
+    "mtime": "2026-11-18T00:53:48.932Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
@@ -1237,7 +1237,7 @@
     "mtime": "2026-11-18T00:17:11.010Z"
    }
   ],
-  "codeSha256": "45e7b257f60f083c4d77340c66bf0adf46a55c8e4243cea65dc672295c5895f6",
+  "codeSha256": "20dd8d6c4218127c2dfb72d28817dbfff6c7fcc666111337c3f13b2a4f2c9628",
   "harnessVersion": "w341e-lightmass-1",
   "stage": "lightmass",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 と求積)",
@@ -1292,11 +1292,8 @@
     "/t3/rows/4/dLnAperOrbit",
     "/t3/rows/5/dLnAperOrbit"
    ],
-   "unstable": 2,
-   "unstableHead": [
-    "/gates/staticPair",
-    "/ok"
-   ]
+   "unstable": 0,
+   "unstableHead": []
   }
  }
 }

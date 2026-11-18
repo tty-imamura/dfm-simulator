@@ -268,7 +268,7 @@ export function zeroTests() {
   }
   // (b) 離して静止させた 2 体: 加速度 ÷ G₀M/r²(水星の距離の ψ)
   const psiM = mercury1PN().psi;
-  const staticPair = { psi: psiM, type0: 1, type1replace: Math.exp(-4 * psiM), type1added: 1 + Math.exp(-4 * psiM), type2: Math.pow(1 - 0, 1), type3: 1 };
+  const staticPair = { psi: psiM, type0: 1, type1replace: Math.exp(-4 * psiM), type1added: 1 + Math.exp(-4 * psiM), type2: (1 - 0 * 0) ** DECL.pGrid[0], type3: 1 / (1 + gOf('R1', 0)) };   // w = 0 —— 効きの係数は 1(演算子 ** と四則だけ)
   // (c) 低速の極限: 加速度の相対の差(今のアプリとの差)と次数(log の傾き)
   const lowOf = (fn) => { const d = DECL.betaLow.map((b) => Math.abs(fn(b))); return { diffs: d, order: Math.log(d[0] / d[2]) / Math.log(DECL.betaLow[0] / DECL.betaLow[2]) }; };
   const low = {
