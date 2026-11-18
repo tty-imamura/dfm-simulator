@@ -24616,10 +24616,25 @@ if (!FAST) {
         const T = E294.calTable(C);
         const top = (J.calibration && Array.isArray(J.calibration.top5)) ? J.calibration.top5 : [];
         if (top.length !== 5) bad.push('上位 5 本の行が 5 でない: ' + top.length);
+        // 第341便(統括 —— 継ぎ目・統括の検証項目 R366 の続き): calaudit の壁時計の欄は来歴の欄(第340便c —— 安定 hash の除外)。常時群の calaudit が
+        //   後の鎖で作り直されると秒だけが動き、段 timing294 は走り直さない(安定 hash が同じ)。正本が刻んだ calaudit のバイトの sha が今と同じときは
+        //   従来どおり全部を照合し、違うときは本・步・n(来歴でない欄)だけを照合する(秒と、秒の順で決まる上位 5 本の並びは、刻んだ世代の calaudit のもの)。
+        const calNow341 = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'))).digest('hex');
+        const calRec341 = ((J.meta.inputs || []).find((x) => x && x.file === 'tests/out/calaudit-w249.json') || {}).sha256;
+        const sameCal341 = !!calRec341 && calRec341 === calNow341;
+        if (!calRec341) bad.push('正本が calaudit のバイトの sha を刻んでいない');
+        if (sameCal341) {
         T.top5.forEach((id, k) => { const want = T.rows.find((z) => z.id === id), got = top[k] || {};
           if (got.id !== id || got.wallSec !== want.wallSec || got.steps !== want.steps || got.n !== want.n) bad.push(`上位 ${k + 1} の行が calaudit と違う(${got.id}/${id})`);
           for (const key of ['stepSec', 'extractSec', 'rateProbeSec', 'usPerStepLive']) if (!(key in got)) bad.push(`上位 ${k + 1} に ${key} の欄が無い`); });
         if (JSON.stringify(J.calibration.table && J.calibration.table.top5) !== JSON.stringify(T.top5)) bad.push('表の top5 が calaudit と違う');
+        } else {
+          top.forEach((got, k) => { const want = T.rows.find((z) => z.id === (got || {}).id);
+            if (!want || got.steps !== want.steps || got.n !== want.n) bad.push(`上位 ${k + 1} の行の本・步・n が calaudit と違う(${(got || {}).id})`);
+            for (const key of ['stepSec', 'extractSec', 'rateProbeSec', 'usPerStepLive']) if (!got || !(key in got)) bad.push(`上位 ${k + 1} に ${key} の欄が無い`); });
+          const tb341 = (J.calibration.table && J.calibration.table.top5) || [];
+          if (tb341.length !== 5 || tb341.some((id, k) => id !== (top[k] || {}).id)) bad.push('表の top5 が正本の上位 5 本の行と違う');
+        }
         const sw = J.calibration.solarInnerWindow;
         // 第300便m(原仮定者の裁定(第90報)④・R176): 🌞 は退役して判定器の母集団の外 —— 判定器の正本に 🌞 が無い世代(鎖の後)は必要窓の行が無いのが正
         const sun300m = (C.presets || []).some((p) => p.id === 'solarInner');
