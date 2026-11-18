@@ -109308,7 +109308,10 @@ function view340aOf341a(eq) {
   await (async () => {   // 第310便c(heap)
   const wLib = path.join(ROOT, 'tests', 'lib-w341c-judgescale.mjs');
   if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib))) {
-    for (const k of ['behavior.judgeScale341c', 'lint.stableRead341c', 'docs.tools341c']) console.log('SKIP ' + k + '(第341便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    // 第341便(統括 —— 継ぎ目): SKIP の印字は鍵を 1 本ずつ名指す(lint.qapartRequested323 ④ —— 繰り返しで作った印字は、部分 QA の道具が自分のブロックの鍵に結べない)
+    console.log('SKIP behavior.judgeScale341c(第341便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.stableRead341c(第341便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.tools341c(第341便c の道具の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
