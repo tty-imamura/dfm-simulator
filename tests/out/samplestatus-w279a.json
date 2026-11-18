@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b341",
+  "betaBuild": "v1.47-b342",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "b6fbfeafa26d7d7ec80428795f566db422fdeea15397a2520d058268ebe07065",
-  "generatedAt": "2026-11-18T08:47:12.908Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T17:00:04.479Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,21 +24,21 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749461,
-    "sha256": "4dea2babf1ed0382b5b1c7dbbdd090c7660cf047cd1b7808826dbe1fd83e84a8",
-    "mtime": "2026-11-18T06:15:17.837Z"
+    "bytes": 1732244,
+    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
+    "mtime": "2026-11-18T16:43:50.157Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90757,
-    "sha256": "0bb277b5628208d14d4d46540879cdc6ec554703e33ba02b4d0e253cf055d86b",
-    "mtime": "2026-11-15T19:34:16.466Z"
+    "bytes": 90759,
+    "sha256": "6fe892dfddaf1306f0e49f1b59c9e5c9eb99b08da96f110bac8a9063b6669aed",
+    "mtime": "2026-11-18T16:18:31.841Z"
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 113177,
-    "sha256": "ec1e29b9402ac54c212d10d0e971e879a9b756ef2dacbe939b0186bfb03f5346",
-    "mtime": "2026-11-18T08:47:12.881Z"
+    "bytes": 113048,
+    "sha256": "efdcf37f3ba43bf289ea321c0c78cb0fe9d6a26b4e14c55faf3e4342abc41703",
+    "mtime": "2026-11-18T17:00:04.450Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -440,13 +440,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -780,13 +780,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1125,13 +1125,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1458,13 +1458,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1791,13 +1791,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -2125,13 +2125,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -2459,13 +2459,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -2810,13 +2810,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3137,13 +3137,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3464,13 +3464,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3791,13 +3791,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4124,13 +4124,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4457,13 +4457,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4784,13 +4784,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5123,13 +5123,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5456,13 +5456,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5807,13 +5807,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -6164,13 +6164,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -6539,13 +6539,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -6914,13 +6914,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7313,13 +7313,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7658,13 +7658,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7997,13 +7997,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -8336,13 +8336,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -8675,13 +8675,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9020,13 +9020,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9353,13 +9353,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9686,13 +9686,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10019,13 +10019,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10358,13 +10358,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10697,13 +10697,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11030,13 +11030,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11363,13 +11363,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11703,13 +11703,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12031,13 +12031,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12359,13 +12359,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12686,13 +12686,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13043,13 +13043,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13401,13 +13401,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13752,13 +13752,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -14091,13 +14091,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -14472,13 +14472,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -14804,13 +14804,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15143,13 +15143,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15483,13 +15483,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15833,13 +15833,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16183,13 +16183,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16535,13 +16535,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16876,13 +16876,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17223,13 +17223,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17575,13 +17575,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17940,13 +17940,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18281,13 +18281,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18634,13 +18634,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18974,13 +18974,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19332,13 +19332,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19665,13 +19665,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19998,13 +19998,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -20331,13 +20331,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -20694,13 +20694,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21081,13 +21081,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21420,13 +21420,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21765,13 +21765,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22092,13 +22092,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22425,13 +22425,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22770,13 +22770,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23103,13 +23103,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23436,13 +23436,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23775,13 +23775,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -24114,13 +24114,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -24454,13 +24454,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -24793,13 +24793,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25156,13 +25156,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25418,23 +25418,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.671,
+     "wallSec": 174.01,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 37.671,
+       "wallSec": 50.282,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 76.896,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 123.728,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 76.896,
-     "reusedH2Sec": 76.896,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -25530,13 +25530,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25881,13 +25881,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -26277,13 +26277,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -26616,13 +26616,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -27039,13 +27039,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -27398,13 +27398,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -27654,23 +27654,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.43,
+     "wallSec": 4.33,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.43,
+       "wallSec": 1.646,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.384,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.684,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.384,
-     "reusedH2Sec": 2.384,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -27766,13 +27766,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28153,13 +28153,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28528,13 +28528,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28970,13 +28970,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -29526,13 +29526,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -29998,13 +29998,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -30337,13 +30337,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -30682,13 +30682,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -31021,13 +31021,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -31500,23 +31500,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.36,
+     "wallSec": 11.187999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.36,
+       "wallSec": 3.559,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.246,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 7.629,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.246,
-     "reusedH2Sec": 5.246,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -31624,13 +31624,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -32083,13 +32083,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -32459,13 +32459,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -32926,13 +32926,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -33579,13 +33579,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -34214,13 +34214,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -34813,13 +34813,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -35436,13 +35436,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -35992,13 +35992,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -36375,13 +36375,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -36932,13 +36932,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -37487,13 +37487,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -37953,13 +37953,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38286,13 +38286,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38626,13 +38626,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38968,13 +38968,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -39224,23 +39224,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.167,
+     "wallSec": 58.905,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.167,
+       "wallSec": 23.023,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 28.512,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 35.882,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 28.512,
-     "reusedH2Sec": 28.512,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -39348,13 +39348,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -39856,23 +39856,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.666,
+     "wallSec": 32.594,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.666,
+       "wallSec": 11.759,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.702,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 20.835,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 13.702,
-     "reusedH2Sec": 13.702,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -40016,13 +40016,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -40392,23 +40392,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.447,
+     "wallSec": 20.634,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.447,
+       "wallSec": 5.408,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.624,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 15.226,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 10.624,
-     "reusedH2Sec": 10.624,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -40516,13 +40516,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41067,13 +41067,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41424,13 +41424,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41788,13 +41788,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -42052,23 +42052,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 76.495,
+     "wallSec": 302.01599999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 76.495,
+       "wallSec": 100.35,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 145.81,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 201.666,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 145.81,
-     "reusedH2Sec": 145.81,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -42224,13 +42224,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -42617,13 +42617,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -42993,13 +42993,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -43458,13 +43458,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -43792,13 +43792,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -44050,11 +44050,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.855,
+     "wallSec": 65.231,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 53.855,
+       "wallSec": 65.231,
        "reused": false,
        "reusedBy": null
       }
@@ -44156,13 +44156,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -44532,23 +44532,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.941,
+     "wallSec": 7.342,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.941,
+       "wallSec": 2.782,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.936,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.56,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 3.936,
-     "reusedH2Sec": 3.936,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -44692,13 +44692,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45066,30 +45066,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.631,
+     "wallSec": 61.562,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.631,
+       "wallSec": 12.992,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 21.623,
+       "wallSec": 26.463,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 33.923,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 48.57,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 55.54600000000001,
-     "reusedH2Sec": 21.623,
-     "reusedH4Sec": 33.923
+     "reusedSec": 26.463,
+     "reusedH2Sec": 26.463,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -45232,13 +45232,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45614,13 +45614,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45868,30 +45868,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.236,
+     "wallSec": 37.852999999999994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.236,
+       "wallSec": 7.552,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.222,
+       "wallSec": 14.91,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 20.64,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 30.301,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 33.862,
-     "reusedH2Sec": 13.222,
-     "reusedH4Sec": 20.64
+     "reusedSec": 14.91,
+     "reusedH2Sec": 14.91,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -46034,13 +46034,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -46416,13 +46416,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -46749,13 +46749,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -47094,13 +47094,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -47451,13 +47451,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -47802,13 +47802,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48077,23 +48077,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.446,
+     "wallSec": 12.453,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.446,
+       "wallSec": 4.481,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.767,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 7.972,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 7.767,
-     "reusedH2Sec": 7.767,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -48213,13 +48213,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48637,13 +48637,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48971,13 +48971,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -49317,13 +49317,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -49568,23 +49568,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.499,
+     "wallSec": 9.457,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.499,
+       "wallSec": 3.217,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.237,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 6.24,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.237,
-     "reusedH2Sec": 4.237,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -49734,13 +49734,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -50015,23 +50015,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.047,
+     "wallSec": 4.391,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.047,
+       "wallSec": 1.563,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.441,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.828,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 2.441,
-     "reusedH2Sec": 2.441,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -50181,13 +50181,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -50557,13 +50557,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -50903,13 +50903,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51249,13 +51249,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51595,13 +51595,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51941,13 +51941,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -52287,13 +52287,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -52538,23 +52538,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 18.23,
+     "wallSec": 63.121,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.23,
+       "wallSec": 21.085,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.12,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 42.036,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 34.12,
-     "reusedH2Sec": 34.12,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -52656,13 +52656,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53080,13 +53080,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53426,13 +53426,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53753,13 +53753,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -54098,13 +54098,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -54479,13 +54479,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -54830,13 +54830,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -55271,13 +55271,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -55665,13 +55665,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56040,13 +56040,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56379,13 +56379,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56736,13 +56736,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57081,13 +57081,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57432,13 +57432,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57783,13 +57783,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -58134,13 +58134,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -58390,23 +58390,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.514,
+     "wallSec": 1.873,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.514,
+       "wallSec": 0.627,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.324,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.246,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.324,
-     "reusedH2Sec": 1.324,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -58502,13 +58502,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -58890,13 +58890,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59146,23 +59146,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.091,
+     "wallSec": 0.301,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.091,
+       "wallSec": 0.178,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.108,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 0.123,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.108,
-     "reusedH2Sec": 0.108,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -59252,13 +59252,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59585,13 +59585,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59918,13 +59918,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60257,13 +60257,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60596,13 +60596,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60959,13 +60959,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61298,13 +61298,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61625,13 +61625,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61952,13 +61952,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -62285,13 +62285,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -62894,13 +62894,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63160,30 +63160,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.071,
+     "wallSec": 36.196,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.071,
+       "wallSec": 8.071,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.082,
+       "wallSec": 15.2,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 23.543,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 28.125,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 35.625,
-     "reusedH2Sec": 12.082,
-     "reusedH4Sec": 23.543
+     "reusedSec": 15.2,
+     "reusedH2Sec": 15.2,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -63290,13 +63290,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63641,13 +63641,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63968,13 +63968,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -64220,11 +64220,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 121.735,
+     "wallSec": 143.926,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 121.735,
+       "wallSec": 143.926,
        "reused": false,
        "reusedBy": null
       }
@@ -64332,13 +64332,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -64926,13 +64926,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65253,13 +65253,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65611,13 +65611,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65956,13 +65956,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66289,13 +66289,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66628,13 +66628,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66955,13 +66955,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67282,13 +67282,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67609,13 +67609,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67936,13 +67936,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68263,13 +68263,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68596,13 +68596,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68929,13 +68929,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69268,13 +69268,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69601,13 +69601,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69928,13 +69928,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -70261,13 +70261,13 @@
      },
      {
       "key": "families",
-      "sec": 3,
+      "sec": 6,
       "share": "all",
       "always": false
      },
      {
       "key": "tpsign",
-      "sec": 3,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -70483,11 +70483,11 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 265,
-  "regenSecSum": 71588,
+  "regenSteps": 268,
+  "regenSecSum": 71756,
   "alwaysSec": 896,
-  "undeclaredSteps": 55,
-  "undeclaredSec": 2014,
+  "undeclaredSteps": 58,
+  "undeclaredSec": 2029,
   "qaTotal": 1605,
   "qaDurationMs": 5479934,
   "qaProvenance": {
@@ -70497,14 +70497,14 @@
    "date": "2026-11-18T08:10:48.890Z",
    "betaBuild": "v1.47-b341",
    "targetSha256": "b6fbfeafa26d7d7ec80428795f566db422fdeea15397a2520d058268ebe07065",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
    "since": "第320便d(R265)",
-   "n": 48,
-   "sec": 1945,
+   "n": 51,
+   "sec": 1960,
    "keys": [
     "obsintake",
     "recordid",
@@ -70553,19 +70553,22 @@
     "oblatering-341d",
     "lightmass-341e",
     "gyroheat-341f",
-    "plutocontrol-341g"
+    "plutocontrol-341g",
+    "clockstop-342b",
+    "oblateapprox-342c",
+    "powerball-342e"
    ],
    "rule": "宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段"
   },
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 17,
-    "sec": 384.03399999999993
+    "n": 3,
+    "sec": 56.57300000000001
    },
    "h4": {
-    "n": 3,
-    "sec": 78.106
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
@@ -71788,6 +71791,12 @@
      ]
     },
     {
+     "key": "tpsign",
+     "sec": 153,
+     "kind": "領域の宣言",
+     "presets": "all"
+    },
+    {
      "key": "timing294",
      "sec": 153,
      "kind": "領域の宣言",
@@ -72658,6 +72667,12 @@
      ]
     },
     {
+     "key": "clockstop-342b",
+     "sec": 10,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "twobody",
      "sec": 9,
      "kind": "領域の宣言",
@@ -72709,6 +72724,12 @@
      "sec": 8,
      "kind": "領域の宣言",
      "presets": "all"
+    },
+    {
+     "key": "lightmass-341e",
+     "sec": 8,
+     "kind": "html を読まない",
+     "presets": null
     },
     {
      "key": "bgaudit291",
@@ -72794,6 +72815,12 @@
       "uranusReal",
       "venusReal"
      ]
+    },
+    {
+     "key": "families",
+     "sec": 6,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "coord3d-298a",
@@ -72971,12 +72998,6 @@
      "presets": null
     },
     {
-     "key": "lightmass-341e",
-     "sec": 5,
-     "kind": "html を読まない",
-     "presets": null
-    },
-    {
      "key": "slipaudit",
      "sec": 4,
      "kind": "領域の宣言",
@@ -73035,18 +73056,6 @@
      "sec": 3,
      "kind": "html を読まない",
      "presets": null
-    },
-    {
-     "key": "families",
-     "sec": 3,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
-     "key": "tpsign",
-     "sec": 3,
-     "kind": "領域の宣言",
-     "presets": "all"
     },
     {
      "key": "bgdiff286",
@@ -73461,6 +73470,18 @@
     },
     {
      "key": "plutocontrol-341g",
+     "sec": 1,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "oblateapprox-342c",
+     "sec": 1,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "powerball-342e",
      "sec": 1,
      "kind": "html を読まない",
      "presets": null
