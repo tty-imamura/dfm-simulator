@@ -108175,7 +108175,7 @@ function view338aOf340a(eq) {
         const js = (x) => JSON.stringify(x);
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・格子・純関数の場面
-        if (!(L.LIB_VERSION === 'w340d-gyropath-lib-1' && X.HARNESS_VERSION === 'w340d-gyropath-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        if (!(L.LIB_VERSION === 'w340d-gyropath-lib-2' && X.HARNESS_VERSION === 'w340d-gyropath-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
         if (!(js(L.ACTIONS) === js(['drag', 'corV', 'corS', 'drag90']) && js(L.DECL.t1.qGrid) === js([1, 0]) && L.DECL.t1.qMain === 1 && js(L.DECL.t1.pGrid) === js([0, 1, 2, 3, 4]) && L.DECL.t1.zOverR.length === 9
           && L.DECL.t1.controls.length === 8 && L.DECL.t2.tYr === 1e7 && js(L.DECL.t2.ports) === js(['spin', 'mimas']) && js(L.DECL.t2.cols) === js(['A', 'B', 'Bp']) && L.DECL.floor === 1e-12))
           bad.push('① 格子(作用の型 4・q 主 1・p 0〜4・仰角 9・対照 8・1e7 年・口 2・列 3・床)の宣言');
@@ -110202,6 +110202,139 @@ function view340aOf341a(eq) {
   })();   // 第310便c(heap)
 }
 // ==== 第342便a の塊(ここまで)====
+
+// ==== 第342便d の塊(ここから —— behavior.gyropathfix342d・docs.gyropathfix342d の 2 ブロック。root は SKIP)====
+// ---- 第342便d(原仮定者の回答(2026-11-18 —— 第142報)AN827「B。中身を足してから進める」・統括の検証項目 R375): **第340便d の器の訂正(AN818)** —— 第340便d の lib の
+// ----   `oblateRows` を lib-2 に(扁平の経路の比の分母を同じ物理の位置の球で作る)。訂正の lib tests/lib-w342d-gyropathfix.mjs・旧い比の写し tests/data-w342d-gyropathold.json・
+// ----   正本 tests/out/gyropath-340d.json(段 gyropath-340d の器で作り直し)。新しい段は無い。世代切替 = beta 対象 ∧ 訂正の lib・写し・第340便d の lib がある。
+// ----   behavior.gyropathfix342d(html を読まない): ① 版(訂正の lib・写しの来歴 —— 第340便d の lib の版は文字で期待せず、正本の libVersion と同じ・写しの版と違うことを見る)
+// ----     ② 独立の照合: 行ごとに同じ物理の位置の球の分母を直に作り直して正本の分母と 360 個が同じ値 ③ 旧い比: lib-1 の分母の作り直しが写しの 360 個(分子・分母・比)と相対 1e-9 の内
+// ----     ④ 訂正の表の数: 360 個・変わった 300・符号が変わった 23・扁平率 0 の 60 個は不変 ⑤ 新しい比・分母・べきが正本と相対 1e-9 の内 ⑥ 代表の行の旧い比と新しい比 ⑦ 呼ぶだけ
+// ----   docs.gyropathfix342d: PHYSICS〔第342便d〕の位置と必須の語・ノブの表(6 列)・訂正の文(〔第340便d〕・〔第341便d〕・〔第341便 — 統括〕—— 当時の文が残る)・AI_SPEC §267・CHANGELOG・post-merge・書かない語
+{
+  await (async () => {   // 第310便c(heap)
+  const wFix = path.join(ROOT, 'tests', 'lib-w342d-gyropathfix.mjs'), wOld = path.join(ROOT, 'tests', 'data-w342d-gyropathold.json'), wLib = path.join(ROOT, 'tests', 'lib-w340d-gyropath.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'gyropath-340d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wFix) && fs.existsSync(wOld) && fs.existsSync(wLib))) {
+    console.log('SKIP behavior.gyropathfix342d(第342便d の第340便d の器の訂正の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.gyropathfix342d(第342便d の第340便d の器の訂正の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const rel = (a, b) => (a === b ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)));
+  let F = null, L = null, J = null, O = null, err0 = null;
+  try { F = await import('file://' + wFix); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  try { O = JSON.parse(fs.readFileSync(wOld, 'utf8')); } catch (e) { O = null; }
+  // ───── behavior.gyropathfix342d ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/gyropath-340d.json が読めない');
+    else if (!O) bad.push('写し tests/data-w342d-gyropathold.json が読めない');
+    else {
+      try {
+        // ① 版と写しの来歴
+        const S = O.source || {};
+        if (!(F.LIB_VERSION === 'w342d-gyropathfix-lib-1' && O.version === 'w342d-gyropathold-1' && F.DATA_OLD === 'tests/data-w342d-gyropathold.json' && J.libVersion === L.LIB_VERSION
+          && typeof S.libVersion === 'string' && S.libVersion !== L.LIB_VERSION && S.path === 'tests/out/gyropath-340d.json' && /^[0-9a-f]{64}$/.test(S.sha256 || '') && /^[0-9a-f]{40}$/.test(S.gitBlob || '')
+          && Array.isArray(O.rows) && O.rows.length === 360 && JSON.stringify(O.cols) === JSON.stringify(['f', 'rOverReq', 'zOverR', 'key', 'pull', 'pullSphere', 'ratio'])))
+          bad.push('① 版(訂正の lib・写し)・写しの来歴(正本の旧い版・sha256・git の blob・360 行)・正本の libVersion が今の lib と同じ');
+        cases.push(`① 訂正の lib ${F.LIB_VERSION}・第340便d の lib ${L.LIB_VERSION}(正本と同じ・写しの ${S.libVersion} と違う)・写し ${O.rows.length} 行`);
+        const A = F.fixAll(O);
+        // ② 独立の照合
+        if (!(A.direct.n === 360 && A.direct.equal === 360)) bad.push('② 同じ物理の位置の球の分母を直に作り直した値と lib の分母が違う(' + A.direct.equal + '/' + A.direct.n + '・最大の相対の差 ' + A.direct.worst + ')');
+        cases.push(`② 独立の照合 ${A.direct.equal}/${A.direct.n}(同じ物理の位置の球を直に作り直した分母)`);
+        // ③ 旧い比
+        if (!(A.oldCheck.n === 360 && A.oldCheck.within === 360)) bad.push('③ lib-1 の分母の作り直しが写しと違う(' + A.oldCheck.within + '/' + A.oldCheck.n + '・最大 ' + A.oldCheck.worst + ')');
+        cases.push(`③ 旧い比(lib-1 の分母の作り直し)と写し ${A.oldCheck.within}/${A.oldCheck.n}(相対 ${F.DECL342D.oldTol} の内・同じビット ${A.oldCheck.exact})`);
+        // ④ 訂正の表の数
+        const SM = A.summary, byF = (f) => SM.byF.find((x) => x.f === f) || {};
+        if (!(SM.n === 360 && SM.changed === 300 && SM.flip === 23 && SM.unchangedSphere === 60 && byF(0).changed === 0 && [0.05, 0.098, 0.2, 0.3, -0.1].every((f) => byF(f).changed === 60)
+          && JSON.stringify(SM.byF.map((x) => x.flip)) === JSON.stringify([0, 3, 3, 6, 9, 2]) && SM.bins.reduce((s, b) => s + b.n, 0) === 277 && SM.denRatio.negative === 23))
+          bad.push('④ 訂正の表の数(360・変わった ' + SM.changed + '・符号 ' + SM.flip + '・扁平率 0 の不変 ' + SM.unchangedSphere + ')');
+        if (!A.table.filter((t) => t.flip).every((t) => Math.sign(t.pull) === Math.sign(t.pullOld) && Math.sign(t.denNew) !== Math.sign(t.denOld))) bad.push('④ 符号が変わった行に分子の符号の変わる行がある');
+        cases.push(`④ 訂正の表 ${SM.n} 個・変わった ${SM.changed}・符号が変わった ${SM.flip}(どれも分母の符号)・扁平率 0 は不変 ${SM.unchangedSphere}`);
+        // ⑤ 新しい比・分母・べきが正本と同じ
+        let nOk = 0;
+        for (const t of A.table) { const r = J.t4.rows.find((x) => x.f === t.f && x.rOverReq === t.rOverReq && x.zOverR === t.zOverR), p = r && r.path[t.key];
+          if (p && rel(p.pull, t.pull) <= 1e-9 && rel(p.pullSphere, t.denNew) <= 1e-9 && (p.ratio === null ? t.ratioNew === null : rel(p.ratio, t.ratioNew) <= 1e-9)) nOk++; }
+        const powOk = ['path|h1|corV', 'path|h1|corS', 'path|h1|drag90'].every((k) => rel(J.t4.pow[k], A.pow[k]) <= 1e-9 && rel(O.oldPow[k], J.t4.pow[k]) > 1e-3);
+        if (!(nOk === 360 && powOk)) bad.push('⑤ 新しい比・分母・べきが正本と違う(' + nOk + '/360・べき ' + powOk + ')—— 段 gyropath-340d を走らせ直す');
+        cases.push(`⑤ 新しい比・分母が正本と ${nOk}/360・経路のべき 3 が正本と同じで写しの旧いべきと違う`);
+        // ⑥ 代表の行
+        const rp = (f, rr, k) => A.rep.find((x) => x.f === f && x.rOverReq === rr && x.key === k) || {};
+        const want = [[0.098, 1.1, 'h1|corV', 0.1796, 3.952], [0.098, 1.1, 'h1|corS', 0.8842, 1.480], [0.098, 1.1, 'h1|drag90', 0.7079, 1.326], [0.098, 1.5, 'h1|corS', -3.036, 2.966], [0.05, 1.5, 'h1|corS', -0.9273, 22.32]];
+        const badRep = want.filter(([f, rr, k, o, n]) => !(rel(rp(f, rr, k).ratioOld, o) <= 1e-3 && rel(rp(f, rr, k).ratioNew, n) <= 1e-3));
+        if (A.rep.length !== 10 || badRep.length) bad.push('⑥ 代表の行(' + badRep.map((w) => w.slice(0, 3).join(' ')).join('・') + ')');
+        cases.push(`⑥ 代表の行 ${A.rep.length}(扁平率 0.098・距離 1.1 の corV 0.1796 → ${rp(0.098, 1.1, 'h1|corV').ratioNew.toFixed(3)} ほか)`);
+        // ⑦ 呼ぶだけ
+        const tf = rd('tests/lib-w342d-gyropathfix.mjs'), imps = [...new Set([...tf.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]))];
+        if (!(JSON.stringify(imps) === JSON.stringify(['lib-w340d-gyropath.mjs']) && !/loadHtml|index\.html/.test(tf) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(tf) && !/Math\.random/.test(tf) && !/Math\.acos/.test(tf)))
+          bad.push('⑦ 呼ぶだけ(import は第340便d の lib だけ・html を読まない・ネットへ取りに行かない・Math.random なし・acos なし)');
+        cases.push('⑦ import は第340便d の lib だけ・html を読まない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.gyropathfix342d', bad.length === 0,
+      `**第340便d の器の訂正 —— 扁平の経路の比を同じ物理の位置の球と比べる**(第342便d・原仮定者の回答(2026-11-18 —— 第142報)AN827・R375 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  // ───── docs.gyropathfix342d ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const secOf = (head) => { const i = PH.indexOf('\n' + head); return i >= 0 ? secUntilNext329c(PH, i + 1, /\n〔第\d+便[a-z]* — |\n## /) : ''; };   // 見出しは行の頭(本文の中の指し先に当てない)
+    const i0 = PH.indexOf('〔第342便d — '), i7 = PH.indexOf('\n## 7. 論文'), ia = PH.indexOf('〔第342便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secOf('〔第342便d — ');
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ia >= 0 && ia < i0 && iu > i0)) bad.push('PHYSICS〔第342便d〕が無いか〔第342便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の回答(2026-11-18 —— 第142報)', 'AN827', 'AN818', 'R375', 'tests/lib-w340d-gyropath.mjs', 'w340d-gyropath-lib-2', 'tests/lib-w342d-gyropathfix.mjs', 'tests/data-w342d-gyropathold.json',
+      'tests/out/gyropath-340d.json', 'gyropath-340d', 'oblateRows', '同じ物理の位置', '比べる位置だけ', '点は増やしていない', '960 点', '360 個', '300 個', '23 個', '分子', '分母', '独立の照合',
+      '旧い比', '新しい比', '訂正(第342便d)', '当時の文', '強さの正本にしない', '場の列', '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態',
+      '決断事項の候補', '次の便へ', '書かないこと', 'behavior.gyropathfix342d', 'docs.gyropathfix342d', '帯を入力として与えた型', 'oblatering-341d'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便d〕に「' + w + '」が無い');
+    const rt = sec.indexOf('| 扁平率 | 距離 ÷ 赤道半径 | 経路 |'), rtab = rt >= 0 ? sec.slice(rt).split('\n\n')[0].split('\n').slice(2) : [];
+    if (rtab.length !== 10) bad.push('代表の行の表が 10 行でない(' + rtab.length + ')');
+    const kt = sec.indexOf('| ノブの名 |'), khead = kt >= 0 ? sec.slice(kt).split('\n')[0] : '', ktab = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((x) => x.trim()).filter((x, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(khead.split('|').length - 2 === 6 && ktab.length >= 1 && ktab.every((l) => l.split('|').length - 2 === 6 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('ノブの表(6 列・行の中に縦棒を書かない・状態の欄が 1 語)');
+    cases.push('PHYSICS〔第342便d〕の位置・必須の語 ' + want.length + '・代表の行 ' + rtab.length + '・ノブの表 ' + ktab.length + ' 行(6 列)');
+    // 訂正の文(当時の文は残る)
+    const s340 = secOf('〔第340便d — '), s341 = secOf('〔第341便d — '), s341u = secOf('〔第341便 — 統括:');
+    const fixes = [['〔第340便d〕', s340, ['**訂正(第342便d)。**', '0.18・0.88・0.71', '1.13・−3.0・1.18', '3.95・1.48・1.33', '300 個が変わり']],
+      ['〔第341便d〕', s341, ['- **訂正(第342便d)**: 第342便d で第340便d の lib を直した', '第340便d の lib の本文は変えていない —— 決断事項の候補 (C)', '訂正(第342便d): 統括の判断で第342便d が lib を直した']],
+      ['〔第341便 — 統括〕', s341u, ['器の直しは次の便。**訂正(第342便d)**: 第342便d で器を直した']]];
+    for (const [nm, tx, ws] of fixes) for (const w of ws) if (tx.indexOf(w) < 0) bad.push('訂正の文: ' + nm + ' に「' + w.slice(0, 24) + '」が無い');
+    cases.push('訂正の文 ' + fixes.reduce((s, f) => s + f[2].length, 0) + '(〔第340便d〕・〔第341便d〕・〔第341便 — 統括〕—— 当時の文が残る)');
+    const a0 = AS.indexOf('\n## 267. 第342便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/lib-w342d-gyropathfix.mjs') >= 0 && ai.indexOf('tests/out/gyropath-340d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R375') >= 0)) bad.push('AI_SPEC §267(lib・正本・SYSTEM_PROMPT・R375)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第342便d**') >= 0) || '';
+    if (!(cl.indexOf('tests/lib-w342d-gyropathfix.mjs') >= 0 && cl.indexOf('tests/out/gyropath-340d.json') >= 0 && cl.indexOf('第142報') >= 0 && cl.indexOf('R375') >= 0)) bad.push('CHANGELOG の第342便d の行');
+    if (!(PM.indexOf('# ==== 第342便d の塊(ここから)====') >= 0 && /behavior\.gyropathfix342d/.test(PM) && /docs\.gyropathfix342d/.test(PM))) bad.push('post-merge の ③′ に第342便d の塊');
+    cases.push('AI_SPEC §267・CHANGELOG・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第342便d の書かない語(引用符「」の外で —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・扁平で寄せる力が強くなると分かった・向きが逆だったと分かった
+    const W342 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっか分とるなく強が力るせ寄で平扁', 'たっか分とたっだ逆がき向'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第342便d〕', sec], ['AI_SPEC §267', ai], ['CHANGELOG の第342便d の行', cl], ['訂正の lib', rd('tests/lib-w342d-gyropathfix.mjs')], ['写し', rd('tests/data-w342d-gyropathold.json')]];
+    for (const [nm, tx] of texts) {
+      const doc = /PHYSICS|AI_SPEC|CHANGELOG/.test(nm);
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push(nm + ' に禁句(' + w.length + ' 字)');
+      if (doc) for (const w of W342) if (strip(tx).indexOf(w) >= 0) bad.push(nm + ' に書かない語(' + w.length + ' 字)');
+      if (doc) for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push('書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG・訂正の lib・写し)');
+    add('docs.gyropathfix342d', bad.length === 0,
+      `**第340便d の器の訂正の文書**(第342便d・原仮定者の回答(2026-11-18 —— 第142報)AN827・R375): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第342便d の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
