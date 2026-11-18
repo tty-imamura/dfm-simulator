@@ -2363,6 +2363,68 @@ export const REGEN_STEPS = [
     note: '第340便g: 並び 3(乱数・準一様・ガラス)× N 64・128・256・512 × 種 3 × 速度の場 2 × 自己の重み none・B の静的な引きずり(大きさ・全体の重み・外縁の速さの比・角運動量の率)と補正の向きの揃いの割合/'
       + '並び 3 × N 256 の刻み h・h/2・h/4 × 作用 4(重力だけ・速度の場・慣性の項 τ 0.1・0.03 t_cr)の見かけの次数と外挿' }),
   // ==== 第340便g の塊(ここまで)====
+  // ==== 第341便b の塊(ここから)====
+  // ---- 第341便b(原仮定者の回答(2026-11-18 —— 第141報)AN790・統括の検証項目 R365): **軸引きずりの天体の特性の係数のノブ C_b・和の型を金星の釣り合い・8 惑星と主な衛星・冥王星とカロンへ・
+  //   赤道面以外の仰角のずれの率**(段 bodycoef-341b —— 正本 tests/out/bodycoef-341b.json・lib tests/lib-w341b-bodycoef.mjs —— 第340便b・第338便b・第337便l・第337便c・第335便b・第330便a の lib を
+  //   import して呼ぶ。入力のファイルは無い —— 順序だけ after に段 axialsplit-340b)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w341b-bodycoef.mjs —— 領域の宣言なし)。
+  //   正本へ書く形は第338便c の settleRun(3 回走らせる)。1 プロセス。所要は第341便b の枝の実測 0.7 s
+  S('bodycoef-341b', 'node tests/exp-w341b-bodycoef.mjs', ['tests/out/bodycoef-341b.json'], 1, { secSource: 'w341b-branch', node: true,
+    after: ['axialsplit-340b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bodycoef-341b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便b: 係数 C_b × 仰角 × 取り分の和の向きと強さ・境目の閉じた形・零試験/金星の釣り合いの根と 3 成分(C_b 0〜2 × 和の型と差分だけ)/'
+      + '天体 17 の要る C_b(釣り合い・速さの一致)と順位相関・候補の関数の形・相互ロックの部位差分/赤道面以外の仰角のずれの率と最小二乗の回転(R/r 0.01〜0.5・2 層の球)/赤道面の境' }),
+  // ==== 第341便b の塊(ここまで)====
+  // ==== 第341便d の塊(ここから)====
+  // ---- 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)の扁平の則の予想・原仮定者の指示(2026-11-12 —— 第135報)の回転引きずりの条件・原仮定者の補足(2026-11-18 —— 第141報)の熱の文・
+  //   統括の検証項目 R367): **扁平の源の区切りを細かく・R_eq の内と外で落ち方を変える型・環の口の熱を補足 1 で読み直す**(段 oblatering-341d —— 正本 tests/out/oblatering-341d.json・
+  //   lib tests/lib-w341d-oblatering.mjs —— 第340便d・第338便d・第338便b・第337便i の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の k4Sets を呼んで作り直す ——
+  //   順序だけ after に段 gyropath-340d と同じ一式 + gyropath-340d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w341d-oblatering.mjs —— 領域の宣言なし)。1 プロセス。
+  //   所要は第341便d の枝の実測 37〜38 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T1 の源の求積 960〜61440 点)
+  S('oblatering-341d', 'node tests/exp-w341d-oblatering.mjs', ['tests/out/oblatering-341d.json'], 40, { secSource: 'w341d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
+      'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a', 'gyropath-340d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/oblatering-341d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便d: 扁平の源の求積(並び 5 × 区切り 960・3840・15360・61440 × 扁平率 6 × 距離 ÷ 赤道半径 7 × 高さ 2)と第340便d の 960 点の起点・球の源 ÷ 点の源・扁平 ÷ 球の収束の表/'
+      + 'R_eq の内と外で落ち方を変える型(slice・fall p 3 × m 3 × 経路の距離のべき 3)の一様厚み・帯・環の物差しと 4 惑星/環の口の熱の 20 行を座標変換・動いた分・動かなかった分に分ける' }),
+  // ==== 第341便d の塊(ここまで)====
+  // ==== 第341便e の塊(ここから)====
+  // ---- 第341便e(原仮定者の補足(2026-11-18 —— 第141報)「質量ゼロの慣性移動が光の経路で有り … 質量の有る物体は、局所光速に近付くにつれて加速しにくくなる」・決断事項 AN806・統括の検証項目 R368):
+  //   **局所光速に近付くと加速しにくくなる候補の型(型 4)—— 一様な場の一定の力・点の源の場の曲がり(質量 0 の極限と光の経路)・光の物差し・水星の近点(置き換えの型と足す型)・零試験**
+  //   (段 lightmass-341e —— 正本 tests/out/lightmass-341e.json・lib tests/lib-w341e-lightmass.mjs —— 第333便c・第340便h の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第333便c の lib の import の先が読む正本の書き手 8 段)。**診断だけ**。
+  //   **html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第341便e の枝の実測 5 s
+  S('lightmass-341e', 'node tests/exp-w341e-lightmass.mjs', ['tests/out/lightmass-341e.json'], 5, { secSource: 'w341e-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第333便c の lib が第331便c の lib を import —— その lib が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 5 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lightmass-341e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便e: 型 4(今のアプリ・場の係数を共有する型・加速の効きが落ちる型 p 3・放射の抵抗の型 g 2 × ε 2 × 減速の列 2)× 一様な場の一定の力/衝突径数 3 × 粒子 19 の曲がり/'
+      + '光の物差し(場の強さ 3)/水星の近点(型 8 行・誇張した場の比)/零試験(天体が 1 つ・静止の 2 体・低速の極限)' }),
+  // ==== 第341便e の塊(ここまで)====
+  // ==== 第341便f の塊(ここから)====
+  // ---- 第341便f(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R369): **熱の帳簿 —— 座標変換の分は熱 0・軸を傾ける力 → ジャイロ → 動かなかった分が熱**
+  //   (段 gyroheat-341f —— 正本 tests/out/gyroheat-341f.json・lib tests/lib-w341f-gyroheat.mjs —— 第337便c・第338便f・第330便a・第335便b の lib を import して呼ぶ。入力のファイルは無い
+  //   〔順序だけ after に tidelock-337c・heatlock-338f・heatsource-340f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w341f-gyroheat.mjs —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第341便f の枝の実測 2.7 s(尺度の走り直し 2 回を含む)
+  S('gyroheat-341f', 'node tests/exp-w341f-gyroheat.mjs', ['tests/out/gyroheat-341f.json'], 3, { secSource: 'w341f-branch', node: true,
+    after: ['tidelock-337c', 'heatlock-338f', 'heatsource-340f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 3 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/gyroheat-341f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便f: 零試験 5(駆動 0・ジャイロだけ・座標変換・一定のトルク・周期の駆動 + 散逸)/T2 自転 7 × 緩和の時間 3 × ジャイロの係数 2 + 一緒に回る行 6 の続く熱と止まる熱/'
+      + 'T3 天体 10 の帳簿(潮汐・傾ける力・保つ仕事率・従来の型)と列 A・列 B × 型 α・β・γ の窓・傾ける力の結びつきの係数の試し/T4 源ごとと正味/T5 帯の入口' }),
+  // ==== 第341便f の塊(ここまで)====
+  // ==== 第341便g の塊(ここから)====
+  // ---- 第341便g(原仮定者の補足(2026-11-18 —— 第141報)「冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・統括の検証項目 R370): **冥王星とカロンを候補の型の対照の表に ——
+  //   項ごとの大きさ(7 系)・斜め軌道で赤道面から離れる時間(9 天体)・対照の段 (1)〜(4)・天体の特性の係数の入口**(段 plutocontrol-341g —— 正本 tests/out/plutocontrol-341g.json・
+  //   lib tests/lib-w341g-plutocontrol.mjs —— 第340便b・第334便d・第331便c・第340便e・第340便h・第337便l・第337便j・第337便c・第337便i の lib を import して呼ぶ。他の正本は読まない)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第341便g の枝の実測 1 s
+  S('plutocontrol-341g', 'node tests/exp-w341g-plutocontrol.mjs', ['tests/out/plutocontrol-341g.json'], 1, { secSource: 'w341g-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'charonInput', 'supply-337a'],   // 順序だけ(lib が値の出典の正本の名を書く —— charoninput-w280d・supply-337a は読まない)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/plutocontrol-341g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便g: 7 系 × 項 6 の指数と順位(外の取り分・外の 2 体の間の差・相互の部位差分〔円・同期/系の離心率〕・外の源の部位差分・G_loc の型の残差)/'
+      + '9 天体 × 帯の半幅 3 の赤道面から離れる時間と 🛟 の型の掛かる時間/冥王星–カロンの対照の段 (1)〜(4)・二体の RK4 の刻み 4/係数 1・0.5 の 4 点 × 系 2' }),
+  // ==== 第341便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

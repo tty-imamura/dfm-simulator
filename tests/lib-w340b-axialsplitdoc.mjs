@@ -1,11 +1,12 @@
 // 第340便b(原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R357): **正本 tests/out/axialsplit-340b.json から PHYSICS〔第340便b〕の表を作る文書の lib**
 // (QA docs.axialsplit340b が節の表と逐語で照合する —— 数は有効数字 3 桁の指数・角は小数 2 桁・正本で 0 と書いた量〔丸めの残り〕は「0」)。
-export const DOC_VERSION = 'w340b-axialsplitdoc-2';
+export const DOC_VERSION = 'w340b-axialsplitdoc-3';   // 版 3(第341便c): T3 の「主の列で減速しない」を 3 値(正・負・未解決)のまま書く
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const f2 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(2));
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(3));
 const f4 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(4));
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
+const j3 = (x) => (x === '正' ? '正(減速しない)' : x === '負' ? '負(減速する)' : x === '未解決' ? '未解決(数値では決まらない)' : '—');   // 第341便c: 3 値
 const sg = (x) => (x > 0 ? '順(+)' : x < 0 ? '逆(−)' : '0');
 const NM = Object.freeze({ sun: '太陽', mercury: '水星', venus: '金星', earth: '地球', mars: '火星', jupiter: '木星', saturn: '土星', uranus: '天王星', neptune: '海王星',
   moon: '月', io: 'イオ', europa: 'エウロパ', ganymede: 'ガニメデ', callisto: 'カリスト', titan: 'タイタン', triton: 'トリトン(逆行)' });
@@ -46,7 +47,7 @@ export function tablesOf(J) {
   T.t2Moons = [head2, '|---|---|---|---|---|---|---|---|---|---|---|---|', ...t2.bodies.moons.map((b) => bodyRow(b, `${f3(b.aOverRHalf)}(${fe(b.rHalfKm)} km)`))].join('\n');
   const CF = { 120: '銀河と太陽系 120°', 180: '原始太陽系 180°', actual: `実際の角 ${f2(t3.actualDeg)}°(太陽の自転軸と L̂)` };
   T.t3Rule = ['| 配置 | 比 B/A | 主の列(普通のベクトル和)÷ A | 「どんな比でも 120°」の列 ÷ A | 持ち上げの分(差)÷ A | 主の列の境目 | 主の列で減速しない | 120° の列で減速しない |', '|---|---|---|---|---|---|---|---|',
-    ...t3.rows.map((x) => `| ${CF[x.cfg]} | ${x.ratio} | ${f4(x.main)} | ${f4(x.rule120)} | ${fe(x.lift)} | ${f2(x.boundary)}° | ${tf(x.noDecelMain)} | ${tf(x.noDecel120)} |`)].join('\n');
+    ...t3.rows.map((x) => `| ${CF[x.cfg]} | ${x.ratio} | ${f4(x.main)} | ${f4(x.rule120)} | ${fe(x.lift)} | ${f2(x.boundary)}° | ${j3(x.noDecelMain)} | ${tf(x.noDecel120)} |`)].join('\n');
   T.t3Bodies = ['| 受け手 | 太陽の項(列 A)[rad/s] | 背景軸引きずりの項 [rad/s] | 比 | 持ち上げの分 120° [rad/s] | 持ち上げの分 実際の角 [rad/s] | 持ち上げ ÷ 大きい側(実際の角) | 180° の持ち上げ |', '|---|---|---|---|---|---|---|---|',
     ...t3.bodies.map((b) => `| ${NM[b.key]} | ${fe(b.sunTerm)} | ${fe(b.bgTerm)} | ${fe(b.ratio)} | ${fe(b.per['120'].lift)} | ${fe(b.per.actual.lift)} | ${fe(b.per.actual.liftRel)} | ${fe(b.per['180'].lift)} |`)].join('\n');
   T.t4Venus = ['| q | 列 | 軌道の平均の因子 P | 根 f | 根の読み | 黄道の北の成分 | 自転の軸に平行(大きさを変える)÷ 尺度 | 垂直(向きを変える)÷ 尺度 | 垂直 [rad/s] | 垂直 ÷ 金星の自転 | 歳差の読みの周期 [年] | ÷ 文献の値 |', '|---|---|---|---|---|---|---|---|---|---|---|---|',

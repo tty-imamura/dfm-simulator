@@ -21,7 +21,8 @@ import { splitSpin, venusBalance, planetRows, moonRows, shareSun, DECL as L337, 
 import { galacticAxes } from './lib-w335b-carryledger.mjs';
 import { DECL as D330 } from './lib-w330a-spinclass.mjs';
 
-export const LIB_VERSION = 'w340b-axialsplit-lib-2';   // 版 2 = 追加の依頼 1(T5 —— 和〔見え方〕と 2 倍角の則・部位差分の大きさの置き方 2 つ)を足した。版 1 の関数と値は不変
+export const LIB_VERSION = 'w340b-axialsplit-lib-3';   // 版 3(第341便c —— 統括の検証項目 R366・AN798): T3 の「主の列で減速しない」を 3 値に(余裕 noDecelMainMargin = cos θ + B/(2A) を書き、判定は器が尺度を測った後に judge3 で —— runAll は null)。式・格子・ほかの値は不変
+// 版 2 = 追加の依頼 1(T5 —— 和〔見え方〕と 2 倍角の則・部位差分の大きさの置き方 2 つ)を足した。版 1 の関数と値は不変
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 const scl = (a, k) => [a[0] * k, a[1] * k, a[2] * k], add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -267,7 +268,7 @@ const orbitDays = (k) => D330.lit.orbitDays[k];
 /** 比 1・0.5・0.1 と実際の 2 つの項の比(太陽の項 ÷ 背景の項 —— 第337便l の planetRows)× 配置 120°・180°・実際の角: 主の列(普通のベクトル和 —— 境目を比で動かす型)と「どんな比でも 120°」の列の差 */
 export function t3Rule() {
   const Lh = galacticAxes().Lhat, sun = L337.spins.sun.sHat, actualDeg = angDeg(sun, Lh), rows = [];
-  for (const th of [...DECL.ruleConfigs, actualDeg]) for (const B of DECL.ruleRatios) { const r = ruleRow(B, th); rows.push({ cfg: th === actualDeg ? 'actual' : String(th), thDeg: th, ratio: B, main: r.ruleIII, rule120: r.ruleII, lift: r.liftII, boundary: r.boundaryIII, noDecelMain: r.noDecelIII, noDecel120: r.noDecelII }); }
+  for (const th of [...DECL.ruleConfigs, actualDeg]) for (const B of DECL.ruleRatios) { const r = ruleRow(B, th); rows.push({ cfg: th === actualDeg ? 'actual' : String(th), thDeg: th, ratio: B, main: r.ruleIII, rule120: r.ruleII, lift: r.liftII, boundary: r.boundaryIII, noDecelMain: null, noDecelMainMargin: Math.cos(th * D2R) + B / 2, noDecel120: r.noDecelII }); }   // 第341便c: noDecelMain は器の judge341c が 3 値で書く(旧 = r.noDecelIII —— cos θ ≥ −B/(2A) の真偽。120°・比 1 は cos 120° の丸めで境の上に乗る)
   const bodies = planetRows().map((p) => {
     const a = Math.abs(p.sunRefSigned), b = Math.abs(p.bg), A = Math.max(a, b), Bm = Math.min(a, b), ratio = Bm / A, per = {};
     for (const th of [...DECL.ruleConfigs, actualDeg]) { const r = ruleRow(ratio, th); per[th === actualDeg ? 'actual' : String(th)] = { main: r.ruleIII * A, rule120: r.ruleII * A, lift: r.liftII * A, liftRel: r.liftII, boundary: r.boundaryIII }; }

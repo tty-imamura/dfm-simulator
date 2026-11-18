@@ -1085,6 +1085,42 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluidconv340g docs.fluidconv340g"
 #   正本の 3 値の判定・変異の試しの記録 / docs.thinAngle340h —— PHYSICS〔第340便h〕・AI_SPEC §255・CHANGELOG・訂正の行)。段は足していない(作り直した段は既存の段)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.thinAngle340h docs.thinAngle340h"
 # ==== 第340便h の塊(ここまで)====
+# ==== 第341便a の塊(ここから)====
+# 第341便a(原仮定者の回答と補足(2026-11-18 —— 第141報)・統括の検証項目 R364 —— 文書と QA だけ・html は変えない): 枝 a の新設 2 本(docs.report141_341a —— PHYSICS〔第341便a〕・
+#   計算式の一覧の EQ-70〜EQ-77 と §2a・ノブの台帳の C_b の行・AI_SPEC §256・CHANGELOG / lint.gravityDef341a —— §2a の重力の今の定義)(docs.dfmSummary340a は第340便a の塊のまま —— 世代の写しで読む)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report141_341a lint.gravityDef341a"
+# ==== 第341便a の塊(ここまで)====
+# ==== 第341便b の塊(ここから)====
+# 第341便b(原仮定者の回答(2026-11-18 —— 第141報)AN790・統括の検証項目 R365 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.bodycoef341b —— 純関数の場面・器を走らせ直して
+#   正本と照合〔第338便c の recheckRun〕・C_b 1 と ½ が第340便b の正本の置き方 (b)・(a) と同じ・独立の照合 / docs.bodycoef341b —— 正本の門と表 13 本が PHYSICS〔第341便b〕に逐語・文書)と、新しい段 bodycoef-341b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bodycoef341b docs.bodycoef341b"
+# ==== 第341便b の塊(ここまで)====
+# ==== 第341便c の塊(ここから)====
+# 第341便c(原仮定者の指示(2026-11-18 —— 第141報)・統括の検証項目 R366 —— 道具だけ・html は変えない): 枝 c の新設 3 本(behavior.judgeScale341c —— 3 値の判定の境界の回帰・呼び出しの一覧・
+#   正本の 3 値・変異の試しの記録 / lint.stableRead341c —— d0audit・calcontract が calaudit を安定 hash で刻む・対照 / docs.tools341c —— PHYSICS〔第341便c〕・AI_SPEC §258・CHANGELOG)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judgeScale341c lint.stableRead341c docs.tools341c"
+# ==== 第341便c の塊(ここまで)====
+# ==== 第341便d の塊(ここから)====
+# 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)・原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R367 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.oblatering341d ——
+#   純関数の場面・器を走らせ直して正本と照合〔第338便c の recheckRun〕・球の源で区切りを細かくすると点の源へ寄るかの表・扁平率 0 で比 1・口の帳簿の閉じ / docs.oblatering341d —— 正本の門・PHYSICS〔第341便d〕・文書)と、
+#   新しい段 oblatering-341d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblatering341d docs.oblatering341d"
+# ==== 第341便d の塊(ここまで)====
+# ==== 第341便e の塊(ここから)====
+# 第341便e(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R368 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.lightmass341e —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・門・零試験・呼ぶだけ / docs.lightmass341e —— 正本の門と表が PHYSICS〔第341便e〕に逐語・文書)と、新しい段 lightmass-341e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.lightmass341e docs.lightmass341e"
+# ==== 第341便e の塊(ここまで)====
+# ==== 第341便f の塊(ここから)====
+# 第341便f(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R369 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.gyroheat341f —— 零試験 5 と純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・分類の帯が第337便c と同じ・呼ぶだけ / docs.gyroheat341f —— 正本の門と表 8 本が PHYSICS〔第341便f〕に逐語・文書)と、新しい段 gyroheat-341f の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyroheat341f docs.gyroheat341f"
+# ==== 第341便f の塊(ここまで)====
+# ==== 第341便g の塊(ここから)====
+# 第341便g(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R370 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutocontrol341g —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・理想の円と相互ロックの零試験・呼ぶだけ / docs.plutocontrol341g —— 正本の門と表 13 本が PHYSICS〔第341便g〕に逐語・文書)と、新しい段 plutocontrol-341g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutocontrol341g docs.plutocontrol341g"
+# ==== 第341便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
