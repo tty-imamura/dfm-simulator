@@ -1085,6 +1085,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.fluidconv340g docs.fluidconv340g"
 #   正本の 3 値の判定・変異の試しの記録 / docs.thinAngle340h —— PHYSICS〔第340便h〕・AI_SPEC §255・CHANGELOG・訂正の行)。段は足していない(作り直した段は既存の段)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.thinAngle340h docs.thinAngle340h"
 # ==== 第340便h の塊(ここまで)====
+# ==== 第341便d の塊(ここから)====
+# 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)・原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R367 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.oblatering341d ——
+#   純関数の場面・器を走らせ直して正本と照合〔第338便c の recheckRun〕・球の源で区切りを細かくすると点の源へ寄るかの表・扁平率 0 で比 1・口の帳簿の閉じ / docs.oblatering341d —— 正本の門・PHYSICS〔第341便d〕・文書)と、
+#   新しい段 oblatering-341d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblatering341d docs.oblatering341d"
+# ==== 第341便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

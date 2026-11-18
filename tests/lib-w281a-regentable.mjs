@@ -2363,6 +2363,20 @@ export const REGEN_STEPS = [
     note: '第340便g: 並び 3(乱数・準一様・ガラス)× N 64・128・256・512 × 種 3 × 速度の場 2 × 自己の重み none・B の静的な引きずり(大きさ・全体の重み・外縁の速さの比・角運動量の率)と補正の向きの揃いの割合/'
       + '並び 3 × N 256 の刻み h・h/2・h/4 × 作用 4(重力だけ・速度の場・慣性の項 τ 0.1・0.03 t_cr)の見かけの次数と外挿' }),
   // ==== 第340便g の塊(ここまで)====
+  // ==== 第341便d の塊(ここから)====
+  // ---- 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)の扁平の則の予想・原仮定者の指示(2026-11-12 —— 第135報)の回転引きずりの条件・原仮定者の補足(2026-11-18 —— 第141報)の熱の文・
+  //   統括の検証項目 R367): **扁平の源の区切りを細かく・R_eq の内と外で落ち方を変える型・環の口の熱を補足 1 で読み直す**(段 oblatering-341d —— 正本 tests/out/oblatering-341d.json・
+  //   lib tests/lib-w341d-oblatering.mjs —— 第340便d・第338便d・第338便b・第337便i の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の k4Sets を呼んで作り直す ——
+  //   順序だけ after に段 gyropath-340d と同じ一式 + gyropath-340d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w341d-oblatering.mjs —— 領域の宣言なし)。1 プロセス。
+  //   所要は第341便d の枝の実測 37〜38 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T1 の源の求積 960〜61440 点)
+  S('oblatering-341d', 'node tests/exp-w341d-oblatering.mjs', ['tests/out/oblatering-341d.json'], 40, { secSource: 'w341d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
+      'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a', 'gyropath-340d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/oblatering-341d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便d: 扁平の源の求積(並び 5 × 区切り 960・3840・15360・61440 × 扁平率 6 × 距離 ÷ 赤道半径 7 × 高さ 2)と第340便d の 960 点の起点・球の源 ÷ 点の源・扁平 ÷ 球の収束の表/'
+      + 'R_eq の内と外で落ち方を変える型(slice・fall p 3 × m 3 × 経路の距離のべき 3)の一様厚み・帯・環の物差しと 4 惑星/環の口の熱の 20 行を座標変換・動いた分・動かなかった分に分ける' }),
+  // ==== 第341便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
