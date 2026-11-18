@@ -23,7 +23,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { provenanceMetaScoped } from './lib-w281a-scope.mjs';
+import { provenanceMetaScoped, stableInputs as w341cStableInputs } from './lib-w281a-scope.mjs';   // 第341便c(BL-117): JSON の入力の安定 hash
 
 const REGEN_SCOPE = {"presets":"all","roots":["$","CAL_CONTRACT","HP.allPresets","HP.currentPreset","HP.sim","HP.validatePreset","MASS_BASIS","applyQLock","ch","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
@@ -275,6 +275,9 @@ const out = {
   meta: Object.assign(await provenanceMetaScoped({ root: ROOT,
     wave: '第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)',
     target: TARGET, inputs: INPUTS, code: CODE, scope: REGEN_SCOPE }),
+  // 第341便c(統括の検証項目 R366・BL-117): calaudit の正本を安定 hash でも刻む(随伴 diag の行も)。この器が読むのは presets[].id・presets[].quantities・
+  //   verdictLedger.rows・fourValues.current の counts・gate・commit と fourValues.history の wave・commit・counts で、除外の Pointer と重ならない(契約を緩めない)
+  w341cStableInputs(ROOT, ['tests/out/calaudit-w249.json']),
   { tableVersion: CONTRACT_TABLE_VERSION, contractVersion: CONTRACT.version, doNotWrite: DO_NOT_WRITE,
     rule: '**数えるだけで合否を変えない**。f は `massCalibration` の有無ではなく**基準質量との数値比較**で出す'
       + '(基準質量が無い本は「出典不明」)。旧 4 値は旧契約の履歴として別欄に残す。' }),

@@ -20,12 +20,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
-import { settleRun } from './lib-w338c-recheck.mjs';
+import { sigmaOf, settle, recheckTree, LIB_VERSION as R338_VERSION, DECL as R338_DECL } from './lib-w338c-recheck.mjs';
+import { judge3, at as at340h, LIB_VERSION as THIN_VERSION, DECL as THIN_DECL } from './lib-w340h-thin.mjs';   // 第341便c: 3 値の判定
 import * as K from './lib-w340b-axialsplit.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w340b-axialsplit-2';
-export const AMEND = Object.freeze(['版 2(第340便b 追加の依頼 1 —— 統括の検証項目 R357): T5 を足した(和〔見え方〕= 座標の回転 f s + 部位差分 —— 置き方 (a) 半分の渦度・(b) 角速度の勾配 × 仰角 7 × f 6・f → 0 の極限と第338便b の q 0 の差・α 1・2・3 の 45°・有限の受け手のずれの率)。T1〜T4 の式・格子・値は不変']);
+export const HARNESS_VERSION = 'w340b-axialsplit-3';
+export const AMEND = Object.freeze(['版 2(第340便b 追加の依頼 1 —— 統括の検証項目 R357): T5 を足した(和〔見え方〕= 座標の回転 f s + 部位差分 —— 置き方 (a) 半分の渦度・(b) 角速度の勾配 × 仰角 7 × f 6・f → 0 の極限と第338便b の q 0 の差・α 1・2・3 の 45°・有限の受け手のずれの率)。T1〜T4 の式・格子・値は不変',
+  '版 3(第341便c —— 統括の検証項目 R366・AN798・原仮定者の指示(2026-11-18 —— 第141報)): T3 の「主の列で減速しない」noDecelMain を 3 値に(余裕 noDecelMainMargin = cos θ + B/(2A) が葉ごとの尺度の 4 倍より大きい → 「正」〔減速しない〕・−4 倍より小さい → 「負」・その間 → 「未解決」—— tests/lib-w340h-thin.mjs の judge3)。旧は真偽で、配置 120°・比 1 は cos 120° の丸め(−0.4999999999999998)で境 −0.5 の上に乗って「真」だった(解析的には等号 —— 数値では決まらない)。式・格子・ほかの値は不変']);
 export const OUT_MAIN = 'tests/out/axialsplit-340b.json';
 export const TARGET = 'tests/lib-w340b-axialsplit.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -91,13 +93,29 @@ export function runAll() {
 /** 第338便c の型: 正本へ書く形 —— 生の runAll を元のまま 1 回と、Math の関数を ±1〜2 ulp ずらして 2 回走らせ、葉ごとの尺度 σ の 4 倍の内の葉を 0 と書く(壁時計は元のままの走行の値) */
 export function runSettled() {
   let tm = null;
-  const S = settleRun(() => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; });
+  const run = () => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; };
+  // 第341便c: 尺度を測る → 3 値の判定を書く → 0 と書く(settleRun と同じ meta の形に judge341c の数を足す)
+  const { base, sigma, unstable } = sigmaOf(run), j3 = judge341c(base, sigma), S = settle(base, sigma);
   const { gates, ok, ...rest } = S.value;
-  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: S.meta };
+  return { J: Object.assign(rest, { timing: tm, gates, ok }), recheck: { version: R338_VERSION, decl: R338_DECL, zeroed: S.zeroed, kept: S.kept, zeroPathsHead: S.zeroPaths, unstable: unstable.length, unstableHead: unstable.slice(0, 20), judge3: j3 } };
+}
+/** 第341便c: 3 値の判定(尺度を測った後 —— base を書き換える)。T3 の行の noDecelMain = judge3(noDecelMainMargin, σ)。戻り値は数え */
+export function judge341c(base, sigma) {
+  const P = THIN_DECL.POS, N = THIN_DECL.NEG, U = THIN_DECL.UNRESOLVED, cnt = { version: THIN_VERSION, factor: THIN_DECL.JUDGE_FACTOR, noDecelMain: { [P]: 0, [N]: 0, [U]: 0 } };
+  ((base.t3 && base.t3.rows) || []).forEach((x, ri) => { x.noDecelMain = judge3(x.noDecelMainMargin, at340h(sigma, ['t3', 'rows', ri, 'noDecelMainMargin'])); cnt.noDecelMain[x.noDecelMain]++; });
+  return cnt;
+}
+/** 第341便c: QA の作り直しの照合(recheckRun と同じ戻りの形 —— 尺度を測り、3 値の判定を書いてから正本と比べる) */
+export function recheck341c(canon, parts) {
+  const { base, sigma, unstable } = sigmaOf(() => { const q = runAll(); delete q.timing; return q; });
+  judge341c(base, sigma);
+  const diffs = {}; let nLeaves = 0, nZero = 0;
+  for (const k of parts) { diffs[k] = recheckTree(base[k], sigma[k], canon[k]); nLeaves += diffs[k].nLeaves; nZero += diffs[k].nZero; }
+  return { diffs, unstable, nLeaves, nZero, base, sigma };
 }
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
-export const CODE = Object.freeze(['tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340b-axialsplit.mjs', 'tests/lib-w338c-recheck.mjs']);
+export const CODE = Object.freeze(['tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340b-axialsplit.mjs', 'tests/lib-w338c-recheck.mjs', 'tests/lib-w340h-thin.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W340B_OUT ? (path.isAbsolute(process.env.W340B_OUT) ? process.env.W340B_OUT : path.join(ROOT, process.env.W340B_OUT)) : path.join(ROOT, OUT_MAIN);

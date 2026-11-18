@@ -13,7 +13,7 @@
 //   「同じ式を桁を失わない形で計算した値」(新しい結果ではない)。
 import { DECL as DECL338C } from './lib-w338c-recheck.mjs';
 
-export const LIB_VERSION = 'w340h-thin-lib-1';
+export const LIB_VERSION = 'w340h-thin-lib-2';   // 第341便c: judge3 の境界(尺度・係数が有限で非負でなければ「未解決」—— AN808)
 export const DECL = Object.freeze({
   /** 3 値の係数(正本で 0 と書く係数と同じ) */
   JUDGE_FACTOR: DECL338C.ZERO_FACTOR,
@@ -27,6 +27,8 @@ export const DECL = Object.freeze({
   mutation: Object.freeze({
     before: Object.freeze({ named: Object.freeze([17, 20]), kinds: Object.freeze([959, 1105]) }),
     after: Object.freeze({ named: Object.freeze([17, 20]), kinds: Object.freeze([977, 1107]), kindsSameBase: Object.freeze([975, 1105]) }),   // 種類は j に 2 つ増えた(余裕と符号つきの率 —— どちらも拾う)
+    // 第341便c(境界の直しの後 —— 基点 f88eb7e の正本・器 i・j・k を作り直して測った。同じ 1107 種類の母集団で第340便の後と同じ数): 名指し・数の葉の種類
+    w341c: Object.freeze({ named: Object.freeze([17, 20]), kinds: Object.freeze([977, 1107]) }),
   }),
 });
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
@@ -36,10 +38,17 @@ const crs = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0
 export const thinAngle = (a, b) => Math.atan2(nrm(crs(a, b)), dot(a, b));
 /** 軸(向きを問わない)と面の法線のなす角の小さい方 [rad](0〜π/2 —— atan2(|a × b|, |a·b|)) */
 export const thinAxisAngle = (a, b) => Math.atan2(nrm(crs(a, b)), Math.abs(dot(a, b)));
+/** 第341便c: 3 値の判定に渡せる入力か(値・尺度・係数が有限の数・尺度と係数が非負 —— 尺度 0 は可) */
+export const validJudgeInput = (v, sigma, factor = DECL.JUDGE_FACTOR) =>
+  typeof v === 'number' && Number.isFinite(v) && typeof sigma === 'number' && Number.isFinite(sigma) && sigma >= 0
+  && typeof factor === 'number' && Number.isFinite(factor) && factor >= 0;
 /** 3 値の判定: 値 v と尺度 σ(葉ごと)→ 「正」「負」「未解決」 */
+//   第341便c(統括の検証項目 R366・AN808): 値・尺度・係数のどれかが有限の数でない(欠落・null・NaN・Infinity・数でない型)か、尺度・係数が負なら
+//   「未解決」(数値では決まらない)—— 旧(lib-1)は欠けた・有限でない尺度を 0 と置いて符号を返し、負の尺度・係数では境が負になって −1 も「正」になった。
+//   尺度 0 は有効な入力(ずらした走行で 1 bit も動かない葉 —— judge3(1, 0) は「正」のまま)。許容は変えない(係数 4 のまま)。
 export function judge3(v, sigma, factor = DECL.JUDGE_FACTOR) {
-  if (typeof v !== 'number' || !Number.isFinite(v)) return DECL.UNRESOLVED;
-  const s = typeof sigma === 'number' && Number.isFinite(sigma) ? sigma : 0, lim = factor * s;
+  if (!validJudgeInput(v, sigma, factor)) return DECL.UNRESOLVED;
+  const lim = factor * sigma;
   if (v > lim) return DECL.POS;
   if (v < -lim) return DECL.NEG;
   return DECL.UNRESOLVED;
