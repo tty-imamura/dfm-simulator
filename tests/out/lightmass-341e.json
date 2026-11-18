@@ -1,0 +1,1302 @@
+{
+ "version": "w341e-lightmass-1",
+ "libVersion": "w341e-lightmass-lib-1",
+ "generator": "tests/exp-w341e-lightmass.mjs",
+ "target": "tests/lib-w341e-lightmass.mjs",
+ "ruling": "原仮定者の補足(2026-11-18 —— 第141報)「質量ゼロの慣性移動が光の経路で有り、光が決定力場による座標空間の物差しになる。質量の有る物体は、局所光速に近付くにつれて加速しにくくなる」・統括の検証項目 R368",
+ "decl": {
+  "psiT1": [0,0.1],
+  "pGrid": [0.5,1,1.5],
+  "epsGrid": [0.1,1],
+  "gForms": [
+   "R1",
+   "R2"
+  ],
+  "betaRead": [0.5,0.9,0.99],
+  "tauRead": [1,2,10],
+  "nQuad": 40000,
+  "bGrid": [1000,10000,100000],
+  "betaInf": [0.9,0.99,0.999],
+  "betaInf3": [0.9,0.99],
+  "hRay": 0.002,
+  "xStartOverB": 10000,
+  "psiRuler": [0.000001,0.001,0.1],
+  "orbit": {
+   "mu": 0.00001,
+   "e": 0.20563593,
+   "stepsPerOrbit": 6000,
+   "nOrb": 4,
+   "eps3": 1
+  },
+  "betaLow": [0.01,0.001,0.0001],
+  "mercury": {
+   "M": 1.98847e+30,
+   "m": 3.3011e+23,
+   "a": 57909050000,
+   "e": 0.20563593
+  },
+  "gps": {
+   "M": 5.9722e+24,
+   "r": 26560000,
+   "motionUsPerDay": -7.2
+  }
+ },
+ "plan": {
+  "t2Kinds": [
+   "light",
+   "type0",
+   "type1",
+   "type2",
+   "type3"
+  ],
+  "roles": {
+   "control": "対照",
+   "replace": "置き換えの型",
+   "part": "置き換えの型の静止の部分",
+   "add": "足す型"
+  }
+ },
+ "amend": [],
+ "notClaim": [
+  "局所光速を超えない運動の則を結論しない(型ごとの表まで —— 型 (0) と型 (3) R1 は越える)",
+  "光の経路が運動の式から出ると結論しない(型 (1) は質量 0 で光の形になるように作った統括の参考の試作 —— その型の中の恒等式)",
+  "型 (1) を DFM の式として採らない(置き換えの型 —— 今のアプリの重力と同時には足せない)",
+  "光速を、引きずりの候補の採否に使わない(本器の速さは場に対する物質の相対の速さ —— 座標を運ぶ速さは切らない)",
+  "水星の数は誇張した場(μ/a = 1e-5)の比を水星へ写したもの(弱い場の一次の比)",
+  "GPS の地球の値は文献の値・未照合"
+ ],
+ "pure": {
+  "scenes": {
+   "m0Speed": 0,
+   "p32Same": 0,
+   "energyQuad": 1.5842882561400984e-12,
+   "hDrift": 0,
+   "type1wMax": 0.9990019990146254,
+   "reject": {
+    "n": 3,
+    "of": 3
+   }
+  },
+  "gates": {
+   "m0Speed": true,
+   "p32Same": true,
+   "energyQuad": true,
+   "hDrift": true,
+   "type1Sub": true,
+   "reject": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "type": 0,
+    "label": "type0",
+    "knob": {},
+    "betaAtTau": [1,2,10],
+    "crosses": true,
+    "reaches": true,
+    "tauCross": 1,
+    "asymptote": "w = (F/m) t —— τ = 1 で c_loc に達し、その先も加速する(時計は止まる)",
+    "energyRatio": [1,1,1],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 1,
+    "label": "type1",
+    "knob": {
+     "psi": 0
+    },
+    "betaAtTau": [0.7071067811865475,0.8944271909999159,0.9950371902099892],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ ½ e^(6ψ)/τ²(冪 −2 で近付く・超えない)",
+    "energyRatio": [1.2376043070340135,3.1954502190262173,12.424879196170501],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 1,
+    "label": "type1",
+    "knob": {
+     "psi": 0.1
+    },
+    "betaAtTau": [0.5952677496506967,0.8288758078073803,0.9910120495231415],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ ½ e^(6ψ)/τ²(冪 −2 で近付く・超えない)",
+    "energyRatio": [1.6705910741438592,4.313406622323208,16.7718326160186],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 2,
+    "label": "type2",
+    "knob": {
+     "p": 0.5
+    },
+    "betaAtTau": [0.8414709848078965,1,1],
+    "crosses": false,
+    "reaches": true,
+    "tauCross": 1.5707963267948966,
+    "asymptote": "β = sin τ —— τ = π/2 で c_loc に達し、その先は 1 に留まる(越えない)",
+    "energyRatio": [1.0717967697244881,1.3928644583850194,1.7527449039962626],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 2,
+    "label": "type2",
+    "knob": {
+     "p": 1
+    },
+    "betaAtTau": [0.7615941559557649,0.9640275800758169,0.9999999958776927],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 2 e^(−2τ)(指数で近付く)",
+    "energyRatio": [1.1507282898071185,2.050285440520562,3.996567235234085],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 2,
+    "label": "type2",
+    "knob": {
+     "p": 1.5
+    },
+    "betaAtTau": [0.7071067811865475,0.8944271909999159,0.9950371902099892],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 1/(2τ²)(冪 −2 —— 型 (1) の ψ = 0 と同じ)",
+    "energyRatio": [1.2376043070340172,3.1954502190262044,12.424879196190187],
+    "cycleLoss": [0,0,0]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 0.1,
+     "sym": true
+    },
+    "betaAtTau": [0.96961388204548,null,null],
+    "crosses": true,
+    "reaches": true,
+    "tauCross": 1.0333333333333334,
+    "asymptote": "τ = 1 + ε/3 で c_loc に達し、その先も加速する(加速の効きは 1/(1 + ε β²) まで —— 0 にならない)",
+    "energyRatio": [1.0125,1.0405,1.0490050000000002],
+    "cycleLoss": [0.024795496385139976,0.07893779435714533,0.09502631911039616]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 0.1,
+     "sym": false
+    },
+    "betaAtTau": [0.96961388204548,null,null],
+    "crosses": true,
+    "reaches": true,
+    "tauCross": 1.0333333333333334,
+    "asymptote": "τ = 1 + ε/3 で c_loc に達し、その先も加速する(加速の効きは 1/(1 + ε β²) まで —— 0 にならない)",
+    "energyRatio": [1.0125,1.0405,1.0490050000000002],
+    "cycleLoss": [0.012499999999999957,0.040499999999999856,0.04900499999999961]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 1,
+     "sym": true
+    },
+    "betaAtTau": [0.8177316738868234,null,null],
+    "crosses": true,
+    "reaches": true,
+    "tauCross": 1.3333333333333333,
+    "asymptote": "τ = 1 + ε/3 で c_loc に達し、その先も加速する(加速の効きは 1/(1 + ε β²) まで —— 0 にならない)",
+    "energyRatio": [1.1250000000000002,1.4050000000000007,1.490050000000001],
+    "cycleLoss": [0.23242579474316127,0.6724977218793408,0.7930319931827259]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 1,
+     "sym": false
+    },
+    "betaAtTau": [0.8177316738868234,null,null],
+    "crosses": true,
+    "reaches": true,
+    "tauCross": 1.3333333333333333,
+    "asymptote": "τ = 1 + ε/3 で c_loc に達し、その先も加速する(加速の効きは 1/(1 + ε β²) まで —— 0 にならない)",
+    "energyRatio": [1.1250000000000002,1.4050000000000007,1.490050000000001],
+    "cycleLoss": [0.1250000000000002,0.4050000000000007,0.49005000000000093]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R2",
+     "eps": 0.1,
+     "sym": true
+    },
+    "betaAtTau": [0.9282598506139002,0.9999999994421065,1],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 2 e^(−2(τ − τ₀)/ε)(τ₀ は ε に依る定数 —— 指数で近付く・超えない)",
+    "energyRatio": [1.0150728289807123,1.1050285440520558,1.2996567235234089],
+    "cycleLoss": [0.029834433735670445,0.19291704551561828,0.45783454329659423]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R2",
+     "eps": 0.1,
+     "sym": false
+    },
+    "betaAtTau": [0.9282598506139002,0.9999999994421065,1],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 2 e^(−2(τ − τ₀)/ε)(τ₀ は ε に依る定数 —— 指数で近付く・超えない)",
+    "energyRatio": [1.0150728289807123,1.1050285440520558,1.2996567235234089],
+    "cycleLoss": [0.01507282898071243,0.10502854405205554,0.29965672352340966]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R2",
+     "eps": 1,
+     "sym": true
+    },
+    "betaAtTau": [0.7615941559557649,0.9640275800758169,0.9999999958776928],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 2 e^(−2(τ − τ₀)/ε)(τ₀ は ε に依る定数 —— 指数で近付く・超えない)",
+    "energyRatio": [1.1507282898071236,2.050285440520558,3.9965672352340875],
+    "cycleLoss": [0.2757282898071238,1.4552854405205586,3.4866172352340885]
+   },
+   {
+    "type": 3,
+    "label": "type3",
+    "knob": {
+     "form": "R2",
+     "eps": 1,
+     "sym": false
+    },
+    "betaAtTau": [0.7615941559557649,0.9640275800758169,0.9999999958776928],
+    "crosses": false,
+    "reaches": false,
+    "tauCross": null,
+    "asymptote": "1 − β ≈ 2 e^(−2(τ − τ₀)/ε)(τ₀ は ε に依る定数 —— 指数で近付く・超えない)",
+    "energyRatio": [1.1507282898071236,2.050285440520558,3.9965672352340875],
+    "cycleLoss": [0.15072828980712366,1.050285440520558,2.9965672352340875]
+   }
+  ]
+ },
+ "t2": {
+  "defl": [
+   {
+    "bOverMu": 1000,
+    "rows": [
+     {
+      "kind": "light",
+      "knob": {},
+      "alphaOverMuB": 4.012613767577593,
+      "closed": 4,
+      "overClosed": 1.0031534418943981,
+      "overLight": 1
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 1
+      },
+      "alphaOverMuB": 2.000000333333359,
+      "closed": 2,
+      "overClosed": 1.0000001666666796,
+      "overLight": 0.49842831859213693
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.469135840504108,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.000000015404164,
+      "overLight": 0.615343510121763
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.0406084175566406,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.0000001550236317,
+      "overLight": 0.5085484264757811
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 2.00400633973373,
+      "closed": 2.004006008010012,
+      "overClosed": 1.000000165530301,
+      "overLight": 0.49942667194294776
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 4.483972622553102,
+      "closed": 4.469135802469136,
+      "overClosed": 1.0033198409580144,
+      "overLight": 1.117469281191264
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 4.053414259510997,
+      "closed": 4.040608101214161,
+      "overClosed": 1.0031693641095725,
+      "overLight": 1.0101680586013728
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 4.016638754718033,
+      "closed": 4.004006008010013,
+      "overClosed": 1.0031550269112357,
+      "overLight": 1.0010030836192019
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 1.0670676655148554,
+      "closed": 1.0762713440841167,
+      "overClosed": 0.9914485518732329,
+      "overLight": 0.2659283268519118
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.2628403408423444,
+      "closed": 0.28786319721795517,
+      "overClosed": 0.9130737912402719,
+      "overLight": 0.06550352365486217
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.006092867315542133,
+      "closed": 0.08959946495487682,
+      "overClosed": 0.06800115735747486,
+      "overLight": 0.001518428552673881
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.46210750426978636,
+      "closed": 0.46913580246913567,
+      "overClosed": 0.9850186275224396,
+      "overLight": 0.11516371398704536
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.03425632051393985,
+      "closed": 0.04060810121416188,
+      "overClosed": 0.843583410445035,
+      "overLight": 0.008537158694598292
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.00017396592744807284,
+      "closed": 0.00400600801001196,
+      "overClosed": 0.043426255517535386,
+      "overLight": 0.000043354765129337565
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.20018466118174288,
+      "closed": 0.20449155537598213,
+      "overClosed": 0.9789385229804698,
+      "overLight": 0.049888843725568434
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.004452832525184114,
+      "closed": 0.005728477624637317,
+      "overClosed": 0.7773151641603966,
+      "overLight": 0.0011097087292984795
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.000005298453905018482,
+      "closed": 0.00017910933044479633,
+      "overClosed": 0.029582232772912578,
+      "overLight": 0.0000013204495154332157
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.4763900550268207,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.0029379722858625,
+      "overLight": 0.6171513627940854
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.0595852737788856,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.0092997634153429,
+      "overLight": 0.5132777269570735
+     }
+    ]
+   },
+   {
+    "bOverMu": 10000,
+    "rows": [
+     {
+      "kind": "light",
+      "knob": {},
+      "alphaOverMuB": 4.001257037219163,
+      "closed": 4,
+      "overClosed": 1.0003142593047907,
+      "overLight": 1
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 1
+      },
+      "alphaOverMuB": 2.0000000933336013,
+      "closed": 2,
+      "overClosed": 1.0000000466668006,
+      "overLight": 0.4998429430376168
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.4691359191735285,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.000000047265279,
+      "overLight": 0.6170900535021753
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.040608196578126,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.0000000467331107,
+      "overLight": 0.5099917794824624
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 2.0040061015439368,
+      "closed": 2.004006008010012,
+      "overClosed": 1.000000046673475,
+      "overLight": 0.500844130457738
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 4.470614029668091,
+      "closed": 4.469135802469136,
+      "overClosed": 1.0003307635445176,
+      "overLight": 1.1173023847463515
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 4.041884284071341,
+      "closed": 4.040608101214161,
+      "overClosed": 1.000315839305672,
+      "overLight": 1.0101536208432174
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 4.005264933951549,
+      "closed": 4.004006008010013,
+      "overClosed": 1.0003144165965332,
+      "overLight": 1.0010016594023095
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 1.0753562698266181,
+      "closed": 1.0762713440841167,
+      "overClosed": 0.9991497736490631,
+      "overLight": 0.2687546088201274
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.28546567803468437,
+      "closed": 0.28786319721795517,
+      "overClosed": 0.9916713244122849,
+      "overLight": 0.07134399899314653
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.08207978182732066,
+      "closed": 0.08959946495487682,
+      "overClosed": 0.9160744639340966,
+      "overLight": 0.020513498898927365
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.46843380836676174,
+      "closed": 0.46913580246913567,
+      "overClosed": 0.998503644150203,
+      "overLight": 0.11707166123282071
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.03997342983647962,
+      "closed": 0.04060810121416188,
+      "overClosed": 0.9843708186616486,
+      "overLight": 0.009990217940175319
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.0033770868160446356,
+      "closed": 0.00400600801001196,
+      "overClosed": 0.8430055076286662,
+      "overLight": 0.0008440064671255612
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.20405990582864292,
+      "closed": 0.20449155537598213,
+      "overClosed": 0.9978891571021328,
+      "overLight": 0.0509989495627261
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.005595890334941137,
+      "closed": 0.005728477624637317,
+      "overClosed": 0.9768547075882881,
+      "overLight": 0.0013985330817013022
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.00013881008033944496,
+      "closed": 0.00017910933044479633,
+      "overClosed": 0.7750019498968977,
+      "overLight": 0.00003469161792113128
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.4698561622091275,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.0002917456946967,
+      "overLight": 0.6172700576930832
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.0430094570061064,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.0011767844058426,
+      "overLight": 0.5105919059941172
+     }
+    ]
+   },
+   {
+    "bOverMu": 100000,
+    "rows": [
+     {
+      "kind": "light",
+      "knob": {},
+      "alphaOverMuB": 4.000125660507004,
+      "closed": 4,
+      "overClosed": 1.000031415126751,
+      "overLight": 1
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 1
+      },
+      "alphaOverMuB": 2.0000000099335566,
+      "closed": 2,
+      "overClosed": 1.0000000049667783,
+      "overLight": 0.4999842954133752
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.4691358152688743,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.0000000051838942,
+      "overLight": 0.6172645623727526
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.0406081113880745,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.000000004985726,
+      "overLight": 0.51013600185986
+     },
+     {
+      "kind": "type0",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 2.0040060179672636,
+      "closed": 2.004006008010012,
+      "overClosed": 1.0000000049686735,
+      "overLight": 0.5009857659604778
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.9
+      },
+      "alphaOverMuB": 4.46928357088352,
+      "closed": 4.469135802469136,
+      "overClosed": 1.0000330642032185,
+      "overLight": 1.1172857930460742
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.99
+      },
+      "alphaOverMuB": 4.040735675355665,
+      "closed": 4.040608101214161,
+      "overClosed": 1.000031573005426,
+      "overLight": 1.0101521847799935
+     },
+     {
+      "kind": "type1",
+      "knob": {
+       "beta": 0.999
+      },
+      "alphaOverMuB": 4.004131857297851,
+      "closed": 4.004006008010013,
+      "overClosed": 1.0000314308439064,
+      "overLight": 1.001001517734905
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 1.0761798891595187,
+      "closed": 1.0762713440841167,
+      "overClosed": 0.9999150261454969,
+      "overLight": 0.2690365204734883
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.2876243956721226,
+      "closed": 0.28786319721795517,
+      "overClosed": 0.9991704339139548,
+      "overLight": 0.07190384004978159
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 0.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.08887807596518946,
+      "closed": 0.08959946495487682,
+      "overClosed": 0.9919487355192281,
+      "overLight": 0.022218820984219886
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.4690656114410571,
+      "closed": 0.46913580246913567,
+      "overClosed": 0.9998503822822535,
+      "overLight": 0.11726271903708255
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.040544639168611736,
+      "closed": 0.04060810121416188,
+      "overClosed": 0.9984372072652337,
+      "overLight": 0.01013584137341146
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.0039431207178086,
+      "closed": 0.00400600801001196,
+      "overClosed": 0.9843017557513142,
+      "overLight": 0.0009857492120157098
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 0.20444838090197678,
+      "closed": 0.20449155537598213,
+      "overClosed": 0.9997888691592866,
+      "overLight": 0.051110489582985634
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 0.005715170388534851,
+      "closed": 0.005728477624637317,
+      "overClosed": 0.9976770030408719,
+      "overLight": 0.0014287477128432184
+     },
+     {
+      "kind": "type2",
+      "knob": {
+       "p": 1.5,
+       "beta": 0.999
+      },
+      "alphaOverMuB": 0.00017491368297814364,
+      "closed": 0.00017910933044479633,
+      "overClosed": 0.9765749363462344,
+      "overLight": 0.00004372704705381027
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.9
+      },
+      "alphaOverMuB": 2.4692077884007584,
+      "closed": 2.4691358024691357,
+      "overClosed": 1.0000291543023072,
+      "overLight": 0.6172825550904801
+     },
+     {
+      "kind": "type3",
+      "knob": {
+       "form": "R2",
+       "eps": 1,
+       "sym": true,
+       "beta": 0.99
+      },
+      "alphaOverMuB": 2.040862583907813,
+      "closed": 2.0406081012141617,
+      "overClosed": 1.0001247092440237,
+      "overLight": 0.5101996179912857
+     }
+    ]
+   }
+  ],
+  "ruler": [
+   {
+    "psi1": 0.000001,
+    "psi2": 5e-7,
+    "L": 1,
+    "cLocInt": 1,
+    "c0t": 1.000001386295352,
+    "cLocOuterT": 1.0000003862944657,
+    "cLocInnerT": 0.9999993862945795,
+    "tauOuter": 1.000000886294784,
+    "wavelengths": 1.0000001931472149
+   },
+   {
+    "psi1": 0.001,
+    "psi2": 0.0005,
+    "L": 1,
+    "cLocInt": 1,
+    "c0t": 1.0013872948613172,
+    "cLocOuterT": 1.0003864080932472,
+    "cLocInnerT": 0.9993865217116685,
+    "tauOuter": 1.0008867263664387,
+    "wavelengths": 1.0001931756102855
+   },
+   {
+    "psi1": 0.1,
+    "psi2": 0.05,
+    "L": 1,
+    "cLocInt": 1,
+    "c0t": 1.1491495232045004,
+    "cLocOuterT": 1.0397934875136141,
+    "cLocInnerT": 0.9408440545324244,
+    "tauOuter": 1.0931048396230867,
+    "wavelengths": 1.0196023241126144
+   }
+  ]
+ },
+ "t3": {
+  "pn": {
+   "perOrbit": 5.018602746433751e-7,
+   "periodS": 7600582.372787197,
+   "arcsecCy": 42.97986530093769,
+   "psi": 2.549866665106211e-8
+  },
+  "rows": [
+   {
+    "kind": "type0",
+    "knob": {},
+    "role": "control",
+    "overPN": 3.7139384620727643e-9,
+    "closed": 0,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": 1.596245748358591e-7,
+    "nPeri": 4
+   },
+   {
+    "kind": "type1",
+    "knob": {},
+    "role": "replace",
+    "overPN": 0.9999916718506174,
+    "closed": 1,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": 42.97950735819902,
+    "nPeri": 4
+   },
+   {
+    "kind": "type1static",
+    "knob": {},
+    "role": "part",
+    "overPN": -0.6666179399923439,
+    "closed": -0.6666666666666666,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": -28.651149268059502,
+    "nPeri": 4
+   },
+   {
+    "kind": "type2",
+    "knob": {
+     "p": 0.5
+    },
+    "role": "add",
+    "overPN": -0.16667594649502934,
+    "closed": -0.16666666666666666,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": -7.163709729262658,
+    "nPeri": 4
+   },
+   {
+    "kind": "type2",
+    "knob": {
+     "p": 1
+    },
+    "role": "add",
+    "overPN": -0.33334565807258776,
+    "closed": -0.3333333333333333,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": -14.327151482612255,
+    "nPeri": 4
+   },
+   {
+    "kind": "type2",
+    "knob": {
+     "p": 1.5
+    },
+    "role": "add",
+    "overPN": -0.5000091315647714,
+    "closed": -0.5,
+    "dLnAperOrbit": 0,
+    "mercuryArcsecCy": -21.49032512389271,
+    "nPeri": 4
+   },
+   {
+    "kind": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 1,
+     "sym": true
+    },
+    "role": "add",
+    "overPN": 0.000004842766666877341,
+    "closed": 0,
+    "dLnAperOrbit": -0.000018694127892941264,
+    "mercuryArcsecCy": 0.0002081414590262591,
+    "nPeri": 4
+   },
+   {
+    "kind": "type3",
+    "knob": {
+     "form": "R1",
+     "eps": 1,
+     "sym": false
+    },
+    "role": "add",
+    "overPN": 0.16667800731420468,
+    "closed": null,
+    "dLnAperOrbit": -0.000009347376009364675,
+    "mercuryArcsecCy": 7.163798302993224,
+    "nPeri": 4
+   }
+  ],
+  "twice": {
+   "periodRatio": 0.7071067811865476,
+   "pnRatio": 2.8284271247461907
+  },
+  "gps": [
+   {
+    "p": 0.5,
+    "beta2": 1.6697485266803866e-10,
+    "motionShiftUsPerDay": 6.011094696049392e-10
+   },
+   {
+    "p": 1,
+    "beta2": 1.6697485266803866e-10,
+    "motionShiftUsPerDay": 1.2022189392098784e-9
+   },
+   {
+    "p": 1.5,
+    "beta2": 1.6697485266803866e-10,
+    "motionShiftUsPerDay": 1.8033284088148174e-9
+   }
+  ]
+ },
+ "t4": {
+  "single": {
+   "maxSlip": 0,
+   "maxForce": 0,
+   "maxHeat": 0
+  },
+  "staticPair": {
+   "psi": 2.549866665106211e-8,
+   "type0": 1,
+   "type1replace": 0.9999998980053386,
+   "type1added": 1.9999998980053386,
+   "type2": 1,
+   "type3": 1
+  },
+  "low": {
+   "type1psi0": {
+    "diffs": [0.00014999624993750071,0.000001499999625065307,1.5000000019860238e-8],
+    "order": 1.9999945708731308
+   },
+   "type1psi01": {
+    "diffs": [0.2592928992732697,0.2591828905453354,0.25918179043055545],
+    "zerothOrder": -0.2591817793182821
+   },
+   "type2": [
+    {
+     "p": 0.5,
+     "diffs": [0.00005000125006249245,5.000001249699793e-7,5.000000080634948e-9],
+     "order": 2.0000054253826294
+    },
+    {
+     "p": 1,
+     "diffs": [0.00009999999999998899,0.0000010000000000287557,1.0000000050247593e-8],
+     "order": 1.999999998908863
+    },
+    {
+     "p": 1.5,
+     "diffs": [0.00014999624993750071,0.000001499999625065307,1.5000000019860238e-8],
+     "order": 1.9999945708731308
+    }
+   ],
+   "type3": [
+    {
+     "form": "R1",
+     "diffs": [0.00009999000099991662,9.99998999939855e-7,9.999999828202988e-9],
+     "order": 1.9999782900921292
+    },
+    {
+     "form": "R2",
+     "diffs": [0.00009999999999987796,0.0000010000000000287557,1.0000000050247593e-8],
+     "order": 1.9999999989086223
+    }
+   ]
+  }
+ },
+ "timing": {
+  "pure": {
+   "wallSec": 0.077
+  },
+  "t1": {
+   "wallSec": 0.148
+  },
+  "t2": {
+   "wallSec": 0.763
+  },
+  "t3": {
+   "wallSec": 1.127
+  },
+  "t4": {
+   "wallSec": 1.128
+  }
+ },
+ "gates": {
+  "pure": true,
+  "t1Complete": true,
+  "t1Conservative": true,
+  "t2Complete": true,
+  "t2Weak": true,
+  "rulerIdentity": true,
+  "t3Closed": true,
+  "t3Conservative": true,
+  "single": true,
+  "staticPair": true,
+  "lowOrder": true
+ },
+ "ok": true,
+ "elapsedS": 4.264,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第341便e",
+  "target": "tests/lib-w341e-lightmass.mjs",
+  "targetSha256": "a1b45a6a77894dafdbe9a2ca1206913093189953728ceab6e930c0084bc75e91",
+  "generatedAt": "2026-11-18T00:48:09.051Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w341e-lightmass.mjs",
+    "bytes": 9116,
+    "sha256": "d2203f2d29e84ac50e2dd3668c528c6d4f92740c40dcf03cd9500fd91fca9320",
+    "mtime": "2026-11-18T00:47:42.034Z"
+   },
+   {
+    "file": "tests/lib-w341e-lightmass.mjs",
+    "bytes": 24850,
+    "sha256": "a1b45a6a77894dafdbe9a2ca1206913093189953728ceab6e930c0084bc75e91",
+    "mtime": "2026-11-18T00:43:42.728Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-18T00:17:10.998Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-18T00:17:10.998Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-18T00:17:10.994Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-18T00:17:10.998Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 6425,
+    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
+    "mtime": "2026-11-18T00:17:11.014Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-18T00:17:10.962Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-18T00:17:11.010Z"
+   }
+  ],
+  "codeSha256": "45e7b257f60f083c4d77340c66bf0adf46a55c8e4243cea65dc672295c5895f6",
+  "harnessVersion": "w341e-lightmass-1",
+  "stage": "lightmass",
+  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 と求積)",
+  "notClaim": [
+   "局所光速を超えない運動の則を結論しない(型ごとの表まで —— 型 (0) と型 (3) R1 は越える)",
+   "光の経路が運動の式から出ると結論しない(型 (1) は質量 0 で光の形になるように作った統括の参考の試作 —— その型の中の恒等式)",
+   "型 (1) を DFM の式として採らない(置き換えの型 —— 今のアプリの重力と同時には足せない)",
+   "光速を、引きずりの候補の採否に使わない(本器の速さは場に対する物質の相対の速さ —— 座標を運ぶ速さは切らない)",
+   "水星の数は誇張した場(μ/a = 1e-5)の比を水星へ写したもの(弱い場の一次の比)",
+   "GPS の地球の値は文献の値・未照合"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 7,
+   "kept": 568,
+   "zeroPathsHead": [
+    "/pure/scenes/hDrift",
+    "/t3/rows/0/dLnAperOrbit",
+    "/t3/rows/1/dLnAperOrbit",
+    "/t3/rows/2/dLnAperOrbit",
+    "/t3/rows/3/dLnAperOrbit",
+    "/t3/rows/4/dLnAperOrbit",
+    "/t3/rows/5/dLnAperOrbit"
+   ],
+   "unstable": 2,
+   "unstableHead": [
+    "/gates/staticPair",
+    "/ok"
+   ]
+  }
+ }
+}
