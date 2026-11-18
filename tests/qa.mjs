@@ -108908,7 +108908,7 @@ function view338aOf340a(eq) {
 
 // ---- 第341便f: docs.gyroheat341f は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
 // ----   docs.gyroheat341f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 表 9 本が PHYSICS〔第341便f〕に逐語 ③ 節の位置(〔第340便h〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
+// ----     ② 表 8 本が PHYSICS〔第341便f〕に逐語 ③ 節の位置(〔第340便h〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
 // ----     AI_SPEC §261・CHANGELOG・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
 {
   await (async () => {   // 第310便c(heap)
@@ -108941,7 +108941,7 @@ function view338aOf340a(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第341便f〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第341便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の補足(2026-11-18 —— 第141報)', 'R369', 'tests/exp-w341f-gyroheat.mjs', 'tests/out/gyroheat-341f.json', 'tests/lib-w341f-gyroheat.mjs', 'gyroheat-341f',

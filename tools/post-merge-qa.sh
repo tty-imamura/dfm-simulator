@@ -1087,7 +1087,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.thinAngle340h docs.thinAngle340h"
 # ==== 第340便h の塊(ここまで)====
 # ==== 第341便f の塊(ここから)====
 # 第341便f(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R369 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.gyroheat341f —— 零試験 5 と純関数の場面・器を走らせ直して
-#   第338便c の recheckRun で正本と照合・分類の帯が第337便c と同じ・呼ぶだけ / docs.gyroheat341f —— 正本の門と表 9 本が PHYSICS〔第341便f〕に逐語・文書)と、新しい段 gyroheat-341f の lint 一式(第337便i の塊で足した一式)
+#   第338便c の recheckRun で正本と照合・分類の帯が第337便c と同じ・呼ぶだけ / docs.gyroheat341f —— 正本の門と表 8 本が PHYSICS〔第341便f〕に逐語・文書)と、新しい段 gyroheat-341f の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyroheat341f docs.gyroheat341f"
 # ==== 第341便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
