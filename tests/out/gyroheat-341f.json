@@ -1,0 +1,2783 @@
+{
+ "version": "w341f-gyroheat-1",
+ "libVersion": "w341f-gyroheat-lib-1",
+ "generator": "tests/exp-w341f-gyroheat.mjs",
+ "target": "tests/lib-w341f-gyroheat.mjs",
+ "ruling": "原仮定者の補足(2026-11-18 —— 第141報)「引きずり自体は、座標変換なので熱を発生しない。…動かなかった分が熱になる」・台帳の AN803(列 A を主・列 B を比べる列)・AN810・統括の検証項目 R369",
+ "decl": {
+  "zero": {
+   "h": 0.01,
+   "T": 200,
+   "nu": 0.7,
+   "gam": 0.3,
+   "g": 1.5,
+   "nParts": 64
+  },
+  "t2": {
+   "omega": [
+    0,
+    0.01,
+    0.1,
+    0.3,
+    1,
+    3,
+    10
+   ],
+   "tau": [
+    0.3,
+    3,
+    30
+   ],
+   "cg": [
+    2,
+    0
+   ],
+   "relWin": 2,
+   "hMax": 0.02
+  },
+  "t3": {
+   "mu": [
+    0,
+    0.5,
+    0.9,
+    0.99,
+    1
+   ],
+   "betaRel": {
+    "x": [
+     0.1,
+     1,
+     10
+    ],
+    "r": [
+     0,
+     1,
+     10
+    ],
+    "chi": [
+     1,
+     0.001
+    ],
+    "cg": 2
+   },
+   "tauAbs": [
+    1000,
+    10000,
+    100000,
+    1000000,
+    10000000,
+    100000000
+   ],
+   "gammaReadings": [
+    "diff",
+    "aligned"
+   ],
+   "alpha": 2,
+   "galTiltDeg": 120,
+   "highFrac": 0.1,
+   "bodyCoef": 1,
+   "hot": [
+    "Venus",
+    "Jupiter"
+   ],
+   "judge": "Io"
+  }
+ },
+ "lit": {
+  "note": "文献の値・未照合(この環境から一次資料のサイトに届かない —— 出典の名と値は記憶とリポジトリの中の値の写し)",
+  "heat": {
+   "Io": 100000000000000,
+   "Earth": 47000000000000,
+   "Jupiter": 335000000000000000,
+   "Saturn": 86000000000000000,
+   "Moon": 682781905788.8483,
+   "Enceladus": 15800000000,
+   "Venus": 38305000000000
+  },
+  "heatSrc": {
+   "Io": "第330便a の lib の観測の熱流(全球の放射の桁)—— 確かさ 中",
+   "Earth": "第330便a の lib(表面の熱流)—— 確かさ 中",
+   "Jupiter": "第330便a の lib(内部の熱の放射の超過)—— 確かさ 中",
+   "Saturn": "第330便a の lib(内部の熱の放射の超過)—— 確かさ 中",
+   "Moon": "第338便f の lib(2 点の熱流の外挿・放射性の熱を含む総量)—— 確かさ 低",
+   "Enceladus": "第338便f の lib(南極域の放射)—— 確かさ 中",
+   "Venus": "金星の熱流は測られていない —— 地球の熱流を質量の比 0.815 で割り付けた桁を「上限の目安」に置いた(観測ではない・確かさ 低)"
+  },
+  "ruler": {
+   "Io": "global",
+   "Moon": "total",
+   "Enceladus": "regional",
+   "Earth": "total",
+   "Venus": "scale",
+   "Jupiter": "total",
+   "Saturn": "total"
+  },
+  "k2q": {
+   "Io": 0.015,
+   "Moon": 0.00063,
+   "Europa": 0.01,
+   "Enceladus": 0.01,
+   "Charon": 0.003,
+   "Pluto": 0.003,
+   "Venus": 0.009833333333333333,
+   "Earth": 0.025,
+   "Jupiter": 0.000011,
+   "Saturn": 0.00023
+  },
+  "k2qSrc": "イオ・月は第338便f の lib・エウロパ・金星・地球・木星・土星は第330便a の lib・エンケラドゥスは代表の桁 1e-2(確かさ 低)・冥王星とカロンは第337便c の固体の既定 3e-3(確かさ 低)",
+  "obl": {
+   "Venus": 177.36,
+   "Earth": 23.44,
+   "Jupiter": 3.13,
+   "Saturn": 26.73,
+   "PlutoSun": 119.6,
+   "MoonEarth": 23.44,
+   "MoonSun": 1.54
+  },
+  "oblSrc": "自転軸の傾き(金星 177.36°・地球 23.44°・木星 3.13°・土星 26.73°・冥王星 119.6°・月の自転の軸と黄道の極 1.54°・月と地球の軸は地球の傾きの桁)—— 文献の値・未照合・確かさ 中(月と地球の角は交点で変わる —— 確かさ 低)",
+  "saturnR": 58232000,
+  "saturnRSrc": "土星の赤道の半径 58,232 km —— 文献の値・未照合・確かさ 中",
+  "saturnC": 0.21,
+  "charonE": 0.00005,
+  "charonESrc": "カロンの軌道の離心率 〜5e-5 の桁(ほぼ円)—— 文献の値・未照合・確かさ 低",
+  "plutoPorbD": 90560,
+  "plutoPorbSrc": "冥王星の公転の周期 約 90,560 日(248 年)—— 文献の値・未照合・確かさ 中",
+  "saturnPorbD": 10759.22,
+  "europaE": 0.009,
+  "ioE": 0.0041,
+  "moonE": 0.0549
+ },
+ "plan": {
+  "t2Rows": "ω 7 × τ 3 × c_g 2 + 回っているがトルクが一緒に回る行 6",
+  "t3Types": [
+   "alpha",
+   "betaRel",
+   "betaAbs",
+   "gamma"
+  ],
+  "cols": [
+   "A",
+   "B"
+  ]
+ },
+ "amend": [],
+ "notClaim": [
+  "帳簿の動作の確かめと、要るノブの範囲の表(天体の熱の予測ではない)",
+  "軸引きずりの部位差分を傾ける力に数えるか(列 A)数えないか(列 B)は伺っている —— 2 列を並べた",
+  "型 (β) は統括の参考の試作(収支を満たす応答の候補の 1 つ)",
+  "天体の特性の係数は 1 に置いた(枝 b の係数は次の便で当てる)",
+  "従来の型の数は従来の型の結果(新しい帳簿の値として引き継がない)",
+  "金星の大気の熱潮汐は扱わない(原仮定者の回答 3)",
+  "文献の値は本環境では一次資料に当たっていない(未照合)",
+  "エンケラドゥス・月・地球・木星・土星の比は物差しの領域が違う —— 観測を超える判定はイオだけ"
+ ],
+ "pure": {
+  "scenes": {
+   "z1": {
+    "Q": 0,
+    "W": 0,
+    "resid": 0
+   },
+   "z2": {
+    "Q": 0,
+    "residRel": 1.7905685499382174e-10
+   },
+   "z3": {
+    "oneRel": 0,
+    "coRel": 0,
+    "oneZero": true,
+    "coZero": true
+   },
+   "z4": {
+    "Q": 0.500000000329526,
+    "Qwant": 0.5,
+    "rateEndOverPeak": 7.070002749835915e-22,
+    "residRel": 2.6280485345806304e-10
+   },
+   "z5": {
+    "rateA": 0.4378955328960934,
+    "rateB": 0.4378955355881784,
+    "steady": 0.43789097408400385,
+    "halfRel": 6.147779049063033e-9,
+    "steadyRel": 0.000010416986063920132,
+    "residA": 4.958564252497737e-11,
+    "residB": 3.1415413873262327e-12
+   },
+   "alpha": {
+    "mu1": 0,
+    "mu0": 2.6666666666666665,
+    "noSpin": null
+   },
+   "betaAsAlpha": {
+    "F": 0.5,
+    "peak": 0.5
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "zeroDrive": true,
+   "gyroOnly": true,
+   "coordZero": true,
+   "constRelax": true,
+   "periodic": true,
+   "alphaEnds": true,
+   "betaAsAlpha": true,
+   "rejects": true
+  }
+ },
+ "t2": [
+  {
+   "omega": 0,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "rest",
+   "T": 36.000000000000014,
+   "steps": 2401,
+   "rateEnd": 5.649946667925692e-11,
+   "steady": 0,
+   "peakRate": 0.21383332450499878,
+   "endOverPeak": 2.6422199070255827e-10,
+   "Q": 0.5000000065451278,
+   "Qwant": 0.5,
+   "residRel": 6.571717076579308e-9,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": 314.1592653589793,
+   "relaxTime": 3.0001898375771097,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 83776,
+   "rateEnd": 0.0003328968652269727,
+   "steady": 0.0003328968652255135,
+   "steadyRel": 4.3834227845904155e-12,
+   "residRel": 1.5117318064194493e-14,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": 31.41592653589793,
+   "relaxTime": 3.018923368851627,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 8378,
+   "rateEnd": 0.02946694300112542,
+   "steady": 0.029466943001109927,
+   "steadyRel": 5.258282166168785e-13,
+   "residRel": 2.626451257822945e-14,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": 10.471975511965978,
+   "relaxTime": 3.166337711720142,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2793,
+   "rateEnd": 0.13710525113433827,
+   "steady": 0.1371052511311183,
+   "steadyRel": 2.34854596140958e-11,
+   "residRel": 8.596215062176558e-12,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 4.599456696010969,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 838,
+   "rateEnd": 0.22058823573678926,
+   "steady": 0.22058823529411764,
+   "steadyRel": 2.006778017834184e-9,
+   "residRel": 1.0636429765119035e-9,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": 1.0471975511965976,
+   "relaxTime": 14.76164441173059,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 503,
+   "rateEnd": 0.15000000225422253,
+   "steady": 0.15,
+   "steadyRel": 1.5028150205746254e-8,
+   "residRel": 8.005124964834519e-9,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": 0.3141592653589793,
+   "relaxTime": 124.20047874082793,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 503,
+   "rateEnd": 0.02946694351213604,
+   "steady": 0.029466943001109924,
+   "steadyRel": 1.734235265723333e-8,
+   "residRel": 7.552266203989506e-9,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 0.3,
+   "cg": 2,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 4.599456696010969,
+   "start": "rest",
+   "T": 55.19348035213163,
+   "steps": 3680,
+   "rateEnd": 2.940287761634656e-11,
+   "steady": 0,
+   "peakRate": 0.18454429544188758,
+   "endOverPeak": 1.5932693853224757e-10,
+   "Q": 0.5000000086761994,
+   "Qwant": 0.5,
+   "residRel": 8.697316956743945e-9,
+   "persists": false
+  },
+  {
+   "omega": 0,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "rest",
+   "T": 72,
+   "steps": 3600,
+   "rateEnd": 1.7220891379565728e-11,
+   "steady": 0,
+   "peakRate": 0.2074134403213691,
+   "endOverPeak": 8.302688269807132e-11,
+   "Q": 0.5000000017678736,
+   "Qwant": 0.5,
+   "residRel": 1.4164033674641623e-9,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": 314.1592653589793,
+   "relaxTime": 6.061471287371217,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 62832,
+   "rateEnd": 0.00003332629744836299,
+   "steady": 0.00003332629744838681,
+   "steadyRel": 7.147078523703174e-13,
+   "residRel": 0,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": 31.41592653589793,
+   "relaxTime": 6.673239069471245,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 6284,
+   "rateEnd": 0.0032640981840753166,
+   "steady": 0.003264098184073377,
+   "steadyRel": 5.941674351602385e-13,
+   "residRel": 2.4022497716601054e-14,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": 10.471975511965978,
+   "relaxTime": 8.459754656740744,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2095,
+   "rateEnd": 0.025039646107918756,
+   "steady": 0.025039646106335023,
+   "steadyRel": 6.324902268595169e-11,
+   "residRel": 2.2927031759712735e-11,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 20.658144184063747,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 629,
+   "rateEnd": 0.08108108168796564,
+   "steady": 0.08108108108108109,
+   "steadyRel": 7.484909530138435e-9,
+   "residRel": 2.89726495926322e-9,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": 1.0471975511965976,
+   "relaxTime": 117.22128873022878,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 503,
+   "rateEnd": 0.029702970819992743,
+   "steady": 0.0297029702970297,
+   "steadyRel": 1.7606422377895264e-8,
+   "residRel": 6.1539452420723084e-9,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 3,
+   "cg": 2,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": 0.3141592653589793,
+   "relaxTime": 1209.3225732088065,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 503,
+   "rateEnd": 0.0032640982441211356,
+   "steady": 0.0032640981840733763,
+   "steadyRel": 1.8396431698232525e-8,
+   "residRel": 1.844908858730487e-9,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 3,
+   "cg": 2,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 20.658144184063747,
+   "start": "rest",
+   "T": 247.89773020876498,
+   "steps": 12395,
+   "rateEnd": 5.0250089225953985e-12,
+   "steady": 0,
+   "peakRate": 0.11832354647720186,
+   "endOverPeak": 4.246837651678737e-11,
+   "Q": 0.5000000073814351,
+   "Qwant": 0.5,
+   "residRel": 5.622862465270342e-9,
+   "persists": false
+  },
+  {
+   "omega": 0,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "rest",
+   "T": 720,
+   "steps": 36000,
+   "rateEnd": 2.0188499020671696e-12,
+   "steady": 0,
+   "peakRate": 0.03164924916070794,
+   "endOverPeak": 6.378824002477573e-11,
+   "Q": 0.5000000009826373,
+   "Qwant": 0.5,
+   "residRel": 5.274534116741005e-10,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": 314.1592653589793,
+   "relaxTime": 60.60611502077001,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 62832,
+   "rateEnd": 0.0000033326663964271015,
+   "steady": 0.000003332666396431117,
+   "steadyRel": 1.2048489734102926e-12,
+   "residRel": 0,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": 31.41592653589793,
+   "relaxTime": 66.63092801383637,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 6284,
+   "rateEnd": 0.0003267617906547636,
+   "steady": 0.0003267617906546128,
+   "steadyRel": 4.615365887504959e-13,
+   "residRel": 2.0038300561536814e-13,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": 10.471975511965978,
+   "relaxTime": 84.19652094453878,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2095,
+   "rateEnd": 0.0025248274702864126,
+   "steady": 0.0025248274701228745,
+   "steadyRel": 6.477195842758781e-11,
+   "residRel": 3.3139834933801475e-12,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 204.86998705180406,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 629,
+   "rateEnd": 0.008331019234735405,
+   "steady": 0.00833101916134407,
+   "steadyRel": 8.809406538967668e-9,
+   "residRel": 4.142319752607225e-10,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": 1.0471975511965976,
+   "relaxTime": 1169.239999723718,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 503,
+   "rateEnd": 0.002999700078384473,
+   "steady": 0.0029997000299970007,
+   "steadyRel": 1.613077038717554e-8,
+   "residRel": 2.9136211053760623e-9,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 30,
+   "cg": 2,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": 0.3141592653589793,
+   "relaxTime": 12089.958385287704,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 503,
+   "rateEnd": 0.00032676179666276073,
+   "steady": 0.00032676179065461276,
+   "steadyRel": 1.8386935510897782e-8,
+   "residRel": 4.216101337110737e-9,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 30,
+   "cg": 2,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": 3.141592653589793,
+   "relaxTime": 204.86998705180406,
+   "start": "rest",
+   "T": 2458.4398446216487,
+   "steps": 122922,
+   "rateEnd": 5.025206348758526e-13,
+   "steady": 0,
+   "peakRate": 0.016065604554205047,
+   "endOverPeak": 3.1279285705082403e-11,
+   "Q": 0.49999999698730657,
+   "Qwant": 0.5,
+   "residRel": 1.6380417698561679e-9,
+   "persists": false
+  },
+  {
+   "omega": 0,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "rest",
+   "T": 36.000000000000014,
+   "steps": 2401,
+   "rateEnd": 5.649946667925692e-11,
+   "steady": 0,
+   "peakRate": 0.21383332450499878,
+   "endOverPeak": 2.6422199070255827e-10,
+   "Q": 0.5000000065451278,
+   "Qwant": 0.5,
+   "residRel": 6.571717076579308e-9,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 83776,
+   "rateEnd": 0.0003330299027589634,
+   "steady": 0.00033302990275829893,
+   "steadyRel": 1.9951760965140046e-12,
+   "residRel": 6.93341038986845e-14,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 8378,
+   "rateEnd": 0.03054709853478359,
+   "steady": 0.03054709853475751,
+   "steadyRel": 8.537580977833561e-13,
+   "residRel": 1.5166767859858892e-13,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2793,
+   "rateEnd": 0.16410480827470245,
+   "steady": 0.16410480827088234,
+   "steadyRel": 2.3278482419453183e-11,
+   "residRel": 8.631240577845419e-12,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 838,
+   "rateEnd": 0.3000000005331987,
+   "steady": 0.3,
+   "steadyRel": 1.7773290246954807e-9,
+   "residRel": 1.0705259461185538e-9,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 280,
+   "rateEnd": 0.1829268466628422,
+   "steady": 0.18292682926829268,
+   "steadyRel": 9.50902040589933e-8,
+   "residRel": 8.604198961261472e-8,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 252,
+   "rateEnd": 0.030547101550364684,
+   "steady": 0.03054709853475751,
+   "steadyRel": 9.871992164048094e-8,
+   "residRel": 1.3030262791393952e-7,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 0.3,
+   "cg": 0,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 3.000000000000001,
+   "start": "rest",
+   "T": 36.000000000000014,
+   "steps": 2401,
+   "rateEnd": 5.649946667925692e-11,
+   "steady": 0,
+   "peakRate": 0.21383332450499878,
+   "endOverPeak": 2.6422199070255827e-10,
+   "Q": 0.5000000065451278,
+   "Qwant": 0.5,
+   "residRel": 6.571717076579308e-9,
+   "persists": false
+  },
+  {
+   "omega": 0,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "rest",
+   "T": 72,
+   "steps": 3600,
+   "rateEnd": 1.7220891379565728e-11,
+   "steady": 0,
+   "peakRate": 0.2074134403213691,
+   "endOverPeak": 8.302688269807132e-11,
+   "Q": 0.5000000017678736,
+   "Qwant": 0.5,
+   "residRel": 1.4164033674641623e-9,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 62832,
+   "rateEnd": 0.00003333963048567148,
+   "steady": 0.00003333963048569544,
+   "steadyRel": 7.186902692940822e-13,
+   "residRel": 0,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 6284,
+   "rateEnd": 0.0033971622371466183,
+   "steady": 0.0033971622371445722,
+   "steadyRel": 6.022986825717409e-13,
+   "residRel": 5.0908852976912003e-14,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2095,
+   "rateEnd": 0.03579525116575224,
+   "steady": 0.03579525116334566,
+   "steadyRel": 6.723187573794606e-11,
+   "residRel": 2.3869910034727495e-11,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 629,
+   "rateEnd": 3.000000005467495,
+   "steady": 3,
+   "steadyRel": 1.8224983004226185e-9,
+   "residRel": 3.1943997112444604e-9,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 252,
+   "rateEnd": 0.04615384923919349,
+   "steady": 0.046153846153846156,
+   "steadyRel": 6.684919218874485e-8,
+   "residRel": 1.2763559899900272e-7,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 3,
+   "cg": 0,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 252,
+   "rateEnd": 0.0033971625365924003,
+   "steady": 0.0033971622371445714,
+   "steadyRel": 8.81464610880571e-8,
+   "residRel": 1.1262957536160049e-7,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 3,
+   "cg": 0,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 6,
+   "start": "rest",
+   "T": 72,
+   "steps": 3600,
+   "rateEnd": 1.7220891379565728e-11,
+   "steady": 0,
+   "peakRate": 0.2074134403213691,
+   "endOverPeak": 8.302688269807132e-11,
+   "Q": 0.5000000017678736,
+   "Qwant": 0.5,
+   "residRel": 1.4164033674641623e-9,
+   "persists": false
+  },
+  {
+   "omega": 0,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "rest",
+   "T": 720,
+   "steps": 36000,
+   "rateEnd": 2.0188499020671696e-12,
+   "steady": 0,
+   "peakRate": 0.03164924916070794,
+   "endOverPeak": 6.378824002477573e-11,
+   "Q": 0.5000000009826373,
+   "Qwant": 0.5,
+   "residRel": 5.274534116741005e-10,
+   "persists": false
+  },
+  {
+   "omega": 0.01,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.01,
+   "drivePeriod": 628.3185307179587,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 1256.6370614359173,
+   "steps": 62832,
+   "rateEnd": 0.0000033339997294921257,
+   "steady": 0.0000033339997294948205,
+   "steadyRel": 8.082890042999157e-13,
+   "residRel": 0,
+   "persists": true
+  },
+  {
+   "omega": 0.1,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.1,
+   "drivePeriod": 62.83185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 125.66370614359172,
+   "steps": 6284,
+   "rateEnd": 0.000340097494615292,
+   "steady": 0.0003400974946151231,
+   "steadyRel": 4.966772797441546e-13,
+   "residRel": 1.8856637616717522e-13,
+   "persists": true
+  },
+  {
+   "omega": 0.3,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -0.3,
+   "drivePeriod": 20.943951023931955,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 41.88790204786391,
+   "steps": 2095,
+   "rateEnd": 0.003622313451133411,
+   "steady": 0.0036223134508572806,
+   "steadyRel": 7.623035689375649e-11,
+   "residRel": 1.1236296290208524e-12,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -1,
+   "drivePeriod": 6.283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 12.566370614359172,
+   "steps": 629,
+   "rateEnd": 29.999999920627147,
+   "steady": 30,
+   "steadyRel": 2.6457617726312793e-9,
+   "residRel": 8.350204114518428e-10,
+   "persists": true
+  },
+  {
+   "omega": 3,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -3,
+   "drivePeriod": 2.0943951023931953,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 4.1887902047863905,
+   "steps": 252,
+   "rateEnd": 0.004686767997152917,
+   "steady": 0.004686767692548039,
+   "steadyRel": 6.499252742219603e-8,
+   "residRel": 2.8790133794266518e-8,
+   "persists": true
+  },
+  {
+   "omega": 10,
+   "tau": 30,
+   "cg": 0,
+   "coRot": false,
+   "nu": -10,
+   "drivePeriod": 0.6283185307179586,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "steady",
+   "T": 1.2566370614359172,
+   "steps": 252,
+   "rateEnd": 0.0003400975245510614,
+   "steady": 0.000340097494615123,
+   "steadyRel": 8.802163765831148e-8,
+   "residRel": 1.641003909725363e-8,
+   "persists": true
+  },
+  {
+   "omega": 1,
+   "tau": 30,
+   "cg": 0,
+   "coRot": true,
+   "nu": 0,
+   "drivePeriod": null,
+   "gyroPeriod": null,
+   "relaxTime": 60,
+   "start": "rest",
+   "T": 720,
+   "steps": 36000,
+   "rateEnd": 2.0188499020671696e-12,
+   "steady": 0,
+   "peakRate": 0.03164924916070794,
+   "endOverPeak": 6.378824002477573e-11,
+   "Q": 0.5000000009826373,
+   "Qwant": 0.5,
+   "residRel": 5.274534116741005e-10,
+   "persists": false
+  }
+ ],
+ "t3": {
+  "band": {
+   "lo": 0.000004667012634373626,
+   "hi": 0.00008500995051032728,
+   "separable": true
+  },
+  "ledger": [
+   {
+    "id": "Io",
+    "host": "Jupiter",
+    "sync": true,
+    "mutual": false,
+    "I": 1.1203189632657792e+35,
+    "omega": 0.00004125530833185668,
+    "n": 0.00004125530833185668,
+    "e": 0.0041,
+    "tide": {
+     "k2q": 0.015,
+     "parts": [
+      {
+       "p": "Jupiter",
+       "kind": "ecc",
+       "heat": 93663359436155.97,
+       "torque": 1.929408288633929e+22
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 22050.662235271684,
+       "torque": 534710273.16920215
+      }
+     ],
+     "heat": 93663359458206.62
+    },
+    "tilt": [
+     {
+      "src": "Jupiter",
+      "beta": 3.342388473034675e-9,
+      "w": 0.00017585181380295513,
+      "thetaDeg": 0,
+      "N": 0,
+      "Nalong": 6.584843599352717e+22
+     },
+     {
+      "src": "Sun",
+      "beta": 1.8966720648294265e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 3.13,
+      "N": 33682010192802410000,
+      "Nalong": 615947893242732300000
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 52034119948745.516,
+      "Nalong": -30041913159453.484
+     }
+    ],
+    "uHold": 245456468.44642198,
+    "uHoldNetMax": 245457226.8400718,
+    "uHoldNetMin": 245455710.05277213,
+    "galShareNew": 2.386604315632298e-12,
+    "galShareOld": 0.8616443168756932,
+    "galNewOverOldTorque": 1.908159516628436e-11,
+    "uGammaDiff": 130564570809689700000,
+    "uGammaAligned": 119596536213304930000,
+    "heatObs": 100000000000000,
+    "ruler": "global"
+   },
+   {
+    "id": "Europa",
+    "host": "Jupiter",
+    "sync": true,
+    "mutual": false,
+    "I": 4.0457007218245117e+34,
+    "omega": 0.000020627660016976607,
+    "n": 0.000020627660016976607,
+    "e": 0.009,
+    "tide": {
+     "k2q": 0.01,
+     "parts": [
+      {
+       "p": "Jupiter",
+       "kind": "ecc",
+       "heat": 4284616473735.291,
+       "torque": 366335435265148260000
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 3393.0862479017906,
+       "torque": 164626013.98684317
+      }
+     ],
+     "heat": 4284616477128.3774
+    },
+    "tilt": [
+     {
+      "src": "Jupiter",
+      "beta": 2.1008871949302763e-9,
+      "w": 0.00017585181380295513,
+      "thetaDeg": 0,
+      "N": 0,
+      "Nalong": 1.494663190418648e+22
+     },
+     {
+      "src": "Sun",
+      "beta": 1.8966720648294265e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 3.13,
+      "N": 12163262197427775000,
+      "Nalong": 222431371601020880000
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 18790584069244.348,
+      "Nalong": -10848748770608.514
+     }
+    ],
+    "uHold": 177278643.3959941,
+    "uHoldNetMax": 177279191.1387293,
+    "uHoldNetMin": 177278095.6532589,
+    "galShareNew": 2.386604315632297e-12,
+    "galShareOld": 0.7534413357501913,
+    "galNewOverOldTorque": 3.816317950797708e-11,
+    "uGammaDiff": 13480197375321500000,
+    "uGammaAligned": 12228588256100837000,
+    "heatObs": null,
+    "ruler": null
+   },
+   {
+    "id": "Moon",
+    "host": "Earth",
+    "sync": true,
+    "mutual": false,
+    "I": 8.731929815872479e+34,
+    "omega": 0.0000026616994724158407,
+    "n": 0.0000026616994724158407,
+    "e": 0.0549,
+    "tide": {
+     "k2q": 0.00063,
+     "parts": [
+      {
+       "p": "Earth",
+       "kind": "ecc",
+       "heat": 619878791.7259047,
+       "torque": 11038372112712038
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 867345.7725285189,
+       "torque": 352207214381.1808
+      }
+     ],
+     "heat": 620746137.4984332
+    },
+    "tilt": [
+     {
+      "src": "Earth",
+      "beta": 1.1537594786480359e-11,
+      "w": 0.0000729211505392569,
+      "thetaDeg": 23.44,
+      "N": 29223434968532648000,
+      "Nalong": 67402232725552580000
+     },
+     {
+      "src": "Sun",
+      "beta": 9.87093562509523e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 1.54,
+      "N": 67246974141453940000,
+      "Nalong": 2.501324626363938e+21
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 40556153945539,
+      "Nalong": -23415106397752.832
+     }
+    ],
+    "uHold": 23131474032.66362,
+    "uHoldNetMax": 40042330957.97865,
+    "uHoldNetMin": 6220637504.934062,
+    "galShareNew": 3.059433108876087e-13,
+    "galShareOld": 0.9184466054579131,
+    "galNewOverOldTorque": 2.9575731608045665e-10,
+    "uGammaDiff": 397398635430537800,
+    "uGammaAligned": 370049919977358200,
+    "heatObs": 682781905788.8483,
+    "ruler": "total"
+   },
+   {
+    "id": "Enceladus",
+    "host": "Saturn",
+    "sync": true,
+    "mutual": false,
+    "I": 2.2993985538000004e+30,
+    "omega": 0.000053073344654960304,
+    "n": 0.000053073344654960304,
+    "e": 0.0047,
+    "tide": {
+     "k2q": 0.01,
+     "parts": [
+      {
+       "p": "Saturn",
+       "kind": "ecc",
+       "heat": 14861654654.28512,
+       "torque": 1810910353951274500
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 0.024647956247311094,
+       "torque": 464.4722467820831
+      }
+     ],
+     "heat": 14861654654.309769
+    },
+    "tilt": [
+     {
+      "src": "Saturn",
+      "beta": 1.7732055824514338e-9,
+      "w": 0.00016378840578024865,
+      "thetaDeg": 0,
+      "N": 0,
+      "Nalong": 667815507251928800
+     },
+     {
+      "src": "Sun",
+      "beta": 1.0301041599328118e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 26.73,
+      "N": 3092861018900794.5,
+      "Nalong": 6141456598240540
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 1067974247.3484907,
+      "Nalong": -616595219.1942388
+     }
+    ],
+    "uHold": 78384.48305198274,
+    "uHoldNetMax": 78384.53718478004,
+    "uHoldNetMin": 78384.42891918543,
+    "galShareNew": 1.192341749694934e-13,
+    "galShareOld": 0.9504795107242686,
+    "galNewOverOldTorque": 1.483262638080643e-11,
+    "uGammaDiff": 4020466254185984,
+    "uGammaAligned": 3877389653416759.5,
+    "heatObs": 15800000000,
+    "ruler": "regional"
+   },
+   {
+    "id": "Charon",
+    "host": "Pluto",
+    "sync": true,
+    "mutual": true,
+    "I": 2.329745184e+32,
+    "omega": 0.000011385591834674098,
+    "n": 0.000011385591834674098,
+    "e": 0.00005,
+    "tide": {
+     "k2q": 0.003,
+     "parts": [
+      {
+       "p": "Pluto",
+       "kind": "ecc",
+       "heat": 14664.230020659772,
+       "torque": 73597930906728670
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 0.000026026777247521242,
+       "torque": 2.2861010147272856
+      }
+     ],
+     "heat": 14664.230046686549
+    },
+    "tilt": [
+     {
+      "src": "Pluto",
+      "beta": 4.937888768453573e-13,
+      "w": 0.000011385591834674098,
+      "thetaDeg": 0,
+      "N": 0,
+      "Nalong": 1309801055235208.2
+     },
+     {
+      "src": "Sun",
+      "beta": 2.5001557116250955e-10,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 119.6,
+      "N": 147028297966370660,
+      "Nalong": -83523698038742460
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 108206898507.62534,
+      "Nalong": -62473281981.55196
+     }
+    ],
+    "uHold": 8149628.769566957,
+    "uHoldNetMax": 8149640.765163249,
+    "uHoldNetMin": 8149616.773970663,
+    "galShareNew": 5.416366444320735e-13,
+    "galShareOld": 0.9996522072695402,
+    "galNewOverOldTorque": 6.914151705966305e-11,
+    "uGammaDiff": 17824720400093226,
+    "uGammaAligned": 17828464618435170,
+    "heatObs": null,
+    "ruler": null
+   },
+   {
+    "id": "Pluto",
+    "host": "Charon",
+    "sync": true,
+    "mutual": true,
+    "I": 7.355924928e+33,
+    "omega": 0.000011385591834674098,
+    "n": 0.000011385591834674098,
+    "e": 0.00005,
+    "tide": {
+     "k2q": 0.003,
+     "parts": [
+      {
+       "p": "Charon",
+       "kind": "ecc",
+       "heat": 6290.655195483629,
+       "torque": 31572009289474268
+      },
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 0.0007535975494354648,
+       "torque": 66.19337100694975
+      }
+     ],
+     "heat": 6290.655949081178
+    },
+    "tilt": [
+     {
+      "src": "Charon",
+      "beta": 6.010354249245867e-14,
+      "w": 0.000011385591834674098,
+      "thetaDeg": 0,
+      "N": 0,
+      "Nalong": 5033765372947857
+     },
+     {
+      "src": "Sun",
+      "beta": 2.5001557116250955e-10,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 119.6,
+      "N": 4642263581270000000,
+      "Nalong": -2637172754777676000
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 3416518800340.214,
+      "Nalong": -1972528049067.8386
+     }
+    ],
+    "uHold": 257315940.95229396,
+    "uHoldNetMax": 257316319.7006069,
+    "uHoldNetMin": 257315562.20398095,
+    "galShareNew": 5.416366444320735e-13,
+    "galShareOld": 0.999655145472899,
+    "galNewOverOldTorque": 6.914151705966306e-11,
+    "uGammaDiff": 562795110143121700,
+    "uGammaAligned": 562914984073697150,
+    "heatObs": null,
+    "ruler": null
+   },
+   {
+    "id": "Venus",
+    "host": "Sun",
+    "sync": false,
+    "mutual": false,
+    "I": 5.8793680687500005e+37,
+    "omega": -2.9923691869737844e-7,
+    "n": 3.2363920127827824e-7,
+    "e": null,
+    "tide": {
+     "k2q": 0.009833333333333333,
+     "parts": [
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 12242532580.579147,
+       "torque": 19654843375690196
+      }
+     ],
+     "heat": 12242532580.579147
+    },
+    "tilt": [
+     {
+      "src": "Sun",
+      "beta": 1.3646791083046044e-8,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 177.36,
+      "N": 1.0728702416119099e+23,
+      "Nalong": -2.3267965324467146e+24
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 27307200301275716,
+      "Nalong": -15765819444756556
+     }
+    ],
+    "uHold": 654257297288013.5,
+    "uHoldNetMax": 654257630337330.6,
+    "uHoldNetMin": 654256964238696.4,
+    "galShareNew": 6.478283554417957e-14,
+    "galShareOld": 0.2740863304065119,
+    "galNewOverOldTorque": 2.6307485529233806e-9,
+    "uGammaDiff": 11332497557195565000,
+    "uGammaAligned": 8547443839104308000,
+    "heatObs": 38305000000000,
+    "ruler": "scale"
+   },
+   {
+    "id": "Earth",
+    "host": "Sun",
+    "sync": false,
+    "mutual": false,
+    "I": 8.016480643125214e+37,
+    "omega": 0.0000729211505392569,
+    "n": 1.9909865927683785e-7,
+    "e": null,
+    "tide": {
+     "k2q": 0.025,
+     "parts": [
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 673911349420.042,
+       "torque": 9266946297558550
+      },
+      {
+       "p": "Moon",
+       "kind": "slip",
+       "heat": 3083956584621.027,
+       "torque": 43893832613168536
+      }
+     ],
+     "heat": 3757867934041.069
+    },
+    "tilt": [
+     {
+      "src": "Sun",
+      "beta": 9.87093562509523e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 23.44,
+      "N": 9.138032433956783e+23,
+      "Nalong": 2.1076365233259548e+24
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 37233192423630870,
+      "Nalong": -21496593668572410
+     }
+    ],
+    "uHold": 142846015179217,
+    "uHoldNetMax": 142846026819826.06,
+    "uHoldNetMin": 142846003538607.9,
+    "galShareNew": 1.660179929614778e-15,
+    "galShareOld": 0.9823384395294205,
+    "galNewOverOldTorque": 1.0795456273295703e-11,
+    "uGammaDiff": 2.560245702485679e+23,
+    "uGammaAligned": 2.5540980513404012e+23,
+    "heatObs": 47000000000000,
+    "ruler": "total"
+   },
+   {
+    "id": "Jupiter",
+    "host": "Sun",
+    "sync": false,
+    "mutual": false,
+    "I": 2.464023344605888e+42,
+    "omega": 0.00017585181380295513,
+    "n": 1.6784701894479847e-8,
+    "e": null,
+    "tide": {
+     "k2q": 0.000011,
+     "parts": [
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 6420184329.903896,
+       "torque": 36512544529531.23
+      },
+      {
+       "p": "Io",
+       "kind": "slip",
+       "heat": 392714361804783.56,
+       "torque": 2917715882966293500
+      }
+     ],
+     "heat": 392720781989113.44
+    },
+    "tilt": [
+     {
+      "src": "Sun",
+      "beta": 1.8966720648294265e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 3.13,
+      "N": 7.408002732220973e+26,
+      "Nalong": 1.3547123968933956e+28
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 1.1444355623150795e+21,
+      "Nalong": -660740179972791600000
+     }
+    ],
+    "uHold": 1266515757397955.2,
+    "uHoldNetMax": 1266519670586774,
+    "uHoldNetMin": 1266511844209136.5,
+    "galShareNew": 2.3866043156322987e-12,
+    "galShareOld": 0.9966894393617686,
+    "galNewOverOldTorque": 4.476593530756408e-12,
+    "uGammaDiff": 4.510562214210649e+28,
+    "uGammaAligned": 4.509609299728425e+28,
+    "heatObs": 335000000000000000,
+    "ruler": "total"
+   },
+   {
+    "id": "Saturn",
+    "host": "Sun",
+    "sync": false,
+    "mutual": false,
+    "I": 4.047165184465536e+41,
+    "omega": 0.00016378840578024865,
+    "n": 6.759045002001111e-9,
+    "e": null,
+    "tide": {
+     "k2q": 0.00023,
+     "parts": [
+      {
+       "p": "Sun",
+       "kind": "slip",
+       "heat": 1150527866.3627095,
+       "torque": 7024766750712.551
+      }
+     ],
+     "heat": 1150527866.3627095
+    },
+    "tilt": [
+     {
+      "src": "Sun",
+      "beta": 1.0301041599328118e-9,
+      "w": 0.0000029030759347876406,
+      "thetaDeg": 26.73,
+      "N": 5.4437363263535585e+26,
+      "Nalong": 1.0809561172085163e+27
+     },
+     {
+      "src": "galaxy",
+      "beta": 5.9e-7,
+      "w": 9.09e-16,
+      "thetaDeg": 119.99999999999999,
+      "N": 187973858843721920000,
+      "Nalong": -108526758004035520000
+     }
+    ],
+    "uHold": 4470540944150031,
+    "uHoldNetMax": 4470544031532600.5,
+    "uHoldNetMin": 4470537856767461,
+    "galShareNew": 1.1923417496949337e-13,
+    "galShareOld": 0.9982014748089668,
+    "galNewOverOldTorque": 4.806305356549054e-12,
+    "uGammaDiff": 6.417280849311732e+27,
+    "uGammaAligned": 6.416572657066208e+27,
+    "heatObs": 86000000000000000,
+    "ruler": "total"
+   }
+  ],
+  "alpha": {
+   "p": 2,
+   "ioTideOverObs": 0.9366335945820663,
+   "cap": 25815.74069691519,
+   "need": [
+    {
+     "id": "Venus",
+     "gap": 3818257467419.421,
+     "u": 654257297288013.5,
+     "need": 0.005836018158676446
+    },
+    {
+     "id": "Jupiter",
+     "gap": 33107279218010890,
+     "u": 1266515757397955.2,
+     "need": 26.14044004160634
+    }
+   ],
+   "needMax": 26.14044004160634,
+   "bandP": [
+    2.178100692940305e-11,
+    7.226691685768293e-9
+   ],
+   "ioOk": true,
+   "hotOk": true,
+   "overlapMu": false,
+   "overlapFixed": false,
+   "muAtLo": {
+    "G0": 0.000004667012634373626,
+    "muLo": 0,
+    "muHi": -1200148373595.003
+   },
+   "muAtHi": {
+    "G0": 0.00008500995051032728,
+    "muLo": 0,
+    "muHi": -3617207038.9911165
+   }
+  },
+  "betaRel": [
+   {
+    "chi": 1,
+    "r": 0,
+    "x": 0.1,
+    "F": 0.09900990099009901,
+    "beyondMu0": false,
+    "cap": 260738.9810388434,
+    "needMax": 264.018444420224,
+    "overlapFixed": false,
+    "hiHeatIo": 0.17562754650889162
+   },
+   {
+    "chi": 1,
+    "r": 0,
+    "x": 1,
+    "F": 0.5,
+    "beyondMu0": false,
+    "cap": 51631.48139383038,
+    "needMax": 52.28088008321268,
+    "overlapFixed": false,
+    "hiHeatIo": 0.8869191098699026
+   },
+   {
+    "chi": 1,
+    "r": 0,
+    "x": 10,
+    "F": 0.09900990099009901,
+    "beyondMu0": false,
+    "cap": 260738.9810388434,
+    "needMax": 264.018444420224,
+    "overlapFixed": false,
+    "hiHeatIo": 0.17562754650889162
+   },
+   {
+    "chi": 1,
+    "r": 1,
+    "x": 0.1,
+    "F": 0.09615384615384616,
+    "beyondMu0": false,
+    "cap": 268483.70324791793,
+    "needMax": 271.8605764327059,
+    "overlapFixed": false,
+    "hiHeatIo": 0.17056136728267357
+   },
+   {
+    "chi": 1,
+    "r": 1,
+    "x": 1,
+    "F": 0.2,
+    "beyondMu0": false,
+    "cap": 129078.70348457593,
+    "needMax": 130.70220020803168,
+    "overlapFixed": false,
+    "hiHeatIo": 0.35476764394796106
+   },
+   {
+    "chi": 1,
+    "r": 1,
+    "x": 10,
+    "F": 0.02493765586034913,
+    "beyondMu0": false,
+    "cap": 1035211.201946299,
+    "needMax": 1048.231645668414,
+    "overlapFixed": false,
+    "hiHeatIo": 0.044235367075805616
+   },
+   {
+    "chi": 1,
+    "r": 10,
+    "x": 0.1,
+    "F": 0.0009707795359673817,
+    "beyondMu0": false,
+    "cap": 26592794.49189234,
+    "needMax": 26927.267286858696,
+    "overlapFixed": false,
+    "hiHeatIo": 0.0017220058438402143
+   },
+   {
+    "chi": 1,
+    "r": 10,
+    "x": 1,
+    "F": 0.00009801999607920016,
+    "beyondMu0": false,
+    "cap": 263372186.58992875,
+    "needMax": 266684.76930446783,
+    "overlapFixed": false,
+    "hiHeatIo": 0.0001738716153440311
+   },
+   {
+    "chi": 1,
+    "r": 10,
+    "x": 10,
+    "F": 0.000009802950884275184,
+    "beyondMu0": false,
+    "cap": 2633466290.066388,
+    "needMax": 2666588.902688267,
+    "overlapFixed": false,
+    "hiHeatIo": 0.00001738884894475944
+   },
+   {
+    "chi": 0.001,
+    "r": 0,
+    "x": 0.1,
+    "F": 99.00990099009901,
+    "beyondMu0": true,
+    "cap": 260.7389810388434,
+    "needMax": 0.264018444420224,
+    "overlapFixed": false,
+    "hiHeatIo": 175.62754650889158
+   },
+   {
+    "chi": 0.001,
+    "r": 0,
+    "x": 1,
+    "F": 500,
+    "beyondMu0": true,
+    "cap": 51.631481393830384,
+    "needMax": 0.052280880083212675,
+    "overlapFixed": false,
+    "hiHeatIo": 886.9191098699026
+   },
+   {
+    "chi": 0.001,
+    "r": 0,
+    "x": 10,
+    "F": 99.009900990099,
+    "beyondMu0": true,
+    "cap": 260.73898103884346,
+    "needMax": 0.26401844442022404,
+    "overlapFixed": false,
+    "hiHeatIo": 175.62754650889156
+   },
+   {
+    "chi": 0.001,
+    "r": 1,
+    "x": 0.1,
+    "F": 96.15384615384615,
+    "beyondMu0": true,
+    "cap": 268.483703247918,
+    "needMax": 0.27186057643270595,
+    "overlapFixed": false,
+    "hiHeatIo": 170.56136728267356
+   },
+   {
+    "chi": 0.001,
+    "r": 1,
+    "x": 1,
+    "F": 200,
+    "beyondMu0": true,
+    "cap": 129.07870348457595,
+    "needMax": 0.1307022002080317,
+    "overlapFixed": false,
+    "hiHeatIo": 354.767643947961
+   },
+   {
+    "chi": 0.001,
+    "r": 1,
+    "x": 10,
+    "F": 24.937655860349125,
+    "beyondMu0": true,
+    "cap": 1035.2112019462993,
+    "needMax": 1.0482316456684142,
+    "overlapFixed": false,
+    "hiHeatIo": 44.235367075805605
+   },
+   {
+    "chi": 0.001,
+    "r": 10,
+    "x": 0.1,
+    "F": 0.9707795359673816,
+    "beyondMu0": false,
+    "cap": 26592.794491892342,
+    "needMax": 26.92726728685869,
+    "overlapFixed": false,
+    "hiHeatIo": 1.7220058438402144
+   },
+   {
+    "chi": 0.001,
+    "r": 10,
+    "x": 1,
+    "F": 0.09801999607920016,
+    "beyondMu0": false,
+    "cap": 263372.18658992875,
+    "needMax": 266.68476930446786,
+    "overlapFixed": false,
+    "hiHeatIo": 0.1738716153440311
+   },
+   {
+    "chi": 0.001,
+    "r": 10,
+    "x": 10,
+    "F": 0.009802950884275184,
+    "beyondMu0": false,
+    "cap": 2633466.2900663884,
+    "needMax": 2666.588902688267,
+    "overlapFixed": false,
+    "hiHeatIo": 0.01738884894475944
+   }
+  ],
+  "betaAbs": [
+   {
+    "tau": 1000,
+    "F": {
+     "Io": 0.04118521108341865,
+     "Europa": 0.020618886673320166,
+     "Moon": 0.0026616806153560227,
+     "Enceladus": 0.05292426863815731,
+     "Charon": 0.01138411609233582,
+     "Pluto": 0.01138411609233582,
+     "Venus": 0.0002992368919028892,
+     "Earth": 0.0725354437381771,
+     "Jupiter": 0.1705769170302159,
+     "Saturn": 0.15950930673388022
+    },
+    "cap": 626820.6479414821,
+    "needMax": 153.2472300280573,
+    "overlapFixed": false,
+    "needOverBandHi2": 21205724097.770897
+   },
+   {
+    "tau": 10000,
+    "F": {
+     "Io": 0.35254919407401103,
+     "Europa": 0.19785774599864875,
+     "Moon": 0.026598150880936772,
+     "Enceladus": 0.414092658341512,
+     "Charon": 0.11239887263691452,
+     "Pluto": 0.11239887263691452,
+     "Venus": 0.0029923423927220396,
+     "Earth": 0.47606448944140756,
+     "Jupiter": 0.4297048519071629,
+     "Saturn": 0.44475520295108123
+    },
+    "cap": 73225.92458258651,
+    "needMax": 60.83347657255204,
+    "overlapFixed": false,
+    "needOverBandHi2": 8417887356.721326
+   },
+   {
+    "tau": 100000,
+    "F": {
+     "Io": 0.2289417184979174,
+     "Europa": 0.39253370072433574,
+     "Moon": 0.24856033236577774,
+     "Enceladus": 0.18195868814402125,
+     "Charon": 0.49581968708938057,
+     "Pluto": 0.49581968708938057,
+     "Venus": 0.029896921349126054,
+     "Earth": 0.134603098594025,
+     "Jupiter": 0.05668276334241145,
+     "Saturn": 0.060827639251473775
+    },
+    "cap": 112761.19034264184,
+    "needMax": 461.17088335471834,
+    "overlapFixed": false,
+    "needOverBandHi2": 63814938205.114494
+   },
+   {
+    "tau": 1000000,
+    "F": {
+     "Io": 0.02422507166982711,
+     "Europa": 0.048364930159827776,
+     "Moon": 0.3292290230215766,
+     "Enceladus": 0.01883516324772596,
+     "Charon": 0.0871579540831552,
+     "Pluto": 0.0871579540831552,
+     "Venus": 0.27464449947085956,
+     "Earth": 0.013710863987503426,
+     "Jupiter": 0.005686422232056325,
+     "Saturn": 0.006105210684782525
+    },
+    "cap": 1065662.097878096,
+    "needMax": 4596.992445310103,
+    "overlapFixed": false,
+    "needOverBandHi2": 636112988514.935
+   },
+   {
+    "tau": 10000000,
+    "F": {
+     "Io": 0.0024239162547314923,
+     "Europa": 0.0048477456870360735,
+     "Moon": 0.037517026109483924,
+     "Enceladus": 0.0018841783127870407,
+     "Charon": 0.008782352984769199,
+     "Pluto": 0.008782352984769199,
+     "Venus": 0.30061151441335865,
+     "Earth": 0.0013713416642818286,
+     "Jupiter": 0.0005686604277768381,
+     "Saturn": 0.0006105435989028752
+    },
+    "cap": 10650425.998226127,
+    "needMax": 45968.45281427732,
+    "overlapFixed": false,
+    "needOverBandHi2": 6360926245795.7295
+   },
+   {
+    "tau": 100000000,
+    "F": {
+     "Io": 0.00024239303538871608,
+     "Europa": 0.000484785847817748,
+     "Moon": 0.0037569451229461925,
+     "Enceladus": 0.00018841849350171092,
+     "Charon": 0.000878302369437589,
+     "Pluto": 0.000878302369437589,
+     "Venus": 0.03338105688834057,
+     "Earth": 0.0001371344217417144,
+     "Jupiter": 0.00005686606098284364,
+     "Saturn": 0.0000610543824215519
+    },
+    "cap": 106503640.4842058,
+    "needMax": 459684.38097889087,
+    "overlapFixed": false,
+    "needOverBandHi2": 63609242094021.94
+   }
+  ],
+  "gamma": [
+   {
+    "reading": "diff",
+    "cap": 4.8532618783924406e-8,
+    "needMax": 3.369299175356998e-7,
+    "overlapFixed": false,
+    "ioAtBandLo": 6.093465015703917
+   },
+   {
+    "reading": "aligned",
+    "cap": 5.2983478806541165e-8,
+    "needMax": 4.4671337294443555e-7,
+    "overlapFixed": false,
+    "ioAtBandLo": 5.58158545534817
+   }
+  ],
+  "colB": [
+   {
+    "id": "Io",
+    "tide": 93663359458206.62,
+    "obs": 100000000000000,
+    "ratio": 0.9366335945820663,
+    "ruler": "global"
+   },
+   {
+    "id": "Europa",
+    "tide": 4284616477128.3774,
+    "obs": null,
+    "ratio": null,
+    "ruler": null
+   },
+   {
+    "id": "Moon",
+    "tide": 620746137.4984332,
+    "obs": 682781905788.8483,
+    "ratio": 0.00090914262993138,
+    "ruler": "total"
+   },
+   {
+    "id": "Enceladus",
+    "tide": 14861654654.309769,
+    "obs": 15800000000,
+    "ratio": 0.9406110540702385,
+    "ruler": "regional"
+   },
+   {
+    "id": "Charon",
+    "tide": 14664.230046686549,
+    "obs": null,
+    "ratio": null,
+    "ruler": null
+   },
+   {
+    "id": "Pluto",
+    "tide": 6290.655949081178,
+    "obs": null,
+    "ratio": null,
+    "ruler": null
+   },
+   {
+    "id": "Venus",
+    "tide": 12242532580.579147,
+    "obs": 38305000000000,
+    "ratio": 0.00031960664614486743,
+    "ruler": "scale"
+   },
+   {
+    "id": "Earth",
+    "tide": 3757867934041.069,
+    "obs": 47000000000000,
+    "ratio": 0.07995463689449082,
+    "ruler": "total"
+   },
+   {
+    "id": "Jupiter",
+    "tide": 392720781989113.44,
+    "obs": 335000000000000000,
+    "ratio": 0.0011723008417585477,
+    "ruler": "total"
+   },
+   {
+    "id": "Saturn",
+    "tide": 1150527866.3627095,
+    "obs": 86000000000000000,
+    "ratio": 1.3378231004217552e-8,
+    "ruler": "total"
+   }
+  ],
+  "hotB": [
+   {
+    "id": "Venus",
+    "ratio": 0.00031960664614486743,
+    "high": false
+   },
+   {
+    "id": "Jupiter",
+    "ratio": 0.0011723008417585477,
+    "high": false
+   }
+  ],
+  "atHi": [
+   {
+    "id": "Io",
+    "tide": 93663359458206.62,
+    "axialMu0": 1.7738382197398053,
+    "gammaDiff": 11099287702933844,
+    "obs": 100000000000000,
+    "ruler": "global",
+    "totalOverObs": 0.9366335945820841
+   },
+   {
+    "id": "Europa",
+    "tide": 4284616477128.3774,
+    "axialMu0": 1.2811380982941127,
+    "gammaDiff": 1145950911745524.2,
+    "obs": null,
+    "ruler": null,
+    "totalOverObs": null
+   },
+   {
+    "id": "Moon",
+    "tide": 620746137.4984332,
+    "axialMu0": 167.16403107141537,
+    "gammaDiff": 33782838330821.61,
+    "obs": 682781905788.8483,
+    "ruler": "total",
+    "totalOverObs": 0.0009091428747592373
+   },
+   {
+    "id": "Enceladus",
+    "tide": 14861654654.309769,
+    "axialMu0": 0.0005664604919650094,
+    "gammaDiff": 341779637296.7914,
+    "obs": 15800000000,
+    "ruler": "regional",
+    "totalOverObs": 0.9406110540702743
+   },
+   {
+    "id": "Charon",
+    "tide": 14664.230046686549,
+    "axialMu0": 0.05889485447112761,
+    "gammaDiff": 1515278599072.3462,
+    "obs": null,
+    "ruler": null,
+    "totalOverObs": null
+   },
+   {
+    "id": "Pluto",
+    "tide": 6290.655949081178,
+    "axialMu0": 1.8595429710955877,
+    "gammaDiff": 47843184460720.97,
+    "obs": null,
+    "ruler": null,
+    "totalOverObs": null
+   },
+   {
+    "id": "Venus",
+    "tide": 12242532580.579147,
+    "axialMu0": 4728115.7706645215,
+    "gammaDiff": 963375056495599.8,
+    "obs": 38305000000000,
+    "ruler": "scale",
+    "totalOverObs": 0.00031973007952877723
+   },
+   {
+    "id": "Earth",
+    "tide": 3757867934041.069,
+    "axialMu0": 1032304.1102407789,
+    "gammaDiff": 21764636046258565000,
+    "obs": 47000000000000,
+    "ruler": "total",
+    "totalOverObs": 0.07995465885840806
+   },
+   {
+    "id": "Jupiter",
+    "tide": 392720781989113.44,
+    "axialMu0": 9152718.893882336,
+    "gammaDiff": 3.834426706037995e+24,
+    "obs": 335000000000000000,
+    "ruler": "total",
+    "totalOverObs": 0.0011723008690800966
+   },
+   {
+    "id": "Saturn",
+    "tide": 1150527866.3627095,
+    "axialMu0": 32307221.071975764,
+    "gammaDiff": 5.455327274108613e+23,
+    "obs": 86000000000000000,
+    "ruler": "total",
+    "totalOverObs": 1.3753896365519595e-8
+   }
+  ],
+  "t4": [
+   {
+    "id": "Io",
+    "sep": 245456468.44642198,
+    "netMax": 245457226.8400718,
+    "netMin": 245455710.05277213,
+    "netMaxOverSep": 1.0000030897277004,
+    "netMinOverSep": 0.9999969102722994,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Europa",
+    "sep": 177278643.3959941,
+    "netMax": 177279191.1387293,
+    "netMin": 177278095.6532589,
+    "netMaxOverSep": 1.0000030897277006,
+    "netMinOverSep": 0.9999969102722995,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Moon",
+    "sep": 23131474032.66362,
+    "netMax": 40042330957.97865,
+    "netMin": 6220637504.934062,
+    "netMaxOverSep": 1.7310756288784475,
+    "netMinOverSep": 0.26892525293243263,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Enceladus",
+    "sep": 78384.48305198274,
+    "netMax": 78384.53718478004,
+    "netMin": 78384.42891918543,
+    "netMaxOverSep": 1.0000006906060384,
+    "netMinOverSep": 0.9999993093939618,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Charon",
+    "sep": 8149628.769566957,
+    "netMax": 8149640.765163249,
+    "netMin": 8149616.773970663,
+    "netMaxOverSep": 1.0000014719193513,
+    "netMinOverSep": 0.9999985280806484,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Pluto",
+    "sep": 257315940.95229396,
+    "netMax": 257316319.7006069,
+    "netMin": 257315562.20398095,
+    "netMaxOverSep": 1.0000014719193515,
+    "netMinOverSep": 0.9999985280806483,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Venus",
+    "sep": 654257297288013.5,
+    "netMax": 654257630337330.6,
+    "netMin": 654256964238696.4,
+    "netMaxOverSep": 1.0000005090494497,
+    "netMinOverSep": 0.9999994909505503,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Earth",
+    "sep": 142846015179217,
+    "netMax": 142846026819826.06,
+    "netMin": 142846003538607.9,
+    "netMaxOverSep": 1.0000000814906111,
+    "netMinOverSep": 0.9999999185093887,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Jupiter",
+    "sep": 1266515757397955.2,
+    "netMax": 1266519670586774,
+    "netMin": 1266511844209136.5,
+    "netMaxOverSep": 1.0000030897277006,
+    "netMinOverSep": 0.9999969102722995,
+    "dominant": "Sun"
+   },
+   {
+    "id": "Saturn",
+    "sep": 4470540944150031,
+    "netMax": 4470544031532600.5,
+    "netMin": 4470537856767461,
+    "netMaxOverSep": 1.0000006906060381,
+    "netMinOverSep": 0.9999993093939619,
+    "dominant": "Sun"
+   }
+  ],
+  "t5": [
+   {
+    "id": "Io",
+    "sync": true,
+    "Xtilt": 572.8296194084546,
+    "galShareNew": 2.386604315632298e-12
+   },
+   {
+    "id": "Europa",
+    "sync": true,
+    "Xtilt": 30.118142927584575,
+    "galShareNew": 2.386604315632297e-12
+   },
+   {
+    "id": "Moon",
+    "sync": true,
+    "Xtilt": 0.00011442596523731994,
+    "galShareNew": 3.059433108876087e-13
+   },
+   {
+    "id": "Enceladus",
+    "sync": true,
+    "Xtilt": 585.5128043491192,
+    "galShareNew": 1.192341749694934e-13
+   },
+   {
+    "id": "Charon",
+    "sync": true,
+    "Xtilt": 0.5005694669640601,
+    "galShareNew": 5.416366444320735e-13
+   },
+   {
+    "id": "Pluto",
+    "sync": true,
+    "Xtilt": 0.006800989539057681,
+    "galShareNew": 5.416366444320735e-13
+   },
+   {
+    "id": "Venus",
+    "sync": false,
+    "Xtilt": 1.8319865358105093e-7,
+    "galShareNew": 6.478283554417957e-14
+   },
+   {
+    "id": "Earth",
+    "sync": false,
+    "Xtilt": 5.817529881720532e-8,
+    "galShareNew": 1.660179929614778e-15
+   },
+   {
+    "id": "Jupiter",
+    "sync": false,
+    "Xtilt": 3.938643104567031e-9,
+    "galShareNew": 2.3866043156322987e-12
+   },
+   {
+    "id": "Saturn",
+    "sync": false,
+    "Xtilt": 1.2904306718591019e-14,
+    "galShareNew": 1.1923417496949337e-13
+   }
+  ],
+  "t5sep": {
+   "lo": 1.8319865358105093e-7,
+   "hi": 0.00011442596523731994,
+   "separable": true,
+   "loBy": "Venus",
+   "hiBy": "Moon"
+  },
+  "kTilt": {
+   "G0": 0.00008500995051032728,
+   "mu": 0,
+   "kLo": 60143.22106431543,
+   "kHi": 1890046.6857763745,
+   "open": true,
+   "atLo": [
+    {
+     "id": "Io",
+     "ruler": "global",
+     "heat": 93669775798302.88,
+     "overObs": 0.9366977579830288
+    },
+    {
+     "id": "Europa",
+     "ruler": null,
+     "heat": 4289250618876.7275,
+     "overObs": null
+    },
+    {
+     "id": "Moon",
+     "ruler": "total",
+     "heat": 605287656162.3156,
+     "overObs": 0.8865021920330473
+    },
+    {
+     "id": "Enceladus",
+     "ruler": "regional",
+     "heat": 14863703659.189182,
+     "overObs": 0.940740737923366
+    },
+    {
+     "id": "Charon",
+     "ruler": null,
+     "heat": 213049546.44226173,
+     "overObs": null
+    },
+    {
+     "id": "Pluto",
+     "ruler": null,
+     "heat": 6726358216.868904,
+     "overObs": null
+    },
+    {
+     "id": "Venus",
+     "ruler": "scale",
+     "heat": 17102585894073306,
+     "overObs": 446.4844248550661
+    },
+    {
+     "id": "Earth",
+     "ruler": "total",
+     "heat": 3737815562908751,
+     "overObs": 79.5279907001862
+    },
+    {
+     "id": "Jupiter",
+     "ruler": "total",
+     "heat": 33499999999999990,
+     "overObs": 0.09999999999999998
+    },
+    {
+     "id": "Saturn",
+     "ruler": "total",
+     "heat": 116861908654627920,
+     "overObs": 1.3588594029607897
+    }
+   ]
+  }
+ },
+ "gates": {
+  "pure": true,
+  "t2": true,
+  "ledger": true,
+  "band": true,
+  "io": true,
+  "alpha": true,
+  "beta": true,
+  "gamma": true,
+  "colB": true,
+  "kTilt": true,
+  "t4": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.234
+  },
+  "t2": {
+   "wallSec": 1.246
+  },
+  "t3": {
+   "wallSec": 1.255
+  }
+ },
+ "elapsedS": 3.836,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第341便f",
+  "target": "tests/lib-w341f-gyroheat.mjs",
+  "targetSha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+  "generatedAt": "2026-11-18T00:48:21.182Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w341f-gyroheat.mjs",
+    "bytes": 7728,
+    "sha256": "bd7866695eeca5aba696422305e7189e2e9da0c0f8926770ed9ca307632f327a",
+    "mtime": "2026-11-18T00:43:16.150Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-18T00:17:11.906Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-18T00:17:11.926Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-18T00:17:11.926Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-18T00:17:11.926Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-18T00:17:11.926Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-18T00:17:11.942Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-18T00:17:11.946Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-18T00:17:11.946Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-18T00:17:11.946Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-18T00:17:11.946Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-18T00:17:11.950Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-18T00:17:11.954Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-18T00:17:11.954Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-18T00:17:11.954Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-18T00:17:11.954Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-18T00:17:11.954Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-18T00:17:11.958Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-18T00:17:11.962Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-18T00:17:11.962Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-18T00:17:11.966Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-18T00:17:11.966Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-18T00:48:10.078Z"
+   }
+  ],
+  "codeSha256": "815a955cd8bbca25a505f281a7ee871e3f695c6a23e374e18aa4daa47e41c96a",
+  "harnessVersion": "w341f-gyroheat-1",
+  "stage": "gyroheat",
+  "engine": "Node(html を読まない —— 純関数の lib の表・RK4 の積分・窓の比)・1 プロセス",
+  "notClaim": [
+   "帳簿の動作の確かめと、要るノブの範囲の表(天体の熱の予測ではない)",
+   "軸引きずりの部位差分を傾ける力に数えるか(列 A)数えないか(列 B)は伺っている —— 2 列を並べた",
+   "型 (β) は統括の参考の試作(収支を満たす応答の候補の 1 つ)",
+   "天体の特性の係数は 1 に置いた(枝 b の係数は次の便で当てる)",
+   "従来の型の数は従来の型の結果(新しい帳簿の値として引き継がない)",
+   "金星の大気の熱潮汐は扱わない(原仮定者の回答 3)",
+   "文献の値は本環境では一次資料に当たっていない(未照合)",
+   "エンケラドゥス・月・地球・木星・土星の比は物差しの領域が違う —— 観測を超える判定はイオだけ"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 5,
+   "kept": 1267,
+   "zeroPathsHead": [
+    "/pure/scenes/z3/coRel",
+    "/t2/9/residRel",
+    "/t2/17/residRel",
+    "/t2/33/residRel",
+    "/t2/41/residRel"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

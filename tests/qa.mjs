@@ -108833,6 +108833,166 @@ function view338aOf340a(eq) {
 }
 // ==== 第340便h の塊(ここまで)====
 
+// ==== 第341便f の塊(ここから —— behavior.gyroheat341f・docs.gyroheat341f の 2 ブロック。root は SKIP)====
+// ---- 第341便f(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R369): **熱の帳簿 —— 引きずり自体は熱 0(座標変換)・軸を傾ける力 → ジャイロ → 動かなかった分が熱**
+// ----   (新設 —— 器 tests/exp-w341f-gyroheat.mjs〔html を読まない〕・lib tests/lib-w341f-gyroheat.mjs・文書の lib tests/lib-w341f-gyroheatdoc.mjs・正本 tests/out/gyroheat-341f.json・
+// ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.gyroheat341f(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・格子・零試験と純関数の場面 8 を作り直して全部真 ② 器の runAll を走らせ直して pure・t2・t3 が正本と同じ ③ 分類の帯が第337便c と同じ・T2 の続く熱と止まる熱・
+// ----     列 A の 3 型と列 B の窓・銀河の取り分 ④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w341f-gyroheat.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w341f-gyroheat.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w341f-gyroheatdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'gyroheat-341f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.gyroheat341f(第341便f の熱の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, TLc = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); TLc = await import('file://' + path.join(ROOT, 'tests', 'lib-w337c-tidelock.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.gyroheat341f ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/gyroheat-341f.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・格子・零試験と純関数の場面
+        if (!(L.LIB_VERSION === 'w341f-gyroheat-lib-1' && X.HARNESS_VERSION === 'w341f-gyroheat-1' && D0.DOC_VERSION === 'w341f-gyroheatdoc-1' && X.AMEND.length === 0
+          && R338.LIB_VERSION === 'w338c-recheck-lib-1' && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        if (!(js(L.DECL.t2.omega) === js([0, 0.01, 0.1, 0.3, 1, 3, 10]) && js(L.DECL.t2.tau) === js([0.3, 3, 30]) && js(L.DECL.t2.cg) === js([2, 0])
+          && js(L.DECL.t3.mu) === js([0, 0.5, 0.9, 0.99, 1]) && js(L.DECL.t3.tauAbs) === js([1e3, 1e4, 1e5, 1e6, 1e7, 1e8]) && L.DECL.t3.alpha === 2 && L.DECL.t3.galTiltDeg === 120
+          && L.DECL.t3.highFrac === 0.1 && L.DECL.t3.bodyCoef === 1 && L.DECL.t3.judge === 'Io' && js(L.DECL.t3.hot) === js(['Venus', 'Jupiter'])))
+          bad.push('① 格子(ω・τ・c_g・μ・絶対の τ・α・銀河の角・高い内部熱の割合・天体の特性の係数・判定の天体)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 8) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験と純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const parts = ['pure', 't2', 't3'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero}・T2 の行 ${R.t2.length}・天体 ${R.t3.ledger.length})`);
+        // ③ 個別の照合
+        const band = TLc.bodyTable().sepX.band;
+        if (!(Math.abs(J.t3.band.lo - band[0]) <= 1e-12 * band[0] && Math.abs(J.t3.band.hi - band[1]) <= 1e-12 * band[1])) bad.push('③ 分類の帯が第337便c と違う');
+        if (!(J.t2.filter((r) => r.start === 'steady').every((r) => r.persists && r.omega > 0 && !r.coRot) && J.t2.filter((r) => r.start === 'rest').every((r) => !r.persists && (r.omega === 0 || r.coRot)))) bad.push('③ T2 の続く熱(回っていて遠方に固定)と止まる熱(回っていない・一緒に回る)');
+        if (!(J.t3.alpha.overlapMu === false && J.t3.betaAbs.every((b) => !b.overlapFixed) && J.t3.gamma.every((g) => !g.overlapFixed) && J.t3.hotB.every((h) => !h.high))) bad.push('③ 列 A の 3 型・列 B のどれかで 3 つの窓が重なる(正本と表の文を見直す)');
+        if (!(J.t3.ledger.every((r) => r.galShareNew < 1e-9 && r.galShareOld > 0.2))) bad.push('③ 銀河の取り分(新しい帳簿 < 1e-9・従来 > 0.2)');
+        if (!(J.t3.kTilt.open === true && J.t3.ledger.find((r) => r.id === 'Io').tide.heat / J.t3.ledger.find((r) => r.id === 'Io').heatObs < 1)) bad.push('③ 傾ける力の結びつきの係数の試し・イオの潮汐');
+        cases.push('③ 分類の帯 = 第337便c・T2 の続く熱と止まる熱・列 A の 3 型と列 B の窓・銀河の取り分・結びつきの係数の試し');
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w341f-gyroheat.mjs'), th = rd('tests/exp-w341f-gyroheat.mjs'), td = rd('tests/lib-w341f-gyroheatdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w330a-spinclass.mjs', 'lib-w335b-carryledger.mjs', 'lib-w337c-tidelock.mjs', 'lib-w338f-heatlock.mjs'])
+          && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w341f-gyroheat.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/Math\.acos/.test(tl + th)
+          && !/w341f/.test(rd('tests/lib-w338f-heatlock.mjs') + rd('tests/lib-w337c-tidelock.mjs') + rd('tests/lib-w330a-spinclass.mjs') + rd('tests/lib-w335b-carryledger.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は 4 本・器は 3 本・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 4 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.gyroheat341f', bad.length === 0,
+      `**熱の帳簿(座標変換の分は熱 0・軸を傾ける力 → ジャイロ → 動かなかった分が熱)の作り直し**(第341便f・原仮定者の補足(2026-11-18 —— 第141報)・R369 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第341便f: docs.gyroheat341f は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.gyroheat341f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 表 8 本が PHYSICS〔第341便f〕に逐語 ③ 節の位置(〔第340便h〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
+// ----     AI_SPEC §261・CHANGELOG・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w341f-gyroheat.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w341f-gyroheat.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w341f-gyroheatdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'gyroheat-341f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.gyroheat341f(第341便f の熱の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.gyroheat341f ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第341便f — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第340便h — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第341便f〕が無いか〔第340便h〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/gyroheat-341f.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'gyroheat'
+        && J.target === 'tests/lib-w341f-gyroheat.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第341便f〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第341便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の補足(2026-11-18 —— 第141報)', 'R369', 'tests/exp-w341f-gyroheat.mjs', 'tests/out/gyroheat-341f.json', 'tests/lib-w341f-gyroheat.mjs', 'gyroheat-341f',
+      '座標変換', '軸を傾ける', 'ジャイロ', '動かなかった分', '歳差', '列 A', '列 B', 'AN803', '第128報', '極限', '可動度', '統括の参考の試作', '従来の型', 'AN810',
+      '零試験', '天体が 1 つ', '収支', '周期の駆動', '静かな変形', '90 度ズレる', '冥王星とカロン', '逆向きは打ち消さない', '正味', '源ごと', '銀河の項', '傾ける力の結びつきの係数',
+      '天体の特性の係数', 'AN790', '全球の物差し', '文献の値・未照合', '上限の目安', 'しきいの帯',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', 'このノブの組では', '第141報への枝の答え', '題カードの恒久の条件との照合',
+      '決断事項の候補', '原文の文', '読み', '次の便へ', 'behavior.gyroheat341f', 'docs.gyroheat341f', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第341便f〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 6
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 261. 第341便f'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/gyroheat-341f.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R369') >= 0))
+      bad.push('③ AI_SPEC §261(正本・SYSTEM_PROMPT・候補・R369)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)\(/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl341f = clg.split('\n').find((l) => l.indexOf('**第341便f**') >= 0) || '';
+    if (!(cl341f.indexOf('tests/exp-w341f-gyroheat.mjs') >= 0 && cl341f.indexOf('gyroheat-341f') >= 0 && cl341f.indexOf('第141報') >= 0 && cl341f.indexOf('R369') >= 0)) bad.push('③ CHANGELOG の第341便f の行');
+    if (!(/S\('gyroheat-341f', 'node tests\/exp-w341f-gyroheat\.mjs', \['tests\/out\/gyroheat-341f\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 3 s の桁") >= 0
+      && RT.indexOf('// ==== 第341便f の塊(ここから)====') >= 0)) bad.push('③ 段の行 gyroheat-341f(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/gyroheat-341f.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第341便f の塊(ここから)====') >= 0 && /behavior\.gyroheat341f/.test(PM) && /docs\.gyroheat341f/.test(PM))) bad.push('③ post-merge の ③′ に第341便f の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §261(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第341便の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・熱の機構が導けた・熱の機構が解決した・負の熱が解消した・
+    //   イオの熱が合った・金星の熱が合った・木星の熱が合った・天体の特性の係数が決まった・引きずりが無いと確かめられた
+    const W341 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たけ導が構機の熱', 'たし決解が構機の熱', 'たし消解が熱の負', 'たっ合が熱のオイ', 'たっ合が熱の星金', 'たっ合が熱の星木',
+      'たっま決が数係の性特の体天', 'たれらめか確といな'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第341便f〕', sec], ['AI_SPEC §261', ai], ['CHANGELOG の第341便f の行', cl341f], ['器', rd('tests/exp-w341f-gyroheat.mjs')], ['lib', rd('tests/lib-w341f-gyroheat.mjs')], ['文書の lib', rd('tests/lib-w341f-gyroheatdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W341)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.gyroheat341f', bad.length === 0,
+      `**熱の帳簿(座標変換の分は熱 0・軸を傾ける力 → ジャイロ → 動かなかった分が熱)の文書**(第341便f・原仮定者の補足(2026-11-18 —— 第141報)・R369 —— 候補の表・ノブの範囲・配置): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第341便f の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
