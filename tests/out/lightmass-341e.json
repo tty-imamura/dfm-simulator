@@ -1144,19 +1144,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.09
+   "wallSec": 0.119
   },
   "t1": {
-   "wallSec": 0.164
+   "wallSec": 0.239
   },
   "t2": {
-   "wallSec": 0.803
+   "wallSec": 1.441
   },
   "t3": {
-   "wallSec": 1.157
+   "wallSec": 1.929
   },
   "t4": {
-   "wallSec": 1.158
+   "wallSec": 1.93
   }
  },
  "gates": {
@@ -1173,71 +1173,71 @@
   "lowOrder": true
  },
  "ok": true,
- "elapsedS": 4.466,
+ "elapsedS": 7.653,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第341便e",
   "target": "tests/lib-w341e-lightmass.mjs",
   "targetSha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
-  "generatedAt": "2026-11-18T00:53:53.752Z",
+  "generatedAt": "2026-11-18T02:36:28.112Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w341e-lightmass.mjs",
     "bytes": 9148,
     "sha256": "cd883a7b84c2b02f5af3db6545186148832bc361bba4d5856b9dea6026daf5ae",
-    "mtime": "2026-11-18T00:53:48.935Z"
+    "mtime": "2026-11-18T01:01:47.154Z"
    },
    {
     "file": "tests/lib-w341e-lightmass.mjs",
     "bytes": 24950,
     "sha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
-    "mtime": "2026-11-18T00:53:48.932Z"
+    "mtime": "2026-11-18T01:01:47.158Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-18T00:17:10.998Z"
+    "mtime": "2026-11-16T19:50:17.226Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-18T00:17:10.998Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-18T00:17:10.994Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-18T00:17:10.998Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
-    "bytes": 6425,
-    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
-    "mtime": "2026-11-18T00:17:11.014Z"
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-18T01:07:52.490Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-18T00:17:10.962Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-18T00:17:11.010Z"
+    "mtime": "2026-11-15T11:46:26.753Z"
    }
   ],
-  "codeSha256": "20dd8d6c4218127c2dfb72d28817dbfff6c7fcc666111337c3f13b2a4f2c9628",
+  "codeSha256": "a9e319546e8f799215633ea25425d8090a9e0ea4830121796b90bca9d5161e55",
   "harnessVersion": "w341e-lightmass-1",
   "stage": "lightmass",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 と求積)",

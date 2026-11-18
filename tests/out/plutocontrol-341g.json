@@ -1589,19 +1589,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.036
+   "wallSec": 0.049
   },
   "t1": {
-   "wallSec": 0.053
+   "wallSec": 0.073
   },
   "t2": {
-   "wallSec": 0.174
+   "wallSec": 0.179
   },
   "t3": {
-   "wallSec": 0.271
+   "wallSec": 0.247
   },
   "t4": {
-   "wallSec": 0.271
+   "wallSec": 0.247
   }
  },
  "gates": {
@@ -1615,95 +1615,95 @@
   "t4": true
  },
  "ok": true,
- "elapsedS": 0.705,
+ "elapsedS": 0.774,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第341便g",
   "target": "tests/lib-w341g-plutocontrol.mjs",
   "targetSha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
-  "generatedAt": "2026-11-18T00:50:08.717Z",
+  "generatedAt": "2026-11-18T02:36:50.845Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w341g-plutocontrol.mjs",
     "bytes": 7699,
     "sha256": "3e9f34e20e7ac769d357a2fa9021d78ee09586d41cbcf54fd81f9de0ca36ee75",
-    "mtime": "2026-11-18T00:50:07.703Z"
+    "mtime": "2026-11-18T01:02:00.858Z"
    },
    {
     "file": "tests/lib-w341g-plutocontrol.mjs",
     "bytes": 34762,
     "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
-    "mtime": "2026-11-18T00:50:07.701Z"
+    "mtime": "2026-11-18T01:02:00.862Z"
    },
    {
     "file": "tests/lib-w340b-axialsplit.mjs",
-    "bytes": 33136,
-    "sha256": "79b8b37d6a4ece47e0f5b93ad9705d32e7ee165d361ad6fdd69bf705ccdee655",
-    "mtime": "2026-11-18T00:17:12.790Z"
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-18T01:07:52.490Z"
    },
    {
     "file": "tests/lib-w334d-binarylaw.mjs",
     "bytes": 34686,
     "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
-    "mtime": "2026-11-18T00:17:12.782Z"
+    "mtime": "2026-11-11T20:04:37.057Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-18T00:17:12.778Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w340e-lightweight.mjs",
     "bytes": 31437,
     "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
-    "mtime": "2026-11-18T00:17:12.794Z"
+    "mtime": "2026-11-16T19:37:04.778Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
-    "bytes": 6425,
-    "sha256": "2fbbbfeb5c94fe1e5f95c4ef3bb0104604e8e9e0f18ab669566c28f7b681f787",
-    "mtime": "2026-11-18T00:17:12.794Z"
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-18T01:07:52.490Z"
    },
    {
     "file": "tests/lib-w337l-bevel.mjs",
     "bytes": 37324,
     "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
-    "mtime": "2026-11-18T00:17:12.790Z"
+    "mtime": "2026-11-15T11:12:40.749Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
     "bytes": 41130,
     "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
-    "mtime": "2026-11-18T00:17:12.790Z"
+    "mtime": "2026-11-16T19:50:17.226Z"
    },
    {
     "file": "tests/lib-w337c-tidelock.mjs",
     "bytes": 58274,
     "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
-    "mtime": "2026-11-18T00:17:12.786Z"
+    "mtime": "2026-11-14T22:18:56.150Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-18T00:17:12.790Z"
+    "mtime": "2026-11-15T00:02:39.371Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-18T00:17:12.738Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-18T00:17:12.790Z"
+    "mtime": "2026-11-15T11:46:26.753Z"
    }
   ],
-  "codeSha256": "2094ac3d67db7e98f782217c6acb701eb2645bd05cf5f491a4f942994576fd59",
+  "codeSha256": "5a61ab0f9fde2d2a2db98e4fa77371d0ce537c81b6668d300dfc12396a009fe1",
   "harnessVersion": "w341g-plutocontrol-1",
   "stage": "plutocontrol",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 二体の RK4 は自前)",
