@@ -110504,6 +110504,166 @@ function view340aOf341a(eq) {
 }
 // ==== 第342便c の塊(ここまで)====
 
+// ==== 第342便e の塊(ここから —— behavior.powerball342e・docs.powerball342e の 2 ブロック。root は SKIP)====
+// ---- 第342便e(原仮定者の回答(2026-11-18 —— 第141報の回答)AN803「…熱になるか、自転速度を増す。自転速度を増す経路が「パワーボール効果」」・統括の検証項目 R376):
+// ----   **動かなかった分の出口を 2 つ(熱・自転の速さの増加)に分ける帳簿と、向ける先の軸が複数(太陽・銀河)の場合**(新設 —— 器 tests/exp-w342e-powerball.mjs〔html を読まない〕・
+// ----   lib tests/lib-w342e-powerball.mjs・文書の lib tests/lib-w342e-powerballdoc.mjs・正本 tests/out/powerball-342e.json・入力のファイルは無い。html・本の宣言・エンジン・受理器・
+// ----   既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.powerball342e(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・格子・零試験と純関数の場面 7(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ)を作り直して全部真 ② 器の runAll を走らせ直して pure・t1・t2・t3・win・t4 が正本と同じ
+// ----     ③ 帳簿の残りの尺度(エネルギーの恒等式の残り ÷ 保つ仕事率 < 1e-12・角運動量の残り = 要る τ∥ で 0 に丸めていない)・帯と結びつきの係数が第341便f と同じ ④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w342e-powerball.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w342e-powerball.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w342e-powerballdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'powerball-342e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.powerball342e(第342便e の出口 2 つの帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, F341 = null, R338 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); F341 = await import('file://' + path.join(ROOT, 'tests', 'lib-w341f-gyroheat.mjs'));
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.powerball342e ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/powerball-342e.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・格子・零試験と純関数の場面(ほかの lib の版は文字で期待しない —— 読んで比べる)
+        if (!(L.LIB_VERSION === 'w342e-powerball-lib-1' && X.HARNESS_VERSION === 'w342e-powerball-1' && D0.DOC_VERSION === 'w342e-powerballdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        if (!(js(L.DECL.splits.const) === js([0, 0.1, 0.5, 0.9, 1]) && js(L.DECL.splits.ratio) === js([1, 1e3, 1e6]) && L.DECL.splits.lag.length === 5 && js(L.DECL.mu) === js([0, 0.5, 0.9])
+          && js(L.DECL.laws) === js(['sin', 'sin2', 'oneMinusCos']) && js(L.DECL.cbReadings) === js(['one', 'bal', 'spd']) && js(L.DECL.targetSets) === js(['sun', 'galaxy', 'both'])
+          && L.DECL.judge === 'Jupiter' && L.DECL.cmp === 'Venus' && L.DECL.highFrac === 0.1 && L.DECL.bodies.length === 7))
+          bad.push('① 格子(分け方の型とノブ・μ・則・C_b の読み・向ける先・判定の天体・高い内部熱の割合・天体)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験と純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ)`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const parts = ['pure', 't1', 't2', 't3', 'win', 't4'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero}・窓 ${R.win.length} 行・T4 ${R.t4.length} 行)`);
+        // ③ 帳簿の残りの尺度・第341便f と同じ帯と係数
+        if (!(J.t1.every((r) => r.residERel < 1e-12) && J.pure.scenes.z4.worstResidRel < 1e-12)) bad.push('③ エネルギーの恒等式の残り ÷ 保つ仕事率が 1e-12 以上');
+        if (!(J.t3.every((r) => r.residLMax === r.tauParMax && r.tauParMax > 0) && J.t1.every((r) => r.residL === r.tauPar))) bad.push('③ 角運動量の残り(向ける力だけの残り = 要る τ∥ —— 0 に丸めない)');
+        const T41 = F341.t3Tables();
+        if (!(Math.abs(J.band.hi - T41.band.hi) <= 1e-12 * T41.band.hi && Math.abs(J.kLo - T41.kTilt.kLo) <= 1e-9 * T41.kTilt.kLo && Math.abs(J.kHi - T41.kTilt.kHi) <= 1e-9 * T41.kTilt.kHi)) bad.push('③ 帯と結びつきの係数が第341便f と違う');
+        if (!(J.win.every((w) => w.outside || w.openK1 === false) && J.t4.every((r) => r.galShare < 1e-9))) bad.push('③ 窓(k_tilt 1 で 3 つが重なる行が在る)か銀河の取り分(正本と表の文を見直す)');
+        cases.push('③ 恒等式の残り < 1e-12・角運動量の残り = 要る τ∥・帯と結びつきの係数 = 第341便f・窓と銀河の取り分');
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w342e-powerball.mjs'), th = rd('tests/exp-w342e-powerball.mjs'), td = rd('tests/lib-w342e-powerballdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w330a-spinclass.mjs', 'lib-w337c-tidelock.mjs', 'lib-w341b-bodycoef.mjs', 'lib-w341f-gyroheat.mjs'])
+          && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w342e-powerball.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/Math\.acos/.test(tl + th)
+          && !/w342e/.test(rd('tests/lib-w341f-gyroheat.mjs') + rd('tests/lib-w341b-bodycoef.mjs') + rd('tests/lib-w337c-tidelock.mjs') + rd('tests/lib-w330a-spinclass.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は 4 本・器は 3 本・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 4 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.powerball342e', bad.length === 0,
+      `**動かなかった分の出口 2 つ(熱・自転の速さの増加)の帳簿と向ける先の軸が複数の場合の作り直し**(第342便e・原仮定者の回答(2026-11-18 —— 第141報の回答)AN803・R376 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第342便e: docs.powerball342e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.powerball342e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 表 6 本が PHYSICS〔第342便e〕に逐語 ③ 節の位置(〔第342便a〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
+// ----     AI_SPEC §268・CHANGELOG・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w342e-powerball.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w342e-powerball.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w342e-powerballdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'powerball-342e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.powerball342e(第342便e の出口 2 つの帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.powerball342e ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第342便e — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第342便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第342便e〕が無いか〔第342便a〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/powerball-342e.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'powerball'
+        && J.target === 'tests/lib-w342e-powerball.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第342便e〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第342便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-18 —— 第141報の回答)', 'AN803', 'パワーボール効果', 'R376', 'tests/exp-w342e-powerball.mjs', 'tests/out/powerball-342e.json', 'tests/lib-w342e-powerball.mjs', 'powerball-342e',
+      '動かなかった分', '出口', '熱', '自転の速さの増加', '分け方', '一定の割合', '周期の比', '位相の遅れ', '角運動量', '残り', '源の自転', '軌道', '外', '向ける力', 'sin の型', '2 倍角の形', '角の差の型',
+      '天体の特性の係数', 'AN790', 'AN816', '結びつきの係数', '向ける先の軸', '太陽だけ', '銀河だけ', '両方', 'AN812', 'AN825', 'AN813', '第121報', '木星', '金星', '並べる列', '上限の目安',
+      '零試験', '理想のジャイロ', '仕事率', '第341便f', 'AN712', '文献の値・未照合', '3 つの窓',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', 'このノブの組では', '第142報への枝の答え', '題カードの恒久の条件との照合',
+      '決断事項の候補', '原文の文', '読み', '次の便へ', 'behavior.powerball342e', 'docs.powerball342e', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第342便e〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 5
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 268. 第342便e'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/powerball-342e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R376') >= 0))
+      bad.push('③ AI_SPEC §268(正本・SYSTEM_PROMPT・候補・R376)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl342e = clg.split('\n').find((l) => l.indexOf('**第342便e**') >= 0) || '';
+    if (!(cl342e.indexOf('tests/exp-w342e-powerball.mjs') >= 0 && cl342e.indexOf('powerball-342e') >= 0 && cl342e.indexOf('第141報の回答') >= 0 && cl342e.indexOf('R376') >= 0)) bad.push('③ CHANGELOG の第342便e の行');
+    if (!(/S\('powerball-342e', 'node tests\/exp-w342e-powerball\.mjs', \['tests\/out\/powerball-342e\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁") >= 0
+      && RT.indexOf('// ==== 第342便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 powerball-342e(quickVerify と理由・塊)');
+    if (GI.indexOf('!tests/out/powerball-342e.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第342便e の塊(ここから)====') >= 0 && /behavior\.powerball342e/.test(PM) && /docs\.powerball342e/.test(PM))) bad.push('③ post-merge の ③′ に第342便e の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §268(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第342便の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・パワーボール効果で自転が説明できた・金星と木星の内部熱が解決した・
+    //   拮抗の機構が導けた・熱の出口が決まった・熱の機構が導けた・熱の機構が解決した・負の熱が解消した・天体の特性の係数が決まった
+    const W342 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たきで明説が転自で果効ルーボーワパ', 'たし決解が熱部内の星木と星金', 'たけ導が構機の抗拮', 'たっま決が口出の熱', 'たけ導が構機の熱', 'たし決解が構機の熱',
+      'たし消解が熱の負', 'たっま決が数係の性特の体天'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第342便e〕', sec], ['AI_SPEC §268', ai], ['CHANGELOG の第342便e の行', cl342e], ['器', rd('tests/exp-w342e-powerball.mjs')], ['lib', rd('tests/lib-w342e-powerball.mjs')], ['文書の lib', rd('tests/lib-w342e-powerballdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W342)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.powerball342e', bad.length === 0,
+      `**動かなかった分の出口 2 つの帳簿と向ける先の軸が複数の場合の文書**(第342便e・原仮定者の回答(2026-11-18 —— 第141報の回答)AN803・R376 —— 候補の表・ノブの範囲・配置): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第342便e の塊(ここまで)====
+
 // ==== 第342便f の塊(ここから —— docs.report142_342f・lint.equations342f の 2 ブロック。root は SKIP)====
 // ---- 第342便f(原仮定者の回答(2026-11-18 —— 第142報)・統括の検証項目 R377): **文書と照合の鍵だけ**(PHYSICS〔第342便f〕の表 1〜表 4・docs/EQUATIONS.md の EQ-78〔表面の時計 —— アプリ〕と
 // ----   EQ-79〜EQ-83〔第341便 b・d・e・f・g の候補の型の式〕と §2a の第142報の用語・AI_SPEC §269・CHANGELOG —— html・エンジン・内蔵の本・受理器・既存の lib の本文・physics の鍵は変えない・

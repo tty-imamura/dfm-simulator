@@ -1137,6 +1137,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockstop342b docs.clockstop342b"
 #   第338便c の recheckRun で正本と照合・球の源で比 1・上下の対称・弦の体積の零試験・呼ぶだけ / docs.oblateapprox342c —— PHYSICS〔第342便c〕・AI_SPEC §266・CHANGELOG・段の行)と、新しい段 oblateapprox-342c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblateapprox342c docs.oblateapprox342c"
 # ==== 第342便c の塊(ここまで)====
+# ==== 第342便e の塊(ここから)====
+# 第342便e(原仮定者の回答(2026-11-18 —— 第141報の回答)AN803・統括の検証項目 R376 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.powerball342e —— 零試験 7 と純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・η = 0 で第341便f と同じ・帳簿の残りの尺度・呼ぶだけ / docs.powerball342e —— 正本の門と表 6 本が PHYSICS〔第342便e〕に逐語・文書)と、新しい段 powerball-342e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.powerball342e docs.powerball342e"
+# ==== 第342便e の塊(ここまで)====
 # ==== 第342便f の塊(ここから)====
 # 第342便f(原仮定者の回答(2026-11-18 —— 第142報)・統括の検証項目 R377 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report142_342f —— PHYSICS〔第342便f〕の
 #   回答 3 項の原文・AN800 の訂正の鎖・並べて読む所 4 つ・用語 4 つ・AI_SPEC §269・CHANGELOG / lint.equations342f —— EQ-78 の字と html の表面の時計の実装・EQ の番号の連続・
