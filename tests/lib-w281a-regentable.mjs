@@ -2319,7 +2319,8 @@ export const REGEN_STEPS = [
   //   lib tests/lib-w340d-gyropath.mjs —— 第338便b・第338便d・第339便a・第337便l・第337便i・第337便a の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の
   //   k4Sets を呼んで作り直す —— 順序だけ after に段 ringbook-338d と同じ一式 + ringbook-338d・bevelknob-338b・rotvert-339a〕)。**診断だけ**。
   //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 35〜39 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T4 の扁平の源の部位の和 960 点)
-  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 39, { secSource: 'w340d-branch', node: true,
+  //   第342便d(統括の検証項目 R375): lib を lib-2 に(扁平の経路の比の分母を同じ物理の位置の球で作る —— 分母の部位の和が 300 個ふえる)。所要は第342便d の枝の実測 57.7〜58.3 s(60 s の内)
+  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 58, { secSource: 'w342d-branch', node: true,
     after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
       'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a'],
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',

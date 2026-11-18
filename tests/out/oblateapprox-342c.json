@@ -26904,25 +26904,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.008
+   "wallSec": 0.01
   },
   "t1": {
-   "wallSec": 0.012
+   "wallSec": 0.017
   },
   "t2": {
-   "wallSec": 0.052
+   "wallSec": 0.054
   },
   "t3": {
-   "wallSec": 0.052
+   "wallSec": 0.054
   },
   "benchTangentPerPoint": {
-   "wallSec": 0.000005134333333346928
+   "wallSec": 0.000007508985714009344
   },
   "benchChord128PerPoint": {
-   "wallSec": 0.0000329906059521688
+   "wallSec": 0.000057054559524008905
   },
   "ref341dT1": {
-   "wallSec": 7.371
+   "wallSec": 9.527
   }
  },
  "gates": {
@@ -26935,19 +26935,19 @@
   "t2SelfSettled": true
  },
  "ok": true,
- "elapsedS": 0.214,
+ "elapsedS": 0.27,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第342便c",
   "target": "tests/lib-w342c-oblateapprox.mjs",
   "targetSha256": "a7177a22ab99ca5a127c9ea78d84f54fbc68c4c869d5cf37283c16e9cfda3fa6",
-  "generatedAt": "2026-11-18T15:29:34.464Z",
+  "generatedAt": "2026-11-18T15:55:29.462Z",
   "inputs": [
    {
     "file": "tests/out/oblatering-341d.json",
-    "bytes": 610818,
-    "sha256": "9021eb0925acb2277ccc1de263ec9fddd6d602fcd90e1281b1972b15d2b85eb0",
-    "mtime": "2026-11-18T15:04:54.061Z"
+    "bytes": 610820,
+    "sha256": "acb4f416a0415407d55cd09f3d06f348965b038f025d37a86d8d0c5e7e7a3844",
+    "mtime": "2026-11-18T15:55:10.889Z"
    }
   ],
   "code": [
@@ -26955,37 +26955,37 @@
     "file": "tests/exp-w342c-oblateapprox.mjs",
     "bytes": 13332,
     "sha256": "330be17d56e9aa8804c6235c41558c061258e711a8ea74e51fa0dc330fa260b3",
-    "mtime": "2026-11-18T15:29:34.061Z"
+    "mtime": "2026-11-18T15:44:29.225Z"
    },
    {
     "file": "tests/lib-w342c-oblateapprox.mjs",
     "bytes": 19543,
     "sha256": "a7177a22ab99ca5a127c9ea78d84f54fbc68c4c869d5cf37283c16e9cfda3fa6",
-    "mtime": "2026-11-18T15:23:37.533Z"
+    "mtime": "2026-11-18T15:44:29.229Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
     "bytes": 22798,
     "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-    "mtime": "2026-11-18T15:04:53.841Z"
+    "mtime": "2026-11-15T11:12:40.749Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
     "bytes": 7760,
     "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
-    "mtime": "2026-11-18T15:04:53.845Z"
+    "mtime": "2026-11-18T01:07:52.490Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-18T15:04:53.841Z"
+    "mtime": "2026-11-15T11:46:26.753Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-18T15:04:53.789Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    }
   ],
   "codeSha256": "ffbb4bf58ad48cf93bec84e25d4151f135709e3aca5585479edfd5b09f1cda53",

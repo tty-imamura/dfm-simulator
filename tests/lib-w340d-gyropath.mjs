@@ -30,7 +30,10 @@ import { DECL as D339A } from './lib-w339a-rotvert.mjs';
 import { weight337 } from './lib-w337a-supply.mjs';
 import { DECL as D337L, LIT as LIT337L } from './lib-w337l-bevel.mjs';
 
-export const LIB_VERSION = 'w340d-gyropath-lib-1';
+// ■ 版の履歴: lib-1(第340便d)→ lib-2(第342便d・原仮定者の回答(2026-11-18 —— 第142報)AN827・統括の検証項目 R375): `oblateRows` の球の源の分母の覚え方の鍵を
+//   「距離 ÷ 赤道半径」から物理の距離 r に直した(lib-1 は扁平率 0 でない行で、扁平の源の点 r = 比 × R_eq と球の源の点 r = 比 × 1 を比べていた —— 土星の扁平率で 1.035 倍ずれた点)。
+//   直したのは比べる位置だけ(源の区切りの点の数・格子・場の列 `field` は不変 —— 扁平率 0 の行は分子の計算をそのまま分母に使う: 同じ位置・同じ場なので同じ値)。旧い比と新しい比の訂正の表は tests/lib-w342d-gyropathfix.mjs と QA behavior.gyropathfix342d。
+export const LIB_VERSION = 'w340d-gyropath-lib-2';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 const scl = (a, k) => [a[0] * k, a[1] * k, a[2] * k], add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -227,7 +230,7 @@ export function spheroidField(src, kind, { p = DECL.t1.pMain, sSign = 1, h = 1e-
   }
   throw new RangeError('spheroidField: 型 ' + kind);
 }
-/** T4 の行: 扁平率 f・距離 r/R_eq・高さ z/r で、場の向きの球の源からの傾き(atan2)・強さの比・場の向きと源の軸の角・経路の型の寄せる力と球の源との比 */
+/** T4 の行: 扁平率 f・距離 r/R_eq・高さ z/r で、場の向きの球の源からの傾き(atan2)・強さの比・場の向きと源の軸の角・経路の型の寄せる力と球の源との比(分子と分母は同じ物理の位置 x —— lib-2) */
 export function oblateRows() {
   const D = DECL.t4, out = [], cache = {}, src0 = spheroidParts(0);
   const fieldsOf = (src) => Object.fromEntries(D.kinds.map((k) => [k, spheroidField(src, k, { Iref: src0.I })]));
@@ -240,7 +243,7 @@ export function oblateRows() {
         const ta = angleAtan2(a, [0, 0, -1]), tb = angleAtan2(b, [0, 0, -1]);   // 軸の傾き = 源の軸の逆向き(赤道の逆回転の向き)からの角
         row.field[k] = { tiltFromSphere: angleAtan2(a, b), magRatio: nrm(a) / nrm(b), axisTilt: ta, axisTiltSphere: tb, axisTiltRatio: tb > 0 ? ta / tb : null }; }
       for (const k of D.pathKinds) for (const a of D.pathActions) { const g = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: zr, r, field: F[k], cubeK: D.recvCubeK }),
-          ck = [k, a, rOverReq, zr].join('|'), g0 = cache[ck] || (cache[ck] = gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: zr, r, field: F0[k], cubeK: D.recvCubeK }));
+          ck = [k, a, r, zr].join('|'), g0 = cache[ck] || (cache[ck] = F === F0 ? g : gyroRow({ action: a, q: 1, p: DECL.t1.pMain, body: 'sphere', zOverR: zr, r, field: F0[k], cubeK: D.recvCubeK }));
         row.path[k + '|' + a] = { pull: g.pull, pullSphere: g0.pull, ratio: g0.pull ? g.pull / g0.pull : null }; }
       out.push(row); } }
   return out;
