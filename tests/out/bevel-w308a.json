@@ -3,7 +3,7 @@
  "libVersion": "w308a-bevel-lib-1",
  "generator": "tests/exp-w308a-bevel.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の裁定(第101報)(源の軸回転は軸方向に対する角度差の 2 倍で傾いた軸で作用する —— 赤道で逆・軸方向で順・45° でベベルギヤの様に 90°・軸引きずりは回転引きずりの差分で仰角が上がると弱まる・受け手は体積平均)・決断事項 AN346・AN347・AN354・統括の検証項目 R214",
  "axialVersion": "w308a-axial-bevel-1",
  "axialLaw": "bevel-mirror-sin",
@@ -3862,40 +3862,40 @@
  "ok": true,
  "timing": {
   "G": {
-   "wallSec": 0.005
+   "wallSec": 0.008
   },
   "K": {
    "wallSec": 0.004
   },
   "L": {
-   "wallSec": 0.197
+   "wallSec": 0.236
   },
   "S": {
-   "wallSec": 0.112
+   "wallSec": 0.169
   },
   "V": {
-   "wallSec": 0.599
+   "wallSec": 0.814
   },
   "E": {
-   "wallSec": 12.784
+   "wallSec": 17.372
   },
   "P": {
-   "wallSec": 0.003
+   "wallSec": 0.005
   }
  },
- "elapsedS": 15.384,
+ "elapsedS": 20.602,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T00:01:21.881Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T21:01:36.301Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4035,9 +4035,9 @@
    ],
    "names": 1377,
    "segments": 1208,
-   "closureShare": 0.2949
+   "closureShare": 0.2948
   },
-  "scopeSha256": "7f2df15876a7f319b63d36df51edc11f760f4c72877fb1c40e022b921323c697",
+  "scopeSha256": "148b39e8aad16d531701ac6c184f8ffd42b11ed932181ddd48f6881beb221043",
   "scopeComplete": true,
   "inputsStable": [
    {

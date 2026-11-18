@@ -3,7 +3,7 @@
  "libVersion": "w309c-recheck-lib-1",
  "generator": "tests/exp-w309c-recheck.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の裁定(第103報)AN355(慣性自転の初期値 = 観測値の自転 − 引きずり軸回転の初期値)・AN357(正確な引きずりの修正版で再確認)・(第104報)AN362・AN363・(第105報)AN364(慣性移動の初期値 = 観測値の移動 − 引きずり移動の初期値)・決断事項 AN355・AN357・AN362・AN363・AN364・統括の検証項目 R220",
  "initObsVersion": "w309c-initobs-1",
  "ok": true,
@@ -4190,31 +4190,31 @@
  },
  "timing": {
   "K": {
-   "wallSec": 0.03
+   "wallSec": 0.041
   },
   "E": {
-   "wallSec": 0.138
+   "wallSec": 0.188
   },
   "P": {
-   "wallSec": 0.178
+   "wallSec": 0.245
   },
   "R": {
-   "wallSec": 1.342
+   "wallSec": 1.597
   }
  },
- "elapsedS": 3.372,
+ "elapsedS": 4.273,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便c",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T00:27:17.139Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T21:01:55.410Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -4354,9 +4354,9 @@
    "abBody": false,
    "names": 1360,
    "segments": 1191,
-   "closureShare": 0.2925
+   "closureShare": 0.2923
   },
-  "scopeSha256": "abcc28da4df22f807352b78dd002e80d8c252bb55f953fe27e89d3e3fd04c48d",
+  "scopeSha256": "94e41712a0cafbd168d930645fb640219ee37a4e0a5fc3465f72dd413ce30753",
   "scopeComplete": true,
   "inputsStable": [
    {

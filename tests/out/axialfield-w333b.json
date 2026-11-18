@@ -3,7 +3,7 @@
  "libVersion": "w333b-axialfield-lib-1",
  "generator": "tests/exp-w333b-axialfield.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-10)「軸引きずりは、回転を統合した並進引きずりに対する、手前と奥の差分とする。源の回転でも発生するが、源が横を通り抜けても発生する」「回転を統合した並進引きずりは、背景宇宙に対する回転により、順方向の公転に対しては遠心力を下げる。逆方向の公転に対しては遠心力を上げる」「引きずりの重みは、m/r^2 が有力だが、他の次数でも検証を行う」(作業仮説 —— 診断で検査)・統括の検証項目 R318",
  "decl": {
@@ -51455,28 +51455,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.058
+   "wallSec": 0.075
   },
   "field.epoch": {
-   "wallSec": 0.201
+   "wallSec": 0.211
   },
   "field.venusConj": {
-   "wallSec": 0.294
+   "wallSec": 0.327
   },
   "field.mercuryPeri": {
-   "wallSec": 0.381
+   "wallSec": 0.453
   },
   "field.spin0": {
-   "wallSec": 0.446
+   "wallSec": 0.543
   },
   "finite": {
-   "wallSec": 3.484
+   "wallSec": 3.222
   },
   "centrifugal": {
-   "wallSec": 3.678
+   "wallSec": 3.458
   },
   "units": {
-   "wallSec": 3.683
+   "wallSec": 3.463
   }
  },
  "gates": {
@@ -51490,19 +51490,19 @@
   "unitsShape": true
  },
  "ok": true,
- "elapsedS": 5.453,
+ "elapsedS": 5.639,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第333便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T00:00:16.068Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T20:57:47.917Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -51634,9 +51634,9 @@
    "abBody": false,
    "names": 1363,
    "segments": 1194,
-   "closureShare": 0.2935
+   "closureShare": 0.2933
   },
-  "scopeSha256": "4282ffcacb0b3bd2d258f6814752988698f4cde22776d6c95c01a10783392401",
+  "scopeSha256": "154cb54565e1e9af08fa233925644eadd2f646dd00c9f3299f6fd8e1fda3e8c7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
