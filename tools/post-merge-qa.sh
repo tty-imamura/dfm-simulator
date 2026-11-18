@@ -1100,6 +1100,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bodycoef341b docs.bodycoef341b"
 #   正本の 3 値・変異の試しの記録 / lint.stableRead341c —— d0audit・calcontract が calaudit を安定 hash で刻む・対照 / docs.tools341c —— PHYSICS〔第341便c〕・AI_SPEC §258・CHANGELOG)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judgeScale341c lint.stableRead341c docs.tools341c"
 # ==== 第341便c の塊(ここまで)====
+# ==== 第341便d の塊(ここから)====
+# 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)・原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R367 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.oblatering341d ——
+#   純関数の場面・器を走らせ直して正本と照合〔第338便c の recheckRun〕・球の源で区切りを細かくすると点の源へ寄るかの表・扁平率 0 で比 1・口の帳簿の閉じ / docs.oblatering341d —— 正本の門・PHYSICS〔第341便d〕・文書)と、
+#   新しい段 oblatering-341d の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblatering341d docs.oblatering341d"
+# ==== 第341便d の塊(ここまで)====
 # ==== 第341便e の塊(ここから)====
 # 第341便e(原仮定者の補足(2026-11-18 —— 第141報)・統括の検証項目 R368 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.lightmass341e —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・門・零試験・呼ぶだけ / docs.lightmass341e —— 正本の門と表が PHYSICS〔第341便e〕に逐語・文書)と、新しい段 lightmass-341e の lint 一式(第337便i の塊で足した一式)

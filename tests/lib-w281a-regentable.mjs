@@ -2375,6 +2375,20 @@ export const REGEN_STEPS = [
     note: '第341便b: 係数 C_b × 仰角 × 取り分の和の向きと強さ・境目の閉じた形・零試験/金星の釣り合いの根と 3 成分(C_b 0〜2 × 和の型と差分だけ)/'
       + '天体 17 の要る C_b(釣り合い・速さの一致)と順位相関・候補の関数の形・相互ロックの部位差分/赤道面以外の仰角のずれの率と最小二乗の回転(R/r 0.01〜0.5・2 層の球)/赤道面の境' }),
   // ==== 第341便b の塊(ここまで)====
+  // ==== 第341便d の塊(ここから)====
+  // ---- 第341便d(原仮定者の回答(2026-11-17 —— 第140報の回答)の扁平の則の予想・原仮定者の指示(2026-11-12 —— 第135報)の回転引きずりの条件・原仮定者の補足(2026-11-18 —— 第141報)の熱の文・
+  //   統括の検証項目 R367): **扁平の源の区切りを細かく・R_eq の内と外で落ち方を変える型・環の口の熱を補足 1 で読み直す**(段 oblatering-341d —— 正本 tests/out/oblatering-341d.json・
+  //   lib tests/lib-w341d-oblatering.mjs —— 第340便d・第338便d・第338便b・第337便i の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の k4Sets を呼んで作り直す ——
+  //   順序だけ after に段 gyropath-340d と同じ一式 + gyropath-340d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w341d-oblatering.mjs —— 領域の宣言なし)。1 プロセス。
+  //   所要は第341便d の枝の実測 37〜38 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T1 の源の求積 960〜61440 点)
+  S('oblatering-341d', 'node tests/exp-w341d-oblatering.mjs', ['tests/out/oblatering-341d.json'], 40, { secSource: 'w341d-branch', node: true,
+    after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
+      'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a', 'gyropath-340d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/oblatering-341d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第341便d: 扁平の源の求積(並び 5 × 区切り 960・3840・15360・61440 × 扁平率 6 × 距離 ÷ 赤道半径 7 × 高さ 2)と第340便d の 960 点の起点・球の源 ÷ 点の源・扁平 ÷ 球の収束の表/'
+      + 'R_eq の内と外で落ち方を変える型(slice・fall p 3 × m 3 × 経路の距離のべき 3)の一様厚み・帯・環の物差しと 4 惑星/環の口の熱の 20 行を座標変換・動いた分・動かなかった分に分ける' }),
+  // ==== 第341便d の塊(ここまで)====
   // ==== 第341便e の塊(ここから)====
   // ---- 第341便e(原仮定者の補足(2026-11-18 —— 第141報)「質量ゼロの慣性移動が光の経路で有り … 質量の有る物体は、局所光速に近付くにつれて加速しにくくなる」・決断事項 AN806・統括の検証項目 R368):
   //   **局所光速に近付くと加速しにくくなる候補の型(型 4)—— 一様な場の一定の力・点の源の場の曲がり(質量 0 の極限と光の経路)・光の物差し・水星の近点(置き換えの型と足す型)・零試験**
