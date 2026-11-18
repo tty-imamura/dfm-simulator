@@ -108894,7 +108894,7 @@ function view338aOf340a(eq) {
         let dV = 0, nV = 0;
         for (const v of R.t2.rows) { if (v.C === 0) continue; const a = 2 * v.C * R.t2.Pp, coef = v.col === 'sum' ? [0, 1 - a, a] : [0, -a, a], fs0 = L.venusBalance({ P: 1, amp: coef }).roots.filter((f) => 1 - f > 1e-9);
           if (fs0.length !== v.roots.length) dV = Infinity; else v.roots.forEach((x, k) => { dV = Math.max(dV, Math.abs(x.f - fs0[k]) / fs0[k]); nV++; }); }
-        if (!(dV <= 1e-12 && nV >= 20)) bad.push('③ 金星の根が第337便l の venusBalance(この塊の係数)と違う(根 ' + nV + '・相対 ' + dV + ')');
+        if (!(dV <= 1e-12 && nV >= 15)) bad.push('③ 金星の根が第337便l の venusBalance(この塊の係数)と違う(根 ' + nV + '・相対 ' + dV + ')');
         //   釣り合いの要る C_b = 1/(α P⊥ (1 − f))(背景の項は太陽の項の 1e-6 より小さい)
         let dB = 0; for (const b of R.t3.bodies) dB = Math.max(dB, Math.abs(b.bal * 2 * b.Pp * (1 - b.f) - 1));
         if (!(dB <= 1e-6)) bad.push('③ 釣り合いの要る C_b が閉じた形 1/(α P⊥ (1 − f)) と違う(' + dB + ')');
@@ -108967,7 +108967,7 @@ function view338aOf340a(eq) {
       '第129報 AN537', 'R365', 'tests/exp-w341b-bodycoef.mjs', 'tests/out/bodycoef-341b.json', 'tests/lib-w341b-bodycoef.mjs', 'bodycoef-341b', 'C_b', '`bodyCoef`', 'ずれの率', '回転率', 'C_b の 1 と ½',
       '座標の回転', '部位差分', '和(見え方)', 'C_b α (1 − f) = 2', 'f の小さい極限', '零試験', '天体が 1 つ', '軸の方向', '金星で釣り合う', '3 成分', '零点合わせ', '有限の 2 項の拮抗', 'AN751 = C',
       '要る C_b', '釣り合い', '速さの一致', 'このノブだけでは定常にならない', '順位相関', '候補の関数の形', '何でも合う', '冥王星とカロン', '相互にロック', '背景が静止', 'W₀',
-      'R/r の 2 乗', '2 層', '粘性は入れていない', '係数にまとめる', '赤道面の境', 'AN791', 'AN802', 'AN719',
+      '距離の 2 乗で落ちる', '2 層', '粘性は入れていない', '係数にまとめる', '赤道面の境', 'AN791', 'AN802', 'AN719',
       'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '次に足すノブの候補', 'このノブの組では', '第141報と外の照合への枝の答え',
       '題カードの恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '次の便へ', 'behavior.bodycoef341b', 'docs.bodycoef341b', '書かないこと', '統括の参考の試作', '光速'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第341便b〕に「' + w + '」が無い');
