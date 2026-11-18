@@ -23,8 +23,8 @@ export const OUT_MAIN = 'tests/out/plutocontrol-341g.json';
 export const TARGET = 'tests/lib-w341g-plutocontrol.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-export const NOT_CLAIM = Object.freeze(['冥王星とカロンが合ったとは書かない(掲載の 🥶・🟪 は較正が保留のまま)', '引きずりが無いと確かめたとは書かない(項ごとの大きさの表 —— 外の寄与を初めから 0 と置かない)',
-  '理想的な連星であることが導けたとは書かない(補足 3 は原仮定者の補足として引く)', '入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)',
+export const NOT_CLAIM = Object.freeze(['冥王星とカロンの一致を結果として書かない(掲載の 🥶・🟪 は較正が保留のまま)', '引きずりの不在を結果として書かない(項ごとの大きさの表 —— 外の寄与を初めから 0 と置かない)',
+  '理想の連星の導出を結果として書かない(補足 3 は原仮定者の補足として引く)', '入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)',
   '順位は記録 —— 「少ない」の判定には使わない', '🛟 の型を冥王星に当てた数は探索用の型での数', '文献の値は未照合(行の出どころを書く)']);
 export const PLAN = Object.freeze({ systems: Object.freeze(['plutoCharon', 'earthMoon', 'jupiterIo', 'saturnTitan', 'sunMercury', 'sunVenus', 'j0737']), t1Cols: L.T1_COLS });
 
