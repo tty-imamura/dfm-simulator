@@ -109133,8 +109133,8 @@ function view340aOf341a(eq) {
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・格子・純関数の場面
         if (!(K.LIB_VERSION === 'w341b-bodycoef-lib-1' && X.HARNESS_VERSION === 'w341b-bodycoef-1' && D0.DOC_VERSION === 'w341b-bodycoefdoc-1' && J.version === X.HARNESS_VERSION && J.libVersion === K.LIB_VERSION
-          && J.lib340bVersion === 'w340b-axialsplit-lib-2' && J.lib337lVersion === L.LIB_VERSION && L.LIB_VERSION === 'w337l-bevel-lib-2' && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION))
-          bad.push('① 版(lib・器・文書の lib・第340便b〔版 2〕と第337便l〔版 2〕の lib・第338便c の照合の版)');
+          && J.lib340bVersion === 'w340b-axialsplit-lib-3' && J.lib337lVersion === L.LIB_VERSION && L.LIB_VERSION === 'w337l-bevel-lib-2' && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION))
+          bad.push('① 版(lib・器・文書の lib・第340便b〔版 3 —— 第341便c〕と第337便l〔版 2〕の lib・第338便c の照合の版)');   // 第341便(統括 —— 継ぎ目): 枝 b は版 2 を期待していた(枝 c が版 3 に上げた)
         if (!(js(K.DECL.cGrid) === js([0, 0.25, 0.5, 1, 1.5, 2]) && js(K.DECL.elevDeg) === js([0, 15, 30, 45, 60, 75, 90]) && js(K.DECL.fGrid) === js([1e-6, 0.01, 0.1, 0.3, 0.5, 0.7])
           && js(K.DECL.cVenus) === js([0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2]) && js(K.DECL.kT4) === js([0.01, 0.1, 0.3, 0.5]) && js(K.DECL.layerRatio) === js([1, 3, 10]) && K.DECL.alpha === 2 && js(J.decl) === js(K.DECL)))
           bad.push('① 格子(C_b・仰角・f・金星の C_b・R/r・2 層・α)の宣言が lib と正本で違う');
