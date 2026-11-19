@@ -61,7 +61,7 @@
    "famMax": 0,
    "identityMax": 0,
    "xMaxErr": 0,
-   "invErr": 0,
+   "invErr": 6.661338147750939e-16,
    "escapeMax": 0,
    "chainIdMax": 0,
    "chainQuad": 4.782840790085174e-12,
@@ -1737,22 +1737,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.081
+   "wallSec": 0.106
   },
   "t1": {
-   "wallSec": 0.082
+   "wallSec": 0.107
   },
   "t2": {
-   "wallSec": 0.082
+   "wallSec": 0.107
   },
   "t3": {
-   "wallSec": 0.319
+   "wallSec": 0.425
   },
   "t4": {
-   "wallSec": 0.32
+   "wallSec": 0.425
   },
   "t5": {
-   "wallSec": 0.329
+   "wallSec": 0.436
   }
  },
  "gates": {
@@ -1766,13 +1766,13 @@
   "t5Chain": true
  },
  "ok": true,
- "elapsedS": 1.275,
+ "elapsedS": 1.139,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第343便c",
   "target": "tests/lib-w343c-clockread.mjs",
-  "targetSha256": "7a42ebd9c605fcc04838d605b48eff1cea6c8781b7b3f35bfe0e731db9bb2e04",
-  "generatedAt": "2026-11-19T07:32:38.978Z",
+  "targetSha256": "fc9abd6084be242bc97aa610f443b7c9a23b1a497f9f3522d37c069ddf826c9e",
+  "generatedAt": "2026-11-19T07:36:25.694Z",
   "inputs": [],
   "code": [
    {
@@ -1783,9 +1783,9 @@
    },
    {
     "file": "tests/lib-w343c-clockread.mjs",
-    "bytes": 19148,
-    "sha256": "7a42ebd9c605fcc04838d605b48eff1cea6c8781b7b3f35bfe0e731db9bb2e04",
-    "mtime": "2026-11-19T07:27:38.481Z"
+    "bytes": 19355,
+    "sha256": "fc9abd6084be242bc97aa610f443b7c9a23b1a497f9f3522d37c069ddf826c9e",
+    "mtime": "2026-11-19T07:36:24.216Z"
    },
    {
     "file": "tests/lib-w342b-clockstop.mjs",
@@ -1842,7 +1842,7 @@
     "mtime": "2026-11-19T07:13:15.487Z"
    }
   ],
-  "codeSha256": "1458b9339e754244d3159c4b07828dc6491aaee21ba2a64c2207f7eaf444460b",
+  "codeSha256": "fe331dc6822c7042a96fb926bb888c79c4503ad050a11190f762b228c404a00e",
   "harnessVersion": "w343c-clockread-1",
   "stage": "clockread",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第342便b と第341便e の器を呼ぶ)",
@@ -1885,24 +1885,16 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 5,
-   "kept": 877,
+   "zeroed": 4,
+   "kept": 878,
    "zeroPathsHead": [
     "/pure/scenes/identityMax",
-    "/pure/scenes/invErr",
     "/pure/scenes/chainIdMax",
     "/t1/identityMax",
     "/t5/identityMax"
    ],
-   "unstable": 6,
-   "unstableHead": [
-    "/pure/scenes/g0",
-    "/pure/gates/g0",
-    "/pure/gates/escape",
-    "/gates/pure",
-    "/gates/t3Limits",
-    "/ok"
-   ]
+   "unstable": 0,
+   "unstableHead": []
   }
  }
 }

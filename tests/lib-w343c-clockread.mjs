@@ -149,7 +149,7 @@ export function limitB(k, n) {
   // 曲がり ÷ 光 = g^(n−2)/(2y²) ~ C y^(−2k(n−2) − 2)
   let bend;
   if (K === Infinity) bend = n < 2 ? 'inf' : 0;
-  else { const p = -2 * K * (n - 2) - 2; bend = p < 0 ? 0 : p > 0 ? 'inf' : Math.pow(2 * K, K * (n - 2)) / 2; }
+  else { const p = -2 * K * (n - 2) - 2; bend = p < 0 ? 0 : p > 0 ? 'inf' : (2 * K) ** (K * (n - 2)) / 2; }   // ** は Math の関数の揺らぎを受けない(k = ½ で 1・k = 1 で 2 の整数べき —— 丸めなし)
   return { speed, bend, time };
 }
 export function limitA(k, n) { return { speed: 'inf', bend: 0, time: 0 }; }   // x → ∞: g^n/(2x²) → 0(n ≥ 0)・時間 1/x → 0
@@ -220,7 +220,7 @@ export function t5Rows() {
 export function pureScenes() {
   const T1 = t1Rows(), T2 = t2Rows(), T5 = t5Rows();
   // ① 静止(y = 0 と x = 0)で全部の形の g が 1
-  const g0 = DECL.kGrid.every((k) => formG(k, 0) === 1 && gOfXB(k, 0).lower === 1);
+  const g0 = DECL.kGrid.every((k) => Math.abs(formG(k, 0) - 1) < 1e-15 && Math.abs(gOfXB(k, 0).lower - 1) < 1e-15);   // 丸めの 1 bit を許す(Math の関数の戻り値)
   // ② 族が第342便b の gOf と同じ(k = ½・1・∞)
   // ③ k = ½ の B の読み = √(1 − x²) の恒等式
   // ④ 最大の x の閉じた形(k = 1 で √2 ÷ 2・k → ∞ で e^(−½))
@@ -234,5 +234,5 @@ export function pureScenes() {
 }
 export function pureGates(S) {
   return { g0: S.g0 === true, family: S.famMax < 1e-15, identity: S.identityMax < 1e-12, xMax: S.xMaxErr < 1e-12, inverse: S.invErr < 1e-12,
-    escape: S.escapeMax === 0, chain: S.chainIdMax < 1e-12 && S.chainQuad < 1e-9, reject: S.reject.n === S.reject.of };
+    escape: S.escapeMax < 1e-15, chain: S.chainIdMax < 1e-12 && S.chainQuad < 1e-9, reject: S.reject.n === S.reject.of };
 }
