@@ -1195,6 +1195,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便a の塊(ここから)====
+# 第344便a(原仮定者の指示(2026-11-19 —— 第144報)・統括の検証項目 R385 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report144_344a —— PHYSICS〔第344便a〕の
+#   第144報の原文・第143報の回答の在り処・題の表・用語・出どころの書き方をそろえた所・AI_SPEC §277・CHANGELOG / lint.equations344a —— EQ の番号の連続・EQ-87〜EQ-91 と各節の同じ字の式・欄・EQ-84 の訂正の参照)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report144_344a lint.equations344a"
+# ==== 第344便a の塊(ここまで)====
 # ==== 第344便b の塊(ここから)====
 # 第344便b(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3)AN876・AN877・統括の検証項目 R386 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partyconv344b —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・X_k の零試験(閉じた形と数値)・(0) と第343便b の lib の近点の照合 / docs.partyconv344b —— 正本の門と表 13 本が PHYSICS〔第344便b〕に逐語・文書)と、新しい段 partyconv-344b
