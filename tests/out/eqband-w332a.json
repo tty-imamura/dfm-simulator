@@ -3,7 +3,7 @@
  "libVersion": "w332a-eqband-lib-1",
  "generator": "tests/exp-w332a-eqband.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の補足(2026-11-10)「R_d = κ_D·m は観測半径とは別の値」「座標変換版の回転引きずりは並進引きずりに統合する」「K1 の回転引きずりは、自転時に赤道面からの距離が κ_D·m 以下の範囲で強く働く力と仮定する」「土星環の幅・太陽系の公転面の揃い・太陽–木星で顕著、と繋がる」(作業仮説 —— 診断で検査・未接続)・原仮定者の補足その3(2026-11-10)「R_d = κ₀m を採用・κ₀ の計算式と太陽と各惑星の κ₀m を提示」「回転引きずりは源の天体の自転の手前側と奥側の差分 —— 赤道面が最も強く、赤道面からの距離が引きずり半径を超えるとほぼ消える」「公転面の揃いは長い年月の結果 —— わずかでもプラスの影響があれば有効・原始太陽系が円盤状であることも考慮」「斜めに横切る軌道は公転面からの位置で影響が変わる・斜めの自転は水平と若干違う」・統括の検証項目 R315(R_d の規則の値 Y_k m〔統括の読みの κ₀m〕と原文の字どおりの κ_D m の 2 列)",
  "decl": {
@@ -12356,28 +12356,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.006
+   "wallSec": 0.005
   },
   "books": {
-   "wallSec": 0.007
+   "wallSec": 0.006
   },
   "rings": {
-   "wallSec": 0.039
+   "wallSec": 0.028
   },
   "reach": {
-   "wallSec": 0.041
+   "wallSec": 0.029
   },
   "align": {
-   "wallSec": 0.076
+   "wallSec": 0.055
   },
   "metrics": {
-   "wallSec": 0.076
+   "wallSec": 0.056
   },
   "sphere": {
-   "wallSec": 0.158
+   "wallSec": 0.111
   },
   "supp3": {
-   "wallSec": 0.167
+   "wallSec": 0.122
   }
  },
  "gates": {
@@ -12392,19 +12392,19 @@
   "sphereVsBand": true
  },
  "ok": true,
- "elapsedS": 2.022,
+ "elapsedS": 1.824,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第332便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:09:39.906Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:08:59.801Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -12518,9 +12518,9 @@
    "abBody": false,
    "names": 1363,
    "segments": 1194,
-   "closureShare": 0.2935
+   "closureShare": 0.2933
   },
-  "scopeSha256": "4282ffcacb0b3bd2d258f6814752988698f4cde22776d6c95c01a10783392401",
+  "scopeSha256": "154cb54565e1e9af08fa233925644eadd2f646dd00c9f3299f6fd8e1fda3e8c7",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
