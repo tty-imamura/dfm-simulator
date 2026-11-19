@@ -1195,6 +1195,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便b の塊(ここから)====
+# 第344便b(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3)AN876・AN877・統括の検証項目 R386 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partyconv344b —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・X_k の零試験(閉じた形と数値)・(0) と第343便b の lib の近点の照合 / docs.partyconv344b —— 正本の門と表 13 本が PHYSICS〔第344便b〕に逐語・文書)と、新しい段 partyconv-344b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partyconv344b docs.partyconv344b"
+# ==== 第344便b の塊(ここまで)====
 # ==== 第344便c の塊(ここから)====
 # 第344便c(原仮定者の回答(2026-11-19 —— 第143報の回答 3)AN879・統括の検証項目 R387 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.clockmid344c —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・零試験・atX1 の定義域 / docs.clockmid344c —— 正本の門と表 12 本が PHYSICS〔第344便c〕に逐語・文書)と、新しい段 clockmid-344c の lint 一式(第337便i の塊で足した一式)
