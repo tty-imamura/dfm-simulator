@@ -111288,6 +111288,156 @@ function view341aOf342f(eq) {
 }
 // ==== 第342便g の塊(ここまで)====
 
+// ==== 第343便f の塊(ここから —— behavior.judge3rest343f・lint.chainResume343f・docs.tools343f の 3 ブロック。root は SKIP)====
+// ---- 第343便f(統括の検証項目 R383・AN798・BL-132・BL-141): **道具** —— 3 値の判定の残り(第338便b の器を settle の型に・仰角 0°・90° の行は閉じた形・
+// ----   「軸方向で弱くなる」と (iii) の「減速しない」を 3 値の文字に —— tests/lib-w343f-judge3rest.mjs/第338便e の secularSame を打ち消す前の項の大きさで割る —— lib 版 2)・
+// ----   鎖の入れ直しの判定と起動の前の脚本の見方(tools/regen-chain.mjs の --resume-gate・--preflight —— tests/lib-w343f-chainresume.mjs)。html を読まない。
+// ----   behavior.judge3rest343f: ① 版(本枝の lib・ほかの lib は import して比べる)② 338b の正本: 閉じた形の欄・3 値の文字と数え・門 ③ 閉じた形と器の数の行が同じ(赤道と q 0・p 0 の軸の上)
+// ----     ④ ずらした走行(Math の関数の戻り値 ±1〜2 ulp —— 第338便c の種 2 つ)で軸の上と赤道の行の種類と「軸方向で弱くなる」が入れ替わらない ⑤ 338e: secularSame がずらした 2 つの実装で 1e-12 の内・正本の門
+// ----   lint.chainResume343f: 判定の自己試験 7 通り・作り物の印の木で --resume-gate の 4 通り(通す 1・止める 3)・--preflight の 3 通り(よい 0・無い 5・構文の誤り 5)
+// ----   docs.tools343f: PHYSICS〔第343便f〕・〔第338便b〕の 2 つの訂正の行・AI_SPEC §275・CHANGELOG・post-merge・書かない語
+{
+  await (async () => {   // 第310便c(heap)
+  const wLib = path.join(ROOT, 'tests', 'lib-w343f-judge3rest.mjs'), wCr = path.join(ROOT, 'tests', 'lib-w343f-chainresume.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && fs.existsSync(wCr))) {
+    console.log('SKIP behavior.judge3rest343f(第343便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.chainResume343f(第343便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.tools343f(第343便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const rj = (f) => { try { return JSON.parse(rd(f)); } catch (e) { return null; } };
+  // ───── behavior.judge3rest343f ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const F = await import('file://' + wLib), K = await import('file://' + path.join(ROOT, 'tests', 'lib-w338b-bevelknob.mjs')), X = await import('file://' + path.join(ROOT, 'tests', 'exp-w338b-bevelknob.mjs'));
+      const TH = await import('file://' + path.join(ROOT, 'tests', 'lib-w340h-thin.mjs')), R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+      const E = await import('file://' + path.join(ROOT, 'tests', 'lib-w338e-spinfield.mjs')), L337d = await import('file://' + path.join(ROOT, 'tests', 'lib-w337d-accelloss.mjs'));
+      const J = rj('tests/out/bevelknob-338b.json'), JE = rj('tests/out/spinfield-338e.json');
+      // ① 版
+      if (!(F.LIB_VERSION === 'w343f-judge3rest-lib-1' && F.THIN_VERSION === TH.LIB_VERSION && F.DECL.factor === TH.DECL.JUDGE_FACTOR && J && J.lib343fVersion === F.LIB_VERSION && J.version === X.HARNESS_VERSION
+        && J.libVersion === K.LIB_VERSION && JE && JE.libVersion === E.LIB_VERSION && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(本枝の lib・器・338b と 338e の lib の版が正本と同じ)');
+      cases.push(`① lib ${F.LIB_VERSION}・器 ${X.HARNESS_VERSION}・338e の lib ${E.LIB_VERSION}`);
+      // ② 338b の正本
+      if (J) {
+        const Z = F.DECL.ANALYTIC_ZERO, r90 = J.t2.rows.find((x) => x.elDeg === 90), r0 = J.t2.rows.find((x) => x.elDeg === 0), Q = K.DECL.qGrid, P = K.DECL.pGrid;
+        if (!(Q.filter((q) => q > 0).every((q) => r90.q[q].kind === Z && r90.q[q].mag === 0 && r90.q[q].ang === null) && P.filter((p) => p > 0).every((p) => r90.p[p].kind === Z && r90.p[p].mag === 0)
+          && r90.q[0].kind === '順の側' && r90.p[0].kind === '順の側' && Q.every((q) => r0.q[q].ang === 180 && r0.q[q].mag === 1))) bad.push('② 軸の上と赤道の行の閉じた形(「解析の 0」・強さ 0・180°)');
+        const wk = Object.entries(J.t2.judge).map(([k, j]) => [k, j.weak]);
+        if (!(wk.every(([k, w]) => (k === 'q0' || k === 'p0') ? w === Z : w === TH.DECL.POS))) bad.push('② 「軸方向で弱くなる」の文字(q 0・p 0 = 解析の 0・ほか = 正): ' + JSON.stringify(wk));
+        const v3 = [...J.t4.rows, ...J.t4.gal120, ...J.t4.bodies].map((x) => x.noDecelIII), allowed = [TH.DECL.POS, TH.DECL.NEG, TH.DECL.UNRESOLVED];
+        const cnt = (s) => v3.filter((x) => x === s).length, j3 = J.meta.recheck.judge3;
+        if (!(v3.length === 45 && v3.every((x) => allowed.includes(x)) && cnt(TH.DECL.POS) === 23 && cnt(TH.DECL.NEG) === 20 && cnt(TH.DECL.UNRESOLVED) === 2
+          && j3 && j3.noDecelIII[TH.DECL.POS] === 23 && j3.noDecelIII[TH.DECL.NEG] === 20 && j3.noDecelIII[TH.DECL.UNRESOLVED] === 2))
+          bad.push('② (iii) の「減速しない」の 3 値と数え(正 23・負 20・未解決 2): ' + [cnt(TH.DECL.POS), cnt(TH.DECL.NEG), cnt(TH.DECL.UNRESOLVED)].join('・'));
+        const r120 = J.t4.rows.find((x) => x.B === 1 && x.thDeg === 120);
+        if (!(r120 && r120.noDecelIII === TH.DECL.UNRESOLVED && r120.marginIII === 0 && J.t4.gal120[0].noDecelIII === TH.DECL.UNRESOLVED)) bad.push('② 比 1・120° は「未解決」(余裕は 0 と書く)');
+        const G2 = X.gatesOf(J);
+        if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true && X.AMEND.length === 1)) bad.push('② 門(作り直して同じ・全部真)・AMEND 1');
+        cases.push(`② 338b: 軸の上の「解析の 0」${Q.length - 1 + P.length - 1}・弱くなる 解析の 0 ${wk.filter(([, w]) => w === Z).length}/正 ${wk.filter(([, w]) => w === TH.DECL.POS).length}・(iii) 正 ${cnt(TH.DECL.POS)}・負 ${cnt(TH.DECL.NEG)}・未解決 ${cnt(TH.DECL.UNRESOLVED)}`);
+      } else bad.push('② 正本 tests/out/bevelknob-338b.json が読めない');
+      // ③ 閉じた形と器の数の行
+      { const raw = K.elevRows(), clo = F.elevRows343f(), a0 = raw.find((x) => x.elDeg === 0), c0 = clo.find((x) => x.elDeg === 0), a90 = raw.find((x) => x.elDeg === 90), c90 = clo.find((x) => x.elDeg === 90);
+        const same = (u, v) => u.ang === v.ang && u.mag === v.mag;
+        if (!(K.DECL.qGrid.every((q) => same(a0.q[q], c0.q[q])) && K.DECL.pGrid.every((p) => same(a0.p[p], c0.p[p])) && same(a90.q[0], c90.q[0]) && same(a90.p[0], c90.p[0])
+          && raw.filter((x) => !F.DECL.analyticEl.includes(x.elDeg)).every((x) => JSON.stringify(x) === JSON.stringify(clo.find((y) => y.elDeg === x.elDeg)))))
+          bad.push('③ 閉じた形の欄が器の数の行(ずらさない走行)と違う・閉じた形でない行を変えた');
+        let rej = false; try { F.closedCell('q', 0.5, 45); } catch (e) { rej = e instanceof RangeError; }
+        if (!rej) bad.push('③ closedCell が仰角 45° を拒まない');
+        cases.push('③ 閉じた形の欄 = ずらさない走行の数(赤道・q 0・p 0 の軸の上)・ほかの行は不変・45° を拒む'); }
+      // ④ ずらした走行で軸の上と赤道の行の種類・弱くなるが入れ替わらない
+      { const base = X.runAll(), flips = [];
+        for (const sd of R338.DECL.SEEDS) { const Jn = R338.withUlpNoise(sd, () => X.runAll());
+          for (const el of F.DECL.analyticEl) { const a = base.t2.rows.find((x) => x.elDeg === el), b = Jn.t2.rows.find((x) => x.elDeg === el);
+            for (const fam of ['q', 'p']) for (const k of Object.keys(a[fam])) if (a[fam][k].kind !== b[fam][k].kind || a[fam][k].mag !== b[fam][k].mag) flips.push(sd + ':' + el + ':' + fam + k); }
+          for (const k of Object.keys(base.t2.judge)) if (base.t2.judge[k].weak !== Jn.t2.judge[k].weak) flips.push(sd + ':weak:' + k); }
+        if (flips.length) bad.push('④ ずらした走行で入れ替わった: ' + flips.slice(0, 6).join(','));
+        cases.push(`④ ずらした走行(種 ${R338.DECL.SEEDS.length})で軸の上・赤道の行と「軸方向で弱くなる」の入れ替わり ${flips.length}`); }
+      // ⑤ 338e の secularSame
+      { const S = L337d.sysOf({ G: 1, m1: 0.4, m2: 0.6, a: 1, e: 0.3, s1: [0.1, 0, 0.3], s2: [0, 0.2, 0.5], c: 50, mode: 'both' });
+        let worst = 0, worstOld = 0;
+        for (const sd of R338.DECL.SEEDS) for (const col of ['L1', 'S0']) {
+          const A = R338.withUlpNoise(sd, () => L337d.secularRates(S, col, 1e-3, { nQ: 512 })), B = R338.withUlpNoise(sd + 7, () => E.secularF(S, col, 1e-3, { field: 'rigid' }, { nQ: 512 }));
+          const r = E.secularSameScaled(A, B, E.secularPreScale(S, col, 1e-3, { nQ: 512 })); worst = Math.max(worst, r.scaled); worstOld = Math.max(worstOld, r.old); }
+        if (!(worst <= 1e-12)) bad.push('⑤ secularSame がずらした 2 つの実装で 1e-12 の外(' + worst + ')');
+        if (!(JE && JE.pure && JE.pure.gates && JE.pure.gates.secularSame === true && JE.pure.scenes.secularSame === 0 && JE.ok === true)) bad.push('⑤ 338e の正本の門 secularSame');
+        cases.push(`⑤ 338e: ずらした 2 つの実装の差 ÷ 打ち消す前の大きさ ${worst.toExponential(1)}(旧の割り方では ${worstOld.toExponential(1)})・正本の門 真`); }
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.judge3rest343f', bad.length === 0,
+      `**3 値の判定の残り**(第343便f・R383・AN798 —— 第338便b の軸の上の行と門・第338便e の secularSame): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.chainResume343f ─────
+  {
+    const bad = [], cases = [];
+    let tmp = null;
+    try {
+      const CR = await import('file://' + wCr), { spawnSync } = await import('node:child_process');
+      if (CR.LIB_VERSION !== 'w343f-chainresume-lib-1') bad.push('版');
+      const sc = CR.selfCases(); for (const c of sc) if (!c.ok) bad.push('判定の自己試験: ' + c.name + '(' + c.got.mode + ')');
+      cases.push(`判定の自己試験 ${sc.filter((c) => c.ok).length}/${sc.length}`);
+      tmp = fs.mkdtempSync(path.join((await import('node:os')).tmpdir(), 'w343f-'));
+      const W = (f, t) => { fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true }); fs.writeFileSync(path.join(tmp, f), t); return path.join(tmp, f); };
+      const c5 = W('c5.json', JSON.stringify(CR.FAKE.conv5)), co = W('co.json', JSON.stringify(CR.FAKE.convOther));
+      W('logA/done/calaudit.done', ''); W('logB/done/.keep', ''); W('logC/done/calaudit.done', ''); W('logC/done/samplestatus.done', '');
+      const gate = (log, cj) => spawnSync(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--resume-gate', path.join(tmp, log), '--conv-json', cj, '--conv-rc', '1'], { cwd: ROOT, encoding: 'utf8' }).status;
+      const g = { three: gate('logA', c5), noMarks: gate('logB', c5), ssDone: gate('logC', c5), other: gate('logA', co) };
+      if (!(g.three === 0 && g.noMarks === CR.DECL.refuseRc && g.ssDone === CR.DECL.refuseRc && g.other === CR.DECL.refuseRc)) bad.push('--resume-gate の終了コード ' + JSON.stringify(g));
+      cases.push(`--resume-gate(作り物の印の木): 3 条件 → ${g.three}・済み印なし → ${g.noMarks}・samplestatus 済み → ${g.ssDone}・⑤ 以外の NG → ${g.other}`);
+      W('t/ok.sh', 'echo ok\n'); W('t/bad.sh', 'if then fi\n');
+      const okSh = W('chainOK.sh', `node tests/lib-w343f-chainresume.mjs\nbash ${path.join(tmp, 't/ok.sh')}\n`);
+      const miss = W('chainMiss.sh', `node tests/exp-w343f-nothere.mjs\n`), syn = W('chainSyn.sh', `bash ${path.join(tmp, 't/bad.sh')}\n`);
+      const pf = (f) => spawnSync(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--preflight', f], { cwd: ROOT, encoding: 'utf8' }).status;
+      const p = { ok: pf(okSh), miss: pf(miss), syn: pf(syn) };
+      if (!(p.ok === 0 && p.miss === CR.DECL.preflightRc && p.syn === CR.DECL.preflightRc)) bad.push('--preflight の終了コード ' + JSON.stringify(p));
+      const refs = CR.scriptRefs(`declare -A CMD=([a]='node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs --')\nbash /x/y-emgrid.sh`).map((r) => r.path);
+      if (JSON.stringify(refs) !== JSON.stringify(['tools/calaudit-split.mjs', '/x/y-emgrid.sh', 'tests/exp-w249b-calaudit.mjs'])) bad.push('scriptRefs の拾い ' + JSON.stringify(refs));
+      cases.push(`--preflight: よい → ${p.ok}・無い → ${p.miss}・構文の誤り → ${p.syn}・拾い(CMD の配列・引数の --harness・絶対の道)`);
+      const RC = rd('tools/regen-chain.mjs');
+      if (!(RC.indexOf('// ==== 第343便f の塊(ここから)====') >= 0 && RC.indexOf('// ==== 第343便f の塊(ここまで)====') >= 0)) bad.push('tools/regen-chain.mjs の第343便f の塊');
+    } catch (e) { bad.push('試せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { if (tmp) try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時の木 */ } }
+    add('lint.chainResume343f', bad.length === 0,
+      `**鎖の入れ直しの判定と起動の前の脚本の見方**(第343便f・R383・BL-141): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.tools343f ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第343便f — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第342便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第343便f〕が無いか〔第342便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['R383', 'AN798', 'BL-132', 'BL-141', 'tests/lib-w343f-judge3rest.mjs', 'tests/lib-w343f-chainresume.mjs', 'settle の型', '解析の 0', '未解決', 'judge3', 'secularSame', '打ち消す前の項の大きさ',
+      '17 → 6', '3 → 0', '近い葉', '--resume-gate', '--preflight', '--check-order', 'satnext-318b', 'shell-304b', '安定 hash', 'バイトの sha', '段の順は変えていない',
+      'behavior.judge3rest343f', 'lint.chainResume343f', 'docs.tools343f', '決断事項の候補', '次の便へ', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第343便f〕に「' + w + '」が無い');
+    const i338b = PH.indexOf('〔第338便b — '), s338b = i338b >= 0 ? secUntilNext329c(PH, i338b, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if ((s338b.match(/第343便f の訂正(統括の検証項目 R383・器の版 2)/g) || []).length !== 2) bad.push('〔第338便b〕の表の下に第343便f の訂正の行が 2 つ無い');
+    const a0 = AS.indexOf('\n## 275. 第343便f'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/lib-w343f-judge3rest.mjs') >= 0 && ai.indexOf('R383') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §275(lib・R383・SYSTEM_PROMPT)');
+    // CHANGELOG: 見出しより後・第342便(統括)の行より前(統合で枝の順に並ぶ —— 直後とは決めない)
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)[((]/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', lines = clg.split('\n');
+    const li = lines.findIndex((l) => l.indexOf('**第343便f**') >= 0), lu = lines.findIndex((l) => l.indexOf('**第342便(統括') >= 0), cl = li >= 0 ? lines[li] : '';
+    if (!(li > 0 && (lu < 0 || li < lu) && cl.indexOf('tests/lib-w343f-judge3rest.mjs') >= 0 && cl.indexOf('R383') >= 0 && cl.indexOf('--resume-gate') >= 0)) bad.push('CHANGELOG の第343便f の行(見出しより後・第342便(統括)の行より前)');
+    if (!(PM.indexOf('# ==== 第343便f の塊(ここから)====') >= 0 && /behavior\.judge3rest343f/.test(PM) && /lint\.chainResume343f/.test(PM) && /docs\.tools343f/.test(PM))) bad.push('post-merge の ③′ に第343便f の塊');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /一致した/, /新しい結果/, /普遍定数/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
+    const W343 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たし現再', 'いなし現再', 'いなれらせわ合', 'たっなくし正が定判', 'たっか分とい無が転反'].map(rvC);
+    for (const [nm, tx] of [['PHYSICS〔第343便f〕', sec], ['AI_SPEC §275', ai], ['CHANGELOG の第343便f の行', cl], ['lib', rd('tests/lib-w343f-judge3rest.mjs') + rd('tests/lib-w343f-chainresume.mjs')]]) {
+      for (const w of NGC.concat(W343)) if (strip(tx).indexOf(w) >= 0) bad.push(nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (!/lib/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push(`節の位置・必須の語 ${want.length}・〔第338便b〕の訂正の行 2・AI_SPEC §275・CHANGELOG(見出しより後・第342便(統括)の行より前)・post-merge の ③′・書かない語`);
+    add('docs.tools343f', bad.length === 0,
+      `**道具の文書**(第343便f・R383 —— PHYSICS〔第343便f〕・AI_SPEC §275・CHANGELOG・〔第338便b〕の表の訂正の行): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第343便f の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

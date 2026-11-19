@@ -1158,6 +1158,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
 #   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
 # ==== 第342便g の塊(ここまで)====
+# ==== 第343便f の塊(ここから)====
+# 第343便f(統括の検証項目 R383・AN798・BL-132・BL-141 —— 道具と診断の器の判定の書き方だけ・html は変えない): 新設 3 本(behavior.judge3rest343f —— 第338便b の軸の上の行と門・
+#   第338便e の secularSame / lint.chainResume343f —— tools/regen-chain.mjs の --resume-gate・--preflight を作り物の印の木で / docs.tools343f)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f docs.tools343f"
+# ==== 第343便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
