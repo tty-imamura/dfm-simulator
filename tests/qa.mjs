@@ -109339,7 +109339,7 @@ function view340aOf341a(eq) {
       const callers = [];
       for (const dir of ['tests', 'tools']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
         if (!/\.mjs$/.test(f) || f === 'qa.mjs') continue; const t = rd(dir + '/' + f); if (/\bjudge3\(/.test(t)) callers.push(dir + '/' + f); }
-      const wantCallers = ['tests/exp-w337i-rotring.mjs', 'tests/exp-w337j-spinorbit.mjs', 'tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w341c-judgescale.mjs'];
+      const wantCallers = ['tests/exp-w337i-rotring.mjs', 'tests/exp-w337j-spinorbit.mjs', 'tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w341c-judgescale.mjs', 'tests/lib-w343f-judge3rest.mjs'];   // 第343便f: judge343f(尺度は第338便c の sigmaOf の木の同じ道の葉 —— 欠ければ lib-2 の「未解決」)
       if (JSON.stringify(callers.sort()) !== JSON.stringify(wantCallers)) bad.push('② judge3 の呼び出しの一覧が変わった(' + callers.join(',') + ')—— 新しい呼び出しは尺度の作り方を読んで一覧に足す');
       cases.push(`② judge3 を呼ぶファイル ${callers.length}(器 i・j・340b と lib 2 本 —— どの呼び出しも尺度は sigmaOf の木の同じ道の葉)`);
       // ③ 正本の 3 値
@@ -111412,7 +111412,7 @@ function view341aOf342f(eq) {
       'behavior.judge3rest343f', 'lint.chainResume343f', 'docs.tools343f', '決断事項の候補', '次の便へ', '書かないこと'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第343便f〕に「' + w + '」が無い');
     const i338b = PH.indexOf('〔第338便b — '), s338b = i338b >= 0 ? secUntilNext329c(PH, i338b, /\n〔第\d+便[a-z]* — |\n## /) : '';
-    if ((s338b.match(/第343便f の訂正(統括の検証項目 R383・器の版 2)/g) || []).length !== 2) bad.push('〔第338便b〕の表の下に第343便f の訂正の行が 2 つ無い');
+    if (s338b.split('第343便f の訂正(統括の検証項目 R383・器の版 2)').length - 1 !== 2) bad.push('〔第338便b〕の表の下に第343便f の訂正の行が 2 つ無い');
     const a0 = AS.indexOf('\n## 275. 第343便f'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 >= 0 && ai.indexOf('tests/lib-w343f-judge3rest.mjs') >= 0 && ai.indexOf('R383') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §275(lib・R383・SYSTEM_PROMPT)');
     // CHANGELOG: 見出しより後・第342便(統括)の行より前(統合で枝の順に並ぶ —— 直後とは決めない)
