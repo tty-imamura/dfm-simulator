@@ -355,6 +355,44 @@ if (argv.includes('--nslock-shadow') || argv.includes('--streak')) {
 }
 // ==== 第324便c の塊(ここまで)====
 
+// ==== 第343便f の塊(ここから)====
+// 第343便f(統括の検証項目 R383・BL-141): **鎖の入れ直しの判定**と**起動の前の脚本の実在と構文**(tests/lib-w343f-chainresume.mjs —— 段の順・済み印の契約・計画の判定は変えない)。
+//   node tools/regen-chain.mjs --resume-gate <REGEN_LOG> [--conv-json <conventions-check --json の出力> --conv-rc <その終了コード>] [--json <file>]
+//     規約の判定(無ければ tools/conventions-check.mjs --samplestatus を走らせる)が OK → 0(初回と同じ)。NG が ⑤ samplestatus だけ・済み印が在る・
+//     samplestatus の段の済み印が無い → 0(入れ直し —— 鎖の途中の食い違い)。それ以外 → 4(止める)。
+//   node tools/regen-chain.mjs --preflight <鎖の脚本> [--json <file>]  —— 脚本が呼ぶ node の .mjs/.js・bash の .sh の実在と構文(node --check・bash -n)。全部よければ 0・欠け/誤り 5
+if (argv.includes('--resume-gate') || argv.includes('--preflight')) {
+  const CR = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w343f-chainresume.mjs')).href);
+  const js = getArg('--json', null);
+  if (argv.includes('--preflight')) {
+    const f = resolve(getArg('--preflight', null));
+    if (!f || !fs.existsSync(f)) { console.error('--preflight: 鎖の脚本が無い ' + f); process.exit(2); }
+    const r = CR.preflight(fs.readFileSync(f, 'utf8'), { root: ROOT });
+    console.log(`regen-chain --preflight(${CR.LIB_VERSION}): 呼ぶ脚本 ${r.n}(変数を含む道 ${r.nUnresolved} は見ない)・欠けか構文の誤り ${r.bad.length} → ${r.ok ? 'OK' : '止める'}`);
+    for (const b of r.bad) console.log(`  ${b.exists ? '構文' : '無い'} ${b.path}${b.note ? ' —— ' + b.note : ''}`);
+    if (js) fs.writeFileSync(resolve(js), JSON.stringify(Object.assign({ version: CR.LIB_VERSION, script: f }, r), null, 1) + '\n');
+    process.exit(r.ok ? 0 : CR.DECL.preflightRc);
+  }
+  const log = resolve(getArg('--resume-gate', null));
+  if (!log) { console.error('--resume-gate: REGEN_LOG を渡す'); process.exit(2); }
+  let conv = null, convRc = null;
+  const cj = getArg('--conv-json', null);
+  if (cj) { try { conv = JSON.parse(fs.readFileSync(resolve(cj), 'utf8')); } catch { conv = null; } convRc = Number(getArg('--conv-rc', 'NaN')); }
+  else {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'resume-')), jf = path.join(tmp, 'conv.json');
+    const { spawnSync } = await import('node:child_process');
+    const ch = spawnSync(process.execPath, [path.join(ROOT, 'tools', 'conventions-check.mjs'), '--samplestatus', '--json', jf], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 26 });
+    convRc = ch.status; try { conv = JSON.parse(fs.readFileSync(jf, 'utf8')); } catch { conv = null; }
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+  const marks = CR.doneMarksOf(log), v = CR.resumeVerdict({ convRc, conv, doneMarks: marks });
+  console.log(`regen-chain --resume-gate(${CR.LIB_VERSION}): 規約 rc ${convRc}・NG ${v.ngs.length}・済み印 ${marks.length}・samplestatus ${v.conds.ssPending ? '未了' : '済み'} → ${v.start ? '通す' : '止める'}(${v.mode})—— ${v.why}`);
+  for (const ng of v.ngs.slice(0, 6)) console.log('  NG ' + ng);
+  if (js) fs.writeFileSync(resolve(js), JSON.stringify({ version: CR.LIB_VERSION, log, convRc, marks: marks.length, verdict: v }, null, 1) + '\n');
+  process.exit(v.start ? 0 : CR.DECL.refuseRc);
+}
+// ==== 第343便f の塊(ここまで)====
+
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);
   // 第323便b(R276): その段の行だけを引く(o.only —— 行の判定は全段の計画と同じ関数・同じ入力。全段を引くと 1 回 8 min 前後〔第323便b の実測〕)。

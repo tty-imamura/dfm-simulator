@@ -1179,6 +1179,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfquad343d docs.surfquad343d"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・平面の比の閉じた形と 2 分で戻した角の差・呼ぶだけ / docs.spintransfer343e —— 正本の門と表が PHYSICS〔第343便e〕に逐語・文書)と、新しい段 spintransfer-343e
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spintransfer343e docs.spintransfer343e"
 # ==== 第343便e の塊(ここまで)====
+# ==== 第343便f の塊(ここから)====
+# 第343便f(統括の検証項目 R383・AN798・BL-132・BL-141 —— 道具と診断の器の判定の書き方だけ・html は変えない): 新設 3 本(behavior.judge3rest343f —— 第338便b の軸の上の行と門・
+#   第338便e の secularSame / lint.chainResume343f —— tools/regen-chain.mjs の --resume-gate・--preflight を作り物の印の木で / docs.tools343f)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f docs.tools343f"
+# ==== 第343便f の塊(ここまで)====
 # ==== 第343便g の塊(ここから)====
 # 第343便g(決断事項 AN807・AN822・統括の検証項目 R384 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutostate343g —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・入力の csv の sha・往復の差・第341便g の入力の列が第341便g の正本の数に戻る・呼ぶだけ / docs.plutostate343g —— 正本の門と表 12 本が

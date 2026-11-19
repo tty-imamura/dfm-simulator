@@ -1,6 +1,7 @@
 {
- "version": "w338b-bevelknob-1",
+ "version": "w338b-bevelknob-2",
  "libVersion": "w338b-bevelknob-lib-1",
+ "lib343fVersion": "w343f-judge3rest-lib-1",
  "lib337Version": "w337l-bevel-lib-2",
  "generator": "tests/exp-w338b-bevelknob.mjs",
  "target": "tests/lib-w338b-bevelknob.mjs",
@@ -38,7 +39,9 @@
   "floor": 1e-12,
   "floorNote": "解析的に 0 になる量・打ち消しの残りは、同じ単位の尺度 × 1e-12 より小さければ 0 と書く(尺度は各欄の注)"
  },
- "amend": [],
+ "amend": [
+  "版 2(第343便f —— 統括の検証項目 R383・AN798): 正本へ書く形を第338便c の settle の型に(Math の関数を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉を 0 と書く —— 門は 0 と書いた後の値で作る)。仰角 0°・90° の行は閉じた形の値(tests/lib-w343f-judge3rest.mjs の closedCell —— 軸の上で強さが解析的に 0 の欄の種類は「解析の 0」・旧は「強さ 0」を数から読み、ずらした走行で向きのある種類に変わった)。「軸方向で弱くなる」は 3 値の文字(赤道 − 軸の上の強さが解析的に 0 なら「解析の 0」・正・負)・合成の規則 (iii) の「減速しない」は余裕 cos θ + B/(2A) の 3 値(judge3 —— 120°・比 1 は「未解決」)。式・格子・ほかの値は不変"
+ ],
  "notClaim": [
   "補正のノブ q の値を決めない(候補の表)",
   "AN747 の列のどれかを採らない(両方の列を残す —— 原仮定者の指示(2026-11-15 —— 第139報))",
@@ -541,25 +544,25 @@
       "ang": null,
       "mag": 0,
       "limit": 35.26438968275465,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      },
      "0.25": {
       "ang": null,
       "mag": 0,
       "limit": 0,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      },
      "0.5": {
       "ang": null,
       "mag": 0,
       "limit": 0,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      },
      "0.75": {
       "ang": null,
       "mag": 0,
       "limit": 0,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      }
     },
     "p": {
@@ -573,13 +576,13 @@
       "ang": null,
       "mag": 0,
       "limit": 0,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      },
      "2": {
       "ang": null,
       "mag": 0,
       "limit": 0,
-      "kind": "強さ 0"
+      "kind": "解析の 0"
      }
     }
    }
@@ -1794,7 +1797,9 @@
     "poleKind": "順の側",
     "poleMag": 1,
     "weakRatio": 1,
-    "weak": false
+    "weakMargin": 0,
+    "weak": "解析の 0",
+    "weakAnalytic": true
    },
    "q0.25": {
     "eqAng": 180,
@@ -1806,7 +1811,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    },
    "q0.5": {
     "eqAng": 180,
@@ -1818,7 +1825,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    },
    "q0.75": {
     "eqAng": 180,
@@ -1830,7 +1839,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    },
    "q1": {
     "eqAng": 180,
@@ -1842,7 +1853,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    },
    "p0": {
     "eqAng": 180,
@@ -1854,7 +1867,9 @@
     "poleKind": "順の側",
     "poleMag": 1,
     "weakRatio": 1,
-    "weak": false
+    "weakMargin": 0,
+    "weak": "解析の 0",
+    "weakAnalytic": true
    },
    "p1": {
     "eqAng": 180,
@@ -1866,7 +1881,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    },
    "p2": {
     "eqAng": 180,
@@ -1878,7 +1895,9 @@
     "poleKind": "順の側",
     "poleMag": 0,
     "weakRatio": 0,
-    "weak": true
+    "weakMargin": 1,
+    "weak": "正",
+    "weakAnalytic": true
    }
   }
  },
@@ -2338,8 +2357,9 @@
     "ruleIII": 2,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 1.5
    },
    {
     "B": 1,
@@ -2349,8 +2369,9 @@
     "ruleIII": 1.9828897227476208,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 1.4659258262890682
    },
    {
     "B": 1,
@@ -2360,8 +2381,9 @@
     "ruleIII": 1.9318516525781366,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 1.3660254037844388
    },
    {
     "B": 1,
@@ -2371,8 +2393,9 @@
     "ruleIII": 1.8477590650225735,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 1.2071067811865475
    },
    {
     "B": 1,
@@ -2382,8 +2405,9 @@
     "ruleIII": 1.7320508075688772,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 1
    },
    {
     "B": 1,
@@ -2393,8 +2417,9 @@
     "ruleIII": 1.5867066805824703,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 0.7588190451025207
    },
    {
     "B": 1,
@@ -2404,8 +2429,9 @@
     "ruleIII": 1.4142135623730951,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 0.5000000000000001
    },
    {
     "B": 1,
@@ -2415,8 +2441,9 @@
     "ruleIII": 1.2175228580174413,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "正",
+    "marginIII": 0.24118095489747915
    },
    {
     "B": 1,
@@ -2426,8 +2453,9 @@
     "ruleIII": 1.0000000000000002,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "未解決",
+    "marginIII": 0
    },
    {
     "B": 1,
@@ -2437,8 +2465,9 @@
     "ruleIII": 0.7653668647301797,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "負",
+    "marginIII": -0.20710678118654746
    },
    {
     "B": 1,
@@ -2448,8 +2477,9 @@
     "ruleIII": 0.5176380902050414,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "負",
+    "marginIII": -0.3660254037844387
    },
    {
     "B": 1,
@@ -2459,8 +2489,9 @@
     "ruleIII": 0.26105238444010354,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "負",
+    "marginIII": -0.4659258262890682
    },
    {
     "B": 1,
@@ -2470,8 +2501,9 @@
     "ruleIII": 0,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "負",
+    "marginIII": -0.5
    },
    {
     "B": 0.5,
@@ -2481,8 +2513,9 @@
     "ruleIII": 1.5,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 1.25
    },
    {
     "B": 0.5,
@@ -2492,8 +2525,9 @@
     "ruleIII": 1.4885986115434435,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 1.2159258262890682
    },
    {
     "B": 0.5,
@@ -2503,8 +2537,9 @@
     "ruleIII": 1.4546564555882049,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 1.1160254037844388
    },
    {
     "B": 0.5,
@@ -2514,8 +2549,9 @@
     "ruleIII": 1.3989663259659066,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 0.9571067811865476
    },
    {
     "B": 0.5,
@@ -2525,8 +2561,9 @@
     "ruleIII": 1.3228756555322954,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 0.7500000000000001
    },
    {
     "B": 0.5,
@@ -2536,8 +2573,9 @@
     "ruleIII": 1.228339955021622,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 0.5088190451025207
    },
    {
     "B": 0.5,
@@ -2547,8 +2585,9 @@
     "ruleIII": 1.118033988749895,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "正",
+    "marginIII": 0.25000000000000006
    },
    {
     "B": 0.5,
@@ -2558,8 +2597,9 @@
     "ruleIII": 0.9955807123972819,
     "liftII": 0.004419287602718147,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.00881904510252085
    },
    {
     "B": 0.5,
@@ -2569,8 +2609,9 @@
     "ruleIII": 0.8660254037844388,
     "liftII": 0.13397459621556118,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.24999999999999978
    },
    {
     "B": 0.5,
@@ -2580,8 +2621,9 @@
     "ruleIII": 0.7368128791039503,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.45710678118654746
    },
    {
     "B": 0.5,
@@ -2591,8 +2633,9 @@
     "ruleIII": 0.6196568374637379,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.6160254037844387
    },
    {
     "B": 0.5,
@@ -2602,8 +2645,9 @@
     "ruleIII": 0.5329860914798169,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.7159258262890682
    },
    {
     "B": 0.5,
@@ -2613,8 +2657,9 @@
     "ruleIII": 0.5,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.75
    },
    {
     "B": 0.1,
@@ -2624,8 +2669,9 @@
     "ruleIII": 1.1,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 1.05
    },
    {
     "B": 0.1,
@@ -2635,8 +2681,9 @@
     "ruleIII": 1.0968979739510023,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 1.0159258262890682
    },
    {
     "B": 0.1,
@@ -2646,8 +2693,9 @@
     "ruleIII": 1.087752306711821,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 0.9160254037844388
    },
    {
     "B": 0.1,
@@ -2657,8 +2705,9 @@
     "ruleIII": 1.0730430355942437,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 0.7571067811865476
    },
    {
     "B": 0.1,
@@ -2668,8 +2717,9 @@
     "ruleIII": 1.0535653752852738,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 0.5500000000000002
    },
    {
     "B": 0.1,
@@ -2679,8 +2729,9 @@
     "ruleIII": 1.030419239446015,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 0.30881904510252073
    },
    {
     "B": 0.1,
@@ -2690,8 +2741,9 @@
     "ruleIII": 1.004987562112089,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "正",
+    "marginIII": 0.050000000000000065
    },
    {
     "B": 0.1,
@@ -2701,8 +2753,9 @@
     "ruleIII": 0.9788953932772878,
     "liftII": 0.021104606722712194,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.20881904510252086
    },
    {
     "B": 0.1,
@@ -2712,8 +2765,9 @@
     "ruleIII": 0.9539392014169457,
     "liftII": 0.04606079858305434,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.4499999999999998
    },
    {
     "B": 0.1,
@@ -2723,8 +2777,9 @@
     "ruleIII": 0.9319756669370132,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.6571067811865474
    },
    {
     "B": 0.1,
@@ -2734,8 +2789,9 @@
     "ruleIII": 0.9147649530032904,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.8160254037844387
    },
    {
     "B": 0.1,
@@ -2745,8 +2801,9 @@
     "ruleIII": 0.9037780893240256,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.9159258262890682
    },
    {
     "B": 0.1,
@@ -2756,8 +2813,9 @@
     "ruleIII": 0.9,
     "liftII": 0,
     "noDecelII": false,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.95
    }
   ],
   "gal120": [
@@ -2769,8 +2827,9 @@
     "ruleIII": 1.0000000000000002,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 120.00000000000001
+    "boundaryIII": 120.00000000000001,
+    "noDecelIII": "未解決",
+    "marginIII": 0
    },
    {
     "B": 0.5,
@@ -2780,8 +2839,9 @@
     "ruleIII": 0.8660254037844388,
     "liftII": 0.13397459621556118,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 104.47751218592992
+    "boundaryIII": 104.47751218592992,
+    "noDecelIII": "負",
+    "marginIII": -0.24999999999999978
    },
    {
     "B": 0.1,
@@ -2791,8 +2851,9 @@
     "ruleIII": 0.9539392014169457,
     "liftII": 0.04606079858305434,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 92.86598398259886
+    "boundaryIII": 92.86598398259886,
+    "noDecelIII": "負",
+    "marginIII": -0.4499999999999998
    }
   ],
   "bodies": [
@@ -2802,8 +2863,9 @@
     "thDeg": 67.23082861719766,
     "liftII": 0,
     "noDecelII": true,
-    "noDecelIII": true,
-    "boundaryIII": 90.0000000005655
+    "boundaryIII": 90.0000000005655,
+    "noDecelIII": "正",
+    "marginIII": 0.3870195118981921
    },
    {
     "key": "venus",
@@ -2811,8 +2873,9 @@
     "thDeg": 112.76917138280236,
     "liftII": 3.404463266853952e-9,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 90.00000025200457
+    "boundaryIII": 90.00000025200457,
+    "noDecelIII": "負",
+    "marginIII": -0.38701950749001296
    },
    {
     "key": "earth",
@@ -2820,8 +2883,9 @@
     "thDeg": 112.76917138280236,
     "liftII": 9.011469348507717e-11,
     "noDecelII": true,
-    "noDecelIII": false,
-    "boundaryIII": 90.00000000667045
+    "boundaryIII": 90.00000000667045,
+    "noDecelIII": "負",
+    "marginIII": -0.38701951177190114
    }
   ]
  },
@@ -2830,13 +2894,13 @@
    "wallSec": 0.002
   },
   "t2": {
-   "wallSec": 0.072
+   "wallSec": 0.085
   },
   "t3": {
-   "wallSec": 0.094
+   "wallSec": 0.113
   },
   "t4": {
-   "wallSec": 0.102
+   "wallSec": 0.121
   }
  },
  "gates": {
@@ -2851,187 +2915,262 @@
   "t4Rule": true
  },
  "ok": true,
- "elapsedS": 0.103,
+ "elapsedS": 0.494,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第338便b",
   "target": "tests/lib-w338b-bevelknob.mjs",
   "targetSha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-  "generatedAt": "2026-11-16T18:52:32.201Z",
+  "generatedAt": "2026-11-19T07:51:51.502Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w338b-bevelknob.mjs",
-    "bytes": 11558,
-    "sha256": "7b4018f1c6ca2adb5d3c860948ffef83cd75104b10925dac74f6d83a61e0e7e4",
-    "mtime": "2026-11-16T18:42:14.086Z"
+    "bytes": 14478,
+    "sha256": "d7b7fd03781a64e5a8ecd7691cf0d9ea54775c69a09a34d27f4f50f473b56327",
+    "mtime": "2026-11-19T07:29:05.186Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-16T18:42:14.102Z"
+    "mtime": "2026-11-19T07:13:18.155Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-11-19T07:13:18.171Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-11-19T07:13:18.171Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-11-19T07:13:18.171Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-11-19T07:13:18.171Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-16T18:42:14.142Z"
+    "mtime": "2026-11-19T07:13:18.179Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-19T07:13:18.183Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-16T18:42:14.154Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-16T18:42:14.154Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-16T18:42:14.154Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-16T18:42:14.154Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-16T18:48:19.670Z"
+    "mtime": "2026-11-19T07:13:18.187Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-16T18:42:14.158Z"
+    "mtime": "2026-11-19T07:13:18.191Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-16T18:42:14.158Z"
+    "mtime": "2026-11-19T07:13:18.191Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-16T18:42:14.158Z"
+    "mtime": "2026-11-19T07:13:18.191Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-16T18:42:14.158Z"
+    "mtime": "2026-11-19T07:13:18.195Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-16T18:42:14.162Z"
+    "mtime": "2026-11-19T07:13:18.195Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-16T18:42:14.162Z"
+    "mtime": "2026-11-19T07:13:18.195Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-16T18:42:14.162Z"
+    "mtime": "2026-11-19T07:13:18.199Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-16T18:42:14.166Z"
+    "mtime": "2026-11-19T07:13:18.199Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
     "bytes": 41130,
     "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
-    "mtime": "2026-11-16T18:48:19.672Z"
+    "mtime": "2026-11-19T07:13:18.203Z"
    },
    {
     "file": "tests/lib-w337l-bevel.mjs",
     "bytes": 37324,
     "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
-    "mtime": "2026-11-16T18:42:14.170Z"
+    "mtime": "2026-11-19T07:13:18.203Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
     "bytes": 22798,
     "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-    "mtime": "2026-11-16T18:42:14.170Z"
+    "mtime": "2026-11-19T07:13:18.203Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-19T07:13:18.203Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-19T07:13:18.207Z"
+   },
+   {
+    "file": "tests/lib-w343f-judge3rest.mjs",
+    "bytes": 7428,
+    "sha256": "e3911ca59f07b45910c8fd2de54a5fc1fb1d58d558a973d70aa3a8efb9b5b8d8",
+    "mtime": "2026-11-19T07:51:42.017Z"
    }
   ],
-  "codeSha256": "6fb20f177e984c688df01c8284a3d32b6068b0d7ec6b807034b6d884c1ed554c",
-  "harnessVersion": "w338b-bevelknob-1",
+  "codeSha256": "af4f25f8a12423941e49b7750a0f249832d4a946c49caa925025aac7fd111b13",
+  "harnessVersion": "w338b-bevelknob-2",
   "stage": "bevelknob",
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [12345,20261115],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 2,
+   "kept": 1268,
+   "zeroPathsHead": [
+    "/t4/rows/8/marginIII",
+    "/t4/gal120/0/marginIII"
+   ],
+   "unstable": 0,
+   "unstableHead": [],
+   "judge3": {
+    "version": "w343f-judge3rest-lib-1",
+    "thinVersion": "w340h-thin-lib-2",
+    "factor": 4,
+    "noDecelIII": {
+     "正": 23,
+     "負": 20,
+     "未解決": 2
+    },
+    "weak": {
+     "正": 6,
+     "負": 0,
+     "未解決": 0,
+     "解析の 0": 2
+    }
+   }
+  },
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない)",
   "notClaim": [
    "補正のノブ q の値を決めない(候補の表)",

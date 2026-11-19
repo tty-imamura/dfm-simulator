@@ -28,7 +28,7 @@ import { kappaMRadius } from './lib-w330b-dragweight.mjs';
 import { C1 } from './lib-w331c-k1scale.mjs';
 import { sphereRot } from './lib-w332a-eqband.mjs';
 
-export const LIB_VERSION = 'w338e-spinfield-lib-1';
+export const LIB_VERSION = 'w338e-spinfield-lib-2';   // 第343便f: 純関数の場面 ② secularSame を打ち消す前の項の大きさで割る(門の意味と許容は不変)
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const v3 = (a) => Array.isArray(a) && a.length === 3 && a.every(fin);
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], scl = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
@@ -252,6 +252,33 @@ export function boundRate(kind, R, S) {
   return kind === 'adotRel' ? Math.abs(R.adot / S.a) * DECL.yearS : kind === 'adotAbs' ? Math.abs(R.adot) * DECL.yearS : Math.abs(R.PdotOverP * S.P);
 }
 
+/* ───────── 第343便f: 同じ式の 2 つの実装の比べ方(打ち消す前の項の大きさで割る —— 純関数の場面 ② の secularSame)───────── */
+export const SECULAR_KEYS = Object.freeze(['adot', 'edot', 'wdot', 'Qorb', 'Wforb', 'hdotRel']);
+/** 求積の各点の項の絶対値の重み付きの平均(第337便d の secularRates と同じ点・重み・同じ因子 —— 打ち消す前の大きさ) */
+export function secularPreScale(S, col, knob, { nQ = DECL.nQuad } = {}) {
+  const K0 = L.keplerAt(S, 0), h0 = crs(K0.r, K0.v), A0 = sub(crs(K0.v, h0), scl(K0.r, S.GM / K0.rm)), hm = nrm(h0), hHat = scl(h0, 1 / hm), eHat = scl(A0, 1 / nrm(A0)), eh = crs(hHat, eHat);
+  let sw = 0, aEps = 0, aE = 0, aW = 0, aH = 0, aQ = 0, aPf = 0;
+  for (let i = 0; i < nQ; i++) {
+    const E = 2 * Math.PI * i / nQ, Kp = L.keplerAt(S, E), F = L.pairForces(S, col, knob, Kp.r, Kp.v), f = F.fRel, h = crs(Kp.r, Kp.v);
+    const Adot = add(crs(f, h), crs(Kp.v, crs(Kp.r, f)));
+    sw += Kp.w; aEps += Kp.w * Math.abs(dot(Kp.v, f)); aE += Kp.w * Math.abs(dot(eHat, Adot)); aW += Kp.w * Math.abs(dot(eh, Adot));
+    aH += Kp.w * Math.abs(dot(crs(Kp.r, f), hHat)); aQ += Kp.w * Math.abs(F.Qdot); aPf += Kp.w * Math.abs(F.Pfield);
+  }
+  const { a, e, GM, P } = S;
+  return { adot: 2 * a * a * (aEps / sw) / GM, edot: (aE / sw) / GM, wdot: e > 0 ? (aW / sw) / (GM * e) : null, Qorb: (aQ / sw) * P, Wforb: (aPf / sw) * P, hdotRel: (aH / sw) / hm };
+}
+/** 2 つの実装 A・B の差 ÷ 打ち消す前の大きさ(率ごとの最大 scaled)と、旧の割り方 ÷ |A|(比べる列 old) */
+export function secularSameScaled(A, B, pre, keys = SECULAR_KEYS) {
+  let scaled = 0, old = 0;
+  for (const k of keys) {
+    if (!fin(A[k]) || !fin(B[k])) { if (A[k] !== B[k]) scaled = Infinity; continue; }
+    const d = Math.abs(A[k] - B[k]), sc = pre[k];
+    scaled = Math.max(scaled, fin(sc) && sc > 0 ? d / sc : d === 0 ? 0 : Infinity);
+    old = Math.max(old, d / Math.max(Math.abs(A[k]), 1e-300));
+  }
+  return { scaled, old };
+}
+
 /* ───────── 純関数の場面(QA と器の門) ───────── */
 export function pureScenes() {
   const O = {};
@@ -273,7 +300,10 @@ export function pureScenes() {
     const S = L.sysOf({ G: 1, m1: 0.4, m2: 0.6, a: 1, e: 0.3, s1: [0.1, 0, 0.3], s2: [0, 0.2, 0.5], c: 50, mode: 'both' });
     for (const col of ['L1', 'S0']) {
       const A = L.secularRates(S, col, 1e-3, { nQ: 512 }), B = secularF(S, col, 1e-3, { field: 'rigid' }, { nQ: 512 });
-      for (const k of ['adot', 'edot', 'wdot', 'Qorb', 'Wforb', 'hdotRel']) mx = Math.max(mx, Math.abs(A[k] - B[k]) / Math.max(Math.abs(A[k]), 1e-300));
+      // 第343便f(統括の検証項目 R383): 旧は ÷ |A[k]| —— ϖ̇ は打ち消しで 1e-19 の桁(丸めの残り)なので、2 つの実装の丸めの違いで門が反転しえた(第341便c の数え 3 見本)。
+      //   打ち消す前の項の大きさ(求積の各点の項の絶対値の重み付きの平均 —— secularPreScale)で割る。門の意味(2 つの実装が同じ)と許容 1e-12 は変えない。
+      const pre = secularPreScale(S, col, 1e-3, { nQ: 512 }), r = secularSameScaled(A, B, pre);
+      mx = Math.max(mx, r.scaled);
     }
     O.secularSame = mx;
   }
