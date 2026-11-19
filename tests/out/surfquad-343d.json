@@ -1923,24 +1923,25 @@
   ],
   "nLeaf": 630,
   "nDiff": 0,
+  "nDiffTol": 0,
   "chordLibVersion": "w342c-oblateapprox-lib-2",
   "libVersionNow": "w342c-oblateapprox-lib-2"
  },
  "timing": {
   "pure": {
-   "wallSec": 0.053
+   "wallSec": 0.056
   },
   "t1": {
-   "wallSec": 0.104
+   "wallSec": 0.108
   },
   "t2": {
-   "wallSec": 0.362
+   "wallSec": 0.435
   },
   "t4": {
-   "wallSec": 0.78
+   "wallSec": 0.824
   },
   "t5": {
-   "wallSec": 0.781
+   "wallSec": 0.824
   }
  },
  "gates": {
@@ -1953,13 +1954,13 @@
   "unchanged42": true
  },
  "ok": true,
- "elapsedS": 4.642,
+ "elapsedS": 3.823,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第343便d",
   "target": "tests/lib-w343d-surfquad.mjs",
   "targetSha256": "378ca84b182521d46472a5db49a429ba36c62a70d70827cf8ce5b05446551f74",
-  "generatedAt": "2026-11-19T07:32:02.229Z",
+  "generatedAt": "2026-11-19T07:44:57.031Z",
   "inputs": [
    {
     "file": "tests/out/oblatering-341d.json",
@@ -1977,9 +1978,9 @@
   "code": [
    {
     "file": "tests/exp-w343d-surfquad.mjs",
-    "bytes": 14562,
-    "sha256": "f4b9c384adb784392689130b0cb23f79882d0e510eb607f77a739ad15e3c0aad",
-    "mtime": "2026-11-19T07:31:57.486Z"
+    "bytes": 14945,
+    "sha256": "42f9c7e205d968fb6dd0b3321226f416a7ab8b3e8d33ab0205edb2cdd8535e49",
+    "mtime": "2026-11-19T07:44:52.152Z"
    },
    {
     "file": "tests/lib-w343d-surfquad.mjs",
@@ -2018,7 +2019,7 @@
     "mtime": "2026-11-19T07:13:16.375Z"
    }
   ],
-  "codeSha256": "f27be9a2171e49dc9dbb02b012b88898c240c54c1ebf9ea49680f5fe9bf6fd47",
+  "codeSha256": "9dd9239e0f845494bf7f094c5a68011e13992b2fbc5fa3a6c87c0367d4271f8d",
   "harnessVersion": "w343d-surfquad-1",
   "stage": "surfquad",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 表面のフラックスの求積・弦の向きの積分)",

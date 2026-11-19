@@ -111336,9 +111336,10 @@ function view341aOf342f(eq) {
         if (!(P.length === 3 && P.every((o) => o.contChord <= DD.poleTol && o.contSurf <= DD.poleTol && o.agreeMax <= DD.agreeTol && o.volErr <= 1e-9))) bad.push('③ 極の試験(連続・弦と表面・体積)');
         const S2 = J.t2.summary;
         if (!(S2.n === 42 && S2.a.value <= 1e-8 && S2.b512.value <= 1e-6 && S2.b128.value <= 1e-4 && S2.chordCloser === 42)) bad.push('③ 3 つの差の欄(表面の刻み・弦 128・512・弦の方が近い点の数)');
+        // 作り直しは相対 1e-12 の内(Node の版の違いで Math の末尾の 1 bit が動く)・正本の側は器が同じ Node で数えた完全一致の数 0
         const U = X.unchanged42(inp);
-        if (!(U.nDiff === 0 && U.nLeaf === 630 && U.libVersionNow === C342.LIB_VERSION && U.chordLibVersion === C342.LIB_VERSION && js(U) === js(J.unchanged42))) bad.push('③ 42 条件の弦の列が第342便c の正本と葉ごとに同じでない(段 oblateapprox-342c と surfquad-343d を走らせ直す)');
-        cases.push(`③ 極の真上と真下で弦が数を返す・極の試験 ${P.length} 扁平率・(a) ${S2.a.value.toExponential(1)}・(b) ${S2.b128.value.toExponential(2)}(512 で ${S2.b512.value.toExponential(1)})・(c) ${S2.c.value.toExponential(2)}・42 条件の弦の列 ${U.nLeaf} 葉が第342便c の正本と同じ`);
+        if (!(U.nDiffTol === 0 && U.nLeaf === 630 && U.libVersionNow === C342.LIB_VERSION && U.chordLibVersion === C342.LIB_VERSION && J.unchanged42 && J.unchanged42.nDiff === 0 && J.unchanged42.nDiffTol === 0)) bad.push('③ 42 条件の弦の列が第342便c の正本と葉ごとに同じでない(段 oblateapprox-342c と surfquad-343d を走らせ直す)');
+        cases.push(`③ 極の真上と真下で弦が数を返す・極の試験 ${P.length} 扁平率・(a) ${S2.a.value.toExponential(1)}・(b) ${S2.b128.value.toExponential(2)}(512 で ${S2.b512.value.toExponential(1)})・(c) ${S2.c.value.toExponential(2)}・42 条件の弦の列 ${U.nLeaf} 葉が第342便c の正本と同じ(正本: 完全一致・作り直し: 相対 1e-12 の内 —— 完全一致でない葉 ${U.nDiff})`);
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
         if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));

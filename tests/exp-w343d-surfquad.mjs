@@ -50,14 +50,15 @@ export function partT1(inp) {
 }
 /** 42 条件の弦の列を lib-2 で作り直す(第342便c の正本の数と葉ごとに完全一致か —— Math をずらす settleRun の外で数える) */
 export function unchanged42(inp) {
-  let nLeaf = 0, nDiff = 0;
+  // nDiff = 葉ごとの完全一致でない数(同じ Node の版で作った正本どうしなら 0 —— 情報)・nDiffTol = 相対 1e-12 を超える数(門 —— Node の版の違いで Math の末尾の 1 bit が動いても通る)
+  let nDiffTol = 0, nLeaf = 0, nDiff = 0;
   const levels = C.DECL.dirLevels.map((lv, li) => {
     const canon = inp.chord[li], rows = inp.ref.map((r) => C.chordRow(r.f, r.d, r.s, lv));
     for (const x of rows) { const c = canon.rows.find((q) => q.f === x.f && q.d === x.d && q.s === x.s);
-      for (const k of ['tiltRatio', 'magRatio', 'volRatioOblate', 'volRatioSphere', 'nKernel']) { nLeaf++; if (!c || c[k] !== x[k]) nDiff++; } }
+      for (const k of ['tiltRatio', 'magRatio', 'volRatioOblate', 'volRatioSphere', 'nKernel']) { nLeaf++; if (!c || c[k] !== x[k]) nDiff++; if (!c || !(Math.abs(c[k] - x[k]) <= 1e-12 * Math.max(1, Math.abs(c[k])))) nDiffTol++; } }
     return { nDir: lv[0] * lv[1], n: rows.length };
   });
-  return { levels, nLeaf, nDiff, chordLibVersion: inp.chordLibVersion, libVersionNow: C.LIB_VERSION };
+  return { levels, nLeaf, nDiff, nDiffTol, chordLibVersion: inp.chordLibVersion, libVersionNow: C.LIB_VERSION };
 }
 
 /* ───────── T2 独立の求積 ───────── */
@@ -110,8 +111,8 @@ export function gatesOf(J) {
     poleContinuous: P.every((o) => o.contChord <= D.poleTol && o.contSurf <= D.poleTol && o.contVol <= D.volTol && o.volErr <= 1e-9 && o.agreeMax <= D.agreeTol && o.mirror <= 1e-12),
     t2Complete: t2.rows.length === D.ref.nPts && t2.summary.volErr <= 1e-9,
     t4Complete: J.t4.rows.length === D.edge.fGrid.length * D.edge.dGrid.length * D.edge.sGrid.length,
-    /** 42 条件の弦の列が第342便c の正本と葉ごとに同じ(settleRun の外で数えた J.unchanged42 —— 走り直しの中では無い) */
-    unchanged42: !!J.unchanged42 && J.unchanged42.nDiff === 0 && J.unchanged42.nLeaf === 3 * D.ref.nPts * 5 && J.unchanged42.chordLibVersion === J.unchanged42.libVersionNow,
+    /** 42 条件の弦の列が第342便c の正本と葉ごとに同じ(相対 1e-12 の内 —— settleRun の外で数えた J.unchanged42。完全一致の数 nDiff は情報) */
+    unchanged42: !!J.unchanged42 && J.unchanged42.nDiffTol === 0 && J.unchanged42.nLeaf === 3 * D.ref.nPts * 5 && J.unchanged42.chordLibVersion === J.unchanged42.libVersionNow,
   };
 }
 export function runAll(inp) {
