@@ -1200,6 +1200,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 #   第338便c の recheckRun で正本と照合・零試験・atX1 の定義域 / docs.clockmid344c —— 正本の門と表 12 本が PHYSICS〔第344便c〕に逐語・文書)と、新しい段 clockmid-344c の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockmid344c docs.clockmid344c"
 # ==== 第344便c の塊(ここまで)====
+# ==== 第344便f の塊(ここから)====
+# 第344便f(統括の検証項目 R390・BL-148 —— 道具と QA だけ・html は変えない): 新設 3 本(lint.chainResume344f —— 入れ直しの判定の ⑤ の 3 種類の NG の分けと
+#   文と欄の食い違い・作り物の印の木で --resume-gate / docs.tools344f / lint.libVersionImport344f —— qa.mjs の lib の版の文字の期待の数と直した所)と、
+#   版の照合を書き直した鍵(lint.chainResume343f ほか第342便・第343便の 11 ブロック)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.chainResume344f docs.tools344f lint.libVersionImport344f lint.chainResume343f behavior.judge3rest343f behavior.clockstop342b behavior.clockread343c"
+# ==== 第344便f の塊(ここまで)====
 # ==== 第344便g の塊(ここから)====
 # 第344便g(決断事項 AN807・AN822・AN885・統括の検証項目 R391 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutogm344g —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・入力の csv の sha・(1)(2) の列が第343便g の正本の数に戻る・往復の差・呼ぶだけ / docs.plutogm344g —— 正本の門と表 9 本が
@@ -1346,6 +1352,11 @@ console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " �
 # 第336便b(R336): ① の印のない FAIL の一覧($LOG/1-unmarked.txt —— id・文に刻印の型の語があるか・理由の文の末尾 120 字)と、1 件でもあれば要約に「‼ 1 件ずつ読むこと」
 [ "$S1" = "skip" ] || S1="$S1$(unmarked336b "$LOG/1-preflight.log" "$LOG/1-unmarked.txt" ①)"
 # ==== 第336便b の塊(ここまで)====
+# ==== 第344便f の塊(① の飛ばしの印字 —— ここから)====
+# 第344便f(統括の検証項目 R390): --no-preflight で ① を飛ばしたことを結果の行に必ず印字する(新しい入口は足していない —— 既存の --no-preflight を使う)。
+#   使い方の案: 統合の直後(鎖の前)は `--no-preflight` + Node 24 の事前検査を別に 1 回(刻印の型の FAIL は鎖で直る)・鎖の後の木で ① を含めて 1 回。
+[ $NOPRE -eq 1 ] && S1="skip(① は飛ばした —— 事前検査は別に回す・--no-preflight)"
+# ==== 第344便f の塊(① の飛ばしの印字 —— ここまで)====
 
 # ② 接続契約
 say "② 接続契約(regen-chain --audit / --self-test)→ $LOG/2-*.log"
