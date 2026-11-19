@@ -1195,6 +1195,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便a の塊(ここから)====
+# 第344便a(原仮定者の指示(2026-11-19 —— 第144報)・統括の検証項目 R385 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report144_344a —— PHYSICS〔第344便a〕の
+#   第144報の原文・第143報の回答の在り処・題の表・用語・出どころの書き方をそろえた所・AI_SPEC §277・CHANGELOG / lint.equations344a —— EQ の番号の連続・EQ-87〜EQ-91 と各節の同じ字の式・欄・EQ-84 の訂正の参照)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report144_344a lint.equations344a"
+# ==== 第344便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
