@@ -106707,7 +106707,7 @@ function view337gOf338a(eq) {
           if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) diffs338b.push(p + ' ' + a + '/' + b); return; }
           for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], p + '/' + k); };
         // ① 版・格子・純関数の場面
-        if (!(K.LIB_VERSION === 'w338b-bevelknob-lib-1' && X.HARNESS_VERSION === 'w338b-bevelknob-1' && D0.DOC_VERSION === 'w338b-bevelknobdoc-1' && X.AMEND.length === 0 && L.LIB_VERSION === 'w337l-bevel-lib-2' && J.lib337Version === 'w337l-bevel-lib-2'))
+        if (!(K.LIB_VERSION === 'w338b-bevelknob-lib-1' && X.HARNESS_VERSION === 'w338b-bevelknob-2' && D0.DOC_VERSION === 'w338b-bevelknobdoc-2' && X.AMEND.length === 1 && L.LIB_VERSION === 'w337l-bevel-lib-2' && J.lib337Version === 'w337l-bevel-lib-2'))   // 第343便f: 器 -2・文書の lib -2・AMEND 1(settle の型と 3 値)
           bad.push('① 版(lib・器・文書の lib・版の履歴・第337便l の lib は版 2)');
         if (!(js(K.DECL.qGrid) === js([0, 0.25, 0.5, 0.75, 1]) && js(K.DECL.pGrid) === js([0, 1, 2]) && js(K.DECL.elevDeg) === js([0, 15, 30, 45, 60, 75, 85, 89, 90]) && js(K.DECL.cols) === js(['A', 'B', 'Bp'])
           && js(K.DECL.ruleRatios) === js([1, 0.5, 0.1]) && K.DECL.ruleDeg === 120 && K.FLOOR === 1e-12 && js(J.decl) === js(K.DECL)))
@@ -106718,10 +106718,10 @@ function view337gOf338a(eq) {
         diffs338b.length = 0; walk(JSON.parse(js(PS)), J.pure.scenes, 'pure'); if (diffs338b.length) bad.push('① 場面の数が正本と違う(' + diffs338b.slice(0, 3).join('・') + ')');
         cases.push(`① lib ${K.LIB_VERSION}・器 ${X.HARNESS_VERSION}・第337便l ${L.LIB_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ
-        const R = X.runAll(), parts = ['t2', 't3', 't4'], badParts = [];
-        for (const k of parts) { diffs338b.length = 0; walk(JSON.parse(js(R[k])), J[k], k); if (diffs338b.length) badParts.push(diffs338b.slice(0, 3).join('・')); }
+        const parts = ['t2', 't3', 't4'], RC = X.recheck343f(J, parts), R = RC.base, badParts = [];   // 第343便f: settle の型 —— 尺度を測り 3 値を書いてから第338便c の照合(数でない欄は完全一致・0 と書いた葉は尺度の内)
+        for (const k of parts) { const d = RC.diffs[k]; if (d.n) badParts.push(k + ' ' + d.hits.slice(0, 3).map((h) => h[0] + ' ' + h[3]).join('・')); }
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.join(' / ') + ')—— 器を走らせ直す');
-        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(数でない欄は完全一致・数は相対 1e-9・0 の欄は両方 0 —— 仰角 ${R.t2.rows.length}・惑星 ${R.t3.bodies.planets.length}・衛星 ${R.t3.bodies.moons.length}・合成 ${R.t4.rows.length})`);
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の尺度の照合 —— 数でない欄は完全一致・数は相対 1e-9 か尺度の 8 倍・0 と書いた葉は尺度の内 —— 仰角 ${R.t2.rows.length}・惑星 ${R.t3.bodies.planets.length}・衛星 ${R.t3.bodies.moons.length}・合成 ${R.t4.rows.length})`);
         // ③ 独立の照合(同じ式で作った値を同じ式で照らさない)
         let d0 = 0; for (const el of [5, 20, 40, 70, 88]) { const rh = [Math.cos(el * Math.PI / 180), 0.1, Math.sin(el * Math.PI / 180)], a = K.twistAxis([0.1, 0.2, 1], rh, 0), b = L.twoAngleAxis([0.1, 0.2, 1], rh); d0 = Math.max(d0, Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2])); }
         if (!(d0 <= 1e-12)) bad.push('③ q 0 が第337便l の 2 倍角の則(twoAngleAxis)と違う(' + d0 + ')');
@@ -107167,7 +107167,7 @@ function view337gOf338a(eq) {
           for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk338e(a[k], b[k], p + '/' + k);
         };
         // ① 版・場の型・純関数の場面
-        if (!(L.LIB_VERSION === 'w338e-spinfield-lib-1' && X.HARNESS_VERSION === 'w338e-spinfield-1' && D0.DOC_VERSION === 'w338e-spinfielddoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
+        if (!(L.LIB_VERSION === 'w338e-spinfield-lib-2' && X.HARNESS_VERSION === 'w338e-spinfield-1' && D0.DOC_VERSION === 'w338e-spinfielddoc-1' && X.AMEND.length === 0)) bad.push('① 版(lib・器・文書の lib・版の履歴)');
         if (!(js(L.FIELDS) === js(['none', 'rigid', 'pow1', 'pow2', 'sphere']) && L.DECL.zeroFloor === 1e-12 && L.DECL.nQuad === 4096 && Math.abs(L.XI_REF / 9.8705e-9 - 1) < 1e-3)) bad.push('① 場の型・宣言(丸めの床・求積の点・Ξ_ref)');
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
