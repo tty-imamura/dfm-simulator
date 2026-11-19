@@ -111415,7 +111415,7 @@ function view341aOf342f(eq) {
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第343便c〕に「' + w + '」が無い');
     if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第343便c〕の表の行に \\| がある');
     const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
-    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
+    const krows = []; if (ki >= 0) for (const l of sec.slice(ki).split('\n').slice(2)) { if (!l.startsWith('| ')) break; krows.push(l); }   // 続く行だけ(後ろの追記の表を数えない)
     if (!(ki >= 0 && krows.length === 3 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・3 行・状態は候補か対照)');
     // 〔第342便b〕の訂正の文(当時の文は残す —— 2 か所)
     const ib = PH.indexOf('〔第342便b — '), secB = ib >= 0 ? secUntilNext329c(PH, ib, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
