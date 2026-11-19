@@ -109339,9 +109339,9 @@ function view340aOf341a(eq) {
       const callers = [];
       for (const dir of ['tests', 'tools']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
         if (!/\.mjs$/.test(f) || f === 'qa.mjs') continue; const t = rd(dir + '/' + f); if (/\bjudge3\(/.test(t)) callers.push(dir + '/' + f); }
-      const wantCallers = ['tests/exp-w337i-rotring.mjs', 'tests/exp-w337j-spinorbit.mjs', 'tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w341c-judgescale.mjs', 'tests/lib-w343f-judge3rest.mjs'];   // 第343便f: judge343f(尺度は第338便c の sigmaOf の木の同じ道の葉 —— 欠ければ lib-2 の「未解決」)
+      const wantCallers = ['tests/exp-w337i-rotring.mjs', 'tests/exp-w337j-spinorbit.mjs', 'tests/exp-w340b-axialsplit.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w341c-judgescale.mjs', 'tests/lib-w343f-judge3rest.mjs', 'tests/lib-w344e-spincompose.mjs'];   // 第343便f: judge343f(尺度は第338便c の sigmaOf の木の同じ道の葉 —— 欠ければ lib-2 の「未解決」)。第344便(統括 —— 継ぎ目): 第344便e の lib は同じ名の自前の 3 値(増す・減る・未解決)—— 尺度は打ち消し得る 2 つの項の大きさの和(2 abs(Ω) abs(ΔΩ) + abs(ΔΩ)²)・尺度が正でなければ例外(呼ぶ側は「未解決」)・床は宣言の zeroTol
       if (JSON.stringify(callers.sort()) !== JSON.stringify(wantCallers)) bad.push('② judge3 の呼び出しの一覧が変わった(' + callers.join(',') + ')—— 新しい呼び出しは尺度の作り方を読んで一覧に足す');
-      cases.push(`② judge3 を呼ぶファイル ${callers.length}(器 i・j・340b と lib 2 本 —— どの呼び出しも尺度は sigmaOf の木の同じ道の葉)`);
+      cases.push(`② judge3 を呼ぶファイル ${callers.length}(器 i・j・340b と lib —— 第340便h・第341便c・第343便f の lib の呼び出しは尺度が sigmaOf の木の同じ道の葉・第344便e の lib は同じ名の自前の 3 値で、尺度は打ち消し得る 2 つの項の大きさの和)`);
       // ③ 正本の 3 値
       const Ji = rj('tests/out/rotring-337i.json'), Jj = rj('tests/out/spinorbit-337j.json'), Jb = rj('tests/out/axialsplit-340b.json'), W3 = [T.DECL.POS, T.DECL.NEG, T.DECL.UNRESOLVED];
       if (!Ji || !Jj || !Jb) bad.push('③ 正本が読めない');
