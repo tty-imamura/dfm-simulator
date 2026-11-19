@@ -5,7 +5,7 @@
  "transferVersion": "w328a-directslip-1",
  "generator": "tests/exp-w328a-fieldcontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN551・AN552・AN553 —— 推奨の案で閉じた: AN551 = A 直接の滑りを本の宣言の型・剛体/半渦度/シア/K1 の幾何は対照・AN552 = A 定数の Ω_field〔太陽系近傍の局所〕・AN553 = B 枠・Ω_field・収束の印だけを場の API に足し、帳簿は第326便d の lib に残す)・統括の検証項目 R301",
  "decl": {
@@ -1077,25 +1077,25 @@
  },
  "timing": {
   "base327b": {
-   "wallSec": 8.359
+   "wallSec": 9.229
   },
   "old": {
-   "wallSec": 15.054
+   "wallSec": 16.869
   },
   "contract": {
-   "wallSec": 16.806
+   "wallSec": 18.906
   },
   "directControls": {
-   "wallSec": 16.806
+   "wallSec": 18.907
   },
   "dual": {
-   "wallSec": 17.046
+   "wallSec": 19.207
   },
   "convDegHand": {
-   "wallSec": 17.046
+   "wallSec": 19.208
   },
   "pure": {
-   "wallSec": 20.408
+   "wallSec": 22.91
   }
  },
  "gates": {
@@ -1115,19 +1115,19 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 22.426,
+ "elapsedS": 25.055,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第328便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:42:22.111Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T21:00:28.254Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -1270,9 +1270,9 @@
    "abBody": false,
    "names": 1364,
    "segments": 1195,
-   "closureShare": 0.294
+   "closureShare": 0.2938
   },
-  "scopeSha256": "00785c34609102e3f96ff01dfb662f9d7e5e5c0ff52fe9abdc5faadb11e57f08",
+  "scopeSha256": "e5b4e3291d36fa6ad75c6f91b3b82f9357f4e0a872a1be2f52a36ff3b7858b16",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

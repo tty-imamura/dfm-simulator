@@ -4,7 +4,7 @@
  "generator": "tests/exp-w300b-emonly.mjs",
  "ruling": "原仮定者の裁定(第90報)③・統括の検証項目 R176",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "parts": {
   "decl": {
    "rule": "🌦️ の地球→月の相対位置・相対速度を質量比で分け、地球–月の重心を原点・重心速度 0 に置いた(太陽を外す)・physics は 🌦️ の写しで relativeDrag.pairs を [[0,1]] へ",
@@ -123,7 +123,7 @@
    "momRel": 0,
    "relPosRel": 0,
    "relVelRel": 0,
-   "wallSec": 0.002
+   "wallSec": 0.006
   },
   "run": {
    "short": false,
@@ -176,7 +176,7 @@
        "synUniform": 29.727713690026132
       }
      ],
-     "wallSec": 9.389
+     "wallSec": 18.579
     },
     "ctrlH2": {
      "key": "ctrl-h2",
@@ -209,7 +209,7 @@
        "synUniform": 29.727709850259718
       }
      ],
-     "wallSec": 6.495
+     "wallSec": 12.329
     },
     "ctrlG0": {
      "key": "ctrl-gain0",
@@ -242,7 +242,7 @@
        "synUniform": 29.727713690026672
       }
      ],
-     "wallSec": 3.201
+     "wallSec": 5.746
     },
     "sunH": {
      "key": "sun3d-h",
@@ -271,7 +271,7 @@
        "synUniform": 29.521417538369015
       }
      ],
-     "wallSec": 3.735
+     "wallSec": 6.264
     },
     "sunHsplit": {
      "key": "sun3d-h-split",
@@ -302,7 +302,7 @@
        "synUniform": 29.530588764262017
       }
      ],
-     "wallSec": 4.99
+     "wallSec": 10.095
     }
    },
    "check": {
@@ -357,30 +357,30 @@
     "sid": 0.000003283532173270487,
     "synUniform": 0.000003839766954172319
    },
-   "wallSec": 27.817
+   "wallSec": 53.019
   }
  },
  "timing": {
-  "wallSec": 29.552
+  "wallSec": 55.97
  },
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第300便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-15T19:57:29.157Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T16:20:18.547Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/out/moon3d-w298c.json",
-    "bytes": 26652,
-    "sha256": "f63c843374eb55a03aa39dcf8d2a78a4f1eeff0330c599fec76f30491e08763d",
-    "mtime": "2026-11-15T19:38:47.298Z"
+    "bytes": 26670,
+    "sha256": "ca67fa462447a2b2eb0d1f15ce91973d408ec56af407c36c615b921463213a71",
+    "mtime": "2026-11-18T16:19:19.405Z"
    },
    {
     "file": "tests/data-w336a-sun3d299b.json",
@@ -503,14 +503,14 @@
    "complete": true,
    "names": 1367,
    "segments": 1198,
-   "closureShare": 0.2913
+   "closureShare": 0.2911
   },
-  "scopeSha256": "8a3593841b98fa18a0cdbd169a525d8a6a88c73a065cd7e479ab78b1a2359112",
+  "scopeSha256": "a406a76641b3b3fee29ae8124b46c020b6c04f765fbf93a5c912e2b479ec4ab2",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/moon3d-w298c.json",
-    "stableSha256": "58700bc8b067676674a90be7a109955db8a14a9003ce7d1bafb52f30f0c2b6f4",
+    "stableSha256": "b86828982f241b5dfd7559db118ed29b29eb2f8839dce46ab38687984ea64b0b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -543,5 +543,5 @@
   ],
   "stableHashVersion": "w282e-stable-1"
  },
- "elapsedS": 29.552
+ "elapsedS": 55.97
 }

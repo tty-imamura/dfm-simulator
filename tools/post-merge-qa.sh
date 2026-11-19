@@ -1121,6 +1121,43 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyroheat341f docs.gyroheat341f"
 #   第338便c の recheckRun で正本と照合・理想の円と相互ロックの零試験・呼ぶだけ / docs.plutocontrol341g —— 正本の門と表 13 本が PHYSICS〔第341便g〕に逐語・文書)と、新しい段 plutocontrol-341g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutocontrol341g docs.plutocontrol341g"
 # ==== 第341便g の塊(ここまで)====
+# ==== 第342便a の塊(ここから)====
+# 第342便a(原仮定者の補足 4(2026-11-18 —— 第141報)・原仮定者の回答 AN778・統括の検証項目 R371 —— アプリを変える枝): 新設 2 本(behavior.surfclock342a —— 粒子の表面の時計 tauSurf の
+#   解析値・点の時計の不変・質量 0・軟化 0・表示の倍率・動く時計・合体と分裂の追随・説明の文の数 / docs.surfclock342a —— PHYSICS〔第342便a〕・AI_SPEC §263・CHANGELOG・🛟 の説明の文)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclock342a docs.surfclock342a"
+# ==== 第342便a の塊(ここまで)====
+# ==== 第342便b の塊(ここから)====
+# 第342便b(原仮定者の回答(2026-11-18 —— 第142報)AN806・統括の検証項目 R373 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.clockstop342b —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験〔低速で全部の型が同じ・取り違えの恒等式・閉じた形と数値の積分〕・呼ぶだけ / docs.clockstop342b —— 正本の門と表 11 本が PHYSICS〔第342便b〕に逐語・文書)と、
+#   新しい段 clockstop-342b の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockstop342b docs.clockstop342b"
+# ==== 第342便b の塊(ここまで)====
+# ==== 第342便c の塊(ここから)====
+# 第342便c(原仮定者の回答(2026-11-18 —— 第142報)AN800・統括の検証項目 R374 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.oblateapprox342c —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・球の源で比 1・上下の対称・弦の体積の零試験・呼ぶだけ / docs.oblateapprox342c —— PHYSICS〔第342便c〕・AI_SPEC §266・CHANGELOG・段の行)と、新しい段 oblateapprox-342c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.oblateapprox342c docs.oblateapprox342c"
+# ==== 第342便c の塊(ここまで)====
+# ==== 第342便d の塊(ここから)====
+# 第342便d(原仮定者の回答(2026-11-18 —— 第142報)AN827・統括の検証項目 R375 —— 診断だけ・html は変えない): 第340便d の器の訂正(扁平の経路の比を同じ物理の位置の球と比べる —— lib-2)の
+#   新設 2 本(behavior.gyropathfix342d —— 独立の照合 360 個・旧い比の写しとの照合・変わった数 300 と符号 23・正本と同じ / docs.gyropathfix342d —— PHYSICS〔第342便d〕・訂正の文・AI_SPEC §267・CHANGELOG)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyropathfix342d docs.gyropathfix342d"
+# ==== 第342便d の塊(ここまで)====
+# ==== 第342便e の塊(ここから)====
+# 第342便e(原仮定者の回答(2026-11-18 —— 第141報の回答)AN803・統括の検証項目 R376 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.powerball342e —— 零試験 7 と純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・η = 0 で第341便f と同じ・帳簿の残りの尺度・呼ぶだけ / docs.powerball342e —— 正本の門と表 6 本が PHYSICS〔第342便e〕に逐語・文書)と、新しい段 powerball-342e の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.powerball342e docs.powerball342e"
+# ==== 第342便e の塊(ここまで)====
+# ==== 第342便f の塊(ここから)====
+# 第342便f(原仮定者の回答(2026-11-18 —— 第142報)・統括の検証項目 R377 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report142_342f —— PHYSICS〔第342便f〕の
+#   回答 3 項の原文・AN800 の訂正の鎖・並べて読む所 4 つ・用語 4 つ・AI_SPEC §269・CHANGELOG / lint.equations342f —— EQ-78 の字と html の表面の時計の実装・EQ の番号の連続・
+#   EQ-79〜EQ-83 と第341便の節の同じ字の式・抜粋は lib の定義の範囲)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
+# ==== 第342便f の塊(ここまで)====
+# ==== 第342便g の塊(ここから)====
+# 第342便g(原仮定者の回答(2026-11-18 —— 第142報)AN827・統括の検証項目 R372 —— html はヘルプの文と三次元の時計の表示だけ): 新設 3 本(behavior.surfclockAccept342g —— 表面の時計の受け入れの条件 1〜6・8・9・11 /
+#   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
+# ==== 第342便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

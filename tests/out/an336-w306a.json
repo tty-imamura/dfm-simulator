@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第306便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-15T22:15:05.306Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T21:53:10.985Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "bytes": 110611,
-    "sha256": "ac857142a2d4546626740a653964c5d2faec72458b6d6fd60a926c7324e4adb6",
-    "mtime": "2026-11-15T22:02:03.455Z"
+    "bytes": 110612,
+    "sha256": "b9722df1baa29b0f36abae7f9872e5f59e0fb75d69d9521b53d06670e1ea6c36",
+    "mtime": "2026-11-18T21:40:04.773Z"
    },
    {
     "file": "tests/data-w308d-decl307.json",
@@ -267,9 +267,9 @@
    ],
    "names": 1411,
    "segments": 1242,
-   "closureShare": 0.301
+   "closureShare": 0.3008
   },
-  "scopeSha256": "9de0edc687b36ace31f37b64bdbea4fbde9ab89f6e807ed1e6a83cdeaf8b0c76",
+  "scopeSha256": "b0097aab4f44962c8dc454fa8e0075c99583f78569583680dda239b7a3e69940",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -286,7 +286,7 @@
    },
    {
     "file": "tests/out/gfamily-w305b.json",
-    "stableSha256": "0f415d9c287dcc9f60be5842c8f0d7b5192d65799d5e417e0072c97c2d06583d",
+    "stableSha256": "f4444f115be9905cd63327882b39abead8e1b8e19b5a1f0816775a0c20ab58cf",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -3447,16 +3447,16 @@
    "wallSec": 0.031
   },
   "M": {
-   "wallSec": 87.295
+   "wallSec": 95.57
   },
   "T": {
-   "wallSec": 610.917
+   "wallSec": 600.949
   },
   "R": {
-   "wallSec": 0.071
+   "wallSec": 0.073
   },
   "G": {
-   "wallSec": 48.386
+   "wallSec": 46.71
   }
  },
  "stats": {
@@ -3510,11 +3510,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-11-13T04:43:24.167Z",
-   "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-   "fileSha256": "8b8fca1609127fddd9c065eb7ef01608c58e61417f278c06c98b73e8ed7d542a"
+   "generatedAt": "2026-11-15T22:15:05.306Z",
+   "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+   "fileSha256": "7c03d64f3823e3bc56f6e355b45c6a68798dfd6959a1883775244093748ca7dd"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 779.661
+ "elapsedS": 783.768
 }

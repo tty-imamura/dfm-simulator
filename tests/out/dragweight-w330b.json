@@ -3,7 +3,7 @@
  "libVersion": "w330b-dragweight-lib-1",
  "generator": "tests/exp-w330b-dragweight.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の補足(2026-11-08)「回転引きずりは座標変換 —— 角速度は距離で変わらず接線の速度は r に比例・重み 1/r² で 1/r に見える」・原仮定者の補足その2(2026-11-08)「回転引きずりは回転にも効く —— 角速度そのままの順回転・重み 1/r²・潮汐との二重計上に注意・軸引きずりは現状どおり」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308",
  "decl": {
@@ -4467,31 +4467,31 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.008
+   "wallSec": 0.011
   },
   "inputs": {
-   "wallSec": 0.009
+   "wallSec": 0.011
   },
   "engine": {
-   "wallSec": 0.054
+   "wallSec": 0.061
   },
   "components": {
-   "wallSec": 0.125
+   "wallSec": 0.14
   },
   "tideRot": {
-   "wallSec": 0.126
+   "wallSec": 0.141
   },
   "galWindow": {
-   "wallSec": 0.126
+   "wallSec": 0.141
   },
   "chain": {
-   "wallSec": 0.456
+   "wallSec": 0.476
   },
   "gyro": {
-   "wallSec": 0.461
+   "wallSec": 0.476
   },
   "wave": {
-   "wallSec": 0.464
+   "wallSec": 0.481
   }
  },
  "gates": {
@@ -4510,19 +4510,19 @@
   "waveRadii": true
  },
  "ok": true,
- "elapsedS": 2.225,
+ "elapsedS": 2.383,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第330便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:42:31.940Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:56:35.343Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
@@ -4637,9 +4637,9 @@
    "abBody": false,
    "names": 1363,
    "segments": 1194,
-   "closureShare": 0.2935
+   "closureShare": 0.2933
   },
-  "scopeSha256": "b2a8220ced11192c6f1a8552da8100ef1fdf5eca67774a75b037e73272c734a8",
+  "scopeSha256": "2a2ab8a20e789b910c3cabbbf69f6a9bb24fc5d98237fc4a932381a7e2603d5e",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -6,7 +6,7 @@
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327f-venustide.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(2026-11-05)「金星の逆行自転は、大気熱潮汐の影響と、地球との共鳴を採用する」「R_dはK1で固定し、観測の自転もトルクの釣り合いで進める」・統括の検証項目 R300",
  "revision": "第328便c(統括の検証項目 R303)—— 版 2: partV の帳簿を全部の条件で評価・件数 coverage と門 allVenusCasesChecked(正本に残す行・表・他の部の数は版 1 と同じ)",
@@ -29151,25 +29151,25 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.543
+   "wallSec": 0.371
   },
   "O": {
-   "wallSec": 0.543
+   "wallSec": 0.372
   },
   "V": {
-   "wallSec": 2.162
+   "wallSec": 1.574
   },
   "R": {
-   "wallSec": 2.162
+   "wallSec": 1.574
   },
   "B": {
-   "wallSec": 7.734
+   "wallSec": 4.568
   },
   "ML": {
-   "wallSec": 12.324
+   "wallSec": 6.696
   },
   "H": {
-   "wallSec": 12.325
+   "wallSec": 6.697
   }
  },
  "gates": {
@@ -29186,19 +29186,19 @@
   "scaleOnlyMovesK1": true
  },
  "ok": true,
- "elapsedS": 14.754,
+ "elapsedS": 8.452,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便f",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-15T22:16:11.600Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:55:34.376Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -29318,9 +29318,9 @@
    "abBody": false,
    "names": 1365,
    "segments": 1196,
-   "closureShare": 0.2945
+   "closureShare": 0.2943
   },
-  "scopeSha256": "fbfa40bb5a67c0be7671e920492f2fbc0eb39fece4b56a0f77f8884ff3f2917b",
+  "scopeSha256": "7607a8aa83fe6f05cce729fdfce1530845e8246aa1ab33801a7b1eab229d88a6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

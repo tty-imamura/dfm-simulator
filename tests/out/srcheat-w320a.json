@@ -3,7 +3,7 @@
  "libVersion": "w320a-srcheat-lib-1",
  "generator": "tests/exp-w320a-srcheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-10-30 —— AN475)「減速させる側の引きずりを背景宇宙が補う分も熱に数える」・原仮定者の裁定(第122報)AN471「案3(J)を確かめる。案2bは次点。様々な可能性を探索する」・決断事項 AN471・AN474・AN475・統括の検証項目 R262。balance:\"background\" の版を上げた読み (b) と源のモーメントの半径 invSq.sourceMoment(J・obs・capObs)を在位の本の写しで測る(在位の本の宣言は変えない)",
  "balanceVersion": "w320a-axishold-balance-2",
@@ -12969,46 +12969,46 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "A": {
-   "wallSec": 0.012
+   "wallSec": 0.013
   },
   "Q": {
-   "wallSec": 0.194
+   "wallSec": 0.209
   },
   "B": {
-   "wallSec": 5.304
+   "wallSec": 3.636
   },
   "R": {
-   "wallSec": 0.981
+   "wallSec": 0.471
   },
   "F": {
    "wallSec": 0.001
   },
   "TS": {
-   "wallSec": 0.091
+   "wallSec": 0.041
   }
  },
- "elapsedS": 8.313,
+ "elapsedS": 6.249,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第320便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:53:08.358Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:56:11.315Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/out/srcradius-w319b.json",
     "bytes": 133029,
-    "sha256": "d237bf0773d071a4297ca2806539b63b785a5d0e3b90220016520164e83cf7b8",
-    "mtime": "2026-11-16T01:20:21.275Z"
+    "sha256": "3343c516fcd6bf958e42dccb9beb02264aa6b79a8dbfe8b266669d22936a1471",
+    "mtime": "2026-11-18T20:57:37.957Z"
    }
   ],
   "code": [
@@ -13105,14 +13105,14 @@
    "abBody": false,
    "names": 1378,
    "segments": 1209,
-   "closureShare": 0.2965
+   "closureShare": 0.2963
   },
-  "scopeSha256": "64583e61ada1ccb8e3d93ea75d5f52bd114a18d1b3bcbcfa059d37c370e0278f",
+  "scopeSha256": "5f2fe3ca4c4e0153d5737bcb1f1d47e93c5b2b0a7038c44733a2449d68c7347d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/srcradius-w319b.json",
-    "stableSha256": "b940b51e617a08da14593c4678812e667a8d9662157f8659c20eb06e80941080",
+    "stableSha256": "c1f5786b19dd4edcfd525cb0bdb3fbd5f703540b7cf77abeb9d2dacb086fe883",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

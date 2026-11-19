@@ -4,7 +4,7 @@
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327a-axialsum.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN534「金星の逆回転と内部熱がまだ解決していないので、金星に影響する項目は検証対象。「角速度の和」は依頼したイメージ」・AN535「両方K1が成立する太陽と木星は、密度が低い恒星と気体惑星である。金星は固体惑星なので、金星の引きずり半径でのフィットを検証する」・AN537「潮汐の応答は、天体ごとに自由。法則を探す検証は行う」)・統括の検証項目 R295",
  "decl": {
@@ -20682,22 +20682,22 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.907
+   "wallSec": 0.278
   },
   "S": {
-   "wallSec": 0.97
+   "wallSec": 0.297
   },
   "V": {
-   "wallSec": 69.913
+   "wallSec": 38.432
   },
   "solid": {
-   "wallSec": 77.584
+   "wallSec": 42.139
   },
   "tidal": {
-   "wallSec": 77.634
+   "wallSec": 42.164
   },
   "H": {
-   "wallSec": 77.635
+   "wallSec": 42.166
   }
  },
  "gates": {
@@ -20719,19 +20719,19 @@
   "scaleNotIdentified": true
  },
  "ok": true,
- "elapsedS": 80.515,
+ "elapsedS": 43.747,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:59:42.289Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T23:52:14.108Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -20826,9 +20826,9 @@
    "complete": true,
    "names": 1363,
    "segments": 1194,
-   "closureShare": 0.2935
+   "closureShare": 0.2933
   },
-  "scopeSha256": "cedec0fc46801a303b11b55713c1159fef3308be4aca7376d175dc00d72b3b4f",
+  "scopeSha256": "ec1ad9805a1f544153d9bcd75eddbafa48a2a1be6d3bfda8216d820ba5d056a0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

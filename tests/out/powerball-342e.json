@@ -1,0 +1,4348 @@
+{
+ "version": "w342e-powerball-1",
+ "libVersion": "w342e-powerball-lib-1",
+ "generator": "tests/exp-w342e-powerball.mjs",
+ "target": "tests/lib-w342e-powerball.mjs",
+ "ruling": "原仮定者の回答(2026-11-18 —— 第141報の回答 AN803)「…ジャイロトルクで動かなかった分のエネルギーは消えない。熱になるか、自転速度を増す。自転速度を増す経路が「パワーボール効果」」・AN812・AN813・統括の検証項目 R376",
+ "decl": {
+  "splits": {
+   "const": [
+    0,
+    0.1,
+    0.5,
+    0.9,
+    1
+   ],
+   "ratio": [
+    1,
+    1000,
+    1000000
+   ],
+   "lag": [
+    0,
+    0.001,
+    0.01,
+    0.1,
+    0.7853981633974483
+   ]
+  },
+  "mu": [
+   0,
+   0.5,
+   0.9
+  ],
+  "laws": [
+   "sin",
+   "sin2",
+   "oneMinusCos"
+  ],
+  "cbReadings": [
+   "one",
+   "bal",
+   "spd"
+  ],
+  "kPicks": [
+   "one",
+   "kLo",
+   "kHi"
+  ],
+  "targetSigns": [
+   "rev",
+   "fwd"
+  ],
+  "targetSets": [
+   "sun",
+   "galaxy",
+   "both"
+  ],
+  "bodies": [
+   "Venus",
+   "Jupiter",
+   "Earth",
+   "Mars",
+   "Io",
+   "Pluto",
+   "Charon"
+  ],
+  "t4Bodies": [
+   "Jupiter",
+   "Venus"
+  ],
+  "judge": "Jupiter",
+  "cmp": "Venus",
+  "io": "Io",
+  "highFrac": 0.1,
+  "ageYr": 4570000000,
+  "ref": {
+   "law": "sin",
+   "cb": "one",
+   "k": "kLo",
+   "mu": 0,
+   "split": "const",
+   "knob": 0.5
+  },
+  "alpha": 2,
+  "bisect": {
+   "lo": -60,
+   "hi": 200,
+   "iter": 200
+  }
+ },
+ "lit": {
+  "note": "文献の値・未照合(この環境から一次資料のサイトに届かない —— 出典の名と値は記憶とリポジトリの中の値の写し)",
+  "marsObl": 25.19,
+  "marsOblSrc": "火星の自転軸の傾き 25.19° —— 文献の値・未照合・確かさ 中",
+  "marsK2q": 0.001888888888888889,
+  "marsK2qSrc": "第330便a の lib の k₂/Q",
+  "pole": {
+   "Sun": [
+    286.13,
+    63.87,
+    1
+   ],
+   "Venus": [
+    272.76,
+    67.16,
+    -1
+   ],
+   "Jupiter": [
+    268.056595,
+    64.495303,
+    1
+   ]
+  },
+  "poleSrc": "太陽(赤経 286.13°・赤緯 63.87°)・金星(272.76°・67.16° —— 逆行なので自転のベクトルは逆)・木星(268.0566°・64.4953°)の北極の向き —— 文献の値・未照合・確かさ 中",
+  "ngp": [
+   192.85948,
+   27.12825
+  ],
+  "ngpSrc": "銀河の北極 赤経 192.859°・赤緯 27.128°(銀河の回転のベクトルは南極の側)—— 文献の値・未照合・確かさ 中",
+  "eps": 23.4392911,
+  "earthPrecYr": 25772,
+  "earthPrecSrc": "地球の歳差の周期 約 25,772 年 —— 文献の値・未照合・確かさ 中(月と太陽の潮汐のトルク —— 本表の向ける力とは別の力)"
+ },
+ "plan": {
+  "t1": "天体 7 × 分け方 13",
+  "t2": "則 3 × C_b の読み 3 × 結びつきの係数 3(木星・金星・イオ)",
+  "t3": "天体 7(基準の組)",
+  "win": "則 3 × C_b の読み 3 × 分け方 13",
+  "t4": "木星・金星 × 符号 2 × 則 3 × 向ける先 3"
+ },
+ "amend": [],
+ "notClaim": [
+  "帳簿の動作の確かめと、要るノブの範囲の表(天体の熱や自転の予測ではない)",
+  "分け方 η の型は 3 つとも候補(どれも採っていない)",
+  "保つ仕事率 P_hold は第341便f の型 (α) の置き方(ノブ)—— 理想の直交するトルクの仕事率は 0",
+  "角運動量の出どころ(源の自転・軌道・外)は決めていない —— 使い切るまでの時間を並べただけ",
+  "天体の特性の係数は 1・第341便b の読み 2 つを並べた(1 に置いた結果を合ったと読まない)",
+  "金星の熱流は測られていない —— 上限の目安(観測ではない)",
+  "文献の値は本環境では一次資料に当たっていない(未照合)",
+  "エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "band": {
+  "lo": 0.000004667012634373626,
+  "hi": 0.00008500995051032728,
+  "separable": true
+ },
+ "kLo": 60143.22106431543,
+ "kHi": 1890046.6857763745,
+ "pure": {
+  "scenes": {
+   "z1": {
+    "allZero": true
+   },
+   "z2": {
+    "n": 91,
+    "allZero": true,
+    "powerRel": 0
+   },
+   "z3": {
+    "n": 24,
+    "worst": 0
+   },
+   "z4": {
+    "worstResidRel": 1.9210877514981462e-16
+   },
+   "z5": {
+    "combRel": 0
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "ends": {
+    "e1": 0,
+    "e0": 0,
+    "r0": 0,
+    "lagHalfPi": 1
+   }
+  },
+  "gates": {
+   "driveZero": true,
+   "idealGyro": true,
+   "sameAs341f": true,
+   "energyIdentity": true,
+   "sinCombine": true,
+   "rejects": true,
+   "ends": true
+  }
+ },
+ "t1": [
+  {
+   "id": "Venus",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 17102585894073298,
+   "heatOverRuler": 446.48442485506587,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 15392328528919226,
+   "heatOverRuler": 401.83601433022386,
+   "spinW": 1710257365154072,
+   "spinRateYr": 0.010251901832524075,
+   "overAge": 46851191.37463502,
+   "tauPar": 5.715395588883449e+21,
+   "residL": 5.715395588883449e+21,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 8551299068302940,
+   "heatOverRuler": 223.24237223085603,
+   "spinW": 8551286825770359,
+   "spinRateYr": 0.05125950916262037,
+   "overAge": 234255956.87317508,
+   "tauPar": 2.857697794441724e+22,
+   "residL": 2.857697794441724e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 1710269607686652,
+   "heatOverRuler": 44.64873013148811,
+   "spinW": 15392316286386646,
+   "spinRateYr": 0.09226711649271666,
+   "overAge": 421660722.3717151,
+   "tauPar": 5.143856029995103e+22,
+   "residL": 5.143856029995103e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 12242532580.579147,
+   "heatOverRuler": 0.00031960664614486743,
+   "spinW": 17102573651540718,
+   "spinRateYr": 0.10251901832524074,
+   "overAge": 468511913.74635017,
+   "tauPar": 5.715395588883448e+22,
+   "residL": 5.715395588883448e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 0.09436202925280604,
+   "heat": 15488752338868344,
+   "heatOverRuler": 404.35327865470157,
+   "spinW": 1613833555204955,
+   "spinRateYr": 0.009673902606175323,
+   "overAge": 44209734.91022123,
+   "tauPar": 5.393163257495786e+21,
+   "residL": 5.393163257495786e+21,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.9904937530524176,
+   "heat": 162593531103341.84,
+   "heatOverRuler": 4.244707769307971,
+   "spinW": 16939992362969956,
+   "spinRateYr": 0.10154444722021727,
+   "overAge": 464058123.7963929,
+   "tauPar": 5.661063627012399e+22,
+   "residL": 5.661063627012399e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.9999904026091199,
+   "heat": 176382616971.3802,
+   "heatOverRuler": 0.0046046891259987,
+   "spinW": 17102409511456328,
+   "spinRateYr": 0.10251803441014921,
+   "overAge": 468507417.2543819,
+   "tauPar": 5.715340735997947e+22,
+   "residL": 5.715340735997947e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 17102585894073298,
+   "heatOverRuler": 446.48442485506587,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 17102568791505348,
+   "heatOverRuler": 446.48397837110946,
+   "spinW": 17102567950.683594,
+   "spinRateYr": 1.0251898415223918e-7,
+   "overAge": 468.51175757573304,
+   "tauPar": 57153936837518390,
+   "residL": 57153936837518390,
+   "residERel": 3.9970226933559624e-17
+  },
+  {
+   "id": "Venus",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 17100875693715962,
+   "heatOverRuler": 446.4397779328015,
+   "spinW": 1710200357335.3423,
+   "spinRateYr": 0.000010251560107019358,
+   "overAge": 46849.629689078465,
+   "tauPar": 5715205078237310000,
+   "residL": 5715205078237310000,
+   "residERel": 3.845706834250344e-17
+  },
+  {
+   "id": "Venus",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 16932129483774588,
+   "heatOverRuler": 442.0344467765197,
+   "spinW": 170456410298709.4,
+   "spinRateYr": 0.0010217774357892545,
+   "overAge": 4669522.881556893,
+   "tauPar": 569636965387595900000,
+   "residL": 569636965387595900000,
+   "residERel": 0
+  },
+  {
+   "id": "Venus",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 8551299068302942,
+   "heatOverRuler": 223.24237223085606,
+   "spinW": 8551286825770357,
+   "spinRateYr": 0.051259509162620356,
+   "overAge": 234255956.87317502,
+   "tauPar": 2.8576977944417233e+22,
+   "residL": 2.8576977944417233e+22,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 33500000000000016,
+   "heatOverRuler": 0.10000000000000005,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 30189272078198930,
+   "heatOverRuler": 0.09011723008417591,
+   "spinW": 3310727921801090.5,
+   "spinRateYr": 1.371162528539194e-12,
+   "overAge": 0.006266212755424117,
+   "tauPar": 18826805650755564000,
+   "residL": 18826805650755564000,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 16946360390994566,
+   "heatOverRuler": 0.0505861504208793,
+   "spinW": 16553639609005452,
+   "spinRateYr": 6.85581264269597e-12,
+   "overAge": 0.03133106377712058,
+   "tauPar": 94134028253777800000,
+   "residL": 94134028253777800000,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 3703448703790203,
+   "heatOverRuler": 0.011055070757582695,
+   "spinW": 29796551296209816,
+   "spinRateYr": 1.2340462756852746e-11,
+   "overAge": 0.056395914798817046,
+   "tauPar": 169441250856800060000,
+   "residL": 169441250856800060000,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 392720781989113.44,
+   "heatOverRuler": 0.0011723008417585477,
+   "spinW": 33107279218010904,
+   "spinRateYr": 1.371162528539194e-11,
+   "overAge": 0.06266212755424116,
+   "tauPar": 188268056507555600000,
+   "residL": 188268056507555600000,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 4.970716987922711e-8,
+   "heat": 33499998354330860,
+   "heatOverRuler": 0.0999999950875548,
+   "spinW": 1645669152.3286731,
+   "spinRateYr": 6.81566087381283e-19,
+   "overAge": 3.1147570193324632e-9,
+   "tauPar": 9358272267652.994,
+   "residL": 9358272267652.994,
+   "residERel": 1.1089183292625821e-16
+  },
+  {
+   "id": "Jupiter",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.00004970470166985746,
+   "heat": 33498354412563388,
+   "heatOverRuler": 0.09999508779869667,
+   "spinW": 1645587436631.9038,
+   "spinRateYr": 6.815322442192805e-16,
+   "overAge": 0.0000031146023560821117,
+   "tauPar": 9357807582671918,
+   "residL": 9357807582671918,
+   "residERel": 1.1791390552039878e-16
+  },
+  {
+   "id": "Jupiter",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.04735337021537934,
+   "heat": 31932258750365612,
+   "heatOverRuler": 0.09532017537422571,
+   "spinW": 1567741249634405,
+   "spinRateYr": 6.492916683937209e-13,
+   "overAge": 0.0029672629245593046,
+   "tauPar": 8915126979532239000,
+   "residL": 8915126979532239000,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 33500000000000016,
+   "heatOverRuler": 0.10000000000000005,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Jupiter",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 33499966892731836,
+   "heatOverRuler": 0.09999990117233384,
+   "spinW": 33107268182.252636,
+   "spinRateYr": 1.3711620714850787e-17,
+   "overAge": 6.26621066668681e-8,
+   "tauPar": 188267993751545.16,
+   "residL": 188267993751545.16,
+   "residERel": 6.804050375076052e-17
+  },
+  {
+   "id": "Jupiter",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 33496689382434340,
+   "heatOverRuler": 0.09999011755950549,
+   "spinW": 3310617565675.121,
+   "spinRateYr": 1.3711168237309773e-15,
+   "overAge": 0.000006266003884450566,
+   "tauPar": 18826178098934612,
+   "residL": 18826178098934612,
+   "residERel": 2.654722075506164e-17
+  },
+  {
+   "id": "Jupiter",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 33170029313409770,
+   "heatOverRuler": 0.09901501287585006,
+   "spinW": 329970686590249.5,
+   "spinRateYr": 1.3665980764821164e-13,
+   "overAge": 0.0006245353209523272,
+   "tauPar": 1876413324687041000,
+   "residL": 1876413324687041000,
+   "residERel": 4.53072567553052e-17
+  },
+  {
+   "id": "Jupiter",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 16946360390994570,
+   "heatOverRuler": 0.050586150420879314,
+   "spinW": 16553639609005448,
+   "spinRateYr": 6.8558126426959685e-12,
+   "overAge": 0.031331063777120575,
+   "tauPar": 94134028253777790000,
+   "residL": 94134028253777790000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 3737815562908752.5,
+   "heatOverRuler": 79.52799070018622,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 3364409793411281.5,
+   "heatOverRuler": 71.58318709385705,
+   "spinW": 373405769497471.2,
+   "spinRateYr": 2.7643575691783567e-8,
+   "overAge": 126.3311409114509,
+   "tauPar": 5120678523804273000,
+   "residL": 5120678523804273000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 1870786715421396.8,
+   "heatOverRuler": 39.803972668540354,
+   "spinW": 1867028847487355.8,
+   "spinRateYr": 1.3821787845891783e-7,
+   "overAge": 631.6557045572545,
+   "tauPar": 25603392619021360000,
+   "residL": 25603392619021360000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 377163637431512.1,
+   "heatOverRuler": 8.024758243223662,
+   "spinW": 3360651925477240.5,
+   "spinRateYr": 2.487921812260521e-7,
+   "overAge": 1136.9802682030581,
+   "tauPar": 46086106714238450000,
+   "residL": 46086106714238450000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 3757867934041.069,
+   "heatOverRuler": 0.07995463689449082,
+   "spinW": 3734057694974711.5,
+   "spinRateYr": 2.7643575691783565e-7,
+   "overAge": 1263.311409114509,
+   "tauPar": 51206785238042720000,
+   "residL": 51206785238042720000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 0.000010960077106662304,
+   "heat": 3737774637348494.5,
+   "heatOverRuler": 79.52711994358499,
+   "spinW": 40925560257.64855,
+   "spinRateYr": 3.029757210858036e-12,
+   "overAge": 0.013845990453621225,
+   "tauPar": 561230314593245.4,
+   "residL": 561230314593245.4,
+   "residERel": 9.411961136942513e-17
+  },
+  {
+   "id": "Earth",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.010841373637939368,
+   "heat": 3697333248251908.5,
+   "heatOverRuler": 78.66666485642358,
+   "spinW": 40482314656843.48,
+   "spinRateYr": 2.9969433276328386e-9,
+   "overAge": 13.696031007282071,
+   "tauPar": 555151891563339140,
+   "residL": 555151891563339140,
+   "residERel": 1.401792748688488e-16
+  },
+  {
+   "id": "Earth",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.91638933868201,
+   "heat": 315964901210406.25,
+   "heatOverRuler": 6.722657472561835,
+   "spinW": 3421850661698346.5,
+   "spinRateYr": 2.5332278046999626e-7,
+   "overAge": 1157.6851067478829,
+   "tauPar": 46925352060321686000,
+   "residL": 46925352060321686000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 3737815562908752.5,
+   "heatOverRuler": 79.52799070018622,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 3737811828852302.5,
+   "heatOverRuler": 79.52791125217665,
+   "spinW": 3734056450.288979,
+   "spinRateYr": 2.764356647725956e-13,
+   "overAge": 0.0012633109880107619,
+   "tauPar": 51206768169116.586,
+   "residL": 51206768169116.586,
+   "residERel": 7.739008796950887e-17
+  },
+  {
+   "id": "Earth",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 3737442169585948,
+   "heatOverRuler": 79.52004616140314,
+   "spinW": 373393322804.4448,
+   "spinRateYr": 2.764265425154645e-11,
+   "overAge": 0.1263269299295673,
+   "tauPar": 5120507836795987,
+   "residL": 5120507836795987,
+   "residERel": 1.4776360130764843e-17
+  },
+  {
+   "id": "Earth",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 3700599288709207,
+   "heatOverRuler": 78.7361550789193,
+   "spinW": 37216274199545.56,
+   "spinRateYr": 2.755155321209564e-9,
+   "overAge": 12.591059817927707,
+   "tauPar": 510363233771391000,
+   "residL": 510363233771391000,
+   "residERel": 0
+  },
+  {
+   "id": "Earth",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 1870786715421397.2,
+   "heatOverRuler": 39.80397266854037,
+   "spinW": 1867028847487355.2,
+   "spinRateYr": 1.3821787845891777e-7,
+   "overAge": 631.6557045572542,
+   "tauPar": 25603392619021357000,
+   "residL": 25603392619021357000,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 63763274532700.66,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 57386963960400.914,
+   "heatOverRuler": null,
+   "spinW": 6376310572299.746,
+   "spinRateYr": 1.4842543364230504e-8,
+   "overAge": 67.83042317453341,
+   "tauPar": 89956488725777940,
+   "residL": 89956488725777940,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 31881721671201.93,
+   "heatOverRuler": null,
+   "spinW": 31881552861498.727,
+   "spinRateYr": 7.421271682115251e-8,
+   "overAge": 339.15211587266697,
+   "tauPar": 449782443628889600,
+   "residL": 449782443628889600,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 6376479382002.948,
+   "heatOverRuler": null,
+   "spinW": 57386795150697.71,
+   "spinRateYr": 1.3358289027807452e-7,
+   "overAge": 610.4738085708005,
+   "tauPar": 809608398532001400,
+   "residL": 809608398532001400,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 168809703.20436284,
+   "heatOverRuler": null,
+   "spinW": 63763105722997.45,
+   "spinRateYr": 1.4842543364230502e-7,
+   "overAge": 678.3042317453339,
+   "tauPar": 899564887257779200,
+   "residL": 899564887257779200,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 0.000008145732771899612,
+   "heat": 63762755135480.73,
+   "heatOverRuler": null,
+   "spinW": 519397219.92592007,
+   "spinRateYr": 1.2090339190035353e-12,
+   "overAge": 0.0055252850098461564,
+   "tauPar": 7327615182585.872,
+   "residL": 7327615182585.872,
+   "residERel": 5.90848067954023e-17
+  },
+  {
+   "id": "Mars",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.008079981221435661,
+   "heat": 63248069835838.414,
+   "heatOverRuler": null,
+   "spinW": 515204696862.2362,
+   "spinRateYr": 1.1992747166132693e-9,
+   "overAge": 5.480685454922641,
+   "tauPar": 7268467396505745,
+   "residL": 7268467396505745,
+   "residERel": 9.380730823377493e-17
+  },
+  {
+   "id": "Mars",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.8906601832941535,
+   "heat": 6972015102051.253,
+   "heatOverRuler": null,
+   "spinW": 56791259430649.4,
+   "spinRateYr": 1.321966239333696e-7,
+   "overAge": 604.138571375499,
+   "tauPar": 801206627369998200,
+   "residL": 801206627369998200,
+   "residERel": 1.2252383116248155e-16
+  },
+  {
+   "id": "Mars",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 63763274532700.66,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Mars",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 63763210769616.19,
+   "heatOverRuler": null,
+   "spinW": 63763084.46863171,
+   "spinRateYr": 1.4842538416716705e-13,
+   "overAge": 0.0006783040056439534,
+   "tauPar": 899564587402.8567,
+   "residL": 899564587402.8567,
+   "residERel": 1.855193011633605e-18
+  },
+  {
+   "id": "Mars",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 63756898434669.21,
+   "heatOverRuler": null,
+   "spinW": 6376098031.447898,
+   "spinRateYr": 1.4842048619381666e-11,
+   "overAge": 0.06782816219057422,
+   "tauPar": 89953490216134.11,
+   "residL": 89953490216134.11,
+   "residERel": 4.054713211443938e-17
+  },
+  {
+   "id": "Mars",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 63127766080435.63,
+   "heatOverRuler": null,
+   "spinW": 635508452265.025,
+   "spinRateYr": 1.4793134139444213e-9,
+   "overAge": 6.7604623017260055,
+   "tauPar": 8965703328452596,
+   "residL": 8965703328452596,
+   "residERel": 2.4887653204879063e-17
+  },
+  {
+   "id": "Mars",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 31881721671201.938,
+   "heatOverRuler": null,
+   "spinW": 31881552861498.72,
+   "spinRateYr": 7.421271682115248e-8,
+   "overAge": 339.15211587266685,
+   "tauPar": 449782443628889540,
+   "residL": 449782443628889540,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 93669775798302.88,
+   "heatOverRuler": 0.9366977579830288,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 93669134164293.25,
+   "heatOverRuler": 0.9366913416429326,
+   "spinW": 641634009.6248132,
+   "spinRateYr": 1.0619155512608494e-10,
+   "overAge": 0.48529540692620815,
+   "tauPar": 15552762433952.137,
+   "residL": 15552762433952.137,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 93666567628254.75,
+   "heatOverRuler": 0.9366656762825475,
+   "spinW": 3208170048.124066,
+   "spinRateYr": 5.309577756304246e-10,
+   "overAge": 2.4264770346310405,
+   "tauPar": 77763812169760.69,
+   "residL": 77763812169760.69,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 93664001092216.25,
+   "heatOverRuler": 0.9366400109221625,
+   "spinW": 5774706086.623319,
+   "spinRateYr": 9.557239961347644e-10,
+   "overAge": 4.367658662335874,
+   "tauPar": 139974861905569.23,
+   "residL": 139974861905569.23,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 93663359458206.62,
+   "heatOverRuler": 0.9366335945820663,
+   "spinW": 6416340096.248132,
+   "spinRateYr": 1.0619155512608493e-9,
+   "overAge": 4.852954069262081,
+   "tauPar": 155527624339521.38,
+   "residL": 155527624339521.38,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 9.031350474805965e-7,
+   "heat": 93669775792508.05,
+   "heatOverRuler": 0.9366977579250805,
+   "spinW": 5794.821617476711,
+   "spinRateYr": 9.59053151808351e-16,
+   "overAge": 0.000004382872903764164,
+   "tauPar": 140462448.392418,
+   "residL": 140462448.392418,
+   "residERel": 9.404549910101269e-17
+  },
+  {
+   "id": "Io",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.0009023209447290053,
+   "heat": 93669770008704.81,
+   "heatOverRuler": 0.9366977000870481,
+   "spinW": 5789598.057349211,
+   "spinRateYr": 9.58188643436112e-13,
+   "overAge": 0.004378922100503032,
+   "tauPar": 140335832925.49475,
+   "residL": 140335832925.49475,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.4745514393527773,
+   "heat": 93666730914874.83,
+   "heatOverRuler": 0.9366673091487483,
+   "spinW": 3044883428.051489,
+   "spinRateYr": 5.039335533219341e-10,
+   "overAge": 2.3029763386812387,
+   "tauPar": 73805857989437.9,
+   "residL": 73805857989437.9,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 93669775798302.88,
+   "heatOverRuler": 0.9366977579830288,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 93669775791886.53,
+   "heatOverRuler": 0.9366977579188653,
+   "spinW": 6416.337957468385,
+   "spinRateYr": 1.0619151972890462e-15,
+   "overAge": 0.000004852952451610941,
+   "tauPar": 155527572.49698684,
+   "residL": 155527572.49698684,
+   "residERel": 1.3431770628195838e-17
+  },
+  {
+   "id": "Io",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 93669775156690.25,
+   "heatOverRuler": 0.9366977515669025,
+   "spinW": 641612.622109661,
+   "spinRateYr": 1.0618801545477664e-13,
+   "overAge": 0.0004852792306283293,
+   "tauPar": 15552244015.449963,
+   "residL": 15552244015.449963,
+   "residERel": 3.862766256958077e-17
+  },
+  {
+   "id": "Io",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 93669711848494.95,
+   "heatOverRuler": 0.9366971184849495,
+   "spinW": 63949807.92634116,
+   "spinRateYr": 1.0583805490116562e-11,
+   "overAge": 0.04836799108983269,
+   "tauPar": 1550098896654.2314,
+   "residL": 1550098896654.2314,
+   "residERel": 0
+  },
+  {
+   "id": "Io",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 93666567628254.75,
+   "heatOverRuler": 0.9366656762825475,
+   "spinW": 3208170048.1240654,
+   "spinRateYr": 5.309577756304245e-10,
+   "overAge": 2.42647703463104,
+   "tauPar": 77763812169760.67,
+   "residL": 77763812169760.67,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 6726358216.868906,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 6053723024.24761,
+   "heatOverRuler": null,
+   "spinW": 672635192.6212958,
+   "spinRateYr": 2.2260506596330665e-8,
+   "overAge": 101.73051514523114,
+   "tauPar": 59077753918143.1,
+   "residL": 59077753918143.1,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 3363182253.762428,
+   "heatOverRuler": null,
+   "spinW": 3363175963.1064787,
+   "spinRateYr": 1.1130253298165331e-7,
+   "overAge": 508.6525757261556,
+   "tauPar": 295388769590715.5,
+   "residL": 295388769590715.5,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 672641483.2772447,
+   "heatOverRuler": null,
+   "spinW": 6053716733.591661,
+   "spinRateYr": 2.0034455936697594e-7,
+   "overAge": 915.57463630708,
+   "tauPar": 531699785263287.8,
+   "residL": 531699785263287.8,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 6290.655949081178,
+   "heatOverRuler": null,
+   "spinW": 6726351926.212957,
+   "spinRateYr": 2.2260506596330661e-7,
+   "overAge": 1017.3051514523112,
+   "tauPar": 590777539181431,
+   "residL": 590777539181431,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 0.000024890116146402318,
+   "heat": 6726190797.188221,
+   "heatOverRuler": null,
+   "spinW": 167419.68068501746,
+   "spinRateYr": 5.540665946604251e-12,
+   "overAge": 0.025320843375981426,
+   "tauPar": 14704521566.911562,
+   "residL": 14704521566.911562,
+   "residERel": 3.8465583662381074e-18
+  },
+  {
+   "id": "Pluto",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.02428623346194743,
+   "heat": 6563000463.641678,
+   "heatOverRuler": null,
+   "spinW": 163357753.22722766,
+   "spinRateYr": 5.406238601797071e-9,
+   "overAge": 24.706510410212616,
+   "tauPar": 14347761240635.025,
+   "residL": 14347761240635.025,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.961376145800913,
+   "heat": 259803926.7457462,
+   "heatOverRuler": null,
+   "spinW": 6466554290.12316,
+   "spinRateYr": 2.1400720035156172e-7,
+   "overAge": 978.012905606637,
+   "tauPar": 567959433643992,
+   "residL": 567959433643992,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 6726358216.868906,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Pluto",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 6726351490.519222,
+   "heatOverRuler": null,
+   "spinW": 6726.349684095947,
+   "spinRateYr": 2.226049917616278e-13,
+   "overAge": 0.0010173048123506391,
+   "tauPar": 590777342.2556107,
+   "residL": 590777342.2556107,
+   "residERel": 4.970751826888307e-17
+  },
+  {
+   "id": "Pluto",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 6725685604.097158,
+   "heatOverRuler": null,
+   "spinW": 672612.7717471552,
+   "spinRateYr": 2.2259764589337602e-11,
+   "overAge": 0.10172712417327284,
+   "tauPar": 59075784685.93575,
+   "residL": 59075784685.93575,
+   "residERel": 6.450449057804016e-17
+  },
+  {
+   "id": "Pluto",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 6659318610.602116,
+   "heatOverRuler": null,
+   "spinW": 67039606.266790204,
+   "spinRateYr": 2.2186403772624223e-9,
+   "overAge": 10.13918652408927,
+   "tauPar": 5888109045207.938,
+   "residL": 5888109045207.938,
+   "residERel": 2.769175876706849e-17
+  },
+  {
+   "id": "Pluto",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 3363182253.7624288,
+   "heatOverRuler": null,
+   "spinW": 3363175963.1064777,
+   "spinRateYr": 1.1130253298165327e-7,
+   "overAge": 508.6525757261554,
+   "tauPar": 295388769590715.4,
+   "residL": 295388769590715.4,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "const",
+   "knob": 0,
+   "eta": 0,
+   "heat": 213049546.44226164,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "const",
+   "knob": 0.1,
+   "eta": 0.1,
+   "heat": 191746058.22104016,
+   "heatOverRuler": null,
+   "spinW": 21303488.221221495,
+   "spinRateYr": 2.2260506596330655e-8,
+   "overAge": 101.7305151452311,
+   "tauPar": 1871091861588.0005,
+   "residL": 1871091861588.0005,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "const",
+   "knob": 0.5,
+   "eta": 0.5,
+   "heat": 106532105.33615416,
+   "heatOverRuler": null,
+   "spinW": 106517441.10610747,
+   "spinRateYr": 1.1130253298165327e-7,
+   "overAge": 508.6525757261554,
+   "tauPar": 9355459307940.002,
+   "residL": 9355459307940.002,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "const",
+   "knob": 0.9,
+   "eta": 0.9,
+   "heat": 21318152.451268177,
+   "heatOverRuler": null,
+   "spinW": 191731393.99099347,
+   "spinRateYr": 2.0034455936697589e-7,
+   "overAge": 915.5746363070798,
+   "tauPar": 16839826754292.004,
+   "residL": 16839826754292.004,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "const",
+   "knob": 1,
+   "eta": 1,
+   "heat": 14664.230046686549,
+   "heatOverRuler": null,
+   "spinW": 213034882.21221495,
+   "spinRateYr": 2.2260506596330653e-7,
+   "overAge": 1017.3051514523108,
+   "tauPar": 18710918615880.004,
+   "residL": 18710918615880.004,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "ratio",
+   "knob": 1,
+   "eta": 0.000024890116146402314,
+   "heat": 213044243.97930014,
+   "heatOverRuler": null,
+   "spinW": 5302.462961497166,
+   "spinRateYr": 5.5406659466042484e-12,
+   "overAge": 0.025320843375981415,
+   "tauPar": 465716937.55513453,
+   "residL": 465716937.55513453,
+   "residERel": 1.0532187996511886e-17
+  },
+  {
+   "id": "Charon",
+   "split": "ratio",
+   "knob": 1000,
+   "eta": 0.024286233461947426,
+   "heat": 207875731.55731732,
+   "heatOverRuler": null,
+   "spinW": 5173814.884944323,
+   "spinRateYr": 5.4062386017970694e-9,
+   "overAge": 24.70651041021261,
+   "tauPar": 454417737792.76,
+   "residL": 454417737792.76,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "ratio",
+   "knob": 1000000,
+   "eta": 0.961376145800913,
+   "heat": 8242892.459930945,
+   "heatOverRuler": null,
+   "spinW": 204806653.98233068,
+   "spinRateYr": 2.1400720035156164e-7,
+   "overAge": 978.0129056066367,
+   "tauPar": 17988230823329.27,
+   "residL": 17988230823329.27,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "lag",
+   "knob": 0,
+   "eta": 0,
+   "heat": 213049546.44226164,
+   "heatOverRuler": null,
+   "spinW": 0,
+   "spinRateYr": 0,
+   "overAge": 0,
+   "tauPar": 0,
+   "residL": 0,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "lag",
+   "knob": 0.001,
+   "eta": 9.99999666666711e-7,
+   "heat": 213049333.40745044,
+   "heatOverRuler": null,
+   "spinW": 213.034811200597,
+   "spinRateYr": 2.2260499176162776e-13,
+   "overAge": 0.001017304812350639,
+   "tauPar": 18710912.378907964,
+   "residL": 18710912.378907964,
+   "residERel": 8.851179069221026e-18
+  },
+  {
+   "id": "Charon",
+   "split": "lag",
+   "knob": 0.01,
+   "eta": 0.0000999966667111108,
+   "heat": 213028243.66414723,
+   "heatOverRuler": null,
+   "spinW": 21302.778114415603,
+   "spinRateYr": 2.22597645893376e-11,
+   "overAge": 0.10172712417327283,
+   "tauPar": 1871029492.6908712,
+   "residL": 1871029492.6908712,
+   "residERel": 3.44953704952639e-17
+  },
+  {
+   "id": "Charon",
+   "split": "lag",
+   "knob": 0.1,
+   "eta": 0.009966711079379185,
+   "heat": 210926289.3214229,
+   "heatOverRuler": null,
+   "spinW": 2123257.120838722,
+   "spinRateYr": 2.2186403772624215e-9,
+   "overAge": 10.139186524089267,
+   "tauPar": 186486319874.25345,
+   "residL": 186486319874.25345,
+   "residERel": 0
+  },
+  {
+   "id": "Charon",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "eta": 0.4999999999999999,
+   "heat": 106532105.3361542,
+   "heatOverRuler": null,
+   "spinW": 106517441.10610744,
+   "spinRateYr": 1.1130253298165324e-7,
+   "overAge": 508.6525757261553,
+   "tauPar": 9355459307940,
+   "residL": 9355459307940,
+   "residERel": 0
+  }
+ ],
+ "t2": [
+  {
+   "law": "sin",
+   "cb": "one",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 392720791141832.3,
+     "overRuler": 0.0011723008690800966,
+     "precPeriodYr": 1369924631.15009
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 12247260696.349812,
+     "overRuler": 0.00031973007952877723,
+     "precPeriodYr": 384065.02695946954
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93663359458208.4,
+     "overRuler": 0.9366335945820841,
+     "precPeriodYr": 321388001.79126877
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 33500000000000016,
+     "overRuler": 0.10000000000000005,
+     "precPeriodYr": 22777.70639662169
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 17102585894073298,
+     "overRuler": 446.48442485506587,
+     "precPeriodYr": 6.385840667708195
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93669775798302.88,
+     "overRuler": 0.9366977579830288,
+     "precPeriodYr": 5343.71116318472
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 32696435102324765000,
+     "overRuler": 97.60129881290975,
+     "precPeriodYr": 724.8099432990281
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 16890136748094431000,
+     "overRuler": 440938.173817894,
+     "precPeriodYr": 0.20320398953621993
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 100000000000000,
+     "overRuler": 1,
+     "precPeriodYr": 170.04236149820406
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 392720784392747.94,
+     "overRuler": 0.001172300848933576,
+     "precPeriodYr": 2673237362.920255
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 12247241342.041468,
+     "overRuler": 0.00031972957426031767,
+     "precPeriodYr": 384853.5241503947
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 93663359459919.11,
+     "overRuler": 0.936633594599191,
+     "precPeriodYr": 10343617.44846477
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 9087164395162106,
+     "overRuler": 0.02712586386615554,
+     "precPeriodYr": 44447.85822265109
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 17032577353678968,
+     "overRuler": 444.6567642260532,
+     "precPeriodYr": 6.398950992977968
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 99857795800683.22,
+     "overRuler": 0.9985779580068321,
+     "precPeriodYr": 171.98309743676026
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 8586839676700625000,
+     "overRuler": 25.632357243882463,
+     "precPeriodYr": 1414.3763659584783
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 16820997807720325000,
+     "overRuler": 439133.21518653765,
+     "precPeriodYr": 0.20362117351207568
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 6211156489887415,
+     "overRuler": 62.11156489887415,
+     "precPeriodYr": 5.472678281603359
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "k": "one",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 12249439234.925974,
+     "overRuler": 0.0003197869530068131,
+     "precPeriodYr": 317771.50596324407
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 93663359459202.08,
+     "overRuler": 0.9366335945920208,
+     "precPeriodYr": 13566759.152642429
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "k": "kLo",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 24982810968655830,
+     "overRuler": 652.207569994931,
+     "precPeriodYr": 5.283579767425964
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 97264121851451.83,
+     "overRuler": 0.9726412185145182,
+     "precPeriodYr": 225.5742029203013
+    }
+   }
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "k": "kHi",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 24672478852319048000,
+     "overRuler": 644105.961423288,
+     "precPeriodYr": 0.16812891890694914
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 3649699451707168,
+     "overRuler": 36.49699451707168,
+     "precPeriodYr": 7.178002138645379
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 392720818490839.56,
+     "overRuler": 0.001172300950718924,
+     "precPeriodYr": 685985656.7335318
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 12261404919.745502,
+     "overRuler": 0.00032009933219541843,
+     "precPeriodYr": 192236.54238639015
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93663359458213.7,
+     "overRuler": 0.936633594582137,
+     "precPeriodYr": 160934079.48287803
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 132427021578023890,
+     "overRuler": 0.3953045420239519,
+     "precPeriodYr": 11405.868269010043
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 68265170336171380,
+     "overRuler": 1782.1477701650274,
+     "precPeriodYr": 3.1963127179506725
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93688948301454.62,
+     "overRuler": 0.9368894830145462,
+     "precPeriodYr": 2675.8473629269
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 130394650316434870000,
+     "overRuler": 389.2377621386115,
+     "precPeriodYr": 362.9464086236311
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 67417213233378730000,
+     "overRuler": 1760010.7879749048,
+     "precPeriodYr": 0.1017099439040709
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 118934354933918.86,
+     "overRuler": 1.1893435493391886,
+     "precPeriodYr": 85.14820331899429
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 392720791574987.2,
+     "overRuler": 0.0011723008703730961,
+     "precPeriodYr": 1338615604.325573
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 12261327666.757397,
+     "overRuler": 0.0003200973154094086,
+     "precPeriodYr": 192631.20985940855
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 93663359465036.17,
+     "overRuler": 0.9366335946503617,
+     "precPeriodYr": 5179535.46278571
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 35066810903273824,
+     "overRuler": 0.10467704747245918,
+     "precPeriodYr": 22257.131903429246
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 67985730283738480,
+     "overRuler": 1774.8526376122825,
+     "precPeriodYr": 3.202874845253371
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 118367233972289.45,
+     "overRuler": 1.1836723397228945,
+     "precPeriodYr": 86.12002102858544
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 34243784111585366000,
+     "overRuler": 102.2202510793593,
+     "precPeriodYr": 708.2447298256604
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 67141244201393880000,
+     "overRuler": 1752806.270758227,
+     "precPeriodYr": 0.10191875751486078
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 24490682600512428,
+     "overRuler": 244.9068260051243,
+     "precPeriodYr": 2.740427261275883
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "k": "one",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 12270100586.45303,
+     "overRuler": 0.0003203263434656841,
+     "precPeriodYr": 159054.56442858244
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 93663359462176.56,
+     "overRuler": 0.9366335946217657,
+     "precPeriodYr": 6793514.019277044
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "k": "kLo",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 99719197168055360,
+     "overRuler": 2603.294535127408,
+     "precPeriodYr": 2.6445967078898893
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 108023468659392.48,
+     "overRuler": 1.0802346865939247,
+     "precPeriodYr": 112.9556066179471
+    }
+   }
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "k": "kHi",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 98480538842025670000,
+     "overRuler": 2570957.8081719275,
+     "precPeriodYr": 0.08415377547314264
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 14275400733700952,
+     "overRuler": 142.7540073370095,
+     "precPeriodYr": 3.5943630760033165
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 392720781995945.44,
+     "overRuler": 0.0011723008417789415,
+     "precPeriodYr": 50141455715.14049
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 21147489299.919388,
+     "overRuler": 0.0005520816942936794,
+     "precPeriodYr": 8849.788802055327
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93663359458206.62,
+     "overRuler": 0.9366335945820663,
+     "precPeriodYr": 11763320326.36388
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 417433639412035.8,
+     "overRuler": 0.0012460705654090622,
+     "precPeriodYr": 833700.8698207341
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 32211072148256230000,
+     "overRuler": 840910.3811057624,
+     "precPeriodYr": 0.14714524173209179
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93663364247669.9,
+     "overRuler": 0.9366336424766991,
+     "precPeriodYr": 195588.4656357949
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 1,
+     "heat": 24798611352100396,
+     "overRuler": 0.07402570552865789,
+     "precPeriodYr": 26529.21543815933
+    },
+    "Venus": {
+     "cb": 1,
+     "heat": 3.1810967394188553e+22,
+     "overRuler": 830465145.3906423,
+     "precPeriodYr": 0.004682312277603925
+    },
+    "Io": {
+     "cb": 1,
+     "heat": 93668089429921.27,
+     "overRuler": 0.9366808942992126,
+     "precPeriodYr": 6223.825271031259
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "k": "one",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 392720781990907.6,
+     "overRuler": 0.0011723008417639034,
+     "precPeriodYr": 97844808247.8775
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 21111037299.483795,
+     "overRuler": 0.0005511300691680928,
+     "precPeriodYr": 8867.957687845175
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 93663359458207.9,
+     "overRuler": 0.9366335945820791,
+     "precPeriodYr": 378593117.0469827
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "k": "kLo",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 399210730739329.44,
+     "overRuler": 0.001191673823102476,
+     "precPeriodYr": 1626863.4522125956
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 32079217715658850000,
+     "overRuler": 837468.1560020585,
+     "precPeriodYr": 0.1474473353923302
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 93667983281902.28,
+     "overRuler": 0.9366798328190228,
+     "precPeriodYr": 6294.8593432022235
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "k": "kHi",
+   "per": {
+    "Jupiter": {
+     "cb": 0.5124590319407997,
+     "heat": 6802055659488351,
+     "overRuler": 0.02030464375966672,
+     "precPeriodYr": 51768.46105665681
+    },
+    "Venus": {
+     "cb": 0.997951175859268,
+     "heat": 3.1680750770587148e+22,
+     "overRuler": 827065677.3420479,
+     "precPeriodYr": 0.004691925207235018
+    },
+    "Io": {
+     "cb": 31.071141541392763,
+     "heat": 98229749058586.69,
+     "overRuler": 0.9822974905858669,
+     "precPeriodYr": 200.30887062002282
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "k": "one",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 25250559671.523693,
+     "overRuler": 0.0006591974852244797,
+     "precPeriodYr": 7322.225450594198
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 93663359458207.38,
+     "overRuler": 0.9366335945820737,
+     "precPeriodYr": 496565312.9976226
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "k": "kLo",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 47052727182002300000,
+     "overRuler": 1228370.3741548702,
+     "precPeriodYr": 0.12174647983625653
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 93666047239556.83,
+     "overRuler": 0.9366604723955683,
+     "precPeriodYr": 8256.380423433091
+    }
+   }
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "k": "kHi",
+   "per": {
+    "Jupiter": null,
+    "Venus": {
+     "cb": 1.2086200925890869,
+     "heat": 4.646826915553677e+22,
+     "overRuler": 1213112365.371016,
+     "precPeriodYr": 0.003874097664199468
+    },
+    "Io": {
+     "cb": 23.689371807611934,
+     "heat": 96317754957148.94,
+     "overRuler": 0.9631775495714894,
+     "precPeriodYr": 262.726480110013
+    }
+   }
+  }
+ ],
+ "t3": [
+  {
+   "id": "Venus",
+   "host": "Sun",
+   "omega": -2.9923691869737844e-7,
+   "tide": 12242532580.579147,
+   "Pun": 17102573651540718,
+   "heatMax": 17102585894073298,
+   "ruler": 38305000000000,
+   "heatMaxOverRuler": 446.48442485506587,
+   "precPeriodYr": 6.385840667708195,
+   "etaRatio": [
+    0.09436202925280604,
+    0.9904937530524176,
+    0.9999904026091199
+   ],
+   "spinRateYrMax": 0.10251901832524074,
+   "overAgeMax": 468511913.74635017,
+   "tauParMax": 5.715395588883448e+22,
+   "residLMax": 5.715395588883448e+22,
+   "tauOverNpar": 0.004804314587865826,
+   "tSrcYr": 108530111166.05716,
+   "tOrbYr": 10227065615.702278,
+   "tSelfYr": 9.75428770520908
+  },
+  {
+   "id": "Jupiter",
+   "host": "Sun",
+   "omega": 0.00017585181380295513,
+   "tide": 392720781989113.44,
+   "Pun": 33107279218010904,
+   "heatMax": 33500000000000016,
+   "ruler": 335000000000000000,
+   "heatMaxOverRuler": 0.10000000000000005,
+   "precPeriodYr": 22777.70639662169,
+   "etaRatio": [
+    4.970716987922711e-8,
+    0.00004970470166985746,
+    0.04735337021537934
+   ],
+   "spinRateYrMax": 1.371162528539194e-11,
+   "overAgeMax": 0.06266212755424116,
+   "tauParMax": 188268056507555600000,
+   "residLMax": 188268056507555600000,
+   "tauOverNpar": 2.7181480540427447e-9,
+   "tSrcYr": 32947305566657.277,
+   "tOrbYr": 3247357434664171.5,
+   "tSelfYr": 72930814486.6953
+  },
+  {
+   "id": "Earth",
+   "host": "Sun",
+   "omega": 0.0000729211505392569,
+   "tide": 3757867934041.069,
+   "Pun": 3734057694974711.5,
+   "heatMax": 3737815562908752.5,
+   "ruler": 47000000000000,
+   "heatMaxOverRuler": 79.52799070018622,
+   "precPeriodYr": 249.1173753175814,
+   "etaRatio": [
+    0.000010960077106662304,
+    0.010841373637939368,
+    0.91638933868201
+   ],
+   "spinRateYrMax": 2.7643575691783565e-7,
+   "overAgeMax": 1263.311409114509,
+   "tauParMax": 51206785238042720000,
+   "residLMax": 51206785238042720000,
+   "tauOverNpar": 0.000004751988196018104,
+   "tSrcYr": 121134829248894.84,
+   "tOrbYr": 16467752100010.654,
+   "tSelfYr": 3617477.026668542
+  },
+  {
+   "id": "Mars",
+   "host": "Sun",
+   "omega": 0.00007088216383964474,
+   "tide": 168809703.20436284,
+   "Pun": 63763105722997.45,
+   "heatMax": 63763274532700.66,
+   "ruler": null,
+   "heatMaxOverRuler": null,
+   "precPeriodYr": 344.83015561409326,
+   "etaRatio": [
+    0.000008145732771899612,
+    0.008079981221435661,
+    0.8906601832941535
+   ],
+   "spinRateYrMax": 1.4842543364230502e-7,
+   "overAgeMax": 678.3042317453339,
+   "tauParMax": 899564887257779200,
+   "residLMax": 899564887257779200,
+   "tauOverNpar": 0.0000038313857928187204,
+   "tSrcYr": 6895472771401786,
+   "tOrbYr": 124330670634206.42,
+   "tSelfYr": 6737389.781928686
+  },
+  {
+   "id": "Io",
+   "host": "Jupiter",
+   "omega": 0.00004125530833185668,
+   "tide": 93663359458206.62,
+   "Pun": 6416340096.248132,
+   "heatMax": 93669775798302.88,
+   "ruler": 100000000000000,
+   "heatMaxOverRuler": 0.9366977579830288,
+   "precPeriodYr": 5343.71116318472,
+   "etaRatio": [
+    9.031350474805965e-7,
+    0.0009023209447290053,
+    0.4745514393527773
+   ],
+   "spinRateYrMax": 1.0619155512608493e-9,
+   "overAgeMax": 4.852954069262081,
+   "tauParMax": 155527624339521.38,
+   "residLMax": 155527624339521.38,
+   "tauOverNpar": 4.5768018271533497e-10,
+   "tSrcYr": 88283626534081330,
+   "tOrbYr": 133010251050239.92,
+   "tSelfYr": 941694467.9006398
+  },
+  {
+   "id": "Pluto",
+   "host": "Charon",
+   "omega": 0.000011385591834674098,
+   "tide": 6290.655949081178,
+   "Pun": 6726351926.212957,
+   "heatMax": 6726358216.868906,
+   "ruler": null,
+   "heatMaxOverRuler": null,
+   "precPeriodYr": 702.5586054424673,
+   "etaRatio": [
+    0.000024890116146402318,
+    0.02428623346194743,
+    0.961376145800913
+   ],
+   "spinRateYrMax": 2.2260506596330661e-7,
+   "overAgeMax": 1017.3051514523112,
+   "tauParMax": 590777539181431,
+   "residLMax": 590777539181431,
+   "tauOverNpar": 0.000043899379793129666,
+   "tSrcYr": 142277.45584646336,
+   "tOrbYr": 1006594705.7381495,
+   "tSelfYr": 4492260.747402919
+  },
+  {
+   "id": "Charon",
+   "host": "Pluto",
+   "omega": 0.000011385591834674098,
+   "tide": 14664.230046686549,
+   "Pun": 213034882.21221495,
+   "heatMax": 213049546.44226164,
+   "ruler": null,
+   "heatMaxOverRuler": null,
+   "precPeriodYr": 702.5586054424674,
+   "etaRatio": [
+    0.000024890116146402314,
+    0.024286233461947426,
+    0.961376145800913
+   ],
+   "spinRateYrMax": 2.2260506596330653e-7,
+   "overAgeMax": 1017.3051514523108,
+   "tauParMax": 18710918615880.004,
+   "residLMax": 18710918615880.004,
+   "tauOverNpar": 0.00004451363887956528,
+   "tSrcYr": 141838399.50325254,
+   "tOrbYr": 11088246988.156128,
+   "tSelfYr": 4492260.747402921
+  }
+ ],
+ "win": [
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "const",
+   "knob": 0,
+   "cap": 25815.740696915163,
+   "need": 26.14044004160632,
+   "needOverCap": 0.0010125775722844147,
+   "needOverBand": 3617207039.9911137,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.4844248550657
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 28684.15632990577,
+   "need": 29.044933379562597,
+   "needOverCap": 0.0010125775722844143,
+   "needOverBand": 4019118933.3234625,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.4844248550661
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 51631.48139383033,
+   "need": 52.280880083212665,
+   "needOverCap": 0.0010125775722844151,
+   "needOverBand": 7234414079.982231,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.4844248550659
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 258157.40696915163,
+   "need": 261.4044004160636,
+   "needOverCap": 0.0010125775722844162,
+   "needOverBand": 36172070399.911194,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.4844248550662
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 25816.473402816686,
+   "need": 26.140441340973734,
+   "needOverCap": 0.0010125488843151483,
+   "needOverBand": 3617207219.7922554,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 404.35329780564183
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 26558.90755711315,
+   "need": 26.141739441259137,
+   "needOverCap": 0.0009842927230739095,
+   "needOverBand": 3617386845.593638,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4.244814261696028
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 20846768.926125508,
+   "need": 27.472502586816326,
+   "needOverCap": 0.0000013178302443016646,
+   "needOverBand": 3801532399.8003983,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 0.004712513072508575
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0,
+   "cap": 25815.740696915163,
+   "need": 26.14044004160632,
+   "needOverCap": 0.0010125775722844147,
+   "needOverBand": 3617207039.9911137,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.4844248550657
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 25815.766512673057,
+   "need": 26.14046618206379,
+   "needOverCap": 0.0010125775722844154,
+   "needOverBand": 3617210657.2005653,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.48442485506587
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 25818.322443099547,
+   "need": 26.143054259889983,
+   "needOverCap": 0.0010125775722844156,
+   "needOverBand": 3617568784.811197,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.48442485506604
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 26075.628956942146,
+   "need": 26.403597065009635,
+   "needOverCap": 0.0010125775722844136,
+   "needOverBand": 3653621631.1824822,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.48442485506615
+  },
+  {
+   "law": "sin",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 51631.48139383033,
+   "need": 52.280880083212665,
+   "needOverCap": 0.0010125775722844151,
+   "needOverBand": 7234414079.982231,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.48442485506604
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0,
+   "cap": 26.740539895795578,
+   "need": 99.53930186261742,
+   "needOverCap": 3.7224118230413143,
+   "needOverBand": 13773840948.361294,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.192629899888
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 29.711710995328442,
+   "need": 110.59922429179721,
+   "needOverCap": 3.7224118230413143,
+   "needOverBand": 15304267720.401447,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998887
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 53.48107979159116,
+   "need": 199.07860372523496,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 27547681896.722603,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.192629899889
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 267.40539895795604,
+   "need": 995.3930186261757,
+   "needOverCap": 3.7224118230413166,
+   "needOverBand": 137738409483.61313,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998899
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 26.74129884947509,
+   "need": 99.53930681043488,
+   "needOverCap": 3.7223063610610208,
+   "needOverBand": 13773841633.02001,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1407.5864212726483
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 27.510329277695117,
+   "need": 99.54424980282333,
+   "needOverCap": 3.618431782404438,
+   "needOverBand": 13774525624.063683,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 8.304355483561112
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 21593.564279722694,
+   "need": 104.61161799717772,
+   "needOverCap": 0.0048445739036891014,
+   "needOverBand": 14475727282.401161,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 0.008874292633994689
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0,
+   "cap": 26.740539895795578,
+   "need": 99.53930186261742,
+   "needOverCap": 3.7224118230413143,
+   "needOverBand": 13773840948.361294,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.192629899888
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 26.740566636353304,
+   "need": 99.5394014019857,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 13773854722.211432,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998897
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 26.743214128065542,
+   "need": 99.54925645643674,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 13775218424.286953,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998894
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 27.009738152289152,
+   "need": 100.54136863533125,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 13912502844.604525,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998897
+  },
+  {
+   "law": "sin",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 53.48107979159116,
+   "need": 199.07860372523496,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 27547681896.722603,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1693.1926298998894
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.5,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.9,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.001,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.01,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "const",
+   "knob": 0,
+   "cap": 6473.234078717567,
+   "need": 6.554651648256572,
+   "needOverCap": 0.0010125775722844143,
+   "needOverBand": 907005851.815266,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412645
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 7192.48230968618,
+   "need": 7.282946275840635,
+   "needOverCap": 0.0010125775722844151,
+   "needOverBand": 1007784279.79474,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.8694505641265
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 12946.468157435134,
+   "need": 13.10930329651314,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 1814011703.6305315,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412634
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 64732.340787175664,
+   "need": 65.54651648256576,
+   "needOverCap": 0.0010125775722844151,
+   "needOverBand": 9070058518.152666,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412657
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 6473.417802937095,
+   "need": 6.554651974069775,
+   "needOverCap": 0.0010125488843151485,
+   "needOverBand": 907005896.8999628,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 404.68553002154965
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 6659.581358157883,
+   "need": 6.554977469553474,
+   "needOverCap": 0.0009842927230739105,
+   "needOverBand": 907050937.6319952,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4.246661381440241
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 5227276.514280726,
+   "need": 6.8886630858469315,
+   "needOverCap": 0.0000013178302443016663,
+   "needOverBand": 953224986.6716951,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 0.004714406794187568
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0,
+   "cap": 6473.234078717567,
+   "need": 6.554651648256572,
+   "needOverCap": 0.0010125775722844143,
+   "needOverBand": 907005851.815266,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412645
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 6473.240551955958,
+   "need": 6.5546582029125915,
+   "needOverCap": 0.0010125775722844151,
+   "needOverBand": 907006758.8217227,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.8694505641267
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 6473.881445282772,
+   "need": 6.555307157121551,
+   "needOverCap": 0.0010125775722844154,
+   "needOverBand": 907096558.4474959,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412645
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 6538.400426691691,
+   "need": 6.620637630682854,
+   "needOverCap": 0.0010125775722844147,
+   "needOverBand": 916136721.8309649,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.8694505641265
+  },
+  {
+   "law": "sin2",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 12946.468157435134,
+   "need": 13.10930329651314,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 1814011703.6305315,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 446.86945056412645
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0,
+   "cap": 6.705125224528415,
+   "need": 24.959237410757122,
+   "needOverCap": 3.722411823041315,
+   "needOverBand": 3453757057.314342,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.652754823002
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 7.450139138364906,
+   "need": 27.732486011952364,
+   "needOverCap": 3.7224118230413152,
+   "needOverBand": 3837507841.460381,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.652754823002
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 13.410250449056832,
+   "need": 49.91847482151425,
+   "needOverCap": 3.722411823041315,
+   "needOverBand": 6907514114.628685,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.652754823001
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 67.05125224528419,
+   "need": 249.59237410757135,
+   "needOverCap": 3.7224118230413143,
+   "needOverBand": 34537570573.14344,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.6527548230013
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 6.705315530314325,
+   "need": 24.959238651410253,
+   "needOverCap": 3.7223063610610194,
+   "needOverBand": 3453757228.9908414,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1408.697820721885
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 6.898148036418614,
+   "need": 24.9604780947079,
+   "needOverCap": 3.618431782404441,
+   "needOverBand": 3453928738.0784764,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 8.307952761398804
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 5414.533629599948,
+   "need": 26.231108322606953,
+   "needOverCap": 0.004844573903689104,
+   "needOverBand": 3629753345.402093,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 0.008877980424937244
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0,
+   "cap": 6.705125224528415,
+   "need": 24.959237410757122,
+   "needOverCap": 3.722411823041315,
+   "needOverBand": 3453757057.314342,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.652754823002
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 6.7051319296581084,
+   "need": 24.959262370011185,
+   "needOverCap": 3.7224118230413175,
+   "needOverBand": 3453760511.073704,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.652754823002
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 6.705795781754233,
+   "need": 24.961733500902557,
+   "needOverCap": 3.7224118230413183,
+   "needOverBand": 3454102456.0464272,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.6527548230022
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 6.772626031432383,
+   "need": 25.210503212441292,
+   "needOverCap": 3.7224118230413166,
+   "needOverBand": 3488526189.9423456,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.6527548230017
+  },
+  {
+   "law": "sin2",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 13.410250449056832,
+   "need": 49.91847482151422,
+   "needOverCap": 3.7224118230413126,
+   "needOverBand": 6907514114.628681,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1694.6527548230001
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.5,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.9,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.001,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.01,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "sin2",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "const",
+   "knob": 0,
+   "cap": 34584788.02535291,
+   "need": 35019.78069668292,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 4845893836269.266,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110477
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 38427542.250392094,
+   "need": 38910.867440758855,
+   "needOverCap": 0.0010125775722844162,
+   "needOverBand": 5384326484743.636,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110494
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 69169576.05070584,
+   "need": 70039.56139336586,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 9691787672538.533,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110484
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 345847880.2535291,
+   "need": 350197.8069668293,
+   "needOverCap": 0.0010125775722844143,
+   "needOverBand": 48458938362692.664,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110482
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 34585769.61556118,
+   "need": 35019.78243741729,
+   "needOverCap": 0.0010125488843151502,
+   "needOverBand": 4845894077144.959,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 6765802.952014191
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 35580392.5531937,
+   "need": 35021.521474221736,
+   "needOverCap": 0.000984292723073911,
+   "needOverBand": 4846134717936.079,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 6806.810553540139
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 27927964290.783176,
+   "need": 36804.31600417092,
+   "needOverCap": 0.0000013178302443016633,
+   "needOverBand": 5092830523910.49,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 6.97827413714675
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0,
+   "cap": 34584788.02535291,
+   "need": 35019.78069668292,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 4845893836269.266,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110477
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 34584822.61016398,
+   "need": 35019.815716486955,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 4845898682166.331,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110472
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 34588246.73473377,
+   "need": 35023.282908231035,
+   "needOverCap": 0.0010125775722844143,
+   "needOverBand": 4846378457960.684,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.911048
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 34932954.69191628,
+   "need": 35372.32645466202,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 4894677674477.471,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110472
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "one",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 69169576.05070584,
+   "need": 70039.56139336586,
+   "needOverCap": 0.001012577572284414,
+   "needOverBand": 9691787672538.533,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 1126549402.9110487
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0,
+   "cap": 35823.72145882659,
+   "need": 133350.644303675,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 18452516047735.344,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.763004
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.1,
+   "cap": 39804.13495425174,
+   "need": 148167.38255963882,
+   "needOverCap": 3.7224118230413166,
+   "needOverBand": 20502795608594.816,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.7629995
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.5,
+   "cap": 71647.4429176532,
+   "need": 266701.2886073501,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 36905032095470.695,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.763004
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "const",
+   "knob": 0.9,
+   "cap": 358237.2145882659,
+   "need": 1333506.4430367502,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 184525160477353.44,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.763004
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1,
+   "cap": 35824.73821261389,
+   "need": 133350.65093215858,
+   "needOverCap": 3.7223063610610225,
+   "needOverBand": 18452516964957.754,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 13214180.709743114
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000,
+   "cap": 36854.9916017105,
+   "need": 133357.2729518779,
+   "needOverCap": 3.618431782404438,
+   "needOverBand": 18453433292927.35,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 13255.46821026044
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "ratio",
+   "knob": 1000000,
+   "cap": 28928429.83255095,
+   "need": 140145.9162414779,
+   "needOverCap": 0.004844573903689112,
+   "needOverBand": 19392817949805.555,
+   "openKfree": true,
+   "openK1": false,
+   "venusAtNeedOverRuler": 13.589031122568045
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0,
+   "cap": 35823.72145882659,
+   "need": 133350.644303675,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 18452516047735.344,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.763004
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.001,
+   "cap": 35823.75728257192,
+   "need": 133350.77765440816,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 18452534500263.684,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.7630024
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.01,
+   "cap": 35827.30406981082,
+   "need": 133363.98025716006,
+   "needOverCap": 3.7224118230413157,
+   "needOverBand": 18454361422363.863,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.7630033
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.1,
+   "cap": 36184.36052577912,
+   "need": 134693.0914303497,
+   "needOverCap": 3.7224118230413166,
+   "needOverBand": 18638278383399.727,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.7630033
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "bal",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "cap": 71647.4429176532,
+   "need": 266701.2886073501,
+   "needOverCap": 3.722411823041316,
+   "needOverBand": 36905032095470.695,
+   "openKfree": false,
+   "openK1": false,
+   "venusAtNeedOverRuler": 4272189678.763005
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.5,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "const",
+   "knob": 0.9,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "const",
+   "knob": 1,
+   "outside": "η = 1 は熱 0(窓の外)"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "ratio",
+   "knob": 1000000,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.001,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.01,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.1,
+   "outside": "係数の値が無い"
+  },
+  {
+   "law": "oneMinusCos",
+   "cb": "spd",
+   "split": "lag",
+   "knob": 0.7853981633974483,
+   "outside": "係数の値が無い"
+  }
+ ],
+ "t4": [
+  {
+   "id": "Jupiter",
+   "sign": "rev",
+   "law": "sin",
+   "thetaSunDeg": 172.13108676854566,
+   "thetaGalDeg": 59.372292044674246,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 9.496813451286934e+27,
+     "heatMax": 208536839462602000,
+     "overRuler": 0.6224980282465731,
+     "precPeriodYr": 9084.262275249612,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 5.813877715944596e+21,
+     "heatMax": 392720782067121.6,
+     "overRuler": 0.0011723008419914078,
+     "precPeriodYr": 14838898990.601181,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 9.496819256923135e+27,
+     "heatMax": 208537093949942700,
+     "overRuler": 0.6224987879102767,
+     "precPeriodYr": 9084.25672181951,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 0.000001222649308037583,
+   "galShare": 3.7477962445961456e-13,
+   "bothOverSunMinus1": 0.0000012226496828172074,
+   "aeffShiftDeg": 0.000005145795356965584,
+   "leftOverSun": 6.560000364283678e-7
+  },
+  {
+   "id": "Jupiter",
+   "sign": "rev",
+   "law": "sin2",
+   "thetaSunDeg": 172.13108676854566,
+   "thetaGalDeg": 59.372292044674246,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 1.8814780826991693e+28,
+     "heatMax": 817363751402010400,
+     "overRuler": 2.4398917952298818,
+     "precPeriodYr": 4585.306890572107,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 5.92384845471584e+21,
+     "heatMax": 392720782070100.6,
+     "overRuler": 0.0011723008420003005,
+     "precPeriodYr": 14563428627.5386,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 1.8814786742442745e+28,
+     "heatMax": 817364265120766300,
+     "overRuler": 2.4398933287187057,
+     "precPeriodYr": 4585.305448931612,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 6.28808924267686e-7,
+   "galShare": 9.913101486506209e-14,
+   "bothOverSunMinus1": 6.288090233987009e-7,
+   "aeffShiftDeg": null,
+   "leftOverSun": 2.562981453782886e-7
+  },
+  {
+   "id": "Jupiter",
+   "sign": "rev",
+   "law": "oneMinusCos",
+   "thetaSunDeg": 172.13108676854566,
+   "thetaGalDeg": 59.372292044674246,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 1.3808051353939354e+29,
+     "heatMax": 44002463663465980000,
+     "overRuler": 131.35063780139097,
+     "precPeriodYr": 624.7915941158216,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 3.3143144137406593e+21,
+     "heatMax": 392720782014464.5,
+     "overRuler": 0.0011723008418342224,
+     "precPeriodYr": 26029981890.957554,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 1.3808051684900972e+29,
+     "heatMax": 44002465772814550000,
+     "overRuler": 131.35064409795388,
+     "precPeriodYr": 624.7915791403534,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 4.7937483580718304e-8,
+   "galShare": 5.761328306145107e-16,
+   "bothOverSunMinus1": 4.7937484156851136e-8,
+   "aeffShiftDeg": null,
+   "leftOverSun": 6.786835721225258e-8
+  },
+  {
+   "id": "Jupiter",
+   "sign": "fwd",
+   "law": "sin",
+   "thetaSunDeg": 7.868913231454334,
+   "thetaGalDeg": 120.62770795532575,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 9.496813451286932e+27,
+     "heatMax": 208536839462601950,
+     "overRuler": 0.622498028246573,
+     "precPeriodYr": 9084.262275249615,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 5.813877715944596e+21,
+     "heatMax": 392720782067121.6,
+     "overRuler": 0.0011723008419914078,
+     "precPeriodYr": 14838898990.601181,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 9.496819256923134e+27,
+     "heatMax": 208537093949942620,
+     "overRuler": 0.6224987879102765,
+     "precPeriodYr": 9084.256721819513,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 0.000001222649308037583,
+   "galShare": 3.747796244596146e-13,
+   "bothOverSunMinus1": 0.0000012226496828172074,
+   "aeffShiftDeg": 0.000005145795356965584,
+   "leftOverSun": 6.560000364283679e-7
+  },
+  {
+   "id": "Jupiter",
+   "sign": "fwd",
+   "law": "sin2",
+   "thetaSunDeg": 7.868913231454334,
+   "thetaGalDeg": 120.62770795532575,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 1.8814780826991684e+28,
+     "heatMax": 817363751402009600,
+     "overRuler": 2.4398917952298795,
+     "precPeriodYr": 4585.306890572109,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 5.92384845471584e+21,
+     "heatMax": 392720782070100.6,
+     "overRuler": 0.0011723008420003005,
+     "precPeriodYr": 14563428627.5386,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 1.8814786742442736e+28,
+     "heatMax": 817364265120765700,
+     "overRuler": 2.4398933287187035,
+     "precPeriodYr": 4585.305448931614,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 6.288089242676862e-7,
+   "galShare": 9.913101486506218e-14,
+   "bothOverSunMinus1": 6.288090233987011e-7,
+   "aeffShiftDeg": null,
+   "leftOverSun": 2.562981453782887e-7
+  },
+  {
+   "id": "Jupiter",
+   "sign": "fwd",
+   "law": "oneMinusCos",
+   "thetaSunDeg": 7.868913231454334,
+   "thetaGalDeg": 120.62770795532575,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 9.740141170619766e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 6.531657756531555e+26,
+     "heatMax": 1377310216376449,
+     "overRuler": 0.004111373780228206,
+     "precPeriodYr": 132082.15645459804,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 1.0198541802739799e+22,
+     "heatMax": 392720782229153.94,
+     "overRuler": 0.0011723008424750865,
+     "precPeriodYr": 8459203858.676389,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 6.531759597381423e+26,
+     "heatMax": 1377340919824246.5,
+     "overRuler": 0.004111465432311183,
+     "precPeriodYr": 132080.09707704975,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 0.00003118376724818454,
+   "galShare": 2.4379754016148476e-10,
+   "bothOverSunMinus1": 0.0000311840110457247,
+   "aeffShiftDeg": null,
+   "leftOverSun": 0.000014347502527320402
+  },
+  {
+   "id": "Venus",
+   "sign": "rev",
+   "law": "sin",
+   "thetaSunDeg": 6.425282172453544,
+   "thetaGalDeg": 118.7383011671217,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 1.3327078369733167e+24,
+     "heatMax": 100954139742345180,
+     "overRuler": 2635.5342577299357,
+     "precPeriodYr": 2.6283716436649347,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 141356534372179170,
+     "heatMax": 12242533716.33754,
+     "overRuler": 0.00031960667579526274,
+     "precPeriodYr": 24780258.680988885,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 1.332707967736914e+24,
+     "heatMax": 100954159553327200,
+     "overRuler": 2635.5347749204334,
+     "precPeriodYr": 2.6283713857724793,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 1.9623745361244068e-7,
+   "galShare": 1.1250242270442814e-14,
+   "bothOverSunMinus1": 1.9623746486268294e-7,
+   "aeffShiftDeg": 7.151780898132067e-7,
+   "leftOverSun": 1.1154051626521951e-7
+  },
+  {
+   "id": "Venus",
+   "sign": "rev",
+   "law": "sin2",
+   "thetaSunDeg": 6.425282172453544,
+   "thetaGalDeg": 118.7383011671217,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 2.648673227757951e+24,
+     "heatMax": 398759418021734400,
+     "overRuler": 10410.114032678095,
+     "precPeriodYr": 1.322492881070041,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 135931198791240420,
+     "heatMax": 12242533630.828617,
+     "overRuler": 0.0003196066735629452,
+     "precPeriodYr": 25769297.40294783,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 2.6486733535027746e+24,
+     "heatMax": 398759455883658560,
+     "overRuler": 10410.115021111045,
+     "precPeriodYr": 1.3224928182851627,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 9.494929130398065e-8,
+   "galShare": 2.6337923409200943e-15,
+   "bothOverSunMinus1": 9.4949293937773e-8,
+   "aeffShiftDeg": null,
+   "leftOverSun": 4.3441226320328416e-8
+  },
+  {
+   "id": "Venus",
+   "sign": "rev",
+   "law": "oneMinusCos",
+   "thetaSunDeg": 6.425282172453544,
+   "thetaGalDeg": 118.7383011671217,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 7.480489189555666e+22,
+     "heatMax": 318075993150068.44,
+     "overRuler": 8.303772174652616,
+     "precPeriodYr": 46.826502909481015,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 238727392996821380,
+     "heatMax": 12242535819.935211,
+     "overRuler": 0.0003196067307123146,
+     "precPeriodYr": 14673018.642805424,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 7.480511273331502e+22,
+     "heatMax": 318077871117875.2,
+     "overRuler": 8.303821201354268,
+     "precPeriodYr": 46.82636466946564,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 0.0000059043652844097035,
+   "galShare": 1.0184612539505447e-11,
+   "bothOverSunMinus1": 0.000005904375469022243,
+   "aeffShiftDeg": null,
+   "leftOverSun": 0.0000029892040513728975
+  },
+  {
+   "id": "Venus",
+   "sign": "fwd",
+   "law": "sin",
+   "thetaSunDeg": 173.57471782754646,
+   "thetaGalDeg": 61.26169883287831,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 1.332707836973318e+24,
+     "heatMax": 100954139742345400,
+     "overRuler": 2635.5342577299416,
+     "precPeriodYr": 2.628371643664933,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 141356534372179200,
+     "heatMax": 12242533716.33754,
+     "overRuler": 0.00031960667579526274,
+     "precPeriodYr": 24780258.68098888,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 1.3327079677369153e+24,
+     "heatMax": 100954159553327440,
+     "overRuler": 2635.5347749204398,
+     "precPeriodYr": 2.6283713857724766,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 1.962374536124405e-7,
+   "galShare": 1.1250242270442795e-14,
+   "bothOverSunMinus1": 1.9623746486268276e-7,
+   "aeffShiftDeg": 7.151780898132067e-7,
+   "leftOverSun": 1.115405162652194e-7
+  },
+  {
+   "id": "Venus",
+   "sign": "fwd",
+   "law": "sin2",
+   "thetaSunDeg": 173.57471782754646,
+   "thetaGalDeg": 61.26169883287831,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 2.648673227757954e+24,
+     "heatMax": 398759418021735500,
+     "overRuler": 10410.114032678122,
+     "precPeriodYr": 1.3224928810700392,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 135931198791240380,
+     "heatMax": 12242533630.828617,
+     "overRuler": 0.0003196066735629452,
+     "precPeriodYr": 25769297.402947832,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 2.648673353502778e+24,
+     "heatMax": 398759455883659600,
+     "overRuler": 10410.11502111107,
+     "precPeriodYr": 1.322492818285161,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 9.49492913039805e-8,
+   "galShare": 2.633792340920086e-15,
+   "bothOverSunMinus1": 9.494929393777285e-8,
+   "aeffShiftDeg": null,
+   "leftOverSun": 4.344122632032836e-8
+  },
+  {
+   "id": "Venus",
+   "sign": "fwd",
+   "law": "oneMinusCos",
+   "thetaSunDeg": 173.57471782754646,
+   "thetaGalDeg": 61.26169883287831,
+   "sunGalDeg": 112.76917138411692,
+   "aRatio": 1.3537141114998316e-8,
+   "sets": [
+    {
+     "set": "sun",
+     "N": 2.3743235685841474e+25,
+     "heatMax": 32043060057476240000,
+     "overRuler": 836524.2150496342,
+     "precPeriodYr": 0.14753050234343215,
+     "power": 0
+    },
+    {
+     "set": "galaxy",
+     "N": 83700783386760880,
+     "heatMax": 12242532978.79012,
+     "overRuler": 0.0003196066565406636,
+     "precPeriodYr": 41849685.824383214,
+     "power": 0
+    },
+    {
+     "set": "both",
+     "N": 2.3743235763269907e+25,
+     "heatMax": 32043060266465784000,
+     "overRuler": 836524.2205055681,
+     "precPeriodYr": 0.14753050186232433,
+     "power": 0
+    }
+   ],
+   "crossOverSun": 6.5221469786053136e-9,
+   "galShare": 1.2427370275767471e-17,
+   "bothOverSunMinus1": 6.522146991032684e-9,
+   "aeffShiftDeg": null,
+   "leftOverSun": 9.417717487008336e-9
+  }
+ ],
+ "gates": {
+  "pure": true,
+  "t1": true,
+  "t2": true,
+  "t3": true,
+  "win": true,
+  "t4": true
+ },
+ "ok": true,
+ "timing": {
+  "ctx": {
+   "wallSec": 0.055
+  },
+  "pure": {
+   "wallSec": 0.062
+  },
+  "t123": {
+   "wallSec": 0.065
+  },
+  "win": {
+   "wallSec": 0.172
+  },
+  "t4": {
+   "wallSec": 0.174
+  }
+ },
+ "elapsedS": 0.414,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第342便e",
+  "target": "tests/lib-w342e-powerball.mjs",
+  "targetSha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+  "generatedAt": "2026-11-18T15:25:50.961Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w342e-powerball.mjs",
+    "bytes": 7409,
+    "sha256": "7f710e142b50eda4279baf4e2528c3e1ef94314b061b751fe36babad2759519b",
+    "mtime": "2026-11-18T15:20:34.261Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-18T15:04:55.629Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-18T15:04:55.645Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-18T15:04:55.649Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-18T15:04:55.649Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-18T15:04:55.649Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-18T15:04:55.657Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-18T15:04:55.661Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-18T15:04:55.661Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-18T15:04:55.665Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-18T15:04:55.669Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-18T15:04:55.673Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-18T15:04:55.673Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-18T15:04:55.673Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-18T15:04:55.673Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-18T15:04:55.673Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-18T15:04:55.677Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-18T15:04:55.677Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-18T15:04:55.677Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-18T15:04:55.677Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-18T15:04:55.677Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-18T15:04:55.681Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-18T15:04:55.681Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-18T15:24:17.887Z"
+   }
+  ],
+  "codeSha256": "08bf055b2f092b18b38391b6cd42adc1c8a92d0ceac8ed5370f20d6dc5b71c86",
+  "harnessVersion": "w342e-powerball-1",
+  "stage": "powerball",
+  "engine": "Node(html を読まない —— 純関数の lib の表・窓の 2 分・ベクトルの和)・1 プロセス",
+  "notClaim": [
+   "帳簿の動作の確かめと、要るノブの範囲の表(天体の熱や自転の予測ではない)",
+   "分け方 η の型は 3 つとも候補(どれも採っていない)",
+   "保つ仕事率 P_hold は第341便f の型 (α) の置き方(ノブ)—— 理想の直交するトルクの仕事率は 0",
+   "角運動量の出どころ(源の自転・軌道・外)は決めていない —— 使い切るまでの時間を並べただけ",
+   "天体の特性の係数は 1・第341便b の読み 2 つを並べた(1 に置いた結果を合ったと読まない)",
+   "金星の熱流は測られていない —— 上限の目安(観測ではない)",
+   "文献の値は本環境では一次資料に当たっていない(未照合)",
+   "エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 19,
+   "kept": 1828,
+   "zeroPathsHead": [
+    "/pure/scenes/z2/powerRel",
+    "/pure/scenes/z3/worst",
+    "/pure/scenes/z5/combRel",
+    "/t1/5/residERel",
+    "/t1/11/residERel",
+    "/t1/14/residERel",
+    "/t1/20/residERel",
+    "/t1/27/residERel",
+    "/t1/37/residERel",
+    "/t1/40/residERel",
+    "/t1/53/residERel",
+    "/t1/58/residERel",
+    "/t1/63/residERel",
+    "/t1/66/residERel",
+    "/t1/71/residERel",
+    "/t1/79/residERel",
+    "/t1/81/residERel",
+    "/t1/84/residERel",
+    "/t1/89/residERel"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

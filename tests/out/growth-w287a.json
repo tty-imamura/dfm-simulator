@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:17:20.550Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:51:53.503Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -146,9 +146,9 @@
    "abBody": false,
    "names": 1343,
    "segments": 1174,
-   "closureShare": 0.2893
+   "closureShare": 0.2891
   },
-  "scopeSha256": "f5e1b0b6907f1796818f91c96527b3e0707a3c5346cb57e4d5d60d955d1050dc",
+  "scopeSha256": "8b4bd0d7576847267cee0068e9ef3511e7c57d395db9b3eb82dcb5877b8ae4a3",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1933,8 +1933,8 @@
     "tailMeanAbs": 0.044485377540646576,
     "restored": false
    },
-   "wallSec": 5.365,
-   "spentSec": 14.383
+   "wallSec": 4.368,
+   "spentSec": 12.691
   },
   {
    "key": "pro-seed1",
@@ -3205,8 +3205,8 @@
     "tailMeanAbs": 0.03247381796737653,
     "restored": false
    },
-   "wallSec": 5.605,
-   "spentSec": 14.609
+   "wallSec": 4.145,
+   "spentSec": 11.86
   },
   {
    "key": "pro-seed2",
@@ -4312,8 +4312,8 @@
     "tailMeanAbs": 0.1573876522343127,
     "restored": false
    },
-   "wallSec": 5.219,
-   "spentSec": 15.751
+   "wallSec": 4.042,
+   "spentSec": 13.415
   },
   {
    "key": "retro-seed0",
@@ -5451,8 +5451,8 @@
     "tailMeanAbs": 0.03154688204668693,
     "restored": false
    },
-   "wallSec": 4.762,
-   "spentSec": 13.877
+   "wallSec": 3.535,
+   "spentSec": 10.294
   },
   {
    "key": "retro-seed1",
@@ -6603,8 +6603,8 @@
     "tailMeanAbs": 0.02359946254238976,
     "restored": true
    },
-   "wallSec": 4.754,
-   "spentSec": 14.544
+   "wallSec": 4.124,
+   "spentSec": 11.314
   },
   {
    "key": "retro-seed2",
@@ -8313,8 +8313,8 @@
     "tailMeanAbs": 0.035020675601269036,
     "restored": false
    },
-   "wallSec": 9.186,
-   "spentSec": 22.467
+   "wallSec": 6.841,
+   "spentSec": 17.483
   },
   {
    "key": "head-seed0",
@@ -9587,8 +9587,8 @@
     "tailMeanAbs": 0.031909783563752236,
     "restored": false
    },
-   "wallSec": 4.015,
-   "spentSec": 13.525
+   "wallSec": 3.779,
+   "spentSec": 10.708
   },
   {
    "key": "head-seed1",
@@ -10814,8 +10814,8 @@
     "tailMeanAbs": 0.03311070649280923,
     "restored": false
    },
-   "wallSec": 5.359,
-   "spentSec": 15.719
+   "wallSec": 4.48,
+   "spentSec": 12.159
   },
   {
    "key": "head-seed2",
@@ -11911,8 +11911,8 @@
     "tailMeanAbs": 0.028245444946178144,
     "restored": false
    },
-   "wallSec": 5.199,
-   "spentSec": 12.653
+   "wallSec": 3.881,
+   "spentSec": 11.776
   }
  ],
  "radiusRun": {
@@ -13633,8 +13633,8 @@
    "tailMeanAbs": 0.03296121516296241,
    "restored": false
   },
-  "wallSec": 3.161,
-  "spentSec": 7.711
+  "wallSec": 2.633,
+  "spentSec": 7.328
  },
  "summary": {
   "nDeclared": 3,
@@ -13646,21 +13646,21 @@
    {
     "key": "pro-seed0",
     "steps": 9248,
-    "wallSec": 5.365,
+    "wallSec": 4.368,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed1",
     "steps": 9248,
-    "wallSec": 5.605,
+    "wallSec": 4.145,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed2",
     "steps": 8092,
-    "wallSec": 5.219,
+    "wallSec": 4.042,
     "verdict": "未達",
     "n0": 85
    }
@@ -13693,7 +13693,7 @@
   "growthSteps": 26588,
   "jeansSteps": 21111,
   "growthTotal": {
-   "wallSec": 16.189
+   "wallSec": 12.555
   },
   "jeansTotal": {
    "wallSec": 1781.887
@@ -13701,6 +13701,6 @@
   "growthPass": 0,
   "jeansPass": 0
  },
- "elapsedS": 66.216,
+ "elapsedS": 58.462,
  "verdict": "未達"
 }

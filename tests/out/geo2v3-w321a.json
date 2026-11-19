@@ -21,7 +21,7 @@
   "shellPoints": 12
  },
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の予定(第123報)・統括の検証項目 R266",
  "parts": {
   "base": {
@@ -167,7 +167,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 207.943
+     "wallSec": 128.298
     },
     "h2": {
      "n": 381,
@@ -210,7 +210,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 385.851
+     "wallSec": 229.695
     }
    },
    "frozen": {
@@ -263,7 +263,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.042
+     "wallSec": 0.021
     },
     {
      "key": "b3-D0zero",
@@ -290,7 +290,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.017
+     "wallSec": 0.005
     },
     {
      "key": "b5-semi",
@@ -317,7 +317,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.008
+     "wallSec": 0.005
     },
     {
      "key": "b5-leapfrog",
@@ -344,7 +344,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.018
+     "wallSec": 0.015
     },
     {
      "key": "b5-generic",
@@ -371,7 +371,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.014
+     "wallSec": 0.008
     },
     {
      "key": "b5-q15",
@@ -425,7 +425,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.013
+     "wallSec": 0.009
     },
     {
      "key": "b5-work",
@@ -452,7 +452,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.022
+     "wallSec": 0.01
     },
     {
      "key": "gal4",
@@ -479,7 +479,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.008
+     "wallSec": 0.011
     }
    ],
    "allSame": true,
@@ -1196,28 +1196,28 @@
  ],
  "timing": {
   "base": {
-   "wallSec": 386.207
+   "wallSec": 230.145
   },
   "degen": {
-   "wallSec": 0.152
-  },
-  "d3": {
-   "wallSec": 0.032
-  },
-  "cov": {
    "wallSec": 0.093
   },
-  "field": {
+  "d3": {
    "wallSec": 0.009
   },
+  "cov": {
+   "wallSec": 0.059
+  },
+  "field": {
+   "wallSec": 0.008
+  },
   "hist": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "ledger": {
-   "wallSec": 0.068
+   "wallSec": 0.05
   }
  },
- "elapsedS": 386.565,
+ "elapsedS": 230.368,
  "gates": {
   "baseInWindow": true,
   "baseClampZero": true,
@@ -1240,14 +1240,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第321便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:59:30.491Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:36:53.592Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -1339,9 +1339,9 @@
    "complete": true,
    "names": 1355,
    "segments": 1186,
-   "closureShare": 0.2908
+   "closureShare": 0.2907
   },
-  "scopeSha256": "42b8f4a698b11d7d1bfe09001937b36da8639673d8b5c1eb651cbcf2545b3c42",
+  "scopeSha256": "8fc6d269f95a3f4c54815e09f996e306ebe7c7f5b62a5e2a8a35987f86d9b40a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

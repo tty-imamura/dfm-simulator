@@ -363,7 +363,7 @@
   "axf": "tests/out/axialfield-w333b.json",
   "axfVersion": "w333b-axialfield-1",
   "axfLibVersion": "w333b-axialfield-lib-1",
-  "axfTargetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023"
+  "axfTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
  },
  "pure": {
   "scenes": {
@@ -19986,22 +19986,22 @@
    "wallSec": 0.115
   },
   "inputs": {
-   "wallSec": 0.151
+   "wallSec": 0.138
   },
   "push": {
-   "wallSec": 0.379
+   "wallSec": 0.306
   },
   "epoch": {
-   "wallSec": 0.41
+   "wallSec": 0.32
   },
   "windows": {
-   "wallSec": 30.868
+   "wallSec": 26.029
   },
   "tide": {
-   "wallSec": 30.87
+   "wallSec": 26.031
   },
   "self": {
-   "wallSec": 30.871
+   "wallSec": 26.033
   }
  },
  "gates": {
@@ -20019,19 +20019,19 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 30.873,
+ "elapsedS": 26.034,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便b",
   "target": "tests/lib-w334b-ledger.mjs",
   "targetSha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-  "generatedAt": "2026-11-16T01:08:19.861Z",
+  "generatedAt": "2026-11-19T00:07:17.532Z",
   "inputs": [
    {
     "file": "tests/out/axialfield-w333b.json",
     "bytes": 1450946,
-    "sha256": "89cc737fcf751aa1ef36b6eb65831aecfaede43320c3e9bc2f043d3b659b1fd4",
-    "mtime": "2026-11-16T00:00:16.139Z"
+    "sha256": "88c7df2d307e226fac5176bbe897770fb2c96c62ae20b95a391c0b2f40e4087b",
+    "mtime": "2026-11-18T20:57:47.929Z"
    }
   ],
   "code": [
@@ -20161,7 +20161,7 @@
   "inputsStable": [
    {
     "file": "tests/out/axialfield-w333b.json",
-    "stableSha256": "79ce6627a2deb4baf1b3e2eff94344409d633fbb305bea2856fbff5f32a1cd11",
+    "stableSha256": "d00ae8df427620b118ee7d00abf72859b5651960d10d23d7930077be7ccae376",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

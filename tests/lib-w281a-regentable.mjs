@@ -2319,7 +2319,8 @@ export const REGEN_STEPS = [
   //   lib tests/lib-w340d-gyropath.mjs —— 第338便b・第338便d・第339便a・第337便l・第337便i・第337便a の lib を import して呼ぶ。入力のファイルは無い〔4 天体の強さの組は第338便d の lib の
   //   k4Sets を呼んで作り直す —— 順序だけ after に段 ringbook-338d と同じ一式 + ringbook-338d・bevelknob-338b・rotvert-339a〕)。**診断だけ**。
   //   **html を読まない**(来歴の対象は純関数 tests/lib-w340d-gyropath.mjs —— 領域の宣言なし)。1 プロセス。所要は第340便d の枝の実測 35〜39 s(第338便c の settleRun の 3 回の走行を含む —— 大半は T4 の扁平の源の部位の和 960 点)
-  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 39, { secSource: 'w340d-branch', node: true,
+  //   第342便d(統括の検証項目 R375): lib を lib-2 に(扁平の経路の比の分母を同じ物理の位置の球で作る —— 分母の部位の和が 300 個ふえる)。所要は第342便d の枝の実測 57.7〜58.3 s(60 s の内)
+  S('gyropath-340d', 'node tests/exp-w340d-gyropath.mjs', ['tests/out/gyropath-340d.json'], 58, { secSource: 'w342d-branch', node: true,
     after: ['supply-337a', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d', 'obscompare', 'samplestatus', 'mercuryband-337b', 'rotring-337i', 'spinorbit-337j', 'gyrodrag-337k',
       'ringbook-338d', 'bevel-337l', 'bevelknob-338b', 'rotvert-339a'],
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 40 s の内で、簡易一致の窓を持たない',
@@ -2425,6 +2426,43 @@ export const REGEN_STEPS = [
     note: '第341便g: 7 系 × 項 6 の指数と順位(外の取り分・外の 2 体の間の差・相互の部位差分〔円・同期/系の離心率〕・外の源の部位差分・G_loc の型の残差)/'
       + '9 天体 × 帯の半幅 3 の赤道面から離れる時間と 🛟 の型の掛かる時間/冥王星–カロンの対照の段 (1)〜(4)・二体の RK4 の刻み 4/係数 1・0.5 の 4 点 × 系 2' }),
   // ==== 第341便g の塊(ここまで)====
+  // ==== 第342便b の塊(ここから)====
+  // ---- 第342便b(原仮定者の回答(2026-11-18 —— 第142報)AN806「…速度が局所光速に達した時に時間が止まる場合と、速度が無限になった時に時間が止まる場合を、比較する」・統括の検証項目 R373):
+  //   **時計の止まり方の 2 つの場合(F・U1・U2・U3)と絶対時間から見た加速(駆動のべき 2)—— 到達の時間・同じ絶対時間の速さと粒子の時計・取り違えの零試験・第341便e の曲線との重なり・
+  //   曲がり ÷ 光・水星の近点を動かす量**(段 clockstop-342b —— 正本 tests/out/clockstop-342b.json・lib tests/lib-w342b-clockstop.mjs —— 第341便e・第340便h の lib を import して呼ぶ。他の正本は読まない
+  //   —— 順序だけ after に第341便e の段と同じ 8 段〔第333便c の lib の import の先が読む正本の書き手〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。
+  //   1 プロセス。所要は第342便b の枝の実測 10 s
+  S('clockstop-342b', 'node tests/exp-w342b-clockstop.mjs', ['tests/out/clockstop-342b.json'], 10, { secSource: 'w342b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第341便e の lib が import する第333便c の lib が第331便c の lib を import —— その lib が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/clockstop-342b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第342便b: 時計の型 4(F・U1・U2・U3)× x 8 の表と低速の展開/型 × 駆動のべき 2 の到達の時間(x 6)と同じ絶対時間の速さと粒子の時計(T 6)/取り違えの恒等式(x 6)/'
+      + '第341便e の曲線 10 本との重なり/衝突径数 2 × 列 34 の曲がり ÷ 光/水星の近点(型 8 行・型の間の差 6 行 × 誇張した μ 3)' }),
+  // ==== 第342便b の塊(ここまで)====
+  // ==== 第342便c の塊(ここから)====
+  // ---- 第342便c(原仮定者の回答(2026-11-18 —— 第142報)AN800「扁平率は、源の区切りを細かくしないで計算する近似を検証する。一番近い源の表面の接線方向から求められるのではないか」・
+  //   統括の検証項目 R374): **扁平の源を区切らない近似の候補 —— 一番近い表面の接線・弦の向きの積分を、第341便d の 61440 点の表と並べる**(段 oblateapprox-342c —— 正本 tests/out/oblateapprox-342c.json・
+  //   lib tests/lib-w342c-oblateapprox.mjs —— 第338便b・第340便h の lib を import して呼ぶ。入力のファイルは第341便d の正本 tests/out/oblatering-341d.json〔参照の 42 点 —— 読むだけ〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)。1 プロセス。所要は第342便c の枝の実測 0.3 s
+  S('oblateapprox-342c', 'node tests/exp-w342c-oblateapprox.mjs', ['tests/out/oblateapprox-342c.json'], 1, { secSource: 'w342c-branch', node: true,
+    after: ['oblatering-341d'],   // 入力の書き手(第341便d の正本を読む —— after の閉包に第341便d の after の一式が入る)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/oblateapprox-342c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第342便c: 一番近い表面の接線の列(K_t・1 + k (K_t − 1)・1 + k f (a/r)^n g〔g 4 × n 4 × 係数 2〕・参考の試作の実効の傾きの比)× 参照 42 点/'
+      + '弦の向きの積分(向き 32・128・512)× 参照 42 点の軸の傾きの比と場の強さの比/1 点あたりの核の評価の回数' }),
+  // ==== 第342便c の塊(ここまで)====
+  // ==== 第342便e の塊(ここから)====
+  // ---- 第342便e(原仮定者の回答(2026-11-18 —— 第141報の回答)AN803「…熱になるか、自転速度を増す。自転速度を増す経路が「パワーボール効果」」・統括の検証項目 R376):
+  //   **動かなかった分の出口を 2 つ(熱・自転の速さの増加)に分ける帳簿と、向ける先の軸が複数(太陽・銀河)の場合**(段 powerball-342e —— 正本 tests/out/powerball-342e.json・
+  //   lib tests/lib-w342e-powerball.mjs —— 第341便f・第341便b・第337便c・第330便a の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に gyroheat-341f・bodycoef-341b〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w342e-powerball.mjs —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第342便e の枝の実測 1 s
+  S('powerball-342e', 'node tests/exp-w342e-powerball.mjs', ['tests/out/powerball-342e.json'], 1, { secSource: 'w342e-branch', node: true,
+    after: ['gyroheat-341f', 'bodycoef-341b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/powerball-342e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第342便e: 零試験 7(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ・帳簿の恒等式・sin の型の 2 つの軸の合成・入力の拒否・分け方の端)/T1 天体 7 × 分け方 13/'
+      + 'T2 則 3 × C_b の読み 3 × 結びつきの係数 3/T3 天体 7 のエネルギーと角運動量の帳簿/窓 117 行/T4 木星・金星 × 符号 2 × 則 3 × 向ける先 3' }),
+  // ==== 第342便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

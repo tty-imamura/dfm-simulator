@@ -5,7 +5,7 @@
  "w326dLibVersion": "w326d-axialheat-lib-2",
  "generator": "tests/exp-w327e-axialdiff.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(2026-11-05)「軸引きずりについて」(引きずる側の回転引きずりによる、引きずられる側の近い位置と遠い方位置の差分が軸引きずり・密度差を考慮して R_d を使う/十分に離れているか密度が低い場合は観測半径が影響しない勾配とみなせたので K1 が適用できた/金星では銀河の軸引きずりは勾配とみなせるが太陽の軸引きずりは観測半径を無視できない —— 銀河に対しては K1・太陽に対しては別の半径/固体惑星は 太陽–金星 → 太陽–火星 → 太陽–地球–月 の順に検証)・統括の検証項目 R299",
  "decl": {
@@ -17756,19 +17756,19 @@
  },
  "timing": {
   "I": {
-   "wallSec": 0.607
+   "wallSec": 0.414
   },
   "K": {
-   "wallSec": 12.988
+   "wallSec": 7.459
   },
   "V": {
-   "wallSec": 13.473
+   "wallSec": 7.804
   },
   "ML": {
-   "wallSec": 13.806
+   "wallSec": 8.014
   },
   "H": {
-   "wallSec": 13.812
+   "wallSec": 8.015
   }
  },
  "gates": {
@@ -17788,19 +17788,19 @@
   "moonPortsSame": true
  },
  "ok": true,
- "elapsedS": 16.456,
+ "elapsedS": 10.091,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便e",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:59:59.349Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:28:10.071Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -17907,9 +17907,9 @@
    "abBody": false,
    "names": 1365,
    "segments": 1196,
-   "closureShare": 0.2945
+   "closureShare": 0.2943
   },
-  "scopeSha256": "fbfa40bb5a67c0be7671e920492f2fbc0eb39fece4b56a0f77f8884ff3f2917b",
+  "scopeSha256": "7607a8aa83fe6f05cce729fdfce1530845e8246aa1ab33801a7b1eab229d88a6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

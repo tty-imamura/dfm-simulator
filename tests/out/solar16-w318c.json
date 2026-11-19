@@ -3,7 +3,7 @@
  "libVersion": "w318c-solar16-lib-1",
  "generator": "tests/exp-w318c-solar16.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "quick": false,
  "ruling": "原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256 —— 内蔵の本 solarSystem16Inertial3d(診断の本 —— 較正の母集団に入れない・観測の 3σ を付けない)。入力は原仮定者から受け取った 16 体の本(第120報)の geoPN=3・K1 の側をそのまま(本便は一次資料に当たっていない —— 暦表との照合はしていない)",
  "input": {
@@ -5271,7 +5271,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.077
+   "wallSec": 0.158
   },
   {
    "key": "io-ctrl-2880",
@@ -5296,7 +5296,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.12
+   "wallSec": 0.199
   },
   {
    "key": "io-ctrl-360",
@@ -5321,7 +5321,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.042
+   "wallSec": 0.075
   },
   {
    "key": "io-ctrl-5760",
@@ -5346,7 +5346,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.165
+   "wallSec": 0.22
   },
   {
    "key": "io-ctrl-720",
@@ -5371,7 +5371,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.051
+   "wallSec": 0.129
   },
   {
    "key": "io-k1-1440",
@@ -5400,7 +5400,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 10.788
+   "wallSec": 13.905
   },
   {
    "key": "io-k1-2880",
@@ -5429,7 +5429,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 23.168
+   "wallSec": 28.805
   },
   {
    "key": "io-k1-360",
@@ -5458,7 +5458,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2.854
+   "wallSec": 4.116
   },
   {
    "key": "io-k1-5760",
@@ -5487,7 +5487,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 44.895
+   "wallSec": 53.841
   },
   {
    "key": "io-k1-720",
@@ -5516,7 +5516,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 5.381
+   "wallSec": 6.815
   },
   {
    "key": "yr-ctrl-1440",
@@ -5541,7 +5541,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 6.389
+   "wallSec": 7.135
   },
   {
    "key": "yr-ctrl-360",
@@ -5566,7 +5566,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 1.513
+   "wallSec": 2.098
   },
   {
    "key": "yr-k1-1440",
@@ -5595,7 +5595,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2409.828
+   "wallSec": 2609.292
   },
   {
    "key": "yr-k1-360",
@@ -5624,16 +5624,16 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 618.718
+   "wallSec": 720.628
   }
  ],
  "cost": {
   "rate": {
    "k1": {
-    "rateStepsPerSec": 128.1491858622511
+    "rateStepsPerSec": 103.83133920098248
    },
    "ctrl": {
-    "rateStepsPerSec": 24527.472527472528
+    "rateStepsPerSec": 14289.372599231754
    }
   }
  },
@@ -5660,25 +5660,25 @@
  ],
  "timing": {
   "check": {
-   "wallSec": 1.334
+   "wallSec": 1.29
   },
   "runs": {
-   "wallSec": 2410.279
+   "wallSec": 2609.787
   }
  },
- "elapsedS": 2413.748,
+ "elapsedS": 2613.162,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便c",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T02:41:10.072Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T22:14:39.134Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
@@ -5803,9 +5803,9 @@
    "abBody": false,
    "names": 1363,
    "segments": 1194,
-   "closureShare": 0.2935
+   "closureShare": 0.2933
   },
-  "scopeSha256": "432348a85a7ff3706dceef26585085196103dcd4cd9dcd7f86d32b2c3024346d",
+  "scopeSha256": "311839f7a8431be8ba29422cc332a468360e44b29e0da9741f613169dbd84032",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,49 +1589,49 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.006
+   "wallSec": 0.008
   },
   "Z": {
-   "wallSec": 0.605
+   "wallSec": 0.9
   },
   "L": {
-   "wallSec": 0.108
+   "wallSec": 0.175
   },
   "C": {
-   "wallSec": 0.03
+   "wallSec": 0.067
   },
   "K": {
-   "wallSec": 0.059
+   "wallSec": 0.053
   },
   "H": {
-   "wallSec": 0.087
+   "wallSec": 0.123
   },
   "S": {
-   "wallSec": 0.413
+   "wallSec": 0.825
   },
   "R": {
-   "wallSec": 0.111
+   "wallSec": 0.167
   },
   "X": {
-   "wallSec": 0.087
+   "wallSec": 0.135
   }
  },
- "elapsedS": 3.416,
+ "elapsedS": 5.194,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:41:57.341Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:58:58.084Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -1724,9 +1724,9 @@
    "abBody": false,
    "names": 1361,
    "segments": 1192,
-   "closureShare": 0.2922
+   "closureShare": 0.292
   },
-  "scopeSha256": "03c7e134c449fd58f7a922d7889c1cec4d16284fc64dda50b39886eaa84f26c6",
+  "scopeSha256": "ad6ec8078a2ba46df94c6d8f7596690ff6e483dda64ff5cd19797d81c2a3ce56",
   "scopeComplete": true,
   "inputsStable": [
    {

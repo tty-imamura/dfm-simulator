@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第303便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-15T20:35:15.722Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-18T18:02:10.997Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -246,9 +246,9 @@
    ],
    "names": 1411,
    "segments": 1242,
-   "closureShare": 0.301
+   "closureShare": 0.3008
   },
-  "scopeSha256": "abb6de9dc6330cf92ee5b0c0b12bba9ce52c410d5eb9a47f6cf01df90829bea7",
+  "scopeSha256": "522b5123513178713cd477bba6de1e5ae59cc8f8f29e6fe38f8b063be026729a",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -4138,22 +4138,22 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 5.626
+   "wallSec": 6.417
   },
   "M": {
-   "wallSec": 107.841
+   "wallSec": 136.29
   },
   "T": {
-   "wallSec": 377.709
+   "wallSec": 445.821
   },
   "N": {
-   "wallSec": 386.834
+   "wallSec": 446.565
   },
   "E": {
-   "wallSec": 355.237
+   "wallSec": 434.918
   },
   "K": {
-   "wallSec": 0.028
+   "wallSec": 0.027
   }
  },
  "h4Carry": {
@@ -4381,11 +4381,11 @@
    }
   },
   "prev": {
-   "generatedAt": "2026-11-13T03:13:47.443Z",
-   "targetSha256": "cf2a5aafdb92b9db05f45168bab20bbd246e0859987194e10923cd4491ce3cea",
-   "fileSha256": "bc90f8170a286325b14f2a92c6177a3aa4e9fe0b698e006dc6e1820f437a2e2d"
+   "generatedAt": "2026-11-15T20:35:15.722Z",
+   "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+   "fileSha256": "4304a278b491e6e9915bf7b946db2914ce2dbc899c3f6d99115e57ac23084531"
   },
   "env": "H4_CARRY=1 は比較の実験だけ(既定は全部測る)"
  },
- "elapsedS": 1235.402
+ "elapsedS": 1472.021
 }
