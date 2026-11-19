@@ -1,6 +1,6 @@
 {
  "version": "w342c-oblateapprox-1",
- "libVersion": "w342c-oblateapprox-lib-1",
+ "libVersion": "w342c-oblateapprox-lib-2",
  "generator": "tests/exp-w342c-oblateapprox.mjs",
  "target": "tests/lib-w342c-oblateapprox.mjs",
  "ruling": "原仮定者の回答(2026-11-18 —— 第142報)AN800・原仮定者の回答(2026-11-17 —— 第140報の回答)の扁平の則の予想・統括の検証項目 R374",
@@ -26904,22 +26904,22 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.01
+   "wallSec": 0.008
   },
   "t1": {
-   "wallSec": 0.017
+   "wallSec": 0.015
   },
   "t2": {
-   "wallSec": 0.054
+   "wallSec": 0.045
   },
   "t3": {
-   "wallSec": 0.054
+   "wallSec": 0.045
   },
   "benchTangentPerPoint": {
-   "wallSec": 0.000007508985714009344
+   "wallSec": 0.000005849540476295563
   },
   "benchChord128PerPoint": {
-   "wallSec": 0.000057054559524008905
+   "wallSec": 0.000029534880952399234
   },
   "ref341dT1": {
    "wallSec": 9.527
@@ -26935,19 +26935,19 @@
   "t2SelfSettled": true
  },
  "ok": true,
- "elapsedS": 0.27,
+ "elapsedS": 0.186,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第342便c",
   "target": "tests/lib-w342c-oblateapprox.mjs",
-  "targetSha256": "a7177a22ab99ca5a127c9ea78d84f54fbc68c4c869d5cf37283c16e9cfda3fa6",
-  "generatedAt": "2026-11-18T15:55:29.462Z",
+  "targetSha256": "3a4382589fff8cc7a9b101028e48d349260bfcd8461c0cef461c36fc51c5b38f",
+  "generatedAt": "2026-11-19T07:24:33.329Z",
   "inputs": [
    {
     "file": "tests/out/oblatering-341d.json",
     "bytes": 610820,
     "sha256": "acb4f416a0415407d55cd09f3d06f348965b038f025d37a86d8d0c5e7e7a3844",
-    "mtime": "2026-11-18T15:55:10.889Z"
+    "mtime": "2026-11-19T07:13:16.707Z"
    }
   ],
   "code": [
@@ -26955,40 +26955,40 @@
     "file": "tests/exp-w342c-oblateapprox.mjs",
     "bytes": 13332,
     "sha256": "330be17d56e9aa8804c6235c41558c061258e711a8ea74e51fa0dc330fa260b3",
-    "mtime": "2026-11-18T15:44:29.225Z"
+    "mtime": "2026-11-19T07:13:16.351Z"
    },
    {
     "file": "tests/lib-w342c-oblateapprox.mjs",
-    "bytes": 19543,
-    "sha256": "a7177a22ab99ca5a127c9ea78d84f54fbc68c4c869d5cf37283c16e9cfda3fa6",
-    "mtime": "2026-11-18T15:44:29.229Z"
+    "bytes": 20102,
+    "sha256": "3a4382589fff8cc7a9b101028e48d349260bfcd8461c0cef461c36fc51c5b38f",
+    "mtime": "2026-11-19T07:24:25.104Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
     "bytes": 22798,
     "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-    "mtime": "2026-11-15T11:12:40.749Z"
+    "mtime": "2026-11-19T07:13:16.443Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
     "bytes": 7760,
     "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
-    "mtime": "2026-11-18T01:07:52.490Z"
+    "mtime": "2026-11-19T07:13:16.447Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-15T11:46:26.753Z"
+    "mtime": "2026-11-19T07:13:16.443Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T07:13:16.375Z"
    }
   ],
-  "codeSha256": "ffbb4bf58ad48cf93bec84e25d4151f135709e3aca5585479edfd5b09f1cda53",
+  "codeSha256": "7e74e31abb4a9756d7ee12cbed9edc6b649858f19a11f9988a07a251b0e56d3c",
   "harnessVersion": "w342c-oblateapprox-1",
   "stage": "oblateapprox",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 最近点の Newton・弦の長さの閉じた形と向きの求積)",
