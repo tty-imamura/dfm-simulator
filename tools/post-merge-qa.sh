@@ -1163,6 +1163,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPai
 #   器を走らせ直して第338便c の recheckRun で正本と照合・平面の比の閉じた形と 2 分で戻した角の差・呼ぶだけ / docs.spintransfer343e —— 正本の門と表が PHYSICS〔第343便e〕に逐語・文書)と、新しい段 spintransfer-343e
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spintransfer343e docs.spintransfer343e"
 # ==== 第343便e の塊(ここまで)====
+# ==== 第343便g の塊(ここから)====
+# 第343便g(決断事項 AN807・AN822・統括の検証項目 R384 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutostate343g —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・入力の csv の sha・往復の差・第341便g の入力の列が第341便g の正本の数に戻る・呼ぶだけ / docs.plutostate343g —— 正本の門と表 12 本が
+#   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
+# ==== 第343便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

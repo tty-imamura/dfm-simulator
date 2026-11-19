@@ -2475,6 +2475,18 @@ export const REGEN_STEPS = [
     note: '第343便e: 零試験 7(例・内部の軸の保存・h が自転の軸・向ける力の仕事率 0・散逸の熱・駆動 0・入力の拒否)/T1 目標と今の自転の差 68 行/経路の型 30 行/'
       + 'T2 第342便e の残りの読み直し 14 行/窓 4 行/T3 則 3 × 置き方 2 × 角 9/T4 極 2 × 置き方 2 × 則 3/T5 第342便e の角の入れ替え 5 行' }),
   // ==== 第343便e の塊(ここまで)====
+  // ==== 第343便g の塊(ここから)====
+  // ---- 第343便g(原仮定者の補足(2026-11-18 —— 第141報)「冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・決断事項 AN807・AN822・統括の検証項目 R384):
+  //   **冥王星–カロンを同じ解・同じ元期の状態へ繋ぐ —— csv の一覧・接触の要素(元期 2 × GM の出どころ 2)・自転の軸の入力の有無・第341便g の関数へ同じ解の入力・2 体のケプラーの差**
+  //   (段 plutostate-343g —— 正本 tests/out/plutostate-343g.json・lib tests/lib-w343g-plutostate.mjs —— 第277便a・第341便g・第340便h・第337便j の lib を import して呼ぶ。他の正本は読まない)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは paper/data/pluto-system-states.csv。1 プロセス。所要は第343便g の枝の実測 1 s
+  S('plutostate-343g', 'node tests/exp-w343g-plutostate.mjs', ['tests/out/plutostate-343g.json'], 1, { secSource: 'w343g-branch', node: true,
+    after: ['plutostates', 'plutocontrol-341g'],   // 順序だけ(同じ csv を読む第277便a の段・呼ぶ lib の段 —— 正本は読まない)。入力の宣言は正本の meta.inputs(csv —— 第277便a の段と同じ型)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は csv 1 本)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/plutostate-343g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第343便g: csv の一覧(92 行・元期 2・解 1)/元期 2 × GM 2 の接触の要素・桁の幅の e と a の幅・往復・csv の要素の行の作り直し/冥王星の極と軌道の法線/'
+      + '第341便g の 4 量 + 近日点の段 × 入力 5 列・定義の差の作り直し 5 列・残る差と候補の項の 1 表 17 行/2 体のケプラーで元期 A → B(GM 2)' }),
+  // ==== 第343便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
