@@ -2721,25 +2721,25 @@
  "ok": true,
  "timing": {
   "ctx": {
-   "wallSec": 0.06
+   "wallSec": 0.064
   },
   "pure": {
-   "wallSec": 0.07
+   "wallSec": 0.089
   },
   "t2": {
-   "wallSec": 0.078
+   "wallSec": 0.095
   },
   "t3": {
-   "wallSec": 0.083
+   "wallSec": 0.099
   }
  },
- "elapsedS": 0.203,
+ "elapsedS": 0.232,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第344便e",
   "target": "tests/lib-w344e-spincompose.mjs",
-  "targetSha256": "50c095fa0a8ab42fbb43775973813748c8a951570ff6fc466228189aab7250e4",
-  "generatedAt": "2026-11-19T14:04:06.634Z",
+  "targetSha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+  "generatedAt": "2026-11-19T14:10:37.310Z",
   "inputs": [],
   "code": [
    {
@@ -3014,12 +3014,12 @@
    },
    {
     "file": "tests/lib-w344e-spincompose.mjs",
-    "bytes": 23250,
-    "sha256": "50c095fa0a8ab42fbb43775973813748c8a951570ff6fc466228189aab7250e4",
-    "mtime": "2026-11-19T14:04:00.209Z"
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-19T14:10:36.748Z"
    }
   ],
-  "codeSha256": "bff77bd12205987302e7c7df0fae8cd81e6c891d82529637ad7e24b8a4d8fca4",
+  "codeSha256": "8b05f0e959ea200ab461921d3bdd52e8719ddabab3439dc0e4d313a039595b81",
   "harnessVersion": "w344e-spincompose-1",
   "stage": "spincompose",
   "engine": "Node(html を読まない —— 純関数の lib の表・ベクトルの和・陰の中点の積分)・1 プロセス",
