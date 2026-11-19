@@ -1,11 +1,12 @@
 // 第338便b(原仮定者の回答(2026-11-15 —— 第138報の回答 5)・原仮定者の指示(2026-11-15 —— 第139報)・統括の検証項目 R350): **正本 tests/out/bevelknob-338b.json から PHYSICS〔第338便b〕の表を作る文書の lib**
 // (QA docs.bevelknob338b が節の表と逐語で照合する —— 数は有効数字 3 桁の指数・角は小数 2 桁・正本で 0 と書いた量〔尺度 × 1e-12 より小さい丸めの残り〕は「0」)。
-export const DOC_VERSION = 'w338b-bevelknobdoc-1';
+export const DOC_VERSION = 'w338b-bevelknobdoc-2';   // 第343便f: 「軸方向で弱くなる」と (iii) の「減速しない」を 3 値の文字で(真偽の正本も読める)
 const fe = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x === 0 ? '0' : Number(x).toExponential(2));
 const f2 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(2));
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(3));
 const f4 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(4));
 const tf = (x) => (x === true ? '真' : x === false ? '偽' : '—');
+const j3 = (x) => (typeof x === 'string' ? x : tf(x));   // 第343便f: 3 値の文字(正・負・未解決・解析の 0)はそのまま
 const sg = (x) => (x > 0 ? '+' : x < 0 ? '−' : '0');
 const NM = Object.freeze({ mercury: '水星', venus: '金星', earth: '地球', mars: '火星', jupiter: '木星', saturn: '土星', uranus: '天王星', neptune: '海王星',
   moon: '月', io: 'イオ', europa: 'エウロパ', ganymede: 'ガニメデ', callisto: 'カリスト', titan: 'タイタン', triton: 'トリトン(逆行)' });
@@ -28,7 +29,7 @@ export function tablesOf(J) {
   T.t2P = ['| 仰角 el [°] | ' + D.pGrid.map((p) => `p ${p}: 角・強さ`).join(' | ') + ' |', '|---|' + D.pGrid.map(() => '---|').join(''),
     ...t2.rows.map((r) => `| ${r.elDeg} | ` + D.pGrid.map((p) => cell(r.p[p])).join(' | ') + ' |')].join('\n');
   T.t2Judge = ['| 候補 | 赤道: 角(種類) | 45°: 角(種類)・強さ | 軸の方向: 角(種類 —— 強さ 0 なら極限) | 軸の方向の強さ ÷ 赤道の強さ | 軸方向で弱くなる |', '|---|---|---|---|---|---|',
-    ...Object.entries(t2.judge).map(([k, j]) => `| ${KN[k]} | ${f2(j.eqAng)}°(${j.eqKind}) | ${f2(j.midAng)}°(${j.midKind})・${f3(j.midMag)} | ${f2(j.poleAng)}°(${j.poleKind}) | ${fe(j.weakRatio)} | ${tf(j.weak)} |`)].join('\n');
+    ...Object.entries(t2.judge).map(([k, j]) => `| ${KN[k]} | ${f2(j.eqAng)}°(${j.eqKind}) | ${f2(j.midAng)}°(${j.midKind})・${f3(j.midMag)} | ${f2(j.poleAng)}°(${j.poleKind}) | ${fe(j.weakRatio)} | ${j3(j.weak)} |`)].join('\n');
   T.t2Place = ['| 仰角 el [°] | 差分の読みの逆回転の分 \\|−s⊥\\| ÷ s(= cos el) | 回転引きずりの高さの型 U(el)/U(0): ball・src・lor2(r/R_d 2) | q 0・q 0.5・q 1: 逆回転の分 ÷ s | q 0・q 0.5・q 1: 順回転の分 ÷ (s sin el) | p 1・p 2: 逆回転の分 ÷ s | p 1・p 2: 順回転の分 ÷ (s sin el) |', '|---|---|---|---|---|---|---|',
     ...t2.placement.map((r) => `| ${r.elDeg} | ${f3(r.diffPerp)} | ${D.profiles.map((p) => f3(r.rot[p])).join('・')} | ${[0, 0.5, 1].map((q) => f3(r.q[q].perp)).join('・')} | ${[0, 0.5, 1].map((q) => f3(r.q[q].parFactor)).join('・')} | ${[1, 2].map((p) => f3(r.p[p].perp)).join('・')} | ${[1, 2].map((p) => f3(r.p[p].parFactor)).join('・')} |`)].join('\n');
   T.t2PlaceJudge = ['| 候補 | μ | 逆回転の分と差分の読み(cos el)の最大の差 | 順回転の分の落ち方(÷ 赤道の値)と回転引きずりの高さの型 ball の最大の差(el < 90°) |', '|---|---|---|---|',
@@ -53,8 +54,8 @@ export function tablesOf(J) {
   T.t3Fd = ['| 源の取り分 f | 列 A の勾配 dU/dr ÷ s | 誤差 ÷ (s f): R/r ' + D.fdR.map(fe).join('・') + ' | 列 B′ の勾配 r dΩ/dr ÷ s | 誤差 ÷ (s f): R/r ' + D.fdR.map(fe).join('・') + ' |', '|---|---|---|---|---|',
     ...t3.fd.map((x) => `| ${x.f} | ${fe(x.gradA)} | ${D.fdR.map((k) => fe(x.errA[k])).join('・')} | ${fe(x.gradBp)} | ${D.fdR.map((k) => fe(x.errBp[k])).join('・')} |`)].join('\n');
   T.t4 = ['| 比 B/A | 角 θ [°] | (i) ベクトル和 ÷ A | (ii) 今の規則 ÷ A | (ii) の持ち上げ ÷ A | (iii) 境目を比で動かす型 ÷ A | 減速しない側: (ii)・(iii) | (iii) の境目 [°] |', '|---|---|---|---|---|---|---|---|',
-    ...t4.rows.map((r) => `| ${r.B} | ${r.thDeg} | ${f4(r.vecSum)} | ${f4(r.ruleII)} | ${f4(r.liftII)} | ${f4(r.ruleIII)} | ${tf(r.noDecelII)}・${tf(r.noDecelIII)} | ${f2(r.boundaryIII)} |`)].join('\n');
+    ...t4.rows.map((r) => `| ${r.B} | ${r.thDeg} | ${f4(r.vecSum)} | ${f4(r.ruleII)} | ${f4(r.liftII)} | ${f4(r.ruleIII)} | ${tf(r.noDecelII)}・${j3(r.noDecelIII)} | ${f2(r.boundaryIII)} |`)].join('\n');
   T.t4Bodies = ['| 天体(太陽の項と背景の項) | 小さい側 ÷ 大きい側 | なす角 [°] | (ii) の持ち上げ ÷ 大きい側 | 減速しない側: (ii)・(iii) | (iii) の境目 [°] |', '|---|---|---|---|---|---|',
-    ...t4.bodies.map((b) => `| ${NM[b.key]} | ${fe(b.ratio)} | ${f2(b.thDeg)} | ${fe(b.liftII)} | ${tf(b.noDecelII)}・${tf(b.noDecelIII)} | ${f2(b.boundaryIII)} |`)].join('\n');
+    ...t4.bodies.map((b) => `| ${NM[b.key]} | ${fe(b.ratio)} | ${f2(b.thDeg)} | ${fe(b.liftII)} | ${tf(b.noDecelII)}・${j3(b.noDecelIII)} | ${f2(b.boundaryIII)} |`)].join('\n');
   return T;
 }

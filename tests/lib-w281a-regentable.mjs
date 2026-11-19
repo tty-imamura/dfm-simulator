@@ -2463,6 +2463,66 @@ export const REGEN_STEPS = [
     note: '第342便e: 零試験 7(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ・帳簿の恒等式・sin の型の 2 つの軸の合成・入力の拒否・分け方の端)/T1 天体 7 × 分け方 13/'
       + 'T2 則 3 × C_b の読み 3 × 結びつきの係数 3/T3 天体 7 のエネルギーと角運動量の帳簿/窓 117 行/T4 木星・金星 × 符号 2 × 則 3 × 向ける先 3' }),
   // ==== 第342便e の塊(ここまで)====
+  // ==== 第343便b の塊(ここから)====
+  // ---- 第343便b(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839「…加減速は、当事者時間で決まる。加減速のステップで進む時間を、当事者時間に合わせる。局所重力加速度との関係を確認する」・統括の検証項目 R379):
+  //   **重力の加速の時間の 3 つの宣言 —— 近点の一次の項・2 度数えの組と釣り合い・多体の保存(対の力積と仕事)・局所重力加速度**(段 partytime-343b —— 正本 tests/out/partytime-343b.json・
+  //   lib tests/lib-w343b-partytime.mjs —— 第342便b・第341便e の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第342便b の段と同じ 8 段〔第333便c の lib の import の先が読む正本の書き手〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。正本は第338便c の settleRun で書く。所要は第343便b の枝の実測 23〜24 s
+  S('partytime-343b', 'node tests/exp-w343b-partytime.mjs', ['tests/out/partytime-343b.json'], 24, { secSource: 'w343b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第341便e の lib が import する第333便c の lib が第331便c の lib を import —— その lib が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/partytime-343b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第343便b: 宣言 4(3 つ + 対照)× n_G 3 × 時計の型 4 × 刻み 2 の近点・対称の型 8・書き換えの零試験 4/n_G = ½ の恒等式・釣り合いの n_G 4・足した列 3/'
+      + '2 体・3 体 × 対称と受け手 × n_G 2 × 宣言と型 5 の保存 40 行・零試験 4/局所重力加速度 18 行' }),
+  // ==== 第343便b の塊(ここまで)====
+  // ==== 第343便c の塊(ここから)====
+  // ---- 第343便c(原仮定者の回答(2026-11-19 —— 第143報)AN853「Bに変更する」・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN840・統括の検証項目 R380):
+  //   **時計の因子の引数の 2 つの読み(B = 当事者時間で測った速さ・A = 絶対時間で見た速さ)× 形の族・シュバルツシルト半径の重力の時計との並び・光の経路 = 質量 0 で無限速度の場合・ミューオンの寿命・
+  //   〔第342便b〕の連鎖律の項を入れた読み**(段 clockread-343c —— 正本 tests/out/clockread-343c.json・lib tests/lib-w343c-clockread.mjs —— 第342便b・第341便e の lib を import して呼ぶ。他の正本は読まない
+  //   —— 順序だけ after に第342便b の段と同じ 8 段)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第343便c の枝の実測 1 s
+  S('clockread-343c', 'node tests/exp-w343c-clockread.mjs', ['tests/out/clockread-343c.json'], 1, { secSource: 'w343c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第342便b の段と同じ —— 第341便e の lib の import の先が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/clockread-343c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第343便c: 形の族 k 5 × B の読みの x(y)(y 6)と書き直した時計(x 3 × 2 枝)/r_s の静止の時計(ε 3 × ψ₀ 2)と形ごとの y = 1・x → 1 の値/'
+      + '2 つの読み × k 5 × 駆動のべき 3 の極限と有限の列 4・数値の走り 16 本/ミューオンの見込み 10 行/連鎖律の項を入れた読み(型 4)' }),
+  // ==== 第343便c の塊(ここまで)====
+  // ==== 第343便d の塊(ここから)====
+  // ---- 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・原仮定者の回答(2026-11-18 —— 第142報)AN800・統括の検証項目 R381):
+  //   **扁平の源の h1 の場を物理の表面にだけ点を置く求積(発散定理)で数え、弦の向きの積分と 61440 点の表と並べる・極の例外の直しの試験・適用の境目**(段 surfquad-343d —— 正本 tests/out/surfquad-343d.json・
+  //   lib tests/lib-w343d-surfquad.mjs —— 第342便c・第341便d・第340便h の lib を import して呼ぶ。入力のファイルは第341便d の正本 tests/out/oblatering-341d.json と第342便c の正本 tests/out/oblateapprox-342c.json〔読むだけ〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)。1 プロセス。所要は第343便d の枝の実測 約 5 s
+  S('surfquad-343d', 'node tests/exp-w343d-surfquad.mjs', ['tests/out/surfquad-343d.json'], 5, { secSource: 'w343d-branch', node: true,
+    after: ['oblatering-341d', 'oblateapprox-342c'],   // 入力の書き手(第341便d の正本と第342便c の正本を読む)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 全部を走らせても 10 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/surfquad-343d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第343便d: 表面の求積(64 × 128・96 × 192)× 42 条件の軸の傾きの比(弦 128・512 と第341便d の表の best・区切りの最後の段との差)/'
+      + '極の試験(扁平率 3 × 極の真上・真下・すぐ横 —— 弦と表面の場と体積)/42 条件の弦の列の不変/適用の境目(扁平率 3 × 距離 2 × 高さ 6)/外の試算の 2 つの数の表' }),
+  // ==== 第343便d の塊(ここまで)====
+  // ==== 第343便e の塊(ここから)====
+  // ---- 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843「パワーボール効果は、軸引きずりで回転が伝わる経路として見る…」・AN844「…釣り合いが、太陽系の軸の120°」・統括の検証項目 R382):
+  //   **目標と経路を分けた帳簿と保存の零試験・第342便e の残りの読み直し・釣り合いが 120° になる重みの比・宣言の極の三次元の角**(段 spintransfer-343e —— 正本 tests/out/spintransfer-343e.json・
+  //   lib tests/lib-w343e-spintransfer.mjs —— 第342便e・第340便f・第341便g・第337便j・第337便c・第341便f の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に powerball-342e〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 tests/lib-w343e-spintransfer.mjs —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第343便e の枝の実測 1 s
+  S('spintransfer-343e', 'node tests/exp-w343e-spintransfer.mjs', ['tests/out/spintransfer-343e.json'], 1, { secSource: 'w343e-branch', node: true,
+    after: ['powerball-342e', 'heatsource-340f', 'plutocontrol-341g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spintransfer-343e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第343便e: 零試験 7(例・内部の軸の保存・h が自転の軸・向ける力の仕事率 0・散逸の熱・駆動 0・入力の拒否)/T1 目標と今の自転の差 68 行/経路の型 30 行/'
+      + 'T2 第342便e の残りの読み直し 14 行/窓 4 行/T3 則 3 × 置き方 2 × 角 9/T4 極 2 × 置き方 2 × 則 3/T5 第342便e の角の入れ替え 5 行' }),
+  // ==== 第343便e の塊(ここまで)====
+  // ==== 第343便g の塊(ここから)====
+  // ---- 第343便g(原仮定者の補足(2026-11-18 —— 第141報)「冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・決断事項 AN807・AN822・統括の検証項目 R384):
+  //   **冥王星–カロンを同じ解・同じ元期の状態へ繋ぐ —— csv の一覧・接触の要素(元期 2 × GM の出どころ 2)・自転の軸の入力の有無・第341便g の関数へ同じ解の入力・2 体のケプラーの差**
+  //   (段 plutostate-343g —— 正本 tests/out/plutostate-343g.json・lib tests/lib-w343g-plutostate.mjs —— 第277便a・第341便g・第340便h・第337便j の lib を import して呼ぶ。他の正本は読まない)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは paper/data/pluto-system-states.csv。1 プロセス。所要は第343便g の枝の実測 1 s
+  S('plutostate-343g', 'node tests/exp-w343g-plutostate.mjs', ['tests/out/plutostate-343g.json'], 1, { secSource: 'w343g-branch', node: true,
+    after: ['plutostates', 'plutocontrol-341g'],   // 順序だけ(同じ csv を読む第277便a の段・呼ぶ lib の段 —— 正本は読まない)。入力の宣言は正本の meta.inputs(csv —— 第277便a の段と同じ型)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は csv 1 本)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/plutostate-343g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第343便g: csv の一覧(92 行・元期 2・解 1)/元期 2 × GM 2 の接触の要素・桁の幅の e と a の幅・往復・csv の要素の行の作り直し/冥王星の極と軌道の法線/'
+      + '第341便g の 4 量 + 近日点の段 × 入力 5 列・定義の差の作り直し 5 列・残る差と候補の項の 1 表 17 行/2 体のケプラーで元期 A → B(GM 2)' }),
+  // ==== 第343便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

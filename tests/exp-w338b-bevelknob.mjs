@@ -19,10 +19,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as K from './lib-w338b-bevelknob.mjs';
+import * as F from './lib-w343f-judge3rest.mjs';   // 第343便f: 軸の上・赤道の行の閉じた形と 3 値の判定
+import { sigmaOf, settle, recheckTree, LIB_VERSION as R338_VERSION, DECL as R338_DECL } from './lib-w338c-recheck.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w338b-bevelknob-1';
-export const AMEND = Object.freeze([]);
+export const HARNESS_VERSION = 'w338b-bevelknob-2';
+export const AMEND = Object.freeze(['版 2(第343便f —— 統括の検証項目 R383・AN798): 正本へ書く形を第338便c の settle の型に(Math の関数を ±1〜2 ulp ずらした走り直しの差の最大を葉ごとの尺度 σ とし、|値| ≤ 4 σ の葉を 0 と書く —— 門は 0 と書いた後の値で作る)。'
+  + '仰角 0°・90° の行は閉じた形の値(tests/lib-w343f-judge3rest.mjs の closedCell —— 軸の上で強さが解析的に 0 の欄の種類は「解析の 0」・旧は「強さ 0」を数から読み、ずらした走行で向きのある種類に変わった)。'
+  + '「軸方向で弱くなる」は 3 値の文字(赤道 − 軸の上の強さが解析的に 0 なら「解析の 0」・正・負)・合成の規則 (iii) の「減速しない」は余裕 cos θ + B/(2A) の 3 値(judge3 —— 120°・比 1 は「未解決」)。式・格子・ほかの値は不変']);
 export const OUT_MAIN = 'tests/out/bevelknob-338b.json';
 export const TARGET = 'tests/lib-w338b-bevelknob.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -31,11 +35,11 @@ export const NOT_CLAIM = Object.freeze(['補正のノブ q の値を決めない
 export const PLAN = Object.freeze({ parts: Object.freeze(['t2', 't3', 't4']), floor: K.FLOOR, floorNote: '解析的に 0 になる量・打ち消しの残りは、同じ単位の尺度 × 1e-12 より小さければ 0 と書く(尺度は各欄の注)' });
 
 export function partT2() {
-  const rows = K.elevRows(), place = K.placementRows();
-  return { rows, placement: place, placementJudge: K.placementJudge(place), read: K.knobReadRows(), tilt: K.tiltRows(), judge: K.knobJudge(rows) };
+  const rows = F.elevRows343f(), place = K.placementRows();
+  return { rows, placement: place, placementJudge: K.placementJudge(place), read: K.knobReadRows(), tilt: K.tiltRows(), judge: F.knobJudge343f(rows) };
 }
 export function partT3() { return { bodies: K.an747Bodies(), venus: K.an747Venus(), fd: K.an747Fd() }; }
-export function partT4() { return K.ruleTable(); }
+export function partT4() { return F.ruleTable343f(); }
 
 export function gatesOf(J) {
   const t2 = J.t2, t3 = J.t3, t4 = J.t4, r = (el) => t2.rows.find((x) => x.elDeg === el), Q = K.DECL.qGrid, P = K.DECL.pGrid, pj = t2.placementJudge;
@@ -51,8 +55,8 @@ export function gatesOf(J) {
     t2Read: t2.read.planets.length === 8 && t2.read.moons.length === 7 && t2.read.galaxy.rows.length === Q.length && Math.abs(t2.read.galaxy.rows[0].el120 - 30) <= 1e-9
       && t2.read.venus.length === (Q.length + P.length) * 2 && t2.read.venus.every((v) => v.nRoots === (v.amp === 'signed' ? 2 : 1) && v.roots.every((x) => x.sumOverScale === 0))
       && t2.tilt.filter((x) => x.elDeg === 0).every((x) => x.spreadQ === 0) && t2.tilt.some((x) => x.elDeg > 0 && x.spreadQ > 0.05),
-    // (d) どの q も赤道 = 逆の側・45° = 90° 傾き・軸の方向 = 順の側(種類)・q > 0 は軸方向で弱くなる
-    t2Judge: Q.every((q) => { const j = t2.judge['q' + q]; return j.eqKind === '逆の側' && j.midKind === '90° 傾き' && j.poleKind === '順の側' && (q === 0 ? !j.weak : j.weak); }),
+    // (d) どの q も赤道 = 逆の側・45° = 90° 傾き・軸の方向 = 順の側(種類)・q > 0 は軸方向で弱くなる(「正」)・q 0 は差が解析的に 0(第343便f —— 「未解決」を成功に数えない)
+    t2Judge: Q.every((q) => { const j = t2.judge['q' + q]; return j.eqKind === '逆の側' && j.midKind === '90° 傾き' && j.poleKind === '順の側' && (q === 0 ? j.weak === F.DECL.ANALYTIC_ZERO : j.weak === '正'); }),
     // T3: 列 A・B が本体(第337便l の planetRows)の太陽の項と同じ・列 B と B′ は全天体で同じ符号(逆の側)・金星の根 A 2・B 1・B′ 1 で黄道の北の成分 0・自転の軸に垂直な残り > 0.1
     t3Bodies: t3.bodies.planets.length === 8 && t3.bodies.planets.every((p) => p.bodyA === 0 && p.bodyB === 0 && p.sign.B === p.sign.Bp) && t3.bodies.moons.length === 7 && t3.bodies.moons.every((m) => m.sign.B === m.sign.Bp),
     t3Venus: t3.venus.length === 3 && t3.venus.find((v) => v.col === 'A').nRoots === 2 && t3.venus.find((v) => v.col === 'B').nRoots === 1 && t3.venus.find((v) => v.col === 'Bp').nRoots === 1
@@ -64,30 +68,48 @@ export function gatesOf(J) {
       && Math.abs(t4.gal120[0].boundaryIII - 120) <= 1e-9 && t4.rows.every((x) => x.ruleIII === x.vecSum) && t4.bodies.length === 3,
   };
 }
-export function runAll() {
+/** 生の走行(門なし —— 尺度を測る対象) */
+export function runRaw() {
   const t0 = Date.now(), tm = {}, mark = (k) => { tm[k] = { wallSec: (Date.now() - t0) / 1000 }; };
-  const PS = K.pureScenes(), pure = { scenes: PS, gates: K.pureGates(PS) }; mark('pure');
+  const PS = K.pureScenes(); mark('pure');
   const t2 = partT2(); mark('t2');
   const t3 = partT3(); mark('t3');
   const t4 = partT4(); mark('t4');
-  const J = { pure, t2, t3, t4, timing: tm };
+  return { pure: { scenes: PS }, t2, t3, t4, timing: tm };
+}
+/** 第343便f: 正本へ書く形(第338便c の settle の型)—— 尺度を測る → 3 値の判定を書く → 0 と書く → 門を 0 と書いた後の値で作る(壁時計は元のままの走行の値) */
+export function runSettled() {
+  let tm = null;
+  const run = () => { const R = runRaw(); if (tm === null) tm = R.timing; delete R.timing; return R; };
+  const { base, sigma, unstable } = sigmaOf(run), j3 = F.judge343f(base, sigma), S = settle(base, sigma);
+  const J = S.value; J.pure.gates = K.pureGates(J.pure.scenes); J.timing = tm;
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
-  return J;
+  return { J, recheck: { version: R338_VERSION, decl: R338_DECL, zeroed: S.zeroed, kept: S.kept, zeroPathsHead: S.zeroPaths, unstable: unstable.length, unstableHead: unstable.slice(0, 20), judge3: j3 } };
+}
+/** 器の走行(正本と同じ形 —— settle の後の値・門) */
+export function runAll() { return runSettled().J; }
+/** 第343便f: QA の作り直しの照合(recheckRun と同じ戻りの形 —— 尺度を測り、3 値の判定を書いてから正本と比べる) */
+export function recheck343f(canon, parts) {
+  const { base, sigma, unstable } = sigmaOf(() => { const q = runRaw(); delete q.timing; return q; });
+  F.judge343f(base, sigma);
+  const diffs = {}; let nLeaves = 0, nZero = 0;
+  for (const k of parts) { diffs[k] = recheckTree(base[k], sigma[k], canon[k]); nLeaves += diffs[k].nLeaves; nZero += diffs[k].nZero; }
+  return { diffs, unstable, nLeaves, nZero, base, sigma };
 }
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
-export const CODE = Object.freeze(['tests/exp-w338b-bevelknob.mjs', 'tests/lib-w338b-bevelknob.mjs']);
+export const CODE = Object.freeze(['tests/exp-w338b-bevelknob.mjs', 'tests/lib-w338b-bevelknob.mjs', 'tests/lib-w343f-judge3rest.mjs', 'tests/lib-w338c-recheck.mjs', 'tests/lib-w340h-thin.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W338B_OUT ? (path.isAbsolute(process.env.W338B_OUT) ? process.env.W338B_OUT : path.join(ROOT, process.env.W338B_OUT)) : path.join(ROOT, OUT_MAIN);
   console.log('第338便b bevelknob(版 ' + HARNESS_VERSION + ')');
-  const R = runAll();
-  const out = { version: HARNESS_VERSION, libVersion: K.LIB_VERSION, lib337Version: K.L337_VERSION, generator: 'tests/exp-w338b-bevelknob.mjs', target: TARGET,
+  const { J: R, recheck } = runSettled();
+  const out = { version: HARNESS_VERSION, libVersion: K.LIB_VERSION, lib343fVersion: F.LIB_VERSION, lib337Version: K.L337_VERSION, generator: 'tests/exp-w338b-bevelknob.mjs', target: TARGET,
     ruling: '原仮定者の回答(2026-11-15 —— 第138報の回答 5)「⑪は２倍角に対する補正だと思われるので、廃止せず経緯を見直し」・原仮定者の指示(2026-11-15 —— 第139報)・原仮定者の指示(2026-10-18 —— 第101報・第103報)・原仮定者の指示(2026-10-30 —— 第121報)・統括の検証項目 R350',
     decl: K.DECL, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第338便b', target: TARGET, code: CODE_ALL, inputs: [] }), {
-    harnessVersion: HARNESS_VERSION, stage: 'bevelknob', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない)', notClaim: NOT_CLAIM, floor: K.FLOOR,
+    harnessVersion: HARNESS_VERSION, stage: 'bevelknob', recheck, engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない)', notClaim: NOT_CLAIM, floor: K.FLOOR,
     floorNote: '丸めの残り: 同じ単位の尺度 × 1e-12 より小さい量は 0 と書く(向きの強さは ÷ s・差は ÷ 1・金星の和は打ち消しの前の尺度・有限差分の誤差は ÷ s f・合成の持ち上げは ÷ A)' });
   writeJson(OUT, out);
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), out.elapsedS + ' s');

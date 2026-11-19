@@ -1158,6 +1158,43 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
 #   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
 # ==== 第342便g の塊(ここまで)====
+# ==== 第343便a の塊(ここから)====
+# 第343便a(原仮定者の回答(2026-11-19 —— 第142報の回答 2・第143報)・統括の検証項目 R378 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report143_343a —— PHYSICS〔第343便a〕の
+#   回答 2・補足・第143報の原文・訂正の鎖 2 本・用語・並べて読む所 4 つ・出どころの書き方の訂正・AI_SPEC §270・CHANGELOG / lint.equations343a —— EQ の番号の連続・
+#   EQ-84〜EQ-86 と第342便の節の同じ字の式・抜粋は lib の定義の範囲・訂正の参照の行・EQ-78 の参照の行)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report143_343a lint.equations343a"
+# ==== 第343便a の塊(ここまで)====
+# ==== 第343便b の塊(ここから)====
+# 第343便b(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839・統括の検証項目 R379 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partytime343b —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験 4・見込みの式との差・T1 のコードの引用 / docs.partytime343b —— 正本の門と表 13 本が PHYSICS〔第343便b〕に逐語・文書)と、新しい段 partytime-343b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partytime343b docs.partytime343b"
+# ==== 第343便b の塊(ここまで)====
+# ==== 第343便c の塊(ここから)====
+# 第343便c(原仮定者の回答(2026-11-19 —— 第143報)AN853・統括の検証項目 R380 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.clockread343c —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・恒等式・極限の解析値と有限の列 / docs.clockread343c —— 正本の門と表 14 本が PHYSICS〔第343便c〕に逐語・文書)と、新しい段 clockread-343c の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockread343c docs.clockread343c"
+# ==== 第343便c の塊(ここまで)====
+# ==== 第343便d の塊(ここから)====
+# 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・統括の検証項目 R381 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.surfquad343d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・極の試験・3 つの差の最大・42 条件の弦の列が第342便c の正本と葉ごとに同じ・呼ぶだけ / docs.surfquad343d —— PHYSICS〔第343便d〕・AI_SPEC §273・CHANGELOG・段の行)と、新しい段 surfquad-343d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfquad343d docs.surfquad343d"
+# ==== 第343便d の塊(ここまで)====
+# ==== 第343便e の塊(ここから)====
+# 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843・AN844・統括の検証項目 R382 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spintransfer343e —— 経路の型の保存の零試験 7・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・平面の比の閉じた形と 2 分で戻した角の差・呼ぶだけ / docs.spintransfer343e —— 正本の門と表が PHYSICS〔第343便e〕に逐語・文書)と、新しい段 spintransfer-343e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spintransfer343e docs.spintransfer343e"
+# ==== 第343便e の塊(ここまで)====
+# ==== 第343便f の塊(ここから)====
+# 第343便f(統括の検証項目 R383・AN798・BL-132・BL-141 —— 道具と診断の器の判定の書き方だけ・html は変えない): 新設 3 本(behavior.judge3rest343f —— 第338便b の軸の上の行と門・
+#   第338便e の secularSame / lint.chainResume343f —— tools/regen-chain.mjs の --resume-gate・--preflight を作り物の印の木で / docs.tools343f)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f docs.tools343f"
+# ==== 第343便f の塊(ここまで)====
+# ==== 第343便g の塊(ここから)====
+# 第343便g(決断事項 AN807・AN822・統括の検証項目 R384 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutostate343g —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・入力の csv の sha・往復の差・第341便g の入力の列が第341便g の正本の数に戻る・呼ぶだけ / docs.plutostate343g —— 正本の門と表 12 本が
+#   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
+# ==== 第343便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
