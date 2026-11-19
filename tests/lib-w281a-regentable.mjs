@@ -2463,6 +2463,18 @@ export const REGEN_STEPS = [
     note: '第342便e: 零試験 7(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ・帳簿の恒等式・sin の型の 2 つの軸の合成・入力の拒否・分け方の端)/T1 天体 7 × 分け方 13/'
       + 'T2 則 3 × C_b の読み 3 × 結びつきの係数 3/T3 天体 7 のエネルギーと角運動量の帳簿/窓 117 行/T4 木星・金星 × 符号 2 × 則 3 × 向ける先 3' }),
   // ==== 第342便e の塊(ここまで)====
+  // ==== 第343便c の塊(ここから)====
+  // ---- 第343便c(原仮定者の回答(2026-11-19 —— 第143報)AN853「Bに変更する」・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN840・統括の検証項目 R380):
+  //   **時計の因子の引数の 2 つの読み(B = 当事者時間で測った速さ・A = 絶対時間で見た速さ)× 形の族・シュバルツシルト半径の重力の時計との並び・光の経路 = 質量 0 で無限速度の場合・ミューオンの寿命・
+  //   〔第342便b〕の連鎖律の項を入れた読み**(段 clockread-343c —— 正本 tests/out/clockread-343c.json・lib tests/lib-w343c-clockread.mjs —— 第342便b・第341便e の lib を import して呼ぶ。他の正本は読まない
+  //   —— 順序だけ after に第342便b の段と同じ 8 段)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第343便c の枝の実測 1 s
+  S('clockread-343c', 'node tests/exp-w343c-clockread.mjs', ['tests/out/clockread-343c.json'], 1, { secSource: 'w343c-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第342便b の段と同じ —— 第341便e の lib の import の先が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/clockread-343c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第343便c: 形の族 k 5 × B の読みの x(y)(y 6)と書き直した時計(x 3 × 2 枝)/r_s の静止の時計(ε 3 × ψ₀ 2)と形ごとの y = 1・x → 1 の値/'
+      + '2 つの読み × k 5 × 駆動のべき 3 の極限と有限の列 4・数値の走り 16 本/ミューオンの見込み 10 行/連鎖律の項を入れた読み(型 4)' }),
+  // ==== 第343便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
