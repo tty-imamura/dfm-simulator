@@ -1158,6 +1158,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
 #   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
 # ==== 第342便g の塊(ここまで)====
+# ==== 第343便b の塊(ここから)====
+# 第343便b(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839・統括の検証項目 R379 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partytime343b —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験 4・見込みの式との差・T1 のコードの引用 / docs.partytime343b —— 正本の門と表 13 本が PHYSICS〔第343便b〕に逐語・文書)と、新しい段 partytime-343b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partytime343b docs.partytime343b"
+# ==== 第343便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
