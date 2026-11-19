@@ -1195,6 +1195,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便g の塊(ここから)====
+# 第344便g(決断事項 AN807・AN822・AN885・統括の検証項目 R391 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutogm344g —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・入力の csv の sha・(1)(2) の列が第343便g の正本の数に戻る・往復の差・呼ぶだけ / docs.plutogm344g —— 正本の門と表 9 本が
+#   PHYSICS〔第344便g〕に逐語・文書)と、新しい段 plutogm-344g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutogm344g docs.plutogm344g"
+# ==== 第344便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
