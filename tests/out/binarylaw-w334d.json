@@ -3,7 +3,7 @@
  "libVersion": "w334d-binarylaw-lib-1",
  "generator": "tests/exp-w334d-binarylaw.mjs",
  "target": "beta/index.html",
- "targetSha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-11)「連星について —— 新しい引きずりや、傾いた自転軸でのフィットなどを検証する」「冥王星とカロンが、連星のヒントになると想定」「合わなくても、合わない量に法則性が見付かれば、進展したとする」・原仮定者の回答(2026-11-11 —— AN637)連星の残差は残す・η の依存を成果として記録・原仮定者の回答(2026-11-11 —— AN634)二体の同時発展の小さな診断・原仮定者の回答(2026-11-11 —— AN624)s_d は J を表す等価なパラメータ・統括の検証項目 R325",
  "decl": {
@@ -26410,31 +26410,31 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.148
+   "wallSec": 0.116
   },
   "books": {
-   "wallSec": 0.15
+   "wallSec": 0.118
   },
   "sync": {
-   "wallSec": 0.162
+   "wallSec": 0.131
   },
   "grid": {
-   "wallSec": 34.732
+   "wallSec": 30.232
   },
   "shape": {
-   "wallSec": 34.733
+   "wallSec": 30.234
   },
   "systems": {
-   "wallSec": 34.733
+   "wallSec": 30.234
   },
   "law": {
-   "wallSec": 37.442
+   "wallSec": 32.218
   },
   "tilt": {
-   "wallSec": 38.699
+   "wallSec": 33.173
   },
   "pluto": {
-   "wallSec": 38.701
+   "wallSec": 33.174
   }
  },
  "gates": {
@@ -26452,19 +26452,19 @@
   "pluto": true
  },
  "ok": true,
- "elapsedS": 40.309,
+ "elapsedS": 34.944,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便d",
   "target": "beta/index.html",
-  "targetSha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
-  "generatedAt": "2026-11-16T18:50:41.509Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:06:50.562Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687948,
-    "sha256": "e740255d01c4294b10f9779775695e4f813d5f4e2aa082270224e13705163f0b",
-    "mtime": "2026-11-16T18:42:13.826Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -26472,97 +26472,97 @@
     "file": "tests/exp-w334d-binarylaw.mjs",
     "bytes": 26970,
     "sha256": "a91008b4c41e9b55a573598e0ebb0d0c6aa88eb8029a82bf02d1bc022ee14082",
-    "mtime": "2026-11-16T18:42:14.078Z"
+    "mtime": "2026-11-11T20:04:37.049Z"
    },
    {
     "file": "tests/lib-w334d-binarylaw.mjs",
     "bytes": 34686,
     "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
-    "mtime": "2026-11-16T18:42:14.158Z"
+    "mtime": "2026-11-11T20:04:37.057Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-09T19:09:46.010Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-16T18:48:19.670Z"
+    "mtime": "2026-11-16T19:50:17.226Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-09T20:28:10.251Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-16T18:42:14.154Z"
+    "mtime": "2026-11-10T04:53:08.019Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-16T18:42:14.150Z"
+    "mtime": "2026-11-08T17:01:18.701Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-16T18:42:14.142Z"
+    "mtime": "2026-11-05T02:28:43.830Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-10-21T18:25:03.634Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-10-20T16:19:56.684Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-16T18:42:14.122Z"
+    "mtime": "2026-10-20T16:19:56.680Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-16T18:42:14.106Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-16T18:42:14.106Z"
+    "mtime": "2026-10-20T16:19:56.672Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-16T18:42:14.102Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-16T18:42:14.114Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "ef3ce532fb806455f3aa1b541200194f7068b5a1b9f270219601b246a3f95402",
@@ -26610,9 +26610,9 @@
    "abBody": false,
    "names": 1339,
    "segments": 1170,
-   "closureShare": 0.2879
+   "closureShare": 0.2877
   },
-  "scopeSha256": "a5880dca745bf431c5c71b3ebf84e64b9b1bc6b341956bdcd36e08a041e2f629",
+  "scopeSha256": "b949015e59994fb7694a921ebe159593573b0d5ecb8c401883c19ff16692943c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
