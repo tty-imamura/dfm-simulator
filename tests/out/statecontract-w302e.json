@@ -2,12 +2,12 @@
  "version": "w302e-statecontract-1",
  "generator": "tests/exp-w302e-statecontract.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "DECISIONS v60 AN305 ②⑧(新しい状態の鍵の登録の lint・前の本の持ち越しの検出)・統括の検証項目 R189",
  "books": 122,
  "steps": 3,
  "registry": {
-  "names": 648,
+  "names": 649,
   "regex": [
    "/^(inertialDrag|_rd|rdPrev)|^rdEpoch$/",
    "/^gLoc[A-Z]/",
@@ -24,7 +24,7 @@
   ]
  },
  "static": {
-  "assigned": 1023,
+  "assigned": 1024,
   "outside": 248,
   "outsideSeen": 218,
   "outsideStepChanged": 0,
@@ -62,7 +62,7 @@
   ]
  },
  "dynamic": {
-  "stepChangedKeys": 337,
+  "stepChangedKeys": 338,
   "leaks": [],
   "carried": []
  },
@@ -159,19 +159,19 @@
   "carried0": true
  },
  "ok": true,
- "elapsedS": 13.65,
+ "elapsedS": 14.613,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第302便e",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:19:28.528Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:28:26.997Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -247,9 +247,9 @@
    ],
    "names": 1343,
    "segments": 1174,
-   "closureShare": 0.289
+   "closureShare": 0.2889
   },
-  "scopeSha256": "83defc6dc8db6d090531fc158355a53a4c7d19a180a1dda7722f3bbb67fd5e1f",
+  "scopeSha256": "a7f8462ba5e5326281e065d48578829ab70400743d7a67c017dea30216ec8f5f",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

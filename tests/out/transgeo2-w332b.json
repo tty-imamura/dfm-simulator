@@ -3,7 +3,7 @@
  "libVersion": "w332b-transgeo2-lib-2",
  "generator": "tests/exp-w332b-transgeo2.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の補足(2026-11-10)「座標変換版の「回転引きずり」は、天体の半径を見ないので、「並進引きずり」に統合する。銀河のスケールでの geoPN=2 の近似と比較する」「R_d は観測半径とは別の値」(作業仮説 —— 診断で検査)・統括の検証項目 R316",
  "decl": {
@@ -591,7 +591,7 @@
      0,
      0.32726505614025614
     ],
-    "wallSec": 4.176,
+    "wallSec": 5.324,
     "ratioOverKF0": 1.0009282388892706,
     "profileRatio": [
      1.1152773945316414,
@@ -677,7 +677,7 @@
      0,
      0.33296343718509275
     ],
-    "wallSec": 4.119,
+    "wallSec": 4.084,
     "ratioOverKF0": 1.0000940824602904,
     "profileRatio": [
      1.1286423091295865,
@@ -762,7 +762,7 @@
      0,
      0
     ],
-    "wallSec": 1.517,
+    "wallSec": 1.503,
     "ratioOverKF0": 1,
     "profileRatio": [
      1,
@@ -88169,28 +88169,28 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.005
+   "wallSec": 0.004
   },
   "inputs": {
-   "wallSec": 0.005
+   "wallSec": 0.004
   },
   "engine": {
-   "wallSec": 10.376
+   "wallSec": 11.463
   },
   "book": {
-   "wallSec": 11.587
+   "wallSec": 12.908
   },
   "ngc": {
-   "wallSec": 12.121
+   "wallSec": 13.447
   },
   "decomp": {
-   "wallSec": 12.123
+   "wallSec": 13.449
   },
   "range": {
-   "wallSec": 12.126
+   "wallSec": 13.452
   },
   "uniform": {
-   "wallSec": 13.249
+   "wallSec": 14.644
   }
  },
  "gates": {
@@ -88207,19 +88207,19 @@
   "rangeDeclared": true
  },
  "ok": true,
- "elapsedS": 14.947,
+ "elapsedS": 16.34,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第332便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:19:12.659Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:28:22.333Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
@@ -88354,9 +88354,9 @@
    "abBody": false,
    "names": 1339,
    "segments": 1170,
-   "closureShare": 0.2879
+   "closureShare": 0.2877
   },
-  "scopeSha256": "b02d177a2533693c2a6467503fc59c7b619b76e91b207d1b4bf1d3a9ef346b3c",
+  "scopeSha256": "9d4669c588f3025dd1a2c46f88bac3559aec3d9819bd9e1335801ca42e317734",
   "scopeComplete": true,
   "inputsStable": [
    {
