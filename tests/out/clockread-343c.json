@@ -1,6 +1,6 @@
 {
  "version": "w343c-clockread-1",
- "libVersion": "w343c-clockread-lib-1",
+ "libVersion": "w343c-clockread-lib-2",
  "generator": "tests/exp-w343c-clockread.mjs",
  "target": "tests/lib-w343c-clockread.mjs",
  "ruling": "原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN840「…主とする案は、無限速度で当事者時間が止まり、局所光速での時間の速さは、シュバルツシルト半径の重力における時間の速さを参考にする。光の経路については、無限速度の場合を確認する」・原仮定者の補足(2026-11-19 —— 第142報の回答 2 の補足)「光の経路は、質量ゼロで無限速度の慣性移動の場合を確認する」・原仮定者の回答(2026-11-19 —— 第143報)AN853「Bに変更する」・統括の検証項目 R380",
@@ -1999,25 +1999,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.068
+   "wallSec": 0.042
   },
   "t1": {
-   "wallSec": 0.069
+   "wallSec": 0.043
   },
   "t2": {
-   "wallSec": 0.069
+   "wallSec": 0.043
   },
   "t3": {
-   "wallSec": 0.369
+   "wallSec": 0.242
   },
   "t4": {
-   "wallSec": 0.37
+   "wallSec": 0.242
   },
   "t5": {
-   "wallSec": 0.379
+   "wallSec": 0.264
   },
   "t6": {
-   "wallSec": 0.39
+   "wallSec": 0.27
   }
  },
  "gates": {
@@ -2033,83 +2033,83 @@
   "t5Chain": true
  },
  "ok": true,
- "elapsedS": 1.178,
+ "elapsedS": 1.399,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第343便c",
   "target": "tests/lib-w343c-clockread.mjs",
-  "targetSha256": "404e8ec76982eac85553cc76ac0f7dea77c1321253711463cee6e97ae5313641",
-  "generatedAt": "2026-11-19T07:52:03.578Z",
+  "targetSha256": "5ef6adff89c3e6a2e7864a6762b2f4ff99a5a976ad79c62e1e5bbc5550e029fa",
+  "generatedAt": "2026-11-19T13:53:44.107Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w343c-clockread.mjs",
     "bytes": 10554,
     "sha256": "b66e9c32b92d7ef06bcc1b5d167fa78daa07b67fb4c13fe84c3491c7e3ab4d01",
-    "mtime": "2026-11-19T07:52:02.336Z"
+    "mtime": "2026-11-19T13:44:08.508Z"
    },
    {
     "file": "tests/lib-w343c-clockread.mjs",
-    "bytes": 25832,
-    "sha256": "404e8ec76982eac85553cc76ac0f7dea77c1321253711463cee6e97ae5313641",
-    "mtime": "2026-11-19T07:52:02.335Z"
+    "bytes": 26564,
+    "sha256": "5ef6adff89c3e6a2e7864a6762b2f4ff99a5a976ad79c62e1e5bbc5550e029fa",
+    "mtime": "2026-11-19T13:53:28.411Z"
    },
    {
     "file": "tests/lib-w342b-clockstop.mjs",
     "bytes": 22287,
     "sha256": "56493fc40482f47eaaca8993698ea249d7eacecf6db81a75abd31e602d23346b",
-    "mtime": "2026-11-19T07:28:01.238Z"
+    "mtime": "2026-11-19T13:44:08.592Z"
    },
    {
     "file": "tests/lib-w341e-lightmass.mjs",
     "bytes": 24950,
     "sha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
-    "mtime": "2026-11-19T07:13:15.491Z"
+    "mtime": "2026-11-19T13:44:08.592Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-19T07:13:15.467Z"
+    "mtime": "2026-11-19T13:44:08.576Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-19T07:13:15.463Z"
+    "mtime": "2026-11-19T13:44:08.576Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-19T07:13:15.463Z"
+    "mtime": "2026-11-19T13:44:08.576Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-19T07:13:15.463Z"
+    "mtime": "2026-11-19T13:44:08.576Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
     "bytes": 7760,
     "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
-    "mtime": "2026-11-19T07:13:15.491Z"
+    "mtime": "2026-11-19T13:44:08.592Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T07:13:15.411Z"
+    "mtime": "2026-11-19T13:44:08.528Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-19T07:13:15.487Z"
+    "mtime": "2026-11-19T13:44:08.588Z"
    }
   ],
-  "codeSha256": "49406764c045d4c2adcaffc2eabe2629c38a7e8a49a2b8997b7c9ef381ee6e1e",
+  "codeSha256": "0e6f013dbc3877691c002c3e72bcd608b13145abf3ef04abbae3016a24a28f07",
   "harnessVersion": "w343c-clockread-1",
   "stage": "clockread",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第342便b と第341便e の器を呼ぶ)",
