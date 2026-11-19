@@ -110383,7 +110383,7 @@ function view340aOf341a(eq) {
         const js = (x) => JSON.stringify(x);
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・格子・純関数の場面
-        if (!(L.LIB_VERSION === 'w342c-oblateapprox-lib-1' && X.HARNESS_VERSION === 'w342c-oblateapprox-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        if (!(L.LIB_VERSION === 'w342c-oblateapprox-lib-2' && X.HARNESS_VERSION === 'w342c-oblateapprox-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
         const DD = L.DECL;
         if (!(js(DD.fGrid) === js([0.05, 0.098, 0.2, 0.3, -0.1]) && js(DD.dGrid) === js([1.1, 1.24, 1.5, 1.95, 2, 2.27, 2.33]) && js(DD.sGrid) === js([0.01, 0.1]) && DD.ref.nPts === 42
           && js(DD.dirLevels) === js([[4, 8], [8, 16], [16, 32]]) && js(DD.gKinds) === js(['delta', 'sinDelta', 'axial', 'deltaOverTheta']) && js(DD.nGrid) === js([0, 1, 2, 3]) && js(DD.fitAt) === js({ f: 0.098, d: 1.5, s: 0.01 })))
@@ -111761,6 +111761,155 @@ function view342fOf343a(eq) {
   })();   // 第310便c(heap)
 }
 // ==== 第343便b の塊(ここまで)====
+
+// ==== 第343便d の塊(ここから —— behavior.surfquad343d・docs.surfquad343d の 2 ブロック。root は SKIP)====
+// ---- 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841「推奨で進める」・AN842「推奨で進める」・統括の検証項目 R381): **扁平の源の h1 の場を物理の表面にだけ点を置く求積(発散定理)で数え、
+// ----   弦の向きの積分(第342便c)と 61440 点の表(第341便d)と並べる・極の例外の直し・適用の境目**(新設 —— 器 tests/exp-w343d-surfquad.mjs〔html を読まない〕・lib tests/lib-w343d-surfquad.mjs・
+// ----   正本 tests/out/surfquad-343d.json・入力のファイルは第341便d の正本と第342便c の正本〔読むだけ〕)。世代切替 = beta 対象 ∧ 器・lib がある。
+// ----   behavior.surfquad343d(正本と照合 —— html を読まない): ① 版・格子・純関数の場面 5 ② 器の runAll を走らせ直して inputs・pure・t1・t2・t4・t5 が正本と同じ(第338便c の recheckRun)
+// ----     ③ 極の真上と真下で弦が例外を投げない・極の試験の門・3 つの差の最大・42 条件の弦の列が第342便c の正本と葉ごとに同じ(走らせ直し)④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343d-surfquad.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343d-surfquad.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'surfquad-343d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib))) {
+    console.log('SKIP behavior.surfquad343d(第343便d の扁平の源の表面の求積の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/surfquad-343d.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        const C342 = await import('file://' + path.join(ROOT, 'tests', 'lib-w342c-oblateapprox.mjs'));
+        // ① 版・格子・純関数の場面
+        if (!(L.LIB_VERSION === 'w343d-surfquad-lib-1' && X.HARNESS_VERSION === 'w343d-surfquad-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        const DD = L.DECL;
+        if (!(js(DD.surfLevels) === js([[64, 128], [96, 192]]) && DD.surfMain === 1 && DD.ref.nPts === 42 && js(DD.pole.fGrid) === js([0, 0.098, -0.1]) && DD.pole.z === 2 && DD.pole.side === 1e-6
+          && js(DD.edge.fGrid) === js([0.098, 0.3, -0.1]) && js(DD.edge.dGrid) === js([1.1, 2]) && js(DD.edge.sGrid) === js([0.01, 0.1, 0.5, 0.9, 0.99, 1]) && DD.chordMain === 1 && DD.chordFine === 2))
+          bad.push('① 格子(表面の刻み 2・42 条件・極の試験 3 × 4 点・境目 3 × 2 × 6)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 5) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・42 条件・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(球の源で弦と同じ場・体積・上下の対称・球で比 1・入力の拒否)`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const inp = X.readInputs(ROOT), parts = ['inputs', 'pure', 't1', 't2', 't4', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(inp); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合・葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ 極の例外の直し・極の試験・3 つの差・42 条件の不変
+        let poleThrows = 0; for (const x of [[0, 0, 2], [0, 0, -2]]) { try { const r = C342.chordField(1, 1, x, 16, 32); if (!(r.v.every(Number.isFinite) && Math.abs(r.volRatio - 1) <= 1e-12)) poleThrows++; } catch (e) { poleThrows++; } }
+        if (poleThrows) bad.push('③ 弦の向きの積分が極の真上と真下で例外か数でない(' + poleThrows + ')');
+        const P = J.t1.poles;
+        if (!(P.length === 3 && P.every((o) => o.contChord <= DD.poleTol && o.contSurf <= DD.poleTol && o.agreeMax <= DD.agreeTol && o.volErr <= 1e-9))) bad.push('③ 極の試験(連続・弦と表面・体積)');
+        const S2 = J.t2.summary;
+        if (!(S2.n === 42 && S2.a.value <= 1e-8 && S2.b512.value <= 1e-6 && S2.b128.value <= 1e-4 && S2.chordCloser === 42)) bad.push('③ 3 つの差の欄(表面の刻み・弦 128・512・弦の方が近い点の数)');
+        // 作り直しは相対 1e-12 の内(Node の版の違いで Math の末尾の 1 bit が動く)・正本の側は器が同じ Node で数えた完全一致の数 0
+        const U = X.unchanged42(inp);
+        if (!(U.nDiffTol === 0 && U.nLeaf === 630 && U.libVersionNow === C342.LIB_VERSION && U.chordLibVersion === C342.LIB_VERSION && J.unchanged42 && J.unchanged42.nDiff === 0 && J.unchanged42.nDiffTol === 0)) bad.push('③ 42 条件の弦の列が第342便c の正本と葉ごとに同じでない(段 oblateapprox-342c と surfquad-343d を走らせ直す)');
+        cases.push(`③ 極の真上と真下で弦が数を返す・極の試験 ${P.length} 扁平率・(a) ${S2.a.value.toExponential(1)}・(b) ${S2.b128.value.toExponential(2)}(512 で ${S2.b512.value.toExponential(1)})・(c) ${S2.c.value.toExponential(2)}・42 条件の弦の列 ${U.nLeaf} 葉が第342便c の正本と同じ(正本: 完全一致・作り直し: 相対 1e-12 の内 —— 完全一致でない葉 ${U.nDiff})`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w343d-surfquad.mjs'), th = rd('tests/exp-w343d-surfquad.mjs');
+        const imps = [...new Set([...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]))].sort();
+        if (!(js(imps) === js(['lib-w340h-thin.mjs', 'lib-w341d-oblatering.mjs', 'lib-w342c-oblateapprox.mjs']) && !/loadHtml|index\.html/.test(tl + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl)
+          && !/Math\.random/.test(tl + th) && !/Math\.acos/.test(tl)))
+          bad.push('④ 呼ぶだけ(lib の import は 3 本の lib だけ・html を読まない・ネットへ取りに行かない・Math.random なし・薄い角を acos で求めない)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 3 本の lib だけ・html を読まない・acos なし`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.surfquad343d', bad.length === 0,
+      `**扁平の源の表面の求積(発散定理)と弦の向きの積分・61440 点の表の並べの作り直し**(第343便d・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・R381 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第343便d: docs.surfquad343d は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.surfquad343d: ① 正本の門・版・来歴(target は lib・入力のファイル 2 本)・② の表が正本の数 ② PHYSICS〔第343便d〕の位置(〔第342便g〕の節の後・〔第328便 — 統括〕と「## 7.」の前)と必須の語・
+// ----     ノブの表(6 列)の状態の欄が 1 語 ③ AI_SPEC §273・CHANGELOG(見出しより後・第342便(統括)の行より前)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343d-surfquad.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343d-surfquad.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'surfquad-343d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib))) {
+    console.log('SKIP docs.surfquad343d(第343便d の扁平の源の表面の求積の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第343便d — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第342便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/surfquad-343d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'surfquad'
+        && J.target === 'tests/lib-w343d-surfquad.mjs' && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 2 && J.meta.inputs[0].file === 'tests/out/oblatering-341d.json' && J.meta.inputs[1].file === 'tests/out/oblateapprox-342c.json'))
+        bad.push('① 版・来歴(target は lib・入力のファイルは第341便d と第342便c の正本 2 本)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL)) bad.push('① 正本の宣言が lib と違う(器を走らせ直す)');
+      const sat = J.t2.rows.filter((r) => r.f === 0.098 && r.s === 0.01);
+      for (const r of sat) if (!(sec.indexOf('| ' + r.d + ' | ' + r.refBest.toFixed(8) + ' | ' + r.refLast.toFixed(8) + ' | ' + r.chord128.toFixed(8) + ' | ' + r.chord512.toFixed(8) + ' | ' + r.surf.toFixed(8) + ' |') >= 0)) bad.push('① PHYSICS〔第343便d〕② の表の ' + r.d + ' の行が正本と違う');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}・入力 2 本・② の表 ${sat.length} 行が正本の数`);
+    }
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('② PHYSICS〔第343便d〕が無いか〔第342便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841', 'AN842', '原仮定者の回答(2026-11-18 —— 第142報)AN800', 'R381', 'tests/exp-w343d-surfquad.mjs', 'tests/out/surfquad-343d.json', 'tests/lib-w343d-surfquad.mjs', 'surfquad-343d',
+      'tests/lib-w342c-oblateapprox.mjs', 'w342c-oblateapprox-lib-2', 'tests/out/oblatering-341d.json', 'tests/out/oblateapprox-342c.json', '61440', '点は増やしていない', '発散定理', 'div_y[(R/r²) H] = H div_y(R/r²) = H/r²',
+      '表面の刻みの差は厳密な誤差の上限ではない', '極の真上と真下', '補助の軸', '場のベクトルと体積', '葉ごとに同じ', '統括の参考の試作', '不用の見込み', '向きの目安', '廃止はしない', '当時の表のまま', '数えていない', '源の内', '密度の偏り',
+      '一様な密度', '逆二乗', '文献の値・未照合', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '決断事項の候補', '次の便へ', 'behavior.surfquad343d', 'docs.surfquad343d', '書かないこと', 'atan2', '原因は言い切らない'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第343便d〕に「' + w + '」が無い');
+    const kt0 = sec.indexOf('| ノブの名 |'), khead = kt0 >= 0 ? sec.slice(kt0).split('\n')[0] : '', ktab = kt0 >= 0 ? sec.slice(kt0).split('\n\n')[0].split('\n').slice(2) : [];
+    const states = ktab.map((l) => l.split('|').map((x) => x.trim()).filter((x, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(khead.split('|').length - 2 === 6 && ktab.length === 3 && ktab.every((l) => l.split('|').length - 2 === 6 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x)) && states.includes('不用の見込み')))
+      bad.push('② ノブの表(6 列・3 行・行の中に縦棒を書かない・状態の欄が 1 語・不用の見込みの行)(' + states.join('・') + ')');
+    cases.push('② 節の位置・必須の語 ' + want.length + '・ノブの表 ' + ktab.length + ' 行(6 列)の状態の欄');
+    const a0 = AS.indexOf('\n## 273. 第343便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/surfquad-343d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R381') >= 0 && ai.indexOf('AN841') >= 0 && ai.indexOf('AN842') >= 0)) bad.push('③ AI_SPEC §273(正本・SYSTEM_PROMPT・R381・AN841・AN842)');
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)[((]/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n'), i343 = cls.findIndex((l) => l.indexOf('**第343便d**') >= 0), i342u = cls.findIndex((l) => l.indexOf('**第342便(統括') >= 0);
+    const cl343 = i343 >= 0 ? cls[i343] : '';
+    if (!(i343 > 0 && (i342u < 0 || i343 < i342u) && cl343.indexOf('tests/exp-w343d-surfquad.mjs') >= 0 && cl343.indexOf('surfquad-343d') >= 0 && cl343.indexOf('第142報の回答 2') >= 0 && cl343.indexOf('R381') >= 0)) bad.push('③ CHANGELOG の第343便d の行(見出しより後・第342便(統括)の行より前)');
+    if (!(/S\('surfquad-343d', 'node tests\/exp-w343d-surfquad\.mjs', \['tests\/out\/surfquad-343d\.json'\]/.test(RT) && RT.indexOf('// ==== 第343便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 surfquad-343d(塊)');
+    if (GI.indexOf('!tests/out/surfquad-343d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第343便d の塊(ここから)====') >= 0 && /behavior\.surfquad343d/.test(PM) && /docs\.surfquad343d/.test(PM))) bad.push('③ post-merge の ③′ に第343便d の塊');
+    cases.push('③ AI_SPEC §273・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT340 = [/κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第343便d の書かない語(引用符「」の外で —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・弦の積分が正しいと分かった・表の誤りが分かった・扁平の効きが導けた・落ち着いた桁の言い換えの語(収束)
+    const W343 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっか分といし正が分積の弦', 'たっか分がり誤の表', 'たけ導がき効の平扁', '束収'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第343便d〕', sec], ['AI_SPEC §273', ai], ['CHANGELOG の第343便d の行', cl343], ['器', rd('tests/exp-w343d-surfquad.mjs')], ['lib', rd('tests/lib-w343d-surfquad.mjs')]];
+    for (const [nm, tx] of texts) {
+      const doc = /PHYSICS|AI_SPEC|CHANGELOG/.test(nm);
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (doc) for (const w of W343) if (strip(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      for (const re of NOT340) if (re.test(tx)) bad.push('④ ' + nm + ' に旧い記号 ' + re.source);
+      if (doc) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (doc && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib)');
+    add('docs.surfquad343d', bad.length === 0,
+      `**扁平の源の表面の求積と弦・表の並べの文書**(第343便d・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・R381): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第343便d の塊(ここまで)====
 
 // ==== 第343便e の塊(ここから —— behavior.spintransfer343e・docs.spintransfer343e の 2 ブロック。root は SKIP)====
 // ---- 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843「パワーボール効果は、軸引きずりで回転が伝わる経路として見る…」・AN844「…釣り合いが、太陽系の軸の120°」・統括の検証項目 R382):

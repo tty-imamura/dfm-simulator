@@ -23,7 +23,7 @@
 import { twistAxis, muOf } from './lib-w338b-bevelknob.mjs';
 import { thinAngle } from './lib-w340h-thin.mjs';
 
-export const LIB_VERSION = 'w342c-oblateapprox-lib-1';
+export const LIB_VERSION = 'w342c-oblateapprox-lib-2';   // lib-2(第343便d): chordField の補助の軸の切り替え(極の真上と真下の例外の直し)
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => Math.hypot(a[0], a[1], a[2]);
 const crs = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
@@ -116,7 +116,9 @@ export function gaussLegendre(n) {
 export function chordField(a, c, x, nt, np) {
   if (!(nt >= 1 && np >= 1)) throw new RangeError('chordField: 向きの数 ≥ 1');
   const r = nrm(x), e0 = [-x[0] / r, -x[1] / r, -x[2] / r];
-  let e1 = [0, 0, 1]; { const dd = dot(e1, e0); e1 = [e1[0] - dd * e0[0], e1[1] - dd * e0[1], e1[2] - dd * e0[2]]; const m = nrm(e1); e1 = [e1[0] / m, e1[1] / m, e1[2] / m]; }
+  // 第343便d(統括の検証項目 R381・lib-2): 補助の軸 ẑ が視線 ê0 と平行に近い(|ê0 の z の成分| > 0.9 —— 極の真上と真下)ときは x̂ に切り替える(切り替えないと直交の成分が 0 になり円錐の係数が壊れる)。
+  //   42 条件(高さ 0.01・0.1)と純関数の場面の点は |ê0 の z| ≤ 0.1 なので ẑ のまま —— 数は lib-1 と同じ
+  let e1 = Math.abs(e0[2]) > 0.9 ? [1, 0, 0] : [0, 0, 1]; { const dd = dot(e1, e0); e1 = [e1[0] - dd * e0[0], e1[1] - dd * e0[1], e1[2] - dd * e0[2]]; const m = nrm(e1); e1 = [e1[0] / m, e1[1] / m, e1[2] / m]; }
   const e2 = crs(e0, e1), A = (n) => [n[0] / a, n[1] / a, n[2] / c];
   const X = [x[0] / a, x[1] / a, x[2] / c], k1 = dot(X, X) - 1;
   if (!(k1 > 0)) throw new RangeError('chordField: 外の点でない');

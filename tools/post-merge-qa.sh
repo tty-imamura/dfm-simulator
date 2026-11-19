@@ -1169,6 +1169,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report143_343a lint.equations343a"
 #   第338便c の recheckRun で正本と照合・零試験 4・見込みの式との差・T1 のコードの引用 / docs.partytime343b —— 正本の門と表 13 本が PHYSICS〔第343便b〕に逐語・文書)と、新しい段 partytime-343b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partytime343b docs.partytime343b"
 # ==== 第343便b の塊(ここまで)====
+# ==== 第343便d の塊(ここから)====
+# 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・統括の検証項目 R381 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.surfquad343d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・極の試験・3 つの差の最大・42 条件の弦の列が第342便c の正本と葉ごとに同じ・呼ぶだけ / docs.surfquad343d —— PHYSICS〔第343便d〕・AI_SPEC §273・CHANGELOG・段の行)と、新しい段 surfquad-343d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfquad343d docs.surfquad343d"
+# ==== 第343便d の塊(ここまで)====
 # ==== 第343便e の塊(ここから)====
 # 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843・AN844・統括の検証項目 R382 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spintransfer343e —— 経路の型の保存の零試験 7・
 #   器を走らせ直して第338便c の recheckRun で正本と照合・平面の比の閉じた形と 2 分で戻した角の差・呼ぶだけ / docs.spintransfer343e —— 正本の門と表が PHYSICS〔第343便e〕に逐語・文書)と、新しい段 spintransfer-343e
