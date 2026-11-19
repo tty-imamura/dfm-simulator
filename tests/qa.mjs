@@ -111288,6 +111288,173 @@ function view341aOf342f(eq) {
 }
 // ==== 第342便g の塊(ここまで)====
 
+// ==== 第343便e の塊(ここから —— behavior.spintransfer343e・docs.spintransfer343e の 2 ブロック。root は SKIP)====
+// ---- 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843「パワーボール効果は、軸引きずりで回転が伝わる経路として見る…」・AN844「…釣り合いが、太陽系の軸の120°」・統括の検証項目 R382):
+// ----   **目標と経路を分けた帳簿・経路の型の保存の零試験・釣り合いが 120° になる重みの比**(新設 —— 器 tests/exp-w343e-spintransfer.mjs〔html を読まない〕・lib tests/lib-w343e-spintransfer.mjs・
+// ----   文書の lib tests/lib-w343e-spintransferdoc.mjs・正本 tests/out/spintransfer-343e.json・入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.spintransfer343e(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・格子・保存の零試験 7 を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ ③ 平面の比を閉じた形で作り直した差・2 分で戻した角の差 0・経路の型の行(総トルク 0・
+// ----     h が自転の軸なら自転の仕事 0・散逸の熱 ≥ 0)・第342便e の残り τ∥ と同じ ④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343e-spintransfer.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343e-spintransfer.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343e-spintransferdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'spintransfer-343e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.spintransfer343e(第343便e の目標と経路の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, P342 = null, R338 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); P342 = await import('file://' + path.join(ROOT, 'tests', 'lib-w342e-powerball.mjs'));
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.spintransfer343e ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spintransfer-343e.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・格子・零試験(ほかの lib の版は文字で期待しない —— 読んで比べる)
+        if (!(L.LIB_VERSION === 'w343e-spintransfer-lib-1' && X.HARNESS_VERSION === 'w343e-spintransfer-1' && D0.DOC_VERSION === 'w343e-spintransferdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        if (!(js(L.DECL.targetSigns) === js(['rev', 'fwd']) && js(L.DECL.magReadings) === js(['m1', 'm2']) && js(L.DECL.paths) === js(['P1', 'P2', 'P3']) && js(L.DECL.laws) === js(['k1', 'k2', 'abs2'])
+          && js(L.DECL.galPlace) === js([0, 180]) && L.DECL.sunDeg === 112.8 && L.DECL.balDeg === 120 && L.DECL.thetaGrid.length === 9 && L.DECL.bodies.length === 7 && L.DECL.highFrac === 0.1))
+          bad.push('① 格子(向ける先の符号・目標の回転の大きさの読み・経路の型・則・銀河の向ける先・112.8°・120°・角・天体)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・保存の零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(例・内部の軸・h が自転の軸・向ける力・散逸の熱・駆動 0・拒否)`);
+        // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
+        const parts = ['pure', 't1', 'path', 't2', 'win', 't3', 't3side', 't4', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ 平面の比の閉じた形(QA の中で別に書く)・2 分で戻した角・経路の型の行・第342便e の残り
+        const d2r = Math.PI / 180, fq = (law, x) => (law === 'k1' ? Math.sin(x) : law === 'k2' ? Math.sin(2 * x) : (Math.sin(x) === 0 ? 0 : Math.abs(Math.sin(2 * x)) * Math.sign(Math.sin(x))));
+        let worst = 0;
+        for (const r of J.t3) { const fg = fq(r.law, (r.gal - r.thetaDeg) * d2r), want = Math.abs(fg) < 1e-15 ? null : -fq(r.law, (112.8 - r.thetaDeg) * d2r) / fg;
+          if (want === null ? r.ratio !== null : !(Math.abs(r.ratio - want) <= 1e-12 * Math.max(1, Math.abs(want)))) bad.push('③ 平面の比 ' + r.law + '・' + r.gal + '°・' + r.thetaDeg + '°');
+          else if (want !== null) worst = Math.max(worst, Math.abs(r.ratio - want)); }
+        const r120 = (law, g) => J.t3.find((r) => r.law === law && r.gal === g && r.thetaDeg === 120).ratio;
+        if (!(Math.abs(r120('k1', 0) + 0.14472) < 5e-6 && Math.abs(r120('k1', 180) - 0.14472) < 5e-6 && Math.abs(r120('k2', 0) - 0.28716) < 5e-6)) bad.push('③ 120° の比(単純な角の差 ∓0.14472・符号つきの 2 倍角 0.28716 —— 統括の検証項目の値)');
+        if (!J.t3.every((r) => r.backErrDeg === null || r.backErrDeg === 0)) bad.push('③ 2 分で戻した角が置いた角と違う');
+        if (!(J.path.every((r) => r.totT === 0 && (r.path === 'P3' ? r.heat >= 0 : r.heat === 0)) && J.path.filter((r) => r.h === 'spin').every((r) => r.spinW === 0 && r.spinRateYr === 0)
+          && J.path.filter((r) => r.path === 'P2').every((r) => r.spinW === 0))) bad.push('③ 経路の型の行(総トルク 0・h が自転の軸なら自転の仕事 0・向ける力の自転の仕事 0・散逸の熱 ≥ 0)');
+        const T342 = P342.t3Table(P342.makeCtx());
+        if (!J.t2.every((r) => { const p = T342.find((x) => x.id === r.id); return p && Math.abs(r.tauPar - p.tauParMax) <= 1e-12 * p.tauParMax; })) bad.push('③ 第342便e の残り τ∥ と違う');
+        cases.push(`③ 平面の比の閉じた形との差の最大 ${worst === 0 ? '0' : worst.toExponential(1)}・120° の比・2 分で戻した角の差 0・経路の型の行 ${J.path.length}・第342便e の残り`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w343e-spintransfer.mjs'), th = rd('tests/exp-w343e-spintransfer.mjs'), td = rd('tests/lib-w343e-spintransferdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const called = ['tests/lib-w342e-powerball.mjs', 'tests/lib-w340f-heatsource.mjs', 'tests/lib-w337c-tidelock.mjs', 'tests/lib-w341g-plutocontrol.mjs', 'tests/lib-w337j-spinorbit.mjs', 'tests/lib-w341f-gyroheat.mjs'];
+        if (!(js(imps) === js(['lib-w337c-tidelock.mjs', 'lib-w337j-spinorbit.mjs', 'lib-w340f-heatsource.mjs', 'lib-w341f-gyroheat.mjs', 'lib-w341g-plutocontrol.mjs', 'lib-w342e-powerball.mjs'])
+          && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w343e-spintransfer.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/Math\.acos/.test(tl + th)
+          && !/w343e/.test(called.map(rd).join(''))))
+          bad.push('④ 呼ぶだけ(lib の import は 6 本・器は 3 本・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 6 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.spintransfer343e', bad.length === 0,
+      `**目標と経路を分けた帳簿・経路の型の保存の零試験・釣り合いが 120° になる重みの比の作り直し**(第343便e・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843・AN844・R382 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第343便e: docs.spintransfer343e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.spintransfer343e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 表 10 本が PHYSICS〔第343便e〕に逐語 ③ 節の位置(〔第342便g〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列・状態の欄が 1 語・行に縦棒の逃がしなし)・
+// ----     AI_SPEC §274・CHANGELOG(見出しより後・第342便(統括)の行より前)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343e-spintransfer.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343e-spintransfer.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343e-spintransferdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'spintransfer-343e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.spintransfer343e(第343便e の目標と経路の帳簿の候補の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.spintransfer343e ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第343便e — '), i7 = PH.indexOf('\n## 7. 論文'), il = PH.indexOf('〔第342便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && il >= 0 && il < i0 && iu > i0)) bad.push('PHYSICS〔第343便e〕が無いか〔第342便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/spintransfer-343e.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'spintransfer'
+        && J.target === 'tests/lib-w343e-spintransfer.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第343便e〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第343便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-19 —— 第142報の回答 2)', 'AN843', 'AN844', 'AN803', 'AN711', 'AN720', 'AN790', 'AN712', 'AN207', 'R382', 'パワーボール効果', '目標', '経路', 'ジャイロトルク',
+      'tests/exp-w343e-spintransfer.mjs', 'tests/out/spintransfer-343e.json', 'tests/lib-w343e-spintransfer.mjs', 'spintransfer-343e', '内部の軸', '向ける力', '散逸のトルク', '保存の零試験',
+      '供給', '自転の仕事', '軌道の仕事', '熱', '残り', '112.8°', '120°', '単純な角の差', '符号つきの 2 倍角', '赤道面の逆回転', '黄道の極', '不変面の極', '14.257', '緩和の型', '第342便e',
+      '文献の値・未照合', '3 つ', '理想の直交するトルク', '仕事率',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第142報への枝の答え', '題カードの恒久の条件との照合',
+      '決断事項の候補', '原文の文', '読み', '次の便へ', 'behavior.spintransfer343e', 'docs.spintransfer343e', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第343便e〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 5
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 274. 第343便e'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/spintransfer-343e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R382') >= 0))
+      bad.push('③ AI_SPEC §274(正本・SYSTEM_PROMPT・候補・R382)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const k343e = cls.findIndex((l) => l.indexOf('**第343便e**') >= 0), k342 = cls.findIndex((l) => l.indexOf('**第342便(統括') >= 0), cl343e = k343e >= 0 ? cls[k343e] : '';
+    if (!(k343e > 0 && (k342 < 0 || k343e < k342) && cl343e.indexOf('tests/exp-w343e-spintransfer.mjs') >= 0 && cl343e.indexOf('spintransfer-343e') >= 0 && cl343e.indexOf('第142報の回答 2') >= 0 && cl343e.indexOf('R382') >= 0))
+      bad.push('③ CHANGELOG の第343便e の行(見出しより後・第342便(統括)の行より前)');
+    if (!(/S\('spintransfer-343e', 'node tests\/exp-w343e-spintransfer\.mjs', \['tests\/out\/spintransfer-343e\.json'\]/.test(RT) && RT.indexOf('// ==== 第343便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 spintransfer-343e(塊)');
+    if (GI.indexOf('!tests/out/spintransfer-343e.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第343便e の塊(ここから)====') >= 0 && /behavior\.spintransfer343e/.test(PM) && /docs\.spintransfer343e/.test(PM))) bad.push('③ post-merge の ③′ に第343便e の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §274(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge の ③′');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第343便の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・収束・パワーボール効果で自転が導けた・120° が導けた・釣り合いの比が分かった・
+    //   金星と木星の内部熱が出た・拮抗の機構が決まった・自転が説明できた
+    const W343 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導が転自で果効ルーボーワパ', 'たけ導が °021', 'たっか分が比のい合り釣', 'た出が熱部内の星木と星金', 'たっま決が構機の抗拮', 'たきで明説が転自'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第343便e〕', sec], ['AI_SPEC §274', ai], ['CHANGELOG の第343便e の行', cl343e], ['器', rd('tests/exp-w343e-spintransfer.mjs')], ['lib', rd('tests/lib-w343e-spintransfer.mjs')], ['文書の lib', rd('tests/lib-w343e-spintransferdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W343)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.spintransfer343e', bad.length === 0,
+      `**目標と経路を分けた帳簿と釣り合いが 120° になる重みの比の文書**(第343便e・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843・AN844・R382 —— 候補の表・ノブの範囲・配置): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第343便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
