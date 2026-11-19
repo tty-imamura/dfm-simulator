@@ -1158,6 +1158,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report142_342f lint.equations342f"
 #   lint.tauSurfPairs342g —— tau と tauSurf を書く所の対 / docs.surfclockAccept342g —— PHYSICS〔第342便g〕・AI_SPEC §264・CHANGELOG・ヘルプの文)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPairs342g docs.surfclockAccept342g"
 # ==== 第342便g の塊(ここまで)====
+# ==== 第343便a の塊(ここから)====
+# 第343便a(原仮定者の回答(2026-11-19 —— 第142報の回答 2・第143報)・統括の検証項目 R378 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report143_343a —— PHYSICS〔第343便a〕の
+#   回答 2・補足・第143報の原文・訂正の鎖 2 本・用語・並べて読む所 4 つ・出どころの書き方の訂正・AI_SPEC §270・CHANGELOG / lint.equations343a —— EQ の番号の連続・
+#   EQ-84〜EQ-86 と第342便の節の同じ字の式・抜粋は lib の定義の範囲・訂正の参照の行・EQ-78 の参照の行)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report143_343a lint.equations343a"
+# ==== 第343便a の塊(ここまで)====
 # ==== 第343便b の塊(ここから)====
 # 第343便b(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839・統括の検証項目 R379 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partytime343b —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・零試験 4・見込みの式との差・T1 のコードの引用 / docs.partytime343b —— 正本の門と表 13 本が PHYSICS〔第343便b〕に逐語・文書)と、新しい段 partytime-343b
