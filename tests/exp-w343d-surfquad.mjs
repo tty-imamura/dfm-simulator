@@ -85,7 +85,7 @@ export function partT2(inp) {
 export function partT4() {
   const rows = L.edgeRows(), out = rows.filter((r) => r.outside);
   const grp = (sel) => { const R = out.filter(sel); return R.length ? { n: R.length, fieldRelMax: Math.max(...R.map((r) => r.fieldRel)), fieldRelFineMax: Math.max(...R.map((r) => r.fieldRelFine)), chordSelfMax: Math.max(...R.map((r) => r.chordSelf)), surfSelfMax: Math.max(...R.map((r) => r.surfSelf)) } : { n: 0 }; };
-  return { rows, scope: L.EDGE_SCOPE, groups: { smooth: grp((r) => !r.verticalHits), verticalHits: grp((r) => r.verticalHits), pole: grp((r) => r.s === 1) }, inside: rows.filter((r) => !r.outside).map((r) => ({ f: r.f, d: r.d, s: r.s })) };
+  return { rows, scope: L.EDGE_SCOPE, groups: { smooth: grp((r) => !r.verticalHits), verticalHits: grp((r) => r.verticalHits && r.s !== 1), pole: grp((r) => r.s === 1) }, inside: rows.filter((r) => !r.outside).map((r) => ({ f: r.f, d: r.d, s: r.s })) };
 }
 
 /* ───────── T5 外の試算の弦の 2 つの数 ───────── */
