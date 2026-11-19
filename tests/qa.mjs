@@ -111288,6 +111288,157 @@ function view341aOf342f(eq) {
 }
 // ==== 第342便g の塊(ここまで)====
 
+// ==== 第343便b の塊(ここから —— behavior.partytime343b・docs.partytime343b の 2 ブロック。root は SKIP)====
+// ---- 第343便b(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839「…加減速は、当事者時間で決まる。加減速のステップで進む時間を、当事者時間に合わせる。局所重力加速度との関係を確認する」・統括の検証項目 R379):
+// ----   **重力の加速の時間の 3 つの宣言 —— 近点の一次の項・2 度数えの組と釣り合い・多体の保存・局所重力加速度**(新設 —— 器 tests/exp-w343b-partytime.mjs〔html を読まない〕・lib tests/lib-w343b-partytime.mjs・
+// ----   文書の lib tests/lib-w343b-partytimedoc.mjs・正本 tests/out/partytime-343b.json・入力のファイルは無い)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.partytime343b: ① 版・宣言・純関数の場面 5 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t2〜t5)③ 門・零試験・見込みの式との差・T1 のコードの引用が対象の html に在る
+// ----     ④ 呼ぶだけ(lib の import は第342便b・第341便e の lib だけ・第342便b の gOf の値は閉じた形のまま・html を読まない・Math.random・Math.acos なし)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343b-partytime.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343b-partytime.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343b-partytimedoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'partytime-343b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.partytime343b(第343便b の当事者時間の 3 つの宣言の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/partytime-343b.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・宣言・純関数の場面
+        if (!(L.LIB_VERSION === 'w343b-partytime-lib-1' && X.HARNESS_VERSION === 'w343b-partytime-1' && D0.DOC_VERSION === 'w343b-partytimedoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION && J.meta.recheck.unstable === 0)) bad.push('① 版(lib・器・文書の lib・照合の lib)か判定が反転する葉');
+        if (!(js(L.DECL.decls) === js(['i', 'ii', 'iii', 'N']) && js(L.DECL.nG) === js([0, 1, 2]) && js(L.DECL.types) === js(['F', 'U1', 'U2', 'U3']) && js(L.DECL.orbit.steps) === js([3000, 6000])
+          && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN) && js(J.t1) === js(X.T1))) bad.push('① 宣言(宣言・n_G・型・刻みの格子・T1 の表)が lib・器・正本で同じでない');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 5) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(静止で g = 1・宣言の因子の形・G_loc の因子・見込みの式の値・拒否)`);
+        // ② 器を走らせ直して正本と照合(第338便c の量ごとの尺度)
+        const parts = ['pure', 't2', 't3', 't4', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; delete q.gates; delete q.ok; return q; }, J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero} —— T2 ${J.t2.rows.length} 行・T4 ${J.t4.rows.length} 行・T5 ${J.t5.rows.length} 行)`);
+        // ③ 門・零試験・見込みの式との差・T1 のコードの引用
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const dMax = Math.max(...J.t2.rows.map((r) => Math.abs(r.dClosed)), ...J.t2.sym.map((r) => Math.abs(r.dClosed)));
+        if (!(dMax < 2e-4 && J.t2.rewrite.every((r) => r.diff < 1e-8) && J.t2.step.every((s) => Math.abs(s.iiMinusI + 1 / 6) < 1e-4 && Math.abs(s.iiiMinusIi + 1 / 6) < 1e-4)))
+          bad.push('③ 見込みの式 −(2 n_G q + ℓ + s)/6 との差 < 2e-4・書き換えの零試験 < 1e-8・宣言の間の差 −1/6');
+        const z = J.t4.zero;
+        if (!(z.restMax < 1e-15 && z.uniMax === 0 && z.boost.every((b) => b.maxShift < 1e-11) && z.field.dV === 0)) bad.push('③ T4 の零試験 4(静止・一様な場・一様に動く枠・場の加速)');
+        const html = rd(TARGET), quotes = J.t1.app.flatMap((a) => [...a.code.matchAll(/`([^`]+)`/g)].map((m) => m[1]));
+        const miss = quotes.filter((q) => html.indexOf(q) < 0);
+        if (quotes.length < 10 || miss.length) bad.push('③ T1 のコードの引用が対象の html に無い: ' + miss.slice(0, 3).join(' , '));
+        cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・見込みの式との差の最大 ${dMax.toExponential(2)}・零試験 4・T1 のコードの引用 ${quotes.length} 個が対象の html に在る`);
+        // ④ 呼ぶだけ
+        const C = await import('file://' + path.join(ROOT, 'tests', 'lib-w342b-clockstop.mjs'));
+        const tl = rd('tests/lib-w343b-partytime.mjs'), th = rd('tests/exp-w343b-partytime.mjs'), td = rd('tests/lib-w343b-partytimedoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w341e-lightmass.mjs', 'lib-w342b-clockstop.mjs']) && !/loadHtml|index\.html/.test(tl + td) && !/loadHtml|readFileSync\([^)]*index\.html/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
+          && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/Math\.acos\(/.test(tl) && !/judge3/.test(tl + th) && !/w343b/.test(rd('tests/lib-w342b-clockstop.mjs') + rd('tests/lib-w341e-lightmass.mjs'))
+          && C.gOf('U3', 1) === Math.exp(-0.5) && C.gOf('U1', 1) === 1 / Math.sqrt(2) && C.gOf('U2', 1) === 1 / 1.5 && C.gOf('F', 0.6) === Math.sqrt(1 - 0.36)))
+          bad.push('④ 呼ぶだけ(lib の import は第341便e・第342便b の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random・Math.acos・judge3 なし・呼ぶ lib の本文に本便の名なし・gOf の値は閉じた形)');
+        cases.push('④ lib の import は 2 本の既存の lib だけ・gOf の値は閉じた形のまま・html を読まない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.partytime343b', bad.length === 0,
+      `**当事者時間で加減速を数える 3 つの宣言の作り直し**(第343便b・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839・R379 —— html を読まない・アプリには入れない・水星の今の収支に足さない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第343便b: docs.partytime343b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.partytime343b(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし・照合の lib を meta に)② 表 13 本が PHYSICS〔第343便b〕に逐語
+// ----     ③ 節の位置(〔第342便g〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 2 行)・AI_SPEC §271(次の見出しまで)・CHANGELOG(見出しより後・第342便(統括)の行より前)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343b-partytime.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343b-partytime.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343b-partytimedoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'partytime-343b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.partytime343b(第343便b の当事者時間の 3 つの宣言の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第343便b — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第342便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第343便b〕が無いか〔第342便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/partytime-343b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'partytime'
+        && J.target === 'tests/lib-w343b-partytime.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第343便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 13) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第343便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-19 —— 第142報の回答 2)', 'AN839', 'R379', 'tests/exp-w343b-partytime.mjs', 'tests/out/partytime-343b.json', 'tests/lib-w343b-partytime.mjs', 'partytime-343b',
+      '加減速は、当事者時間で決まる。加減速のステップで進む時間を、当事者時間に合わせる。局所重力加速度との関係を確認する', '当事者時間', '絶対時間', '今のアプリの重力の步は宣言 (i)', '宣言 (ii)', '宣言 (iii)', '対照の列 (N)',
+      '−(2 n_G q + ℓ + s)/6', '−7.16', '−14.33', '42.98', '−28.65 + 71.63', 'n_G = ½', '2 度数えになり得る組', '足した列', '宣言の間の差は一次', '型の間の差は二次', 'd(v − u)/dt = dv/dt − (∂_t + v·∇)u',
+      '統括の参考の試作', 'AN853', '原仮定者の回答(2026-11-19 —— 第143報)', '表面の時計(表示用)は軌道の步に使わない', '光速を候補の採否に使っていない', '原文の文', '読み', '候補', '対照',
+      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第142報の回答 2(AN839)への枝の答え', '決断事項の候補', '次の便へ', 'behavior.partytime343b', 'docs.partytime343b'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第343便b〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第343便b〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
+    if (!(ki >= 0 && krows.length === 2 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・2 行・状態は候補か対照)');
+    const a0 = AS.indexOf('\n## 271. 第343便b'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/partytime-343b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R379') >= 0 && ai.indexOf('AN839') >= 0))
+      bad.push('③ AI_SPEC §271(正本・SYSTEM_PROMPT・候補・R379・AN839)');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const ci = cls.findIndex((l) => l.indexOf('**第343便b**') >= 0), cu = cls.findIndex((l) => l.indexOf('**第342便(統括') >= 0), cl = ci >= 0 ? cls[ci] : '';
+    if (!(ci > 0 && (cu < 0 || ci < cu) && cl.indexOf('tests/exp-w343b-partytime.mjs') >= 0 && cl.indexOf('partytime-343b') >= 0 && cl.indexOf('第142報の回答 2') >= 0 && cl.indexOf('R379') >= 0)) bad.push('③ CHANGELOG の第343便b の行(見出しより後・第342便(統括)の行より前)');
+    if (!(/S\('partytime-343b', 'node tests\/exp-w343b-partytime\.mjs', \['tests\/out\/partytime-343b\.json'\]/.test(RT) && RT.indexOf('// ==== 第343便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 partytime-343b(塊)');
+    if (GI.indexOf('!tests/out/partytime-343b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第343便b の塊(ここから)====') >= 0 && /behavior\.partytime343b/.test(PM) && /docs\.partytime343b/.test(PM))) bad.push('③ post-merge に第343便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §271(次の見出しまで)・CHANGELOG・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT343 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第343便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・当事者時間で重力が導けた・水星が合った・水星が合わない・2 度数えだと分かった・水星が説明でき
+    const W343 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たけ導が力重で間時者事当', 'たっ合が星水', 'いなわ合が星水', 'たっか分とだえ数度 2', 'きで明説が星水'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第343便b〕', sec], ['AI_SPEC §271', ai], ['CHANGELOG の第343便b の行', cl], ['器', rd('tests/exp-w343b-partytime.mjs')], ['lib', rd('tests/lib-w343b-partytime.mjs')], ['文書の lib', rd('tests/lib-w343b-partytimedoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W343)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT343) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.partytime343b', bad.length === 0,
+      `**当事者時間で加減速を数える 3 つの宣言の文書**(第343便b・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN839・R379 —— この宣言・この n_G では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第343便b の塊(ここまで)====
+
 // ==== 第343便e の塊(ここから —— behavior.spintransfer343e・docs.spintransfer343e の 2 ブロック。root は SKIP)====
 // ---- 第343便e(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN843「パワーボール効果は、軸引きずりで回転が伝わる経路として見る…」・AN844「…釣り合いが、太陽系の軸の120°」・統括の検証項目 R382):
 // ----   **目標と経路を分けた帳簿・経路の型の保存の零試験・釣り合いが 120° になる重みの比**(新設 —— 器 tests/exp-w343e-spintransfer.mjs〔html を読まない〕・lib tests/lib-w343e-spintransfer.mjs・
