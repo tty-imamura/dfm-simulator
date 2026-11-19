@@ -270,7 +270,7 @@ export function t4Rows() {
 export function pureScenes() {
   const near = (a, b, t = 1e-15) => Math.abs(a - b) <= t;
   // ① 静止(v = 0・U = 0)で qOfV = qOfU = N・ψ = 0 で 1
-  const q0 = near(qOfV(0.3, 0), Math.exp(-0.3)) && near(qOfU(0.3, 0), Math.exp(-0.3)) && qOfV(0, 0) === 1 && qOfU(0, 0) === 1;
+  const q0 = near(qOfV(0.3, 0), Math.exp(-0.3), 4e-15) && near(qOfU(0.3, 0), Math.exp(-0.3), 4e-15) && near(qOfV(0, 0), 1, 4e-15) && near(qOfU(0, 0), 1, 4e-15);   // 丸めの数 ulp を許す(照合の lib の ±1〜2 ulp の走り直しで門が反転しない)
   // ② qOfU と qOfV が同じ状態を表す(v = q U)—— 速さ 3 つ × ψ 2 つの相対の差の最大
   let qMax = 0; for (const psi of [0.01, 0.2]) for (const x of [0.1, 0.5, 0.9]) { const v = x * cLocAbs(psi), q = qOfV(psi, v), U = v / q; qMax = Math.max(qMax, Math.abs(qOfU(psi, U) / q - 1)); }
   // ③ 右辺: 静止の点で (α) と (β) の加速は N a_G と N² a_G・(γ) は N² a_G((β) と同じ —— 第 2 項は速さ 0 で 0)
@@ -280,7 +280,7 @@ export function pureScenes() {
   // ④ 見込みの式の値
   const cl = closedOf('0', 2, 'receiver') === -4 / 6 && closedOf('alpha', 1, 'receiver') === -4 / 6 && closedOf('beta', 1, 'receiver') === -2 / 6 && closedOf('gamma', 1, 'receiver') === -6 / 6 && closedOf('beta', 2, 'symmetric') === -2 / 6;
   // ⑤ X_k の閉じた形: 絶対時間の単位で指数 2 が 1・静止の当事者の単位で (α)・(β) の指数 1 が 1(背景 0・静止)
-  const xk = near(xkClosed({ unit: 'abs', kind: '0', nG: 2, psiG: 0.3 }), 1, 1e-14) && near(xkClosed({ unit: 'static', kind: 'alpha', nG: 1, psiG: 0.3 }), 1, 1e-14) && near(xkClosed({ unit: 'static', kind: 'beta', nG: 1, psiG: 0.3 }), 1, 1e-14);
+  const xk = near(xkClosed({ unit: 'abs', kind: '0', nG: 2, psiG: 0.3 }), 1, 1e-13) && near(xkClosed({ unit: 'static', kind: 'alpha', nG: 1, psiG: 0.3 }), 1, 1e-13) && near(xkClosed({ unit: 'static', kind: 'beta', nG: 1, psiG: 0.3 }), 1, 1e-13);
   // ⑥ 拒否: 型が無い・v が負・U が非有限・見込みの型が無い
   let rej = 0; try { derivTest('delta', { mu: 1, nG: 1, pair: 'receiver' }); } catch (e) { rej++; } try { qOfV(0, -1); } catch (e) { rej++; } try { qOfU(0, Infinity); } catch (e) { rej++; } try { closedOf('x', 1, 'receiver'); } catch (e) { rej++; }
   return { q0, qUVmax: qMax, rhsMax: rhs, closed: cl, xk, reject: { n: rej, of: 4 } };

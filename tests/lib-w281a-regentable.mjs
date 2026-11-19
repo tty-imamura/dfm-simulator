@@ -2523,6 +2523,18 @@ export const REGEN_STEPS = [
     note: '第343便g: csv の一覧(92 行・元期 2・解 1)/元期 2 × GM 2 の接触の要素・桁の幅の e と a の幅・往復・csv の要素の行の作り直し/冥王星の極と軌道の法線/'
       + '第341便g の 4 量 + 近日点の段 × 入力 5 列・定義の差の作り直し 5 列・残る差と候補の項の 1 表 17 行/2 体のケプラーで元期 A → B(GM 2)' }),
   // ==== 第343便g の塊(ここまで)====
+  // ==== 第344便b の塊(ここから)====
+  // ---- 第344便b(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3)AN876・AN877・統括の検証項目 R386):
+  //   **当事者時間の換算の 3 つの型(速度の増し分・位置の 2 階・対照)と現行の近点・想定 X_k = G₀/c₀² = G_loc/c_loc² の零試験と背景の 3 つの組・二次の項・対の力積と仕事・対に共通の因子の対照**
+  //   (段 partyconv-344b —— 正本 tests/out/partyconv-344b.json・lib tests/lib-w344b-partyconv.mjs —— 第343便b・第341便e の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第343便b の段と同じ 8 段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。正本は第338便c の settleRun で書く。所要は第344便b の枝の実測 29〜34 s
+  S('partyconv-344b', 'node tests/exp-w344b-partyconv.mjs', ['tests/out/partyconv-344b.json'], 34, { secSource: 'w344b-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第343便b の段と同じ —— 第341便e の lib が import する lib の先が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 34 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/partyconv-344b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第344便b: 型 4 × n_G 2 × 受け手と対称 × 離心率 3 × 刻み 2 の近点・連鎖律の第 2 項・第343便b の lib との照合 4・足した列 8/X_k の零試験 84 行・背景の 3 つの組の近点 45 行/'
+      + 'μ 3 × 型 3 × n_G 2 の二次の係数/2 体・3 体 × n_G 2 × 型 6 の保存 24 行・対の力積の見込み・共通の因子の近点 12 行' }),
+  // ==== 第344便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
