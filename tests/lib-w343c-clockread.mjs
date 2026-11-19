@@ -14,7 +14,7 @@
 import * as B342 from './lib-w342b-clockstop.mjs';
 import * as L from './lib-w341e-lightmass.mjs';
 
-export const LIB_VERSION = 'w343c-clockread-lib-1';
+export const LIB_VERSION = 'w343c-clockread-lib-2';   // 第344便c: lib-1 → lib-2(atX1 の定義域の検査だけ —— 表の数は同じ)
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 
 export const DECL = Object.freeze({
@@ -259,7 +259,9 @@ export function limit2(type, n) {
 /** k < ½ の 1 ノブの族で x = 1 での時計が e^(−½) になる k*(x = y g = 1 で g = e^(−½) ⇒ y² = e ⇒ k ln(1 + e/(2k)) = ½) */
 export function kStar() { let lo = 0.1, hi = 0.5; for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (m * Math.log(1 + Math.E / (2 * m)) < 0.5) lo = m; else hi = m; } return 0.5 * (lo + hi); }
 /** 1 ノブの族(k < ½)で x = 1 を通る y とそこでの時計 */
-export function atX1(k) { let lo = 0, hi = 1; while (xOfY(k, hi) < 1) hi *= 2; for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (xOfY(k, m) < 1) lo = m; else hi = m; } const y = 0.5 * (lo + hi); return { y, g: formG(k, y) }; }
+// 第344便c(統括の検証項目 R387): 定義域の検査を足した —— 0 < k < ½ の外は例外(k = ½ は有限の y で x = 1 に届かない〔x = y/√(1 + y²) < 1 —— 前の版は丸めで有限の y を返した〕・
+//   k > ½ は x の最大が 1 未満・k ≤ 0 と ∞ は族の外)。漸近の値は limitB・xLimit の解析の列で読む。範囲の内の値は前の版と同じ(表の数は変わらない)。
+export function atX1(k) { const K = kVal(k); if (!(fin(K) && K > 0 && K < 0.5)) throw new Error('atX1: k は 0 < k < ½ だけ(k = ½ は有限の y で x = 1 に届かない・k > ½ は x の最大が 1 未満)' + k); let lo = 0, hi = 1; while (xOfY(k, hi) < 1) hi *= 2; for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (xOfY(k, m) < 1) lo = m; else hi = m; } const y = 0.5 * (lo + hi); return { y, g: formG(k, y) }; }
 const muonOf = (g) => { const M = DECL.muon; if (g === null) return null; const tau = M.tau0us / g; return { g, tauUs: tau, dUs: tau - M.tauObsUs, dSig: (tau - M.tauObsUs) / M.tauObsSigUs }; };
 export function t6Rows() {
   const ref = Math.exp(-0.5), xm = Math.sqrt(1 - 1 / (DECL.muon.gamma * DECL.muon.gamma)), ks = kStar();

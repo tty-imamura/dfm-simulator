@@ -1,0 +1,3078 @@
+{
+ "version": "w344e-spincompose-1",
+ "libVersion": "w344e-spincompose-lib-1",
+ "generator": "tests/exp-w344e-spincompose.mjs",
+ "target": "tests/lib-w344e-spincompose.mjs",
+ "ruling": "原仮定者の回答(2026-11-19 —— 第143報の回答 3)AN880「「目標とする軸と回転」は、「今の自転に合成する目標とする軸と回転」に訂正」・原仮定者の指示(2026-11-19 —— 第144報)「AN891: 中身を足して進める」・統括の検証項目 R389",
+ "decl": {
+  "types": [
+   "C1",
+   "C2",
+   "C3",
+   "C4a",
+   "C4b"
+  ],
+  "magReadings": [
+   "m1",
+   "m2"
+  ],
+  "t2Bodies": [
+   "Jupiter",
+   "Venus",
+   "Io",
+   "Earth",
+   "Mars"
+  ],
+  "alpha": 2,
+  "kb": [
+   [
+    1,
+    0
+   ],
+   [
+    -1,
+    0
+   ],
+   [
+    -1,
+    0.1
+   ],
+   [
+    0,
+    0.1
+   ]
+  ],
+  "toy": {
+   "T": 0.7853981633974483,
+   "steps": [
+    200,
+    400
+   ]
+  },
+  "reachFrac": 0.01,
+  "zeroTol": 1e-12,
+  "c1Angles": [
+   119,
+   120,
+   121
+  ],
+  "capOverOmega": [
+   1.5,
+   2,
+   10,
+   null
+  ],
+  "satOverOmega": [
+   1e-10,
+   1e-8,
+   null
+  ],
+  "sunDeg": 112.8,
+  "balDeg": 120,
+  "poles": [
+   "ecl",
+   "inv"
+  ],
+  "maps": [
+   "ident",
+   "rev",
+   "dbl"
+  ],
+  "highFrac": 0.1,
+  "ageYr": 4570000000
+ },
+ "toyRef": {
+  "incr": [
+   -1,
+   0.414,
+   0.311,
+   -0.07
+  ],
+  "heat": [
+   0,
+   0,
+   0.135,
+   0.135
+  ],
+  "digits": 3,
+  "note": "統括の参考の試作の表(T = π/4・刻み 400)。本枝のコードで作り直して比べる。向きの約束: ẑ = 受け手 × 源 の単位(外の表の k の符号と同じになる約束)"
+ },
+ "plan": {
+  "pure": "C1 の 3 値 3 角・毎步と率の刻み 2・C2 の場面 4 組 × 刻み 2・C4 の零試験・入力の拒否",
+  "t2": "天体 5 × 源(2〜3)× 読み 2 × 型(C1・C2 の 4 組・C3・C4a の上限 4)",
+  "c4b": "天体 5 × 読み 2 × 飽和 3",
+  "win": "読み 2(C2 の熱の率・b = 1 を単位)",
+  "t3": "極 2 × 銀河の写像 3 × 太陽の写像 3",
+  "bal": "平面と三次元 × 銀河の向ける先 2"
+ },
+ "amend": [],
+ "notClaim": [
+  "合成の型の動作の確かめと、要るノブの範囲の表(天体の自転や熱の予測ではない)",
+  "合成の型 5 つ(C1・C2・C3・C4a・C4b)・目標の回転の大きさの読み 2 つ・向ける先の写像 3 つはどれも候補(どれも採っていない)",
+  "C2 の尺度 c は〔第343便e〕の向ける力の前の係数に合わせて置いたノブ —— (m1) の届くまでの時間が天体に依らないのはこの置き方の結果",
+  "C4 の上限と飽和はノブ —— 観測の自転に合わせた値ではない",
+  "三次元の残りは宣言の極(文献の値・未照合)での値",
+  "AN711 の 120° は消さない・112.8° で置き換えない",
+  "〔第343便e〕の「置き換わる先」の表は当時の読みの列として残る",
+  "エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "c1Zero": [
+    {
+     "deg": 119,
+     "judge": "up",
+     "dSqAbsUnderTol": false
+    },
+    {
+     "deg": 120,
+     "judge": "unresolved",
+     "dSqAbsUnderTol": true
+    },
+    {
+     "deg": 121,
+     "judge": "down",
+     "dSqAbsUnderTol": false
+    }
+   ],
+   "c1Drive": {
+    "rows": [
+     {
+      "steps": 200,
+      "perStepAdded": 200.00000000000014,
+      "rateAdded": 1.0000000000000022
+     },
+     {
+      "steps": 400,
+      "perStepAdded": 400.0000000000003,
+      "rateAdded": 1.0000000000000013
+     }
+    ],
+    "perStepRatio": 2,
+    "rateRatio": 0.9999999999999991
+   },
+   "toy": [
+    {
+     "k": 1,
+     "b": 0,
+     "incr": -0.9999985726108206,
+     "heat": 0,
+     "remain": 0.9999999999999999,
+     "incr200": -0.9999942904829071,
+     "diff200_400": 0.000004282127913479705,
+     "closedIncr": -1,
+     "closedHeat": 0,
+     "LconsOk": true,
+     "EconsOk": true,
+     "reachT": null
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "incr": 0.41421356237237483,
+     "heat": 0,
+     "remain": 0.9999999999999999,
+     "incr200": 0.41421356236156814,
+     "diff200_400": 1.0806688877096349e-11,
+     "closedIncr": 0.41421356237309515,
+     "closedHeat": 0,
+     "LconsOk": true,
+     "EconsOk": true,
+     "reachT": null
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "incr": 0.3114260563824398,
+     "heat": 0.13479821362595518,
+     "remain": 0.8546365149863937,
+     "incr200": 0.3114271506051771,
+     "diff200_400": 0.0000010942227373078595,
+     "closedIncr": 0.3114256916339393,
+     "closedHeat": 0.1347986544756772,
+     "LconsOk": true,
+     "EconsOk": true,
+     "reachT": 23.025850929940457
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "incr": -0.06983800117941619,
+     "heat": 0.13479865595009577,
+     "remain": 0.8546359974280328,
+     "incr200": -0.06983800355709613,
+     "diff200_400": 2.377679941822919e-9,
+     "closedIncr": -0.06983800038685573,
+     "closedHeat": 0.1347986544756772,
+     "LconsOk": true,
+     "EconsOk": true,
+     "reachT": 23.025850929940457
+    }
+   ],
+   "toySame": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "c4": {
+    "aZero": true,
+    "bZero": true,
+    "aInf": true,
+    "bInf": true,
+    "aBelow": true,
+    "lambdaSum": 0.9999999999999999
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "c1Zero": true,
+   "c1Drive": true,
+   "c2Conserve": true,
+   "c2Steps": true,
+   "toyRef": true,
+   "c4": true,
+   "rejects": true
+  }
+ },
+ "t2": [
+  {
+   "id": "Jupiter",
+   "src": "Sun",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 3.13,
+   "dOverOmega": 3.1311494084218324e-11,
+   "c1": {
+    "incr": -3.1264784156252046e-11,
+    "judge": "down",
+    "dEJ": -2.3822863217131723e+24,
+    "reactL": 1.3567363519655204e+28
+   },
+   "c3": {
+    "incr": 3.112479373443842e-11,
+    "judge": "up",
+    "dEJ": 2.371619455661013e+24,
+    "targetDeg": 6.26
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.0002758480242814961,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000000466
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.0002758480242814961,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000000466
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.00022859933037094573,
+     "heatW": 38194651519983.22,
+     "heatOverRuler": 0.00011401388513427827,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.0005044473546524418,
+     "heatW": 38194651519983.22,
+     "heatOverRuler": 0.00011401388513427827,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 37352193370536.586,
+   "c2SupplyTotalJ": -2.38228632167582e+24,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -1.0421594718751008e-11,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -1.5632392078126388e-11,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -2.8138305740626976e-11,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -3.1264784156252046e-11,
+     "judge": "down"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 72930814488.97545
+   }
+  },
+  {
+   "id": "Jupiter",
+   "src": "Sun",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 3.13,
+   "dOverOmega": 0.016508649367930804,
+   "c1": {
+    "incr": -0.016483608990176916,
+    "judge": "down",
+    "dEJ": -1.2456516982005461e+33,
+    "reactL": 7.153246874480306e+36
+   },
+   "c3": {
+    "incr": 0.016411807648134973,
+    "judge": "up",
+    "dEJ": 1.2607941263187907e+33,
+    "targetDeg": 6.26
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.0002758480242814961,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": 1.0000250403777537
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.0002758480242814961,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": 1.0000250403777537
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.00022859933037094586,
+     "heatW": 2.0137720288202895e+22,
+     "heatOverRuler": 60112.597875232525,
+     "reachYr": 150.48493412321204,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.000504447354652442,
+     "heatW": 2.0137720288202895e+22,
+     "heatOverRuler": 60112.597875232525,
+     "reachYr": 150.48493412321204,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1.038320942844934e+31,
+   "c2SupplyTotalJ": -1.2352684887720968e+33,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -0.005494628630389891,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -0.008241908620602539,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -0.014835285827221332,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -0.016483608990176916,
+     "judge": "down"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 74133007641.51006
+   }
+  },
+  {
+   "id": "Jupiter",
+   "src": "galaxy",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 3.0497837264331217e-18,
+   "c1": {
+    "incr": 1.5248918632165597e-18,
+    "judge": "up",
+    "dEJ": 116192359100706380,
+    "reactL": 1.3214803599455835e+21
+   },
+   "c3": {
+    "incr": -1.524891863216562e-18,
+    "judge": "down",
+    "dEJ": -116192359100706540,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -4.2614764086007743e-10,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 4.2614764086007743e-10,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 4.507512863765864e-10,
+     "heatW": 0.3623539958730317,
+     "heatOverRuler": 1.081653719023975e-18,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 2.4603645516508957e-11,
+     "heatW": 0.3623539958730317,
+     "heatOverRuler": 1.081653719023975e-18,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 0.3543615659212079,
+   "c2SupplyTotalJ": 116192359100706380,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 5.082972877388533e-19,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 7.6244593160827985e-19,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 1.3724026768949038e-18,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 1.5248918632165597e-18,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 72930814486.6953
+   }
+  },
+  {
+   "id": "Jupiter",
+   "src": "galaxy",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 5.169124960056139e-12,
+   "c1": {
+    "incr": 2.5845624800380884e-12,
+    "judge": "up",
+    "dEJ": 1.9693620186662203e+23,
+    "reactL": 2.239797220246752e+27
+   },
+   "c3": {
+    "incr": -2.5845624800180515e-12,
+    "judge": "down",
+    "dEJ": -1.9693620186458635e+23,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -4.261476408600775e-10,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": 1.0000000000077536
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 4.261476408600775e-10,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": 1.0000000000077536
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 4.507512863765865e-10,
+     "heatW": 614159.3150390368,
+     "heatOverRuler": 1.8333113881762294e-12,
+     "reachYr": 0.4837636792020218,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 2.460364551650896e-11,
+     "heatW": 614159.3150390368,
+     "heatOverRuler": 1.8333113881762294e-12,
+     "reachYr": 0.4837636792020218,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1017987836602.1488,
+   "c2SupplyTotalJ": 1.9693620186764e+23,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 8.615208266771363e-13,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 1.292281240016539e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 2.3261062320333773e-12,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 2.5845624800380884e-12,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 72930814486.50679
+   }
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "mag": "m1",
+   "retro": true,
+   "thetaDeg": 177.36,
+   "dOverOmega": 1.3239566478871318e-7,
+   "c1": {
+    "incr": 1.3225514759659995e-7,
+    "judge": "up",
+    "dEJ": 696263470945199500,
+    "reactL": 2.329268685437431e+24
+   },
+   "c3": {
+    "incr": 1.3183389429401557e-7,
+    "judge": "up",
+    "dEJ": 694045762891726800,
+    "targetDeg": 354.72
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.9839245346273799,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1.0000002646508122
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.9839245346273799,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1.0000002646508122
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 3.117819302666233,
+     "heatW": 47180764511.98957,
+     "heatOverRuler": 0.0012317129490142166,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 2.1338947680388536,
+     "heatW": 47180764511.98957,
+     "heatOverRuler": 0.0012317129490142166,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 46140099969.221016,
+   "c2SupplyTotalJ": 696263517085299500,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 4.4085049194734654e-8,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 6.612757379365148e-8,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 1.1902963283526651e-7,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 1.3225514759659995e-7,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 9.75428641515432
+   }
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "mag": "m2",
+   "retro": true,
+   "thetaDeg": 177.36,
+   "dOverOmega": 9.701596806387226,
+   "c1": {
+    "incr": 9.700634596273067,
+    "judge": "up",
+    "dEJ": 2.9877246109852148e+26,
+    "reactL": 1.706825195214701e+32
+   },
+   "c3": {
+    "incr": 9.697749489766823,
+    "judge": "up",
+    "dEJ": 2.986099534408622e+26,
+    "targetDeg": 354.72
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.9839245346273797,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 2.853572500913764,
+     "maxRatioGyro": 20.40223140266029
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.9839245346273797,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 2.853572500913764,
+     "maxRatioGyro": 20.40223140266029
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 3.1178193026662337,
+     "heatW": 3457279020751194600,
+     "heatOverRuler": 90256.59889704201,
+     "reachYr": 20.914848699030966,
+     "periodYr": 2.853572500913764,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 2.1338947680388536,
+     "heatW": 3457279020751194600,
+     "heatOverRuler": 90256.59889704201,
+     "reachYr": 20.914848699030966,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 2.4775215745585078e+26,
+   "c2SupplyTotalJ": 5.465246185543722e+26,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 3.2330548609388536,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 4.849918395418206,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 8.730484799496228,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 9.700634596273067,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "faster",
+    "reachYr": 84.7774415577561
+   }
+  },
+  {
+   "id": "Venus",
+   "src": "galaxy",
+   "mag": "m1",
+   "retro": true,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 1.7922587972588238e-15,
+   "c1": {
+    "incr": 8.961293986294127e-16,
+    "judge": "up",
+    "dEJ": 4717715231.388173,
+    "reactL": 31531638889513124
+   },
+   "c3": {
+    "incr": -8.961293986294113e-16,
+    "judge": "down",
+    "dEJ": -4717715231.388163,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -2.50433121418689e-7,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000000027
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 2.50433121418689e-7,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000000027
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 2.648918844251968e-7,
+     "heatW": 0.000008646072763813948,
+     "heatOverRuler": 2.257165582512452e-19,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 1.4458763006507825e-8,
+     "heatW": 0.000008646072763813948,
+     "heatOverRuler": 2.257165582512452e-19,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 0.000008455366626417391,
+   "c2SupplyTotalJ": 4717715231.388182,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 2.9870979954313733e-16,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 4.4806469931470595e-16,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 8.065164587664713e-16,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 8.961293986294127e-16,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 9.754287705209071
+   }
+  },
+  {
+   "id": "Venus",
+   "src": "galaxy",
+   "mag": "m2",
+   "retro": true,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 3.037726775014956e-9,
+   "c1": {
+    "incr": 1.518863390967896e-9,
+    "judge": "up",
+    "dEJ": 7996127535117449,
+    "reactL": 5.34434557449375e+22
+   },
+   "c3": {
+    "incr": -1.5188633840470604e-9,
+    "judge": "down",
+    "dEJ": -7996127486537360,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -2.50433121418689e-7,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.0000000045565902
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 2.50433121418689e-7,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.0000000045565902
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 2.648918844251968e-7,
+     "heatW": 14.654360616633813,
+     "heatOverRuler": 3.8257043771397503e-13,
+     "reachYr": 0.48376367920202185,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 1.4458763006507825e-8,
+     "heatW": 14.654360616633813,
+     "heatOverRuler": 3.8257043771397503e-13,
+     "reachYr": 0.48376367920202185,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 24290050.636074092,
+   "c2SupplyTotalJ": 7996127559407500,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 5.062877962203168e-10,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 7.594316946188434e-10,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 1.366977051559669e-9,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 1.518863390967896e-9,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 9.754287690393651
+   }
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 0,
+   "dOverOmega": 1.4247016909660921e-8,
+   "c1": {
+    "incr": -1.4247016909660921e-8,
+    "judge": "down",
+    "dEJ": -2716597510731787300,
+    "reactL": 6.584843599352717e+22
+   },
+   "c3": {
+    "incr": 1.424701690966092e-8,
+    "judge": "up",
+    "dEJ": 2716597549435198000,
+    "targetDeg": 0
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": 0,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.22987108933325412,
+     "heatW": 19788172532.775623,
+     "heatOverRuler": 0.00019788172532775623,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.22987108933325412,
+     "heatW": 19788172532.775623,
+     "heatOverRuler": 0.00019788172532775623,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 19351705473.921307,
+   "c2SupplyTotalJ": -2716597491380081700,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -4.749005636553641e-9,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -7.1235084548304604e-9,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -1.282231521869483e-8,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -1.4247016909660921e-8,
+     "judge": "down"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 941694481.3169767
+   }
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 0,
+   "dOverOmega": 4.2625257430730485,
+   "c1": {
+    "incr": 2.262525743073049,
+    "judge": "up",
+    "dEJ": 9.194580305325865e+26,
+    "reactL": 1.9701012172813353e+31
+   },
+   "c3": {
+    "incr": 4.2625257430730485,
+    "judge": "up",
+    "dEJ": 2.5450006938107395e+27,
+    "targetDeg": 0
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": 0,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 11.650981947331339,
+     "maxRatioGyro": 7.525051486146096
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 11.650981947331339,
+     "maxRatioGyro": 7.525051486146096
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.22987108933325412,
+     "heatW": 5920368829781545000,
+     "heatOverRuler": 59203.688297815446,
+     "reachYr": 85.39419431100694,
+     "periodYr": 11.650981947331339,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.22987108933325412,
+     "heatW": 5920368829781545000,
+     "heatOverRuler": 59203.688297815446,
+     "reachYr": 85.39419431100694,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1.732229362171663e+27,
+   "c2SupplyTotalJ": 2.6516873927042495e+27,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -0.579158085642317,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": 0.1312628715365244,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 1.836273168765744,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 2.262525743073049,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 4955691379.436593
+   }
+  },
+  {
+   "id": "Io",
+   "src": "Sun",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 3.13,
+   "dOverOmega": 1.3346604958806009e-10,
+   "c1": {
+    "incr": -1.3326694731762637e-10,
+    "judge": "down",
+    "dEJ": -25411120250388170,
+    "reactL": 616868126102158400000
+   },
+   "c3": {
+    "incr": 1.3267023454096354e-10,
+    "judge": "up",
+    "dEJ": 25297340052224660,
+    "targetDeg": 6.26
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.0011758093046757166,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000001992
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.0011758093046757166,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000001992
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.000974410530555417,
+     "heatW": 1736598.4980150203,
+     "heatOverRuler": 1.7365984980150203e-8,
+     "reachYr": 2.854205707291928e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.0021502198352311335,
+     "heatW": 1736598.4980150203,
+     "heatOverRuler": 1.7365984980150203e-8,
+     "reachYr": 2.854205707291928e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1698294.4031025665,
+   "c2SupplyTotalJ": -25411120248689870,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -4.442231577254804e-11,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -6.663347365881985e-11,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -1.1994025258586612e-10,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -1.3326694731762637e-10,
+     "judge": "down"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 941694468.0261365
+   }
+  },
+  {
+   "id": "Io",
+   "src": "Sun",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 3.13,
+   "dOverOmega": 0.07036854291417166,
+   "c1": {
+    "incr": -0.07025562917756652,
+    "judge": "down",
+    "dEJ": -1.2925646557871815e+25,
+    "reactL": 3.2523710215431225e+29
+   },
+   "c3": {
+    "incr": 0.06997647066037614,
+    "judge": "up",
+    "dEJ": 1.3809845171518524e+25,
+    "targetDeg": 6.26
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.0011758093046757164,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": 1.0001129137366052
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.0011758093046757164,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": 1.0001129137366052
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": -0.0009744105305554173,
+     "heatW": 915602929055212.2,
+     "heatOverRuler": 9.156029290552123,
+     "reachYr": 150.48493412321204,
+     "periodYr": 20.531808572715775,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.0021502198352311335,
+     "heatW": 915602929055212.2,
+     "heatOverRuler": 9.156029290552123,
+     "reachYr": 150.48493412321204,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 4.720940021821267e+23,
+   "c2SupplyTotalJ": -1.2453552555689687e+25,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -0.023420349634940267,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -0.03512987165109343,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -0.06323082901734287,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -0.07025562917756652,
+     "judge": "down"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 1007861281.5370952
+   }
+  },
+  {
+   "id": "Io",
+   "src": "galaxy",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 1.2999781644726432e-17,
+   "c1": {
+    "incr": 6.499890822363213e-18,
+    "judge": "up",
+    "dEJ": 1239388390.272116,
+    "reactL": 60083826318906.99
+   },
+   "c3": {
+    "incr": -6.499890822363222e-18,
+    "judge": "down",
+    "dEJ": -1239388390.2721179,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.8164652895159285e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.8164652895159285e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.9213389619034917e-9,
+     "heatW": 1.6475170735714678e-8,
+     "heatOverRuler": 1.6475170735714678e-22,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 1.0487367238756322e-10,
+     "heatW": 1.6475170735714678e-8,
+     "heatOverRuler": 1.6475170735714678e-22,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1.6111778446546503e-8,
+   "c2SupplyTotalJ": 1239388390.272116,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 2.166630274121071e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 3.2499454111816065e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 5.8499017401268914e-18,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 6.499890822363213e-18,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 941694467.9006398
+   }
+  },
+  {
+   "id": "Io",
+   "src": "galaxy",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 2.2033528211400735e-11,
+   "c1": {
+    "incr": 1.1016764105882417e-11,
+    "judge": "up",
+    "dEJ": 2100658288643092,
+    "reactL": 101836993760859320000
+   },
+   "c3": {
+    "incr": -1.1016764105518323e-11,
+    "judge": "down",
+    "dEJ": -2100658288550525.2,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.8164652895159285e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.0000000000330502
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.8164652895159285e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.0000000000330502
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.9213389619034917e-9,
+     "heatW": 0.027924018196126575,
+     "heatOverRuler": 2.7924018196126573e-16,
+     "reachYr": 0.48376367920202185,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 1.0487367238756322e-10,
+     "heatW": 0.027924018196126575,
+     "heatOverRuler": 2.7924018196126573e-16,
+     "reachYr": 0.48376367920202185,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 46284.91366431056,
+   "c2SupplyTotalJ": 2100658288689377,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 3.67225470192035e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 5.5083820528956956e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 9.91508769527779e-12,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 1.1016764105882417e-11,
+     "judge": "up"
+    }
+   ],
+   "old343e": {
+    "direction": "slower",
+    "reachYr": 941694467.8902653
+   }
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 23.44,
+   "dOverOmega": 3.9297344398899786e-10,
+   "c1": {
+    "incr": -3.6054415168025106e-10,
+    "judge": "down",
+    "dEJ": -153691280166573470000,
+    "reactL": 2.2972087589285344e+24
+   },
+   "c3": {
+    "incr": 2.6860859070627673e-10,
+    "judge": "up",
+    "dEJ": 114501366864453040000,
+    "targetDeg": 46.88
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.025221786714674597,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000324292
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.025221786714674597,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000324292
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 0.01940452142834776,
+     "heatW": 33656862293.891487,
+     "heatOverRuler": 0.000716103453061521,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.005817265286326837,
+     "heatW": 33656862293.891487,
+     "heatOverRuler": 0.000716103453061521,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 32914494009.435295,
+   "c2SupplyTotalJ": -153691280133658970000,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -1.2018138389613216e-10,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -1.8027207584318002e-10,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -3.244897365133256e-10,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -3.6054415168025106e-10,
+     "judge": "down"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 23.44,
+   "dOverOmega": 0.0398111647076218,
+   "c1": {
+    "incr": -0.03639569234996369,
+    "judge": "down",
+    "dEJ": -1.5232273836799845e+28,
+    "reactL": 2.3272452036747757e+32
+   },
+   "c3": {
+    "incr": 0.027623018780671738,
+    "judge": "up",
+    "dEJ": 1.1937657891778234e+28,
+    "targetDeg": 46.88
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.025221786714674597,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.9451283281892193,
+     "maxRatioGyro": 1.0034154723576583
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.025221786714674597,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.9451283281892193,
+     "maxRatioGyro": 1.0034154723576583
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 0.019404521428347758,
+     "heatW": 3409693221818250000,
+     "heatOverRuler": 72546.66429400533,
+     "reachYr": 28.91524993877561,
+     "periodYr": 3.9451283281892193,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.005817265286326837,
+     "heatW": 3409693221818250000,
+     "heatOverRuler": 72546.66429400533,
+     "reachYr": 28.91524993877561,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 3.3780847725691014e+26,
+   "c2SupplyTotalJ": -1.4894465359542935e+28,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -0.012161173318555157,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -0.01823098508253554,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -0.032768232555220884,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -0.03639569234996369,
+     "judge": "down"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Earth",
+   "src": "galaxy",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 7.354656310740447e-18,
+   "c1": {
+    "incr": 3.677328155370222e-18,
+    "judge": "up",
+    "dEJ": 1567556342987.2048,
+    "reactL": 42993187337144830
+   },
+   "c3": {
+    "incr": -3.677328155370227e-18,
+    "judge": "down",
+    "dEJ": -1567556342987.2073,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.027669407831845e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.027669407831845e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.087001928756811e-9,
+     "heatW": 0.000011788864745272315,
+     "heatOverRuler": 2.5082690947387904e-19,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 5.933252092496586e-11,
+     "heatW": 0.000011788864745272315,
+     "heatOverRuler": 2.5082690947387904e-19,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 0.000011528838150392071,
+   "c2SupplyTotalJ": 1567556342987.2048,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 1.2257760517900741e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 1.838664077685111e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 3.3095953398332e-18,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 3.677328155370222e-18,
+     "judge": "up"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Earth",
+   "src": "galaxy",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 1.2465519170746523e-11,
+   "c1": {
+    "incr": 6.23275958543153e-12,
+    "judge": "up",
+    "dEJ": 2656875157638552000,
+    "reactL": 7.28698090460082e+22
+   },
+   "c3": {
+    "incr": -6.2327595853149955e-12,
+    "judge": "down",
+    "dEJ": -2656875157572316700,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.0276694078318447e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": 1.0000000000186982
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.0276694078318447e-9,
+     "heatW": 0,
+     "heatOverRuler": 0,
+     "reachYr": null,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": 1.0000000000186982
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.0870019287568108e-9,
+     "heatW": 19.981126686902225,
+     "heatOverRuler": 4.251303550404729e-13,
+     "reachYr": 0.48376367920202185,
+     "periodYr": 0.06600357247507686,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 5.933252092496586e-11,
+     "heatW": 19.981126686902225,
+     "heatOverRuler": 4.251303550404729e-13,
+     "reachYr": 0.48376367920202185,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 33119328.211410724,
+   "c2SupplyTotalJ": 2656875157671671300,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 2.077586528464228e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 3.116379792701197e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 5.609483626883132e-12,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 6.23275958543153e-12,
+     "judge": "up"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Mars",
+   "src": "Sun",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 25.19,
+   "dOverOmega": 2.6533271317624956e-10,
+   "c1": {
+    "incr": -2.4009993066160995e-10,
+    "judge": "down",
+    "dEJ": -3255046052826520000,
+    "reactL": 5.074800031139503e+22
+   },
+   "c3": {
+    "incr": 1.6920079020860999e-10,
+    "judge": "up",
+    "dEJ": 2293863071508326000,
+    "targetDeg": 50.38
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.018221101620274828,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000252327
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.018221101620274828,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": 1.0000000000252327
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 0.014347165556223196,
+     "heatW": 487981261.92550355,
+     "heatOverRuler": null,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": 3.894210776029535e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.0038739360640516335,
+     "heatW": 487981261.92550355,
+     "heatOverRuler": null,
+     "reachYr": 2.8542057072919285e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 477217875.5735871,
+   "c2SupplyTotalJ": -3255046052349302300,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -8.00333102219537e-11,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -1.2004996533239918e-10,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -2.1608993759602283e-10,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -2.4009993066160995e-10,
+     "judge": "down"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Mars",
+   "src": "Sun",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 25.19,
+   "dOverOmega": 0.040956367265469064,
+   "c1": {
+    "incr": -0.036903701666907894,
+    "judge": "down",
+    "dEJ": -4.910736620075823e+26,
+    "reactL": 7.83338667087387e+30
+   },
+   "c3": {
+    "incr": 0.026602451843801552,
+    "judge": "up",
+    "dEJ": 3.654477872266429e+26,
+    "targetDeg": 50.38
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -0.018221101620274825,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 6.011046464755686,
+     "maxRatioGyro": 1.004052665598561
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 0.018221101620274825,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 6.011046464755686,
+     "maxRatioGyro": 1.004052665598561
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 0.014347165556223195,
+     "heatW": 75324069704183600,
+     "heatOverRuler": null,
+     "reachYr": 44.05709940537776,
+     "periodYr": 6.011046464755686,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": -0.0038739360640516335,
+     "heatW": 75324069704183600,
+     "heatOverRuler": null,
+     "reachYr": 44.05709940537776,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1.1370458166050103e+25,
+   "c2SupplyTotalJ": -4.7970320384153217e+26,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": -0.012336731272042345,
+     "judge": "down"
+    },
+    {
+     "cap": 2,
+     "incr": -0.018492035729431186,
+     "judge": "down"
+    },
+    {
+     "cap": 10,
+     "incr": -0.03322801875786069,
+     "judge": "down"
+    },
+    {
+     "cap": null,
+     "incr": -0.036903701666907894,
+     "judge": "down"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Mars",
+   "src": "galaxy",
+   "mag": "m1",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 7.566219355454258e-18,
+   "c1": {
+    "incr": 3.783109677727127e-18,
+    "judge": "up",
+    "dEJ": 51287795841.67849,
+    "reactL": 1447128390654265.2
+   },
+   "c3": {
+    "incr": -3.783109677727132e-18,
+    "judge": "down",
+    "dEJ": -51287795841.67856,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.0572312064658116e-9,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.0572312064658116e-9,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": 1
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.1182704786306827e-9,
+     "heatW": 3.9680707393674415e-7,
+     "heatOverRuler": null,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": 3.8942107760295354e-8,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 6.10392721648709e-11,
+     "heatW": 3.9680707393674415e-7,
+     "heatOverRuler": null,
+     "reachYr": 2.854205707291929e-7,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 3.8805471359589444e-7,
+   "c2SupplyTotalJ": 51287795841.67849,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 1.2610365592423758e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 1.8915548388635633e-18,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 3.4047987099544145e-18,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 3.783109677727127e-18,
+     "judge": "up"
+    }
+   ],
+   "old343e": null
+  },
+  {
+   "id": "Mars",
+   "src": "galaxy",
+   "mag": "m2",
+   "retro": false,
+   "thetaDeg": 119.99999999999999,
+   "dOverOmega": 1.2824100602464846e-11,
+   "c1": {
+    "incr": 6.412050301294092e-12,
+    "judge": "up",
+    "dEJ": 86928467529383440,
+    "reactL": 2.452759984159772e+21
+   },
+   "c3": {
+    "incr": -6.4120503011707575e-12,
+    "judge": "down",
+    "dEJ": -86928467527153980,
+    "targetDeg": 239.99999999999997
+   },
+   "c2": [
+    {
+     "k": 1,
+     "b": 0,
+     "spinRateYr": -1.0572312064658116e-9,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.000000000019236
+    },
+    {
+     "k": -1,
+     "b": 0,
+     "spinRateYr": 1.0572312064658116e-9,
+     "heatW": 0,
+     "heatOverRuler": null,
+     "reachYr": null,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": 1.000000000019236
+    },
+    {
+     "k": -1,
+     "b": 0.1,
+     "spinRateYr": 1.1182704786306827e-9,
+     "heatW": 0.6725543626046513,
+     "heatOverRuler": null,
+     "reachYr": 0.48376367920202185,
+     "periodYr": 0.06600357247507688,
+     "maxRatioGyro": null
+    },
+    {
+     "k": 0,
+     "b": 0.1,
+     "spinRateYr": 6.10392721648709e-11,
+     "heatW": 0.6725543626046513,
+     "heatOverRuler": null,
+     "reachYr": 0.48376367920202185,
+     "periodYr": null,
+     "maxRatioGyro": null
+    }
+   ],
+   "c2HeatTotalJ": 1114779.4128006164,
+   "c2SupplyTotalJ": 86928467530498220,
+   "c4a": [
+    {
+     "cap": 1.5,
+     "incr": 2.137350100417659e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 2,
+     "incr": 3.206025150631628e-12,
+     "judge": "up"
+    },
+    {
+     "cap": 10,
+     "incr": 5.770845271159131e-12,
+     "judge": "up"
+    },
+    {
+     "cap": null,
+     "incr": 6.412050301294092e-12,
+     "judge": "up"
+    }
+   ],
+   "old343e": null
+  }
+ ],
+ "c4b": [
+  {
+   "id": "Jupiter",
+   "mag": "m1",
+   "sat": 1e-10,
+   "lambda": 1,
+   "incr": -3.1264782631360186e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Jupiter",
+   "mag": "m1",
+   "sat": 1e-8,
+   "lambda": 1,
+   "incr": -3.1264782631360186e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Jupiter",
+   "mag": "m1",
+   "sat": null,
+   "lambda": 1,
+   "incr": -3.1264782631360186e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Jupiter",
+   "mag": "m2",
+   "sat": 1e-10,
+   "lambda": 6.057430728581912e-9,
+   "incr": -9.985082173806392e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Jupiter",
+   "mag": "m2",
+   "sat": 1e-8,
+   "lambda": 6.057430728581911e-7,
+   "incr": -9.985082173658813e-9,
+   "judge": "down"
+  },
+  {
+   "id": "Jupiter",
+   "mag": "m2",
+   "sat": null,
+   "lambda": 1,
+   "incr": -0.01648360898758825,
+   "judge": "down"
+  },
+  {
+   "id": "Venus",
+   "mag": "m1",
+   "sat": 1e-10,
+   "lambda": 0.0007553117302282769,
+   "incr": 9.989386502560741e-11,
+   "judge": "up"
+  },
+  {
+   "id": "Venus",
+   "mag": "m1",
+   "sat": 1e-8,
+   "lambda": 0.07553117302282768,
+   "incr": 9.989386502665758e-9,
+   "judge": "up"
+  },
+  {
+   "id": "Venus",
+   "mag": "m1",
+   "sat": null,
+   "lambda": 1,
+   "incr": 1.3225514849272938e-7,
+   "judge": "up"
+  },
+  {
+   "id": "Venus",
+   "mag": "m2",
+   "sat": 1e-10,
+   "lambda": 1.0307581521307043e-11,
+   "incr": 9.989386568540514e-11,
+   "judge": "up"
+  },
+  {
+   "id": "Venus",
+   "mag": "m2",
+   "sat": 1e-8,
+   "lambda": 1.030758152130704e-9,
+   "incr": 9.98938656864553e-9,
+   "judge": "up"
+  },
+  {
+   "id": "Venus",
+   "mag": "m2",
+   "sat": null,
+   "lambda": 1,
+   "incr": 9.700634597900468,
+   "judge": "up"
+  },
+  {
+   "id": "Io",
+   "mag": "m1",
+   "sat": 1e-10,
+   "lambda": 0.006953869365373783,
+   "incr": -9.999861533322307e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Io",
+   "mag": "m1",
+   "sat": 1e-8,
+   "lambda": 0.6953869365373784,
+   "incr": -9.999861533322295e-9,
+   "judge": "down"
+  },
+  {
+   "id": "Io",
+   "mag": "m1",
+   "sat": null,
+   "lambda": 1,
+   "incr": -1.4380283850478659e-8,
+   "judge": "down"
+  },
+  {
+   "id": "Io",
+   "mag": "m2",
+   "sat": 1e-10,
+   "lambda": 2.3079261435686558e-11,
+   "incr": -9.999757726447125e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Io",
+   "mag": "m2",
+   "sat": 1e-8,
+   "lambda": 2.3079261435686558e-9,
+   "incr": -9.999757726447086e-9,
+   "judge": "down"
+  },
+  {
+   "id": "Io",
+   "mag": "m2",
+   "sat": null,
+   "lambda": 1,
+   "incr": 2.332791526219315,
+   "judge": "up"
+  },
+  {
+   "id": "Earth",
+   "mag": "m1",
+   "sat": 1e-10,
+   "lambda": 0.25447011664039937,
+   "incr": -9.174771139863516e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Earth",
+   "mag": "m1",
+   "sat": 1e-8,
+   "lambda": 1,
+   "incr": -3.6054414800292286e-10,
+   "judge": "down"
+  },
+  {
+   "id": "Earth",
+   "mag": "m1",
+   "sat": null,
+   "lambda": 1,
+   "incr": -3.6054414800292286e-10,
+   "judge": "down"
+  },
+  {
+   "id": "Earth",
+   "mag": "m2",
+   "sat": 1e-10,
+   "lambda": 2.5118581860917892e-9,
+   "incr": -9.174771400711716e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Earth",
+   "mag": "m2",
+   "sat": 1e-8,
+   "lambda": 2.511858186091789e-7,
+   "incr": -9.174771392879048e-9,
+   "judge": "down"
+  },
+  {
+   "id": "Earth",
+   "mag": "m2",
+   "sat": null,
+   "lambda": 1,
+   "incr": -0.03639569234355436,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m1",
+   "sat": 1e-10,
+   "lambda": 0.3768852922480665,
+   "incr": -9.049013111184047e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m1",
+   "sat": 1e-8,
+   "lambda": 1,
+   "incr": -2.4009992687850024e-10,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m1",
+   "sat": null,
+   "lambda": 1,
+   "incr": -2.4009992687850024e-10,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m2",
+   "sat": 1e-10,
+   "lambda": 2.441622796292285e-9,
+   "incr": -9.049013507406293e-11,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m2",
+   "sat": 1e-8,
+   "lambda": 2.4416227962922853e-7,
+   "incr": -9.049013498439193e-9,
+   "judge": "down"
+  },
+  {
+   "id": "Mars",
+   "mag": "m2",
+   "sat": null,
+   "lambda": 1,
+   "incr": -0.03690370166029587,
+   "judge": "down"
+  }
+ ],
+ "win": [
+  {
+   "mag": "m1",
+   "ioU": 197899091312.7364,
+   "juU": 381946515199835.8,
+   "venusU": 471807645119.8957,
+   "juOverRuler": 0.002312439693101341,
+   "ioOverObs": 0.9386125854951936,
+   "capX": 32.01955349951403,
+   "needX": 86.68040655034918,
+   "needOverCap": 2.707108534529213,
+   "bandX": 0.000016626977775776737,
+   "openKfree": false,
+   "openK1": false
+  },
+  {
+   "mag": "m2",
+   "ioU": 59212844327105995000,
+   "juU": 2.0137720288202894e+23,
+   "venusU": 34572790207511945000,
+   "juOverRuler": 601125.979924626,
+   "ioOverObs": 592129.3799046546,
+   "capX": 1.0701462856248297e-7,
+   "needX": 1.6440430567210647e-7,
+   "needOverCap": 1.5362788048749354,
+   "bandX": 0.000016626977775776737,
+   "openKfree": false,
+   "openK1": false
+  }
+ ],
+ "t3": [
+  {
+   "pole": "ecl",
+   "galMap": "ident",
+   "sunMap": "ident",
+   "sepDeg": 14.257397590198897,
+   "phaseNeedDeg": 14.257397590198897,
+   "minResidOverSun": 0.24627843061445165,
+   "galPoleDeg": 119.81143852269375,
+   "sunPoleDeg": 7.25172680841248
+  },
+  {
+   "pole": "ecl",
+   "galMap": "ident",
+   "sunMap": "rev",
+   "sepDeg": 165.74260240980112,
+   "phaseNeedDeg": 14.257397590198877,
+   "minResidOverSun": 0.24627843061445154,
+   "galPoleDeg": 119.81143852269375,
+   "sunPoleDeg": 172.74827319158751
+  },
+  {
+   "pole": "ecl",
+   "galMap": "ident",
+   "sunMap": "dbl",
+   "sepDeg": 14.257397590198897,
+   "phaseNeedDeg": 14.257397590198897,
+   "minResidOverSun": 0.24627843061445165,
+   "galPoleDeg": 119.81143852269375,
+   "sunPoleDeg": 14.50345361682496
+  },
+  {
+   "pole": "ecl",
+   "galMap": "rev",
+   "sunMap": "ident",
+   "sepDeg": 165.74260240980112,
+   "phaseNeedDeg": 14.257397590198877,
+   "minResidOverSun": 0.24627843061445154,
+   "galPoleDeg": 60.18856147730628,
+   "sunPoleDeg": 7.25172680841248
+  },
+  {
+   "pole": "ecl",
+   "galMap": "rev",
+   "sunMap": "rev",
+   "sepDeg": 14.257397590198897,
+   "phaseNeedDeg": 14.257397590198897,
+   "minResidOverSun": 0.24627843061445165,
+   "galPoleDeg": 60.18856147730628,
+   "sunPoleDeg": 172.74827319158751
+  },
+  {
+   "pole": "ecl",
+   "galMap": "rev",
+   "sunMap": "dbl",
+   "sepDeg": 165.74260240980112,
+   "phaseNeedDeg": 14.257397590198877,
+   "minResidOverSun": 0.24627843061445154,
+   "galPoleDeg": 60.18856147730628,
+   "sunPoleDeg": 14.50345361682496
+  },
+  {
+   "pole": "ecl",
+   "galMap": "dbl",
+   "sunMap": "ident",
+   "sepDeg": 165.74260240980112,
+   "phaseNeedDeg": 14.257397590198877,
+   "minResidOverSun": 0.24627843061445154,
+   "galPoleDeg": 120.3771229546125,
+   "sunPoleDeg": 7.25172680841248
+  },
+  {
+   "pole": "ecl",
+   "galMap": "dbl",
+   "sunMap": "rev",
+   "sepDeg": 14.257397590198897,
+   "phaseNeedDeg": 14.257397590198897,
+   "minResidOverSun": 0.24627843061445165,
+   "galPoleDeg": 120.3771229546125,
+   "sunPoleDeg": 172.74827319158751
+  },
+  {
+   "pole": "ecl",
+   "galMap": "dbl",
+   "sunMap": "dbl",
+   "sepDeg": 165.74260240980112,
+   "phaseNeedDeg": 14.257397590198877,
+   "minResidOverSun": 0.24627843061445154,
+   "galPoleDeg": 120.3771229546125,
+   "sunPoleDeg": 14.50345361682496
+  },
+  {
+   "pole": "inv",
+   "galMap": "ident",
+   "sunMap": "ident",
+   "sepDeg": 22.49717085384283,
+   "phaseNeedDeg": 22.49717085384283,
+   "minResidOverSun": 0.38263781265312896,
+   "galPoleDeg": 118.30520043196702,
+   "sunPoleDeg": 5.96824851543293
+  },
+  {
+   "pole": "inv",
+   "galMap": "ident",
+   "sunMap": "rev",
+   "sepDeg": 157.50282914615715,
+   "phaseNeedDeg": 22.497170853842846,
+   "minResidOverSun": 0.38263781265312913,
+   "galPoleDeg": 118.30520043196702,
+   "sunPoleDeg": 174.03175148456705
+  },
+  {
+   "pole": "inv",
+   "galMap": "ident",
+   "sunMap": "dbl",
+   "sepDeg": 22.49717085384283,
+   "phaseNeedDeg": 22.49717085384283,
+   "minResidOverSun": 0.38263781265312896,
+   "galPoleDeg": 118.30520043196702,
+   "sunPoleDeg": 11.936497030865866
+  },
+  {
+   "pole": "inv",
+   "galMap": "rev",
+   "sunMap": "ident",
+   "sepDeg": 157.50282914615715,
+   "phaseNeedDeg": 22.497170853842846,
+   "minResidOverSun": 0.38263781265312913,
+   "galPoleDeg": 61.69479956803298,
+   "sunPoleDeg": 5.96824851543293
+  },
+  {
+   "pole": "inv",
+   "galMap": "rev",
+   "sunMap": "rev",
+   "sepDeg": 22.49717085384283,
+   "phaseNeedDeg": 22.49717085384283,
+   "minResidOverSun": 0.38263781265312896,
+   "galPoleDeg": 61.69479956803298,
+   "sunPoleDeg": 174.03175148456705
+  },
+  {
+   "pole": "inv",
+   "galMap": "rev",
+   "sunMap": "dbl",
+   "sepDeg": 157.50282914615715,
+   "phaseNeedDeg": 22.497170853842846,
+   "minResidOverSun": 0.38263781265312913,
+   "galPoleDeg": 61.69479956803298,
+   "sunPoleDeg": 11.936497030865866
+  },
+  {
+   "pole": "inv",
+   "galMap": "dbl",
+   "sunMap": "ident",
+   "sepDeg": 157.50282914615715,
+   "phaseNeedDeg": 22.497170853842846,
+   "minResidOverSun": 0.38263781265312913,
+   "galPoleDeg": 123.38959913606595,
+   "sunPoleDeg": 5.96824851543293
+  },
+  {
+   "pole": "inv",
+   "galMap": "dbl",
+   "sunMap": "rev",
+   "sepDeg": 22.49717085384283,
+   "phaseNeedDeg": 22.49717085384283,
+   "minResidOverSun": 0.38263781265312896,
+   "galPoleDeg": 123.38959913606595,
+   "sunPoleDeg": 174.03175148456705
+  },
+  {
+   "pole": "inv",
+   "galMap": "dbl",
+   "sunMap": "dbl",
+   "sepDeg": 157.50282914615715,
+   "phaseNeedDeg": 22.497170853842846,
+   "minResidOverSun": 0.38263781265312913,
+   "galPoleDeg": 123.38959913606595,
+   "sunPoleDeg": 11.936497030865866
+  }
+ ],
+ "bal": {
+  "rows": [
+   {
+    "frame": "plane",
+    "place": "rev",
+    "sunGalDeg": 112.8,
+    "rho": 0.14472235227351454,
+    "positive": true,
+    "magRatio": 1.0644758774512353
+   },
+   {
+    "frame": "plane",
+    "place": "fwd",
+    "sunGalDeg": 112.8,
+    "rho": -0.14472235227351454,
+    "positive": false,
+    "magRatio": 1.0644758774512353
+   },
+   {
+    "frame": "3d",
+    "place": "rev",
+    "sunGalDeg": 112.76917138411692,
+    "rho": 0.14533873131944314,
+    "positive": true,
+    "magRatio": 1.0647164864578422,
+    "galDeg": 120.00000000000001,
+    "eclDeg": 1.6853790173578338,
+    "invDeg": 2.745152700645325,
+    "sunEclDeg": 7.25172680841248
+   },
+   {
+    "frame": "3d",
+    "place": "fwd",
+    "sunGalDeg": 112.76917138411692,
+    "rho": -0.14533873131944314,
+    "positive": false,
+    "magRatio": 1.0647164864578422,
+    "galDeg": 120.00000000000001,
+    "eclDeg": 1.6853790173578338,
+    "invDeg": 2.745152700645325,
+    "sunEclDeg": 7.25172680841248
+   }
+  ],
+  "sameMag120": "unresolved"
+ },
+ "t3side": {
+  "k1g0": -0.14472235227351463,
+  "k1g180": 0.14472235227351465,
+  "k2g0": 0.28716234659873324,
+  "sepEcl343": 165.74260240980112,
+  "minEcl343": 0.24627843061445154,
+  "sepInv343": 157.50282914615715,
+  "minInv343": 0.38263781265312913,
+  "eclInvDeg": 1.5786939999999998
+ },
+ "gates": {
+  "pure": true,
+  "t2": true,
+  "c4b": true,
+  "win": true,
+  "t3": true,
+  "bal": true
+ },
+ "ok": true,
+ "timing": {
+  "ctx": {
+   "wallSec": 0.064
+  },
+  "pure": {
+   "wallSec": 0.089
+  },
+  "t2": {
+   "wallSec": 0.095
+  },
+  "t3": {
+   "wallSec": 0.099
+  }
+ },
+ "elapsedS": 0.232,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第344便e",
+  "target": "tests/lib-w344e-spincompose.mjs",
+  "targetSha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+  "generatedAt": "2026-11-19T14:10:37.310Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w344e-spincompose.mjs",
+    "bytes": 7690,
+    "sha256": "6dd9ce0b00d400543f23e3eba9c43748fc64e42875b96bfbee6cb0b625b0fd1d",
+    "mtime": "2026-11-19T13:57:55.226Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-19T13:44:10.436Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-19T13:44:10.456Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-19T13:44:10.460Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-19T13:44:10.460Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-19T13:44:10.460Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-19T13:44:10.472Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-19T13:44:10.476Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-19T13:44:10.480Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-19T13:44:10.484Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-19T13:44:10.488Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-19T13:44:10.492Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-19T13:44:10.492Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-19T13:44:10.492Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-19T13:44:10.496Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-19T13:44:10.500Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-19T13:44:10.504Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-19T13:44:10.504Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-19T14:10:36.748Z"
+   }
+  ],
+  "codeSha256": "8b05f0e959ea200ab461921d3bdd52e8719ddabab3439dc0e4d313a039595b81",
+  "harnessVersion": "w344e-spincompose-1",
+  "stage": "spincompose",
+  "engine": "Node(html を読まない —— 純関数の lib の表・ベクトルの和・陰の中点の積分)・1 プロセス",
+  "notClaim": [
+   "合成の型の動作の確かめと、要るノブの範囲の表(天体の自転や熱の予測ではない)",
+   "合成の型 5 つ(C1・C2・C3・C4a・C4b)・目標の回転の大きさの読み 2 つ・向ける先の写像 3 つはどれも候補(どれも採っていない)",
+   "C2 の尺度 c は〔第343便e〕の向ける力の前の係数に合わせて置いたノブ —— (m1) の届くまでの時間が天体に依らないのはこの置き方の結果",
+   "C4 の上限と飽和はノブ —— 観測の自転に合わせた値ではない",
+   "三次元の残りは宣言の極(文献の値・未照合)での値",
+   "AN711 の 120° は消さない・112.8° で置き換えない",
+   "〔第343便e〕の「置き換わる先」の表は当時の読みの列として残る",
+   "エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 1071,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

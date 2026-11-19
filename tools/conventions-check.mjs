@@ -217,7 +217,11 @@ export function samplestatusIdempotent(root, opt) {
   else if (parsed.htmlChanged !== false) ngs.push('⑤ samplestatus が冪等でない(htmlChanged:true —— html の生成領域 sample-status が原稿+正本から作った表と違う。差を作り直してコミットしてから鎖を起動)');
   if (htmlTouched) ngs.push('⑤ 器が beta/index.html を直に書いた(REGEN_HTML_STAGE が効かない —— 走る前の bytes に戻した)');
   if (!clean) ngs.push('⑤ 作業ツリーの git status が前後で違う(戻した後) —— 器が他のファイルを書いた');
-  return { ok: ngs.length === 0, ngs, rc: r ? r.status : null, htmlChanged: parsed ? parsed.htmlChanged : null, summary: parsed, restored, clean, sec: (Date.now() - t0) / 1000 };
+  // 第344便f(R390): NG の種類を欄にも書く(tests/lib-w343f-chainresume.mjs の resumeVerdict が文と欄の両方を見る —— 既存の欄の名は変えない)。
+  //   kind の重い順: harnessFailed(器が落ちた)→ noLine(htmlChanged の行が無い)→ htmlTouched(html を直に書いた)→ dirty(木が前後で違う)→ notIdempotent → ok
+  const rc = r ? r.status : null;
+  const kind = rc !== 0 ? 'harnessFailed' : !parsed ? 'noLine' : htmlTouched ? 'htmlTouched' : !clean ? 'dirty' : parsed.htmlChanged !== false ? 'notIdempotent' : 'ok';
+  return { ok: ngs.length === 0, ngs, rc, htmlChanged: parsed ? parsed.htmlChanged : null, summary: parsed, restored, clean, htmlTouched, kind, sec: (Date.now() - t0) / 1000 };
 }
 
 /** 自己試験(式の照合・2fd84b4 の型の変異〔♊⚖️ を c₀ = 10 に〕の検出・段の未分類の検出・SKIP の数え方は qapart の lib)。 */

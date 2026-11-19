@@ -1195,6 +1195,43 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便a の塊(ここから)====
+# 第344便a(原仮定者の指示(2026-11-19 —— 第144報)・統括の検証項目 R385 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report144_344a —— PHYSICS〔第344便a〕の
+#   第144報の原文・第143報の回答の在り処・題の表・用語・出どころの書き方をそろえた所・AI_SPEC §277・CHANGELOG / lint.equations344a —— EQ の番号の連続・EQ-87〜EQ-91 と各節の同じ字の式・欄・EQ-84 の訂正の参照)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report144_344a lint.equations344a"
+# ==== 第344便a の塊(ここまで)====
+# ==== 第344便b の塊(ここから)====
+# 第344便b(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3)AN876・AN877・統括の検証項目 R386 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.partyconv344b —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・X_k の零試験(閉じた形と数値)・(0) と第343便b の lib の近点の照合 / docs.partyconv344b —— 正本の門と表 13 本が PHYSICS〔第344便b〕に逐語・文書)と、新しい段 partyconv-344b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partyconv344b docs.partyconv344b"
+# ==== 第344便b の塊(ここまで)====
+# ==== 第344便c の塊(ここから)====
+# 第344便c(原仮定者の回答(2026-11-19 —— 第143報の回答 3)AN879・統括の検証項目 R387 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.clockmid344c —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験・atX1 の定義域 / docs.clockmid344c —— 正本の門と表 12 本が PHYSICS〔第344便c〕に逐語・文書)と、新しい段 clockmid-344c の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockmid344c docs.clockmid344c"
+# ==== 第344便c の塊(ここまで)====
+# ==== 第344便d の塊(ここから)====
+# 第344便d(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3 AN876)・統括の検証項目 R388 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.dragconv344d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験 3・K1 の今の一次との差・T1 のコードの引用と引きずりの步に点の時計が無いこと / docs.dragconv344d —— 正本の門と表が PHYSICS〔第344便d〕に逐語・文書)と、新しい段 dragconv-344d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragconv344d docs.dragconv344d"
+# ==== 第344便d の塊(ここまで)====
+# ==== 第344便e の塊(ここから)====
+# 第344便e(原仮定者の回答(2026-11-19 —— 第143報の回答 3)AN880・統括の検証項目 R389 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spincompose344e —— 合成の型の零試験 7・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・参考の試作の表と閉じた形・三次元の残りの最小 = abs(sin ずれ)・呼ぶだけ / docs.spincompose344e —— 正本の門と表が PHYSICS〔第344便e〕に逐語・文書)と、新しい段 spincompose-344e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spincompose344e docs.spincompose344e"
+# ==== 第344便e の塊(ここまで)====
+# ==== 第344便f の塊(ここから)====
+# 第344便f(統括の検証項目 R390・BL-148 —— 道具と QA だけ・html は変えない): 新設 3 本(lint.chainResume344f —— 入れ直しの判定の ⑤ の 3 種類の NG の分けと
+#   文と欄の食い違い・作り物の印の木で --resume-gate / docs.tools344f / lint.libVersionImport344f —— qa.mjs の lib の版の文字の期待の数と直した所)と、
+#   版の照合を書き直した鍵(lint.chainResume343f ほか第342便・第343便の 11 ブロック)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.chainResume344f docs.tools344f lint.libVersionImport344f lint.chainResume343f behavior.judge3rest343f behavior.clockstop342b behavior.clockread343c"
+# ==== 第344便f の塊(ここまで)====
+# ==== 第344便g の塊(ここから)====
+# 第344便g(決断事項 AN807・AN822・AN885・統括の検証項目 R391 —— 診断だけ・html は変えない): 枝 g の新設 2 本(behavior.plutogm344g —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・入力の csv の sha・(1)(2) の列が第343便g の正本の数に戻る・往復の差・呼ぶだけ / docs.plutogm344g —— 正本の門と表 9 本が
+#   PHYSICS〔第344便g〕に逐語・文書)と、新しい段 plutogm-344g の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutogm344g docs.plutogm344g"
+# ==== 第344便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -1335,6 +1372,11 @@ console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " �
 # 第336便b(R336): ① の印のない FAIL の一覧($LOG/1-unmarked.txt —— id・文に刻印の型の語があるか・理由の文の末尾 120 字)と、1 件でもあれば要約に「‼ 1 件ずつ読むこと」
 [ "$S1" = "skip" ] || S1="$S1$(unmarked336b "$LOG/1-preflight.log" "$LOG/1-unmarked.txt" ①)"
 # ==== 第336便b の塊(ここまで)====
+# ==== 第344便f の塊(① の飛ばしの印字 —— ここから)====
+# 第344便f(統括の検証項目 R390): --no-preflight で ① を飛ばしたことを結果の行に必ず印字する(新しい入口は足していない —— 既存の --no-preflight を使う)。
+#   使い方の案: 統合の直後(鎖の前)は `--no-preflight` + Node 24 の事前検査を別に 1 回(刻印の型の FAIL は鎖で直る)・鎖の後の木で ① を含めて 1 回。
+[ $NOPRE -eq 1 ] && S1="skip(① は飛ばした —— 事前検査は別に回す・--no-preflight)"
+# ==== 第344便f の塊(① の飛ばしの印字 —— ここまで)====
 
 # ② 接続契約
 say "② 接続契約(regen-chain --audit / --self-test)→ $LOG/2-*.log"
