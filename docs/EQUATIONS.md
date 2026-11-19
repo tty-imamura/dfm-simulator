@@ -2457,6 +2457,7 @@ if (n === 1) return Math.asin(x);
 if (n === 2) return x < 1 ? Math.atanh(x) : Infinity;
 // …
 if (type === 'U1') { if (n === 1) return 0.5 * (x * Math.sqrt(1 + x * x) + Math.asinh(x)); if (n === 2) return x + x * x * x / 3; }
+// …
 if (type === 'U2') { if (n === 1) return x + x * x * x / 6; if (n === 2) return x + x * x * x / 3 + x ** 5 / 20; }
 if (type === 'U3') { if (n === 1) return expSeries(x, 0.5); if (n === 2) return expSeries(x, 1); }
 ```
