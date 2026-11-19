@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "b6fbfeafa26d7d7ec80428795f566db422fdeea15397a2520d058268ebe07065",
-  "generatedAt": "2026-11-18T00:46:53.933Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:58:14.153Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687948,
-    "sha256": "b6fbfeafa26d7d7ec80428795f566db422fdeea15397a2520d058268ebe07065",
-    "mtime": "2026-11-18T00:17:08.746Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734323,
-    "sha256": "8b81a3609f3324271f602508e935e3bf80c84e1383a15c7fce41f4f38d5e53d5",
-    "mtime": "2026-11-18T00:17:09.394Z"
+    "bytes": 1732244,
+    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
+    "mtime": "2026-11-18T16:43:50.157Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w275b-d0audit.mjs",
     "bytes": 25665,
     "sha256": "aa0a9a8bccdd8fbca78436fa952c15846f05a9500ee65d24f31993334c9328bc",
-    "mtime": "2026-11-18T00:46:19.355Z"
+    "mtime": "2026-11-18T01:07:52.486Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
     "bytes": 10918,
     "sha256": "0320d33c45339e747b2095a3fa57cffc22b77800afb878f561210588bccc9440",
-    "mtime": "2026-11-18T00:17:09.050Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-18T00:17:09.050Z"
+    "mtime": "2026-10-20T16:19:56.668Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-18T00:17:09.058Z"
+    "mtime": "2026-11-08T18:31:46.797Z"
    }
   ],
   "codeSha256": "c66261a9e9696fe8da7d1b428cbe45729c37ee5e6979ce207677959f8f2ecc40",
@@ -65,14 +65,14 @@
    "abBody": false,
    "names": 1339,
    "segments": 1170,
-   "closureShare": 0.2879
+   "closureShare": 0.2877
   },
-  "scopeSha256": "bfb91750a7c63c06c70df77af8a44d0059102828d68400a5fd2eb2ad716947ea",
+  "scopeSha256": "3aab89d786f8fe773e26e151f369467e3aa5a87d007bf636ecd635788e22568b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "ccee422edc98c33ece407a1ab4a0772bb2c5e2a16d9584d0773b017c68b7615d",
+    "stableSha256": "682256dc840dfcda8584580801ddf64a073e7fe444316cec59e3c0900199bfd5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -136,7 +136,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "8d6018965f8d29fcf37f1d8da6d422c8e391f7e4fcb52d27c7a2f3b1b76a142f",
+    "stableSha256": "03c0a6caa4117960c479f65936f511996557c68da05217616ab71463b1e14ce9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2084,7 +2084,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.518,
+     "wallSec": 0.566,
      "rev2Sec": 19413888.609576266,
      "residPct": -0.001430864545037849,
      "sigma": null
@@ -2120,7 +2120,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.872,
+     "wallSec": 1.063,
      "rev2Sec": 19413888.581042994,
      "residPct": -0.0014310115164393364,
      "sigma": null
@@ -2156,7 +2156,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.491,
+     "wallSec": 2.075,
      "rev2Sec": 19413888.573812872,
      "residPct": -0.0014310487579128738,
      "sigma": null
@@ -2202,7 +2202,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.37,
+     "wallSec": 0.555,
      "rev2Sec": 19413888.609576266,
      "residPct": -0.001430864545037849,
      "sigma": null
@@ -2238,7 +2238,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.711,
+     "wallSec": 0.869,
      "rev2Sec": 19413888.581042994,
      "residPct": -0.0014310115164393364,
      "sigma": null
@@ -2274,7 +2274,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.387,
+     "wallSec": 1.749,
      "rev2Sec": 19413888.573812872,
      "residPct": -0.0014310487579128738,
      "sigma": null
@@ -2320,7 +2320,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.343,
+     "wallSec": 0.338,
      "rev2Sec": 19413888.609576266,
      "residPct": -0.001430864545037849,
      "sigma": null
@@ -2356,7 +2356,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.719,
+     "wallSec": 0.677,
      "rev2Sec": 19413888.581042994,
      "residPct": -0.0014310115164393364,
      "sigma": null
@@ -2392,7 +2392,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.574,
+     "wallSec": 1.693,
      "rev2Sec": 19413888.573812872,
      "residPct": -0.0014310487579128738,
      "sigma": null
@@ -2422,7 +2422,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.112,
+     "wallSec": 0.103,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2441,7 +2441,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.102,
+     "wallSec": 0.093,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2460,7 +2460,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.095,
+     "wallSec": 0.098,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2506,7 +2506,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.622,
+     "wallSec": 0.845,
      "rev2Sec": 19414266.578568343,
      "residPct": 0.0005160075703511187,
      "sigma": null
@@ -2542,7 +2542,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.341,
+     "wallSec": 1.747,
      "rev2Sec": 19414254.9209926,
      "residPct": 0.00045596082149142907,
      "sigma": null
@@ -2578,7 +2578,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.35,
+     "wallSec": 2.706,
      "rev2Sec": 19414249.618583623,
      "residPct": 0.000428648760447474,
      "sigma": null
@@ -2620,7 +2620,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.542,
+     "wallSec": 0.533,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2652,7 +2652,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.154,
+     "wallSec": 1.106,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2684,7 +2684,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.307,
+     "wallSec": 2.734,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2730,7 +2730,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.504,
+     "wallSec": 0.605,
      "rev2Sec": 19413890.993609134,
      "residPct": -0.0014185846829066122,
      "sigma": null
@@ -2766,7 +2766,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.995,
+     "wallSec": 0.932,
      "rev2Sec": 19413890.966572862,
      "residPct": -0.0014187239434415861,
      "sigma": null
@@ -2802,7 +2802,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.867,
+     "wallSec": 2.066,
      "rev2Sec": 19413890.960099775,
      "residPct": -0.001418757285520978,
      "sigma": null
@@ -2832,7 +2832,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.18,
+     "wallSec": 0.201,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2851,7 +2851,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.126,
+     "wallSec": 0.145,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2870,7 +2870,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.13,
+     "wallSec": 0.126,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null

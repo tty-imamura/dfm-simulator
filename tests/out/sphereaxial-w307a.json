@@ -3,7 +3,7 @@
  "libVersion": "w307a-sphereaxial-lib-1",
  "generator": "tests/exp-w307a-sphereaxial.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の裁定(第100報)(軸引きずり = 受け手の球面の近い側と遠い側の回転引きずりの差分 —— 赤道で歯車の逆回転・軸へ近付くと弱まりつつ同じ向きへ)・決断事項 AN345 ①②(今の μ² の符号の反転では作れない・角度分布は分母の距離則に依る)・統括の検証項目 R209",
  "axialVersion": "w307a-axial-sphere-1",
  "axialLaw": "sphere-rigid-halfcurl",
@@ -3730,43 +3730,43 @@
  "ok": true,
  "timing": {
   "Q": {
-   "wallSec": 0.025
+   "wallSec": 0.045
   },
   "Z": {
-   "wallSec": 0.43
+   "wallSec": 0.564
   },
   "A": {
-   "wallSec": 3.816
+   "wallSec": 4.371
   },
   "L": {
-   "wallSec": 12.222
+   "wallSec": 14.416
   },
   "F": {
-   "wallSec": 7.938
+   "wallSec": 9.449
   },
   "C": {
-   "wallSec": 1.652
+   "wallSec": 2.194
   },
   "E": {
-   "wallSec": 12.027
+   "wallSec": 18.593
   },
   "R": {
-   "wallSec": 9.104
+   "wallSec": 13.015
   }
  },
- "elapsedS": 49.026,
+ "elapsedS": 64.949,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便a",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:46:43.601Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T00:58:25.363Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -3853,9 +3853,9 @@
    ],
    "names": 1377,
    "segments": 1208,
-   "closureShare": 0.2949
+   "closureShare": 0.2948
   },
-  "scopeSha256": "4c7b8488874163b49718b3d0b288a3f3fa8cde0d71806042a22c3d24536bf200",
+  "scopeSha256": "09fffcd7bbbed7bc21d62f94c6b7d7d04d317fcb10d026f6642b09e231fd14a3",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
