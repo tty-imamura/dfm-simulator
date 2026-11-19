@@ -20,7 +20,7 @@ export function tablesOf(J) {
 
   T.t1 = ['| 宣言 | 絶対時間の加速 | 当事者時間 1 秒あたりの速度の増し分 dv/dτ | 読み |', '|---|---|---|---|']
     .concat(J.t1.decls.map((d) => `| ${DECL_NAME[d.decl]} | ${d.absAccel} | ${d.perTau} | ${d.note} |`)).join('\n');
-  T.app = ['| 今のアプリの所 | コード(beta/index.html —— 読むだけ) | 当たるもの |', '|---|---|---|']
+  T.app = ['| 今のアプリの所 | コード(beta の html —— 読むだけ) | 当たるもの |', '|---|---|---|']
     .concat(J.t1.app.map((a) => `| ${a.what} | ${a.code} | ${a.reads} |`)).join('\n');
 
   const t2 = J.t2, at = (d, n, t) => t2.rows.find((r) => r.decl === d && r.nG === n && r.type === t);
