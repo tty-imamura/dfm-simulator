@@ -25,8 +25,8 @@ export const TARGET = 'tests/lib-w344g-plutogm.mjs';
 export const INPUT = L.DECL.csv;
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-export const NOT_CLAIM = Object.freeze(['重力定数が決まった、と書かない(4 列を並べる —— (3)(4) は文献の値・未照合)', '周期が合った、と書かない(接触の周期と平均の周期は定義が違う)',
-  '離心率が決まった、と書かない(接触の e は元期と重力定数の出どころで動く)', '近点の引数の元期の差を歳差として読まない(入力に無い量 —— AN885)',
+export const NOT_CLAIM = Object.freeze(['重力定数を一つに定めた形の文にしない(4 列を並べる —— (3)(4) は文献の値・未照合)', '接触の周期と平均の周期の差の小ささを結果の文にしない(定義が違う)',
+  '離心率を一つに定めた形の文にしない(接触の e は元期と重力定数の出どころで動く)', '近点の引数の元期の差を歳差として読まない(入力に無い量 —— AN885)',
   '入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)', '共分散の無い値の 1σ は空欄(推定の値の幅を足し合わせて σ と書かない)', '未照合の数をデータの表に足さない']);
 export const PLAN = Object.freeze({ epochs: L.S343.DECL.epochs, gmKeys: L.DECL.gmKeys, t4Cols: 9 });
 
