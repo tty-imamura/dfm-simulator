@@ -360,6 +360,8 @@ if (argv.includes('--nslock-shadow') || argv.includes('--streak')) {
 //   node tools/regen-chain.mjs --resume-gate <REGEN_LOG> [--conv-json <conventions-check --json の出力> --conv-rc <その終了コード>] [--json <file>]
 //     規約の判定(無ければ tools/conventions-check.mjs --samplestatus を走らせる)が OK → 0(初回と同じ)。NG が ⑤ samplestatus だけ・済み印が在る・
 //     samplestatus の段の済み印が無い → 0(入れ直し —— 鎖の途中の食い違い)。それ以外 → 4(止める)。
+//     第344便f(R390・lib 版 2): 入れ直しの ⑤ は「冪等でない」の 1 件だけ —— ⑤ の欄(器の rc 0・htmlChanged true・木が前後で同じ・html を直に書いていない・kind)と
+//     NG の文の両方がそれを指すときだけ。器が落ちた・htmlChanged の行が無い・欄が無い・文と欄が食い違う → 4(止める)。通すときの振る舞いと終了コードは変えない。
 //   node tools/regen-chain.mjs --preflight <鎖の脚本> [--json <file>]  —— 脚本が呼ぶ node の .mjs/.js・bash の .sh の実在と構文(node --check・bash -n)。全部よければ 0・欠け/誤り 5
 if (argv.includes('--resume-gate') || argv.includes('--preflight')) {
   const CR = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w343f-chainresume.mjs')).href);

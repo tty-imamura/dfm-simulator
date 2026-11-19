@@ -110232,7 +110232,7 @@ function view340aOf341a(eq) {
         const js = (x) => JSON.stringify(x);
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・宣言・純関数の場面
-        if (!(L.LIB_VERSION === 'w342b-clockstop-lib-1' && X.HARNESS_VERSION === 'w342b-clockstop-1' && D0.DOC_VERSION === 'w342b-clockstopdoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w342b-clockstop-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w342b-clockstop-\d+$/.test(X.HARNESS_VERSION)) && /^w342b-clockstopdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・照合の lib)');
         if (!(js(L.DECL.types) === js(['F', 'U1', 'U2', 'U3']) && js(L.DECL.nGrid) === js([1, 2]) && js(L.DECL.xGrid) === js([0, 0.1, 0.5, 0.9, 0.99, 1, 2, 10]) && js(L.DECL.tRead) === js([0.5, 1, 1.5, 2, 3, 5])
           && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN))) bad.push('① 宣言(時計の型・べき・x・T の格子)が lib・器・正本で同じでない');
@@ -110383,7 +110383,7 @@ function view340aOf341a(eq) {
         const js = (x) => JSON.stringify(x);
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・格子・純関数の場面
-        if (!(L.LIB_VERSION === 'w342c-oblateapprox-lib-2' && X.HARNESS_VERSION === 'w342c-oblateapprox-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        if (!((L.LIB_VERSION === J.libVersion && /^w342c-oblateapprox-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w342c-oblateapprox-\d+$/.test(X.HARNESS_VERSION)) && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
         const DD = L.DECL;
         if (!(js(DD.fGrid) === js([0.05, 0.098, 0.2, 0.3, -0.1]) && js(DD.dGrid) === js([1.1, 1.24, 1.5, 1.95, 2, 2.27, 2.33]) && js(DD.sGrid) === js([0.01, 0.1]) && DD.ref.nPts === 42
           && js(DD.dirLevels) === js([[4, 8], [8, 16], [16, 32]]) && js(DD.gKinds) === js(['delta', 'sinDelta', 'axial', 'deltaOverTheta']) && js(DD.nGrid) === js([0, 1, 2, 3]) && js(DD.fitAt) === js({ f: 0.098, d: 1.5, s: 0.01 })))
@@ -110537,7 +110537,7 @@ function view340aOf341a(eq) {
       try {
         // ① 版と写しの来歴
         const S = O.source || {};
-        if (!(F.LIB_VERSION === 'w342d-gyropathfix-lib-1' && O.version === 'w342d-gyropathold-1' && F.DATA_OLD === 'tests/data-w342d-gyropathold.json' && J.libVersion === L.LIB_VERSION
+        if (!(/^w342d-gyropathfix-lib-\d+$/.test(F.LIB_VERSION) && O.version === 'w342d-gyropathold-1' && F.DATA_OLD === 'tests/data-w342d-gyropathold.json' && J.libVersion === L.LIB_VERSION   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && typeof S.libVersion === 'string' && S.libVersion !== L.LIB_VERSION && S.path === 'tests/out/gyropath-340d.json' && /^[0-9a-f]{64}$/.test(S.sha256 || '') && /^[0-9a-f]{40}$/.test(S.gitBlob || '')
           && Array.isArray(O.rows) && O.rows.length === 360 && JSON.stringify(O.cols) === JSON.stringify(['f', 'rOverReq', 'zOverR', 'key', 'pull', 'pullSphere', 'ratio'])))
           bad.push('① 版(訂正の lib・写し)・写しの来歴(正本の旧い版・sha256・git の blob・360 行)・正本の libVersion が今の lib と同じ');
@@ -110667,7 +110667,7 @@ function view340aOf341a(eq) {
       try {
         const js = (x) => JSON.stringify(x);
         // ① 版・格子・零試験と純関数の場面(ほかの lib の版は文字で期待しない —— 読んで比べる)
-        if (!(L.LIB_VERSION === 'w342e-powerball-lib-1' && X.HARNESS_VERSION === 'w342e-powerball-1' && D0.DOC_VERSION === 'w342e-powerballdoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w342e-powerball-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w342e-powerball-\d+$/.test(X.HARNESS_VERSION)) && /^w342e-powerballdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         if (!(js(L.DECL.splits.const) === js([0, 0.1, 0.5, 0.9, 1]) && js(L.DECL.splits.ratio) === js([1, 1e3, 1e6]) && L.DECL.splits.lag.length === 5 && js(L.DECL.mu) === js([0, 0.5, 0.9])
           && js(L.DECL.laws) === js(['sin', 'sin2', 'oneMinusCos']) && js(L.DECL.cbReadings) === js(['one', 'bal', 'spd']) && js(L.DECL.targetSets) === js(['sun', 'galaxy', 'both'])
@@ -111638,7 +111638,7 @@ function view342fOf343a(eq) {
         const js = (x) => JSON.stringify(x);
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         // ① 版・宣言・純関数の場面
-        if (!(L.LIB_VERSION === 'w343b-partytime-lib-1' && X.HARNESS_VERSION === 'w343b-partytime-1' && D0.DOC_VERSION === 'w343b-partytimedoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w343b-partytime-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w343b-partytime-\d+$/.test(X.HARNESS_VERSION)) && /^w343b-partytimedoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION && J.meta.recheck.unstable === 0)) bad.push('① 版(lib・器・文書の lib・照合の lib)か判定が反転する葉');
         if (!(js(L.DECL.decls) === js(['i', 'ii', 'iii', 'N']) && js(L.DECL.nG) === js([0, 1, 2]) && js(L.DECL.types) === js(['F', 'U1', 'U2', 'U3']) && js(L.DECL.orbit.steps) === js([3000, 6000])
           && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN) && js(J.t1) === js(X.T1))) bad.push('① 宣言(宣言・n_G・型・刻みの格子・T1 の表)が lib・器・正本で同じでない');
@@ -111792,7 +111792,7 @@ function view342fOf343a(eq) {
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const B342 = await import('file://' + path.join(ROOT, 'tests', 'lib-w342b-clockstop.mjs'));
         // ① 版・宣言・純関数の場面
-        if (!(L.LIB_VERSION === 'w343c-clockread-lib-1' && X.HARNESS_VERSION === 'w343c-clockread-1' && D0.DOC_VERSION === 'w343c-clockreaddoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w343c-clockread-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w343c-clockread-\d+$/.test(X.HARNESS_VERSION)) && /^w343c-clockreaddoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・照合の lib)');
         if (!(js(L.DECL.kGrid) === js([0.25, 0.5, 1, 2, 'inf']) && js(L.DECL.nGrid) === js([0, 1, 2]) && js(L.DECL.sGrid) === js([1, 2, 4, 8])
           && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN))) bad.push('① 宣言(形の族の k・べき・有限の列)が lib・器・正本で同じでない');
@@ -111958,7 +111958,7 @@ function view342fOf343a(eq) {
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const C342 = await import('file://' + path.join(ROOT, 'tests', 'lib-w342c-oblateapprox.mjs'));
         // ① 版・格子・純関数の場面
-        if (!(L.LIB_VERSION === 'w343d-surfquad-lib-1' && X.HARNESS_VERSION === 'w343d-surfquad-1' && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');
+        if (!((L.LIB_VERSION === J.libVersion && /^w343d-surfquad-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w343d-surfquad-\d+$/.test(X.HARNESS_VERSION)) && X.AMEND.length === 0 && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・版の履歴・照合の lib)');   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
         const DD = L.DECL;
         if (!(js(DD.surfLevels) === js([[64, 128], [96, 192]]) && DD.surfMain === 1 && DD.ref.nPts === 42 && js(DD.pole.fGrid) === js([0, 0.098, -0.1]) && DD.pole.z === 2 && DD.pole.side === 1e-6
           && js(DD.edge.fGrid) === js([0.098, 0.3, -0.1]) && js(DD.edge.dGrid) === js([1.1, 2]) && js(DD.edge.sGrid) === js([0.01, 0.1, 0.5, 0.9, 0.99, 1]) && DD.chordMain === 1 && DD.chordFine === 2))
@@ -112110,7 +112110,7 @@ function view342fOf343a(eq) {
       try {
         const js = (x) => JSON.stringify(x);
         // ① 版・格子・零試験(ほかの lib の版は文字で期待しない —— 読んで比べる)
-        if (!(L.LIB_VERSION === 'w343e-spintransfer-lib-1' && X.HARNESS_VERSION === 'w343e-spintransfer-1' && D0.DOC_VERSION === 'w343e-spintransferdoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w343e-spintransfer-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w343e-spintransfer-\d+$/.test(X.HARNESS_VERSION)) && /^w343e-spintransferdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         if (!(js(L.DECL.targetSigns) === js(['rev', 'fwd']) && js(L.DECL.magReadings) === js(['m1', 'm2']) && js(L.DECL.paths) === js(['P1', 'P2', 'P3']) && js(L.DECL.laws) === js(['k1', 'k2', 'abs2'])
           && js(L.DECL.galPlace) === js([0, 180]) && L.DECL.sunDeg === 112.8 && L.DECL.balDeg === 120 && L.DECL.thetaGrid.length === 9 && L.DECL.bodies.length === 7 && L.DECL.highFrac === 0.1))
@@ -112275,7 +112275,7 @@ function view342fOf343a(eq) {
       const E = await import('file://' + path.join(ROOT, 'tests', 'lib-w338e-spinfield.mjs')), L337d = await import('file://' + path.join(ROOT, 'tests', 'lib-w337d-accelloss.mjs'));
       const J = rj('tests/out/bevelknob-338b.json'), JE = rj('tests/out/spinfield-338e.json');
       // ① 版
-      if (!(F.LIB_VERSION === 'w343f-judge3rest-lib-1' && F.THIN_VERSION === TH.LIB_VERSION && F.DECL.factor === TH.DECL.JUDGE_FACTOR && J && J.lib343fVersion === F.LIB_VERSION && J.version === X.HARNESS_VERSION
+      if (!(/^w343f-judge3rest-lib-\d+$/.test(F.LIB_VERSION) && F.THIN_VERSION === TH.LIB_VERSION && F.DECL.factor === TH.DECL.JUDGE_FACTOR && J && J.lib343fVersion === F.LIB_VERSION && J.version === X.HARNESS_VERSION   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
         && J.libVersion === K.LIB_VERSION && JE && JE.libVersion === E.LIB_VERSION && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(本枝の lib・器・338b と 338e の lib の版が正本と同じ)');
       cases.push(`① lib ${F.LIB_VERSION}・器 ${X.HARNESS_VERSION}・338e の lib ${E.LIB_VERSION}`);
       // ② 338b の正本
@@ -112332,7 +112332,7 @@ function view342fOf343a(eq) {
     let tmp = null;
     try {
       const CR = await import('file://' + wCr), { spawnSync } = await import('node:child_process');
-      if (CR.LIB_VERSION !== 'w343f-chainresume-lib-1') bad.push('版');
+      if (!/^w343f-chainresume-lib-\d+$/.test(CR.LIB_VERSION)) bad.push('版');   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
       const sc = CR.selfCases(); for (const c of sc) if (!c.ok) bad.push('判定の自己試験: ' + c.name + '(' + c.got.mode + ')');
       cases.push(`判定の自己試験 ${sc.filter((c) => c.ok).length}/${sc.length}`);
       tmp = fs.mkdtempSync(path.join((await import('node:os')).tmpdir(), 'w343f-'));
@@ -112428,7 +112428,7 @@ function view342fOf343a(eq) {
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const P341 = await import('file://' + path.join(ROOT, 'tests', 'lib-w341g-plutocontrol.mjs'));
         // ① 版・宣言・純関数の場面
-        if (!(L.LIB_VERSION === 'w343g-plutostate-lib-1' && X.HARNESS_VERSION === 'w343g-plutostate-1' && D0.DOC_VERSION === 'w343g-plutostatedoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w343g-plutostate-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w343g-plutostate-\d+$/.test(X.HARNESS_VERSION)) && /^w343g-plutostatedoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 第344便f(BL-148): 版は正本の記録と名の型で見る(文字で期待しない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION && J.meta.recheck.unstable === 0)) bad.push('① 版(lib・器・文書の lib・照合の lib)・判定が反転する葉 0');
         if (!(L.DECL.csv === 'paper/data/pluto-system-states.csv' && js(L.DECL.gmKeys) === js(['repo', 'csvDerived']) && L.DECL.gmRepo === 975.4 && js(L.DECL.gmRepoParts) === js([869.3, 106.1])
           && L.DECL.epochs.length === 2 && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN)))
