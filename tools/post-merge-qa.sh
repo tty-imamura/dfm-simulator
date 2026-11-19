@@ -1195,6 +1195,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便e の塊(ここから)====
+# 第344便e(原仮定者の回答(2026-11-19 —— 第143報の回答 3)AN880・統括の検証項目 R389 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spincompose344e —— 合成の型の零試験 7・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・参考の試作の表と閉じた形・三次元の残りの最小 = abs(sin ずれ)・呼ぶだけ / docs.spincompose344e —— 正本の門と表が PHYSICS〔第344便e〕に逐語・文書)と、新しい段 spincompose-344e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spincompose344e docs.spincompose344e"
+# ==== 第344便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
