@@ -111288,6 +111288,166 @@ function view341aOf342f(eq) {
 }
 // ==== 第342便g の塊(ここまで)====
 
+// ==== 第343便g の塊(ここから —— behavior.plutostate343g・docs.plutostate343g の 2 ブロック。root は SKIP)====
+// ---- 第343便g(原仮定者の補足(2026-11-18 —— 第141報)「冥王星とカロンは、引きずりの影響が少ない、理想的な連星」・決断事項 AN807・AN822・統括の検証項目 R384):
+// ----   **冥王星–カロンを同じ解・同じ元期の状態へ繋ぐ**(新設 —— 器 tests/exp-w343g-plutostate.mjs〔html を読まない〕・lib tests/lib-w343g-plutostate.mjs・
+// ----   文書の lib tests/lib-w343g-plutostatedoc.mjs・正本 tests/out/plutostate-343g.json・入力 paper/data/pluto-system-states.csv)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.plutostate343g: ① 版・宣言・純関数の場面 ② 器を走らせ直して第338便c の recheckRun で正本と照合 ③ 入力の csv の sha・往復の差・csv の要素の行の作り直し
+// ----     ④ 第341便g の入力の列が第341便g の正本の数に戻る ⑤ 呼ぶだけ(lib の import・html を読まない)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343g-plutostate.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343g-plutostate.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343g-plutostatedoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'plutostate-343g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.plutostate343g(第343便g の冥王星–カロンの同じ解の状態の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, J341 = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  try { J341 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'plutocontrol-341g.json'), 'utf8')); } catch (e) { J341 = null; }
+  // ───── behavior.plutostate343g ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/plutostate-343g.json が読めない');
+    else if (!J341) bad.push('第341便g の正本 tests/out/plutocontrol-341g.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        const P341 = await import('file://' + path.join(ROOT, 'tests', 'lib-w341g-plutocontrol.mjs'));
+        // ① 版・宣言・純関数の場面
+        if (!(L.LIB_VERSION === 'w343g-plutostate-lib-1' && X.HARNESS_VERSION === 'w343g-plutostate-1' && D0.DOC_VERSION === 'w343g-plutostatedoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION && J.meta.recheck.unstable === 0)) bad.push('① 版(lib・器・文書の lib・照合の lib)・判定が反転する葉 0');
+        if (!(L.DECL.csv === 'paper/data/pluto-system-states.csv' && js(L.DECL.gmKeys) === js(['repo', 'csvDerived']) && L.DECL.gmRepo === 975.4 && js(L.DECL.gmRepoParts) === js([869.3, 106.1])
+          && L.DECL.epochs.length === 2 && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN)))
+          bad.push('① 宣言(入力・GM の出どころ 2・リポジトリの値・元期 2)が lib・器・正本で同じでない');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+        if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(往復・円の e・半周・桁の幅・第341便g の入力・拒否)`);
+        // ② 器を走らせ直して正本と照合(第338便c の量ごとの尺度)
+        const parts = ['pure', 't1', 't2', 't3', 't4', 'resid', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('② 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero} —— 元期 ${R.t2.epochs.length}・T4 ${R.t4.rows.length} 列・残る差の表 ${R.resid.rows.length} 行)・門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}`);
+        // ③ 入力の csv の sha・往復の差・csv の要素の行の作り直し
+        const csvSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'paper', 'data', 'pluto-system-states.csv'))).digest('hex');
+        const inp = (J.meta.inputs || []).find((x) => x.file === 'paper/data/pluto-system-states.csv');
+        if (!(inp && inp.sha256 === csvSha && J.meta.inputs.length === 1)) bad.push('③ 正本の入力の csv の sha が今の csv と違う(器を走らせ直す)');
+        const rtMax = Math.max(...J.t2.epochs.flatMap((r) => Object.values(r.byGM).flatMap((b) => [b.roundTrip.r, b.roundTrip.v])));
+        const rmMax = Math.max(...J.t2.epochs.flatMap((r) => [Math.abs(r.remakeBary.aRel), Math.abs(r.remakeBary.eRel), Math.abs(r.remakeBary.PRel)]));
+        if (!(rtMax <= 1e-12 && rmMax <= 1e-9 && J.t1.inventory.gmRows === 0)) bad.push('③ 要素から状態へ戻す往復の差 ≤ 1e-12・csv の要素の行の作り直しの差 ≤ 1e-9・GM の行 0');
+        cases.push(`③ 入力の csv の sha ${csvSha.slice(0, 12)}(正本の meta.inputs と同じ)・往復の差 ≤ 1e-12・csv の要素の行の作り直し ≤ 1e-9・GM の行 ${J.t1.inventory.gmRows}`);
+        // ④ 第341便g の入力の列が第341便g の正本の数に戻る(版は import して比べる)
+        const w = J.t4.rows.find((r) => r.key === 'w341g'), pc = J341.t1.rows.find((r) => r.key === 'plutoCharon'), q0 = J341.t3.st3.rows[0];
+        const pairs = [['mutAxObs', w.mutAxObs, pc.idx.mutAxObs], ['syncEcc', w.syncEcc, pc.sync.ecc], ['fExt', w.fExt, pc.idx.fExt], ['dExt', w.dExt, pc.idx.dExt], ['extAx', w.extAx, pc.idx.extAx], ['gloc', w.gloc, pc.idx.gloc],
+          ['dExtPeri', w.dExtPeri, q0.dExtOverNa], ['extAxPeri', w.extAxPeri, q0.extAxOverN]];
+        const off = pairs.filter(([, a, b]) => !(a === b || Math.abs(a - b) <= 1e-9 * Math.abs(b)));
+        const s341 = J.t4.split.find((s) => s.key === 'w341g');
+        if (off.length || J341.libVersion !== P341.LIB_VERSION || Math.abs(s341.total - J341.t3.st2.split.total) > 1e-6 || Math.abs(s341.aPart - J341.t3.st2.split.aPart) > 1e-6 || Math.abs(s341.gmPart - J341.t3.st2.split.gmPart) > 1e-6)
+          bad.push('④ 第341便g の入力の列が第341便g の正本の数に戻らない(' + off.map((x) => x[0]).join(',') + ')か版・定義の差の内訳が違う');
+        cases.push(`④ 第341便g の入力の列 ${pairs.length} 量と定義の差の内訳 3 つが第341便g の正本の数に戻る(相対 1e-9・1e-6 s —— 第341便g の lib の版 ${P341.LIB_VERSION} は import して比べる)`);
+        // ⑤ 呼ぶだけ
+        const tl = rd('tests/lib-w343g-plutostate.mjs'), th = rd('tests/exp-w343g-plutostate.mjs'), td = rd('tests/lib-w343g-plutostatedoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const called = ['lib-w277a-plutostates.mjs', 'lib-w337j-spinorbit.mjs', 'lib-w340h-thin.mjs', 'lib-w341g-plutocontrol.mjs'];
+        if (!(js(imps) === js(called) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/Math\.acos\(/.test(tl) && !/judge3/.test(tl) && !/w343g/.test(called.map((f) => rd('tests/' + f)).join(''))))
+          bad.push('⑤ 呼ぶだけ(lib の import は既存の 4 本の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random と Math.acos と judge3 なし・呼ぶ lib の本文は不変)');
+        cases.push('⑤ lib の import は既存の 4 本の lib だけ・html を読まない・ネットへ取りに行かない・薄い角を acos で求めない・3 値の判定を使わない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.plutostate343g', bad.length === 0,
+      `**冥王星–カロンを同じ解・同じ元期の状態へ繋ぐ —— csv の一覧・接触の要素・第341便g の関数へ同じ解の入力の作り直し**(第343便g・決断事項 AN807・AN822・R384 —— html を読まない・桁の幅は 1σ ではない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第343便g: docs.plutostate343g は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.plutostate343g(正本): ① 門・版・来歴(html を読まない —— target は lib・入力は csv 1 本)② 表 12 本が PHYSICS〔第343便g〕に逐語
+// ----     ③ 節の位置(〔第342便g〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表 6 列・AI_SPEC §276(次の見出しまで)・CHANGELOG(見出しより後・第342便(統括)の行より前)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w343g-plutostate.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w343g-plutostate.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w343g-plutostatedoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'plutostate-343g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.plutostate343g(第343便g の冥王星–カロンの同じ解の状態の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.plutostate343g ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第343便g — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第342便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第343便g〕が無いか〔第342便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/plutostate-343g.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'plutostate'
+        && J.target === 'tests/lib-w343g-plutostate.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 1 && J.meta.inputs[0].file === 'paper/data/pluto-system-states.csv' && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力は csv 1 本・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}・入力 ${J.meta.inputs.map((x) => x.file).join(',')}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第343便g〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 12) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第343便g〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の補足(2026-11-18 —— 第141報)', '原仮定者の指示(2026-11-11 —— 第135報)', 'R384', 'AN807', 'AN822', 'tests/exp-w343g-plutostate.mjs', 'tests/out/plutostate-343g.json', 'tests/lib-w343g-plutostate.mjs', 'plutostate-343g',
+      'paper/data/pluto-system-states.csv', '引きずりの影響が少ない、理想的な連星', '同一解・同一元期の状態ベクトルをそろえてから残差と比べる', 'GM・質量の行は無い', 'csv の行ではない', '仮定', '1σ ではない', '平均の e」とは言わない',
+      '吸収しない', '入力に無い', '文献の値・未照合', '周期の予言ではない', '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', 'GM の出どころ', '元期',
+      '第141報への枝の答え', '決断事項の候補', '次の便へ', 'behavior.plutostate343g', 'docs.plutostate343g'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第343便g〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第343便g〕に \\| ');
+    const a0 = AS.indexOf('\n## 276. 第343便g'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/plutostate-343g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN807') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R384') >= 0))
+      bad.push('③ AI_SPEC §276(正本・SYSTEM_PROMPT・AN807・候補・R384)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const i343g = clLines.findIndex((l) => l.indexOf('**第343便g**') >= 0), i342t = clLines.findIndex((l) => /^- \*\*第342便[((]統括/.test(l)), cl343g = i343g >= 0 ? clLines[i343g] : '';
+    if (!(i343g > 0 && (i342t < 0 || i343g < i342t) && cl343g.indexOf('tests/exp-w343g-plutostate.mjs') >= 0 && cl343g.indexOf('plutostate-343g') >= 0 && cl343g.indexOf('第141報') >= 0 && cl343g.indexOf('R384') >= 0))
+      bad.push('③ CHANGELOG の第343便g の行(見出しより後・第342便(統括)の行より前・器・段・第141報・R384)');
+    if (!(/S\('plutostate-343g', 'node tests\/exp-w343g-plutostate\.mjs', \['tests\/out\/plutostate-343g\.json'\]/.test(RT) && RT.indexOf('// ==== 第343便g の塊(ここから)====') >= 0)) bad.push('③ 段の行 plutostate-343g(塊)');
+    if (GI.indexOf('!tests/out/plutostate-343g.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第343便g の塊(ここから)====') >= 0 && /behavior\.plutostate343g docs\.plutostate343g/.test(PM))) bad.push('③ post-merge に第343便g の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §276(次の見出しまで)・CHANGELOG の行の位置・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT343 = [/\d\s*km\/s(?![²2])/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第343便g の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・収束・残差が合った・離心率が決まった・引きずりが少ないと分かった
+    const W343 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たっ合が差残', 'たっま決が率心離', 'たっか分といな少がりずき引'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第343便g〕', sec], ['AI_SPEC §276', ai], ['CHANGELOG の第343便g の行', cl343g], ['器', rd('tests/exp-w343g-plutostate.mjs')], ['lib', rd('tests/lib-w343g-plutostate.mjs')], ['文書の lib', rd('tests/lib-w343g-plutostatedoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W343)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT343) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・旧い記号(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.plutostate343g', bad.length === 0,
+      `**冥王星–カロンを同じ解・同じ元期の状態へ繋ぐ文書**(第343便g・決断事項 AN807・AN822・R384 —— csv の一覧・接触の要素・GM の出どころの 2 列・定義の差をノブに吸収しない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第343便g の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

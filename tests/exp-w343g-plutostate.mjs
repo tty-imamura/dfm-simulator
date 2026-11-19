@@ -25,8 +25,8 @@ export const TARGET = 'tests/lib-w343g-plutostate.mjs';
 export const INPUT = L.DECL.csv;
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-export const NOT_CLAIM = Object.freeze(['冥王星–カロンで型が確かめられた、と書かない', '残差が合った・合わない、と書かない(大きさの桁の比べ —— 周期の予言ではない)',
-  '引きずりが少ないと分かった、と書かない(補足 3 は原仮定者の補足として引く)', '離心率が決まった、と書かない(接触の e は元期と GM の出どころで動く)',
+export const NOT_CLAIM = Object.freeze(['冥王星–カロンで型が確かめられた、と書かない', '残差と比べた当否、と書かない(大きさの桁の比べ —— 周期の予言ではない)',
+  '引きずりの少なさの結論、と書かない(補足 3 は原仮定者の補足として引く)', '離心率を一つの値に定めた、と書かない(接触の e は元期と GM の出どころで動く)',
   '桁の幅を σ と書かない(sigma_kind=digits は 1σ ではない —— 共分散の無い値を σ の判定に流さない)', '入力の定義の差(+7.216805 s)を引きずりの係数・ノブに吸収しない(AN807)',
   '自転の軸と潮汐の係数はこの 6 成分からは得られない(軸 ≈ 法線は仮定)', '文献の値は未照合(行の出どころを書く)']);
 export const PLAN = Object.freeze({ epochs: L.DECL.epochs, gmKeys: L.DECL.gmKeys, t4Cols: 5 });
