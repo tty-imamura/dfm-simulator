@@ -17,6 +17,8 @@ import * as L341 from './lib-w341e-lightmass.mjs';
 export const LIB_VERSION = 'w344c-clockmid-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const E2 = Math.E - 2;
+/** 大きさが 1e-30 未満の ε は 0 と書く(物差しの不確かさ 1e-9 より 21 桁小さい —— 指数の立ち上がりの型の極端に小さい値〔非正規化数を含む〕を正本に値のまま書かない) */
+const flush = (v) => (Math.abs(v) < 1e-30 ? 0 : v);
 
 export const DECL = Object.freeze({
   /** T2: 中くらいの速さのイオンの時計の測定(文献の値・未照合) */
@@ -74,7 +76,7 @@ export function clockAtX(f, x) {
   if (f === 'h1' || f === 'h2' || f === 'h3') {
     const y = C343.yOfX2(f, x); if (y === null) return null;
     const h = C343.hOf(f, y);
-    return { y, g: C343.g2(f, y), eps: Math.expm1(-0.5 * Math.log1p(h)) };   // 恒等式 g ÷ √(1 − x²) = (1 + h)^(−½)
+    return { y, g: C343.g2(f, y), eps: flush(Math.expm1(-0.5 * Math.log1p(h))) };   // 恒等式 g ÷ √(1 − x²) = (1 + h)^(−½)
   }
   throw new Error('clockAtX: 形が無い ' + f);
 }
@@ -142,7 +144,7 @@ export function yOfXSpec(spec, x) {
 }
 export function epsSpec(spec, x) {
   const y = yOfXSpec(spec, x); if (y === null) return null;
-  const h = hSpec(spec, y); return { y, g: gSpec(spec, y), eps: Math.expm1(-0.5 * Math.log1p(h)) };
+  const h = hSpec(spec, y); return { y, g: gSpec(spec, y), eps: flush(Math.expm1(-0.5 * Math.log1p(h))) };
 }
 const muonX = () => Math.sqrt(1 - 1 / (C343.DECL.muon.gamma * C343.DECL.muon.gamma));
 export function muonSpec(spec) {
@@ -176,7 +178,7 @@ export function t3Rows() {
   // 零試験: h(1) = e − 2 で g(1) = e^(−½)/c = 0・n = 4 は〔第343便c〕の h3 と同じ
   let z1 = 0; for (const r of rows.concat(xrows, ctrl)) z1 = Math.max(z1, Math.abs(r.dRef));
   let z3 = 0; for (const y of [0.3, 1, 3]) z3 = Math.max(z3, Math.abs(gSpec(specS('m2n', 4, 0), y) - C343.g2('h3', y)));
-  const all = rows.concat(xrows), joint = all.filter((r) => r.monotone && r.xLimit === 1 && r.inSig1 && r.muon.note === 'ok' && Math.abs(r.muon.dSig) <= 1).map((r) => (r.kind === 'S' ? 'S ' + r.far + ' n=' + r.n : 'X a0=' + r.a0 + ' p=' + r.p));
+  const all = rows.concat(xrows), joint = all.filter((r) => r.monotone && r.xLimit === 1 && r.inSig1 && r.muon.note === 'ok' && Math.abs(r.muon.dSig) <= 1).map((r) => (r.kind === 'S' ? { kind: 'S', far: r.far, n: r.n, c: r.c } : { kind: 'X', a0: r.a0, p: r.p }));
   return { rows, ctrl, xrows, nmin, mid, joint, zero: { gAt1: z1, h3: z3 } };
 }
 

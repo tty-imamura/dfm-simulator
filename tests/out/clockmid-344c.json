@@ -359,7 +359,7 @@
     "xFold": 0.6605104189113371,
     "yFold": 0.9088662990655877,
     "xLimit": 1,
-    "epsLow": -4.814757516717221e-39,
+    "epsLow": 0,
     "epsHigh": -4.213118189635927e-15,
     "dSigHigh": -0.6521757448339955,
     "inSig1": true,
@@ -520,7 +520,7 @@
     "xFold": 0.6610534269968267,
     "yFold": 0.9114859947919742,
     "xLimit": 1,
-    "epsLow": -4.814757516717221e-39,
+    "epsLow": 0,
     "epsHigh": -4.2131181896359025e-15,
     "dSigHigh": -0.6521757448339955,
     "inSig1": true,
@@ -659,7 +659,7 @@
     "xFold": 0.6685230098486664,
     "yFold": 0.9284317846270446,
     "xLimit": 0,
-    "epsLow": -2.4073787583586107e-39,
+    "epsLow": 0,
     "epsHigh": -2.1065590948178242e-15,
     "dSigHigh": -0.6521748289387369,
     "inSig1": true,
@@ -701,7 +701,7 @@
     "xFold": null,
     "yFold": null,
     "xLimit": 1,
-    "epsLow": -1.3055142304680289e-158,
+    "epsLow": 0,
     "epsHigh": -0.00002818916533311429,
     "dSigHigh": -12256.811014397517,
     "inSig1": false,
@@ -768,7 +768,7 @@
     "yFold": 0.7888601176185545,
     "xLimit": 1,
     "epsLow": 0,
-    "epsHigh": -7.287345229009787e-102,
+    "epsHigh": 0,
     "dSigHigh": -0.6521739130434783,
     "inSig1": true,
     "muon": {
@@ -811,7 +811,7 @@
     "xFold": null,
     "yFold": null,
     "xLimit": 1,
-    "epsLow": -3.432519151752161e-211,
+    "epsLow": 0,
     "epsHigh": -9.624790791866788e-7,
     "dSigHigh": -419.12133877681686,
     "inSig1": false,
@@ -878,7 +878,7 @@
     "yFold": 0.8081649291125372,
     "xLimit": 1,
     "epsLow": 0,
-    "epsHigh": -1.586290065087255e-135,
+    "epsHigh": 0,
     "dSigHigh": -0.6521739130434783,
     "inSig1": true,
     "muon": {
@@ -899,7 +899,7 @@
     "xFold": null,
     "yFold": null,
     "xLimit": 1,
-    "epsLow": -6.767322100893152e-39,
+    "epsLow": 0,
     "epsHigh": -0.00001582549871614396,
     "dSigHigh": -6881.303789627808,
     "inSig1": false,
@@ -921,7 +921,7 @@
     "xFold": null,
     "yFold": null,
     "xLimit": 1,
-    "epsLow": -2.3728795e-316,
+    "epsLow": 0,
     "epsHigh": -1.1233206018293074e-9,
     "dSigHigh": -1.1405741747083946,
     "inSig1": false,
@@ -966,7 +966,7 @@
     "yFold": 0.856544636559216,
     "xLimit": 1,
     "epsLow": 0,
-    "epsHigh": -2.1932391129285947e-39,
+    "epsHigh": 0,
     "dSigHigh": -0.6521739130434783,
     "inSig1": true,
     "muon": {
@@ -988,7 +988,7 @@
     "yFold": 0.8360841684674918,
     "xLimit": 1,
     "epsLow": 0,
-    "epsHigh": -7.516386856035097e-203,
+    "epsHigh": 0,
     "dSigHigh": -0.6521739130434783,
     "inSig1": true,
     "muon": {
@@ -1102,10 +1102,26 @@
    }
   ],
   "joint": [
-   "X a0=3 p=4",
-   "X a0=4 p=3",
-   "X a0=4 p=4",
-   "X a0=6 p=3"
+   {
+    "kind": "X",
+    "a0": 3,
+    "p": 4
+   },
+   {
+    "kind": "X",
+    "a0": 4,
+    "p": 3
+   },
+   {
+    "kind": "X",
+    "a0": 4,
+    "p": 4
+   },
+   {
+    "kind": "X",
+    "a0": 6,
+    "p": 3
+   }
   ],
   "zero": {
    "gAt1": 0,
@@ -1462,22 +1478,22 @@
  ],
  "timing": {
   "pure": {
-   "wallSec": 0.006
+   "wallSec": 0.004
   },
   "t1": {
-   "wallSec": 0.006
+   "wallSec": 0.005
   },
   "t2": {
-   "wallSec": 0.008
+   "wallSec": 0.007
   },
   "t3": {
-   "wallSec": 0.829
+   "wallSec": 0.778
   },
   "t4": {
-   "wallSec": 0.906
+   "wallSec": 0.867
   },
   "t5": {
-   "wallSec": 0.906
+   "wallSec": 0.867
   }
  },
  "gates": {
@@ -1489,13 +1505,13 @@
   "t5Fast": true
  },
  "ok": true,
- "elapsedS": 3.805,
+ "elapsedS": 3.646,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第344便c",
   "target": "tests/lib-w344c-clockmid.mjs",
-  "targetSha256": "211c9bdc1dade8f9ac59913c1908252ed51808e982b2c06fc0b8fc26c6435de1",
-  "generatedAt": "2026-11-19T13:58:29.446Z",
+  "targetSha256": "ca76c0571d009999e690462a0495f952016e0e393c736ddeac6aa695a1e42372",
+  "generatedAt": "2026-11-19T14:01:35.942Z",
   "inputs": [],
   "code": [
    {
@@ -1506,9 +1522,9 @@
    },
    {
     "file": "tests/lib-w344c-clockmid.mjs",
-    "bytes": 19959,
-    "sha256": "211c9bdc1dade8f9ac59913c1908252ed51808e982b2c06fc0b8fc26c6435de1",
-    "mtime": "2026-11-19T13:57:11.141Z"
+    "bytes": 20280,
+    "sha256": "ca76c0571d009999e690462a0495f952016e0e393c736ddeac6aa695a1e42372",
+    "mtime": "2026-11-19T14:01:32.244Z"
    },
    {
     "file": "tests/lib-w343c-clockread.mjs",
@@ -1571,7 +1587,7 @@
     "mtime": "2026-11-19T13:44:08.588Z"
    }
   ],
-  "codeSha256": "5e579123a1d3a3299ba587101cdac92fcece77b2f67e97e72e03854c49df5d90",
+  "codeSha256": "7d7b3d7f6aa66564c4ac91823503c8584244215d0c3d0344734dc14074e40305",
   "harnessVersion": "w344c-clockmid-1",
   "stage": "clockmid",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第343便c・第342便b・第341便e の器を呼ぶ)",
@@ -1615,7 +1631,7 @@
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
    "zeroed": 4,
-   "kept": 780,
+   "kept": 777,
    "zeroPathsHead": [
     "/pure/scenes/freqF",
     "/pure/scenes/hTwoWays",
