@@ -112557,6 +112557,121 @@ function view342fOf343a(eq) {
 }
 // ==== 第343便g の塊(ここまで)====
 
+// ==== 第344便f の塊(ここから —— lint.chainResume344f・lint.libVersionImport344f・docs.tools344f の 3 ブロック。root は SKIP)====
+// ---- 第344便f(統括の検証項目 R390・BL-148・BL-141): **道具** —— 入れ直しの判定を「冪等でない」の NG だけに狭める(tests/lib-w343f-chainresume.mjs 版 2・
+// ----   tools/conventions-check.mjs の ⑤ に欄 kind・htmlTouched)・qa.mjs で第342便・第343便の lib の版を文字で期待していた所を正本の記録と名の型の照合に
+// ----   (tests/lib-w344f-libversion.mjs が数える)・post-merge の --no-preflight の印字。html を読まない。
+// ----   lint.chainResume344f: 判定の自己試験(⑤ の 3 種類の NG・rc だけ違う・木が汚れたまま・文と欄の食い違い・欄が無い —— 全部 止める)・作り物の印の木で --resume-gate・
+// ----     ⑤ の NG の文の頭が conventions-check の文と同じ
+// ----   lint.libVersionImport344f: 文字の期待の数(第342便・第343便の範囲 0・第343便までの合計が直す前の 191 − 25 を超えない)・名の型の照合・正本の記録と lib の版
+// ----   docs.tools344f: PHYSICS〔第344便f〕・AI_SPEC §282・CHANGELOG・post-merge・書かない語
+{
+  await (async () => {   // 第310便c(heap)
+  const wCr = path.join(ROOT, 'tests', 'lib-w343f-chainresume.mjs'), wLv = path.join(ROOT, 'tests', 'lib-w344f-libversion.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wCr) && fs.existsSync(wLv))) {
+    console.log('SKIP lint.chainResume344f(第344便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP lint.libVersionImport344f(第344便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.tools344f(第344便f の道具の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // ───── lint.chainResume344f ─────
+  {
+    const bad = [], cases = [];
+    let tmp = null;
+    try {
+      const CR = await import('file://' + wCr), { spawnSync } = await import('node:child_process');
+      const sc = CR.selfCases(); for (const c of sc) if (!c.ok) bad.push('判定の自己試験: ' + c.name + '(' + c.got.mode + ')');
+      const need = ['器が落ちた', 'htmlChanged の行が無い', 'rc だけ違う', '木が汚れたまま', '文と欄が食い違う', '欄が無い'];
+      for (const w of need) if (!sc.some((c) => c.name.indexOf(w) >= 0 && c.want === 'refuse')) bad.push('判定の自己試験に「' + w + '」(止める)が無い');
+      if (!(sc.filter((c) => c.want === 'resume').length === 1)) bad.push('自己試験の「通す(入れ直し)」は 1 通りだけ');
+      cases.push(`判定の自己試験 ${sc.filter((c) => c.ok).length}/${sc.length}(止める ${sc.filter((c) => c.want === 'refuse').length})`);
+      // ⑤ の種類の読み: 欄と文が「冪等でない」の 1 件だけのときに限り ssFields・ssText・ssAgree がそろう
+      const K = CR.ss5Kinds(CR.FAKE.conv5.samplestatus);
+      if (!(K.fieldKind === 'notIdempotent' && K.agree === true && JSON.stringify(K.textKinds) === JSON.stringify(['notIdempotent']))) bad.push('ss5Kinds(冪等でない)の読み ' + JSON.stringify(K));
+      // 作り物の印の木で --resume-gate(終了コード)
+      tmp = fs.mkdtempSync(path.join((await import('node:os')).tmpdir(), 'w344f-'));
+      const W = (f, t) => { fs.mkdirSync(path.dirname(path.join(tmp, f)), { recursive: true }); fs.writeFileSync(path.join(tmp, f), t); return path.join(tmp, f); };
+      W('log/done/calaudit.done', '');
+      const gate = (nm) => spawnSync(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--resume-gate', path.join(tmp, 'log'), '--conv-json', W(nm + '.json', JSON.stringify(CR.FAKE[nm])), '--conv-rc', '1'], { cwd: ROOT, encoding: 'utf8' }).status;
+      const names = ['conv5', 'conv5crash', 'conv5noLine', 'conv5rcOnly', 'conv5dirtyQuiet', 'conv5textCrash', 'conv5kindWrong', 'conv5legacy'];
+      const g = Object.fromEntries(names.map((nm) => [nm, gate(nm)]));
+      if (!(g.conv5 === 0 && names.slice(1).every((nm) => g[nm] === CR.DECL.refuseRc))) bad.push('--resume-gate の終了コード ' + JSON.stringify(g));
+      cases.push(`--resume-gate(作り物の印の木): 冪等でない → ${g.conv5}・器が落ちた/行が無い/rc だけ/木が汚れた/文と欄の食い違い 2/欄が無い → ${names.slice(1).map((nm) => g[nm]).join('・')}`);
+      // ⑤ の NG の文の頭が conventions-check の文と同じ・欄 kind・htmlTouched を書く
+      const CC = rd('tools/conventions-check.mjs');
+      for (const [k, head] of Object.entries(CR.DECL.ng5Kinds)) if (!(CC.indexOf("ngs.push('" + head) >= 0 || CC.indexOf('ngs.push(`' + head) >= 0)) bad.push('⑤ の文の頭が conventions-check に無い: ' + k);
+      if (!/htmlTouched, kind, sec:/.test(CC)) bad.push('conventions-check の ⑤ の結果に欄 htmlTouched・kind が無い');
+      for (const k of ['harnessFailed', 'noLine', 'htmlTouched', 'dirty', 'notIdempotent']) if (CC.indexOf("'" + k + "'") < 0) bad.push('conventions-check の kind に ' + k + ' が無い');
+      cases.push('⑤ の文の頭 ' + Object.keys(CR.DECL.ng5Kinds).length + ' 種が conventions-check の文と同じ・欄 kind・htmlTouched');
+      const RC = rd('tools/regen-chain.mjs');
+      if (RC.indexOf('第344便f(R390・lib 版 2)') < 0) bad.push('tools/regen-chain.mjs の第343便f の塊に第344便f の注');
+    } catch (e) { bad.push('試せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    finally { if (tmp) try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時の木 */ } }
+    add('lint.chainResume344f', bad.length === 0,
+      `**入れ直しの判定を「冪等でない」の NG だけに**(第344便f・R390・BL-148): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── lint.libVersionImport344f ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const LV = await import('file://' + wLv), src = rd('tests/qa.mjs');
+      const rows = LV.literalVersionChecks(src), S = LV.summarize(rows);
+      const old = rows.filter((r) => r.wave !== null && r.wave <= 343).length + rows.filter((r) => r.wave === null).length;
+      if (S.inFixed !== LV.DECL.afterInFixed) bad.push('第342便・第343便の lib の版の文字の期待が残る ' + S.inFixed + ': ' + rows.filter((r) => LV.DECL.fixedWaves.includes(r.wave)).slice(0, 4).map((r) => r.line + ' ' + r.obj + '.' + r.field).join(','));
+      if (!(old <= LV.DECL.before.total - LV.DECL.before.inFixed)) bad.push('第343便までの文字の期待が直した後の数(' + (LV.DECL.before.total - LV.DECL.before.inFixed) + ')を超える ' + old);
+      const P = LV.patternChecks(src).filter((p) => /^w34[23]/.test(p.stem));
+      if (!(P.length >= LV.DECL.before.inFixed)) bad.push('名の型の照合が直した数より少ない ' + P.length);
+      if (!((src.split('// 第344便f(BL-148): 版は正本の記録と名の型で見る').length - 1) >= LV.DECL.before.lines)) bad.push('直した行の注が ' + LV.DECL.before.lines + ' 行に無い');
+      // 正本の記録と lib の版(直した照合が今の木で通る前提 —— 器がその lib で作り直した記録)
+      const pairs = [['lib-w342b-clockstop', 'clockstop-342b'], ['lib-w342c-oblateapprox', 'oblateapprox-342c'], ['lib-w342e-powerball', 'powerball-342e'], ['lib-w343b-partytime', 'partytime-343b'],
+        ['lib-w343c-clockread', 'clockread-343c'], ['lib-w343d-surfquad', 'surfquad-343d'], ['lib-w343e-spintransfer', 'spintransfer-343e'], ['lib-w343g-plutostate', 'plutostate-343g']];
+      let same = 0;
+      for (const [lib, out] of pairs) {
+        const L = await import('file://' + path.join(ROOT, 'tests', lib + '.mjs')); let J = null; try { J = JSON.parse(rd('tests/out/' + out + '.json')); } catch (e) { J = null; }
+        if (J && J.libVersion === L.LIB_VERSION) same++; else bad.push('正本 ' + out + ' の libVersion が lib の版と違う(器を走らせ直す)');
+      }
+      cases.push(`文字の期待 ${S.total}(直す前 ${LV.DECL.before.total})・第342便・第343便の範囲 ${S.inFixed}(直す前 ${LV.DECL.before.inFixed}・${LV.DECL.before.lines} 行)・名の型の照合 ${P.length}・正本の記録 = lib の版 ${same}/${pairs.length}`);
+    } catch (e) { bad.push('数えられない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.libVersionImport344f', bad.length === 0,
+      `**lib の版を文字で期待しない**(第344便f・R390・BL-148 —— 第342便・第343便の lib の行だけ直した・残りは一覧): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  // ───── docs.tools344f ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第344便f — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第343便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第344便f〕が無いか〔第343便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['R390', 'BL-148', 'BL-141', 'tests/lib-w343f-chainresume.mjs', 'tests/lib-w344f-libversion.mjs', 'tools/conventions-check.mjs', '冪等でない', '器が落ちた', 'htmlChanged の行が無い',
+      'kind', 'htmlTouched', '文と欄', '--resume-gate', '191', '166', '25', '--no-preflight', '2814', '段の順は変えていない', 'lint.chainResume344f', 'lint.libVersionImport344f', 'docs.tools344f',
+      '決断事項の候補', '次の便へ', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第344便f〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 282. 第344便f'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/lib-w343f-chainresume.mjs') >= 0 && ai.indexOf('R390') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('AI_SPEC §282(lib・R390・SYSTEM_PROMPT)');
+    // CHANGELOG: 見出しより後・第343便(統括)の行より前(統合で枝の順に並ぶ —— 直後とは決めない)
+    const cb = CLx.search(/## v1\.47(?:-b\d+|\.0)[((]/), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', lines = clg.split('\n');
+    const li = lines.findIndex((l) => l.indexOf('**第344便f**') >= 0), lu = lines.findIndex((l) => l.indexOf('**第343便(統括') >= 0), cl = li >= 0 ? lines[li] : '';
+    if (!(li > 0 && (lu < 0 || li < lu) && cl.indexOf('tests/lib-w343f-chainresume.mjs') >= 0 && cl.indexOf('R390') >= 0 && cl.indexOf('冪等でない') >= 0)) bad.push('CHANGELOG の第344便f の行(見出しより後・第343便(統括)の行より前)');
+    if (!(PM.indexOf('# ==== 第344便f の塊(ここから)====') >= 0 && /lint\.chainResume344f/.test(PM) && /lint\.libVersionImport344f/.test(PM) && /docs\.tools344f/.test(PM) && PM.indexOf('① は飛ばした —— 事前検査は別に回す') >= 0)) bad.push('post-merge の ③′ に第344便f の塊・① の飛ばしの印字');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /一致した/, /新しい結果/, /普遍定数/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));
+    const W344 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たし現再', 'いなし現再', 'いなれらせわ合', 'たっなに全安がし直れ入', 'たっなくし正が定判'].map(rvC);
+    for (const [nm, tx] of [['PHYSICS〔第344便f〕', sec], ['AI_SPEC §282', ai], ['CHANGELOG の第344便f の行', cl], ['lib', rd('tests/lib-w344f-libversion.mjs') + rd('tests/lib-w343f-chainresume.mjs')]]) {
+      for (const w of NGC.concat(W344)) if (strip(tx).indexOf(w) >= 0) bad.push(nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (!/lib/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push(nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push(nm + ' に裸の係数記号');
+    }
+    cases.push(`節の位置・必須の語 ${want.length}・AI_SPEC §282・CHANGELOG(見出しより後・第343便(統括)の行より前)・post-merge の ③′ と ① の印字・書かない語`);
+    add('docs.tools344f', bad.length === 0,
+      `**道具の文書**(第344便f・R390 —— PHYSICS〔第344便f〕・AI_SPEC §282・CHANGELOG・post-merge): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第344便f の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

@@ -5313,3 +5313,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: リポジトリに在る状態の表 `paper/data/pluto-system-states.csv`(PLU060/DE440・冥王星系の重心・ICRF/J2000 赤道・TDB —— 新しく取りに行かない)を読み、同じ元期どうしのカロン − 冥王星の相対の状態から接触の軌道の要素(元期 2 × GM の出どころ 2)を作り、〔第341便g〕の関数(相互の部位差分・座標変換の d・外の取り分・G_loc の型の残差)に同じ解の入力を入れた列を、第341便g の入力の列と並べた。対照の段 (2)(定義の差 +7.216805 s)を同じ解の a と GM で作り直し、そろえた後に残る差と候補の型の項を同じ単位(÷ n)の 1 表に。正本 `tests/out/plutostate-343g.json`(器 `tests/exp-w343g-plutostate.mjs`・段 plutostate-343g —— html を読まない)。
 - **AI が読むときの要点**: csv に GM の行は無い —— GM は宣言の入力(リポジトリの値 975.4 と csv の要素の行から逆に読んだ値 975.43 の 2 列)で、この差が接触の e(1.33e-4〜1.64e-4)と周期(元期 A で 36.4 s)を動かす。e は「この解・この元期・この GM の接触の e」で、平均の e ではない。桁の幅(sigma_kind=digits)は 1σ ではない —— σ の判定に流さない。自転の軸と潮汐の係数はこの 6 成分からは得られない(軸 ≈ 法線は仮定)。入力の定義の差をノブに吸収しない(AN807)。「型が確かめられた」「残差と比べた当否」「離心率を一つの値に定めた」の形で結果の文にしない。この表は SYSTEM_PROMPT には載せない(候補の表)。
 - QA `behavior.plutostate343g`・`docs.plutostate343g`(本節と PHYSICS〔第343便g〕・CHANGELOG —— root は SKIP)。
+
+## 282. 第344便f —— 道具: 入れ直しの判定を「冪等でない」の NG だけに狭める・lib の版を文字で期待している鍵(統括の検証項目 R390・BL-148・**html は変えない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。`tests/lib-w343f-chainresume.mjs`(版 2)の入れ直しの判定は、⑤ の構造の欄と NG の文の両方が「冪等でない」の 1 件だけを指すときにだけ入れ直す(器が落ちた・htmlChanged の行が無い・欄が無い・文と欄が食い違う → 止める)。`tools/conventions-check.mjs` の ⑤ の結果に欄 `kind`・`htmlTouched` を足した。`tests/qa.mjs` の第342便・第343便の lib の版の照合 25 か所を、正本の記録と名の型の照合に直した(`tests/lib-w344f-libversion.mjs` が数える —— 191 → 166)。post-merge の `--no-preflight` で ① を飛ばしたことを結果の行に出す。
+- **AI が本を作るときの説明**: SYSTEM_PROMPT には載せない(道具と QA だけ)。
+- QA `lint.chainResume344f`・`lint.libVersionImport344f`・`docs.tools344f`(root は SKIP)。
