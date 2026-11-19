@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b343",
+  "betaBuild": "v1.47-b344",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "feb5c8b55a0998f4902825f1a65a92c4490bce66dde27e420fce46c6d35f19c1",
-  "generatedAt": "2026-11-19T11:35:51.460Z",
+  "targetSha256": "0c45855f6b9ae00d067331cafbcb297c7d5328439b0d11448c9195df4f168d2b",
+  "generatedAt": "2026-11-19T14:57:19.779Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734325,
-    "sha256": "625b7835c453c33e9bdbdc99753a9274127c55f21f2a08587b8d315f3359c6f0",
-    "mtime": "2026-11-19T08:26:03.167Z"
+    "bytes": 1734317,
+    "sha256": "fb1904a1983244ddbab19e05a88f6dde2cdf346c7bf9a88740634080dcd0f480",
+    "mtime": "2026-11-19T14:56:18.752Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 113306,
-    "sha256": "39615bce0bd278e21af6701f04c9755e3dfdc235a8fc4cba5ee3eeb18b48ca73",
-    "mtime": "2026-11-19T11:35:51.439Z"
+    "bytes": 113677,
+    "sha256": "13c5e3266291e860e5384e773d07932f57e8a30465add2d0b84792975b03a1a5",
+    "mtime": "2026-11-19T14:57:19.760Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -446,7 +446,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -632,7 +632,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -786,7 +786,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -972,7 +972,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -1131,7 +1131,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1317,7 +1317,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -1464,7 +1464,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1650,7 +1650,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -1797,7 +1797,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -1983,7 +1983,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -2131,7 +2131,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -2317,7 +2317,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -2465,7 +2465,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -2651,7 +2651,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -2816,7 +2816,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3002,7 +3002,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -3143,7 +3143,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3329,7 +3329,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -3470,7 +3470,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3656,7 +3656,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -3797,7 +3797,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -3983,7 +3983,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -4130,7 +4130,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4316,7 +4316,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -4463,7 +4463,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4649,7 +4649,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -4790,7 +4790,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -4976,7 +4976,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -5129,7 +5129,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5315,7 +5315,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -5462,7 +5462,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5648,7 +5648,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -5813,7 +5813,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -5999,7 +5999,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -6170,7 +6170,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -6392,7 +6392,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -6545,7 +6545,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -6773,7 +6773,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -6920,7 +6920,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7172,7 +7172,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -7319,7 +7319,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7517,7 +7517,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -7664,7 +7664,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -7856,7 +7856,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -8003,7 +8003,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -8195,7 +8195,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -8342,7 +8342,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -8534,7 +8534,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -8681,7 +8681,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -8867,7 +8867,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -9026,7 +9026,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9212,7 +9212,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -9359,7 +9359,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9545,7 +9545,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -9692,7 +9692,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -9878,7 +9878,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -10025,7 +10025,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10211,7 +10211,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -10364,7 +10364,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10550,7 +10550,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -10703,7 +10703,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -10895,7 +10895,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -11036,7 +11036,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11222,7 +11222,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -11369,7 +11369,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11555,7 +11555,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -11709,7 +11709,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -11895,7 +11895,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -12037,7 +12037,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12223,7 +12223,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -12365,7 +12365,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12551,7 +12551,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -12692,7 +12692,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -12878,7 +12878,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -13049,7 +13049,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13235,7 +13235,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -13407,7 +13407,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13599,7 +13599,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -13758,7 +13758,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -13944,7 +13944,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -14097,7 +14097,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -14337,7 +14337,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -14478,7 +14478,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -14676,7 +14676,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -14810,7 +14810,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15008,7 +15008,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -15149,7 +15149,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15341,7 +15341,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -15489,7 +15489,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -15705,7 +15705,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -15839,7 +15839,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16055,7 +16055,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -16189,7 +16189,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16393,7 +16393,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -16541,7 +16541,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -16733,7 +16733,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -16882,7 +16882,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17080,7 +17080,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -17229,7 +17229,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17439,7 +17439,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -17581,7 +17581,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -17779,7 +17779,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -17946,7 +17946,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18138,7 +18138,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -18287,7 +18287,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18485,7 +18485,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -18640,7 +18640,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -18838,7 +18838,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -18980,7 +18980,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19178,7 +19178,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -19338,7 +19338,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19524,7 +19524,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -19671,7 +19671,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -19857,7 +19857,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -20004,7 +20004,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -20190,7 +20190,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -20337,7 +20337,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -20523,7 +20523,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -20700,7 +20700,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -20934,7 +20934,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -21087,7 +21087,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21273,7 +21273,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -21426,7 +21426,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21612,7 +21612,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -21771,7 +21771,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -21957,7 +21957,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -22098,7 +22098,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22284,7 +22284,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -22431,7 +22431,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22617,7 +22617,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -22776,7 +22776,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -22962,7 +22962,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -23109,7 +23109,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23295,7 +23295,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -23442,7 +23442,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23628,7 +23628,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -23781,7 +23781,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -23967,7 +23967,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -24120,7 +24120,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -24306,7 +24306,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -24460,7 +24460,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -24646,7 +24646,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -24799,7 +24799,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25009,7 +25009,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -25162,7 +25162,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25354,7 +25354,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -25418,17 +25418,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 137.463,
+     "wallSec": 154.053,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 44.957,
+       "wallSec": 55.504,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 92.506,
+       "wallSec": 98.549,
        "reused": false,
        "reusedBy": null
       }
@@ -25500,7 +25500,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -25536,7 +25536,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -25746,7 +25746,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -25887,7 +25887,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -26079,7 +26079,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -26241,7 +26241,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -26283,7 +26283,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -26481,7 +26481,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -26622,7 +26622,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -26874,7 +26874,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -27009,7 +27009,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -27045,7 +27045,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -27231,7 +27231,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -27368,7 +27368,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -27404,7 +27404,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -27590,7 +27590,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -27654,17 +27654,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.821,
+     "wallSec": 4.726,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.371,
+       "wallSec": 1.666,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.45,
+       "wallSec": 3.06,
        "reused": false,
        "reusedBy": null
       }
@@ -27772,7 +27772,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28012,7 +28012,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -28159,7 +28159,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28387,7 +28387,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -28534,7 +28534,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -28840,7 +28840,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -28976,7 +28976,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -29366,7 +29366,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -29532,7 +29532,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -29838,7 +29838,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -30004,7 +30004,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -30190,7 +30190,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -30307,7 +30307,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -30343,7 +30343,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -30529,7 +30529,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -30652,7 +30652,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -30688,7 +30688,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -30874,7 +30874,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -31027,7 +31027,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -31435,7 +31435,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -31500,17 +31500,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.975,
+     "wallSec": 10.229,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.021,
+       "wallSec": 3.871,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.954,
+       "wallSec": 6.358,
        "reused": false,
        "reusedBy": null
       }
@@ -31588,7 +31588,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -31630,7 +31630,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -31948,7 +31948,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -32089,7 +32089,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -32317,7 +32317,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -32465,7 +32465,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -32765,7 +32765,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -32932,7 +32932,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -33418,7 +33418,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -33585,7 +33585,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -34077,7 +34077,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -34220,7 +34220,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -34676,7 +34676,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -34819,7 +34819,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -35287,7 +35287,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -35442,7 +35442,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -35856,7 +35856,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -35998,7 +35998,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -36214,7 +36214,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -36381,7 +36381,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -36795,7 +36795,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -36938,7 +36938,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -37352,7 +37352,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -37493,7 +37493,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -37799,7 +37799,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -37959,7 +37959,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38151,7 +38151,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -38292,7 +38292,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38484,7 +38484,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -38596,7 +38596,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -38632,7 +38632,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -38818,7 +38818,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -38974,7 +38974,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -39160,7 +39160,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -39224,17 +39224,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 47.406000000000006,
+     "wallSec": 59.836,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.212,
+       "wallSec": 21.118,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 32.194,
+       "wallSec": 38.718,
        "reused": false,
        "reusedBy": null
       }
@@ -39312,7 +39312,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -39354,7 +39354,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -39792,7 +39792,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -39856,17 +39856,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 25.832,
+     "wallSec": 29.17,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.774,
+       "wallSec": 10.329,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 17.058,
+       "wallSec": 18.841,
        "reused": false,
        "reusedBy": null
       }
@@ -39980,7 +39980,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -40022,7 +40022,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -40328,7 +40328,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -40392,17 +40392,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 19.017,
+     "wallSec": 20.535,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.507,
+       "wallSec": 6.753,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.51,
+       "wallSec": 13.782,
        "reused": false,
        "reusedBy": null
       }
@@ -40480,7 +40480,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -40522,7 +40522,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -40828,7 +40828,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -41031,7 +41031,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -41073,7 +41073,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41259,7 +41259,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -41430,7 +41430,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41622,7 +41622,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -41794,7 +41794,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -41980,7 +41980,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -42052,17 +42052,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 244.01299999999998,
+     "wallSec": 275.864,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 82.567,
+       "wallSec": 90.563,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 161.446,
+       "wallSec": 185.301,
        "reused": false,
        "reusedBy": null
       }
@@ -42194,7 +42194,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -42230,7 +42230,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -42482,7 +42482,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -42623,7 +42623,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -42851,7 +42851,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -42999,7 +42999,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -43293,7 +43293,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -43464,7 +43464,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -43650,7 +43650,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -43798,7 +43798,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -43990,7 +43990,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -44050,11 +44050,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 59.286,
+     "wallSec": 66.613,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 59.286,
+       "wallSec": 66.613,
        "reused": false,
        "reusedBy": null
       }
@@ -44162,7 +44162,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -44468,7 +44468,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -44532,17 +44532,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.5280000000000005,
+     "wallSec": 7.4510000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.206,
+       "wallSec": 2.464,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.322,
+       "wallSec": 4.987,
        "reused": false,
        "reusedBy": null
       }
@@ -44656,7 +44656,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -44698,7 +44698,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45004,7 +45004,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -45066,17 +45066,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.706,
+     "wallSec": 16.177,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.706,
+       "wallSec": 16.177,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 25.628,
+       "wallSec": 29.987,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45087,8 +45087,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 74.19800000000001,
-     "reusedH2Sec": 25.628,
+     "reusedSec": 78.557,
+     "reusedH2Sec": 29.987,
      "reusedH4Sec": 48.57000000000001
     },
     "regenSteps": [
@@ -45202,7 +45202,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -45238,7 +45238,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45442,7 +45442,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -45578,7 +45578,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -45620,7 +45620,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -45806,7 +45806,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -45868,17 +45868,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.959,
+     "wallSec": 9.098,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.959,
+       "wallSec": 9.098,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.002,
+       "wallSec": 16.361,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45889,9 +45889,9 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 45.303,
-     "reusedH2Sec": 15.002,
-     "reusedH4Sec": 30.300999999999995
+     "reusedSec": 46.662,
+     "reusedH2Sec": 16.361,
+     "reusedH4Sec": 30.301
     },
     "regenSteps": [
      {
@@ -46004,7 +46004,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -46040,7 +46040,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -46244,7 +46244,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -46380,7 +46380,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -46422,7 +46422,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -46608,7 +46608,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -46755,7 +46755,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -46953,7 +46953,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -47100,7 +47100,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -47310,7 +47310,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -47457,7 +47457,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -47661,7 +47661,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -47808,7 +47808,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48012,7 +48012,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -48077,17 +48077,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.931999999999999,
+     "wallSec": 15.780999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.473,
+       "wallSec": 5.595,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.459,
+       "wallSec": 10.186,
        "reused": false,
        "reusedBy": null
       }
@@ -48183,7 +48183,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -48219,7 +48219,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48429,7 +48429,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -48601,7 +48601,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -48643,7 +48643,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -48829,7 +48829,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -48977,7 +48977,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -49163,7 +49163,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -49287,7 +49287,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -49323,7 +49323,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -49509,7 +49509,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -49568,17 +49568,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.678,
+     "wallSec": 10.073,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.795,
+       "wallSec": 3.942,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.883,
+       "wallSec": 6.131,
        "reused": false,
        "reusedBy": null
       }
@@ -49698,7 +49698,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -49740,7 +49740,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -49956,7 +49956,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -50015,17 +50015,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.285,
+     "wallSec": 4.468,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.273,
+       "wallSec": 1.47,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.012,
+       "wallSec": 2.998,
        "reused": false,
        "reusedBy": null
       }
@@ -50145,7 +50145,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -50187,7 +50187,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -50403,7 +50403,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -50527,7 +50527,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -50563,7 +50563,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -50749,7 +50749,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -50873,7 +50873,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -50909,7 +50909,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51095,7 +51095,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -51219,7 +51219,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -51255,7 +51255,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51441,7 +51441,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -51565,7 +51565,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -51601,7 +51601,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -51787,7 +51787,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -51911,7 +51911,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -51947,7 +51947,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -52133,7 +52133,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -52257,7 +52257,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -52293,7 +52293,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -52479,7 +52479,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -52538,17 +52538,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 65.201,
+     "wallSec": 66.751,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 21.243,
+       "wallSec": 21.773,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 43.958,
+       "wallSec": 44.978,
        "reused": false,
        "reusedBy": null
       }
@@ -52626,7 +52626,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -52662,7 +52662,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -52878,7 +52878,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -53044,7 +53044,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -53086,7 +53086,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53272,7 +53272,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -53396,7 +53396,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -53432,7 +53432,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53618,7 +53618,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -53759,7 +53759,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -53963,7 +53963,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -54104,7 +54104,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -54332,7 +54332,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -54485,7 +54485,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -54689,7 +54689,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -54836,7 +54836,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -55112,7 +55112,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -55277,7 +55277,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -55505,7 +55505,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -55671,7 +55671,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -55893,7 +55893,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -56046,7 +56046,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56244,7 +56244,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -56385,7 +56385,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56589,7 +56589,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -56742,7 +56742,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -56946,7 +56946,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -57087,7 +57087,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57291,7 +57291,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -57438,7 +57438,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57642,7 +57642,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -57789,7 +57789,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -57993,7 +57993,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -58140,7 +58140,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -58332,7 +58332,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -58390,17 +58390,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.966,
+     "wallSec": 2.2600000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.663,
+       "wallSec": 0.902,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.303,
+       "wallSec": 1.358,
        "reused": false,
        "reusedBy": null
       }
@@ -58508,7 +58508,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -58712,7 +58712,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -58854,7 +58854,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -58896,7 +58896,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59082,7 +59082,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -59146,17 +59146,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.201,
+     "wallSec": 0.23399999999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.107,
+       "wallSec": 0.132,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.094,
+       "wallSec": 0.102,
        "reused": false,
        "reusedBy": null
       }
@@ -59258,7 +59258,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59450,7 +59450,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -59591,7 +59591,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -59777,7 +59777,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -59924,7 +59924,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60110,7 +60110,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -60263,7 +60263,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60449,7 +60449,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -60602,7 +60602,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -60794,7 +60794,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -60965,7 +60965,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61163,7 +61163,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -61304,7 +61304,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61490,7 +61490,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -61631,7 +61631,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -61817,7 +61817,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -61958,7 +61958,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -62144,7 +62144,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -62291,7 +62291,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -62735,7 +62735,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -62900,7 +62900,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63086,7 +63086,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -63160,17 +63160,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.279,
+     "wallSec": 7.78,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.279,
+       "wallSec": 7.78,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.418,
+       "wallSec": 14.443,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -63181,8 +63181,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 41.543,
-     "reusedH2Sec": 13.418,
+     "reusedSec": 42.568,
+     "reusedH2Sec": 14.443,
      "reusedH4Sec": 28.125
     },
     "regenSteps": [
@@ -63254,7 +63254,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -63296,7 +63296,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63488,7 +63488,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -63647,7 +63647,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -63833,7 +63833,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -63974,7 +63974,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -64160,7 +64160,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -64220,11 +64220,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 149.209,
+     "wallSec": 160.826,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 149.209,
+       "wallSec": 160.826,
        "reused": false,
        "reusedBy": null
       }
@@ -64296,7 +64296,7 @@
      },
      {
       "key": "mercury",
-      "sec": 245,
+      "sec": 358,
       "share": 35,
       "always": true
      },
@@ -64338,7 +64338,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -64770,7 +64770,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -64932,7 +64932,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65118,7 +65118,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -65259,7 +65259,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65457,7 +65457,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -65617,7 +65617,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -65815,7 +65815,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -65962,7 +65962,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66148,7 +66148,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -66295,7 +66295,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66481,7 +66481,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -66634,7 +66634,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -66820,7 +66820,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -66961,7 +66961,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67147,7 +67147,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -67288,7 +67288,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67474,7 +67474,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -67615,7 +67615,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -67801,7 +67801,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -67942,7 +67942,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68128,7 +68128,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -68269,7 +68269,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68455,7 +68455,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -68602,7 +68602,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -68794,7 +68794,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -68935,7 +68935,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69133,7 +69133,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -69274,7 +69274,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69460,7 +69460,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -69607,7 +69607,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -69793,7 +69793,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -69934,7 +69934,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -70120,7 +70120,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -70267,7 +70267,7 @@
      },
      {
       "key": "tpsign",
-      "sec": 4,
+      "sec": 153,
       "share": "all",
       "always": false
      },
@@ -70453,7 +70453,7 @@
      },
      {
       "key": "timing294",
-      "sec": 177,
+      "sec": 231,
       "share": "all",
       "always": false
      }
@@ -70483,11 +70483,11 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 273,
-  "regenSecSum": 77003,
-  "alwaysSec": 1010,
-  "undeclaredSteps": 63,
-  "undeclaredSec": 2057,
+  "regenSteps": 278,
+  "regenSecSum": 77314,
+  "alwaysSec": 1034,
+  "undeclaredSteps": 68,
+  "undeclaredSec": 2141,
   "qaTotal": 1635,
   "qaDurationMs": 5882290,
   "qaProvenance": {
@@ -70497,14 +70497,14 @@
    "date": "2026-11-19T10:49:48.695Z",
    "betaBuild": "v1.47-b343",
    "targetSha256": "feb5c8b55a0998f4902825f1a65a92c4490bce66dde27e420fce46c6d35f19c1",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
    "since": "第320便d(R265)",
-   "n": 56,
-   "sec": 1987,
+   "n": 61,
+   "sec": 2071,
    "keys": [
     "obsintake",
     "recordid",
@@ -70561,7 +70561,12 @@
     "clockread-343c",
     "surfquad-343d",
     "spintransfer-343e",
-    "plutostate-343g"
+    "plutostate-343g",
+    "partyconv-344b",
+    "clockmid-344c",
+    "dragconv-344d",
+    "spincompose-344e",
+    "plutogm-344g"
    ],
    "rule": "宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段"
   },
@@ -70569,7 +70574,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 54.048
+    "sec": 60.791
    },
    "h4": {
     "n": 3,
@@ -71492,6 +71497,48 @@
      "presets": "all"
     },
     {
+     "key": "mercury",
+     "sec": 358,
+     "kind": "常時群",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABDFM",
+      "earthMoonReal",
+      "earthMoonRealKF1",
+      "emAuditDFM",
+      "emAuditNewton",
+      "gw150914DFM",
+      "jupiterGalilean",
+      "marsMoonsReal",
+      "mercuryReal",
+      "mercuryRealKF1",
+      "neptuneReal",
+      "plutoCharonDiagInput",
+      "plutoCharonReal",
+      "psrB1534",
+      "psrB1534CF",
+      "psrB1534DFM",
+      "psrDoubleAB",
+      "psrDoubleABCF",
+      "psrDoubleABDFM",
+      "psrDoubleABPN",
+      "psrDoubleABSpinCal",
+      "psrJ1757CF",
+      "psrJ1757DFM",
+      "psrJ1757PN",
+      "psrJ1946CF",
+      "psrJ1946DFM",
+      "psrJ1946PN",
+      "qLockRadialAudit",
+      "qLockRadialAuditQ3",
+      "saturnRingReal",
+      "saturnZonalD68",
+      "siriusAB",
+      "siriusABDFM",
+      "venusReal"
+     ]
+    },
+    {
      "key": "geo2flat-322a",
      "sec": 335,
      "kind": "領域の宣言",
@@ -71587,48 +71634,6 @@
      ]
     },
     {
-     "key": "mercury",
-     "sec": 245,
-     "kind": "常時群",
-     "presets": [
-      "alphaCenAB",
-      "alphaCenABDFM",
-      "earthMoonReal",
-      "earthMoonRealKF1",
-      "emAuditDFM",
-      "emAuditNewton",
-      "gw150914DFM",
-      "jupiterGalilean",
-      "marsMoonsReal",
-      "mercuryReal",
-      "mercuryRealKF1",
-      "neptuneReal",
-      "plutoCharonDiagInput",
-      "plutoCharonReal",
-      "psrB1534",
-      "psrB1534CF",
-      "psrB1534DFM",
-      "psrDoubleAB",
-      "psrDoubleABCF",
-      "psrDoubleABDFM",
-      "psrDoubleABPN",
-      "psrDoubleABSpinCal",
-      "psrJ1757CF",
-      "psrJ1757DFM",
-      "psrJ1757PN",
-      "psrJ1946CF",
-      "psrJ1946DFM",
-      "psrJ1946PN",
-      "qLockRadialAudit",
-      "qLockRadialAuditQ3",
-      "saturnRingReal",
-      "saturnZonalD68",
-      "siriusAB",
-      "siriusABDFM",
-      "venusReal"
-     ]
-    },
-    {
      "key": "galaxialrd-312b",
      "sec": 241,
      "kind": "領域の宣言",
@@ -71671,6 +71676,12 @@
      "presets": [
       "galaxyGeo2"
      ]
+    },
+    {
+     "key": "timing294",
+     "sec": 231,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "sparc",
@@ -71763,12 +71774,6 @@
      ]
     },
     {
-     "key": "timing294",
-     "sec": 177,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "geo4-295b",
      "sec": 165,
      "kind": "領域の宣言",
@@ -71799,6 +71804,12 @@
       "plutoCharonDiagInput",
       "plutoCharonInertialFit"
      ]
+    },
+    {
+     "key": "tpsign",
+     "sec": 153,
+     "kind": "領域の宣言",
+     "presets": "all"
     },
     {
      "key": "d68",
@@ -71939,12 +71950,6 @@
      ]
     },
     {
-     "key": "dt3",
-     "sec": 88,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "shapecrit",
      "sec": 85,
      "kind": "領域の宣言",
@@ -71987,12 +71992,6 @@
       "plutoCharonDFM",
       "plutoCharonKF0Control"
      ]
-    },
-    {
-     "key": "kf0",
-     "sec": 73,
-     "kind": "常時群",
-     "presets": null
     },
     {
      "key": "galaxychain",
@@ -72046,6 +72045,12 @@
      ]
     },
     {
+     "key": "kf0",
+     "sec": 59,
+     "kind": "常時群",
+     "presets": null
+    },
+    {
      "key": "emonly-300b",
      "sec": 56,
      "kind": "領域の宣言",
@@ -72053,12 +72058,6 @@
       "earthMoonOnly3d",
       "earthMoonSunInertial3d"
      ]
-    },
-    {
-     "key": "d68three",
-     "sec": 55,
-     "kind": "常時群",
-     "presets": null
     },
     {
      "key": "analogy",
@@ -72109,6 +72108,12 @@
       "plutoCharonReal",
       "psrDoubleAB"
      ]
+    },
+    {
+     "key": "d68three",
+     "sec": 47,
+     "kind": "常時群",
+     "presets": null
     },
     {
      "key": "spiral290",
@@ -72205,6 +72210,12 @@
      ]
     },
     {
+     "key": "partytime-343b",
+     "sec": 41,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "geo3bin-321b",
      "sec": 40,
      "kind": "領域の宣言",
@@ -72290,6 +72301,12 @@
      "presets": null
     },
     {
+     "key": "partyconv-344b",
+     "sec": 34,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "rotring-337i",
      "sec": 32,
      "kind": "html を読まない",
@@ -72347,6 +72364,12 @@
      ]
     },
     {
+     "key": "dragconv-344d",
+     "sec": 27,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "ledger-334b",
      "sec": 26,
      "kind": "html を読まない",
@@ -72365,13 +72388,13 @@
      "presets": null
     },
     {
-     "key": "fluidconv-340g",
+     "key": "dt3",
      "sec": 24,
-     "kind": "html を読まない",
+     "kind": "常時群",
      "presets": null
     },
     {
-     "key": "partytime-343b",
+     "key": "fluidconv-340g",
      "sec": 24,
      "kind": "html を読まない",
      "presets": null
@@ -72822,12 +72845,6 @@
      ]
     },
     {
-     "key": "samplestatus",
-     "sec": 6,
-     "kind": "常時群",
-     "presets": null
-    },
-    {
      "key": "families",
      "sec": 6,
      "kind": "領域の宣言",
@@ -73045,12 +73062,6 @@
      "presets": "all"
     },
     {
-     "key": "tpsign",
-     "sec": 4,
-     "kind": "領域の宣言",
-     "presets": "all"
-    },
-    {
      "key": "compose288",
      "sec": 4,
      "kind": "領域の宣言",
@@ -73093,9 +73104,21 @@
      "presets": null
     },
     {
+     "key": "clockmid-344c",
+     "sec": 4,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "powerball",
      "sec": 3,
      "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "samplestatus",
+     "sec": 3,
+     "kind": "常時群",
      "presets": null
     },
     {
@@ -73517,6 +73540,18 @@
     },
     {
      "key": "plutostate-343g",
+     "sec": 1,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "spincompose-344e",
+     "sec": 1,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "plutogm-344g",
      "sec": 1,
      "kind": "html を読まない",
      "presets": null
