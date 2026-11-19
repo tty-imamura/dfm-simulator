@@ -39,12 +39,12 @@ export const T1 = Object.freeze({
     Object.freeze({ decl: 'iii', absAccel: 'a_G N g', perTau: 'a_G', note: '静止でも変わる(N の因子)—— 局所の重力の因子と同じ ψ を 2 か所で掛け得る列' }),
   ]),
   app: Object.freeze([
-    Object.freeze({ what: '重力の步', code: 'vx[i]+=ax[i]*kickDt(キックの步 —— 絶対時間の刻み)', reads: '宣言 (i)' }),
-    Object.freeze({ what: '局所の重力の ψ', code: 'gLocKick3: PS[i] = κ_g Σ_j m_j/√(d² + ε²)(外部の他の天体だけ・軟化つき・背景 D₀ なし)', reads: 'ψ_G' }),
-    Object.freeze({ what: '受け手の型', code: 'dGi = G·expm1(−2 n ψ_i)(差 G_i − G を今のニュートンの項に足す)', reads: 'G_i = G e^(−2 n_G ψ_i)' }),
-    Object.freeze({ what: '対称の型', code: 'gi = G·expm1(−n (ψ_i + ψ_j))', reads: 'G_ij = G e^(−n_G (ψ_i + ψ_j))' }),
-    Object.freeze({ what: '点の時計の ψ', code: 'tauUpdate: psi = (D0 + W_B + sumW[i])·kappaT', reads: 'ψ_clock(背景 D₀ と箱の決定力を含む)' }),
-    Object.freeze({ what: '局所の重力を受ける本', code: 'gLocPrepare: S.coord3d !== true なら宣言を外す', reads: '三次元の本だけ' }),
+    Object.freeze({ what: '重力の步', code: '`vx[i]+=ax[i]*kickDt`(キックの步 —— 絶対時間の刻み)', reads: '宣言 (i)' }),
+    Object.freeze({ what: '局所の重力の ψ', code: '`gLocKick3`: `PS[i]+=m[j]*invW` の後 `PS[i]*=kap`(`kap` は `gLocKappaOf(S)` —— 外部の他の天体だけ・軟化つき・背景 D₀ なし)', reads: 'ψ_G' }),
+    Object.freeze({ what: '受け手の型', code: '`G*Math.expm1(-2*nn*PS[i])`(差 G_i − G を今のニュートンの項に足す)', reads: 'G_i = G e^(−2 n_G ψ_i)' }),
+    Object.freeze({ what: '対称の型', code: '`gi=G*Math.expm1(-nn*(PS[i]+PS[j]))`', reads: 'G_ij = G e^(−n_G (ψ_i + ψ_j))' }),
+    Object.freeze({ what: '点の時計の ψ', code: '`tauUpdate`: `psi=denom*S.params.kappaT`(`denom=S.params.D0+WB+S.sumW[i]`)', reads: 'ψ_clock(背景 D₀ と箱の決定力を含む)' }),
+    Object.freeze({ what: '局所の重力を受ける本', code: '`gLocPrepare`: `S.coord3d!==true` なら宣言を外す', reads: '三次元の本だけ' }),
   ]),
 });
 export const PLAN = Object.freeze({ closed: '−(2 n_G q + ℓ + s)/6(q = 受け手 1・対称 ½・ℓ = N を掛けると 1・s = g を掛けると 1)', currentBudget: '−28.65 + 71.63 = 42.98″/世紀(G_loc n_G = 2 受け手 + K1 —— 動かさない)' });

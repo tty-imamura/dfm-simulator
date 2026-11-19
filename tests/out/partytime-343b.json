@@ -76,32 +76,32 @@
   "app": [
    {
     "what": "重力の步",
-    "code": "vx[i]+=ax[i]*kickDt(キックの步 —— 絶対時間の刻み)",
+    "code": "`vx[i]+=ax[i]*kickDt`(キックの步 —— 絶対時間の刻み)",
     "reads": "宣言 (i)"
    },
    {
     "what": "局所の重力の ψ",
-    "code": "gLocKick3: PS[i] = κ_g Σ_j m_j/√(d² + ε²)(外部の他の天体だけ・軟化つき・背景 D₀ なし)",
+    "code": "`gLocKick3`: `PS[i]+=m[j]*invW` の後 `PS[i]*=kap`(`kap` は `gLocKappaOf(S)` —— 外部の他の天体だけ・軟化つき・背景 D₀ なし)",
     "reads": "ψ_G"
    },
    {
     "what": "受け手の型",
-    "code": "dGi = G·expm1(−2 n ψ_i)(差 G_i − G を今のニュートンの項に足す)",
+    "code": "`G*Math.expm1(-2*nn*PS[i])`(差 G_i − G を今のニュートンの項に足す)",
     "reads": "G_i = G e^(−2 n_G ψ_i)"
    },
    {
     "what": "対称の型",
-    "code": "gi = G·expm1(−n (ψ_i + ψ_j))",
+    "code": "`gi=G*Math.expm1(-nn*(PS[i]+PS[j]))`",
     "reads": "G_ij = G e^(−n_G (ψ_i + ψ_j))"
    },
    {
     "what": "点の時計の ψ",
-    "code": "tauUpdate: psi = (D0 + W_B + sumW[i])·kappaT",
+    "code": "`tauUpdate`: `psi=denom*S.params.kappaT`(`denom=S.params.D0+WB+S.sumW[i]`)",
     "reads": "ψ_clock(背景 D₀ と箱の決定力を含む)"
    },
    {
     "what": "局所の重力を受ける本",
-    "code": "gLocPrepare: S.coord3d !== true なら宣言を外す",
+    "code": "`gLocPrepare`: `S.coord3d!==true` なら宣言を外す",
     "reads": "三次元の本だけ"
    }
   ]
@@ -1677,19 +1677,19 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "t2": {
-   "wallSec": 2.899
+   "wallSec": 2.884
   },
   "t3": {
-   "wallSec": 3.121
+   "wallSec": 3.222
   },
   "t4": {
-   "wallSec": 4.852
+   "wallSec": 5.187
   },
   "t5": {
-   "wallSec": 4.865
+   "wallSec": 5.206
   }
  },
  "gates": {
@@ -1709,20 +1709,20 @@
  },
  "ok": true,
  "okRaw": true,
- "elapsedS": 23.181,
+ "elapsedS": 23.52,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第343便b",
   "target": "tests/lib-w343b-partytime.mjs",
   "targetSha256": "12d5295e3b0faffad87de0f43a0d63955ebdd3bb90153205378a8890fb20a9d7",
-  "generatedAt": "2026-11-19T07:30:43.080Z",
+  "generatedAt": "2026-11-19T07:34:18.380Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w343b-partytime.mjs",
-    "bytes": 11396,
-    "sha256": "29c61c30e7cc7115ab70bcf0e32a92c9752db51cdc36581c905c473d0bb62745",
-    "mtime": "2026-11-19T07:30:19.839Z"
+    "bytes": 11469,
+    "sha256": "dafae97c40e485d459edb0b8c5fec7ac07383d47a768bc0a986b2c009a0966e9",
+    "mtime": "2026-11-19T07:33:48.215Z"
    },
    {
     "file": "tests/lib-w343b-partytime.mjs",
@@ -1785,7 +1785,7 @@
     "mtime": "2026-11-19T07:13:14.491Z"
    }
   ],
-  "codeSha256": "59444ea50be6c7bccb06bd08fd52d63a01b89b2c6538905d947a8d313856a475",
+  "codeSha256": "cb7341063c397831a451c98d3c2021d1373952ff4d136fbf9798910817027b8c",
   "harnessVersion": "w343b-partytime-1",
   "stage": "partytime",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 の積分・第342便b の時計の型と第341便e の RK4 の 1 步と水星の 1PN を呼ぶ)",
