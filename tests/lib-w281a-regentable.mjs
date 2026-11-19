@@ -2463,6 +2463,18 @@ export const REGEN_STEPS = [
     note: '第342便e: 零試験 7(駆動 0・理想のジャイロ・η = 0 で第341便f と同じ・帳簿の恒等式・sin の型の 2 つの軸の合成・入力の拒否・分け方の端)/T1 天体 7 × 分け方 13/'
       + 'T2 則 3 × C_b の読み 3 × 結びつきの係数 3/T3 天体 7 のエネルギーと角運動量の帳簿/窓 117 行/T4 木星・金星 × 符号 2 × 則 3 × 向ける先 3' }),
   // ==== 第342便e の塊(ここまで)====
+  // ==== 第343便d の塊(ここから)====
+  // ---- 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・原仮定者の回答(2026-11-18 —— 第142報)AN800・統括の検証項目 R381):
+  //   **扁平の源の h1 の場を物理の表面にだけ点を置く求積(発散定理)で数え、弦の向きの積分と 61440 点の表と並べる・極の例外の直しの試験・適用の境目**(段 surfquad-343d —— 正本 tests/out/surfquad-343d.json・
+  //   lib tests/lib-w343d-surfquad.mjs —— 第342便c・第341便d・第340便h の lib を import して呼ぶ。入力のファイルは第341便d の正本 tests/out/oblatering-341d.json と第342便c の正本 tests/out/oblateapprox-342c.json〔読むだけ〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)。1 プロセス。所要は第343便d の枝の実測 約 5 s
+  S('surfquad-343d', 'node tests/exp-w343d-surfquad.mjs', ['tests/out/surfquad-343d.json'], 5, { secSource: 'w343d-branch', node: true,
+    after: ['oblatering-341d', 'oblateapprox-342c'],   // 入力の書き手(第341便d の正本と第342便c の正本を読む)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 全部を走らせても 10 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/surfquad-343d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第343便d: 表面の求積(64 × 128・96 × 192)× 42 条件の軸の傾きの比(弦 128・512 と第341便d の表の best・区切りの最後の段との差)/'
+      + '極の試験(扁平率 3 × 極の真上・真下・すぐ横 —— 弦と表面の場と体積)/42 条件の弦の列の不変/適用の境目(扁平率 3 × 距離 2 × 高さ 6)/外の試算の 2 つの数の表' }),
+  // ==== 第343便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
