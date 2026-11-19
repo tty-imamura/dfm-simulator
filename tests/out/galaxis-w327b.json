@@ -3,7 +3,7 @@
  "libVersion": "w327b-galaxis-lib-1",
  "generator": "tests/exp-w327b-galaxis.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "reuseFrom": null,
  "ruling": "原仮定者の回答(2026-11-05 —— AN536)「銀河の局所場の大きさは、太陽の自転と、APIの模型の、両方を検証する。「銀河の回転と逆向き」の解釈については、銀河は腕を引きずって回転しているが、腕が引きずられるという事はその腕より慣性決定力場の方が早く回転しており、見た目は順回転だが場に対して逆回転になる」・統括の検証項目 R296",
  "decl": {
@@ -1268,16 +1268,16 @@
  },
  "timing": {
   "path1": {
-   "wallSec": 0.569
+   "wallSec": 0.309
   },
   "path2": {
-   "wallSec": 10.373
+   "wallSec": 5.913
   },
   "grid": {
-   "wallSec": 12.827
+   "wallSec": 7.507
   },
   "TRH": {
-   "wallSec": 12.828
+   "wallSec": 7.51
   }
  },
  "gates": {
@@ -1295,19 +1295,19 @@
   "handoff": true
  },
  "ok": true,
- "elapsedS": 15.305,
+ "elapsedS": 9.14,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第327便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:59:51.776Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:55:25.617Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    }
   ],
   "code": [
@@ -1437,9 +1437,9 @@
    "complete": true,
    "names": 1364,
    "segments": 1195,
-   "closureShare": 0.294
+   "closureShare": 0.2938
   },
-  "scopeSha256": "f886b9a4a5631b81be1e00f68796754b437e4b01164fa58e812b71652b2e3fab",
+  "scopeSha256": "3a15fb62c91fa0340851fc0b6239c360fff8718d27ce95cd3ff2c42ac2c59519",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

@@ -2,7 +2,7 @@
  "version": "w312b-galaxialrd-1",
  "generator": "tests/exp-w312b-galaxialrd.mjs",
  "target": "beta/index.html",
- "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
+ "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
  "ruling": "原仮定者の裁定(第114報)一様軸引きずりは受ける側の dragCore の R_d に応じて変わる・一様重力の様に一定の勾配で近似するのでどの場所でも R_d が同じなら影響は同じ・一様回転引きずりは慣性系であってもコリオリの項が必要(背景側の支配天体を明示していない場合は規約として無視)・決断事項 AN395・統括の検証項目 R231",
  "galaxyAxialVersion": "w311b-galaxial-1",
  "galaxyAxialRdVersion": "w312b-galaxial-rd-1",
@@ -2262,31 +2262,31 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.029
+   "wallSec": 0.03
   },
   "B": {
-   "wallSec": 0.409
+   "wallSec": 0.431
   },
   "N": {
-   "wallSec": 0.595
+   "wallSec": 0.513
   },
   "X": {
-   "wallSec": 238.115
+   "wallSec": 229.008
   }
  },
- "elapsedS": 240.942,
+ "elapsedS": 232.096,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第312便b",
   "target": "beta/index.html",
-  "targetSha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-  "generatedAt": "2026-11-16T01:50:54.496Z",
+  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "generatedAt": "2026-11-19T01:55:07.131Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7687896,
-    "sha256": "60c0403cc875f1c181a77f0b5d2700a31f280dd5459bc60c0d66f86cb5b61023",
-    "mtime": "2026-11-15T18:32:47.739Z"
+    "bytes": 7698218,
+    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+    "mtime": "2026-11-18T16:04:54.525Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
@@ -2441,9 +2441,9 @@
    "abBody": false,
    "names": 1392,
    "segments": 1223,
-   "closureShare": 0.2997
+   "closureShare": 0.2996
   },
-  "scopeSha256": "0c2fd7b0ae2e9de990fa3fd7742b1aa001a1af0a2d2e79dbac5bce5ef07c26d8",
+  "scopeSha256": "04079b1cd10676c85466d2672823c3a28dcb2161a475be16e676db5601f4ae2c",
   "scopeComplete": true,
   "inputsStable": [
    {
