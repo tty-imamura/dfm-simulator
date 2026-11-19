@@ -238,13 +238,14 @@ export function t5Rows() {
 /* ───────── 純関数の場面 ───────── */
 export function pureScenes() {
   // ① 静止(x = 0)で全部の型の g が 1(ちょうど)・宣言 (i) の因子は 1
-  const g0 = DECL.types.every((t) => gRun(t, 0) === 1) && DECL.types.every((t) => declFactor('i', t, 0.3, 0.5) === 1);
+  const g0 = DECL.types.every((t) => Math.abs(gRun(t, 0) - 1) < 1e-15) && DECL.types.every((t) => declFactor('i', t, 0.3, 0.5) === 1);   // 丸めの 1 bit を許す(Math の関数の戻り値)
   // ② 宣言の因子の形: (ii) = g・(iii) = N g・(N) = N
   let form = 0; for (const t of DECL.types) for (const [p, x] of [[0.01, 0.1], [0.2, 0.5]]) {
     form = Math.max(form, Math.abs(declFactor('ii', t, p, x) - gRun(t, x)), Math.abs(declFactor('iii', t, p, x) - Math.exp(-p) * gRun(t, x)), Math.abs(declFactor('N', t, p, x) - Math.exp(-p)));
   }
   // ③ G_loc の因子: n_G = 0 で 1・受け手 n_G = ½ は e^(−ψ)・対称は ψ_i と ψ_j で入れ替えても同じ
-  const gl = gLocFactor(0, 'receiver', 0.3, 0) === 1 && gLocFactor(0, 'symmetric', 0.3, 0.2) === 1 && gLocFactor(0.5, 'receiver', 0.3, 0) === Math.exp(-0.3) && gLocFactor(2, 'symmetric', 0.3, 0.1) === gLocFactor(2, 'symmetric', 0.1, 0.3);
+  const near = (a, b) => Math.abs(a - b) < 1e-15;   // 丸めの 1 bit を許す
+  const gl = near(gLocFactor(0, 'receiver', 0.3, 0), 1) && near(gLocFactor(0, 'symmetric', 0.3, 0.2), 1) && near(gLocFactor(0.5, 'receiver', 0.3, 0), Math.exp(-0.3)) && near(gLocFactor(2, 'symmetric', 0.3, 0.1), gLocFactor(2, 'symmetric', 0.1, 0.3));
   // ④ 見込みの式の値(今の在位の組 = −2/3・(ii) n_G = 0 = −1/6・(iii) n_G = 0 = −1/3・対称 (i) n_G = 2 = −1/3)
   const cl = closedOf('i', 2, 'receiver') === -4 / 6 && closedOf('ii', 0, 'receiver') === -1 / 6 && closedOf('iii', 0, 'receiver') === -2 / 6 && closedOf('i', 2, 'symmetric') === -2 / 6;
   // ⑤ 拒否: 宣言が無い・型が無い・x が負・G_loc の型が無い
