@@ -111792,7 +111792,7 @@ function view342fOf343a(eq) {
         const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const B342 = await import('file://' + path.join(ROOT, 'tests', 'lib-w342b-clockstop.mjs'));
         // ① 版・宣言・純関数の場面
-        if (!(L.LIB_VERSION === 'w343c-clockread-lib-1' && X.HARNESS_VERSION === 'w343c-clockread-1' && D0.DOC_VERSION === 'w343c-clockreaddoc-1' && X.AMEND.length === 0
+        if (!(L.LIB_VERSION === 'w343c-clockread-lib-2' && X.HARNESS_VERSION === 'w343c-clockread-1' && D0.DOC_VERSION === 'w343c-clockreaddoc-1' && X.AMEND.length === 0
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・照合の lib)');
         if (!(js(L.DECL.kGrid) === js([0.25, 0.5, 1, 2, 'inf']) && js(L.DECL.nGrid) === js([0, 1, 2]) && js(L.DECL.sGrid) === js([1, 2, 4, 8])
           && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN))) bad.push('① 宣言(形の族の k・べき・有限の列)が lib・器・正本で同じでない');
