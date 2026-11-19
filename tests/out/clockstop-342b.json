@@ -1290,25 +1290,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.416
+   "wallSec": 0.385
   },
   "t1": {
-   "wallSec": 0.416
+   "wallSec": 0.385
   },
   "t2": {
-   "wallSec": 0.548
+   "wallSec": 0.51
   },
   "t3": {
-   "wallSec": 0.548
+   "wallSec": 0.51
   },
   "t4": {
-   "wallSec": 0.553
+   "wallSec": 0.514
   },
   "t5": {
-   "wallSec": 1.62
+   "wallSec": 1.298
   },
   "t6": {
-   "wallSec": 2.848
+   "wallSec": 2.075
   }
  },
  "gates": {
@@ -1326,77 +1326,77 @@
   "t6Diff": true
  },
  "ok": true,
- "elapsedS": 9.592,
+ "elapsedS": 8.432,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第342便b",
   "target": "tests/lib-w342b-clockstop.mjs",
-  "targetSha256": "cc94002a60c5710d098be0532ccfe12a9a5e214f8ac6cbeec589b87c711b8d86",
-  "generatedAt": "2026-11-18T15:19:03.611Z",
+  "targetSha256": "56493fc40482f47eaaca8993698ea249d7eacecf6db81a75abd31e602d23346b",
+  "generatedAt": "2026-11-19T07:28:18.019Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w342b-clockstop.mjs",
-    "bytes": 9812,
-    "sha256": "9bfdf3efb42446c979c1a7ed893ed4d0967288deb4504cdb60a118e1d36aa2c9",
-    "mtime": "2026-11-18T15:18:53.962Z"
+    "bytes": 10268,
+    "sha256": "667e9afec33c06b827b0b9224f2ba8a638650c49394c324f16126b04d510cf3a",
+    "mtime": "2026-11-19T07:28:01.239Z"
    },
    {
     "file": "tests/lib-w342b-clockstop.mjs",
-    "bytes": 21885,
-    "sha256": "cc94002a60c5710d098be0532ccfe12a9a5e214f8ac6cbeec589b87c711b8d86",
-    "mtime": "2026-11-18T15:18:53.962Z"
+    "bytes": 22287,
+    "sha256": "56493fc40482f47eaaca8993698ea249d7eacecf6db81a75abd31e602d23346b",
+    "mtime": "2026-11-19T07:28:01.238Z"
    },
    {
     "file": "tests/lib-w341e-lightmass.mjs",
     "bytes": 24950,
     "sha256": "a8df8941d7c1306c21b2a264be0a25e9394e6342a4f6c5f24b28b26486e2c0da",
-    "mtime": "2026-11-18T15:04:52.981Z"
+    "mtime": "2026-11-19T07:13:15.491Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-18T15:04:52.969Z"
+    "mtime": "2026-11-19T07:13:15.467Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-18T15:04:52.965Z"
+    "mtime": "2026-11-19T07:13:15.463Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-18T15:04:52.965Z"
+    "mtime": "2026-11-19T07:13:15.463Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-18T15:04:52.965Z"
+    "mtime": "2026-11-19T07:13:15.463Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
     "bytes": 7760,
     "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
-    "mtime": "2026-11-18T15:04:52.981Z"
+    "mtime": "2026-11-19T07:13:15.491Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-18T15:04:52.933Z"
+    "mtime": "2026-11-19T07:13:15.411Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-18T15:04:52.977Z"
+    "mtime": "2026-11-19T07:13:15.487Z"
    }
   ],
-  "codeSha256": "fdf13b292cf440c7267297f0d4301770aefee5b0eb81fcddea649330e6df0bde",
+  "codeSha256": "0da5499820059e458481d53304c5ac699907088920f17916ddd76b428cc5673a",
   "harnessVersion": "w342b-clockstop-1",
   "stage": "clockstop",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 と求積・第341便e の器を呼ぶ)",

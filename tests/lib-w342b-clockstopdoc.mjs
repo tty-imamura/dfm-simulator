@@ -36,7 +36,7 @@ export function tablesOf(J) {
   const tag = (r) => clockLabel(r.type, r.n);
   T.t2reach = ['| 時計の型・駆動のべき | 時計が止まる所 | ' + D.xReach.map((x) => 'x = ' + x + ' に届く T').join(' | ') + ' | x = 1 に有限の時間で届く | x = 1 を通り抜ける | 近付き方 |', '|---|---|' + D.xReach.map(() => '---|').join('') + '---|---|---|']
     .concat(J.t2.rows.map((r) => `| ${tag(r)} | ${r.clockStops} | ${r.tReach.map((v) => (v === null ? '定義域の外' : f4(v))).join(' | ')} | ${yn(r.reachesOneFinite)}${r.reachesOneFinite ? '(T = ' + f4(r.tAtOne) + ')' : ''} | ${yn(r.passesOne)} | ${r.asym} |`)).join('\n')
-    + '\n\n(一様な場・初速 0。T = a* N^n t ÷ c_loc。n = 1 は「粒子の時計 1 秒あたり同じ速度の増し分」dw/dτ = a*(dw/dt = a* N g)・n = 2 は d²/dt² = (dτ/dt)² d²/dτ² の読み(dw/dt = a* N² g²)。閉じた形と Simpson の相対の差は全部 1e-9 より小さい)';
+    + '\n\n(一様な場・初速 0。T = a* N^n t ÷ c_loc。n = 1 は「粒子の時計 1 秒あたり同じ速度の増し分」dw/dτ = a*(dw/dt = a* N g)・n = 2 は d²/dt² = (dτ/dt)² d²/dτ² の読み(dw/dt = a* N² g²)。〔訂正(第343便c・統括の検証項目 R380): この読みは一般の連鎖律としては項が 1 つ足りない —— 正しくは d²p/dt² = (dτ/dt)² d²p/dτ² + (d²τ/dt²)(dp/dτ)。べき 2 の列の数は「時計の進みの二乗を掛ける、別の駆動の宣言」として有効で、数は変わらない(足りない項を入れた読みは〔第343便c〕の表)〕閉じた形と Simpson の相対の差は全部 1e-9 より小さい)';
 
   T.t2x = ['| 時計の型・駆動のべき | ' + D.tRead.map((t) => 'x(T = ' + t + ')').join(' | ') + ' |', '|---|' + D.tRead.map(() => '---|').join('')]
     .concat(J.t2.rows.map((r) => `| ${tag(r)} | ${r.xAtT.map(f4).join(' | ')} |`)).join('\n');

@@ -1169,6 +1169,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report143_343a lint.equations343a"
 #   第338便c の recheckRun で正本と照合・零試験 4・見込みの式との差・T1 のコードの引用 / docs.partytime343b —— 正本の門と表 13 本が PHYSICS〔第343便b〕に逐語・文書)と、新しい段 partytime-343b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.partytime343b docs.partytime343b"
 # ==== 第343便b の塊(ここまで)====
+# ==== 第343便c の塊(ここから)====
+# 第343便c(原仮定者の回答(2026-11-19 —— 第143報)AN853・統括の検証項目 R380 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.clockread343c —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・恒等式・極限の解析値と有限の列 / docs.clockread343c —— 正本の門と表 14 本が PHYSICS〔第343便c〕に逐語・文書)と、新しい段 clockread-343c の lint 一式(第337便i の塊で足した一式)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockread343c docs.clockread343c"
+# ==== 第343便c の塊(ここまで)====
 # ==== 第343便d の塊(ここから)====
 # 第343便d(原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN841・AN842・統括の検証項目 R381 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.surfquad343d —— 純関数の場面・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・極の試験・3 つの差の最大・42 条件の弦の列が第342便c の正本と葉ごとに同じ・呼ぶだけ / docs.surfquad343d —— PHYSICS〔第343便d〕・AI_SPEC §273・CHANGELOG・段の行)と、新しい段 surfquad-343d
