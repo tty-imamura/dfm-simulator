@@ -1195,6 +1195,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.judge3rest343f lint.chainResume343f
 #   PHYSICS〔第343便g〕に逐語・文書)と、新しい段 plutostate-343g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutostate343g docs.plutostate343g"
 # ==== 第343便g の塊(ここまで)====
+# ==== 第344便d の塊(ここから)====
+# 第344便d(原仮定者の回答(2026-11-19 —— 第143報の回答 2・回答 3 AN876)・統括の検証項目 R388 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.dragconv344d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・零試験 3・K1 の今の一次との差・T1 のコードの引用と引きずりの步に点の時計が無いこと / docs.dragconv344d —— 正本の門と表が PHYSICS〔第344便d〕に逐語・文書)と、新しい段 dragconv-344d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragconv344d docs.dragconv344d"
+# ==== 第344便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
