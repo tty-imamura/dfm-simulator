@@ -5275,6 +5275,6 @@ SYSTEM_PROMPT の規則 13(逐語):
 - QA `docs.report142_342f`・`lint.equations342f`(第341便a の照合は EQ-77 までの写し `view341aOf342f` で読む —— root は SKIP)。
 
 ## 272. 第343便c —— 時計の因子の引数の 2 つの読み(主の列 B = 当事者時間で測った速さ・比べる列 A = 絶対時間で見た速さ)・光の経路 = 質量 0 で無限速度の慣性移動の場合・ミューオンの寿命(文献の値・未照合)・〔第342便b〕の連鎖律の文の訂正(原仮定者の回答(2026-11-19 —— 第143報)AN853・原仮定者の回答(2026-11-19 —— 第142報の回答 2)AN840・統括の検証項目 R380・**診断だけ** —— html・本の宣言・エンジン・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
-- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。器 `tests/exp-w343c-clockread.mjs`・lib `tests/lib-w343c-clockread.mjs`・文書の lib `tests/lib-w343c-clockreaddoc.mjs`・正本 `tests/out/clockread-343c.json`・段 `clockread-343c` を足し、PHYSICS〔第343便c〕に表を置いた。〔第342便b〕の連鎖律の文に訂正を足した(当時の文は残す・正本の数は変わらない)。
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。器 `tests/exp-w343c-clockread.mjs`・lib `tests/lib-w343c-clockread.mjs`・文書の lib `tests/lib-w343c-clockreaddoc.mjs`・正本 `tests/out/clockread-343c.json`・段 `clockread-343c` を足し、PHYSICS〔第343便c〕に表を置いた。〔第342便b〕の連鎖律の文に訂正を足した(当時の文は残す・正本の数は変わらない)。追記: 原仮定者の回答(2026-11-19 —— 第143報の回答)AN866〜AN868 を受けて、参考の値 e^(−½) を「無限速度で当事者時間が止まる場合」の局所光速のときの時計として 2 つの読み(y = 1・x = 1)で数える列 T6 を足した(2 ノブの族は統括の参考の試作・採否は決めない)。
 - **AI が本を作るときの説明**: 時計の止まり方の形は候補 —— 今のアプリの点の時計と表面の時計は局所光速で止まる形のまま。「無限速度で当事者時間が止まる」案の数を書くなら、当事者時間で測った速さで読むか(主の列)、絶対時間で見た速さで読むか(比べる列)を書く。ミューオンの値は文献の値・未照合。
 - QA `behavior.clockread343c`・`docs.clockread343c`(root は SKIP)。

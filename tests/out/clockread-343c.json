@@ -1735,24 +1735,289 @@
   "identityMax": 0,
   "quadRel": 4.782840790085174e-12
  },
+ "t6": {
+  "ref": 0.6065306597126334,
+  "kStar": 0.28558589891211195,
+  "oneKnob": [
+   {
+    "k": 0.5,
+    "gAtY1": 0.7071067811865475,
+    "dRef": 0.10057612147391404
+   },
+   {
+    "k": 1,
+    "gAtY1": 0.6666666666666666,
+    "dRef": 0.060136006954033205
+   },
+   {
+    "k": 2,
+    "gAtY1": 0.64,
+    "dRef": 0.03346934028736659
+   },
+   {
+    "k": "inf",
+    "gAtY1": 0.6065306597126334,
+    "dRef": 0
+   }
+  ],
+  "twoKnob": [
+   {
+    "type": "h1",
+    "gAtY1": 0.6065306597126334,
+    "dRef": 0,
+    "h1": 0.7182818284590451,
+    "y4": -0.3432818284590451,
+    "monotone": true,
+    "xMaxScan": null,
+    "yStarScan": null,
+    "closed": null,
+    "xLimit": 1,
+    "muon": {
+     "note": "ok",
+     "y": 45.75603086343128,
+     "g": 0.021842336081146357,
+     "tauUs": 100.58357731691376,
+     "dUs": 36.164577316913764,
+     "dSig": 623.5271951192028,
+     "overF": 1.5609494960364778
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": 1,
+      "bend": 0.5,
+      "time": 1
+     },
+     {
+      "n": 1,
+      "speed": 1,
+      "bend": 0,
+      "time": 1
+     },
+     {
+      "n": 2,
+      "speed": 1,
+      "bend": 0,
+      "time": 1
+     }
+    ]
+   },
+   {
+    "type": "h2",
+    "gAtY1": 0.6065306597126334,
+    "dRef": 0,
+    "h1": 0.7182818284590451,
+    "y4": -0.3432818284590451,
+    "monotone": true,
+    "xMaxScan": null,
+    "yStarScan": null,
+    "closed": null,
+    "xLimit": 1,
+    "muon": {
+     "note": "ok",
+     "y": 29.337400530477616,
+     "g": 0.0340663653148175,
+     "tauUs": 64.49118594534656,
+     "dUs": 0.0721859453465612,
+     "dSig": 1.2445852645958826,
+     "overF": 1.0008342006270603
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": 1,
+      "bend": 0.5,
+      "time": 1
+     },
+     {
+      "n": 1,
+      "speed": 1,
+      "bend": 0,
+      "time": 1
+     },
+     {
+      "n": 2,
+      "speed": 1,
+      "bend": 0,
+      "time": 1
+     }
+    ]
+   },
+   {
+    "type": "h3",
+    "gAtY1": 0.6065306597126334,
+    "dRef": 0,
+    "h1": 0.7182818284590451,
+    "y4": 0.015859085770477455,
+    "monotone": false,
+    "xMaxScan": 0.6091412801876881,
+    "yStarScan": 1.0870512005166928,
+    "closed": {
+     "xMax": 0.60914149305156,
+     "yStar": 1.086241222541881
+    },
+    "xLimit": 0,
+    "muon": {
+     "note": "unreached"
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": 0,
+      "bend": "inf",
+      "time": "inf"
+     },
+     {
+      "n": 1,
+      "speed": 0,
+      "bend": 0.4237575452009808,
+      "time": "inf"
+     },
+     {
+      "n": 2,
+      "speed": 0,
+      "bend": 0,
+      "time": "inf"
+     }
+    ]
+   }
+  ],
+  "kRows": [
+   {
+    "k": 0.25,
+    "kVal": 0.25,
+    "yAtX1": 1.5537739740300371,
+    "gAtX1": 0.6435942529055827,
+    "dRef": 0.03706359319294927,
+    "muon": {
+     "note": "ok",
+     "y": 1.5522323477908122,
+     "g": 0.6438588947593937,
+     "tauUs": 3.412207733529873,
+     "dUs": -61.00679226647012,
+     "dSig": -1051.8412459736228
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 1,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 2,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     }
+    ]
+   },
+   {
+    "k": "kstar",
+    "kVal": 0.28558589891211195,
+    "yAtX1": 1.6487212707001282,
+    "gAtX1": 0.6065306597126334,
+    "dRef": 0,
+    "muon": {
+     "note": "ok",
+     "y": 1.6469066146652038,
+     "g": 0.6068459467943427,
+     "tauUs": 3.6203262320619016,
+     "dUs": -60.7986737679381,
+     "dSig": -1048.2529959989326
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 1,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 2,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     }
+    ]
+   },
+   {
+    "k": 0.4,
+    "kVal": 0.4,
+    "yAtX1": 2.1500835878518902,
+    "gAtX1": 0.4650981969492088,
+    "dRef": -0.14143246276342464,
+    "muon": {
+     "note": "ok",
+     "y": 2.146157565630366,
+     "g": 0.4656781122987228,
+     "tauUs": 4.717808808223915,
+     "dUs": -59.70119119177608,
+     "dSig": -1029.330882616829
+    },
+    "limit": [
+     {
+      "n": 0,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 1,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     },
+     {
+      "n": 2,
+      "speed": "inf",
+      "bend": 0,
+      "time": 0
+     }
+    ]
+   }
+  ],
+  "zero": {
+   "h0": 0,
+   "a0": 0,
+   "ref": 0,
+   "kstar": 0,
+   "ident": 0
+  }
+ },
  "timing": {
   "pure": {
-   "wallSec": 0.106
+   "wallSec": 0.068
   },
   "t1": {
-   "wallSec": 0.107
+   "wallSec": 0.069
   },
   "t2": {
-   "wallSec": 0.107
+   "wallSec": 0.069
   },
   "t3": {
-   "wallSec": 0.425
+   "wallSec": 0.369
   },
   "t4": {
-   "wallSec": 0.425
+   "wallSec": 0.37
   },
   "t5": {
-   "wallSec": 0.436
+   "wallSec": 0.379
+  },
+  "t6": {
+   "wallSec": 0.39
   }
  },
  "gates": {
@@ -1763,29 +2028,31 @@
   "t3Limits": true,
   "t3Num": true,
   "t4Muon": true,
+  "t6Zero": true,
+  "t6Values": true,
   "t5Chain": true
  },
  "ok": true,
- "elapsedS": 1.139,
+ "elapsedS": 1.178,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第343便c",
   "target": "tests/lib-w343c-clockread.mjs",
-  "targetSha256": "fc9abd6084be242bc97aa610f443b7c9a23b1a497f9f3522d37c069ddf826c9e",
-  "generatedAt": "2026-11-19T07:36:25.694Z",
+  "targetSha256": "404e8ec76982eac85553cc76ac0f7dea77c1321253711463cee6e97ae5313641",
+  "generatedAt": "2026-11-19T07:52:03.578Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w343c-clockread.mjs",
-    "bytes": 9829,
-    "sha256": "eeee9ba97fb94a4d949c681fc08583e92953ac651052de803595d6d131c16aa1",
-    "mtime": "2026-11-19T07:27:18.207Z"
+    "bytes": 10554,
+    "sha256": "b66e9c32b92d7ef06bcc1b5d167fa78daa07b67fb4c13fe84c3491c7e3ab4d01",
+    "mtime": "2026-11-19T07:52:02.336Z"
    },
    {
     "file": "tests/lib-w343c-clockread.mjs",
-    "bytes": 19355,
-    "sha256": "fc9abd6084be242bc97aa610f443b7c9a23b1a497f9f3522d37c069ddf826c9e",
-    "mtime": "2026-11-19T07:36:24.216Z"
+    "bytes": 25832,
+    "sha256": "404e8ec76982eac85553cc76ac0f7dea77c1321253711463cee6e97ae5313641",
+    "mtime": "2026-11-19T07:52:02.335Z"
    },
    {
     "file": "tests/lib-w342b-clockstop.mjs",
@@ -1842,7 +2109,7 @@
     "mtime": "2026-11-19T07:13:15.487Z"
    }
   ],
-  "codeSha256": "fe331dc6822c7042a96fb926bb888c79c4503ad050a11190f762b228c404a00e",
+  "codeSha256": "49406764c045d4c2adcaffc2eabe2629c38a7e8a49a2b8997b7c9ef381ee6e1e",
   "harnessVersion": "w343c-clockread-1",
   "stage": "clockread",
   "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 第342便b と第341便e の器を呼ぶ)",
@@ -1885,13 +2152,14 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 4,
-   "kept": 878,
+   "zeroed": 5,
+   "kept": 972,
    "zeroPathsHead": [
     "/pure/scenes/identityMax",
     "/pure/scenes/chainIdMax",
     "/t1/identityMax",
-    "/t5/identityMax"
+    "/t5/identityMax",
+    "/t6/zero/ident"
    ],
    "unstable": 0,
    "unstableHead": []

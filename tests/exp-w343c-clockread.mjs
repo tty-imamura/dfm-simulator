@@ -10,6 +10,7 @@
 //   T2: 静止の時計 e^(−ψ) の r = r_s(ε/r_s ∈ {0, 0.1, 0.5}・ψ₀ ∈ {0, 0.05})と、形ごとの y = 1 の値・x → 1 の値。物差し: e^(−½)。
 //   T3: 2 つの読み × k × 駆動のべき n ∈ {0, 1, 2} の極限(解析)と有限の列 s ∈ {1, 2, 4, 8} の絶対時間の速さ・曲がり ÷ 光・飛行の時間 ÷(L ÷ c_loc)。数値の走り 16 本(衝突径数 1e5 μ)。物差し: 今のアプリの光。
 //   T4: 2 つの読み × k のミューオンの寿命の見込み。物差し: 文献の値(未照合)64.419 ± 0.058 µs。
+//   T6(追記): R1(y = 1)の 1 ノブの族 4 形と 2 ノブの族(統括の参考の試作)h の遠くの型 3 つ/R2(x = 1 を時計が 0 でないまま通る)の k = 0.25・k*・0.4。物差し: e^(−½)。
 //   T5: 型 F・U1・U2・U3 の連鎖律の第 2 項の割合と係数 f(x ∈ {0.1, 0.5, 0.9, 0.99})・到達の時間(x ∈ {0.5, 0.9, 0.99})をべき 2 の列と並べる。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -38,6 +39,7 @@ export function partT2() { return L.t2Rows(); }
 export function partT3() { return L.t3Rows(); }
 export function partT4() { return L.t4Rows(); }
 export function partT5() { return L.t5Rows(); }
+export function partT6() { return L.t6Rows(); }
 
 export function gatesOf(J) {
   const r1 = (k) => J.t1.rows.find((r) => r.k === k), f2 = (k) => J.t2.forms.find((r) => r.k === k);
@@ -57,6 +59,9 @@ export function gatesOf(J) {
     t3Num: J.t3.numRel < 1e-3,
     t4Muon: Math.abs(J.t4.F.tauUs - 64.437) < 0.001 && Math.abs(r4('B', 0.5).tauUs - J.t4.F.tauUs) < 1e-6 && [1, 2, 'inf'].every((k) => r4('B', k).note === 'unreached')
       && Math.abs(r4('A', 0.5).tauUs - 3.106) < 0.001 && Math.abs(r4('A', 1).tauUs - 3.294) < 0.001 && Math.abs(r4('A', 'inf').tauUs - 3.620) < 0.001,
+    t6Zero: Object.values(L.t6Gates(J.t6)).every(Boolean),
+    t6Values: Math.abs(J.t6.kStar - 0.2856) < 1e-4 && J.t6.twoKnob.every((r) => Math.abs(r.gAtY1 - J.t6.ref) < 1e-15) && J.t6.twoKnob.find((r) => r.type === 'h3').muon.note === 'unreached'
+      && J.t6.twoKnob.filter((r) => r.type !== 'h3').every((r) => r.monotone && r.xLimit === 1 && r.muon.note === 'ok') && J.t6.kRows.every((r) => r.limit[0].speed === 'inf'),
     t5Chain: J.t5.rows.every((r) => r.share.every((v) => v < 0) && r.f.every((v) => v > 0 && v < 1) && r.tReachFull.every((v, i) => v > r.tReachN2[i])),
   };
 }
@@ -68,7 +73,8 @@ export function runAll() {
   const t3 = partT3(); mark('t3');
   const t4 = partT4(); mark('t4');
   const t5 = partT5(); mark('t5');
-  const J = { pure, t1, t2, t3, t4, t5, timing: tm };
+  const t6 = partT6(); mark('t6');
+  const J = { pure, t1, t2, t3, t4, t5, t6, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

@@ -1160,7 +1160,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.surfclockAccept342g lint.tauSurfPai
 # ==== 第342便g の塊(ここまで)====
 # ==== 第343便c の塊(ここから)====
 # 第343便c(原仮定者の回答(2026-11-19 —— 第143報)AN853・統括の検証項目 R380 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.clockread343c —— 純関数の場面・器を走らせ直して
-#   第338便c の recheckRun で正本と照合・恒等式・極限の解析値と有限の列 / docs.clockread343c —— 正本の門と表 11 本が PHYSICS〔第343便c〕に逐語・文書)と、新しい段 clockread-343c の lint 一式(第337便i の塊で足した一式)
+#   第338便c の recheckRun で正本と照合・恒等式・極限の解析値と有限の列 / docs.clockread343c —— 正本の門と表 14 本が PHYSICS〔第343便c〕に逐語・文書)と、新しい段 clockread-343c の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.clockread343c docs.clockread343c"
 # ==== 第343便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"

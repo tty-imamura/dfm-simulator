@@ -109159,7 +109159,7 @@ function view340aOf341a(eq) {
         if (Object.keys(PG).length !== 7) bad.push('① 場面の数 ' + Object.keys(PG).length);
         cases.push(`① lib ${K.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}`);
         // ② 器を走らせ直して正本と同じ(第338便c の量ごとの尺度の照合)
-        const parts = ['pure', 't1', 't2', 't3', 't4', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const parts = ['pure', 't1', 't2', 't3', 't4', 't5', 't6'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
         const badParts = parts.filter((k) => diffs[k].n > 0);
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
         cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の量ごとの尺度の照合 —— 0 と書いた葉 ${RC.nZero}・葉 ${RC.nLeaves} —— 和の行 ${R.t1.rows.length}・金星の行 ${R.t2.rows.length}・天体 ${R.t3.bodies.length}・仰角 ${R.t4.rows.length})`);
@@ -111327,7 +111327,7 @@ function view341aOf342f(eq) {
         if (Object.keys(PG).length !== 8) bad.push('① 場面の数 ' + Object.keys(PG).length);
         cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(静止で 1・族が第342便b の gOf と同じ・k = ½ の恒等式・最大の x・逆・脱出の深さ・連鎖律の型 F・拒否)`);
         // ② 器を走らせ直して正本と照合(第338便c の量ごとの尺度)
-        const parts = ['pure', 't1', 't2', 't3', 't4', 't5'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const parts = ['pure', 't1', 't2', 't3', 't4', 't5', 't6'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
         const badParts = parts.filter((k) => diffs[k].n > 0);
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
         cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero} —— T1 ${R.t1.rows.length} 行・T3 ${R.t3.rows.length} 行・T4 ${R.t4.rows.length} 行)`);
@@ -111345,6 +111345,12 @@ function view341aOf342f(eq) {
         if (!(Math.abs(m4.tauUs - 2.1969803 * 29.33) < 2e-3 && Math.abs(mx.xMax - Math.exp(-0.5)) < 1e-12 && J.t4.rows.filter((r) => r.note === 'unreached').length === 3))
           bad.push('③ ミューオンの B の読み k = ½ の見込み(静止の寿命 × γ)・exp の形の x の最大 e^(−½)・届かない行 3');
         if (JSON.stringify(J).indexOf('Infinity') >= 0) bad.push('③ 正本に Infinity');
+        // T6(追記 —— AN866): 零試験(h = 0 と a = 0 で k = ½ の形・h(1) = e − 2 で g(1) = e^(−½)・k* で x = 1 の時計 = e^(−½)・1 − x² の恒等式)と要の数
+        const Z6 = L.t6Rows().zero, ks = L.kStar();
+        if (!(Object.values(L.t6Gates({ zero: Z6 })).every(Boolean) && Math.abs(ks * Math.log(1 + Math.E / (2 * ks)) - 0.5) < 1e-12 && Math.abs(L.g2('h0', 2) - L.formG(0.5, 2)) < 1e-15
+          && J.t6.twoKnob.length === 3 && J.t6.kRows.length === 3 && J.t6.twoKnob.find((r) => r.type === 'h3').muon.note === 'unreached'))
+          bad.push('③ T6 の零試験(h = 0・a = 0 で k = ½ の形・g(1) = e^(−½)・k* の根・恒等式)と行の数');
+        cases.push(`③′ T6 k* ${ks.toFixed(4)}・2 ノブの族 ${J.t6.twoKnob.length} 型・零試験 h = 0/a = 0/g(1)/k*/恒等式`);
         cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・恒等式の差 < 1e-12・ミューオンの B の読み k = ½ ${m4.tauUs.toFixed(3)} µs・exp の形の x の最大 ${mx.xMax.toFixed(4)}`);
         // ④ 呼ぶだけ
         const tl = rd('tests/lib-w343c-clockread.mjs'), th = rd('tests/exp-w343c-clockread.mjs'), td = rd('tests/lib-w343c-clockreaddoc.mjs');
@@ -111395,7 +111401,7 @@ function view341aOf342f(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第343便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
       if (sec.indexOf(J.decl.muon.srcRest) < 0 || sec.indexOf(J.decl.muon.srcRing) < 0) bad.push('② ミューオンの出どころの文(文献の値・未照合)');
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第343便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
@@ -111404,12 +111410,13 @@ function view341aOf342f(eq) {
       'R380', 'tests/exp-w343c-clockread.mjs', 'tests/out/clockread-343c.json', 'tests/lib-w343c-clockread.mjs', 'clockread-343c', '当事者時間で測った速さ', '絶対時間で見た速さ', '主の列', '比べる列',
       '同じ時計の 2 つの書き方', 'e^(−½)', '0.6065', '文献の値・未照合', '64.419', '64.437', '比べる仮定', '届かない', 'と同じになる列は、この表には無い', 'どの読み・どの形を採るかは、この節では決めない',
       'd²p/dt² = (dτ/dt)² d²p/dτ² + (d²τ/dt²)(dp/dτ)', '時計の進みの二乗を掛ける、別の駆動の宣言', '統括の参考の試作', '原文の文', '読み', '候補', '対照',
-      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第143報と回答 2 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.clockread343c', 'docs.clockread343c'];
+      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第143報と回答 2 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.clockread343c', 'docs.clockread343c',
+      '(追記)原仮定者の回答(2026-11-19 —— 第143報の回答)を受けた列', 'AN866', '局所光速で当事者時間が止まる場合は、考慮しなくて良い', 'AN867', 'AN868', 'R1', 'R2', 'k*', '統括の参考の試作'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第343便c〕に「' + w + '」が無い');
     if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第343便c〕の表の行に \\| がある');
     const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
     const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
-    if (!(ki >= 0 && krows.length === 2 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・2 行・状態は候補か対照)');
+    if (!(ki >= 0 && krows.length === 3 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・3 行・状態は候補か対照)');
     // 〔第342便b〕の訂正の文(当時の文は残す —— 2 か所)
     const ib = PH.indexOf('〔第342便b — '), secB = ib >= 0 ? secUntilNext329c(PH, ib, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
     const nCor = secB.split('訂正(第343便c・統括の検証項目 R380)').length - 1;

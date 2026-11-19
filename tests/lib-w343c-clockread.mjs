@@ -216,6 +216,74 @@ export function t5Rows() {
   return { rows, identityMax: idMax, quadRel: qMax };
 }
 
+/* ───────── T6(追記)原仮定者の回答(2026-11-19 —— 第143報の回答)AN866 を受けた列 ───────── */
+// 参考の値 e^(−½)(今の式の静止の時計の r_s での値)は「無限速度で当事者時間が止まる場合」の局所光速のときの時計の値として読む。「局所光速の時」の読みは 2 つ:
+//   R1 = 当事者時間で測った速さが局所光速(y = 1)/R2 = 絶対時間で見た速さが局所光速(x = 1)に、時計が 0 でないまま届いたとき。どの形を採るかは決めない。
+// 2 ノブの族(統括の参考の試作): g(y)^(−2) = 1 + y² + h(y)・h(1) = e − 2(g(1) = e^(−½))・h は小さい y で y⁴ の桁。
+//   1 − x² = (1 + h)/(1 + y² + h)・g = √(1 − x²) ÷ √(1 + h)。h の遠くの型 3 つは例(ノブ: 遠くの型・係数 a)。
+export const T6 = Object.freeze({ ref: 'e^(−½)', a: 2 * (Math.E - 2), c3: Math.E - 2, kR2: Object.freeze([0.25, 'kstar', 0.4]), hTypes: Object.freeze(['h1', 'h2', 'h3']),
+  hName: Object.freeze({ h1: 'h = a y⁴/(1 + y⁴)(遠くで定数 a)', h2: 'h = a y⁴/(1 + y⁶)(遠くで 0)', h3: 'h = (e − 2) y⁴(遠くで y⁴ のまま増す)' }) });
+/** h(y)(a は係数のノブ —— 既定 2(e − 2)・h3 は既定 e − 2) */
+export function hOf(type, y, a) {
+  if (type === 'h1') { const A = a === undefined ? T6.a : a; return A * y ** 4 / (1 + y ** 4); }
+  if (type === 'h2') { const A = a === undefined ? T6.a : a; return A * y ** 4 / (1 + y ** 6); }
+  if (type === 'h3') { const A = a === undefined ? T6.c3 : a; return A * y ** 4; }
+  if (type === 'h0') return 0;
+  throw new Error('hOf: 型が無い ' + type);
+}
+export const g2 = (type, y, a) => 1 / Math.sqrt(1 + y * y + hOf(type, y, a));
+export const x2 = (type, y, a) => y * g2(type, y, a);
+/** 2 ノブの族の x(y) の形(対数の格子 1e-2〜1e3 を 4001 点で走査 —— 最大と単調)と遠くの解析の値 */
+export function shape2(type) {
+  let prev = 0, mono = true, mx = 0, ym = 0;
+  for (let i = 0; i <= 4000; i++) { const y = 10 ** (-2 + i * 5 / 4000), x = x2(type, y); if (x < prev - 1e-15) mono = false; if (x > mx) { mx = x; ym = y; } prev = x; }
+  // h3 の最大の閉じた形: x² の最大 = 1/(1 + 2√c)(y² = 1/√c)
+  const closed = type === 'h3' ? { xMax: 1 / Math.sqrt(1 + 2 * Math.sqrt(T6.c3)), yStar: Math.pow(T6.c3, -0.25) } : null;
+  return { monotone: mono, xMaxScan: mono ? null : mx, yStarScan: mono ? null : ym, closed, xLimit: type === 'h3' ? 0 : 1 };
+}
+/** x を与えて y を解く(単調な形は 1 価・h3 は下の枝) */
+export function yOfX2(type, x) {
+  const S = type === 'h3' ? Math.pow(T6.c3, -0.25) : null;
+  if (type === 'h3' && x > 1 / Math.sqrt(1 + 2 * Math.sqrt(T6.c3))) return null;
+  if (type !== 'h3' && x >= 1) return null;
+  let lo = 0, hi = S === null ? 1 : S; if (S === null) while (x2(type, hi) < x) hi *= 2;
+  for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (x2(type, m) < x) lo = m; else hi = m; }
+  return 0.5 * (lo + hi);
+}
+/** 光の極限(y → ∞)の曲がり ÷ 光 = g^(n−2)/(2y²)(解析): h1・h2 は g ≈ 1/y → n = 0 で ½・n ≥ 1 で 0/h3 は g ≈ y^(−2)/√c → n = 0 で ∞・n = 1 で √c/2・n = 2 で 0 */
+export function limit2(type, n) {
+  const speed = type === 'h3' ? 0 : 1, time = type === 'h3' ? 'inf' : 1;
+  let bend; if (type === 'h3') bend = n === 0 ? 'inf' : n === 1 ? Math.sqrt(T6.c3) / 2 : 0; else bend = n === 0 ? 0.5 : 0;
+  return { speed, bend, time };
+}
+/** k < ½ の 1 ノブの族で x = 1 での時計が e^(−½) になる k*(x = y g = 1 で g = e^(−½) ⇒ y² = e ⇒ k ln(1 + e/(2k)) = ½) */
+export function kStar() { let lo = 0.1, hi = 0.5; for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (m * Math.log(1 + Math.E / (2 * m)) < 0.5) lo = m; else hi = m; } return 0.5 * (lo + hi); }
+/** 1 ノブの族(k < ½)で x = 1 を通る y とそこでの時計 */
+export function atX1(k) { let lo = 0, hi = 1; while (xOfY(k, hi) < 1) hi *= 2; for (let i = 0; i < 200; i++) { const m = 0.5 * (lo + hi); if (xOfY(k, m) < 1) lo = m; else hi = m; } const y = 0.5 * (lo + hi); return { y, g: formG(k, y) }; }
+const muonOf = (g) => { const M = DECL.muon; if (g === null) return null; const tau = M.tau0us / g; return { g, tauUs: tau, dUs: tau - M.tauObsUs, dSig: (tau - M.tauObsUs) / M.tauObsSigUs }; };
+export function t6Rows() {
+  const ref = Math.exp(-0.5), xm = Math.sqrt(1 - 1 / (DECL.muon.gamma * DECL.muon.gamma)), ks = kStar();
+  // T6-a(R1): 1 ノブの族の y = 1 の値
+  const oneKnob = [0.5, 1, 2, 'inf'].map((k) => ({ k, gAtY1: formG(k, 1), dRef: formG(k, 1) - ref }));
+  // T6-a(R1): 2 ノブの族
+  const twoKnob = T6.hTypes.map((type) => {
+    const sh = shape2(type), y = yOfX2(type, xm), g = y === null ? null : g2(type, y);
+    return { type, gAtY1: g2(type, 1), dRef: g2(type, 1) - ref, h1: hOf(type, 1), y4: 3 / 8 - (type === 'h3' ? T6.c3 : T6.a) / 2, ...sh,
+      muon: y === null ? { note: 'unreached' } : { note: 'ok', y, ...muonOf(g), overF: (DECL.muon.tau0us / g) / (DECL.muon.tau0us * DECL.muon.gamma) },
+      limit: [0, 1, 2].map((n) => ({ n, ...limit2(type, n) })) };
+  });
+  // T6-b(R2): k < ½ の行と k*
+  const kRows = T6.kR2.map((kk) => { const k = kk === 'kstar' ? ks : kk, A = atX1(k), G = gOfXB(k, xm).lower;
+    return { k: kk, kVal: k, yAtX1: A.y, gAtX1: A.g, dRef: A.g - ref, muon: { note: 'ok', y: xm / G, ...muonOf(G) }, limit: [0, 1, 2].map((n) => ({ n, ...limitB(k, n) })) }; });
+  // 零試験: h = 0 で k = ½ の形・a = 0 で同じ・h(1) = e − 2 で g(1) = e^(−½)・k* で x = 1 の時計 = e^(−½)
+  let z0 = 0, za = 0; for (const y of [0.1, 0.5, 1, 3, 10]) { z0 = Math.max(z0, Math.abs(g2('h0', y) - formG(0.5, y))); for (const t of ['h1', 'h2', 'h3']) za = Math.max(za, Math.abs(g2(t, y, 0) - formG(0.5, y))); }
+  const zr = Math.max(...T6.hTypes.map((t) => Math.abs(g2(t, 1) - ref))), zk = Math.abs(atX1(ks).g - ref);
+  // 1 − x² = (1 + h)/(1 + y² + h) の恒等式
+  let zi = 0; for (const t of T6.hTypes) for (const y of [0.3, 1, 3]) { const x = x2(t, y), h = hOf(t, y); zi = Math.max(zi, Math.abs((1 - x * x) - (1 + h) / (1 + y * y + h))); }
+  return { ref, kStar: ks, oneKnob, twoKnob, kRows, zero: { h0: z0, a0: za, ref: zr, kstar: zk, ident: zi } };
+}
+export const t6Gates = (T) => ({ zero: T.zero.h0 < 1e-15 && T.zero.a0 < 1e-15 && T.zero.ref < 1e-15 && T.zero.kstar < 1e-12 && T.zero.ident < 1e-12 });
+
 /* ───────── 零試験と純関数の場面 ───────── */
 export function pureScenes() {
   const T1 = t1Rows(), T2 = t2Rows(), T5 = t5Rows();

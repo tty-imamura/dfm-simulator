@@ -8,6 +8,7 @@ const yn = (x) => (x ? 'はい' : 'いいえ');
 export const kName = (k) => (k === 'inf' ? 'k → ∞(exp(−s²/2) —— 第342便b の U3)' : k === 0.5 ? 'k = ½(1/√(1 + s²) —— U1)' : k === 1 ? 'k = 1(1/(1 + s²/2) —— U2)' : k === 2 ? 'k = 2((1 + s²/4)^(−2))' : 'k = ' + k + '(参考 —— k ≤ ½ の境目の向こう)');
 const kShort = (k) => (k === 'inf' ? 'k → ∞' : k === 0.5 ? 'k = ½' : 'k = ' + k);
 const readName = (r) => (r === 'B' ? 'B(主 —— 当事者時間で測った速さ y)' : 'A(比べる —— 絶対時間で見た速さ x)');
+const formGk = (k) => Math.pow(1 + 1 / (2 * k), -k);   // y = 1 の値(k 有限)
 const nName = (n) => (n === 0 ? 'n = 0(今のアプリの力学)' : 'n = ' + n);
 
 export function tablesOf(J) {
@@ -67,5 +68,26 @@ export function tablesOf(J) {
     '|---|' + D.xChain.map(() => '---|').join('') + D.xChain.map(() => '---|').join('') + D.xReach.map(() => '---|').join('') + D.xReach.map(() => '---|').join('')]
     .concat(J.t5.rows.map((r) => `| ${r.type} | ${r.share.map(f4).join(' | ')} | ${r.f.map(f4).join(' | ')} | ${r.tReachN2.map(f4).join(' | ')} | ${r.tReachFull.map(f4).join(' | ')} |`)).join('\n')
     + '\n\n(「d²p/dτ² = a*(一定)」の宣言で連鎖律の第 2 項 (d²τ/dt²)(dp/dτ) も入れると dx/dT = g² f・f = 1/(1 − x g′/g)(T はべき 2 の列と同じ物差し)。第 2 項 ÷ 左辺 = x g′/g は負 —— 加速の途中で時計の進みが遅くなる分だけ、べき 2 の列より加速が小さい。型 F では g² f = (1 − x²)²(べき 4 と同じ式))';
+
+  // T6(追記)原仮定者の回答(2026-11-19 —— 第143報の回答)AN866 を受けた列
+  const S6 = J.t6, ref = S6.ref, sg = (v) => (v >= 0 ? '+' : '') + v.toFixed(1), su = (v) => (v >= 0 ? '+' : '') + v.toFixed(3);
+  const dr = (v) => (Math.abs(v) < 1e-12 ? '0' : (v >= 0 ? '+' : '') + v.toFixed(4));
+  const hN = { h1: 'h = a y⁴/(1 + y⁴)(遠くで定数 a)', h2: 'h = a y⁴/(1 + y⁶)(遠くで 0)', h3: 'h = (e − 2) y⁴(遠くで y⁴ のまま増す)' };
+  const lim3 = (L3) => L3.map((q) => 'n = ' + q.n + ' ' + f4(q.bend)).join('・');
+  T.t6a = ['| 形(R1 —— y = 1)| y = 1 の時計 | 参考の値 e^(−½) との差 | x(y) が単調か(最大の x)| y → ∞ の x | 低速の y⁴ の係数 | ミューオンの速さでの時計 | 寿命の見込み(µs)| ÷ 報告の不確かさ | 光の極限の曲がり ÷ 光 |', '|---|---|---|---|---|---|---|---|---|---|']
+    .concat(S6.oneKnob.map((r) => { const r1 = J.t1.rows.find((q) => q.k === r.k), r4 = J.t4.rows.find((q) => q.read === 'B' && q.k === r.k), lb = J.t3.rows.filter((q) => q.read === 'B' && q.k === r.k).map((q) => ({ n: q.n, bend: q.limit.bend }));
+      return `| 1 ノブの族 ${kShort(r.k)} | ${f4(r.gAtY1)} | ${dr(r.dRef)} | ${r1.monotone ? 'はい' : 'いいえ(' + f4(r1.xMax) + ')'} | ${f4(r1.xLimit)} | ${f4(J.t1.rows.find((q) => q.k === r.k) ? ({ 0.5: 3 / 8, 1: 1 / 4, 2: 3 / 16, inf: 1 / 8 })[String(r.k)] : null)} | ${r4.note === 'unreached' ? '届かない' : f4(r4.g)} | ${r4.note === 'unreached' ? '届かない' : r4.tauUs.toFixed(3)} | ${r4.note === 'unreached' ? '—' : sg(r4.dSig)} | ${lim3(lb)} |`; }))
+    .concat(S6.twoKnob.map((r) => `| 2 ノブの族 ${hN[r.type]} | ${f4(r.gAtY1)} | ${dr(r.dRef)} | ${r.monotone ? 'はい' : 'いいえ(' + f4(r.closed.xMax) + ')'} | ${f4(r.xLimit)} | ${f4(r.y4)} | ${r.muon.note === 'unreached' ? '届かない' : f4(r.muon.g)} | ${r.muon.note === 'unreached' ? '届かない' : r.muon.tauUs.toFixed(3)} | ${r.muon.note === 'unreached' ? '—' : sg(r.muon.dSig)} | ${lim3(r.limit)} |`)).join('\n')
+    + `\n\n(2 ノブの族は統括の参考の試作: g(y)^(−2) = 1 + y² + h(y)・h(1) = e − 2(g(1) = e^(−½) ちょうど)・a = 2(e − 2) = ${f4(S6.twoKnob[0].h1 * 2)}。1 − x² = (1 + h)/(1 + y² + h)・g = √(1 − x²) ÷ √(1 + h)(恒等式 —— 差の最大 < 1e-12)。低速は全部 1 − y²/2 まで同じ(y⁴ の係数は 1 ノブの族 3/8・1/4・3/16・1/8・2 ノブの族 3/8 − h の y⁴ の係数 ÷ 2)。h の形は例 —— 決め打ちしない。遠くで h → a の形は局所光速の近くの時計が型 F の 1/√(1 + a) 倍(ミューオンの見込みが型 F の ${f4(S6.twoKnob[0].muon.overF)} 倍))`;
+  T.t6b = ['| 形(R2 —— x = 1 を時計が 0 でないまま通る)| k | x = 1 になる y | x = 1 の時計 | 参考の値 e^(−½) との差 | ミューオンの速さでの時計 | 寿命の見込み(µs)| ÷ 報告の不確かさ | y → ∞ の x | 光の極限の曲がり ÷ 光 |', '|---|---|---|---|---|---|---|---|---|---|']
+    .concat(S6.kRows.map((r) => `| 1 ノブの族 ${r.k === 'kstar' ? 'k*(x = 1 の時計が e^(−½))' : 'k = ' + r.k} | ${f4(r.kVal)} | ${f4(r.yAtX1)} | ${f4(r.gAtX1)} | ${dr(r.dRef)} | ${f4(r.muon.g)} | ${r.muon.tauUs.toFixed(3)} | ${sg(r.muon.dSig)} | ∞ | ${lim3(r.limit)} |`)).join('\n')
+    + `\n\n(k < ½ は x が y とともに増え続け、有限の y で x = 1 を通る(y → ∞ で x → ∞)。k* は k ln(1 + e/(2k)) = ½ の根 ${f4(S6.kStar)}(x = 1 で y² = e)。光速を超えるかは採否の基準にしない —— 事実として書く)`;
+  const muS = (m) => (m.note === 'unreached' ? '届かない' : sg(m.dSig));
+  T.t6c = ['| 形 | ① 局所光速のときの時計(R1 の y = 1/R2 の x = 1)と e^(−½) との差 | ② y → ∞ で時計が 0 になるか | ③ y → ∞ の絶対時間の速さ ÷ c_loc | ④ ミューオンの比べとの差 ÷ 報告の不確かさ |', '|---|---|---|---|---|']
+    .concat(S6.oneKnob.map((r) => { const r1 = J.t1.rows.find((q) => q.k === r.k), r4 = J.t4.rows.find((q) => q.read === 'B' && q.k === r.k);
+      return `| 1 ノブの族 ${kShort(r.k)} | R1 ${f4(r.gAtY1)}(${dr(r.dRef)})/R2 ${r.k === 0.5 ? '0 に近づく' : '届かない'} | はい | ${f4(r1.xLimit)} | ${muS(r4)} |`; }))
+    .concat(S6.twoKnob.map((r) => `| 2 ノブの族 ${hN[r.type]} | R1 ${f4(r.gAtY1)}(${dr(r.dRef)})/R2 ${r.type === 'h3' ? '届かない' : '0 に近づく'} | はい | ${f4(r.xLimit)} | ${muS(r.muon)} |`))
+    .concat(S6.kRows.map((r) => `| 1 ノブの族 ${r.k === 'kstar' ? 'k*' : 'k = ' + r.k} | R1 ${f4(formGk(r.kVal))}(${dr(formGk(r.kVal) - ref)})/R2 ${f4(r.gAtX1)}(${dr(r.dRef)}) | はい | ∞ | ${muS(r.muon)} |`)).join('\n')
+    + '\n\n(ミューオンは文献の値・未照合・〔第343便c〕⑥ の仮定つき。採否と主の形はこの表では決めない)';
   return T;
 }
