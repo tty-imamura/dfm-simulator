@@ -66,6 +66,10 @@ const C7_286B = C_TRUE_286B ? 29.9792458 : 30;   // L−T=7(合体連星族)
 //   根拠: chromium 157 で測った差は +316 ulp(h)・−475 ulp(h/2)—— 相対 1e−13・絶対 3.7e−8 s と 5.5e−8 s。この門が見るのは抽出器・窓・刻みの定義の違いで、
 //   一番小さい例(刻み h と h/2 の値の差 9.7e−5 s)が約 8.4e5 ulp —— 1024 ulp(1.2e−7 s)はそれより 3 桁小さい。超えたら止める。現役の calaudit の行から来た正式の値は、今までどおりビットで同じを要求する。
 const CHARON_KF0_RECORD_MAX_ULP_345 = 1024;
+// 第345便(統括 —— ゲートの root の全 QA): root(公開版)の html に埋めてある正式判定値の表は、昇格の時点の正本の写し(本便は root を変えない)。
+//   判定器の正本を新しい実行系で作り直した後は、写しの世代が正本と違う —— そのときは、値(12 桁)・判定段・門の状態は同じを要求し、σ 倍だけこの許容で比べる
+//   (測った差は 5.8e−6 σ〔🪐 入力診断の 1 行〕。門は σ の 1 倍の桁で分かれるので、1e−3 σ は門の変化を隠さない)。beta の写しは今までどおり 12 桁で同じを要求する。
+const ASSESSED_ROOT_NSIGMA_TOL_345 = 1e-3;
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 // 第279便b: QA_TIER=fast は QA_FAST=1 と同じ意味(QA_FAST=1 は残す・意味不変)
 const FAST = process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast';
@@ -64211,6 +64215,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
       const round = (x) => (Number.isFinite(x) ? Number(x.toPrecision(12)) : null);
       let checked = 0, nPreKf0 = 0;
+      // 第345便(統括): root の写しの世代 —— 控え(beta の写しの刻印 stamp.inHtml)と、検査対象の html の刻印が違う root は「昇格の時点の写し」
+      let oldGenRoot345 = false, nOldGen345 = 0, maxOldGen345 = 0;
+      if (!TARGET.startsWith('beta/')) {
+        try {
+          const A0 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'assessed-w273c.json'), 'utf8'));
+          oldGenRoot345 = !!(A0.stamp && A0.stamp.inHtml && r.canon && A0.stamp.inHtml !== r.canon.targetSha256);
+        } catch (e) { oldGenRoot345 = false; }
+      }
       for (const id of r.ids) {
         const p = (J.presets || []).find((z) => z.id === id);
         if (!p) { bad.push(`①正本に ${id} が無い`); continue; }
@@ -64239,8 +64251,12 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           }
           if (round(av) !== row.v) bad.push(`①${id}「${String(row.n).slice(0, 12)}」の値が違う`);
           if ((g.assessedStage || 'h') !== row.st) bad.push(`①${id} の判定段が違う`);
-          if (round(g.nSigma) !== row.ns && !(g.nSigma === undefined && row.ns === null))
-            bad.push(`①${id} の σ 倍が違う`);
+          if (round(g.nSigma) !== row.ns && !(g.nSigma === undefined && row.ns === null)) {
+            // 第345便(統括): root の写しが正本と違う世代のときだけ、σ 倍を ASSESSED_ROOT_NSIGMA_TOL_345 で比べる(差を数える —— 比べる列)
+            if (oldGenRoot345 && Number.isFinite(g.nSigma) && Number.isFinite(row.ns) && Math.abs(g.nSigma - row.ns) <= ASSESSED_ROOT_NSIGMA_TOL_345) {
+              nOldGen345++; maxOldGen345 = Math.max(maxOldGen345, Math.abs(g.nSigma - row.ns));
+            } else bad.push(`①${id} の σ 倍が違う`);
+          }
           if ((g.status || null) !== row.g) bad.push(`①${id} の門の状態が違う`);
           checked++;
         }
@@ -64280,7 +64296,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       try {
         const A = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'assessed-w273c.json'), 'utf8'));
         const st = A.stamp || {};
-        if (st.inHtml !== r.canon.targetSha256)
+        if (st.inHtml !== r.canon.targetSha256 && !oldGenRoot345)   // 第345便(統括): root の写しが昇格の時点の世代のときは、刻印は控え(beta の写し)と違って当然 —— 次の昇格で入れ替わる
           bad.push('⑥b控えの stamp.inHtml が html の刻印と違う(器を走らせ直すこと)');
         // 第274便a(第64報): **食い違いが 1 行残らず説明できているときだけ** true を許す。
         //   本便は UI を変えない(「候補」を画面に出すかは決断事項)ので、ページ側の表は
@@ -64304,6 +64320,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         + `**${r.ids.length} 本 / ${r.nRows} 行**(照合 ${checked} 行`
         + (nPreKf0 ? `・うち **${nPreKf0} 行は kF0 を配る前の世代の転記**として `
           + `\`kf0Applied.replaced.gate\` と突き合わせた —— 表を再生成するかは決断事項` : '')
+        + (oldGenRoot345 ? `・**root の写しは昇格の時点の世代**(刻印が控えと違う —— 値・判定段・門は同じ・σ 倍は ${nOldGen345} 行が正本と最大 ${maxOldGen345.toExponential(2)} σ 違う〔許容 ${ASSESSED_ROOT_NSIGMA_TOL_345} σ —— 比べる列〕・次の昇格で写しが入れ替わる)` : '')
         + `)・表示された本 ${r.shown} / `
         + `**σ を持たない量は 1 行も載せない** / **署名が違えば出さない**`
         + `(presetSig の一致が機械の線)/ **渡された対象 hash が正本の刻印と違えば出さない** / `
