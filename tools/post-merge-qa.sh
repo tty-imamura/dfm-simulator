@@ -1232,6 +1232,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.chainResume344f docs.tools344f lint.lib
 #   PHYSICS〔第344便g〕に逐語・文書)と、新しい段 plutogm-344g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutogm344g docs.plutogm344g"
 # ==== 第344便g の塊(ここまで)====
+# ==== 第345便d の塊(ここから)====
+# 第345便d(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R395 —— 道具と診断・html は変えない): 枝 d の新設 3 本(behavior.perfengine345d —— 性能の測り直しの記録の形と
+#   lib で作り直して同じ / docs.perfengine345d —— 表 5 本が PHYSICS〔第345便d〕に逐語・文書 / lint.perfExplicitBrowser345d —— tests/perf.mjs の明示のブラウザの約束)。段は足さない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.perfengine345d docs.perfengine345d lint.perfExplicitBrowser345d"
+# ==== 第345便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
