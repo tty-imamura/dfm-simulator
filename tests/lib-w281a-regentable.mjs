@@ -2604,6 +2604,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/opttour-346a.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec'] },
     note: '第346便a: 7 本 × 2 つの使い方の、最適化が止まった関数と理由・S._core の最適化の状態の数・ブラウザの版・V8・指紋・門(V8 15.7 の A/B で S._core が止まる本 0)' }),
   // ==== 第346便a の塊(ここまで)====
+  // ==== 第347便c の塊(ここから)====
+  // ---- 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904「探索のアプローチを変える」・統括の検証項目 R402):
+  //   **自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3)と対照 S0・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅**
+  //   (段 selfclock-347c —— 正本 tests/out/selfclock-347c.json・lib tests/lib-w347c-selfclock.mjs —— 第344便c・第342便b の lib を import して呼ぶ。他の正本は読まない
+  //   —— 順序だけ after に第344便c の段)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第347便c の枝の実測 1 s 未満
+  S('selfclock-347c', 'node tests/exp-w347c-selfclock.mjs', ['tests/out/selfclock-347c.json'], 2, { secSource: 'w347c-branch', node: true,
+    after: ['clockmid-344c'],   // 順序だけ(呼ぶ lib の段)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/selfclock-347c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便c: 零試験 8/局所光速の時計(型 6 × 物 11 × 外 3)・速さの表(物 4 × 型 6 × 速さ 5)/イオンの測定の内のノブの範囲(1σ・2σ)/'
+      + '「時間が進む半径」(定義 3 × 外 3 × しきい値 3)/ガンマ線バースト(噴き出す塊 5 × 10・落ち込む物質 9 × 8)' }),
+  // ==== 第347便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
