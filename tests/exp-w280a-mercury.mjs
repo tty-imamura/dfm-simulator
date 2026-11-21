@@ -47,7 +47,10 @@ import { MERCURY_W280A_VERSION, extractCalauditHelpers, richardson3, epsExtrap, 
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","earthMoonReal","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercuryReal","mercuryRealKF1","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnRingReal","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","isNum","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
+// 第345便c(R394): 実行系の指紋(枝 b の lib)と、過去の便に固定した記録の門(退役の kF1 —— 記録は書き換えず、ulp の差を比べる列に残す)
+import * as E345 from './lib-w345-engine.mjs';
+import { fixedRecordGate, KF1_MAX_ULP_345C, CROSSENGINE_LIB_VERSION_345C } from './lib-w345c-crossengine.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","earthMoonReal","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercuryReal","mercuryRealKF1","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnRingReal","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","PROBE_VERSION","T","applyQLock","ch","clamp","ctx","isNum","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -71,8 +74,15 @@ if (ENGINE === 'node') {
   const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/opt/node22/lib/node_modules/playwright';
   const req = createRequire(path.join(PW_DIR, 'noop.js'));
   const EXE = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-  try { browser = await req('playwright').chromium.launch(); }
-  catch { browser = await req('playwright-core').chromium.launch({ executablePath: EXE }); }
+  // 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): 明示のブラウザ(CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方のときだけ —— tests/lib-w345-engine.mjs の launchEngine。
+  //   版が違えば例外)。どちらかが無ければ今までの起動の順のまま
+  if (E345.explicitBrowserSpec(process.env)) {
+    let bt = null; try { bt = req('playwright').chromium; } catch { bt = req('playwright-core').chromium; }
+    browser = (await E345.launchEngine(bt, process.env, null)).browser;
+  } else {
+    try { browser = await req('playwright').chromium.launch(); }
+    catch { browser = await req('playwright-core').chromium.launch({ executablePath: EXE }); }
+  }
   pg = await browser.newPage();
   await pg.goto('file://' + path.join(ROOT, TARGET), { waitUntil: 'load' });
   await pg.waitForFunction(() => window.HP && HP.sim);
@@ -175,19 +185,31 @@ await E(`window.__w249calPhys = ${JSON.stringify(CAL_PHYS_ROWS)};`);
 const r00 = await run('mercuryReal', 0.016);
 if (KF1_RESTORED) await register(KF1);
 const r01 = await run(KF1_ID, 0.016);
+// 第345便c(R394): 退役の kF1 は同じ実行系で 2 回走らせてビットで同じことを見る(記録は第287便に固定 —— 実行系の記録が無い)
+const r01b = await run(KF1_ID, 0.016);
+const ENGINE_NOW = ENGINE === 'node' ? E345.mathFingerprint(E345.runProbe()) : E345.mathFingerprint(E345.checkProbe(await pg.evaluate(E345.probeExpression())));
+const CHROMIUM_NOW = browser ? String(browser.version()) : null;
+const gateKF1 = fixedRecordGate(r01.slopeDegA, CAL1.meas, { nowFp: ENGINE_NOW, recFp: null /* 第287便の記録 —— 実行系の記録が無い */, maxUlp: KF1_MAX_ULP_345C, repeat: r01b.slopeDegA });
 await E('window.__w249calPhys = {};');   // 再現のあとは外す(格子・1 表の ☄️ は本の宣言 ε のまま)
 const repro = {
   kF0: { formal: CAL0.meas, here: r00.slopeDegA, bitIdentical: r00.slopeDegA === CAL0.meas, nPeri: r00.nPeriA, softening: r00.state.softening },
   kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA, softening: r01.state.softening,
     lambdaRestored: KF1_RESTORED ? KF1_LAM_HIST : null,
-    retired: !!CAL1.retired, formalFrom: CAL1.retired ? CAL1.from : CANON_CAL },
+    retired: !!CAL1.retired, formalFrom: CAL1.retired ? CAL1.from : CANON_CAL,
+    // 第345便c(R394): 比べる列(記録は書き換えない)—— ulp の差・同じ実行系の 2 回目・記録の実行系(無い)・門の判定
+    ulp: gateKF1.ulp, signedUlp: gateKF1.signedUlp, maxUlp: gateKF1.maxUlp, mode: gateKF1.mode, repeatSame: gateKF1.repeatSame,
+    engineOfRecord: gateKF1.engineOfRecord, gateOk: gateKF1.ok, gateWhy: gateKF1.why },
+  // 第345便c(R394): この走行の実行系(版は記録に残す・同じさは指紋で見る)。kF0(現役)は記録 calaudit が同じ鎖で作り直されるのでビットで同じを要求する
+  engineNow: { fingerprint: ENGINE_NOW, chromium: CHROMIUM_NOW, node: process.version, lib: CROSSENGINE_LIB_VERSION_345C },
   calPhysics: CAL_PHYS, epsFormal: EPS_FORMAL, epsPreset: EPS_PRESET,
   engine: ENGINE,
   note: '判定器の正本値(calaudit-w249.json)と、同じ抽出器のソースを本器(' + ENGINE + ')で評価した値のビット比較'
     + '(第286便: 較正行の calPhysics を正本から読んで再現の走行にだけ当てる —— 本の宣言 ε は不変)',
 };
 log('正式値の再現', JSON.stringify(repro));
-if (!repro.kF0.bitIdentical || !repro.kF1.bitIdentical) throw new Error('正式値をビットで再現できない —— 器を止める');
+// 第345便c(R394): kF0(現役)はビットで同じを要求・kF1(退役 —— 第287便に固定)は fixedRecordGate(実行系が違えば ±4 ulp まで続ける・同じ実行系の 2 回はビットで同じ)
+if (!repro.kF0.bitIdentical) throw new Error('☄️ kF0 の正式値をビットで再現できない —— 器を止める');
+if (gateKF1.stop) throw new Error('🪨 kF1(退役の記録)の門で止める: ' + gateKF1.why);
 if (r00.state.softening !== EPS_FORMAL) throw new Error('再現の走行の ε が較正行の宣言と違う: ' + r00.state.softening + ' ≠ ' + EPS_FORMAL);
 if (!EPS.includes(EPS_FORMAL)) throw new Error('較正行の ε が格子に無い(分解の起点が取れない): ' + EPS_FORMAL);
 if (QUICK) { log('QUICK 終了', (Date.now() - t0) / 1000, 's'); if (browser) await browser.close(); process.exit(0); }
@@ -391,7 +413,7 @@ const operator = {
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第280便a', target: TARGET,
     code: ['tests/exp-w280a-mercury.mjs', 'tests/lib-w280a-mercury.mjs', 'tests/lib-w279b-headless.mjs',
-      'tests/lib-w270a-stoprule.mjs', 'tests/lib-w272e-provenance.mjs', CALAUDIT],
+      'tests/lib-w270a-stoprule.mjs', 'tests/lib-w272e-provenance.mjs', CALAUDIT, 'tests/lib-w345-engine.mjs', 'tests/lib-w345c-crossengine.mjs'],
     inputs: [TARGET, CANON_CAL, OBSCAL] }), {
     version: MERCURY_W280A_VERSION,
     extractor: { from: CALAUDIT, helperSha256: helperSha, periWindow: PERI_WINDOW, orbMax: ORB_MAX, dtBase: DT0,

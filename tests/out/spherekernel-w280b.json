@@ -3,49 +3,61 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:29.448Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:59:40.041Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280b-sphereKernel.mjs",
-    "bytes": 11613,
-    "sha256": "090e7334827c4325b6c87be72bc37b8eb36e35cb7b8131e6d2e0de7c245696ab",
-    "mtime": "2026-11-02T04:24:50.092Z"
+    "bytes": 12573,
+    "sha256": "7210bbe56308a3cd8c3d16ecca064eb6c856ec03c2c422957fbacd4fe9cbe478",
+    "mtime": "2026-11-21T11:09:32.581Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
+   },
+   {
+    "file": "tests/lib-w345-engine.mjs",
+    "bytes": 22936,
+    "sha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
+    "mtime": "2026-11-21T10:11:12.205Z"
+   },
+   {
+    "file": "tests/lib-w345c-crossengine.mjs",
+    "bytes": 16914,
+    "sha256": "c5ac36231110a02d8c07739bc2ed28f8243ad74e2e9be528e5922ea599695c05",
+    "mtime": "2026-11-21T11:09:32.581Z"
    }
   ],
-  "codeSha256": "232f539d29295203537562a7a16b33b8ab3740c755fd2284365040a06b57b973",
+  "codeSha256": "5d4102c299b14f7b309a95e5ca7188c9195ec71531fb3c612600f15f458b8e3f",
   "harnessVersion": "w280b-sphereKernel-1",
   "libVersion": "w280b-sphereKernel-1",
   "kernelVersion": "w280b-frontBack-1",
@@ -73,6 +85,7 @@
     "HP.dfmSphereKernelRadial",
     "HP.dfmSphereProfile",
     "HP.sim",
+    "PROBE_VERSION",
     "T",
     "ch",
     "dfmAddMoments",
@@ -95,11 +108,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1340,
-   "segments": 1171,
+   "names": 1341,
+   "segments": 1172,
    "closureShare": 0.288
   },
-  "scopeSha256": "53fbee7a5265de4c78818ec8f2add75d310502c4a588c0983eb6974efef03f88",
+  "scopeSha256": "f96396bd250fb90e371d1eacaeca552040833cf766a2ee5ec2cbf03003f719a2",
   "scopeComplete": true
  },
  "table": {
@@ -1071,8 +1084,51 @@
  },
  "pageVsNode": {
   "n": 47,
-  "bitIdentical": 42,
+  "bitIdentical": 31,
   "mismatch": [
+   {
+    "kind": "radial",
+    "decl": {
+     "densityClass": "solid",
+     "densityProfile": {
+      "coreFrac": 0.546,
+      "coreRatio": 2.44
+     }
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 1,
+    "maxRelDiff": 3.7248036675752074e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "radial",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 0
+     }
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 6,
+    "maxRelDiff": 2.1501345193696195e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "radial",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 1
+     }
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 11,
+    "maxRelDiff": 4.53718323051932e-16,
+    "sameLength": true
+   },
    {
     "kind": "radial",
     "decl": {
@@ -1090,6 +1146,20 @@
    {
     "kind": "radial",
     "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 3
+     }
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 16,
+    "maxRelDiff": 1.6722606142449086e-15,
+    "sameLength": true
+   },
+   {
+    "kind": "radial",
+    "decl": {
      "densityClass": "star",
      "densityProfile": {
       "polyN": 3
@@ -1098,7 +1168,7 @@
     "r": 3.7,
     "e": 0,
     "i": 21,
-    "maxRelDiff": 1.7476215841858024e-16,
+    "maxRelDiff": 2.4622792991935388e-15,
     "sameLength": true
    },
    {
@@ -1130,6 +1200,102 @@
     "sameLength": true
    },
    {
+    "kind": "radial",
+    "decl": {
+     "densityClass": "compact"
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 26,
+    "maxRelDiff": 2.1501345193696195e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "radial",
+    "decl": {
+     "densityClass": "solid",
+     "densityProfile": {
+      "coreFrac": 0.546,
+      "coreRatio": 2.44
+     },
+     "rotationProfile": {
+      "law": "shellular",
+      "centerRatio": 2
+     }
+    },
+    "r": 3.7,
+    "e": 0,
+    "i": 31,
+    "maxRelDiff": 1.8859301833295707e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "moments",
+    "decl": {
+     "densityClass": "solid",
+     "densityProfile": {
+      "coreFrac": 0.546,
+      "coreRatio": 2.44
+     }
+    },
+    "px": -4,
+    "i": 36,
+    "maxRelDiff": 1.8076353752048433e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "moments",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 0
+     }
+    },
+    "px": -4,
+    "i": 39,
+    "maxRelDiff": 1.9826746272716924e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "moments",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 1
+     }
+    },
+    "px": 2.5,
+    "i": 41,
+    "maxRelDiff": 2.850992176974216e-15,
+    "sameLength": true
+   },
+   {
+    "kind": "moments",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 1
+     }
+    },
+    "px": -4,
+    "i": 42,
+    "maxRelDiff": 4.971662257267878e-16,
+    "sameLength": true
+   },
+   {
+    "kind": "moments",
+    "decl": {
+     "densityClass": "gas",
+     "densityProfile": {
+      "beta": 3
+     }
+    },
+    "px": 2.5,
+    "i": 44,
+    "maxRelDiff": 8.064535375117732e-15,
+    "sameLength": true
+   },
+   {
     "kind": "moments",
     "decl": {
      "densityClass": "gas",
@@ -1139,11 +1305,20 @@
     },
     "px": -4,
     "i": 45,
-    "maxRelDiff": 7.421934801005641e-16,
+    "maxRelDiff": 9.480991979131455e-16,
     "sameLength": true
    }
   ],
-  "maxRelDiff": 7.421934801005641e-16
+  "maxRelDiff": 8.064535375117732e-15,
+  "engine": {
+   "page": "b8a976bf83f0fd7d",
+   "node": "6664670d90921598",
+   "same": false,
+   "chromium": "157.0.8103.78",
+   "nodeVersion": "v22.23.5",
+   "relTol": 2.842170943040401e-14,
+   "lib": "w345c-crossengine-1"
+  }
  },
  "a": [
   {
@@ -2468,5 +2643,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 2.065
+ "elapsedS": 2.648
 }

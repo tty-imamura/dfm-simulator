@@ -1,0 +1,1610 @@
+{
+  "version": "w345d-perfengine-1",
+  "libVersion": "w345d-perfengine-lib-1",
+  "decl": {
+    "browsers": [
+      "default",
+      "explicit153"
+    ],
+    "expect153": "153.0.8010.12",
+    "explicitPath": "/opt/pw-browsers/chromium",
+    "perfCopy": {
+      "thresh": 1.1,
+      "selfFail": 4,
+      "selfWarn": 3,
+      "crossFail": 1.5,
+      "geo2": 1.65
+    },
+    "usagePresets": [
+      "galaxyGeo2",
+      "freebox",
+      "echo"
+    ],
+    "cutPreset": "galaxyGeo2",
+    "warms": [
+      100,
+      400,
+      1600
+    ],
+    "cut": {
+      "cliff": 4,
+      "sepNear": 1.5,
+      "plainJump": 3
+    },
+    "usage": {
+      "same": 0.1
+    }
+  },
+  "judgement": "informational(門なし —— 時間は箱で揺れる)",
+  "box": {
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cores": 4,
+    "memGB": 15.7,
+    "node": "v22.23.5",
+    "platform": "linux/x64",
+    "commit": "99588bc6",
+    "beta": {
+      "file": "beta/index.html",
+      "sha256": "af6056366acd0c7cd3379fdea65aa0ecd09415e49dcf8bfc08e586ee2c211fbf"
+    },
+    "root": {
+      "file": "index.html",
+      "sha256": "82718af19e7d91d5085eb21a4a36e00c8a2f6e374bb31f00469e7ec877c2c0d0"
+    },
+    "perf": {
+      "file": "tests/perf.mjs",
+      "sha256": "04a0f30d8264b5e2cca1dbd1f894446344d0eafd0a32d2c6537edea7acfe1809"
+    }
+  },
+  "generatedAt": "2026-11-21T10:34:27.380Z",
+  "t3": {
+    "cut": {
+      "default": {
+        "chromium": "157.0.8103.78",
+        "jsVersion": "15.7.112.43",
+        "plain": {
+          "w100": 9.08,
+          "w400": 6.237,
+          "w1600": 6.232,
+          "n": 381,
+          "nan": false,
+          "truncated": false,
+          "series": [
+            16.534,
+            13.892,
+            9.08,
+            6.198,
+            6.161,
+            6.237,
+            7.768,
+            6.225,
+            6.246,
+            6.355,
+            6.636,
+            7.209,
+            7.869,
+            6.313,
+            6.476,
+            6.29,
+            6.611,
+            6.223,
+            6.232
+          ]
+        },
+        "ab": {
+          "w100": 74,
+          "w400": 78.1725,
+          "w1600": null,
+          "n": 381,
+          "nan": false,
+          "truncated": true,
+          "series": [
+            25.987,
+            74,
+            70.0035,
+            77.9955,
+            78.1725,
+            74.811,
+            102.427,
+            105.4755,
+            94.903,
+            93.3885,
+            95.167,
+            100.407,
+            97.4705,
+            91.62,
+            98.2335
+          ],
+          "aSide": {
+            "w100": 109.786,
+            "w400": 116.895,
+            "w1600": null
+          },
+          "bSide": {
+            "w100": 38.214,
+            "w400": 39.449,
+            "w1600": null
+          }
+        },
+        "sep": {
+          "a": 9.287,
+          "b": 3.079,
+          "perSim": 6.183,
+          "note": "B 相当 = 素の 1 本に kFrame = 0 を当てたもの(abStart の B の値と同じ —— 別のページ・別の文脈)"
+        }
+      },
+      "explicit153": {
+        "chromium": "153.0.8010.12",
+        "jsVersion": "15.3.76.4",
+        "plain": {
+          "w100": 9.776,
+          "w400": 6.186,
+          "w1600": 6.269,
+          "n": 381,
+          "nan": false,
+          "truncated": false,
+          "series": [
+            17.03,
+            12.045,
+            6.709,
+            9.776,
+            6.314,
+            6.186,
+            6.17,
+            6.177,
+            6.17,
+            6.188,
+            6.652,
+            6.857,
+            7.459,
+            7.29,
+            6.705,
+            6.354,
+            6.433,
+            6.238,
+            6.269
+          ]
+        },
+        "ab": {
+          "w100": 5.241,
+          "w400": 5.281,
+          "w1600": 5.0005,
+          "n": 381,
+          "nan": false,
+          "truncated": false,
+          "series": [
+            15.149,
+            6.399,
+            5.168,
+            5.241,
+            4.903,
+            5.281,
+            5.774,
+            6.139,
+            5.278,
+            5.2595,
+            5.26,
+            5.988,
+            5.108,
+            5.362,
+            5.8455,
+            5.801,
+            4.7935,
+            5.5675,
+            5.0005
+          ],
+          "aSide": {
+            "w100": 7.478,
+            "w400": 7.498,
+            "w1600": 7.149
+          },
+          "bSide": {
+            "w100": 3.004,
+            "w400": 3.064,
+            "w1600": 2.852
+          }
+        },
+        "sep": {
+          "a": 7.196,
+          "b": 3.069,
+          "perSim": 5.1325,
+          "note": "B 相当 = 素の 1 本に kFrame = 0 を当てたもの(abStart の B の値と同じ —— 別のページ・別の文脈)"
+        }
+      }
+    },
+    "deopt": {
+      "default": {
+        "chromium": "157.0.8103.78",
+        "jsVersion": "15.7.112.43",
+        "flags": "--js-flags=--allow-natives-syntax(別の起動 —— (i)(ii) の数とは混ぜない)",
+        "plainMsPerStep": 12.7207,
+        "abMsPerStep": 81.4073,
+        "ratio": 6.4,
+        "plainCore": {
+          "raw": 41,
+          "decoded": "41(deopt したかも・Maglev)"
+        },
+        "abCoreA": {
+          "raw": 16385,
+          "decoded": "16385(bit 14(deopt の印))"
+        },
+        "abCoreB": {
+          "raw": 16385,
+          "decoded": "16385(bit 14(deopt の印))"
+        },
+        "plainTop": [
+          {
+            "fn": "S._core:34799",
+            "pct": 79.6
+          },
+          {
+            "fn": "geoCoreDispatchBody:64380",
+            "pct": 13.4
+          },
+          {
+            "fn": "S.tauUpdate:36232",
+            "pct": 0.5
+          }
+        ],
+        "abTop": [
+          {
+            "fn": "geoCoreDispatchBody:64380",
+            "pct": 64.7
+          },
+          {
+            "fn": "S._core:34799",
+            "pct": 32.6
+          },
+          {
+            "fn": "S.tauUpdate:36232",
+            "pct": 0.1
+          }
+        ],
+        "traceDeopt": "--trace-deopt の行は、既定の起動では renderer の標準出力が Playwright へ届かず取れなかった(--no-sandbox と --redirect-code-traces-to なら書けるが、関数の名が出ず、起動の条件が変わるので本器では使わない)"
+      },
+      "explicit153": {
+        "chromium": "153.0.8010.12",
+        "jsVersion": "15.3.76.4",
+        "flags": "--js-flags=--allow-natives-syntax(別の起動 —— (i)(ii) の数とは混ぜない)",
+        "plainMsPerStep": 9.829,
+        "abMsPerStep": 7.0055,
+        "ratio": 0.713,
+        "plainCore": {
+          "raw": 41,
+          "decoded": "41(deopt したかも・Maglev)"
+        },
+        "abCoreA": {
+          "raw": 41,
+          "decoded": "41(deopt したかも・Maglev)"
+        },
+        "abCoreB": {
+          "raw": 41,
+          "decoded": "41(deopt したかも・Maglev)"
+        },
+        "plainTop": [
+          {
+            "fn": "S._core:34799",
+            "pct": 80.9
+          },
+          {
+            "fn": "geoCoreDispatchBody:64380",
+            "pct": 11.5
+          },
+          {
+            "fn": "S.tauUpdate:36232",
+            "pct": 0.4
+          }
+        ],
+        "abTop": [
+          {
+            "fn": "S._core:34799",
+            "pct": 83.2
+          },
+          {
+            "fn": "geoCoreDispatchBody:64380",
+            "pct": 9.8
+          },
+          {
+            "fn": "S.tauUpdate:36232",
+            "pct": 0.6
+          }
+        ],
+        "traceDeopt": "--trace-deopt の行は、既定の起動では renderer の標準出力が Playwright へ届かず取れなかった(--no-sandbox と --redirect-code-traces-to なら書けるが、関数の名が出ず、起動の条件が変わるので本器では使わない)"
+      }
+    },
+    "rounds": [
+      {
+        "at": "2026-11-21T09:39:41.408Z",
+        "loadavgStart": null,
+        "loadavgEnd": null,
+        "note": "1 回目 —— 自分の perf の T2 の 1 回目と重なって走った(負荷の記録なし)",
+        "default": {
+          "chromium": "157.0.8103.78",
+          "plainW100": 7.046,
+          "abW100": 75.015,
+          "sepPerSim": 5.765,
+          "abSelf": 10.646,
+          "coreAB": 16385,
+          "coreABB": 16385,
+          "corePlain": 41,
+          "deoptRatio": 7.409
+        },
+        "explicit153": {
+          "chromium": "153.0.8010.12",
+          "plainW100": 8.251,
+          "abW100": 6.918,
+          "sepPerSim": 5.0765,
+          "abSelf": 0.838,
+          "coreAB": 41,
+          "coreABB": 41,
+          "corePlain": 41,
+          "deoptRatio": 0.769
+        }
+      },
+      {
+        "at": "2026-11-21T10:41:07.123Z",
+        "loadavgStart": [
+          2.21,
+          1.79,
+          1.88
+        ],
+        "loadavgEnd": [
+          2.07,
+          1.89,
+          1.9
+        ],
+        "default": {
+          "chromium": "157.0.8103.78",
+          "plainW100": 9.08,
+          "abW100": 74,
+          "sepPerSim": 6.183,
+          "abSelf": 8.15,
+          "coreAB": 16385,
+          "coreABB": 16385,
+          "corePlain": 41,
+          "deoptRatio": 6.4
+        },
+        "explicit153": {
+          "chromium": "153.0.8010.12",
+          "plainW100": 9.776,
+          "abW100": 5.241,
+          "sepPerSim": 5.1325,
+          "abSelf": 0.536,
+          "coreAB": 41,
+          "coreABB": 41,
+          "corePlain": 41,
+          "deoptRatio": 0.713
+        }
+      }
+    ],
+    "preset": "galaxyGeo2",
+    "method": "1 ページ 1 本・新しいページ(起動の本 saturn)・chunk 100 步 × 19(warm 100・400・1600 の後の 3 chunk の中央値)・1 sim 1 步の ms",
+    "reading": {
+      "default": {
+        "label": "測り方(2 sim を同じページに置く対照)に固有",
+        "key": "measure",
+        "why": "同じページの 2 sim で 8.15 倍(> 4)・別のページに置くと 0.681 倍(≤ 1.5)・素は warm を延ばしても 0.687 倍",
+        "abSelf": 8.15,
+        "plainJump": 0.687,
+        "sepSelf": 0.681
+      },
+      "explicit153": {
+        "label": "分からない",
+        "key": "unknown",
+        "why": "この回は同じページの 2 sim でも 0.536 倍(≤ 4)—— 遅さが出ていない",
+        "abSelf": 0.536,
+        "plainJump": 0.641,
+        "sepSelf": 0.525
+      }
+    }
+  },
+  "t2": {
+    "runs": [
+      {
+        "browser": "default",
+        "run": 1,
+        "summary": {
+          "chromium": "157.0.8103.78",
+          "jsVersion": "15.7.112.43",
+          "explicit": false,
+          "startedAt": "2026-11-21T09:33:36.322Z",
+          "when": "2026-11-21T09:44:40.863Z",
+          "nRows": 21,
+          "pass": 18,
+          "nFail": 3,
+          "failed": [
+            "echo",
+            "emergent",
+            "abJit.self.galaxyGeo2"
+          ],
+          "retossed": [
+            {
+              "id": "convection",
+              "first": 1.171,
+              "final": 1.004,
+              "finalPass": true
+            },
+            {
+              "id": "echo",
+              "first": 1.269,
+              "final": 1.136,
+              "finalPass": false
+            },
+            {
+              "id": "freebox",
+              "first": 1.24,
+              "final": 1.048,
+              "finalPass": true
+            },
+            {
+              "id": "emergent",
+              "first": 1.436,
+              "final": 1.426,
+              "finalPass": false
+            },
+            {
+              "id": "emergent2",
+              "first": 1.125,
+              "final": 1.084,
+              "finalPass": true
+            },
+            {
+              "id": "galaxyStd",
+              "first": 1.126,
+              "final": 0.997,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.313,
+          "ratios": {
+            "galaxy": 1.009,
+            "darkrotor": 1.006,
+            "convection": 1.004,
+            "counterring": 1.075,
+            "saturnLayered": 0.977,
+            "echo": 1.136,
+            "freebox": 1.048,
+            "emergent": 1.426,
+            "emergent2": 1.084,
+            "chain2": 0.927,
+            "galaxyStd": 0.997,
+            "galaxyGeo2": 1.033,
+            "chaincycle": 0.784,
+            "galaxyDB": 0.897,
+            "nebulaRotor": 1.033,
+            "nebulaShell": 0.792,
+            "nebulaBipolar": 0.781,
+            "starSeed": 1.081,
+            "bhCore": 0.942,
+            "frictionHeat": 1.027,
+            "cooling": 0.978
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 73.459,
+              "baseRef": 8.334,
+              "ratio": 8.814,
+              "judgement": "gate",
+              "failed": true
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 82.6515,
+              "baseRef": 72.6345,
+              "ratio": 1.138,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 2.7975,
+              "baseRef": 3.191,
+              "ratio": 0.877,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 3.6725,
+              "baseRef": 35.8855,
+              "ratio": 0.102,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 8.2447,
+              "normRatio": 1.033
+            },
+            "freebox": {
+              "betaMsPerStep": 0.2006,
+              "normRatio": 1.048
+            },
+            "echo": {
+              "betaMsPerStep": 0.0322,
+              "normRatio": 1.136
+            }
+          }
+        }
+      },
+      {
+        "browser": "default",
+        "run": 2,
+        "summary": {
+          "chromium": "157.0.8103.78",
+          "jsVersion": "15.7.112.43",
+          "explicit": false,
+          "startedAt": "2026-11-21T09:52:55.793Z",
+          "when": "2026-11-21T10:03:06.707Z",
+          "nRows": 21,
+          "pass": 18,
+          "nFail": 3,
+          "failed": [
+            "echo",
+            "emergent",
+            "abJit.self.galaxyGeo2"
+          ],
+          "retossed": [
+            {
+              "id": "darkrotor",
+              "first": 1.177,
+              "final": 1.083,
+              "finalPass": true
+            },
+            {
+              "id": "echo",
+              "first": 1.118,
+              "final": 1.263,
+              "finalPass": false
+            },
+            {
+              "id": "emergent",
+              "first": 1.184,
+              "final": 1.244,
+              "finalPass": false
+            },
+            {
+              "id": "nebulaShell",
+              "first": 1.225,
+              "final": 0.972,
+              "finalPass": true
+            },
+            {
+              "id": "cooling",
+              "first": 1.103,
+              "final": 1.013,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.182,
+          "ratios": {
+            "galaxy": 1.06,
+            "darkrotor": 1.083,
+            "convection": 1.064,
+            "counterring": 0.961,
+            "saturnLayered": 0.889,
+            "echo": 1.263,
+            "freebox": 1.091,
+            "emergent": 1.244,
+            "emergent2": 0.864,
+            "chain2": 1.034,
+            "galaxyStd": 1.072,
+            "galaxyGeo2": 0.97,
+            "chaincycle": 1.007,
+            "galaxyDB": 0.949,
+            "nebulaRotor": 1.074,
+            "nebulaShell": 0.972,
+            "nebulaBipolar": 0.946,
+            "starSeed": 1.069,
+            "bhCore": 0.954,
+            "frictionHeat": 0.958,
+            "cooling": 1.013
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 65.7795,
+              "baseRef": 6.611,
+              "ratio": 9.95,
+              "judgement": "gate",
+              "failed": true
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 77.6195,
+              "baseRef": 66.8785,
+              "ratio": 1.161,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 3.147,
+              "baseRef": 3.652,
+              "ratio": 0.862,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 2.9175,
+              "baseRef": 34.84,
+              "ratio": 0.084,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 7.0664,
+              "normRatio": 0.97
+            },
+            "freebox": {
+              "betaMsPerStep": 0.2287,
+              "normRatio": 1.091
+            },
+            "echo": {
+              "betaMsPerStep": 0.0366,
+              "normRatio": 1.263
+            }
+          }
+        }
+      },
+      {
+        "browser": "default",
+        "run": 3,
+        "summary": {
+          "chromium": "157.0.8103.78",
+          "jsVersion": "15.7.112.43",
+          "explicit": false,
+          "startedAt": "2026-11-21T10:12:23.108Z",
+          "when": "2026-11-21T10:24:19.615Z",
+          "nRows": 21,
+          "pass": 19,
+          "nFail": 2,
+          "failed": [
+            "galaxy",
+            "abJit.self.galaxyGeo2"
+          ],
+          "retossed": [
+            {
+              "id": "galaxy",
+              "first": 1.307,
+              "final": 1.228,
+              "finalPass": false
+            },
+            {
+              "id": "darkrotor",
+              "first": 1.142,
+              "final": 0.94,
+              "finalPass": true
+            },
+            {
+              "id": "freebox",
+              "first": 1.399,
+              "final": 1.038,
+              "finalPass": true
+            },
+            {
+              "id": "emergent2",
+              "first": 1.477,
+              "final": 1.021,
+              "finalPass": true
+            },
+            {
+              "id": "chaincycle",
+              "first": 1.331,
+              "final": 0.958,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaRotor",
+              "first": 1.15,
+              "final": 0.986,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaShell",
+              "first": 1.149,
+              "final": 1.022,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaBipolar",
+              "first": 1.721,
+              "final": 0.848,
+              "finalPass": true
+            },
+            {
+              "id": "starSeed",
+              "first": 1.435,
+              "final": 1.042,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.495,
+          "ratios": {
+            "galaxy": 1.228,
+            "darkrotor": 0.94,
+            "convection": 0.749,
+            "counterring": 0.801,
+            "saturnLayered": 0.855,
+            "echo": 1.058,
+            "freebox": 1.038,
+            "emergent": 0.961,
+            "emergent2": 1.021,
+            "chain2": 1.097,
+            "galaxyStd": 1.001,
+            "galaxyGeo2": 1.039,
+            "chaincycle": 0.958,
+            "galaxyDB": 1.071,
+            "nebulaRotor": 0.986,
+            "nebulaShell": 1.022,
+            "nebulaBipolar": 0.848,
+            "starSeed": 1.042,
+            "bhCore": 0.868,
+            "frictionHeat": 1.01,
+            "cooling": 0.934
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 76.017,
+              "baseRef": 9.299,
+              "ratio": 8.175,
+              "judgement": "gate",
+              "failed": true
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 78.9305,
+              "baseRef": 92.383,
+              "ratio": 0.854,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 3.207,
+              "baseRef": 4.066,
+              "ratio": 0.789,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 3.594,
+              "baseRef": 36.2685,
+              "ratio": 0.099,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 8.9167,
+              "normRatio": 1.039
+            },
+            "freebox": {
+              "betaMsPerStep": 0.229,
+              "normRatio": 1.038
+            },
+            "echo": {
+              "betaMsPerStep": 0.0344,
+              "normRatio": 1.058
+            }
+          }
+        }
+      },
+      {
+        "browser": "explicit153",
+        "run": 1,
+        "summary": {
+          "chromium": "153.0.8010.12",
+          "jsVersion": "15.3.76.4",
+          "explicit": true,
+          "startedAt": "2026-11-21T09:44:49.150Z",
+          "when": "2026-11-21T09:52:42.142Z",
+          "nRows": 21,
+          "pass": 21,
+          "nFail": 0,
+          "failed": [],
+          "retossed": [
+            {
+              "id": "nebulaShell",
+              "first": 1.161,
+              "final": 1.082,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaBipolar",
+              "first": 1.13,
+              "final": 0.905,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.449,
+          "ratios": {
+            "galaxy": 1.033,
+            "darkrotor": 1.058,
+            "convection": 0.981,
+            "counterring": 1.078,
+            "saturnLayered": 0.951,
+            "echo": 1.028,
+            "freebox": 1.008,
+            "emergent": 0.947,
+            "emergent2": 0.998,
+            "chain2": 0.862,
+            "galaxyStd": 0.888,
+            "galaxyGeo2": 1.073,
+            "chaincycle": 0.824,
+            "galaxyDB": 0.961,
+            "nebulaRotor": 1.072,
+            "nebulaShell": 1.082,
+            "nebulaBipolar": 0.905,
+            "starSeed": 0.768,
+            "bhCore": 1.072,
+            "frictionHeat": 0.915,
+            "cooling": 0.992
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 6.0985,
+              "baseRef": 6.876,
+              "ratio": 0.887,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 5.5835,
+              "baseRef": 5.582,
+              "ratio": 1,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 2.936,
+              "baseRef": 4.198,
+              "ratio": 0.699,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 3.296,
+              "baseRef": 2.7255,
+              "ratio": 1.209,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 8.69,
+              "normRatio": 1.073
+            },
+            "freebox": {
+              "betaMsPerStep": 0.2369,
+              "normRatio": 1.008
+            },
+            "echo": {
+              "betaMsPerStep": 0.0353,
+              "normRatio": 1.028
+            }
+          }
+        }
+      },
+      {
+        "browser": "explicit153",
+        "run": 2,
+        "summary": {
+          "chromium": "153.0.8010.12",
+          "jsVersion": "15.3.76.4",
+          "explicit": true,
+          "startedAt": "2026-11-21T10:03:59.559Z",
+          "when": "2026-11-21T10:12:21.643Z",
+          "nRows": 21,
+          "pass": 20,
+          "nFail": 1,
+          "failed": [
+            "echo"
+          ],
+          "retossed": [
+            {
+              "id": "echo",
+              "first": 1.351,
+              "final": 1.754,
+              "finalPass": false
+            },
+            {
+              "id": "emergent",
+              "first": 1.147,
+              "final": 0.99,
+              "finalPass": true
+            },
+            {
+              "id": "emergent2",
+              "first": 1.164,
+              "final": 1.049,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaRotor",
+              "first": 1.291,
+              "final": 1.076,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaShell",
+              "first": 1.688,
+              "final": 1.046,
+              "finalPass": true
+            },
+            {
+              "id": "starSeed",
+              "first": 1.73,
+              "final": 0.989,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.208,
+          "ratios": {
+            "galaxy": 1.097,
+            "darkrotor": 0.908,
+            "convection": 0.959,
+            "counterring": 1.079,
+            "saturnLayered": 1.07,
+            "echo": 1.754,
+            "freebox": 1.008,
+            "emergent": 0.99,
+            "emergent2": 1.049,
+            "chain2": 1.003,
+            "galaxyStd": 0.918,
+            "galaxyGeo2": 0.81,
+            "chaincycle": 1.023,
+            "galaxyDB": 1.081,
+            "nebulaRotor": 1.076,
+            "nebulaShell": 1.046,
+            "nebulaBipolar": 0.927,
+            "starSeed": 0.989,
+            "bhCore": 1.003,
+            "frictionHeat": 1.003,
+            "cooling": 0.965
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 6.013,
+              "baseRef": 10.136,
+              "ratio": 0.593,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 5.984,
+              "baseRef": 6.176,
+              "ratio": 0.969,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 2.7115,
+              "baseRef": 3.532,
+              "ratio": 0.768,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 2.864,
+              "baseRef": 2.676,
+              "ratio": 1.07,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 7.3783,
+              "normRatio": 0.81
+            },
+            "freebox": {
+              "betaMsPerStep": 0.2041,
+              "normRatio": 1.008
+            },
+            "echo": {
+              "betaMsPerStep": 0.0403,
+              "normRatio": 1.754
+            }
+          }
+        }
+      },
+      {
+        "browser": "explicit153",
+        "run": 3,
+        "summary": {
+          "chromium": "153.0.8010.12",
+          "jsVersion": "15.3.76.4",
+          "explicit": true,
+          "startedAt": "2026-11-21T10:24:21.332Z",
+          "when": "2026-11-21T10:34:04.581Z",
+          "nRows": 21,
+          "pass": 19,
+          "nFail": 2,
+          "failed": [
+            "freebox",
+            "starSeed"
+          ],
+          "retossed": [
+            {
+              "id": "counterring",
+              "first": 1.243,
+              "final": 0.95,
+              "finalPass": true
+            },
+            {
+              "id": "freebox",
+              "first": 1.222,
+              "final": 1.352,
+              "finalPass": false
+            },
+            {
+              "id": "emergent2",
+              "first": 1.277,
+              "final": 0.968,
+              "finalPass": true
+            },
+            {
+              "id": "galaxyStd",
+              "first": 1.35,
+              "final": 1.018,
+              "finalPass": true
+            },
+            {
+              "id": "galaxyDB",
+              "first": 1.114,
+              "final": 0.977,
+              "finalPass": true
+            },
+            {
+              "id": "nebulaBipolar",
+              "first": 1.604,
+              "final": 1.026,
+              "finalPass": true
+            },
+            {
+              "id": "starSeed",
+              "first": 1.421,
+              "final": 1.108,
+              "finalPass": false
+            },
+            {
+              "id": "bhCore",
+              "first": 1.119,
+              "final": 1.096,
+              "finalPass": true
+            }
+          ],
+          "geo2": 1.269,
+          "ratios": {
+            "galaxy": 1.066,
+            "darkrotor": 0.847,
+            "convection": 0.865,
+            "counterring": 0.95,
+            "saturnLayered": 0.831,
+            "echo": 0.793,
+            "freebox": 1.352,
+            "emergent": 0.8,
+            "emergent2": 0.968,
+            "chain2": 0.901,
+            "galaxyStd": 1.018,
+            "galaxyGeo2": 0.965,
+            "chaincycle": 0.709,
+            "galaxyDB": 0.977,
+            "nebulaRotor": 0.773,
+            "nebulaShell": 0.997,
+            "nebulaBipolar": 1.026,
+            "starSeed": 1.108,
+            "bhCore": 1.096,
+            "frictionHeat": 0.932,
+            "cooling": 0.93
+          },
+          "abJit": [
+            {
+              "arm": "self-control",
+              "id": "galaxyGeo2",
+              "msPerStep": 5.624,
+              "baseRef": 7.559,
+              "ratio": 0.744,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "galaxyGeo2",
+              "msPerStep": 5.241,
+              "baseRef": 6.509,
+              "ratio": 0.805,
+              "judgement": "informational",
+              "failed": false
+            },
+            {
+              "arm": "self-control",
+              "id": "bhCore",
+              "msPerStep": 2.6125,
+              "baseRef": 4.722,
+              "ratio": 0.553,
+              "judgement": "gate",
+              "failed": false
+            },
+            {
+              "arm": "cross-html",
+              "id": "bhCore",
+              "msPerStep": 2.75,
+              "baseRef": 2.6935,
+              "ratio": 1.021,
+              "judgement": "informational",
+              "failed": false
+            }
+          ],
+          "usageStep": {
+            "galaxyGeo2": {
+              "betaMsPerStep": 6.8047,
+              "normRatio": 0.965
+            },
+            "freebox": {
+              "betaMsPerStep": 0.2463,
+              "normRatio": 1.352
+            },
+            "echo": {
+              "betaMsPerStep": 0.0375,
+              "normRatio": 0.793
+            }
+          }
+        }
+      }
+    ],
+    "method": "tests/perf.mjs をそのまま(閾値・標本・再トスの決まりは不変)—— 既定と明示を交互に、1 回ごとに番号札",
+    "note": null,
+    "table": {
+      "default": {
+        "chromium": "157.0.8103.78",
+        "jsVersion": "15.7.112.43",
+        "runs": 3,
+        "pass": [
+          18,
+          18,
+          19
+        ],
+        "nRows": 21,
+        "failCount": {
+          "echo": 2,
+          "emergent": 2,
+          "abJit.self.galaxyGeo2": 3,
+          "galaxy": 1
+        },
+        "perSample": {
+          "galaxy": {
+            "n": 3,
+            "min": 1.009,
+            "max": 1.228,
+            "span": 1.217
+          },
+          "darkrotor": {
+            "n": 3,
+            "min": 0.94,
+            "max": 1.083,
+            "span": 1.152
+          },
+          "convection": {
+            "n": 3,
+            "min": 0.749,
+            "max": 1.064,
+            "span": 1.421
+          },
+          "counterring": {
+            "n": 3,
+            "min": 0.801,
+            "max": 1.075,
+            "span": 1.342
+          },
+          "saturnLayered": {
+            "n": 3,
+            "min": 0.855,
+            "max": 0.977,
+            "span": 1.143
+          },
+          "echo": {
+            "n": 3,
+            "min": 1.058,
+            "max": 1.263,
+            "span": 1.194
+          },
+          "freebox": {
+            "n": 3,
+            "min": 1.038,
+            "max": 1.091,
+            "span": 1.051
+          },
+          "emergent": {
+            "n": 3,
+            "min": 0.961,
+            "max": 1.426,
+            "span": 1.484
+          },
+          "emergent2": {
+            "n": 3,
+            "min": 0.864,
+            "max": 1.084,
+            "span": 1.255
+          },
+          "chain2": {
+            "n": 3,
+            "min": 0.927,
+            "max": 1.097,
+            "span": 1.183
+          },
+          "galaxyStd": {
+            "n": 3,
+            "min": 0.997,
+            "max": 1.072,
+            "span": 1.075
+          },
+          "galaxyGeo2": {
+            "n": 3,
+            "min": 0.97,
+            "max": 1.039,
+            "span": 1.071
+          },
+          "chaincycle": {
+            "n": 3,
+            "min": 0.784,
+            "max": 1.007,
+            "span": 1.284
+          },
+          "galaxyDB": {
+            "n": 3,
+            "min": 0.897,
+            "max": 1.071,
+            "span": 1.194
+          },
+          "nebulaRotor": {
+            "n": 3,
+            "min": 0.986,
+            "max": 1.074,
+            "span": 1.089
+          },
+          "nebulaShell": {
+            "n": 3,
+            "min": 0.792,
+            "max": 1.022,
+            "span": 1.29
+          },
+          "nebulaBipolar": {
+            "n": 3,
+            "min": 0.781,
+            "max": 0.946,
+            "span": 1.211
+          },
+          "starSeed": {
+            "n": 3,
+            "min": 1.042,
+            "max": 1.081,
+            "span": 1.037
+          },
+          "bhCore": {
+            "n": 3,
+            "min": 0.868,
+            "max": 0.954,
+            "span": 1.099
+          },
+          "frictionHeat": {
+            "n": 3,
+            "min": 0.958,
+            "max": 1.027,
+            "span": 1.072
+          },
+          "cooling": {
+            "n": 3,
+            "min": 0.934,
+            "max": 1.013,
+            "span": 1.085
+          }
+        },
+        "abSpread": {
+          "self-control/galaxyGeo2": {
+            "n": 3,
+            "min": 8.175,
+            "max": 9.95,
+            "span": 1.217
+          },
+          "cross-html/galaxyGeo2": {
+            "n": 3,
+            "min": 0.854,
+            "max": 1.161,
+            "span": 1.359
+          },
+          "self-control/bhCore": {
+            "n": 3,
+            "min": 0.789,
+            "max": 0.877,
+            "span": 1.112
+          },
+          "cross-html/bhCore": {
+            "n": 3,
+            "min": 0.084,
+            "max": 0.102,
+            "span": 1.214
+          }
+        },
+        "geo2": {
+          "n": 3,
+          "min": 1.182,
+          "max": 1.495,
+          "span": 1.265
+        },
+        "worstSample": "emergent"
+      },
+      "explicit153": {
+        "chromium": "153.0.8010.12",
+        "jsVersion": "15.3.76.4",
+        "runs": 3,
+        "pass": [
+          21,
+          20,
+          19
+        ],
+        "nRows": 21,
+        "failCount": {
+          "echo": 1,
+          "freebox": 1,
+          "starSeed": 1
+        },
+        "perSample": {
+          "galaxy": {
+            "n": 3,
+            "min": 1.033,
+            "max": 1.097,
+            "span": 1.062
+          },
+          "darkrotor": {
+            "n": 3,
+            "min": 0.847,
+            "max": 1.058,
+            "span": 1.249
+          },
+          "convection": {
+            "n": 3,
+            "min": 0.865,
+            "max": 0.981,
+            "span": 1.134
+          },
+          "counterring": {
+            "n": 3,
+            "min": 0.95,
+            "max": 1.079,
+            "span": 1.136
+          },
+          "saturnLayered": {
+            "n": 3,
+            "min": 0.831,
+            "max": 1.07,
+            "span": 1.288
+          },
+          "echo": {
+            "n": 3,
+            "min": 0.793,
+            "max": 1.754,
+            "span": 2.212
+          },
+          "freebox": {
+            "n": 3,
+            "min": 1.008,
+            "max": 1.352,
+            "span": 1.341
+          },
+          "emergent": {
+            "n": 3,
+            "min": 0.8,
+            "max": 0.99,
+            "span": 1.237
+          },
+          "emergent2": {
+            "n": 3,
+            "min": 0.968,
+            "max": 1.049,
+            "span": 1.084
+          },
+          "chain2": {
+            "n": 3,
+            "min": 0.862,
+            "max": 1.003,
+            "span": 1.164
+          },
+          "galaxyStd": {
+            "n": 3,
+            "min": 0.888,
+            "max": 1.018,
+            "span": 1.146
+          },
+          "galaxyGeo2": {
+            "n": 3,
+            "min": 0.81,
+            "max": 1.073,
+            "span": 1.325
+          },
+          "chaincycle": {
+            "n": 3,
+            "min": 0.709,
+            "max": 1.023,
+            "span": 1.443
+          },
+          "galaxyDB": {
+            "n": 3,
+            "min": 0.961,
+            "max": 1.081,
+            "span": 1.125
+          },
+          "nebulaRotor": {
+            "n": 3,
+            "min": 0.773,
+            "max": 1.076,
+            "span": 1.392
+          },
+          "nebulaShell": {
+            "n": 3,
+            "min": 0.997,
+            "max": 1.082,
+            "span": 1.085
+          },
+          "nebulaBipolar": {
+            "n": 3,
+            "min": 0.905,
+            "max": 1.026,
+            "span": 1.134
+          },
+          "starSeed": {
+            "n": 3,
+            "min": 0.768,
+            "max": 1.108,
+            "span": 1.443
+          },
+          "bhCore": {
+            "n": 3,
+            "min": 1.003,
+            "max": 1.096,
+            "span": 1.093
+          },
+          "frictionHeat": {
+            "n": 3,
+            "min": 0.915,
+            "max": 1.003,
+            "span": 1.096
+          },
+          "cooling": {
+            "n": 3,
+            "min": 0.93,
+            "max": 0.992,
+            "span": 1.067
+          }
+        },
+        "abSpread": {
+          "self-control/galaxyGeo2": {
+            "n": 3,
+            "min": 0.593,
+            "max": 0.887,
+            "span": 1.496
+          },
+          "cross-html/galaxyGeo2": {
+            "n": 3,
+            "min": 0.805,
+            "max": 1,
+            "span": 1.242
+          },
+          "self-control/bhCore": {
+            "n": 3,
+            "min": 0.553,
+            "max": 0.768,
+            "span": 1.389
+          },
+          "cross-html/bhCore": {
+            "n": 3,
+            "min": 1.021,
+            "max": 1.209,
+            "span": 1.184
+          }
+        },
+        "geo2": {
+          "n": 3,
+          "min": 1.208,
+          "max": 1.449,
+          "span": 1.2
+        },
+        "worstSample": "echo"
+      }
+    }
+  },
+  "old141": {
+    "commit": "a7cd88e",
+    "file": "tests/out/perf-results.json",
+    "note": "第344便の保存の perf の結果(chromium 141.0.7390.37・別の箱 —— 絶対値は比べず、版の中の比だけ)",
+    "chromium": "141.0.7390.37",
+    "msPerStep": {
+      "galaxyGeo2": 7.5319,
+      "freebox": 0.3081,
+      "echo": 0.0433
+    }
+  },
+  "usage": {
+    "rows": [
+      {
+        "id": "galaxyGeo2",
+        "ms157": 8.2447,
+        "ms153": 7.3783,
+        "ratio157over153": 1.117,
+        "sameBand": false
+      },
+      {
+        "id": "freebox",
+        "ms157": 0.2287,
+        "ms153": 0.2369,
+        "ratio157over153": 0.965,
+        "sameBand": true
+      },
+      {
+        "id": "echo",
+        "ms157": 0.0344,
+        "ms153": 0.0375,
+        "ratio157over153": 0.917,
+        "sameBand": true
+      }
+    ],
+    "rel": {
+      "v157": {
+        "galaxyGeo2": 36.05,
+        "freebox": 1,
+        "echo": 0.15
+      },
+      "v153": {
+        "galaxyGeo2": 31.145,
+        "freebox": 1,
+        "echo": 0.158
+      },
+      "v141": {
+        "galaxyGeo2": 24.446,
+        "freebox": 1,
+        "echo": 0.141
+      }
+    },
+    "allSame": false,
+    "band": 0.1,
+    "reading": "版で 1 步が 10% を超えて違う標本がある(この箱・この回では)"
+  }
+}

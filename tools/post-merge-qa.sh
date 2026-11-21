@@ -1232,6 +1232,32 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.chainResume344f docs.tools344f lint.lib
 #   PHYSICS〔第344便g〕に逐語・文書)と、新しい段 plutogm-344g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutogm344g docs.plutogm344g"
 # ==== 第344便g の塊(ここまで)====
+# ==== 第345便a の塊(ここから)====
+# 第345便a(原仮定者の回答(2026-11-21 —— 第145報)・統括の検証項目 R392 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report145_345a —— PHYSICS〔第345便a〕の
+#   第145報の決断事項 8 項の原文・訂正の鎖・論文の改訂案・題の表・用語・AI_SPEC §284・CHANGELOG / docs.sourceVerify345a —— docs/SOURCE_VERIFICATION.md の手順の 5 段・記録の 3 段・様式の欄・未照合の 3 件)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145_345a docs.sourceVerify345a"
+# ==== 第345便a の塊(ここまで)====
+# ==== 第345便b の塊(ここから)====
+# 第345便b(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R393 —— 道具と器と鍵・html は変えない): 枝 b の新設 3 本(lint.engineDeclared345b —— ページで探りを走らせた
+#   数学関数の指紋が宣言 tests/data-w345-engine.json と同じ / behavior.engine345b —— lib の純関数の場面・変異・正本 tests/out/engine-345b.json と宣言の整合 / docs.engine345b —— 文書)と、新しい常時の段 engine-345b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.engineDeclared345b behavior.engine345b docs.engine345b"
+# ==== 第345便b の塊(ここまで)====
+# ==== 第345便c の塊(ここから)====
+# 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R394 —— 道具と鍵・html は変えない): 枝 c の新設 2 本(behavior.crossEngine345c —— 許容の純関数の場面と変異・
+#   T1〜T3 と docs.sphereKernel と qapart の判定の形 / docs.crossEngine345c —— 文書)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.crossEngine345c docs.crossEngine345c"
+# ==== 第345便c の塊(ここまで)====
+# ==== 第345便d の塊(ここから)====
+# 第345便d(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R395 —— 道具と診断・html は変えない): 枝 d の新設 3 本(behavior.perfengine345d —— 性能の測り直しの記録の形と
+#   lib で作り直して同じ / docs.perfengine345d —— 表 5 本が PHYSICS〔第345便d〕に逐語・文書 / lint.perfExplicitBrowser345d —— tests/perf.mjs の明示のブラウザの約束)。段は足さない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.perfengine345d docs.perfengine345d lint.perfExplicitBrowser345d"
+# ==== 第345便d の塊(ここまで)====
+# ==== 第345便e の塊(ここから)====
+# 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396 —— 道具と設定だけ・html は変えない): 枝 e の新設 3 本(lint.ciEngine345e —— Playwright 1.63.0 の固定と
+#   lock・ci.yml の beta の上限 180 分・依存の導入の行 / lint.regenEngineInput345e —— ブラウザで測る段の判定・実行系の宣言を作り直しの計画と済み印の契約の入力に・
+#   段 engine-345b の後に走る順序の辺・台帳 / docs.ciEngine345e —— 文書)と、鎖の道具を照らす既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.ciEngine345e lint.regenEngineInput345e docs.ciEngine345e"
+# ==== 第345便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

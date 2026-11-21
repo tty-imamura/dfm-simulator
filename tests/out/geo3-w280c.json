@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T23:52:45.281Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T13:54:28.869Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732244,
-    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
-    "mtime": "2026-11-18T16:43:50.157Z"
+    "bytes": 1734298,
+    "sha256": "405c04cea881cda0adde64c7cd5796d6deda1bf8d52172f14bcdaae1444bbbe1",
+    "mtime": "2026-11-21T13:17:05.086Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 103794,
-    "sha256": "86b50789516e84da1aff222a7e84e96d2a907ef8eabdb72b54183e318877abbc",
-    "mtime": "2026-11-18T20:53:08.357Z"
+    "bytes": 103746,
+    "sha256": "b1fa67499c0efa004571af823261c87b105610cf472b6288c9d3b02d94afae07",
+    "mtime": "2026-11-21T12:28:21.070Z"
    }
   ],
   "code": [
@@ -30,25 +30,25 @@
     "file": "tests/exp-w280c-geo3.mjs",
     "bytes": 39108,
     "sha256": "b3648de3ddc6b380d37d2cfe63a812977661890685e62b18d2f48e29e158f0ac",
-    "mtime": "2026-11-05T03:10:54.238Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5810,
     "sha256": "0bbf76e309439d6975f8095d574df2c611671fce499265f5c566b1ae8814d398",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 367425,
     "sha256": "b156938d6623b2a367612e2440e8c696c5e5a1b348dec7667659f545527d59b4",
-    "mtime": "2026-11-02T03:19:09.829Z"
+    "mtime": "2026-11-19T16:19:54.512Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    }
   ],
   "codeSha256": "6bdc2bc2d1f3689033019a2fa3476eec8d8ceaac961abbbac6c77dd46507b55d",
@@ -147,7 +147,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "682256dc840dfcda8584580801ddf64a073e7fe444316cec59e3c0900199bfd5",
+    "stableSha256": "d3129e54f07b05ef83eca2f120207069c98aa33542d395c7bd72823f0fc6a1ca",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -211,7 +211,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "03c0a6caa4117960c479f65936f511996557c68da05217616ab71463b1e14ce9",
+    "stableSha256": "de42bd042bbbda0daae6739b4dc3698291315ec00df2bf41b627e239ef00563c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -243,7 +243,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "9c97e99e58027f6cd7496ae44301f869aa0da1f7ae3ade7c7c756ca31dc78255",
+    "stableSha256": "96ab2a4472471285bc22721afb7fef16ea70ec3097e6a69701ce961fd6eac79d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -275,15 +275,15 @@
      "detectorA": 0.000026767879778500166
     },
     "period": {
-     "meas": 7600536.544253635,
+     "meas": 7600536.544253653,
      "periASec": 7600536.920389044,
      "rev": [
-      7600376.54294932,
-      7600536.544253635,
-      7600536.54555765,
-      7600536.546860812,
-      7600536.548164837,
-      7600536.549468152
+      7600376.542949296,
+      7600536.544253653,
+      7600536.545557571,
+      7600536.546860676,
+      7600536.5481649,
+      7600536.549468193
      ]
     }
    },
@@ -299,11 +299,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000026767879778500166,
-       "residDegA": 3.04714915900305e-11,
-       "slopeDegPerOrbitB": 0.00002676787343840486,
+       "residDegA": 3.0471491553778576e-11,
+       "slopeDegPerOrbitB": 0.00002676787343840484,
        "nPeriB": 60,
        "periMeanA20S": 7600536.920389044,
-       "rev2S": 7600536.544253635,
+       "rev2S": 7600536.544253653,
        "revN": 59,
        "eProxy": 0.20563095437894247,
        "diag": {
@@ -323,7 +323,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.437
+       "wallSec": 3.579
       },
       "dt/2": {
        "steps": 5700398,
@@ -331,12 +331,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002812641272236615,
-       "residDegA": 6.086074958911694e-12,
-       "slopeDegPerOrbitB": 0.00002812641089619617,
+       "slopeDegPerOrbitA": 0.00002812641272236614,
+       "residDegA": 6.086074953837904e-12,
+       "slopeDegPerOrbitB": 0.000028126410896196155,
        "nPeriB": 60,
        "periMeanA20S": 7600536.779874967,
-       "rev2S": 7600536.391112111,
+       "rev2S": 7600536.391112075,
        "revN": 59,
        "eProxy": 0.2056309281239909,
        "diag": {
@@ -356,7 +356,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.308
+       "wallSec": 6.457
       }
      }
     },
@@ -370,12 +370,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000022554428091244007,
-       "residDegA": 3.0496911224134395e-11,
-       "slopeDegPerOrbitB": 0.000022554419695635282,
+       "slopeDegPerOrbitA": 0.000022554428091244004,
+       "residDegA": 3.0496911305742917e-11,
+       "slopeDegPerOrbitB": 0.000022554419695635272,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083162865,
-       "rev2S": 7600536.764387186,
+       "rev2S": 7600536.764387166,
        "revN": 59,
        "eProxy": 0.20563096867939362,
        "diag": {
@@ -395,7 +395,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.271
+       "wallSec": 3.414
       },
       "dt/2": {
        "steps": 5700398,
@@ -404,11 +404,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.00002391296022866611,
-       "residDegA": 6.281085378095935e-12,
-       "slopeDegPerOrbitB": 0.000023912957705009922,
+       "residDegA": 6.281085361658577e-12,
+       "slopeDegPerOrbitB": 0.000023912957705009925,
        "nPeriB": 60,
        "periMeanA20S": 7600536.94264954,
-       "rev2S": 7600536.611246233,
+       "rev2S": 7600536.611246255,
        "revN": 59,
        "eProxy": 0.20563094244149616,
        "diag": {
@@ -428,7 +428,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.663
+       "wallSec": 7.073
       }
      }
     },
@@ -442,12 +442,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.000006200396458198256,
-       "residDegA": 2.813629929006781e-11,
-       "slopeDegPerOrbitB": -0.000006200395184441173,
+       "slopeDegPerOrbitA": -0.00000620039645819826,
+       "residDegA": 2.8136299263450577e-11,
+       "slopeDegPerOrbitB": -0.000006200395184441158,
        "nPeriB": 60,
        "periMeanA20S": 7600534.076872626,
-       "rev2S": 7600534.16128172,
+       "rev2S": 7600534.161281802,
        "revN": 59,
        "eProxy": 0.20563081679792033,
        "diag": {
@@ -467,7 +467,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.689
+       "wallSec": 3.299
       },
       "dt/2": {
        "steps": 5700398,
@@ -476,11 +476,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0000048418581907660044,
-       "residDegA": 7.252216605101036e-12,
+       "residDegA": 7.2522165461676714e-12,
        "slopeDegPerOrbitB": -0.0000048418600722275615,
        "nPeriB": 60,
        "periMeanA20S": 7600533.943204163,
-       "rev2S": 7600534.009118977,
+       "rev2S": 7600534.0091189025,
        "revN": 59,
        "eProxy": 0.20563079260140615,
        "diag": {
@@ -500,7 +500,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.783
+       "wallSec": 6.302
       }
      }
     },
@@ -514,12 +514,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.000006200403282078715,
-       "residDegA": 3.0114305624715946e-10,
-       "slopeDegPerOrbitB": -0.000006200408832818701,
+       "slopeDegPerOrbitA": -0.000006200403282078711,
+       "residDegA": 3.011430562676612e-10,
+       "slopeDegPerOrbitB": -0.00000620040883281867,
        "nPeriB": 60,
        "periMeanA20S": 7600534.07684018,
-       "rev2S": 7600534.161299616,
+       "rev2S": 7600534.1612997325,
        "revN": 59,
        "eProxy": 0.20563081679706904,
        "diag": {
@@ -539,7 +539,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.807
+       "wallSec": 3.822
       },
       "dt/2": {
        "steps": 5700398,
@@ -547,12 +547,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.000004841832660496006,
-       "residDegA": 2.805078641163753e-10,
-       "slopeDegPerOrbitB": -0.000004841799962897044,
+       "slopeDegPerOrbitA": -0.000004841832660496009,
+       "residDegA": 2.8050786408527136e-10,
+       "slopeDegPerOrbitB": -0.0000048417999628970185,
        "nPeriB": 60,
        "periMeanA20S": 7600533.943224218,
-       "rev2S": 7600534.009135703,
+       "rev2S": 7600534.009135748,
        "revN": 59,
        "eProxy": 0.20563079260353306,
        "diag": {
@@ -572,7 +572,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.763
+       "wallSec": 6.422
       }
      }
     },
@@ -587,11 +587,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000022554428974127526,
-       "residDegA": 3.0908974606072335e-11,
-       "slopeDegPerOrbitB": 0.000022554420432849615,
+       "residDegA": 3.09089744919304e-11,
+       "slopeDegPerOrbitB": 0.000022554420432849635,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083163029,
-       "rev2S": 7600536.7643873235,
+       "rev2S": 7600536.764387334,
        "revN": 59,
        "eProxy": 0.20563096867926606,
        "diag": {
@@ -615,7 +615,7 @@
          "stop": null
         }
        },
-       "wallSec": 6.754
+       "wallSec": 9.603
       },
       "dt/2": {
        "steps": 5700398,
@@ -624,11 +624,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000023912961346750975,
-       "residDegA": 9.232003098199135e-12,
+       "residDegA": 9.232003082522617e-12,
        "slopeDegPerOrbitB": 0.000023912959294860505,
        "nPeriB": 60,
        "periMeanA20S": 7600536.942649685,
-       "rev2S": 7600536.611246186,
+       "rev2S": 7600536.611246106,
        "revN": 59,
        "eProxy": 0.20563094244149444,
        "diag": {
@@ -652,7 +652,7 @@
          "stop": null
         }
        },
-       "wallSec": 13.255
+       "wallSec": 18.041
       }
      }
     },
@@ -667,11 +667,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000022554428974127526,
-       "residDegA": 3.0908974606072335e-11,
-       "slopeDegPerOrbitB": 0.000022554420432849615,
+       "residDegA": 3.09089744919304e-11,
+       "slopeDegPerOrbitB": 0.000022554420432849635,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083163029,
-       "rev2S": 7600536.7643873235,
+       "rev2S": 7600536.764387334,
        "revN": 59,
        "eProxy": 0.20563096867926606,
        "diag": {
@@ -695,7 +695,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.09
+       "wallSec": 13.154
       },
       "dt/2": {
        "steps": 5700398,
@@ -704,11 +704,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000023912961346750975,
-       "residDegA": 9.232003098199135e-12,
+       "residDegA": 9.232003082522617e-12,
        "slopeDegPerOrbitB": 0.000023912959294860505,
        "nPeriB": 60,
        "periMeanA20S": 7600536.942649685,
-       "rev2S": 7600536.611246186,
+       "rev2S": 7600536.611246106,
        "revN": 59,
        "eProxy": 0.20563094244149444,
        "diag": {
@@ -732,7 +732,7 @@
          "stop": null
         }
        },
-       "wallSec": 19.634
+       "wallSec": 28.646
       }
      }
     },
@@ -746,12 +746,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000022554446490292964,
-       "residDegA": 4.726599065992058e-10,
-       "slopeDegPerOrbitB": 0.00002255449844592764,
+       "slopeDegPerOrbitA": 0.00002255444649029296,
+       "residDegA": 4.726599066003357e-10,
+       "slopeDegPerOrbitB": 0.0000225544984459276,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083330327,
-       "rev2S": 7600536.764236975,
+       "rev2S": 7600536.764236973,
        "revN": 59,
        "eProxy": 0.20563096870377878,
        "diag": {
@@ -775,7 +775,7 @@
          "stop": null
         }
        },
-       "wallSec": 6.401
+       "wallSec": 8.428
       },
       "dt/2": {
        "steps": 5700398,
@@ -784,11 +784,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.00002391297219037103,
-       "residDegA": 7.136890222005511e-10,
-       "slopeDegPerOrbitB": 0.000023913049363517,
+       "residDegA": 7.136890221688952e-10,
+       "slopeDegPerOrbitB": 0.000023913049363516997,
        "nPeriB": 60,
        "periMeanA20S": 7600536.942737656,
-       "rev2S": 7600536.611228322,
+       "rev2S": 7600536.611228419,
        "revN": 59,
        "eProxy": 0.20563094245703423,
        "diag": {
@@ -812,7 +812,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.918
+       "wallSec": 15.68
       }
      }
     },
@@ -827,11 +827,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.00002360291727297731,
-       "residDegA": 5.340655049035252e-9,
-       "slopeDegPerOrbitB": 0.000023570202407654486,
+       "residDegA": 5.340655048960568e-9,
+       "slopeDegPerOrbitB": 0.000023570202407654466,
        "nPeriB": 60,
        "periMeanA20S": 7600549.156255442,
-       "rev2S": 7600538.4255972,
+       "rev2S": 7600538.4255971955,
        "revN": 59,
        "eProxy": 0.20565396236214473,
        "diag": {
@@ -855,7 +855,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.982
+       "wallSec": 11.828
       },
       "dt/2": {
        "steps": 5700398,
@@ -863,12 +863,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000024977714047570114,
-       "residDegA": 5.765379112916378e-9,
-       "slopeDegPerOrbitB": 0.000024961361153291745,
+       "slopeDegPerOrbitA": 0.00002497771404757011,
+       "residDegA": 5.7653791129357365e-9,
+       "slopeDegPerOrbitB": 0.00002496136115329174,
        "nPeriB": 60,
        "periMeanA20S": 7600549.0159284985,
-       "rev2S": 7600538.272653079,
+       "rev2S": 7600538.272653103,
        "revN": 59,
        "eProxy": 0.20565393674578974,
        "diag": {
@@ -892,7 +892,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.502
+       "wallSec": 25.62
       }
      }
     },
@@ -906,12 +906,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.000006200428943023575,
-       "residDegA": 4.964386635924885e-10,
-       "slopeDegPerOrbitB": -0.000006200351236692076,
+       "slopeDegPerOrbitA": -0.000006200428943023579,
+       "residDegA": 4.964386634804889e-10,
+       "slopeDegPerOrbitB": -0.00000620035123669211,
        "nPeriB": 60,
        "periMeanA20S": 7600534.077036183,
-       "rev2S": 7600534.161130262,
+       "rev2S": 7600534.161130162,
        "revN": 59,
        "eProxy": 0.20563081678944478,
        "diag": {
@@ -935,7 +935,7 @@
          "stop": null
         }
        },
-       "wallSec": 5.598
+       "wallSec": 8.661
       },
       "dt/2": {
        "steps": 5700398,
@@ -943,12 +943,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.000004841799027706646,
-       "residDegA": 1.1503282441132413e-9,
-       "slopeDegPerOrbitB": -0.000004841907394529031,
+       "slopeDegPerOrbitA": -0.000004841799027706645,
+       "residDegA": 1.1503282441379842e-9,
+       "slopeDegPerOrbitB": -0.0000048419073945290234,
        "nPeriB": 60,
        "periMeanA20S": 7600533.94329102,
-       "rev2S": 7600534.009101774,
+       "rev2S": 7600534.009101696,
        "revN": 59,
        "eProxy": 0.20563079261608846,
        "diag": {
@@ -972,7 +972,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.372
+       "wallSec": 17.675
       }
      }
     },
@@ -987,11 +987,11 @@
        "clamp": 2759677,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000022583066569415843,
-       "residDegA": 4.495742365550405e-8,
-       "slopeDegPerOrbitB": 0.000022583609902171512,
+       "residDegA": 4.4957423655509556e-8,
+       "slopeDegPerOrbitB": 0.000022583609902171502,
        "nPeriB": 60,
        "periMeanA20S": 7600537.06944164,
-       "rev2S": 7600536.765335506,
+       "rev2S": 7600536.765335531,
        "revN": 59,
        "eProxy": 0.2056309686194091,
        "diag": {
@@ -1011,7 +1011,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.902
+       "wallSec": 5.155
       },
       "dt/2": {
        "steps": 5700398,
@@ -1019,12 +1019,12 @@
        "nan": false,
        "clamp": 5519365,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000024376377052800002,
-       "residDegA": 4.558606466045497e-9,
-       "slopeDegPerOrbitB": 0.000024375604902994596,
+       "slopeDegPerOrbitA": 0.00002437637705279999,
+       "residDegA": 4.558606466044611e-9,
+       "slopeDegPerOrbitB": 0.0000243756049029946,
        "nPeriB": 60,
        "periMeanA20S": 7600536.941037363,
-       "rev2S": 7600536.6121913735,
+       "rev2S": 7600536.612191395,
        "revN": 59,
        "eProxy": 0.20563094266330417,
        "diag": {
@@ -1044,7 +1044,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.11
+       "wallSec": 10.103
       }
      }
     },
@@ -1059,11 +1059,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000022573239609744015,
-       "residDegA": 3.0426016582921673e-11,
-       "slopeDegPerOrbitB": 0.000022573231261028687,
+       "residDegA": 3.042601657080121e-11,
+       "slopeDegPerOrbitB": 0.000022573231261028684,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083758612,
-       "rev2S": 7600536.764726829,
+       "rev2S": 7600536.76472687,
        "revN": 59,
        "eProxy": 0.2056309686926848,
        "diag": {
@@ -1083,7 +1083,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.782
+       "wallSec": 4.284
       },
       "dt/2": {
        "steps": 5700398,
@@ -1092,11 +1092,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000023931772248811968,
-       "residDegA": 6.172433096151196e-12,
-       "slopeDegPerOrbitB": 0.000023931770082549576,
+       "residDegA": 6.172433059523184e-12,
+       "slopeDegPerOrbitB": 0.000023931770082549566,
        "nPeriB": 60,
        "periMeanA20S": 7600536.943243597,
-       "rev2S": 7600536.611585401,
+       "rev2S": 7600536.611585427,
        "revN": 59,
        "eProxy": 0.2056309424542712,
        "diag": {
@@ -1116,7 +1116,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.557
+       "wallSec": 7.62
       }
      }
     },
@@ -1131,11 +1131,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": 0.000022573103709441604,
-       "residDegA": 1.9556701427552786e-9,
+       "residDegA": 1.9556701427490193e-9,
        "slopeDegPerOrbitB": 0.000022573102040440695,
        "nPeriB": 60,
        "periMeanA20S": 7600537.083738451,
-       "rev2S": 7600536.764726066,
+       "rev2S": 7600536.764725978,
        "revN": 59,
        "eProxy": 0.20563096865442357,
        "diag": {
@@ -1159,7 +1159,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.259
+       "wallSec": 10.091
       },
       "dt/2": {
        "steps": 5700398,
@@ -1167,12 +1167,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000023931527425234738,
-       "residDegA": 2.0890468643932472e-9,
+       "slopeDegPerOrbitA": 0.000023931527425234734,
+       "residDegA": 2.089046864399582e-9,
        "slopeDegPerOrbitB": 0.000023932405075072193,
        "nPeriB": 60,
        "periMeanA20S": 7600536.943244865,
-       "rev2S": 7600536.611586179,
+       "rev2S": 7600536.611586267,
        "revN": 59,
        "eProxy": 0.20563094241457847,
        "diag": {
@@ -1196,7 +1196,7 @@
          "stop": null
         }
        },
-       "wallSec": 13.19
+       "wallSec": 21.102
       }
      }
     }
@@ -1288,12 +1288,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.0035154386066040197,
-       "residDegA": 1.621587330803885e-7,
-       "slopeDegPerOrbitB": -0.003989802280212897,
+       "slopeDegPerOrbitA": -0.0035154386066040206,
+       "residDegA": 1.6215873307814718e-7,
+       "slopeDegPerOrbitB": -0.00398980228021291,
        "nPeriB": 55,
        "periMeanA20S": 551858.672442767,
-       "rev2S": 551864.0613634228,
+       "rev2S": 551864.0613634596,
        "revN": 59,
        "eProxy": 0.00001334079382100545,
        "diag": {
@@ -1313,7 +1313,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.471
+       "wallSec": 25.821
       },
       "dt/2": {
        "steps": 41388996,
@@ -1322,11 +1322,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0035154240447686546,
-       "residDegA": 3.1473051738829005e-7,
-       "slopeDegPerOrbitB": -0.004419779974523411,
+       "residDegA": 3.1473051738652187e-7,
+       "slopeDegPerOrbitB": -0.0044197799745234155,
        "nPeriB": 48,
        "periMeanA20S": 551858.672345459,
-       "rev2S": 551864.0612662266,
+       "rev2S": 551864.0612661713,
        "revN": 59,
        "eProxy": 0.000010758874993782422,
        "diag": {
@@ -1346,7 +1346,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.466
+       "wallSec": 49.76
       }
      }
     },
@@ -1360,12 +1360,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.00351550120247874,
-       "residDegA": 2.2057784486994574e-7,
-       "slopeDegPerOrbitB": -0.003693646931506392,
+       "slopeDegPerOrbitA": -0.0035155012024787385,
+       "residDegA": 2.2057784487052712e-7,
+       "slopeDegPerOrbitB": -0.0036936469315063804,
        "nPeriB": 58,
        "periMeanA20S": 551858.6723965332,
-       "rev2S": 551864.0613615632,
+       "rev2S": 551864.061361607,
        "revN": 59,
        "eProxy": 0.000013340792377644221,
        "diag": {
@@ -1385,7 +1385,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 13.187
+       "wallSec": 20.948
       },
       "dt/2": {
        "steps": 41388996,
@@ -1394,11 +1394,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.003515461748683752,
-       "residDegA": 2.159494172213108e-7,
-       "slopeDegPerOrbitB": -0.004670573819168042,
+       "residDegA": 2.159494172220001e-7,
+       "slopeDegPerOrbitB": -0.004670573819168051,
        "nPeriB": 45,
        "periMeanA20S": 551858.6723007341,
-       "rev2S": 551864.0612644644,
+       "rev2S": 551864.0612644712,
        "revN": 59,
        "eProxy": 0.000010758873587672944,
        "diag": {
@@ -1418,7 +1418,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 27.54
+       "wallSec": 44.04
       }
      }
     },
@@ -1432,12 +1432,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.003534300850849824,
-       "residDegA": 0.001229982914502664,
+       "slopeDegPerOrbitA": -0.003534300850849823,
+       "residDegA": 0.0012299829145026623,
        "slopeDegPerOrbitB": -0.005771393743810855,
        "nPeriB": 9,
        "periMeanA20S": 551858.6291430081,
-       "rev2S": 551864.0613711192,
+       "rev2S": 551864.061371083,
        "revN": 59,
        "eProxy": 0.000013341419045664413,
        "diag": {
@@ -1457,7 +1457,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 13.367
+       "wallSec": 21.944
       },
       "dt/2": {
        "steps": 41388996,
@@ -1466,11 +1466,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0033230225219289685,
-       "residDegA": 0.0031204778944969903,
-       "slopeDegPerOrbitB": -0.005022937325597203,
+       "residDegA": 0.003120477894496992,
+       "slopeDegPerOrbitB": -0.0050229373255969755,
        "nPeriB": 7,
        "periMeanA20S": 551858.6734519076,
-       "rev2S": 551864.0612716755,
+       "rev2S": 551864.0612716215,
        "revN": 59,
        "eProxy": 0.0000107612779397007,
        "diag": {
@@ -1490,7 +1490,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 27.109
+       "wallSec": 40.3
       }
      }
     },
@@ -1505,11 +1505,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0035177848747436034,
-       "residDegA": 0.000011805382574026115,
-       "slopeDegPerOrbitB": -0.0035302380703778526,
+       "residDegA": 0.00001180538257402766,
+       "slopeDegPerOrbitB": -0.0035302380703778153,
        "nPeriB": 60,
        "periMeanA20S": 551858.6681794107,
-       "rev2S": 551864.0613633194,
+       "rev2S": 551864.0613633327,
        "revN": 59,
        "eProxy": 0.0000133409660903235,
        "diag": {
@@ -1535,7 +1535,7 @@
          "stop": null
         }
        },
-       "wallSec": 73.09
+       "wallSec": 102.542
       },
       "dt/2": {
        "steps": 41388996,
@@ -1544,11 +1544,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.003604168176892116,
-       "residDegA": 0.000017970166090164072,
-       "slopeDegPerOrbitB": -0.00454469084727432,
+       "residDegA": 0.000017970166090163764,
+       "slopeDegPerOrbitB": -0.004544690847274307,
        "nPeriB": 33,
        "periMeanA20S": 551858.5380163625,
-       "rev2S": 551864.061256898,
+       "rev2S": 551864.061256873,
        "revN": 59,
        "eProxy": 0.000010758864671883928,
        "diag": {
@@ -1574,7 +1574,7 @@
          "stop": null
         }
        },
-       "wallSec": 147.318
+       "wallSec": 207.107
       }
      }
     },
@@ -1588,12 +1588,12 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.005456201873975658,
-       "residDegA": 0.000011094155695785033,
-       "slopeDegPerOrbitB": -0.004555281418143726,
+       "slopeDegPerOrbitA": -0.005456201873975657,
+       "residDegA": 0.00001109415569578379,
+       "slopeDegPerOrbitB": -0.004555281418143722,
        "nPeriB": 60,
        "periMeanA20S": 551855.6980461903,
-       "rev2S": 551864.0619256826,
+       "rev2S": 551864.0619256585,
        "revN": 59,
        "eProxy": 0.000013341440253221211,
        "diag": {
@@ -1619,7 +1619,7 @@
          "stop": null
         }
        },
-       "wallSec": 49.845
+       "wallSec": 76.664
       },
       "dt/2": {
        "steps": 41388996,
@@ -1628,11 +1628,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0055400660978545254,
-       "residDegA": 0.000028348763010580693,
-       "slopeDegPerOrbitB": -0.005957871225805945,
+       "residDegA": 0.000028348763010576634,
+       "slopeDegPerOrbitB": -0.005957871225805941,
        "nPeriB": 38,
        "periMeanA20S": 551855.5685109838,
-       "rev2S": 551864.061819716,
+       "rev2S": 551864.0618196691,
        "revN": 59,
        "eProxy": 0.000010759725647921812,
        "diag": {
@@ -1658,7 +1658,7 @@
          "stop": null
         }
        },
-       "wallSec": 103.671
+       "wallSec": 143.404
       }
      }
     },
@@ -1673,11 +1673,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.003517524948620315,
-       "residDegA": 0.000014755933123316724,
-       "slopeDegPerOrbitB": -0.0037503966115081397,
+       "residDegA": 0.000014755933123316748,
+       "slopeDegPerOrbitB": -0.003750396611508125,
        "nPeriB": 57,
        "periMeanA20S": 551858.668033502,
-       "rev2S": 551864.0613615286,
+       "rev2S": 551864.0613615472,
        "revN": 59,
        "eProxy": 0.00001334079202955507,
        "diag": {
@@ -1703,7 +1703,7 @@
          "stop": null
         }
        },
-       "wallSec": 45.877
+       "wallSec": 64.924
       },
       "dt/2": {
        "steps": 41388996,
@@ -1712,11 +1712,11 @@
        "clamp": 0,
        "nPeriA": 59,
        "slopeDegPerOrbitA": -0.0036036562467694163,
-       "residDegA": 0.000013095171734220089,
-       "slopeDegPerOrbitB": -0.003781392355355954,
+       "residDegA": 0.000013095171734216787,
+       "slopeDegPerOrbitB": -0.0037813923553559644,
        "nPeriB": 38,
        "periMeanA20S": 551858.5381231214,
-       "rev2S": 551864.0612553199,
+       "rev2S": 551864.0612552938,
        "revN": 59,
        "eProxy": 0.000010758863294774864,
        "diag": {
@@ -1742,7 +1742,7 @@
          "stop": null
         }
        },
-       "wallSec": 90.96
+       "wallSec": 136.507
       }
      }
     }
@@ -1756,17 +1756,17 @@
     "officialReproducedBit": true,
     "diffBase": "M0p",
     "pn1PNContribution": 0.000028754824549442263,
-    "a_M1_minus_M0": 8.828835184910167e-13,
+    "a_M1_minus_M0": 8.828835218791485e-13,
     "a_M2_minus_M0": 1.8399048957166335e-11,
-    "a_M3_minus_M0": 0.0000010484891817333025,
+    "a_M3_minus_M0": 0.0000010484891817333059,
     "a_M1x_minus_M1": 0,
     "a_M2e_minus_M0s": -1.359003024115177e-10,
-    "thirdBodyStatic_M0s_minus_M0": 1.881151850000799e-8,
-    "thirdBodyFree_M0e_minus_M0": 2.863847817183594e-8,
-    "M0_minus_M0p": 0.000004213451687256159,
-    "stepWidthM0": 0.0000013585321374221017,
+    "thirdBodyStatic_M0s_minus_M0": 1.881151850001138e-8,
+    "thirdBodyFree_M0e_minus_M0": 2.863847817183933e-8,
+    "M0_minus_M0p": 0.000004213451687256162,
+    "stepWidthM0": 0.000001358532137422105,
     "b_M4_minus_M0n": -3.248482531893206e-11,
-    "roundoffControl_M0nX_minus_M0n": -6.823880459277249e-12
+    "roundoffControl_M0nX_minus_M0n": -6.823880450806919e-12
    },
    {
     "tag": "dt/2",
@@ -1775,27 +1775,27 @@
     "pn1PNContribution": 0.000028754818419432115,
     "a_M1_minus_M0": 1.1180848659571828e-12,
     "a_M2_minus_M0": 1.1961704921654905e-11,
-    "a_M3_minus_M0": 0.0000010647538189040047,
+    "a_M3_minus_M0": 0.0000010647538189040013,
     "a_M1x_minus_M1": 0,
-    "a_M2e_minus_M0s": -2.448235772301694e-10,
+    "a_M2e_minus_M0s": -2.4482357723355753e-10,
     "thirdBodyStatic_M0s_minus_M0": 1.8812020145858772e-8,
-    "thirdBodyFree_M0e_minus_M0": 4.6341682413389274e-7,
-    "M0_minus_M0p": 0.00000421345249370004,
-    "stepWidthM0": 0.0000013585321374221017,
-    "b_M4_minus_M0n": 5.916305935879483e-11,
-    "roundoffControl_M0nX_minus_M0n": 2.5530269998599766e-11
+    "thirdBodyFree_M0e_minus_M0": 4.634168241338826e-7,
+    "M0_minus_M0p": 0.0000042134524937000294,
+    "stepWidthM0": 0.000001358532137422105,
+    "b_M4_minus_M0n": 5.916305935964187e-11,
+    "roundoffControl_M0nX_minus_M0n": 2.5530269995211634e-11
    }
   ],
   "charon": [
    {
     "tag": "dt",
-    "officialKf0ReproducedBit": true,
+    "officialKf0ReproducedBit": false,
     "rev2": {
-     "pn1PN": 0.0000018596183508634567,
-     "C1_minus_C0": -1.0337680578231812e-7,
-     "C2_minus_C0": 0.0005622598109766841,
-     "C3_minus_C0n": -3.457535058259964e-8,
-     "roundoffControl_C0nV_minus_C0n": 0.000009556068107485771
+     "pn1PN": 0.0000018525170162320137,
+     "C1_minus_C0": -1.2689270079135895e-7,
+     "C2_minus_C0": 0.0005621989257633686,
+     "C3_minus_C0n": -5.98374754190445e-8,
+     "roundoffControl_C0nV_minus_C0n": 0.00000947597436606884
     },
     "peri20": {
      "pn1PN": 0.00004623376298695803,
@@ -1809,11 +1809,11 @@
     "tag": "dt/2",
     "officialKf0ReproducedBit": null,
     "rev2": {
-     "pn1PN": 0.0000017621787264943123,
-     "C1_minus_C0": -0.00000932859256863594,
-     "C2_minus_C0": 0.0005534894298762083,
-     "C3_minus_C0n": -0.000009144539944827557,
-     "roundoffControl_C0nV_minus_C0n": 0.000007211114279925823
+     "pn1PN": 0.000001700129359960556,
+     "C1_minus_C0": -0.000009298324584960938,
+     "C2_minus_C0": 0.0005534978117793798,
+     "C3_minus_C0n": -0.000009177369065582752,
+     "roundoffControl_C0nV_minus_C0n": 0.000007150345481932163
     },
     "peri20": {
      "pn1PN": 0.000044724904000759125,
@@ -2113,5 +2113,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 818.121
+ "elapsedS": 1192.106
 }

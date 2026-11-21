@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T20:52:13.780Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:27:32.633Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 96545,
-    "sha256": "d5ae479525693520d880b095bd88cccabaeeaffad13852d62ccc8783f67de67c",
-    "mtime": "2026-11-18T20:51:22.925Z"
+    "sha256": "c5d5d396ff24a1098663fb35d0cab10d67f2af8976cd8c18f4ef93d488146876",
+    "mtime": "2026-11-21T12:26:21.638Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w278d-bgequiv.mjs",
     "bytes": 27859,
     "sha256": "95304769659543b3fb88e512b99fa639a365edb762d222d7eb4ccf7f406550d2",
-    "mtime": "2026-11-05T03:10:54.234Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    }
   ],
   "codeSha256": "d06440f26e042022b6633c7e07efe28216bbfd91018be7950c1297d978aa8a64",
@@ -109,7 +109,7 @@
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "553fc5b09204f7b970b90b3c76d8d851eadb5cff30526891d98302ed0be756c0",
+    "stableSha256": "8861c365047bb4a07cf670972eb84f1e86f9c5e0c4223162b1fc9fb83e05b89a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -3706,5 +3706,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 45.727
+ "elapsedS": 60.725
 }

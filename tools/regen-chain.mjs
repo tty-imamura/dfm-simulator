@@ -394,6 +394,25 @@ if (argv.includes('--resume-gate') || argv.includes('--preflight')) {
   process.exit(v.start ? 0 : CR.DECL.refuseRc);
 }
 // ==== 第343便f の塊(ここまで)====
+// ==== 第345便e の塊(ここから)====
+// 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396): **実行系の宣言の台帳を鎖の後に書く**
+//   (tests/lib-w281a-regentable.mjs の engineStampFromLog345e —— 段の順・済み印の契約の形・計画の他の判定は変えない)。
+//   node tools/regen-chain.mjs --engine-stamp <REGEN_LOG> [--dry] [--json <file>]
+//     済み印が run/manual で、入力の行 `in json:tests/data-w345-engine.json <hash>` が今の宣言の hash と同じブラウザで測る段を、台帳 tests/data-w345e-enginestamp.json に刻む
+//     (台帳の宣言の hash が今の宣言と違うブラウザの段は、計画〔regen-plan・--gate〕で regen —— 理由の種類 engine)。宣言が無ければ何もしない(終了コード 0・印字だけ)。
+//   順序の辺: ブラウザで測る段 → 段 engine-345b(表に在るときだけ —— buildChain の波と段の DEP・--check-order の順序の照合。依存の閉包で鎖に引き込まない・入力にしない)
+if (argv.includes('--engine-stamp')) {
+  const log = resolve(getArg('--engine-stamp', null));
+  if (!log || !fs.existsSync(log)) { console.error('--engine-stamp: REGEN_LOG を渡す(' + log + ')'); process.exit(2); }
+  const r = T.engineStampFromLog345e({ root: ROOT, logDir: log, write: !argv.includes('--dry') });
+  if (!r.ok) { console.log('regen-chain --engine-stamp(' + T.ENGINE_STAMP_VERSION_345E + '): ' + r.why + ' —— 台帳は書かない'); process.exit(0); }
+  console.log(`regen-chain --engine-stamp(${T.ENGINE_STAMP_VERSION_345E}): 宣言 ${String(r.declSha).slice(0, 24)}… —— 刻んだ段 ${r.stamped.length}・刻まない段 ${r.skipped.length}`
+    + (argv.includes('--dry') ? '(--dry —— 書かない)' : r.stamped.length ? ' → ' + T.ENGINE_STAMP_FILE_345E : ''));
+  for (const z of r.skipped.slice(0, 12)) console.log('  刻まない ' + z.key + ': ' + z.why);
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify({ version: T.ENGINE_STAMP_VERSION_345E, log, declSha: r.declSha, stamped: r.stamped, skipped: r.skipped }, null, 1) + '\n');
+  process.exit(0);
+}
+// ==== 第345便e の塊(ここまで)====
 
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);

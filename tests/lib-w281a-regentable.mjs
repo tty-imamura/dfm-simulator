@@ -2583,6 +2583,16 @@ export const REGEN_STEPS = [
     note: '第344便g: 元期 2 × 重力定数の出どころ 4 列の接触の要素・(3) の列と参考の試作の表/接触の周期と平均の周期の差 4 列/e と近点の引数 4 列/'
       + '第341便g の 4 量 + 近日点の段 × 9 列・定義の差の作り直し 9 列/質量の比・2 体のケプラーで元期 A → B(4 列)' }),
   // ==== 第344便g の塊(ここまで)====
+  // ==== 第345便b の塊(ここから)====
+  // ---- 第345便b(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R393): **鎖が走った箱の実行系の記録**(常時の段 engine-345b —— 正本 tests/out/engine-345b.json・
+  //   lib tests/lib-w345-engine.mjs・道具 tools/engine-check.mjs・入力は宣言 tests/data-w345-engine.json)。今のブラウザを起こして数学関数の指紋を測り、宣言と違えば正本を書かずに rc 1
+  //   (鎖が止まる —— 違う実行系ではブラウザで測る正本を作り直さない)。**常時群**(箱が変わったかは走らせないと分からない)。html を読まない(来歴の対象は lib —— 領域の宣言なし)。
+  //   ブラウザで測る段をこの段の後に置く順序(after の辺)と、ブラウザで測る段の入力に宣言を足すのは第345便e。所要は第345便b の枝の実測 1 s 未満(ブラウザの起動を含む)
+  S('engine-345b', 'node tests/exp-w345b-engine.mjs', ['tests/out/engine-345b.json'], 1, { secSource: 'w345b-branch', alwaysRun: true,
+    quickVerify: false, quickVerifyWhy: '実行系の記録だけ(ブラウザを 1 回起こして探りを 1 回走らせる —— 1 s の内)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/engine-345b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS'] },
+    note: '第345便b: ブラウザの版・V8・playwright・node・数学関数の指紋(25 関数)と宣言との同じさ・Node と違う関数(事実の列)' }),
+  // ==== 第345便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -3450,6 +3460,10 @@ export function planRegen(o) {
     for (const m of pre) migrate327(htmlAbs, m.scope);   // 第327便c: 移行の要否も今の html の分を先に(領域 hash の器は html を 1 本だけ控える)
     if (o.baseHtml) for (const m of pre) scopeFull(o.baseHtml, m.scope);
   }
+  // ==== 第345便e の塊(ここから)====
+  // 第345便e(R396): 実行系の宣言(tests/data-w345-engine.json)が在るとき、台帳の刻印と違うブラウザの段を regen(理由の種類 engine)。o.engineDecl === false か W345E_ENGINE=0 で切る
+  const w345eEngineWhy = engineWhyFactory345e({ root, off: o.engineDecl === false || process.env.W345E_ENGINE === '0', declSha: o.engineDeclSha, stamp: o.engineStamp });
+  // ==== 第345便e の塊(ここまで)====
   for (const st of STEPS) {
     if (onlySet && !onlySet.has(st.key)) continue;
     const row = { key: st.key, cmd: st.cmd, env: st.env, outs: st.outs, sec: st.sec, secSource: st.secSource,
@@ -3589,6 +3603,9 @@ export function planRegen(o) {
     }
     row.deps = [...deps].filter((d) => STEPS.some((z) => z.key === d));
     row.prodDeps = [...prod].filter((d) => row.deps.includes(d));
+    // ==== 第345便e の塊(ここから)====
+    { const e345 = w345eEngineWhy(st); if (e345) { why.push(e345.why); cause(e345.cause, 'engine'); row.engine345e = true; } }
+    // ==== 第345便e の塊(ここまで)====
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
@@ -3993,8 +4010,13 @@ function closures(deps) {
  */
 export function checkOrder(seq, o) {
   const opt = o || {};
-  const deps = opt.deps || tableDeps({ root: opt.root, steps: opt.steps });
-  const { up, down } = closures(deps);
+  const deps0 = opt.deps || tableDeps({ root: opt.root, steps: opt.steps });
+  // ==== 第345便e の塊(ここから)====
+  // 第345便e(R396): 順序の照合(up)にはブラウザの段 → engine-345b の順序の辺を足す。下流の欠け(down)は足さない表で見る(順序の辺は鎖に引き込まない)
+  const deps = withEngineEdges345e(deps0, engineEdges345e({ root: opt.root, steps: opt.steps, engineEdges: opt.engineEdges }));
+  const { up } = closures(deps);
+  const { down } = closures(deps0);
+  // ==== 第345便e の塊(ここまで)====
   const first = new Map(), last = new Map(), all = new Map();
   seq.forEach((k, i) => { if (!first.has(k)) first.set(k, i); last.set(k, i); if (!all.has(k)) all.set(k, []); all.get(k).push(i); });
   const order = [], wasted = [], downstream = [];
@@ -4029,8 +4051,13 @@ export function buildChain(plan, o) {
   const opt = o || {};
   const steps = opt.steps || REGEN_STEPS;
   const by = new Map(steps.map((z) => [z.key, z]));
-  const deps = opt.deps || tableDeps({ root: opt.root, steps });
-  const { down } = closures(deps);
+  const deps0 = opt.deps || tableDeps({ root: opt.root, steps });
+  const { down } = closures(deps0);
+  // ==== 第345便e の塊(ここから)====
+  // 第345便e(R396): 波と段の DEP(鎖の中の上流)にだけブラウザの段 → engine-345b の順序の辺を足す(引き込み〔上の down〕・入力の並び・速い判定のデータの上流には使わない)
+  const edges345e = engineEdges345e({ root: opt.root, steps, engineEdges: opt.engineEdges });
+  const deps = withEngineEdges345e(deps0, edges345e);
+  // ==== 第345便e の塊(ここまで)====
   const status = new Map((plan.steps || []).map((r) => [r.key, r.status]));
   const mode = new Map();
   for (const st of steps) {
@@ -4093,7 +4120,8 @@ export function buildChain(plan, o) {
   for (const k of Object.keys(rows)) {
     const pr = planRow323.get(k) || null;
     rows[k].fastOk = rows[k].mode === 'gate' && !!pr && pr.ownStatus === 'reuse';
-    rows[k].fastUps = rows[k].deps.filter((d) => !(kinds323 && isOrderOnlyDep(kinds323, k, d) && !((pr && pr.prodDeps) || []).includes(d)));
+    rows[k].fastUps = rows[k].deps.filter((d) => !(kinds323 && isOrderOnlyDep(kinds323, k, d) && !((pr && pr.prodDeps) || []).includes(d)))
+      .filter((d) => !(edges345e.has(k) && d === ENGINE_STAGE_KEY_345E));   // 第345便e: 順序の辺の上流(engine-345b)は速い判定のデータの上流にしない
   }
   const skipped = steps.filter((z) => !mode.has(z.key)).map((z) => ({ key: z.key,
     why: z.role === 'history' ? '履歴' : z.outside ? 'chain の外' : (status.get(z.key) || '計画に無い') }));
@@ -4101,7 +4129,7 @@ export function buildChain(plan, o) {
   const ct = chainContracts(rows, { by, root: opt.root || null, htmlSha: plan.htmlSha256 || null });
   for (const k of Object.keys(rows)) rows[k].contract = ct.get(k);
   // 第287便f(AN69): 入力の並び(段を入れる直前に --digest で hash を引く —— 契約の入力の部分)
-  const specs = chainInputSpecs(rows, { by, root: opt.root || null, steps, deps, afterKinds: kinds323 });
+  const specs = chainInputSpecs(rows, { by, root: opt.root || null, steps, deps: deps0, afterKinds: kinds323 });   // 第345便e: 順序の辺を足さない表
   for (const k of Object.keys(rows)) rows[k].inputs = specs.get(k) || [];
   const priority = chainPriority({ steps: rows }, tableIdx);
   return { version: REGEN_TABLE_VERSION, contractVersion: CHAIN_CONTRACT_VERSION, waves, priority, steps: rows, skipped,
@@ -4351,6 +4379,11 @@ export function chainInputSpecs(rows, o) {
       const regs = writers.filter((w) => w.key === k || dn.has(w.key)).flatMap((w) => w.htmlRegions);
       specs.push(regs.length ? 'html:strip:' + [...new Set(regs)].sort().join(',') : 'html:whole');
     }
+    // ==== 第345便e の塊(ここから)====
+    // 第345便e(R396): 実行系の宣言が在るとき、ブラウザで測る段(engine-345b を除く)の入力に宣言の意味的出力を足す(宣言が変われば済み印の契約が変わる)
+    if (opt.root && opt.engineDecl !== false && k !== ENGINE_STAGE_KEY_345E && !specs.includes('json:' + ENGINE_DECL_FILE_345E)
+      && fs.existsSync(String(opt.root).replace(/\/$/, '') + '/' + ENGINE_DECL_FILE_345E) && browserStageOf345e(st, { root: opt.root }).browser) specs.push('json:' + ENGINE_DECL_FILE_345E);
+    // ==== 第345便e の塊(ここまで)====
     const envs = new Set(Object.keys(st.env || {}));
     for (const m of String(st.cmd || '').matchAll(/\$([A-Z_][A-Z0-9_]*)/g)) envs.add(m[1]);
     for (const e of [...envs].sort()) specs.push('env:' + e);
@@ -6056,3 +6089,301 @@ export const CONDSELECT_KEEP_ALL_329C = Object.freeze([
   Object.freeze({ key: 'tpsign', why: '較正走行の器を子プロセス(--only)で走らせる —— 選ぶ式が子の中にあり、器の外の宣言と照合できない(6 s)' }),
 ]);
 // ==== 第329便c の塊(ここまで)====
+// ==== 第345便e の塊(ここから)====
+// ---- 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396): **ブラウザで測る段の判定と、実行系の宣言を作り直しの計画に乗せる**
+//   ・`browserStageOf345e`: 段の cmd が名指す器(tests/*.mjs・tools/*.mjs)から、import(静的 `from './x.mjs'`・`from '../tests/x.mjs'`・動的 `import('./x.mjs')`)と
+//     子プロセス(spawn・execFile・fork を持つ本文の `path.join(…, 'tests', 'x.mjs')`・'tests/x.mjs' の名指し)を辿り、どこかの本文(注釈は除く)が
+//     playwright / playwright-core を import するか(`PW_RE_345E`)で**ブラウザで測る段**を判定する(機械で —— 段の行の `node: true` の宣言は照らし合わせに使うだけ)。
+//     Node の vm(loadHtmlHeadless)だけの段はブラウザの段ではない(Node の版でも数学関数は違い得るが、本便の対象はブラウザ)。自己試験の stub は段の `browser`(真偽)で直に与える。
+//   ・`engineEdges345e`: 段 engine-345b(実行系の記録 —— 常時の段)が表に在るときだけ、ブラウザの段(engine-345b 自身を除く)→ engine-345b の**順序の辺**を返す。
+//     tableDeps には入れない(上流の書くファイルを読まない —— 依存の閉包で鎖に引き込まない・入力にしない)。buildChain の波と段の DEP(鎖の中に在るときだけ)と
+//     checkOrder の順序の照合にだけ使う(engine-345b が rc ≠ 0 なら、その後のブラウザの段は始まらない)。
+//   ・実行系の宣言(tests/data-w345-engine.json —— 枝 b が作る)が**在るときだけ**: ブラウザの段の済み印の契約の入力に `json:<宣言>` を足し(`chainInputSpecs`)、
+//     計画(`planRegen` —— 鎖の --gate も同じ)で、段の刻印の台帳 tests/data-w345e-enginestamp.json の宣言の hash(意味的出力 —— semanticSha)が今の宣言と違う(か段が台帳に無い)
+//     ブラウザの段を regen にする(理由の種類 engine —— html の指紋が同じでも再利用しない)。宣言が無ければ今までどおり。
+//   ・台帳は鎖の後に `node tools/regen-chain.mjs --engine-stamp <REGEN_LOG>` で書く(済み印が run/manual で、入力の行の宣言の hash が今の宣言と同じブラウザの段だけ)。
+//   ・済み印の契約の版(CHAIN_CONTRACT_VERSION)は上げない(契約の形 —— 静的な部分 + 入力の行 —— は同じ。宣言が在るときにブラウザの段の入力の行が 1 本増えるだけ)。
+export const BROWSER_STAGE_VERSION_345E = 'w345e-browserstage-1';
+export const ENGINE_DECL_FILE_345E = 'tests/data-w345-engine.json';
+export const ENGINE_STAGE_KEY_345E = 'engine-345b';
+export const ENGINE_STAMP_FILE_345E = 'tests/data-w345e-enginestamp.json';
+export const ENGINE_STAMP_VERSION_345E = 'w345e-enginestamp-1';
+export const BROWSER_LIST_FILE_345E = 'tests/data-w345e-browserstages.json';
+// 読み込みの呼び(import('playwright')・require / createRequire の req('playwright-core') —— 名前は問わない)・静的 import・chromium.launch(
+export const PW_RE_345E = /\b[A-Za-z_$][\w$]*\(\s*['"]playwright(?:-core)?['"]\s*\)|\bfrom\s+['"]playwright(?:-core)?['"]|\bchromium\.launch\s*\(/;
+/** 辿らない module: 再生成表と刻印の道具(段の器が刻印に読むだけ —— 自分の自己試験の文字列に playwright の名がある)・QA の本体(段の器が文の中で名指すだけ)。 */
+export const BROWSER_SCAN_SKIP_345E = ['tests/lib-w281a-regentable.mjs', 'tests/lib-w281a-scope.mjs', 'tests/qa.mjs', 'tests/perf.mjs'];
+const CHILD_RE_345E = /\b(?:spawn|spawnSync|execFile|execFileSync|fork)\s*\(/;
+/** 本文(注釈は除いた)から辿る module・子プロセスの器の相対パス(リポジトリの根から)。 */
+export function moduleRefs345e(text, rel) {
+  const dir = rel.slice(0, rel.lastIndexOf('/') + 1);
+  const norm = (p) => { const out = []; for (const s of p.split('/')) { if (s === '..') out.pop(); else if (s !== '.' && s !== '') out.push(s); } return out.join('/'); };
+  const refs = new Set();
+  for (const m of text.matchAll(/\bfrom\s+'(\.{1,2}\/[A-Za-z0-9_./-]+\.mjs)'/g)) refs.add(norm(dir + m[1]));
+  for (const m of text.matchAll(/\bimport\(\s*'(\.{1,2}\/[A-Za-z0-9_./-]+\.mjs)'\s*\)/g)) refs.add(norm(dir + m[1]));
+  if (CHILD_RE_345E.test(text)) for (const m of text.matchAll(/'(tests|tools)',\s*'([A-Za-z0-9_.-]+\.mjs)'/g)) refs.add(m[1] + '/' + m[2]);
+  refs.delete(rel);
+  return [...refs].filter((r) => /^(tests|tools)\/[A-Za-z0-9_.-]+\.mjs$/.test(r) && !BROWSER_SCAN_SKIP_345E.includes(r)).sort();
+}
+const browserMemo345e = new Map();
+/**
+ * 段がブラウザで測るか(機械で)。
+ * @param {object} st 段(stub は st.browser で直に)
+ * @param {{root?:string, readText?:Function}} o
+ * @returns {{browser:boolean, via:string[], why:string}}
+ */
+export function browserStageOf345e(st, o) {
+  const opt = o || {};
+  if (typeof st.browser === 'boolean') return { browser: st.browser, via: [], why: 'stub(browser)' };
+  const root = opt.root ? String(opt.root).replace(/\/$/, '') : null;
+  const rt = opt.readText || ((rel) => { try { return fs.readFileSync(root + '/' + rel, 'utf8'); } catch { return null; } });
+  if (!root && !opt.readText) return { browser: false, via: [], why: '本文を引けない(stub)' };
+  const memoKey = (opt.readText ? '(readText)' : root) + '|' + st.cmd;
+  if (!opt.readText && browserMemo345e.has(memoKey)) return browserMemo345e.get(memoKey);
+  const parent = new Map();
+  const queue = [];
+  for (const h of new Set(String(st.cmd || '').match(/(?:tests|tools)\/[A-Za-z0-9_.-]+\.mjs/g) || [])) { parent.set(h, null); queue.push(h); }
+  let hit = null, nRead = 0;
+  while (queue.length && !hit) {
+    const rel = queue.shift();
+    const t = rt(rel);
+    if (t === null) continue;
+    nRead++;
+    const u = stripComments(t);
+    if (PW_RE_345E.test(u)) { hit = rel; break; }
+    for (const r of moduleRefs345e(u, rel)) if (!parent.has(r)) { parent.set(r, rel); queue.push(r); }
+  }
+  let res;
+  if (hit) { const via = []; for (let x = hit; x; x = parent.get(x)) via.unshift(x); res = { browser: true, via, why: 'playwright を import: ' + via.join(' → ') }; }
+  else res = { browser: false, via: [], why: nRead ? '辿った ' + parent.size + ' 本に playwright の import が無い' : '器の本文を引けない' };
+  if (!opt.readText) browserMemo345e.set(memoKey, res);
+  return res;
+}
+/**
+ * 現行の段(履歴・鎖の外を除く)のブラウザの判定の一覧と、ブラウザの段の実測秒の和・4 レーンの見積り。
+ * @param {{root?:string, steps?:Array, readText?:Function, lanes?:number}} o
+ */
+export function browserStages345e(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const rows = [];
+  for (const st of steps) {
+    if (st.role === 'history' || st.outside) continue;
+    const r = browserStageOf345e(st, opt);
+    rows.push({ key: st.key, browser: r.browser, sec: Number(st.sec) || 0, declaredNode: st.node === true, via: r.via, why: r.why,
+      alwaysRun: !!st.alwaysRun });
+  }
+  const br = rows.filter((r) => r.browser);
+  const lanes = opt.lanes || 4;
+  const secSum = br.reduce((a, r) => a + r.sec, 0);
+  const secMax = br.reduce((a, r) => Math.max(a, r.sec), 0);
+  // 4 レーンの見積り: ブラウザの段だけを鎖に入れた模擬(依存は表の after ∪ meta の入力の書き手 —— 鎖の中の段だけ)
+  let makespan = null;
+  try {
+    const keys = new Set(br.map((r) => r.key));
+    const deps = tableDeps({ root: opt.root, steps });
+    const by = new Map(steps.map((z) => [z.key, z]));
+    const srows = {};
+    for (const k of keys) srows[k] = { key: k, sec: by.get(k).sec || 0, deps: [...(deps.get(k) || [])].filter((d) => keys.has(d)), writes: writesOf(by.get(k)),
+      workers: by.get(k).exclusive ? 'all' : Math.max(1, by.get(k).workers || 1) };
+    const sim = simulateReadyQueue({ steps: srows }, { lanes });
+    makespan = sim && Number.isFinite(sim.makespan) ? sim.makespan : null;
+  } catch { makespan = null; }
+  return { version: BROWSER_STAGE_VERSION_345E, count: { all: rows.length, browser: br.length, node: rows.length - br.length },
+    secSum, secMax, lanes, lowerBound: Math.max(secSum / lanes, secMax), makespan,
+    mismatch: { browserButNode: br.filter((r) => r.declaredNode).map((r) => r.key), notBrowserNotNode: rows.filter((r) => !r.browser && !r.declaredNode).map((r) => r.key) },
+    rows };
+}
+/** ブラウザの一覧の正本(tests/data-w345e-browserstages.json)の形 —— 段の名と秒と経路(時刻を持たない —— 同じ表なら同じバイト)。 */
+export function browserListDoc345e(o) {
+  const b = browserStages345e(o);
+  return { version: b.version, note: '第345便e: 再生成表の段のうちブラウザで測る段(器と import・子プロセスの閉包が playwright を import する段)。'
+    + 'node tools/regen-plan.mjs --browser-stages --write で作り直す(--check で今の表と照合)。sec は表の実測秒(tests/data-w311c-regensec.json の較正を含む)',
+    count: b.count, secSum: b.secSum, secMax: b.secMax, lanes: b.lanes, lowerBound: Math.round(b.lowerBound), makespan: b.makespan === null ? null : Math.round(b.makespan),
+    mismatch: b.mismatch, stages: b.rows.filter((r) => r.browser).map((r) => ({ key: r.key, sec: r.sec, via: r.via })) };
+}
+/**
+ * ブラウザの段 → engine-345b の順序の辺(engine-345b が表の現行の段に在るときだけ)。
+ * @returns {Map<string,string[]>}
+ */
+export function engineEdges345e(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const res = new Map();
+  if (opt.engineEdges === false) return res;
+  const eng = steps.find((z) => z.key === ENGINE_STAGE_KEY_345E && z.role !== 'history');
+  if (!eng) return res;
+  for (const st of steps) {
+    if (st.role === 'history' || st.outside || st.key === ENGINE_STAGE_KEY_345E) continue;
+    if (browserStageOf345e(st, opt).browser) res.set(st.key, [ENGINE_STAGE_KEY_345E]);
+  }
+  return res;
+}
+/** tableDeps に順序の辺を足した写し(buildChain の波・checkOrder の順序の照合用 —— 引き込みと入力には使わない)。 */
+export function withEngineEdges345e(deps, edges) {
+  const out = new Map();
+  for (const [k, s] of deps) out.set(k, new Set(s));
+  for (const [k, ups] of (edges || new Map())) if (out.has(k)) for (const u of ups) if (out.has(u)) out.get(k).add(u);
+  return out;
+}
+/** 実行系の宣言の hash(意味的出力 —— 無ければ null)。 */
+export function engineDeclSha345e(root, file) {
+  const f = file || ENGINE_DECL_FILE_345E;
+  const r = String(root).replace(/\/$/, '');
+  if (!fs.existsSync(r + '/' + f)) return null;
+  return semanticSha(r + '/' + f, f);
+}
+/** 段の刻印の台帳(無ければ空)。 */
+export function readEngineStamp345e(root) {
+  try { const J = JSON.parse(fs.readFileSync(String(root).replace(/\/$/, '') + '/' + ENGINE_STAMP_FILE_345E, 'utf8')); return J && J.version === ENGINE_STAMP_VERSION_345E && J.stages ? J : { version: ENGINE_STAMP_VERSION_345E, decl: ENGINE_DECL_FILE_345E, stages: {} }; }
+  catch { return { version: ENGINE_STAMP_VERSION_345E, decl: ENGINE_DECL_FILE_345E, stages: {} }; }
+}
+/**
+ * 計画(planRegen)の段ごとの判定: 宣言が在り、ブラウザの段で、台帳の宣言の hash が今と違う(か無い)→ { why, cause }。それ以外 → null。
+ * @param {{root:string, steps?:Array, off?:boolean, declSha?:string|null, stamp?:object, readText?:Function}} o
+ */
+export function engineWhyFactory345e(o) {
+  const opt = o || {};
+  if (opt.off) return () => null;
+  let declSha, stamp;
+  const init = () => {
+    if (declSha !== undefined) return;
+    declSha = opt.declSha !== undefined ? opt.declSha : engineDeclSha345e(opt.root);
+    stamp = opt.stamp || (declSha ? readEngineStamp345e(opt.root) : null);
+  };
+  return (st) => {
+    if (st.role === 'history' || st.key === ENGINE_STAGE_KEY_345E) return null;
+    init();
+    if (!declSha) return null;
+    if (!browserStageOf345e(st, { root: opt.root, readText: opt.readText }).browser) return null;
+    const got = stamp && stamp.stages && stamp.stages[st.key] ? stamp.stages[st.key].decl : null;
+    if (got === declSha) return null;
+    return { why: '実行系の宣言 ' + ENGINE_DECL_FILE_345E + ' が' + (got ? '台帳の刻印と違う' : '台帳に無い') + '(ブラウザで測る段 —— html の指紋が同じでも作り直す・第345便e)',
+      cause: '実行系の宣言(engine): ' + ENGINE_DECL_FILE_345E + (got ? '(刻印 ' + String(got).slice(0, 16) + ' → ' + String(declSha).slice(0, 16) + ')' : '(刻印なし)') };
+  };
+}
+/**
+ * 鎖の後に台帳を書く: 済み印が run/manual で、入力の行 `in json:<宣言> <v>` が今の宣言の hash と同じブラウザの段に刻む。
+ * @param {{root:string, logDir:string, steps?:Array, write?:boolean, at?:string}} o
+ */
+export function engineStampFromLog345e(o) {
+  const root = String(o.root).replace(/\/$/, '');
+  const steps = o.steps || REGEN_STEPS;
+  const declSha = engineDeclSha345e(root);
+  if (!declSha) return { ok: false, why: '実行系の宣言が無い(' + ENGINE_DECL_FILE_345E + ')', stamped: [], skipped: [] };
+  const doc = readEngineStamp345e(root);
+  const stamped = [], skipped = [];
+  for (const st of steps) {
+    if (st.role === 'history' || st.outside || st.key === ENGINE_STAGE_KEY_345E) continue;
+    if (!browserStageOf345e(st, { root }).browser) continue;
+    let t = null;
+    try { t = fs.readFileSync(String(o.logDir).replace(/\/$/, '') + '/done/' + st.key + '.done', 'utf8').split('\n'); } catch { t = null; }
+    if (!t) { skipped.push({ key: st.key, why: '済み印が無い' }); continue; }
+    if (!/^(run|manual)\b/.test(t[0])) { skipped.push({ key: st.key, why: '走っていない(' + String(t[0]).split(' ')[0] + ')' }); continue; }
+    const line = t.find((z) => z.startsWith('in json:' + ENGINE_DECL_FILE_345E + ' '));
+    const v = line ? line.slice(('in json:' + ENGINE_DECL_FILE_345E + ' ').length).trim() : null;
+    if (v !== declSha) { skipped.push({ key: st.key, why: v ? '走ったときの宣言が今と違う' : '入力の行に宣言が無い' }); continue; }
+    doc.stages[st.key] = { decl: declSha, at: o.at || String(t[0]).split(' ').slice(-1)[0] };
+    stamped.push(st.key);
+  }
+  const sorted = {}; for (const k of Object.keys(doc.stages).sort()) sorted[k] = doc.stages[k];
+  doc.stages = sorted;
+  if (o.write !== false && stamped.length) fs.writeFileSync(root + '/' + ENGINE_STAMP_FILE_345E, JSON.stringify(doc, null, 1) + '\n');
+  return { ok: true, declSha, stamped, skipped, doc };
+}
+/**
+ * 自己試験(一時の root —— 正本は書き換えない): (a) 判定(playwright の import・動的 import・子プロセス・vm だけ・注釈の中の言及)/(b) 宣言の在る・無い・変わったときの計画の差/
+ * (c) 順序の辺(engine-345b が在るときだけ・buildChain の DEP と checkOrder)/(d) 契約の入力の行/(e) 台帳の刻み/(f) 変異(判定の正規表現を外すと落ちる)。
+ * @param {{tmpDir:string}} o
+ */
+export function regenEngineInputProbe345e(o) {
+  const tmp = String(o.tmpDir).replace(/\/$/, '');
+  const out = {};
+  const PW = 'play' + 'wright';   // 本文に名を直に書かない(この lib を辿る走査に掛からない形 —— 走査はこの lib を辿らないが二重に)
+  const files = {
+    'tests/exp-a.mjs': "import { x } from './lib-a.mjs';\nconsole.log(x);\n",
+    'tests/lib-a.mjs': "export const x = 1;\nexport async function go() { const { chromium } = await import('" + PW + "'); return chromium; }\n",
+    'tests/exp-b.mjs': "import { loadHtmlHeadless } from './lib-b.mjs';\n// import('" + PW + "') は注釈の中\nconsole.log('" + PW + " が無い');\n",
+    'tests/lib-b.mjs': "import vm from 'node:vm';\nexport const loadHtmlHeadless = () => vm;\n",
+    'tests/exp-c.mjs': "import { spawnSync } from 'node:child_process';\nimport path from 'node:path';\nspawnSync(process.execPath, [path.join('.', 'tests', 'exp-d.mjs')]);\n",
+    'tests/exp-d.mjs': "import { chromium } from '" + PW + "-core';\n",
+    'tests/exp-e.mjs': "import path from 'node:path';\nconst p = path.join('.', 'tests', 'exp-d.mjs');\n",   // 子プロセスを起こさない本文の名指しは辿らない
+    'tests/exp-f.mjs': "import { createRequire } from 'node:module';\nconst req = createRequire(import.meta.url);\nconst b = await req('" + PW + "').chromium;\n",
+    'tools/eng.mjs': "const { chromium } = await import('" + PW + "');\n",
+  };
+  for (const [f, t] of Object.entries(files)) { fs.mkdirSync(tmp + '/' + f.slice(0, f.lastIndexOf('/')), { recursive: true }); fs.writeFileSync(tmp + '/' + f, t); }
+  const mk = (key, cmd, extra) => Object.assign({ key, cmd, outs: ['tests/out/' + key + '.json'], sec: 10, after: [], env: {}, role: 'current', alwaysRun: false, volatilePaths: {} }, extra || {});
+  const steps = [mk('sa', 'node tests/exp-a.mjs'), mk('sb', 'node tests/exp-b.mjs'), mk('sc', 'node tests/exp-c.mjs'), mk('se', 'node tests/exp-e.mjs'), mk('sf', 'node tests/exp-f.mjs')];
+  const J = (k) => browserStageOf345e(steps.find((z) => z.key === k), { root: tmp }).browser;
+  out.a = { sa: J('sa'), sb: J('sb'), sc: J('sc'), se: J('se'), sf: J('sf') };
+  out.a.ok = out.a.sa === true && out.a.sb === false && out.a.sc === true && out.a.se === false && out.a.sf === true;
+  // (b) 計画の差(正本の meta を置いて reuse の世界を作る —— 対象は lib、入力なし)
+  const sha = (f) => crypto.createHash('sha256').update(fs.readFileSync(tmp + '/' + f)).digest('hex');
+  fs.mkdirSync(tmp + '/tests/out', { recursive: true });
+  for (const st of steps) {
+    const h = st.cmd.split(' ')[1];
+    fs.writeFileSync(tmp + '/' + st.outs[0], JSON.stringify({ meta: { target: h, targetSha256: sha(h), code: [{ file: h, sha256: sha(h) }], inputs: [] }, v: 1 }));
+  }
+  const runPlan = () => { const p = planRegen({ root: tmp, steps, html: tmp + '/tests/exp-a.mjs', htmlPhys: false, scopeMigrate: false, physKeys: false, orderOnly: false });
+    return Object.fromEntries(p.steps.map((r) => [r.key, r.status])); };
+  const p0 = runPlan();
+  fs.writeFileSync(tmp + '/' + ENGINE_DECL_FILE_345E, JSON.stringify({ version: 'probe-1', fingerprint: 'aaa', meta: { generatedAt: '2026-01-01T00:00:00Z' } }));
+  const p1 = runPlan();
+  const r1 = planRegen({ root: tmp, steps, html: tmp + '/tests/exp-a.mjs', htmlPhys: false, scopeMigrate: false, physKeys: false, orderOnly: false });
+  const kinds1 = Object.fromEntries(r1.steps.map((r) => [r.key, r.causeKinds]));
+  const d1 = engineDeclSha345e(tmp);
+  fs.writeFileSync(tmp + '/' + ENGINE_STAMP_FILE_345E, JSON.stringify({ version: ENGINE_STAMP_VERSION_345E, decl: ENGINE_DECL_FILE_345E, stages: { sa: { decl: d1 }, sc: { decl: d1 }, sf: { decl: d1 } } }));
+  const p2 = runPlan();
+  fs.writeFileSync(tmp + '/' + ENGINE_DECL_FILE_345E, JSON.stringify({ version: 'probe-1', fingerprint: 'aaa', meta: { generatedAt: '2026-02-02T00:00:00Z' } }));   // 時刻だけ —— 意味的出力は同じ
+  const p3 = runPlan();
+  fs.writeFileSync(tmp + '/' + ENGINE_DECL_FILE_345E, JSON.stringify({ version: 'probe-1', fingerprint: 'bbb', meta: { generatedAt: '2026-02-02T00:00:00Z' } }));
+  const p4 = runPlan();
+  const off = planRegen({ root: tmp, steps, html: tmp + '/tests/exp-a.mjs', htmlPhys: false, scopeMigrate: false, physKeys: false, orderOnly: false, engineDecl: false });
+  const allReuse = (p) => Object.values(p).every((s) => s === 'reuse');
+  out.b = { noDecl: p0, declNoStamp: p1, stamped: p2, timeOnly: p3, changed: p4, off: Object.fromEntries(off.steps.map((r) => [r.key, r.status])), kinds: kinds1 };
+  out.b.ok = allReuse(p0) && p1.sa === 'regen' && p1.sc === 'regen' && p1.sf === 'regen' && p1.sb === 'reuse' && p1.se === 'reuse' && (kinds1.sa || []).includes('engine')
+    && allReuse(p2) && allReuse(p3) && p4.sa === 'regen' && p4.sc === 'regen' && p4.sb === 'reuse' && p4.se === 'reuse' && allReuse(out.b.off);
+  // (c) 順序の辺: engine-345b が無い → 辺なし / 在る → sa・sc → engine-345b(sb・se には無い)。鎖の DEP と checkOrder
+  const e0 = engineEdges345e({ root: tmp, steps });
+  const steps2 = steps.concat([mk(ENGINE_STAGE_KEY_345E, 'node tools/eng.mjs', { alwaysRun: true })]);
+  const e1 = engineEdges345e({ root: tmp, steps: steps2 });
+  const planAll = { steps: steps2.map((z) => ({ key: z.key, status: z.alwaysRun ? 'always' : 'regen' })) };
+  const ch = buildChain(planAll, { root: tmp, steps: steps2 });
+  const depOk = (ch.steps.sa.deps || []).includes(ENGINE_STAGE_KEY_345E) && (ch.steps.sc.deps || []).includes(ENGINE_STAGE_KEY_345E) && !(ch.steps.sb.deps || []).includes(ENGINE_STAGE_KEY_345E);
+  const waveOk = ch.steps[ENGINE_STAGE_KEY_345E].wave < ch.steps.sa.wave;
+  const bad = checkOrder(['sa', ENGINE_STAGE_KEY_345E, 'sb', 'sc'], { root: tmp, steps: steps2 });
+  const good = checkOrder([ENGINE_STAGE_KEY_345E, 'sa', 'sb', 'sc'], { root: tmp, steps: steps2 });
+  // engine-345b だけ走った鎖は「下流が走っていない」にならない(順序の辺は引き込まない)
+  const onlyEng = checkOrder([ENGINE_STAGE_KEY_345E], { root: tmp, steps: steps2 });
+  const planEng = { steps: steps2.map((z) => ({ key: z.key, status: z.alwaysRun ? 'always' : 'reuse' })) };
+  const chEng = buildChain(planEng, { root: tmp, steps: steps2 });
+  out.c = { e0: e0.size, e1: [...e1.keys()].sort(), depOk, waveOk, badOrder: bad.order.length, goodOk: good.ok, onlyEngOk: onlyEng.ok, pulled: Object.keys(chEng.steps).sort() };
+  out.c.ok = e0.size === 0 && out.c.e1.join(',') === 'sa,sc,sf' && depOk && waveOk && bad.order.length >= 1 && good.ok && onlyEng.ok && out.c.pulled.join(',') === ENGINE_STAGE_KEY_345E;
+  // (d) 契約の入力の行: 宣言が在るときだけブラウザの段に json:<宣言>(engine-345b の書く正本は入力にしない)
+  const specsWith = chainInputSpecs(ch.steps, { root: tmp, steps: steps2 });
+  const has = (k) => (specsWith.get(k) || []).includes('json:' + ENGINE_DECL_FILE_345E);
+  const engOut = (k) => (specsWith.get(k) || []).some((s) => s.indexOf('tests/out/' + ENGINE_STAGE_KEY_345E) >= 0);
+  fs.renameSync(tmp + '/' + ENGINE_DECL_FILE_345E, tmp + '/' + ENGINE_DECL_FILE_345E + '.off');
+  const specsNo = chainInputSpecs(ch.steps, { root: tmp, steps: steps2 });
+  fs.renameSync(tmp + '/' + ENGINE_DECL_FILE_345E + '.off', tmp + '/' + ENGINE_DECL_FILE_345E);
+  out.d = { sa: has('sa'), sc: has('sc'), sb: has('sb'), saNoDecl: (specsNo.get('sa') || []).includes('json:' + ENGINE_DECL_FILE_345E), engOut: engOut('sa') || engOut('sc') };
+  out.d.ok = out.d.sa && out.d.sc && !out.d.sb && !out.d.saNoDecl && !out.d.engOut;
+  // (e) 台帳の刻み(済み印の run と入力の行の宣言の hash —— 今の宣言と同じ段だけ)
+  const log = tmp + '/log'; fs.mkdirSync(log + '/done', { recursive: true });
+  const d4 = engineDeclSha345e(tmp);
+  fs.writeFileSync(log + '/done/sa.done', 'run 3s 2026-11-21T00:00:00Z\ncontract x\nin json:' + ENGINE_DECL_FILE_345E + ' ' + d4 + '\n');
+  fs.writeFileSync(log + '/done/sc.done', 'reuse 2026-11-21T00:00:00Z\ncontract x\n');
+  fs.writeFileSync(log + '/done/sb.done', 'run 3s 2026-11-21T00:00:00Z\ncontract x\n');
+  const st = engineStampFromLog345e({ root: tmp, logDir: log, steps: steps2 });
+  const p5 = runPlan();
+  out.e = { stamped: st.stamped, skipped: st.skipped.map((z) => z.key + ':' + z.why), after: p5 };
+  out.e.ok = st.stamped.join(',') === 'sa' && p5.sa === 'reuse' && p5.sc === 'regen' && p5.sb === 'reuse';
+  // (f) 変異: 判定の正規表現が playwright-core を見ないと sc は落ちる(子の器は playwright-core だけ)
+  const mut = new RegExp('\\bimport\\(\\s*[\'"]' + PW + '[\'"]\\s*\\)');
+  const tx = stripComments(files['tests/exp-d.mjs']);
+  out.f = { realHit: PW_RE_345E.test(tx), mutantHit: mut.test(tx) };
+  out.f.ok = out.f.realHit === true && out.f.mutantHit === false;
+  out.ok = ['a', 'b', 'c', 'd', 'e', 'f'].every((k) => out[k].ok);
+  return out;
+}
+// ==== 第345便e の塊(ここまで)====

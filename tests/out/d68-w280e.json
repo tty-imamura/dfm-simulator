@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便e",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T22:38:50.491Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:19:35.837Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 600819,
     "sha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
-    "mtime": "2026-10-20T16:19:56.572Z"
+    "mtime": "2026-11-19T16:19:54.489Z"
    }
   ],
   "code": [
@@ -24,31 +24,31 @@
     "file": "tests/exp-w280e-d68.mjs",
     "bytes": 27355,
     "sha256": "6413f26d9b0225da5445e8f9e9a06d6251699e221c2a57ebca704badaa2bfa82",
-    "mtime": "2026-11-05T03:10:54.238Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w280e-d68.mjs",
     "bytes": 9382,
     "sha256": "2c75a061ee37098c416224f4d1984c5f94b3781d928c24351ea93e390bf67d49",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w269a-periwindow.mjs",
     "bytes": 6830,
     "sha256": "12fbfe9dd30e2b5459af8581fef6f1e5f1651c2e757d18f09525acbf9e93c201",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w268a-judgement.mjs",
     "bytes": 15169,
     "sha256": "4b22112d05f75509594d8d2428ec4363615e9cda98f26ee6a6aeccdc6100330a",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    }
   ],
   "codeSha256": "73a4e602de96e9b00e74848c26732ccff102ac46e47895095a0082f1fdb184d0",
@@ -523,15 +523,15 @@
      "dup": 0,
      "jump": 0,
      "windowComplete": true,
-     "slopeDegPerOrbit": 8.04214546195871,
+     "slopeDegPerOrbit": 8.042145461958707,
      "pPeriSec": 18224.862224407334,
-     "degPerYear": 13925.526926092378,
-     "degPerDay": 38.126014855831286,
-     "residualDegPerYear": -42.72882390762243,
-     "nSigma": -14.623143021089126,
+     "degPerYear": 13925.526926092374,
+     "degPerDay": 38.12601485583127,
+     "residualDegPerYear": -42.728823907626065,
+     "nSigma": -14.623143021090371,
      "rMinKm": 64244.29089832358,
      "rMaxKm": 71356.18240607622,
-     "wallSec": 5.936,
+     "wallSec": 7.953,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -570,7 +570,7 @@
      "nSigma": -14.60739816288838,
      "rMinKm": 64244.33311814927,
      "rMaxKm": 71356.11735021396,
-     "wallSec": 10.781,
+     "wallSec": 16.106,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -609,7 +609,7 @@
      "nSigma": -14.603406073544262,
      "rMinKm": 64244.342955197324,
      "rMaxKm": 71356.10110786054,
-     "wallSec": 20.902,
+     "wallSec": 30.668,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -628,7 +628,7 @@
      }
     }
    ],
-   "stageDiffH2DegPerYear": 0.04600647566257976,
+   "stageDiffH2DegPerYear": 0.04600647566621774,
    "stageDiffLastDegPerYear": 0.011664885063510155,
    "independentDegPerYear": 13925.468089316719,
    "engineMinusIndependentDegPerYear": 0.11650813638516411,
@@ -666,7 +666,7 @@
      "nSigma": -14.660309981999395,
      "rMinKm": 64245.5898296916,
      "rMaxKm": 71355.88097807571,
-     "wallSec": 0.594,
+     "wallSec": 0.886,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -697,15 +697,15 @@
      "dup": 0,
      "jump": 0,
      "windowComplete": true,
-     "slopeDegPerOrbit": 8.042144390007207,
+     "slopeDegPerOrbit": 8.04214439000721,
      "pPeriSec": 18224.942437078684,
-     "degPerYear": 13925.463780107946,
-     "degPerDay": 38.125841971548105,
-     "residualDegPerYear": -42.79196989205411,
-     "nSigma": -14.644753556486691,
+     "degPerYear": 13925.46378010795,
+     "degPerDay": 38.12584197154812,
+     "residualDegPerYear": -42.791969892050474,
+     "nSigma": -14.644753556485446,
      "rMinKm": 64245.634957282164,
      "rMaxKm": 71355.81568178436,
-     "wallSec": 1.241,
+     "wallSec": 2.351,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -744,7 +744,7 @@
      "nSigma": -14.640858105103078,
      "rMinKm": 64245.64623931174,
      "rMaxKm": 71355.79929904567,
-     "wallSec": 2.531,
+     "wallSec": 4.13,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -763,8 +763,8 @@
      }
     }
    ],
-   "stageDiffH2DegPerYear": 0.04545587534812512,
-   "stageDiffLastDegPerYear": 0.011382508942915592,
+   "stageDiffH2DegPerYear": 0.0454558753517631,
+   "stageDiffLastDegPerYear": 0.011382508939277614,
    "independentDegPerYear": 13925.468089316719,
    "engineMinusIndependentDegPerYear": 0.007073300170304719,
    "independentTrSec": 18224.94008959174
@@ -801,7 +801,7 @@
      "nSigma": -14.642098012795689,
      "rMinKm": 64245.41088610225,
      "rMaxKm": 71355.8398761393,
-     "wallSec": 8.029,
+     "wallSec": 12.47,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -840,7 +840,7 @@
      "nSigma": -14.626487249953428,
      "rMinKm": 64245.455155065574,
      "rMaxKm": 71355.77433837498,
-     "wallSec": 16.171,
+     "wallSec": 22.11,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -879,7 +879,7 @@
      "nSigma": -14.622564383727669,
      "rMinKm": 64245.46603643921,
      "rMaxKm": 71355.75783629665,
-     "wallSec": 32.079,
+     "wallSec": 49.292,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -937,7 +937,7 @@
      "nSigma": -14.441790381720919,
      "rMinKm": 64244.29090866494,
      "rMaxKm": 71356.05744827466,
-     "wallSec": 3.181,
+     "wallSec": 5.307,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -976,7 +976,7 @@
      "nSigma": -14.426069853660701,
      "rMinKm": 64244.333317528246,
      "rMaxKm": 71355.99261863824,
-     "wallSec": 6.823,
+     "wallSec": 10.964,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -1015,7 +1015,7 @@
      "nSigma": -14.42208997403395,
      "rMinKm": 64244.34323484534,
      "rMaxKm": 71355.97648194434,
-     "wallSec": 12.692,
+     "wallSec": 19.154,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -1073,7 +1073,7 @@
      "nSigma": -14.664128410754326,
      "rMinKm": 64245.58982966673,
      "rMaxKm": 71355.8772692336,
-     "wallSec": 0.744,
+     "wallSec": 0.826,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1112,7 +1112,7 @@
      "nSigma": -14.648597322361486,
      "rMinKm": 64245.63495727186,
      "rMaxKm": 71355.81218723244,
-     "wallSec": 1.202,
+     "wallSec": 2.202,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1151,7 +1151,7 @@
      "nSigma": -14.644714549423036,
      "rMinKm": 64245.64623931019,
      "rMaxKm": 71355.79591658739,
-     "wallSec": 2.25,
+     "wallSec": 3.448,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1209,7 +1209,7 @@
      "nSigma": -14.475053394592445,
      "rMinKm": 64245.589828563025,
      "rMaxKm": 71355.75955664186,
-     "wallSec": 0.602,
+     "wallSec": 1.09,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1248,7 +1248,7 @@
      "nSigma": -14.459496806368586,
      "rMinKm": 64245.634957000024,
      "rMaxKm": 71355.69424223664,
-     "wallSec": 1.202,
+     "wallSec": 1.998,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1287,7 +1287,7 @@
      "nSigma": -14.455601309980237,
      "rMinKm": 64245.6462392412,
      "rMaxKm": 71355.67787011479,
-     "wallSec": 2.222,
+     "wallSec": 3.354,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1346,7 +1346,7 @@
      "nSigma": -14.478871822354463,
      "rMinKm": 64245.58982853814,
      "rMaxKm": 71355.75584117052,
-     "wallSec": 0.517,
+     "wallSec": 0.757,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1385,7 +1385,7 @@
      "nSigma": -14.46334056978569,
      "rMinKm": 64245.63495699378,
      "rMaxKm": 71355.69075826331,
-     "wallSec": 1.139,
+     "wallSec": 1.547,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1424,7 +1424,7 @@
      "nSigma": -14.459457751812623,
      "rMinKm": 64245.64623923652,
      "rMaxKm": 71355.6744873952,
-     "wallSec": 2.271,
+     "wallSec": 3.373,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1495,15 +1495,15 @@
      "dup": 0,
      "jump": 0,
      "windowComplete": true,
-     "slopeDegPerOrbit": 8.036045947329676,
+     "slopeDegPerOrbit": 8.03604594732968,
      "pPeriSec": 18155.421536111586,
-     "degPerYear": 13968.1870279375,
-     "degPerDay": 38.24281184924709,
-     "residualDegPerYear": -0.06872206250045565,
-     "nSigma": -0.023518844113776746,
+     "degPerYear": 13968.187027937507,
+     "degPerDay": 38.24281184924711,
+     "residualDegPerYear": -0.06872206249317969,
+     "nSigma": -0.023518844111286682,
      "rMinKm": 67556.59349873391,
      "rMaxKm": 67697.43298895661,
-     "wallSec": 0.694,
+     "wallSec": 0.952,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1542,7 +1542,7 @@
      "nSigma": -0.00807373275573816,
      "rMinKm": 67558.66743840954,
      "rMaxKm": 67695.34190216543,
-     "wallSec": 1.32,
+     "wallSec": 1.922,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1581,7 +1581,7 @@
      "nSigma": -0.004206033382198007,
      "rMinKm": 67559.19591585748,
      "rMaxKm": 67694.80909127073,
-     "wallSec": 2.555,
+     "wallSec": 3.906,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1600,7 +1600,7 @@
      }
     }
    ],
-   "stageDiffH2DegPerYear": 0.045130615388188744,
+   "stageDiffH2DegPerYear": 0.045130615380912786,
    "stageDiffLastDegPerYear": 0.011301417569484329,
    "independentDegPerYear": 13968.23612382227,
    "engineMinusIndependentDegPerYear": 0.007336148188187508,
@@ -1652,15 +1652,15 @@
      "dup": 0,
      "jump": 0,
      "windowComplete": true,
-     "slopeDegPerOrbit": 8.036029018818965,
+     "slopeDegPerOrbit": 8.036029018818967,
      "pPeriSec": 18155.42125238806,
-     "degPerYear": 13968.157821230647,
-     "degPerDay": 38.24273188564174,
-     "residualDegPerYear": -0.09792876935352979,
-     "nSigma": -0.03351429478217994,
+     "degPerYear": 13968.157821230649,
+     "degPerDay": 38.242731885641746,
+     "residualDegPerYear": -0.0979287693517108,
+     "nSigma": -0.03351429478155742,
      "rMinKm": 67595.25016740138,
      "rMaxKm": 67658.776266477,
-     "wallSec": 0.586,
+     "wallSec": 1.062,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1699,7 +1699,7 @@
      "nSigma": -0.0180758335585135,
      "rMinKm": 67600.15246590009,
      "rMaxKm": 67653.85685490785,
-     "wallSec": 1.239,
+     "wallSec": 2.327,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1738,7 +1738,7 @@
      "nSigma": -0.014209379013670994,
      "rMinKm": 67601.5255144222,
      "rMaxKm": 67652.47948106476,
-     "wallSec": 2.702,
+     "wallSec": 4.378,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1757,7 +1757,7 @@
      }
     }
    ],
-   "stageDiffH2DegPerYear": 0.045111183695553336,
+   "stageDiffH2DegPerYear": 0.04511118369373435,
    "stageDiffLastDegPerYear": 0.011297780180029804,
    "independentDegPerYear": 13968.206887541448,
    "engineMinusIndependentDegPerYear": 0.007342653074374539,
@@ -1801,7 +1801,7 @@
      "nSigma": -1.4692707777702931,
      "rMinKm": 67556.59355196914,
      "rMaxKm": 67697.43293506512,
-     "wallSec": 0.588,
+     "wallSec": 1.227,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1840,7 +1840,7 @@
      "nSigma": -1.453825871641197,
      "rMinKm": 67558.6674521115,
      "rMaxKm": 67695.3418882333,
-     "wallSec": 1.152,
+     "wallSec": 1.854,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1879,7 +1879,7 @@
      "nSigma": -1.4499584292574927,
      "rMinKm": 67559.19591931248,
      "rMaxKm": 67694.80908783039,
-     "wallSec": 2.527,
+     "wallSec": 4.31,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1918,8 +1918,8 @@
  "reproduction": [
   {
    "tag": "h",
-   "w268a": 13925.526926092378,
-   "w280e": 13925.526926092378,
+   "w268a": 13925.526926092374,
+   "w280e": 13925.526926092374,
    "diff": 0
   },
   {
