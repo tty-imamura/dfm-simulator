@@ -1,0 +1,10 @@
+{
+  "version": "w346a-coresplit-1",
+  "what": "直し C1 の記録(第346便a・統括の検証項目 R397): S._core の ③ E6′ 反作用の対のループの本体を、同じ文字のまま reactionPass へ移した。下の hash は、直す前の html の S._core の中の塊(if(kFrame>0 && anyDp){ の波括弧の中)と、直した後の reactionPass の本体を、同じ正規化(注を除く → 空白を 1 つに畳む → 前後を落とす)で数えた値(tests/lib-w346a-coresplit.mjs)。",
+  "baseHtml": { "path": "beta/_w346_base.html", "from": "第345便の最後の先頭 22cdd6f6 の beta/index.html", "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6" },
+  "bodyChars": 2062,
+  "bodySha256": "efdb3070159bfd54ae59a988d080e98de02fa6fb6660128bee13b565b73c5866",
+  "args": ["S", "n", "m", "x", "y", "vx", "vy", "spin", "pinned", "dpx", "dpy", "pairD", "sumW", "Imom", "accVx", "accVy", "accS", "bgW", "eps2", "hkOn", "cplSink"],
+  "coreChars": { "before": 35197, "after": 33237, "countedBy": "tests/lib-core-budget.mjs の数え方" },
+  "note": "字数と hash は戻り止め —— 最適化が通るかの門ではない(図の上限は測っていない)"
+}

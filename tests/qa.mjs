@@ -294,12 +294,16 @@ lastAddAt = Date.now();
 // ----   数え方: `S._core = function(dt, mode){` から対応する `}` まで → 行/ブロックコメント除去
 // ----   (文字列リテラルの中は除去しない)→ `\s+` を半角空白 1 つへ畳む → String.length。
 // ----   root(旧世代 index.html)にも `S._core` はあるので**両対象で走る**(SKIP は不在のときだけ)。
+// ----   **第346便a の訂正**(統括の検証項目 R397 —— 上の文は当時のまま): 予算は 36000 → **33500 字**(lib の訂正の段)。
+// ----   35197 字は新しい版のブラウザ(V8 15.7)の A/B で「Function is too big to be optimized」で止まっていた —— 36000 は図の上限を表していなかった。
+// ----   この予算は**戻り止めとして使う —— 図の上限の門ではない**(止まる本の数は behavior.opttour346a が手元の 157 で見る)。
 {
   // 部分実行器(tests/exp-w258c-qapart.mjs)は一時ディレクトリで走るので、**絶対 URL** で読む
-  const { assessCoreBudget, extractCoreSource, hasRegexLiteralRisk, CORE_BUDGET_CHARS, CORE_REFERENCE }
+  const { assessCoreBudget, extractCoreSource, hasRegexLiteralRisk, CORE_BUDGET_CHARS, CORE_BUDGET_ROOT_CHARS_346A, CORE_REFERENCE }
     = await import('file://' + path.join(ROOT, 'tests', 'lib-core-budget.mjs'));
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const a = assessCoreBudget(html, CORE_BUDGET_CHARS);
+  // 第346便a: beta は 33500 字(戻り止め)・root(直し C1 を持たない公開版 —— 次の昇格まで)は当時の 36000 字
+  const a = assessCoreBudget(html, TARGET.startsWith('beta/') ? CORE_BUDGET_CHARS : (CORE_BUDGET_ROOT_CHARS_346A || CORE_BUDGET_CHARS));
   if (a.chars === null) {
     console.log('SKIP lint.coreBudget(対象に S._core が見つからない: ' + a.reason + ')');
   } else {
@@ -114731,6 +114735,117 @@ function view343aOf344a(eq) {
 }
 // ==== 第345便e の塊(ここまで)====
 
+// ==== 第346便a の塊(ここから —— lint.coreSplit346a・behavior.opttour346a・docs.coreSplit346a の 3 ブロック。root は SKIP)====
+// ---- 第346便a(原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」・統括の検証項目 R397 —— 中心の関数の直し C1 の文書と検査):
+// ----   lint.coreSplit346a: ① html に function reactionPass( が 1 つ ② S._core の本文(注を除く)が reactionPass( を 1 回だけ呼び、③ の塊が中に無い
+// ----     ③ reactionPass の本体の正規化した文字の sha256・字数・引数の並びが宣言 tests/data-w346a-coresplit.json と同じ(= 直す前の html の塊と同じ —— 逐語の移し替えの記録)
+// ----     ④ 直す前の html(beta/_w346_base.html —— 在るときだけ)の塊からも同じ hash ⑤ 変異 6 種で落ちる
+// ----   behavior.opttour346a: ① lib の純関数の場面 6 ② 正本 tests/out/opttour-346a.json の形(版・7 本 × 2 つの使い方・ブラウザの版・V8・指紋・今の html で測った)
+// ----     ③ 正本の走りから要約と門を lib で引き直して同じ ④ 門: 記録の V8 が 15.7 のとき A/B で S._core が止まる本 0(別の版なら「版が違う —— 比べない」と印字して通す)
+// ----   docs.coreSplit346a: PHYSICS〔第346便a〕(位置・必須の語・止まる本の表が正本から逐語)・訂正の文(〔第259便d〕〔第258便e〕〔第345便d〕)・AI_SPEC §289・post-merge・.gitignore・書かない語と禁句
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP lint.coreSplit346a(root 対象 —— root の html は直し C1 を持たない〔次の昇格まで〕)');
+  else {
+    try {
+      const CS = await import('file://' + path.join(ROOT, 'tests', 'lib-w346a-coresplit.mjs'));
+      const D = JSON.parse(fs.readFileSync(path.join(ROOT, CS.CORESPLIT_DECL_FILE_346A), 'utf8'));
+      const H = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const bp = path.join(ROOT, D.baseHtml.path);
+      let B = null;
+      try { const bt = fs.readFileSync(bp); if (crypto.createHash('sha256').update(bt).digest('hex') === D.baseHtml.sha256) B = bt.toString('utf8'); } catch (e) { B = null; }
+      if (!(CS.CORESPLIT_LIB_VERSION_346A === 'w346a-coresplit-lib-1' && D.version === 'w346a-coresplit-1' && /^[0-9a-f]{64}$/.test(D.bodySha256) && D.args.length === 21)) bad.push('⓪ 宣言の版・形');
+      const r = CS.assessCoreSplit(H, D, B);
+      for (const x of r.bad) bad.push(x);
+      cases.push(`①② reactionPass 1 つ・S._core の呼び出し ${r.calls} 回 / ③ 本体 ${r.body ? r.body.chars : '—'} 字・sha256 ${r.body ? r.body.sha256.slice(0, 12) : '—'}(宣言 ${D.version}・引数 ${D.args.length})`
+        + ` / ④ 直す前の html: ${B === null ? '手元に無い(宣言の hash だけで見る)' : '塊の hash が宣言と同じ ' + (r.base && r.base.sha256 === D.bodySha256)}`);
+      const p = CS.probeCoreSplit(H, D);
+      if (!p.ok) bad.push('⑤ 変異で落ちない: ' + p.res.filter((x) => !x.ok).map((x) => x.nm).join(','));
+      cases.push(`⑤ 変異 ${p.res.filter((x) => x.ok).length}/${p.res.length}`);
+    } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
+    add('lint.coreSplit346a', bad.length === 0,
+      `**中心の関数の直し C1 の戻り止め**(第346便a・第145報の回答 2・R397 —— ③ の本体を reactionPass へ逐語で移した記録): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const bad = [], cases = [];
+  const wOut = path.join(ROOT, 'tests', 'out', 'opttour-346a.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wOut))) console.log('SKIP behavior.opttour346a(root 対象か正本が無い —— ' + TARGET + ')');
+  else {
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w346a-opttour.mjs'));
+      const X = await import('file://' + path.join(ROOT, 'tests', 'exp-w346a-opttour.mjs'));
+      const J = JSON.parse(fs.readFileSync(wOut, 'utf8')), js = (x) => JSON.stringify(x);
+      const PG = L.pureGates346a(L.pureScenes346a());
+      for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+      if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+      cases.push(`① lib ${L.OPTTOUR_LIB_VERSION_346A}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(出力の行の読み・要約・157 の門・別の版・two は門にしない・走りの誤り)`);
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.OPTTOUR_LIB_VERSION_346A && js(J.decl) === js(L.DECL_346A) && J.all === false && J.target === 'beta/index.html')) bad.push('② 版(器・lib)か宣言が正本と違う・全本の走り');
+      if (!(J.meta && J.meta.targetSha256 === sha)) bad.push('② 正本が今の html で測ったものでない(鎖で作り直す)');
+      const want = L.DECL_346A.presets.flatMap((p) => L.DECL_346A.modes.map((m) => p + '/' + m));
+      if (js((J.runs || []).map((r) => r.preset + '/' + r.mode)) !== js(want)) bad.push('② 走りの並び(7 本 × 2)が宣言と違う');
+      if (!(J.engine && typeof J.engine.chromium === 'string' && typeof J.engine.v8 === 'string' && /^[0-9a-f]{16}$/.test(J.engine.mathFingerprint || '') && typeof J.engine.sameAsDeclared === 'boolean')) bad.push('② ブラウザの版・V8・指紋');
+      if (!(J.runs || []).every((r) => r.error || (Number.isFinite(r.coreStatus) && r.traceSeen === true && r.steps === L.DECL_346A.steps))) bad.push('② 走りに状態の数か出力の行が無いか、步の数が宣言(300)に届いていない');
+      cases.push(`② 正本: ${J.engine && J.engine.chromium}(V8 ${J.engine && J.engine.v8}・指紋 ${J.engine && String(J.engine.mathFingerprint).slice(0, 12)})・走り ${(J.runs || []).length}・今の html で測った`);
+      const S2 = L.summarize346a(J.runs), G2 = L.gate346a(S2, J.engine);
+      if (js(S2) !== js(J.summary) || js(G2) !== js(J.gate) || J.ok !== G2.pass) bad.push('③ 要約か門を lib で引き直すと正本と違う');
+      cases.push(`③ 引き直して同じ(A/B: S._core が止まる本 ${S2.ab.coreStoppedN} / 2 つの sim が両方進む形: ${S2.two.coreStoppedN} —— 記録だけ)`);
+      if (!G2.pass) bad.push('④ 門: ' + G2.note);
+      cases.push('④ 門: ' + G2.note);
+    } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
+    add('behavior.opttour346a', bad.length === 0,
+      `**最適化が止まる本の記録**(第346便a・第145報の回答 2・R397 —— 段 opttour-346a・手元の 157 の門): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP docs.coreSplit346a(root 対象 — 文書は beta 対象の走行で 1 回見る)');
+  else {
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), GI = rd('.gitignore');
+    const i0 = PH.indexOf('〔第346便a — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第345便e — '), ib = PH.indexOf('〔第346便b — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && (ib < 0 || ib > i0) && iu > i0)) bad.push('PHYSICS〔第346便a〕が無いか〔第345便e〕の前か〔第346便b〕・〔第328便 — 統括〕の後ろ');
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報の回答 2)', 'AN931: Bで進める', 'R397', 'chromium 157', 'V8 15.7', '153', 'Function is too big to be optimized', 'disabled optimization',
+      'makeSim()', '14 本', '普通の走り', 'reactionPass', '97 行', '35197', '33237', '33500', '戻り止め', '図の上限の門ではない', '測っていない', '読み', '--turbolev',
+      '効く範囲', '効かない使い方', '2 つの sim が同じ設定で両方進む形', 'A/B 比較', '2 倍弱', 'tests/lib-w346a-coresplit.mjs', 'tests/data-w346a-coresplit.json',
+      'tests/exp-w346a-opttour.mjs', 'tests/lib-w346a-opttour.mjs', 'tests/out/opttour-346a.json', 'opttour-346a', 'DEBUG=pw:browser', '版が違う —— 比べない',
+      'lint.coreSplit346a', 'behavior.opttour346a', 'docs.coreSplit346a', 'lint.coreBudget', 'OPT_BITS', 'CHARON_KF0_MAX_ULP_345', 'AN942', '言わないこと', '決断事項の候補', '次の便へ'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第346便a〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第346便a〕に \\| ');
+    // 止まる本の表は本枝の走りの記録(門の外の関数は回によって出たり出なかったりする —— 逐語の照合はしない)。門の語と、正本の門が通っていることだけを見る
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w346a-opttour.mjs'));
+      const J = JSON.parse(rd('tests/out/opttour-346a.json'));
+      if (!(sec.indexOf('A/B で `S._core` が止まる本 = 0') >= 0 && sec.indexOf(L.DECL_346A.modeNames.ab) >= 0 && J.gate && J.gate.pass === true)) bad.push('① PHYSICS〔第346便a〕の門の文か正本の門');
+    } catch (e) { bad.push('① 正本か lib が読めない: ' + String(e && e.message || e).slice(0, 100)); }
+    cases.push('① 節の位置・必須の語 ' + want.length + '・門の文と正本の門');
+    // 訂正の文(当時の文は消さない —— 並べる)
+    const s259 = secUntilNext329c(PH, PH.indexOf('〔第259便d — '), /\n〔第\d+便[a-z]* — |\n## /), s258 = secUntilNext329c(PH, PH.indexOf('〔第258便e — '), /\n〔第\d+便[a-z]* — |\n## /), s345d = secUntilNext329c(PH, PH.indexOf('〔第345便d — '), /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(s259.indexOf('36000 字') >= 0 && s259.indexOf('訂正(第346便a') >= 0 && s259.indexOf('33500') >= 0 && s259.indexOf('戻り止めとして使う —— 図の上限の門ではない') >= 0 && s259.indexOf('35197 字は 157 の A/B で止まっていた') >= 0)) bad.push('② 〔第259便d〕の訂正の文(当時の 36000 字の文も残す)');
+    if (!(s258.indexOf('訂正(第346便a') >= 0 && s258.indexOf('戻り止めとして使う —— 図の上限の門ではない') >= 0)) bad.push('② 〔第258便e〕の訂正の文');
+    if (!(s345d.indexOf('訂正(第346便a') >= 0 && s345d.indexOf('41(deopt したかも・Maglev)') >= 0 && s345d.indexOf('41(関数・最適化済み・TurboFan)') >= 0 && s345d.indexOf('TurboFan のまま') >= 0 && s345d.indexOf('Sparkplug(基準の層)で走っている') >= 0)) bad.push('② 〔第345便d〕の訂正の文(当時の表と新しい表の両方)');
+    cases.push('② 訂正の文(〔第259便d〕〔第258便e〕〔第345便d〕 —— 当時の文も残る)');
+    const a0 = AS.indexOf('\n## 289. 第346便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '', a288 = AS.indexOf('\n## 288. '), a290 = AS.indexOf('\n## 290. ');
+    if (!(a0 > a288 && (a290 < 0 || a0 < a290) && ai.indexOf('reactionPass') >= 0 && ai.indexOf('R397') >= 0 && ai.indexOf('第145報の回答 2') >= 0 && ai.indexOf('33500') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('③ AI_SPEC §289(位置・reactionPass・R397・回答 2・予算・SYSTEM_PROMPT)');
+    if (!(PM.indexOf('# ==== 第346便a の塊(ここから)====') >= 0 && /lint\.coreSplit346a behavior\.opttour346a docs\.coreSplit346a/.test(PM))) bad.push('③ post-merge に第346便a の塊');
+    if (GI.indexOf('!tests/out/opttour-346a.json') < 0) bad.push('③ .gitignore の例外');
+    cases.push('③ AI_SPEC §289・post-merge・.gitignore');
+    const strip = (t) => t.replace(/「[^」]*」/g, '').replace(/[^。]*と(は)?書かない[^。]*。/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /確かめた/, /示した/, /解決した/, /速くなった/, /法則を確かめた/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]), cpC([0x30a8, 0x30f3, 0x30b8, 0x30f3])]
+      .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない —— 実行系は「実行系」と書く)
+    for (const [nm, tx] of [['PHYSICS〔第346便a〕', sec], ['AI_SPEC §289', ai]]) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ 書かない語・禁句(「言わないこと」の文の外)');
+    add('docs.coreSplit346a', bad.length === 0, `**中心の関数の直し C1 の文書**(第346便a・R397): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第346便a の塊(ここまで)====
 // ==== 第346便b の塊(ここから —— lint.diskDragName346b・docs.diskDragName346b の 2 ブロック。root は SKIP)====
 // ---- 第346便b(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「「回転引きずり」の呼び名を「円盤引きずり」に変える」・統括の検証項目 R398 —— 呼び名だけ):
 // ----   lint.diskDragName346b: ① lib tests/lib-w346b-diskname.mjs の宣言(対象のファイル・範囲・語の対・除く範囲)の範囲の中に旧称(日本語・英語)が 0 件
