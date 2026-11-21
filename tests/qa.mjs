@@ -10924,8 +10924,19 @@ if (!TARGET.startsWith('beta/')) {
       const has291bM = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
       const FORMAL_KF0 = has291bM ? 0.000026767879778500166 : 0.000026767880691402648;
       if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === FORMAL_KF0 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
-      if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.00002252587001128979 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
-      cases.push(`正式値 ${has291bM ? '2.6767880' : '2.6767881'}×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点)`);
+      // 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): 🪨 kF1 は退役の記録(第287便に固定 —— 実行系の記録が無い)。器と同じ門(tests/lib-w345c-crossengine.mjs の
+      //   fixedRecordGate)で見る —— 記録とビットで同じか、実行系が違う(記録に実行系が無い)なら ±KF1_MAX_ULP_345C ulp まで(比べる列 ulp・signedUlp)+ 同じ実行系の 2 回はビットで同じ。
+      //   器が第345便c の前の世代(repro.engineNow が無い)なら今までどおりビット一致を要求する
+      let kf1Txt = '2.2525870×10⁻⁵ をビット再現';
+      if (R.engineNow && R.kF1) {
+        const C345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs'));
+        const g = C345.fixedRecordGate(R.kF1.here, 0.00002252587001128979, { nowFp: R.engineNow.fingerprint, recFp: null, maxUlp: C345.KF1_MAX_ULP_345C });
+        if (!(g.ok && R.kF1.formal === 0.00002252587001128979 && R.kF1.nPeri === 59 && R.kF1.repeatSame === true && R.kF1.gateOk === true
+          && R.kF1.ulp === g.ulp && R.kF1.signedUlp === g.signedUlp && R.kF1.bitIdentical === g.bitIdentical && R.kF1.engineOfRecord === null))
+          bad.push('②🪨 の退役の記録の門(器と同じ形)が通らない: ' + g.why + ' / ' + JSON.stringify({ ulp: R.kF1.ulp, repeatSame: R.kF1.repeatSame, gateOk: R.kF1.gateOk }));
+        kf1Txt = '2.2525870×10⁻⁵ と ' + (g.bitIdentical ? 'ビットで同じ' : g.signedUlp + ' ulp(記録に実行系が無い —— 上限 ±' + g.maxUlp + '・比べる列)') + '・同じ実行系の 2 回はビットで同じ(実行系 ' + R.engineNow.fingerprint + ')';
+      } else if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.00002252587001128979 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
+      cases.push(`正式値 ${has291bM ? '2.6767880' : '2.6767881'}×10⁻⁵(較正行 ε=0.01)をビット再現/${kf1Txt}(59 近点)`);
       const G = J.grid || [];
       if (G.length !== 24) bad.push('③格子が 24 行でない: ' + G.length);
       if (G.some((g) => g.nPeriA !== 59 || g.nan)) bad.push('③近点 59 本でない/NaN の行がある');
@@ -11106,8 +11117,13 @@ if (!TARGET.startsWith('beta/')) {
         && T.g.spinZeroGradU.every((z) => Math.abs(z) <= 1e-18))) bad.push('⑦ 微分/合成の受け渡しが崩れた: ' + JSON.stringify(T.g).slice(0, 160));
       cases.push(`(f) 中心で A_spin=0・ε_c=0 の内部/表面/中心は拒否 / (g) 微分の中心差分 ${sci(Math.max(T.g.gradWMax, T.g.gradAMax, T.g.dWdtMax, T.g.dAdtMax), 1)}`);
       const pv = J.pageVsNode;
-      if (!(pv.bitIdentical >= 42 && pv.maxRelDiff <= 1e-15 && pv.mismatch.every((z) => z.decl.densityClass === 'gas' || z.decl.densityClass === 'star')))
-        bad.push('⑧ ページと node の一致が崩れた: ' + JSON.stringify(pv).slice(0, 160));
+      // 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): **実行系に依らない形** —— 器が記録したページと node の指紋(pv.engine)が同じならビットで同じ(n 件全部)・
+      //   違う(か第345便c の前の世代で記録が無い)なら、食い違いは葉の数が同じ(sameLength)で最大相対差が求積の許容 128ε(KERNEL_REL_TOL_345C)以内。
+      //   旧条件(42 件以上ビット一致・相対 1e−15・食い違いは gas/star だけ)は第280便b の実行系の読み(Math.pow だけが違う)—— 157 では solid・compact の G も atanh・log の最下位ビットで違う
+      const C345s = await import('file://' + path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs'));
+      const pvSame = !!(pv.engine && pv.engine.same === true);
+      if (!(pv.n === 47 && (pvSame ? pv.bitIdentical === pv.n : (pv.mismatch.every((z) => z.sameLength === true) && pv.maxRelDiff <= C345s.KERNEL_REL_TOL_345C))))
+        bad.push('⑧ ページと node の一致が崩れた(' + (pvSame ? '同じ実行系 —— ビットで同じを要求' : '実行系が違う —— 相対 128ε') + '): ' + JSON.stringify(pv).slice(0, 160));
       const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-sphereKernel.mjs'));
       const Pn = L.makePure(htmlT);
       const C2 = L.nearSurface(Pn), E2 = L.earthCompare(Pn);
@@ -11119,7 +11135,7 @@ if (!TARGET.startsWith('beta/')) {
         return a === b; };
       const RE_TOL = 1e-12;
       if (!(nearEq(C2, J.c, RE_TOL) && nearEq(E2, T.e, RE_TOL))) bad.push('⑧ いまの html で (c)(e) を引き直すと正本と違う(相対 1e-12)');
-      cases.push(`ページ vs node ${pv.bitIdentical}/${pv.n} ビット一致(残りは Math.pow の最下位ビット・最大 ${sci(pv.maxRelDiff, 1)})・(c)(e) の引き直しは正本と相対 1e-12 で同じ`);
+      cases.push(`ページ vs node ${pv.bitIdentical}/${pv.n} ビット一致(${pvSame ? '同じ実行系' : (pv.engine ? '実行系が違う —— ページ ' + pv.engine.page + '・node ' + pv.engine.node : '記録に実行系が無い')}・残りの最大 ${sci(pv.maxRelDiff, 1)}〔許容 128ε〕)・(c)(e) の引き直しは正本と相対 1e-12 で同じ`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const at = P.indexOf('〔第280便b — ');
       const whole = at >= 0 ? secUntilNext329c(P, at, /\n〔第\d+便[a-z]* — |\n## /) : '';
@@ -49783,6 +49799,7 @@ if (!FAST) {
 // ----     ⑥ 🌓 の月の vy は「🌘 の座標速度 ẋ − u(0)」とビット一致(初速の意味の宣言どおり)
 // ----     ⑦ 純関数(html のソースから取り出して node で評価)とページの HP.* の一致: Math.pow を使わない密度(solid/compact)は
 // ----        ビット一致・gas/star は相対 1e−15 以内(V8 の版ごとの Math.pow の最下位ビット)
+// ----        〔第345便c(R394)で改めた: 2 回ずつビットで同じ + 指紋が同じならビットで同じ・違えば求積の値の欄だけ相対 128ε —— 構造・符号・零は厳密〕
 // ----     ⑧ ε_c=0 の内部・表面は拒否(null)・中心で A_spin=0
 // ----   **root は SKIP**(世代判定は HP.validateQLockKernel の有無)。
 {
@@ -49900,6 +49917,8 @@ if (!FAST) {
       const P7 = [['solid', { densityClass: 'solid', densityProfile: { coreFrac: 0.546, coreRatio: 2.44 } }], ['compact', { densityClass: 'compact' }],
         ['gas', { densityClass: 'gas', densityProfile: { beta: 3 } }], ['star', { densityClass: 'star', densityProfile: { polyN: 3 } }]];
       res.p7 = P7.map(([k, d]) => [k, JSON.stringify([1.05, 3.7, 57].map((rr) => HP.dfmSphereKernelRadial(HP.dfmSphereProfile(d, 16), rr, 0)))]);
+      // 第345便c(R394): 同じページで 2 回目(同じ実行系の中はビットで同じを要求)
+      res.p7b = P7.map(([k, d]) => [k, JSON.stringify([1.05, 3.7, 57].map((rr) => HP.dfmSphereKernelRadial(HP.dfmSphereProfile(d, 16), rr, 0)))]);
       if (prevId) { try { HP.loadPreset(prevId, false); } catch (e) { /* 表示の戻しだけ */ } }
       return res;
     }, { QK, SB });
@@ -49931,16 +49950,22 @@ if (!FAST) {
       const P7 = [['solid', { densityClass: 'solid', densityProfile: { coreFrac: 0.546, coreRatio: 2.44 } }], ['compact', { densityClass: 'compact' }],
         ['gas', { densityClass: 'gas', densityProfile: { beta: 3 } }], ['star', { densityClass: 'star', densityProfile: { polyN: 3 } }]];
       const nodeP7 = P7.map(([k, d]) => [k, JSON.stringify([1.05, 3.7, 57].map((rr) => P.dfmSphereKernelRadial(P.dfmSphereProfile(d, 16), rr, 0)))]);
-      const nums = (t) => { const o = []; JSON.parse(t, (k, v) => { if (typeof v === 'number') o.push(v); return v; }); return o; };
-      let maxRel = 0;
-      for (let i = 0; i < P7.length; i++) {
-        const same = nodeP7[i][1] === r.p7[i][1];
-        if ((P7[i][0] === 'solid' || P7[i][0] === 'compact') && !same) bad.push(`⑦ ${P7[i][0]} がページと node でビット一致しない`);
-        const a = nums(nodeP7[i][1]), b = nums(r.p7[i][1]);
-        for (let k = 0; k < a.length; k++) { const s0 = Math.max(Math.abs(a[k]), Math.abs(b[k])); if (s0 > 0) maxRel = Math.max(maxRel, Math.abs(a[k] - b[k]) / s0); }
-      }
-      if (!(maxRel <= 1e-15)) bad.push('⑦ ページと node の相対差が 1e−15 を超えた: ' + maxRel);
-      cases.push(`純関数(html のソース)とページ: solid/compact はビット一致・gas/star の最大相対差 ${maxRel.toExponential(1)}`);
+      // 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): **実行系に依らない形**(tests/lib-w345c-crossengine.mjs)——
+      //   (i) ページで 2 回・node で 2 回 → それぞれビットで同じ(同じ実行系の中)
+      //   (ii) ページと node が同じ数値の実行系か(数学関数の指紋 —— tests/lib-w345-engine.mjs)。同じならビットで同じ・違えば**求積の値の欄だけ**相対 128ε(KERNEL_REL_TOL_345C)
+      //   (iii) 構造の欄(ok・nNodes・nPanels)・キーの集合・符号・零は厳密。旧条件(solid/compact はビット一致・gas/star は相対 1e−15)は第280便b の実行系の読み(Math.pow だけが違う)だった
+      const nodeP7b = P7.map(([k, d]) => [k, JSON.stringify([1.05, 3.7, 57].map((rr) => P.dfmSphereKernelRadial(P.dfmSphereProfile(d, 16), rr, 0)))]);
+      if (JSON.stringify(nodeP7) !== JSON.stringify(nodeP7b)) bad.push('⑦ node で 2 回測った値がビットで同じでない(同じ実行系)');
+      if (JSON.stringify(r.p7) !== JSON.stringify(r.p7b)) bad.push('⑦ ページで 2 回測った値がビットで同じでない(同じ実行系)');
+      const E345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs'));
+      const C345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs'));
+      const fpPage = E345.mathFingerprint(E345.checkProbe(await page.evaluate(E345.probeExpression()))), fpNode = E345.mathFingerprint(E345.runProbe());
+      const sameEng = fpPage === fpNode;
+      const cmp = C345.compareKernelOutputs(nodeP7.map((z) => JSON.parse(z[1])).flat(), r.p7.map((z) => JSON.parse(z[1])).flat(), { sameEngine: sameEng });
+      for (const b of cmp.bad.slice(0, 4)) bad.push('⑦ ' + b);
+      if (cmp.nLeaves !== P7.length * 3 * 7) bad.push('⑦ 比べた欄の数 ' + cmp.nLeaves + '(期待 ' + (P7.length * 3 * 7) + ')');
+      cases.push(`純関数(html のソース)とページ: 2 回ずつビットで同じ・ページ(指紋 ${fpPage})と node(${process.version}・指紋 ${fpNode})は${sameEng ? '同じ実行系 —— ビットで同じ' : '実行系が違う —— 求積の値の欄だけ相対 ' + (cmp.relTol / Number.EPSILON).toFixed(0) + 'ε'}`
+        + `・${cmp.nLeaves} 欄のうちビットの違い ${cmp.nDiffBits}・最大相対差 ${cmp.maxRel.toExponential(2)}(${(cmp.maxRel / Number.EPSILON).toFixed(1)}ε・${cmp.maxUlp} ulp)・構造の欄と符号と零は厳密`);
     } catch (e) { bad.push('⑦ 純関数の取り出しが走らない: ' + String(e).slice(0, 90)); }
     if (!(r.reject.every((z) => z === false) && r.center === 0)) bad.push('⑧ ε_c=0 の内部/表面が受理された・中心で A_spin≠0: ' + JSON.stringify([r.reject, r.center]));
     cases.push('ε_c=0 の内部・表面は拒否・中心で A_spin=0');
@@ -74150,6 +74175,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----      在位の本の正本の行はすべて対象の表に載る(退役の本は 0)
 // ----   ① 編集なしの本で 精密実測 = 判定器の正本の値(同じ刻み・窓 —— 相対 1e-12): 🌙 恒星月・🌙 離心率・✨ 公転周期(h4)・📻 公転周期(近点間)・🔆 近点回転の周期・
 // ----      📻 近点前進(deg/yr)/ フィット器の値: 🟫 gain 0 の対照との近点率の差・🟪 8 公転の平均周期(fitRecord.residual.model と相対 1e-12)・🟫 の h/2 の差 = fitRecord.numerics.h2
+// ----      〔第345便c(R394): h/2 の差は記録の実行系で分ける —— 同じならビットで同じ・違う/記録に実行系が無いなら相対 1e−6。h/2 の走りの中の h はビットで同じ〕
 // ----   ② G を +1% 編集すると 🌙 の恒星月が理論(ケプラー周期の比 —— 同じ位置・速度で G だけ変えた接触要素)どおり動く(比の差 ≤ 1e-6)・前の実測に「条件が変わった」の印・
 // ----      読み込み直しで編集を捨てると、編集した条件で測った値にも印
 // ----   ③ 本走行の sim のビット一致(測定の前後で x・y・vx・vy・spin・R・m・t と帳簿・params)・測った後の 1 步が測らない 1 步と同じ
@@ -74290,7 +74316,25 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       }
       info.half = R1.half;
       { const sr = refit303lm('mercurySunInertialFit') ? null : semicRow302('mercurySunInertialFit'), h2w = (sr && typeof sr.semicNumErr === 'number') ? sr.semicNumErr : R1.half.h2, h2s = (sr && typeof sr.semicNumErr === 'number') ? '正本 semic-w302d の semicNumErr' : 'fitRecord.numerics.h2';   // 第302便d: semic の世代は正本の h/2 の差(第303便a の再フィットの本は記録の h2)
-        if (!(R1.half.status === 'done' && R1.half.numErr !== null && h2w !== null && Math.abs(R1.half.numErr - h2w) <= 1e-9 * Math.abs(h2w))) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ ${h2s} ${h2w}`); }
+        // 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): **記録を測った実行系で分ける**(tests/lib-w345c-crossengine.mjs の recordGate)——
+        //   今のページの指紋が記録の実行系(semic-w302d は段の刻印の台帳と箱の記録 engine-345b から・fitRecord は html の記録 = 実行系が無い)と同じなら
+        //   ビットで同じ・違う(か記録に実行系が無い)ときは相対 1e−6(H2_REL_TOL_345C —— 刻みの差そのもの 2e−4 の 100 万分の 1)。旧条件は相対 1e−9(第297便d)。
+        //   同じ実行系の中: h/2 の走りの中の h の値は、① の h の走り(同じページ)とビットで同じ
+        if (!(R1.half.status === 'done' && R1.half.numErr !== null && h2w !== null)) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ ${h2s} ${h2w}`);
+        else {
+          const E345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs'));
+          const C345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs'));
+          const RT345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+          const nowFp = E345.mathFingerprint(E345.checkProbe(await lp.evaluate(E345.probeExpression())));
+          let decl = null, box = null; try { decl = E345.loadDeclaration(ROOT); } catch (e) { decl = null; }
+          try { box = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'engine-345b.json'), 'utf8')); } catch (e) { box = null; }
+          const re = C345.recordEngineOf({ stageKey: (sr && typeof sr.semicNumErr === 'number') ? 'semic-302d' : null, ledger: RT345.readEngineStamp345e(ROOT), declSha: RT345.engineDeclSha345e(ROOT), decl, box });
+          const g = C345.recordGate(R1.half.numErr, h2w, { nowFp, recFp: re.fingerprint, relTol: C345.H2_REL_TOL_345C });
+          info.h2gate = `${g.mark}・相対 ${g.rel === null ? '—' : g.rel.toExponential(2)}${g.mode === 'tol' ? '(許容 ' + C345.H2_REL_TOL_345C + ')' : ''}・今の指紋 ${nowFp}・記録 ${re.fingerprint || 'なし'}(${re.why})`;
+          if (!g.ok) bad.push(`①🟫 h/2 の差 ${R1.half.numErr} ≠ ${h2s} ${h2w}(${info.h2gate})`);
+          const hMain = R1.out.find((z) => z.id === 'mercurySunInertialFit');
+          if (!(hMain && Object.is(R1.half.v, hMain.v))) bad.push(`①🟫 h/2 の走りの中の h の値 ${R1.half.v} が ① の h の走り ${hMain ? hMain.v : '—'} とビットで同じでない(同じ実行系)`);
+        } }
       if (!R1.tickSame) bad.push('③測った後の本走行の 1 步が、測らない 1 步と違う');
       // ② G +1% の編集
       const R2 = await lp.evaluate(() => {
@@ -74383,7 +74427,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
     add('ui.liveMeasure297', bad.length === 0,
       `**アプリ内実測(精密)**(第297便d・原仮定者の裁定(第87報)・R164 —— 表示専用・本走行の sim は書かない): ⓪ 対象 ${info.tab ? `${info.tab.books} 本・${info.tab.items} 量(測れる ${info.tab.sup}・正本の行 ${info.tab.rows}・周期の定義を正本と照合 ${info.tab.periodChecked} 行・推定器 ${JSON.stringify(info.tab.est)}・未対応 ${JSON.stringify(info.tab.why)})` : '—'}`
-      + ` / ① ${(info.r1 || []).join(' | ')} / 🟫 h/2: ${info.half ? `${info.half.vH2}・|h−h/2| ${info.half.numErr}(記録 ${info.half.h2})` : '—'}`
+      + ` / ① ${(info.r1 || []).join(' | ')} / 🟫 h/2: ${info.half ? `${info.half.vH2}・|h−h/2| ${info.half.numErr}(記録 ${info.half.h2}${info.h2gate ? ' —— ' + info.h2gate : ''})` : '—'}`
       + ` / ② G ${info.g ? `${info.g.G0}→${info.g.G1}: 恒星月の比 ${info.g.ratioM}・ケプラー比 ${info.g.ratioK}(差 ${info.g.d.toExponential(2)})` : '—'}`
       + ` / ③ 本走行のビット一致・測った後の 1 步も同じ / ④ 取り消し ${info.cancel ? `k ${info.cancel.k1}→${info.cancel.k2}=${info.cancel.k3}・${info.cancel.st}・本の切替 ${info.cancel.st2}` : '—'}`
       + ` / ⑤ 未対応の行(4 本)${info.uns || 0}・正本の行の無い観測カードの本 ${info.noRows || 0} / ⑥ 🟫 対照 ${info.ctrl ? `${info.ctrl.main} − ${info.ctrl.ctrl}(${info.ctrl.steps} 步)` : '—'} / ⑦ 合否の語なし(ja/en) / ⑧ 文書`
