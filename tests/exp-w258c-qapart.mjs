@@ -29,6 +29,10 @@
 //   ② 走らなかった鍵の直し(lib の qaSpanner): 範囲が add の行を含まない鍵は add の行を含む列 0 の最上位の文を切り出す・範囲が読む上流の最上位の
 //      const・関数宣言を前文へ写す(写せない名前は走らせる前に名指す)。範囲ごとに try/catch で包む(例外の範囲の鍵は未実行 —— 後の範囲は走り続ける)。
 //      W5c のワーカープール(w5cGetUnit)は前文に「呼べば例外」の代わりを置く(その範囲は例外 → 鍵は未実行 —— フル QA が見る)。
+//
+// 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R394): **明示のブラウザ** —— 前文の起動は tests/qa.mjs の getBrowser と同じ約束
+//   (CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ、その実行ファイルで起動し、版が違えば例外 —— tests/lib-w345-engine.mjs の launchEngine)。
+//   どちらかが無ければ今までの起動の順のまま。走行の頭に「# qapart(第345便c): ブラウザ chromium <版>(明示/既定)」を印字する。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -86,8 +90,18 @@ const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || ${JSON.stringify(path.resolve(
 const req = createRequire(path.join(PW_DIR, 'noop.js'));
 const EXE = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 let browser;
-try { browser = await req('playwright').chromium.launch(); }
-catch { browser = await req('playwright-core').chromium.launch({ executablePath: EXE }); }
+// 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): 明示のブラウザ —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ、その実行ファイルで起動し、
+//   browser.version() が DFM_EXPECT_CHROMIUM と違えば例外(tests/lib-w345-engine.mjs の launchEngine —— tests/qa.mjs の getBrowser と同じ約束)。どちらかが無ければ今までの順
+const __E345 = fs.existsSync(path.join(ROOT, 'tests', 'lib-w345-engine.mjs')) ? await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs')) : null;
+if (process.env.CHROMIUM_PATH && process.env.DFM_EXPECT_CHROMIUM) {
+  if (!__E345) throw new Error('明示のブラウザ: tests/lib-w345-engine.mjs が無い世代では使えない');
+  let bt = null; try { bt = req('playwright').chromium; } catch { bt = req('playwright-core').chromium; }
+  browser = (await __E345.launchEngine(bt, process.env, null)).browser;
+} else {
+  try { browser = await req('playwright').chromium.launch(); }
+  catch { browser = await req('playwright-core').chromium.launch({ executablePath: EXE }); }
+}
+console.log('# qapart(第345便c): ブラウザ chromium ' + browser.version() + '(' + (process.env.CHROMIUM_PATH && process.env.DFM_EXPECT_CHROMIUM ? '明示 —— ' + process.env.CHROMIUM_PATH : '既定の起動の順') + ')');
 // 切り出したブロックの一部は共有ページ(page/pageErrors)を使うので、1 枚だけ用意しておく
 const page = await browser.newPage();
 const pageErrors = [];

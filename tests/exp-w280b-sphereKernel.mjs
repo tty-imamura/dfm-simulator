@@ -22,7 +22,7 @@ import * as L from './lib-w280b-sphereKernel.mjs';
 // 第323便c(統括の検証項目 R277 —— 領域の宣言の無い段に REGEN_SCOPE): **この器が読む html の領域**(器と lib から機械で引いた下限 deriveScope —— 1 行の JSON・
 //   lint.regenScope が照合)。正本の meta に scopeStamp で刻む(書く直前 —— 領域の 3 欄)。器の計算と出力の物理の欄は変えない
 import { scopeStamp as w323cScopeStamp } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["gas"],"roots":["$","HP.SPHERE_KERNEL_VERSION","HP.dfmSphereKernelMomentsOf","HP.dfmSphereKernelRadial","HP.dfmSphereProfile","HP.sim","T","ch","dfmAddMoments","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmGaussLegendre01","dfmGeoToyStep","dfmLaneEmden","dfmLocalMeshField","dfmMeshVelocityRHS","dfmSphereKernelMomentsOf","dfmSphereKernelQEff","dfmSphereKernelRadial","dfmSphereOmega","dfmSphereProfile","dfmSphereRho","isNum"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["gas"],"roots":["$","HP.SPHERE_KERNEL_VERSION","HP.dfmSphereKernelMomentsOf","HP.dfmSphereKernelRadial","HP.dfmSphereProfile","HP.sim","PROBE_VERSION","T","ch","dfmAddMoments","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmGaussLegendre01","dfmGeoToyStep","dfmLaneEmden","dfmLocalMeshField","dfmMeshVelocityRHS","dfmSphereKernelMomentsOf","dfmSphereKernelQEff","dfmSphereKernelRadial","dfmSphereOmega","dfmSphereProfile","dfmSphereRho","isNum"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -84,6 +84,12 @@ const pageOut = await page.evaluate(({ probes, mom }) => probes.map((q) => JSON.
   .concat(mom.map((q) => JSON.stringify(HP.dfmSphereKernelMomentsOf([Object.assign({}, q.body, { prof: HP.dfmSphereProfile(q.decl, 16) })], q.px, q.py)))),
 { probes, mom });
 const version = await page.evaluate(() => HP.SPHERE_KERNEL_VERSION);
+// 第345便c(原仮定者の回答(2026-11-21 —— 第145報)AN921・R394): ページと node が同じ数値の実行系か(数学関数の指紋 —— tests/lib-w345-engine.mjs)を記録する。
+//   docs.sphereKernel ⑧ は、同じならビットで同じ・違えば求積の値の欄だけ相対 128ε(tests/lib-w345c-crossengine.mjs の KERNEL_REL_TOL_345C)で見る
+const E345 = await import('./lib-w345-engine.mjs');
+const C345 = await import('./lib-w345c-crossengine.mjs');
+const fpPage = E345.mathFingerprint(E345.checkProbe(await page.evaluate(E345.probeExpression()))), fpNode = E345.mathFingerprint(E345.runProbe());
+const chromiumNow = String(browser.version());
 await browser.close();
 const pageAgree = nodeOut.filter((z, i) => z === pageOut[i]).length;
 // 食い違った入力(ページと node の Math.* の最下位ビットの違いか)と、数値の最大相対差
@@ -97,7 +103,7 @@ const mismatch = nodeOut.map((z, i) => ({ i, z })).filter((q) => q.z !== pageOut
 });
 
 const CODE = ['tests/exp-w280b-sphereKernel.mjs', 'tests/lib-w280b-sphereKernel.mjs', 'tests/lib-w279c-bgcompose.mjs',
-  'tests/lib-w278d-readaudit.mjs', 'tests/lib-w272e-provenance.mjs'];
+  'tests/lib-w278d-readaudit.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w345-engine.mjs', 'tests/lib-w345c-crossengine.mjs'];
 const out = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第280便b', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: L.SPHEREKERNEL_LIB_VERSION, kernelVersion: version,
@@ -109,7 +115,8 @@ const out = {
     notDerived: '弱場振幅(c² の抑制)は導出できていない —— 表裏核の振幅は現行 q_exact 核(LT 級)の約 10¹⁰ 倍(e)',
     notClaim: ['弱場振幅を導出した', 'q を再 fit した', '較正した', '観測一致を達成した', '慣性を導出した', '新発見'] }),
   table, pageVsNode: { n: nodeOut.length, bitIdentical: pageAgree, mismatch,
-    maxRelDiff: mismatch.length ? Math.max(...mismatch.map((z) => z.maxRelDiff)) : 0 },
+    maxRelDiff: mismatch.length ? Math.max(...mismatch.map((z) => z.maxRelDiff)) : 0,
+    engine: { page: fpPage, node: fpNode, same: fpPage === fpNode, chromium: chromiumNow, nodeVersion: process.version, relTol: C345.KERNEL_REL_TOL_345C, lib: C345.CROSSENGINE_LIB_VERSION_345C } },
   a: A, b: B, c: C, pageErrors, elapsedS: (Date.now() - t0) / 1000,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
