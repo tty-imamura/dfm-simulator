@@ -3137,6 +3137,10 @@ export const HTMLPHYS_DECL_325A = Object.freeze({
     '器が 3 本(🎐 gw150914・🎻 gw150914DFM・⏰ gw150914Merge4s)を .find で引いて走らせ、本の emoji・notClaim(表示の欄)を出力の facts に写す —— 本は表示の欄を含む全体を読む(下限の本 galaxy も含める)'),
   galaxyprof: D325A(['code', 'markup', 'presetPhys:galaxyMeshSpiralGeoToy'], '本 1 本(既定 galaxyMeshSpiralGeoToy —— .find)の ms/步の比を基点 html と今の html で測る(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
   needmesh: D325A(['code', 'markup'], 'HP.dfmField を合成の源と選択肢で呼ぶ(page —— 内蔵の本を読まない)・基点 html と今の html の要求の並び・メッシュの契約 —— 表示の欄・文の表を出力に写さない'),
+  // 第346便a(統括の統合): 最適化が止まる本の記録 —— 代表の 7 本を page で A/B と「2 つの sim が両方進む形」で進め、ブラウザの出力から最適化が止まった関数を数える。
+  //   コードの全部が最適化の出方に効くので code は全部・本は 7 本の物理の欄だけ(表示の欄・文の表は出力に写さない)
+  'opttour-346a': D325A(['code', 'markup', 'presetPhys:galaxyGeo2', 'presetPhys:galaxy', 'presetPhys:cosmicweb', 'presetPhys:darkrotor', 'presetPhys:axisBarStill', 'presetPhys:binary', 'presetPhys:selfRotor'],
+    '代表の 7 本(.find で引く)を page で A/B と 2 つの sim の形で進め、ブラウザの出力(最適化が止まった関数)を数える —— 表示の欄・文の表を出力に写さない(コードの全部が最適化の出方に効く)'),
   // 本の全部を読む段
   galaxyprof2: D325A(PHYS_READS_325A, '銀河トイの準備済み経路の回数の会計と ms/步(page の HP 関数・内蔵の本の id の並び〔allPresets().map〕)—— 表示の欄・文の表を出力に写さない(停止関数 render を名で読むので領域 hash は当たらない)'),
   // 生の行を読む段(説明の欄・注釈・文の表の変更で走るのが正しい —— 版名だけの差では走らない)
