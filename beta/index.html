@@ -36568,6 +36568,24 @@ function viewDrawOrder(S){
 }
 // 自転軸などの単位ベクトル (ex, ey, ez) を長さ L(px)で画面へ(右 = x・下 = viewDownOf)
 function viewAxisUV(ex,ey,ez,L){ return [ex*L, viewDownOf(ey,ez)*L]; }
+// 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「saturnRotVertExplore3d で、土星の回転表示の傾きが、軸と 90 度ズレているので、修正する」・
+// 統括の検証項目 R399): **回転の印(スポーク)を、三次元の自転軸に垂直な面に描く**(表示専用)。第298便d までのスポークは、どの本でも
+// 世界の xy 面の円(画面では (cosα, −sinθ·sinα) —— 軸 +z を前提)に描いていた。三次元の本で軸を +z から傾けた天体(🛟 の土星は軸 +y)では、
+// 軸の線(viewAxisUV —— 第298便d)は正しく傾くのに、印は xy 面に残るので、印の面が軸と 90° ずれて見えた。
+// ここでは軸 e = (S.sax, S.say, S.saz)(力学の軸 —— 歳差で回る今の単位ベクトル)へ ẑ を最小の回転(Rodrigues)で写した
+// 2 本の単位ベクトル u = R·x̂・v = R·ŷ(u × v = e —— 回る向きは +z の約束と同じ)を、画面へ正射影する(右 = x・下 = viewDownOf)。
+// 戻り値は画面の [Ux, Uy, Vx, Vy](半径 1 あたり —— 点は c + r·(cosα·U + sinα·V))。**三次元の軸を持たない粒子は null**
+// (呼び出し側は従来の式 (cosα, viewFy·sinα) のまま —— 二次元の本・軸の無い三次元の粒子の描画は 1 bit も変わらない)。
+function spinMarkerBasis(S,i){
+  if(!S || S.coord3d!==true || !S.saOn || !S.saOn[i] || !S.sax) return null;
+  const ex=S.sax[i], ey=S.say[i], ez=S.saz[i];
+  let u0,u1,u2,v0,v1,v2;
+  if(ez<=-1+1e-12){ u0=1; u1=0; u2=0; v0=0; v1=-1; v2=0; }   // 軸 −z: x 軸のまわりに π(1+e_z=0 の特異を避ける)
+  else { const k=1/(1+ez);
+    u0=1-ex*ex*k; u1=-ex*ey*k; u2=-ex;
+    v0=-ex*ey*k; v1=1-ey*ey*k; v2=-ey; }
+  return [u0, viewDownOf(u1,u2), v0, viewDownOf(v1,v2)];
+}
 // 世界の z=0 の面の円(半径 r px)。θ≠±90 では縦が |sinθ| 倍の楕円(θ=±90 は従来どおりの円)
 function viewStrokeCircle(cx,cy,r){
   ctx.beginPath();
@@ -40954,14 +40972,26 @@ function spinVisAngleOf(st,X,i,a){
   return v;
 }
 // 「速い」の印: 各スポークの先の後ろに淡い弧(回る向きの反対側へ SPIN_VIS_TRAIL)。sq は楕円の短軸比(コアの傾き —— 本体は 1)
-function drawSpinFastArcs(cx,cy,r,a0,dir,fy,sq,col,lw){
+function drawSpinFastArcs(cx,cy,r,a0,dir,fy,sq,col,lw,bs){
   ctx.strokeStyle=col; ctx.lineWidth=lw;
   for(let k3=0;k3<3;k3++){ const a=a0+k3*SPIN_VIS_SPOKE_SYM;
     ctx.beginPath();
-    for(let s=0;s<=6;s++){ const b=a-dir*SPIN_VIS_TRAIL*s/6, px=cx+Math.cos(b)*r, py=cy+fy*Math.sin(b)*r*sq;
+    for(let s=0;s<=6;s++){ const b=a-dir*SPIN_VIS_TRAIL*s/6;
+      const px=bs? cx+(Math.cos(b)*bs[0]+Math.sin(b)*bs[2])*r : cx+Math.cos(b)*r;   // 第346便c: 三次元の軸に垂直な面(bs = spinMarkerBasis)
+      const py=bs? cy+(Math.cos(b)*bs[1]+Math.sin(b)*bs[3])*r : cy+fy*Math.sin(b)*r*sq;
       if(s===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); }
     ctx.stroke(); }
   ctx.lineWidth=1;
+}
+// 第346便c: 本体のスポーク(3 本)。bs が null なら従来の式そのまま(xy 面 —— 第119便・第298便d の fy)
+function drawSpinSpokes(cx,cy,rr,a0,fy,bs){
+  for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
+    ctx.beginPath();
+    if(bs){ const c=Math.cos(a), s=Math.sin(a), dx=c*bs[0]+s*bs[2], dy=c*bs[1]+s*bs[3];
+      ctx.moveTo(cx+dx*rr*0.3, cy+dy*rr*0.3); ctx.lineTo(cx+dx*rr*0.92, cy+dy*rr*0.92); }
+    else { ctx.moveTo(cx+Math.cos(a)*rr*0.3, cy+fy*Math.sin(a)*rr*0.3);
+      ctx.lineTo(cx+Math.cos(a)*rr*0.92, cy+fy*Math.sin(a)*rr*0.92); }
+    ctx.stroke(); }
 }
 // QA・診断の読み口(状態を 1 bit も動かさない)
 function spinVisInfo(S){
@@ -41139,11 +41169,10 @@ function render(){
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
       const a0=spinVisAngleOf(svS,svS.A,i,sim.rotA[i]), fy=viewFy;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)/ 第298便d: −sinθ(自転面 xy の楕円)/ 第307便d: 描画の角(上限つき)
+      const bs=spinMarkerBasis(sim,i);   // 第346便c: 三次元の自転軸に垂直な面(軸の無い粒子は null —— 従来の式)
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
-      for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-        ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+fy*Math.sin(a)*rr*0.3);
-        ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+fy*Math.sin(a)*rr*0.92); ctx.stroke(); }
-      if(svS.A.fast[i]) drawSpinFastArcs(sx,sy,rr*0.78,a0,svS.A.dir[i],fy,1,"rgba(0,0,0,0.3)",Math.max(1,rr*0.06));   // 第307便d: 「速い」の印
+      drawSpinSpokes(sx,sy,rr,a0,fy,bs);
+      if(svS.A.fast[i]) drawSpinFastArcs(sx,sy,rr*0.78,a0,svS.A.dir[i],fy,1,"rgba(0,0,0,0.3)",Math.max(1,rr*0.06),bs);   // 第307便d: 「速い」の印
       ctx.lineWidth=1;
     }
     // 第81便(コアv2): コア(coreMd≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
@@ -41647,11 +41676,10 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
       const a0=spinVisAngleOf(svS,svS.A,i,S.rotA[i]), fy=viewFy;   // 第119便: A/B側スポークも鏡像 / 第298便d: −sinθ / 第307便d: 描画の角(上限つき)
+      const bs=spinMarkerBasis(S,i);   // 第346便c: 三次元の自転軸に垂直な面(A/B 側も同じ)
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
-      for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-        ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+fy*Math.sin(a)*rr*0.3);
-        ctx.lineTo(px+Math.cos(a)*rr*0.92, py+fy*Math.sin(a)*rr*0.92); ctx.stroke(); }
-      if(svS.A.fast[i]) drawSpinFastArcs(px,py,rr*0.78,a0,svS.A.dir[i],fy,1,"rgba(0,0,0,0.3)",Math.max(1,rr*0.06));   // 第307便d: 「速い」の印
+      drawSpinSpokes(px,py,rr,a0,fy,bs);
+      if(svS.A.fast[i]) drawSpinFastArcs(px,py,rr*0.78,a0,svS.A.dir[i],fy,1,"rgba(0,0,0,0.3)",Math.max(1,rr*0.06),bs);   // 第307便d: 「速い」の印
       ctx.lineWidth=1;
     }
     if(S.coreMd[i]!==0 && rr>=7){   // 第81便(コアv2): コア(A/B側も同様。cavity=より暗い穴)
@@ -66916,6 +66944,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     swipe:{degPerH:VIEW_TILT_SWIPE_DEG_PER_H, decidePx:VIEW_TILT_SWIPE_DECIDE_PX, ratio:VIEW_TILT_SWIPE_RATIO, upSign:VIEW_TILT_SWIPE_UP_SIGN},   // 第300便d: 二本指の縦スワイプの宣言(第301便e: upSign)
     wheel:{degPerPx:VIEW_TILT_WHEEL_DEG_PER_PX, linePx:VIEW_TILT_WHEEL_LINE_PX, modifier:"shift"}}),   // 第301便e: Shift+ホイールの宣言
   setViewTilt:(d)=>{ setViewTilt(d); return viewTiltDeg; }, viewTiltFromStore, tiltSwipeClassify, tiltSwipeDeg, tiltWheelPx,
+  spinMarkerBasis:(i,S)=>spinMarkerBasis(S||sim,i),   // 第346便c(R399): 回転の印の面(画面の [Ux,Uy,Vx,Vy] —— 三次元の軸の無い粒子は null)
   spinVis:(S)=>spinVisInfo(S), spinVisAdvance, spinVisArrays, axisGizmo:()=>axisGizmoLast, axisGizmoAxes:(S)=>axisGizmoAxes(S||sim), axisGizmoLayout,
   paramInertState:()=>paramInertStateOf(editSim()), ppGeoTagOf,   // 第307便d(R212): スピンの表示の上限・右下の XYZ の軸(読み口 —— 状態を動かさない)
   tiltWheelInv:()=>tiltWheelInv, setTiltWheelInv:(v)=>{ setTiltWheelInv(v); return tiltWheelInv; }, wheelZoomFactor,   // 第302便e(AN302 ①⑤): θ の向きの反転・横だけのホイールの倍率
