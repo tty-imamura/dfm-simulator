@@ -114463,7 +114463,8 @@ function view343aOf344a(eq) {
     const X = await import('file://' + wHarn), L = await import('file://' + wLib), J = JSON.parse(fs.readFileSync(wOut, 'utf8'));
     const js = (x) => JSON.stringify(x);
     // ① 版・純関数の場面
-    if (!(L.LIB_VERSION === 'w345d-perfengine-lib-1' && X.HARNESS_VERSION === 'w345d-perfengine-1' && J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && js(J.decl) === js(L.DECL))) bad.push('① 版(器・lib・記録)か宣言が記録と違う');
+    // 第346便a(AN936): lib-1 → lib-2(最適化の状態の数の名だけ —— この版のブラウザで測った意味へ。記録の decoded は器の buildDoc で作り直した)
+    if (!(L.LIB_VERSION === 'w345d-perfengine-lib-2' && X.HARNESS_VERSION === 'w345d-perfengine-1' && J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && js(J.decl) === js(L.DECL))) bad.push('① 版(器・lib・記録)か宣言が記録と違う');
     const PG = L.pureGates(L.pureScenes());
     for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
     if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);

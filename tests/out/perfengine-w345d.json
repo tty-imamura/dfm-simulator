@@ -1,6 +1,6 @@
 {
   "version": "w345d-perfengine-1",
-  "libVersion": "w345d-perfengine-lib-1",
+  "libVersion": "w345d-perfengine-lib-2",
   "decl": {
     "browsers": [
       "default",
@@ -222,15 +222,15 @@
         "ratio": 6.4,
         "plainCore": {
           "raw": 41,
-          "decoded": "41(deopt したかも・Maglev)"
+          "decoded": "41(関数・最適化済み・TurboFan)"
         },
         "abCoreA": {
           "raw": 16385,
-          "decoded": "16385(bit 14(deopt の印))"
+          "decoded": "16385(関数・Sparkplug —— 基準の層)"
         },
         "abCoreB": {
           "raw": 16385,
-          "decoded": "16385(bit 14(deopt の印))"
+          "decoded": "16385(関数・Sparkplug —— 基準の層)"
         },
         "plainTop": [
           {
@@ -271,15 +271,15 @@
         "ratio": 0.713,
         "plainCore": {
           "raw": 41,
-          "decoded": "41(deopt したかも・Maglev)"
+          "decoded": "41(関数・最適化済み・TurboFan)"
         },
         "abCoreA": {
           "raw": 41,
-          "decoded": "41(deopt したかも・Maglev)"
+          "decoded": "41(関数・最適化済み・TurboFan)"
         },
         "abCoreB": {
           "raw": 41,
-          "decoded": "41(deopt したかも・Maglev)"
+          "decoded": "41(関数・最適化済み・TurboFan)"
         },
         "plainTop": [
           {

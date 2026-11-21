@@ -61766,6 +61766,13 @@ QA の鍵の数え方: `tests/qa.mjs` の鍵の範囲(部分 QA の切り出し�
 - **まとめ(この箱・この回では)**: 遅さは「157 で・2 つの sim を同じページで進めたとき」だけに出た。1 sim の素の走行では出ていない。**ただし A/B はアプリの機能でもある**(🅰️🅱️ の比べる操作が同じページに 2 つ目の sim を作る)—— 157 の型のエンジンで A/B を使うと、この本では 1 步が約 10 倍になる見込みが残る(実機のブラウザでは測っていない)。`perf.abJit.cross.bhCore` の基準(root —— v1.46)の A/B の 1 步も 157 では 34.8〜36.3 ms(153 では 2.7 ms)で、root の html でも同じ型の出方がある。
 - **--trace-deopt** の行は、既定の起動では renderer の標準出力が Playwright へ届かず取れなかった(`--no-sandbox` と `--redirect-code-traces-to` なら書けるが、関数の名が出ず、起動の条件が変わるので本器では使わない)。
 
+**訂正(第346便a —— 統括の検証項目 R397・決断事項 AN936。上の ⑤ の表と ⑥ の文は当時のまま残す)。** ⑤ の状態の数の名(lib-1 の `OPT_BITS` —— 16 = 最適化済み・32 = Maglev・16384 = deopt の印 ほか)は、この版のブラウザの意味と合っていなかった。同じブラウザ(157・153 とも)で印の分かっている関数(インタプリタのまま・Sparkplug・Maglev・TurboFan に送った関数)から測った意味は、**41 = TurboFan・25 = Maglev・16385 = Sparkplug(基準の層)・65 = インタプリタ・131073 = まだ翻訳していない** —— bit で 1 = 関数・8 = 最適化済み・16 = Maglev・32 = TurboFan・64 = インタプリタ・16384 = Sparkplug(基準の層)・131072 = まだ翻訳していない(**版に依る** —— 名を付けるのは測った 7 つの bit だけ・ほかの bit は生の値のまま)。lib を版 w345d-perfengine-lib-2 に上げ、記録 `tests/out/perfengine-w345d.json` の名の欄(decoded)だけを器の `buildDoc` で作り直した(測った数・回・箱の記録は同じ —— ブラウザは起こしていない)。読み替え: ⑥ の「153 では Maglev のまま(41)」は「**TurboFan のまま**(41)」・「Maglev・最適化済みの印が無い状態(16385)」と「最適化を失った」は「**Sparkplug(基準の層)で走っている**(16385)」。**結論は同じ**(157 の同じページの 2 sim で `S._core` が最適化の層から外れる・153 では外れない)。ブラウザの出力(`DEBUG=pw:browser` を付けると `--js-flags=--trace-opt --trace-deopt` の行が Playwright の [pid][out] の行に出る)は、⑥ の最後の文と違い取れる(〔第346便a〕②)。作り直した後の表:
+
+| 版 | 素の S._core(warm 後) | A/B の A 側の S._core | A/B の B 側の S._core | 素の上位の関数(自己の時間) | A/B の上位の関数(自己の時間) |
+|---|---|---|---|---|---|
+| 既定の起動(157) 157.0.8103.78 | 41(関数・最適化済み・TurboFan) | 16385(関数・Sparkplug —— 基準の層) | 16385(関数・Sparkplug —— 基準の層) | S._core:34799 79.6%・geoCoreDispatchBody:64380 13.4%・S.tauUpdate:36232 0.5% | geoCoreDispatchBody:64380 64.7%・S._core:34799 32.6%・S.tauUpdate:36232 0.1% |
+| 明示 /opt/pw-browsers/chromium(153) 153.0.8010.12 | 41(関数・最適化済み・TurboFan) | 41(関数・最適化済み・TurboFan) | 41(関数・最適化済み・TurboFan) | S._core:34799 80.9%・geoCoreDispatchBody:64380 11.5%・S.tauUpdate:36232 0.4% | S._core:34799 83.2%・geoCoreDispatchBody:64380 9.8%・S.tauUpdate:36232 0.6% |
+
 **⑦ 表 5 —— 普通の使い方(1 ページに sim 1 つ)の 1 步**(T2 の perf の比較の行の beta の 1 步〔betaMs ÷(frames × steps/frame)〕の 3 回の中央値。141 は第344便の保存の perf の結果 `a7cd88e:tests/out/perf-results.json` —— 別の箱なので絶対値は比べず、版の中の比だけ)。
 
 | 本 | 157 の素の 1 步(ms) | 153 の素の 1 步(ms) | 157 ÷ 153 | 1 ± 0.10 の内 | 版の中の比(freebox = 1): 157 / 153 / 141(第344便の保存の perf —— 別の箱) |
