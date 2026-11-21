@@ -51,7 +51,7 @@ export function tablesOf(J) {
   const t3 = J.t3, at = (g, d) => t3.rows.find((r) => r.grav === g && r.drag === d);
   T.t3 = ['| 重力の換算 | 引きずり | 近点 ÷ 1PN | 見込み(一次) | 見込みとの差 | ″/世紀(× 42.98) | 刻みを半分にした差 |', '|---|---|---|---|---|---|---|']
     .concat(['cur', 'alpha1'].flatMap((g) => ['none', 'D0', 'D1'].map((d) => { const r = at(g, d); return `| ${GRAV_NAME[g]} | ${DRAG_NAME[d]} | ${f6(r.overPN)} | ${f6(r.expect)} | ${fe(r.dExpect)} | ${f2(r.arcsecCy)} | ${fe(r.halfDiff)} |`; }))).join('\n')
-    + `\n\n(試験粒子・中心は固定・a = 1・μ = ${J.decl.orbit.mu}・e = ${J.decl.orbit.e}・1 周 ${J.decl.orbit.steps[1]} 刻み〔差は ${J.decl.orbit.steps[0]} 刻みとの差〕・近点 ${J.decl.orbit.nOrb} 回の差の平均。(α) の式は本 lib に閉じて書いた〔dv/dt = q a_G・局所の重力 e^(−2 n_G ψ)〕。n_G = 2 の (0)・(α) は第344便d の (i)・(iii) と同じ数〔差 ${lt(t3.ref344dMax, 1e-9)}〕)`;
+    + `\n\n(試験粒子・中心は固定・a = 1・μ = ${J.decl.orbit.mu}・e = ${J.decl.orbit.e}・1 周 ${J.decl.orbit.steps[1]} 刻み〔差は ${J.decl.orbit.steps[0]} 刻みとの差〕・近点 ${J.decl.orbit.nOrb} 回の差の平均。(α) の式は本 lib に閉じて書いた〔dv/dt = q a_G・局所の重力 e^(−2 n_G ψ)〕。n_G = 2 の (0)・(α) は第344便d の (i)・(iii) と同じ数〔差 ${lt(t3.ref344dMax, 1e-9)}〕・引きずりなしの (0)〔指数 2〕・(α)〔指数 1〕は第344便b の近点と同じ数〔差 ${lt(t3.ref344bMax, 1e-9)}〕。場に対する相対の速さは、引きずりのある列で D0 の枠に対する速さ・引きずりなしの列で枠なし)`;
 
   T.t3slope = ['| μ | (α)−(0)(D0 あり)÷ μ | (α)−(0)(引きずりなし)÷ μ | 交差(差の差)÷ μ | D1 − D0(現行)÷ μ | D1 − D0((α))÷ μ |', '|---|---|---|---|---|---|']
     .concat(t3.slope.map((r) => `| ${fe(r.mu)} | ${f2(r.alphaMinusCurD0)} | ${f2(r.alphaMinusCurNone)} | ${f2(r.cross)} | ${f2(r.d1MinusD0Cur)} | ${f2(r.d1MinusD0Alpha)} |`)).join('\n')

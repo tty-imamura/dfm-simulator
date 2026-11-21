@@ -2607,7 +2607,7 @@ export const REGEN_STEPS = [
   // ==== 第347便d の塊(ここから)====
   // ---- 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403): **引きずりの 3 体と長い走り —— 宣言 D0(主)〜D3 の 3 体の近点と交点の率・重心の漂い・
   //   角運動量の残り/2 体を周期の 1e5 倍まで走らせた帳簿の残り/重力の換算 (α) と D0 の組**(段 draglong-347d —— 正本 tests/out/draglong-347d.json・lib tests/lib-w347d-draglong.mjs ——
-  //   第344便d・第343便b・第341便e・第331便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便d の段と同じ 8 段)。
+  //   第344便d・第344便b〔照合だけ〕・第343便b・第341便e・第331便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便d の段と同じ 8 段)。
   //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。正本は第338便c の settleRun で書く(長い走りは 1 回)。所要は第347便d の枝の実測 39 s
   S('draglong-347d', 'node tests/exp-w347d-draglong.mjs', ['tests/out/draglong-347d.json'], 39, { secSource: 'w347d-branch', node: true,
     after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第344便d の段と同じ —— 第341便e の lib の import の先が読む正本の書き手)

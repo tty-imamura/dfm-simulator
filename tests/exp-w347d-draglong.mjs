@@ -49,7 +49,7 @@ export function gatesOf(J) {
     t2Bounded: ['D1', 'D2', 'D3'].every((d) => { const r = smAt(d, s2); return r.maxRfirst > 1e-4 && Math.abs(r.maxRlast / r.maxRfirst - 1) < 0.05; }),
     t2DiffShrinks: ['D1', 'D2', 'D3'].every((d) => Math.abs(smAt(d, s2).dSlope) < 0.25 * Math.abs(smAt(d, s1).dSlope)),
     t3First: t3.rows.every((r) => Math.abs(r.dExpect) < 4e-4 && r.halfDiff < 1e-6),
-    t3Ref: t3.ref344dMax < 1e-9,
+    t3Ref: t3.ref344dMax < 1e-9 && t3.ref344bMax < 1e-9,
     t3Second: (() => { const v = t3.slope.map((r) => r.alphaMinusCurD0); return v.every((x) => x < 0 && Math.abs(x / v[0] - 1) < 0.05); })(),
     t3Mercury: Math.abs(t3.pn.arcsecCy - 42.98) < 0.01,
   };
@@ -90,7 +90,7 @@ export function runSettled({ long = true } = {}) {
 }
 
 const writeJson = (OUT, out) => { fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(out, null, 1).replace(/\[\s*(-?[\d.eE+-]+(?:,\s*-?[\d.eE+-]+|,\s*null)*)\s*\]/g, (m, a) => '[' + a.replace(/\s+/g, '') + ']') + '\n'); };
-export const CODE = Object.freeze(['tests/exp-w347d-draglong.mjs', 'tests/lib-w347d-draglong.mjs', 'tests/lib-w344d-dragconv.mjs', 'tests/lib-w343b-partytime.mjs', 'tests/lib-w342b-clockstop.mjs', 'tests/lib-w341e-lightmass.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs']);
+export const CODE = Object.freeze(['tests/exp-w347d-draglong.mjs', 'tests/lib-w347d-draglong.mjs', 'tests/lib-w344d-dragconv.mjs', 'tests/lib-w344b-partyconv.mjs', 'tests/lib-w343b-partytime.mjs', 'tests/lib-w342b-clockstop.mjs', 'tests/lib-w341e-lightmass.mjs', 'tests/lib-w331c-k1scale.mjs', 'tests/lib-w330b-dragweight.mjs', 'tests/lib-w340h-thin.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w338c-recheck.mjs']);
 export async function main() {
   const t0 = Date.now();
   const OUT = process.env.W347D_OUT ? (path.isAbsolute(process.env.W347D_OUT) ? process.env.W347D_OUT : path.join(ROOT, process.env.W347D_OUT)) : path.join(ROOT, OUT_MAIN);
@@ -101,7 +101,7 @@ export async function main() {
     decl: L.DECL, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...R, okRaw };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第347便d', target: TARGET, code: CODE, inputs: [] }), {
-    harnessVersion: HARNESS_VERSION, stage: 'draglong', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 の積分・第344便d の宣言と 2 体の移送と試験粒子の近点・第343便b の系・第331便c の K1 の一次・第341便e の RK4 の 1 步と水星の 1PN を呼ぶ)', notClaim: NOT_CLAIM, recheck });
+    harnessVersion: HARNESS_VERSION, stage: 'draglong', engine: 'Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 の積分・第344便d の宣言と 2 体の移送と試験粒子の近点・第344便b の近点〔照合だけ〕・第343便b の系・第331便c の K1 の一次・第341便e の RK4 の 1 步と水星の 1PN を呼ぶ)', notClaim: NOT_CLAIM, recheck });
   writeJson(OUT, out);
   console.log('→', path.relative(ROOT, OUT), 'ok=' + out.ok, JSON.stringify(out.gates), JSON.stringify(out.t2long.gates), out.elapsedS + ' s');
 }

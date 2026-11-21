@@ -796,11 +796,11 @@
    {
     "grav": "alpha1",
     "drag": "none",
-    "overPN": -0.6666804806627742,
-    "halfDiff": 5.613214093536101e-8,
+    "overPN": -0.6666275468534351,
+    "halfDiff": 5.6276546867017885e-8,
     "expect": -0.6666666666666666,
-    "dExpect": -0.000013813996107558957,
-    "arcsecCy": -28.65383725765043
+    "dExpect": 0.000039119813231569545,
+    "arcsecCy": -28.65156216965517
    },
    {
     "grav": "alpha1",
@@ -825,24 +825,24 @@
    {
     "mu": 0.0001,
     "alphaMinusCurD0": -7.185358501390349,
-    "alphaMinusCurNone": -6.2441907499233285,
-    "cross": -0.9411677514670203,
+    "alphaMinusCurNone": -0.9594302191617832,
+    "cross": -6.2259282822285655,
     "d1MinusD0Cur": -6.1527827876894925,
     "d1MinusD0Alpha": -6.153219531960241
    },
    {
     "mu": 0.0002,
     "alphaMinusCurD0": -7.208664515003238,
-    "alphaMinusCurNone": -6.233230212978613,
-    "cross": -0.9754343020246248,
+    "alphaMinusCurNone": -0.9580443298001784,
+    "cross": -6.25062018520306,
     "d1MinusD0Cur": -6.177945565488119,
     "d1MinusD0Alpha": -6.178805123376319
    },
    {
     "mu": 0.0004,
     "alphaMinusCurD0": -7.25540732402441,
-    "alphaMinusCurNone": -6.21137863046628,
-    "cross": -1.04402869355813,
+    "alphaMinusCurNone": -0.9552827229469818,
+    "cross": -6.300124601077428,
     "d1MinusD0Cur": -6.228473439348902,
     "d1MinusD0Alpha": -6.230136764468763
    }
@@ -850,26 +850,27 @@
   "mercury": {
    "muMerc": 2.5499059528750313e-8,
    "alphaMinusCurD0": -0.00000787476594175184,
-   "cross": -0.000001031469167932755,
+   "cross": -0.00000682328209277189,
    "d1MinusD0Alpha": -0.000006743597218291439
   },
-  "ref344dMax": 0
+  "ref344dMax": 0,
+  "ref344bMax": 0
  },
  "timing": {
   "pure": {
-   "wallSec": 0.236
+   "wallSec": 0.225
   },
   "t1": {
-   "wallSec": 2.853
+   "wallSec": 3.04
   },
   "t2short": {
-   "wallSec": 3.455
+   "wallSec": 3.702
   },
   "t3": {
-   "wallSec": 4.343
+   "wallSec": 4.562
   },
   "t2long": {
-   "wallSec": 24.675
+   "wallSec": 23.165
   }
  },
  "gates": {
@@ -1697,31 +1698,37 @@
  },
  "ok": true,
  "okRaw": true,
- "elapsedS": 39.711,
+ "elapsedS": 38.504,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第347便d",
   "target": "tests/lib-w347d-draglong.mjs",
-  "targetSha256": "50ea32bbec608f16e229cc59b2f6529309618dfe30071a763737233c87af052e",
-  "generatedAt": "2026-11-21T23:06:46.780Z",
+  "targetSha256": "8f0349b77fa2554d175a052ae1c78e5519ff92197d392d36d8d34d7990d886b6",
+  "generatedAt": "2026-11-21T23:16:35.792Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w347d-draglong.mjs",
-    "bytes": 10825,
-    "sha256": "dfc536cdcfc71c36069b7bb18a8827a5c61635bc37d0fabf00bf359c5214a6f7",
-    "mtime": "2026-11-21T23:04:26.982Z"
+    "bytes": 10923,
+    "sha256": "639568d935aaee05667ac1e431bd147a842477fddc0c5e7e5d79c09f31567dfb",
+    "mtime": "2026-11-21T23:15:56.734Z"
    },
    {
     "file": "tests/lib-w347d-draglong.mjs",
-    "bytes": 39314,
-    "sha256": "50ea32bbec608f16e229cc59b2f6529309618dfe30071a763737233c87af052e",
-    "mtime": "2026-11-21T23:04:26.976Z"
+    "bytes": 40165,
+    "sha256": "8f0349b77fa2554d175a052ae1c78e5519ff92197d392d36d8d34d7990d886b6",
+    "mtime": "2026-11-21T23:15:56.730Z"
    },
    {
     "file": "tests/lib-w344d-dragconv.mjs",
     "bytes": 23861,
     "sha256": "55eb1530c4a54507b02f83228f33a8e70683459e44d84ca38e23c6a7f26c1bac",
+    "mtime": "2026-11-21T22:40:21.096Z"
+   },
+   {
+    "file": "tests/lib-w344b-partyconv.mjs",
+    "bytes": 28743,
+    "sha256": "2984e4d0ec3b5508981777ca270dc17ef4308917d7758362d2fdec120265527a",
     "mtime": "2026-11-21T22:40:21.096Z"
    },
    {
@@ -1773,10 +1780,10 @@
     "mtime": "2026-11-21T22:40:21.088Z"
    }
   ],
-  "codeSha256": "79de94c76b4178e19f41d3c2f5d2969cc706e5c3560ad139d6843d3933f4c13e",
+  "codeSha256": "ccfcd57310235932470148566be0d875edac9b1c60f7a838ccba6c53c7ea49a1",
   "harnessVersion": "w347d-draglong-1",
   "stage": "draglong",
-  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 の積分・第344便d の宣言と 2 体の移送と試験粒子の近点・第343便b の系・第331便c の K1 の一次・第341便e の RK4 の 1 步と水星の 1PN を呼ぶ)",
+  "engine": "Node の純関数だけ(html を読まない・エンジンの步を進めない —— 自前の RK4 の積分・第344便d の宣言と 2 体の移送と試験粒子の近点・第344便b の近点〔照合だけ〕・第343便b の系・第331便c の K1 の一次・第341便e の RK4 の 1 步と水星の 1PN を呼ぶ)",
   "notClaim": [
    "引きずりの換算をどれとも結論しない(D0 は原仮定者の回答〔AN909〕で主に置いた列 —— 掛ける型 D1〜D3 は比べる列)",
    "引きずりが熱を出すかどうかを結論しない(この宣言・この長さ・この刻み・この系では、帳簿の残りが有界か時間に比例して積むか、の表)",
@@ -1816,7 +1823,7 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 8,
+   "zeroed": 9,
    "kept": 475,
    "zeroPathsHead": [
     "/pure/scenes/emodD0",
@@ -1826,7 +1833,8 @@
     "/t1/mj/rows/0/xp",
     "/t1/mj/rows/0/coarse/xp",
     "/t1/mj/rows/1/xp",
-    "/t1/mj/rows/1/coarse/xp"
+    "/t1/mj/rows/1/coarse/xp",
+    "/t3/ref344bMax"
    ],
    "unstable": 0,
    "unstableHead": []

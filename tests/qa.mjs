@@ -115238,10 +115238,10 @@ function view343aOf344a(eq) {
         // ④ 呼ぶだけ
         const tl = rd('tests/lib-w347d-draglong.mjs'), th = rd('tests/exp-w347d-draglong.mjs'), td = rd('tests/lib-w347d-draglongdoc.mjs');
         const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
-        if (!(js(imps) === js(['lib-w331c-k1scale.mjs', 'lib-w341e-lightmass.mjs', 'lib-w343b-partytime.mjs', 'lib-w344d-dragconv.mjs']) && !/loadHtml|index\.html/.test(tl + td) && !/loadHtml|readFileSync\([^)]*index\.html/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
-          && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/lib-w347b/.test(tl + th) && !/w347d/.test(rd('tests/lib-w344d-dragconv.mjs') + rd('tests/lib-w343b-partytime.mjs') + rd('tests/lib-w331c-k1scale.mjs') + rd('tests/lib-w341e-lightmass.mjs'))))
-          bad.push('④ 呼ぶだけ(lib の import は第344便d・第343便b・第331便c・第341便e の lib だけ・本便の換算の多体の lib を呼ばない・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文に本便の名なし)');
-        cases.push('④ lib の import は 4 本の既存の lib だけ・html を読まない');
+        if (!(js(imps) === js(['lib-w331c-k1scale.mjs', 'lib-w341e-lightmass.mjs', 'lib-w343b-partytime.mjs', 'lib-w344b-partyconv.mjs', 'lib-w344d-dragconv.mjs']) && !/loadHtml|index\.html/.test(tl + td) && !/loadHtml|readFileSync\([^)]*index\.html/.test(th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
+          && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/lib-w347b/.test(tl + th) && !/w347d/.test(rd('tests/lib-w344d-dragconv.mjs') + rd('tests/lib-w344b-partyconv.mjs') + rd('tests/lib-w343b-partytime.mjs') + rd('tests/lib-w331c-k1scale.mjs') + rd('tests/lib-w341e-lightmass.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は第344便d・第344便b〔照合だけ〕・第343便b・第331便c・第341便e の lib だけ・本便の換算の多体の lib を呼ばない・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文に本便の名なし)');
+        cases.push('④ lib の import は 5 本の既存の lib だけ・html を読まない');
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
     add('behavior.draglong347d', bad.length === 0,

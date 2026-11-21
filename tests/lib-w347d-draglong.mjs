@@ -5,6 +5,7 @@
 //   アプリの引きずり・重力・時計・積分・内蔵の本・受理器は変えない。水星の本と今の収支(−28.65 + 71.63 = 42.98″/世紀)に項を足さない。
 //   引きずりの宣言・時計の因子・2 体の移送・試験粒子の近点は第344便d の lib を呼ぶだけ(本文は変えない)・2 体の系は第343便b の systemOf・K1 の一次は第331便c の k1Share・
 //   RK4 の 1 步と水星の 1PN は第341便e の lib を呼ぶだけ。重力の換算 (α) の式は本 lib に閉じて書く(本便の換算の多体の枝の lib は呼ばない —— 数が同じになることは統合で照合する)。
+//   試験粒子の (α)・(0) の近点(引きずりなし)は第344便b の lib の apsidalConv と照合するだけ(呼ぶのは照合の 1 か所)。
 //
 // ■ 記号(無次元・基準光速 c₀ = 1・重力定数 1): 絶対時間 t・位置 p・速度 v(状態 —— 絶対時間で見た速度。引きずりは v を変えない)・静止の時計の ψ_i = ψ₀ + Σ_j m_j / r_ij・
 //   当事者時間の進み q_i = e^(−ψ_i) g(x_i)(g は今の点の時計の形 F = √(1 − x²))・x_i = w_i e^(2ψ_i)(速い道では w_i ÷ N_i² —— 同じ量)・w_i = 大きさ(v_i − v_cm − u_i)(v_cm = 系の重心の速度 —— 第344便d の 2 体の枠を多体へ)。
@@ -19,6 +20,7 @@
 //   数は誇張した系の比 —— 水星や月の観測の値へ合わせたものではない・今の収支に足さない・光速を候補の採否に使わない。
 import { qOf, pairDrift, apsidalDrag } from './lib-w344d-dragconv.mjs';
 import { systemOf } from './lib-w343b-partytime.mjs';
+import { apsidalConv } from './lib-w344b-partyconv.mjs';
 import { k1Share } from './lib-w331c-k1scale.mjs';
 import { rk4Step, mercury1PN } from './lib-w341e-lightmass.mjs';
 
@@ -319,7 +321,8 @@ export function t2Summary(rows) {
 function testDeriv3(drag, kind, nG, mu) {
   return (s) => {
     const [x, y, vx, vy] = s, r = Math.hypot(x, y), psi = mu / r, beta = DECL.kK1 * mu / r;
-    const f0 = -beta / (1 + beta), w = Math.hypot(vx, vy) * (1 - f0), xx = w * Math.exp(2 * psi), q = qOf('F', psi, xx);
+    // 場に対する相対の速さ: 引きずりがある列は D0 の枠 u = f0 v に対する速さ(第344便d と同じ)・引きずりなしの列は枠なし(第344便b の (α) と同じ —— w = v)
+    const f0 = -beta / (1 + beta), w = Math.hypot(vx, vy) * (drag === 'none' ? 1 : 1 - f0), xx = w * Math.exp(2 * psi), q = qOf('F', psi, xx);
     const aG = -mu / (r * r * r) * Math.exp(-2 * nG * psi) * (kind === 'alpha' ? q : 1);
     let ku = f0;
     if (drag === 'D1') ku = q * f0;
@@ -367,7 +370,9 @@ export function t3Rows() {
   const mercury = { muMerc, alphaMinusCurD0: s0.alphaMinusCurD0 * muMerc * pn.arcsecCy, cross: s0.cross * muMerc * pn.arcsecCy, d1MinusD0Alpha: s0.d1MinusD0Alpha * muMerc * pn.arcsecCy };
   // 第344便d の試験粒子の近点との照合(n_G = 2 の (0)・(α) は第344便d の (i)・(iii) と同じ式 —— 同じ数になること)
   const ref = [['D0', '0', 'i'], ['D1', 'alpha', 'iii']].map(([drag, kind, grav]) => Math.abs(apsidal3({ drag, kind, nG: 2 }).overPN - apsidalDrag({ drag, grav, type: 'F' }).overPN));
-  return { pn: { arcsecCy: pn.arcsecCy }, rows, slope, mercury, ref344dMax: Math.max(...ref) };
+  // 第344便b の (α)・(0) の近点(引きずりなし —— 試験粒子)との照合: 同じ式を本 lib に閉じて書いた数が同じになること(本便の換算の多体の枝の lib は呼ばない)
+  const ref344b = Math.max(...[['alpha', 1], ['0', 2]].map(([kind, nG]) => Math.abs(apsidal3({ drag: 'none', kind, nG }).overPN - apsidalConv({ kind, nG }).overPN)));
+  return { pn: { arcsecCy: pn.arcsecCy }, rows, slope, mercury, ref344dMax: Math.max(...ref), ref344bMax: ref344b };
 }
 
 /* ───────── 純関数の場面 ───────── */
