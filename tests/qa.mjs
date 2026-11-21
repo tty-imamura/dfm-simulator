@@ -16894,10 +16894,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       const tRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallT')('天井') : '壁温(天井)'));
       out.hasTopT = !!tRow;
       if (tRow) {
-        const w0 = HP.sim.twall[1]; out.topWasRad = !!(w0 && w0.mode === 'rad'); const rate0 = w0 ? w0.rate : 0;
+        // 第346便c(R399): 面の呼び名は画面の上下で付く —— 視点の傾き θ>0(既定 +90)では「天井」の行は y=+size の面(S.twall[0])
+        const kC = (typeof viewSn !== 'undefined' && viewSn > 0) ? 0 : 1;
+        const w0 = HP.sim.twall[kC]; out.topWasRad = !!(w0 && w0.mode === 'rad'); const rate0 = w0 ? w0.rate : 0;
         const inp = tRow.querySelector('input.valIn');
         inp.value = '1.2'; inp.dispatchEvent(new Event('change'));
-        const w1 = HP.sim.twall[1];
+        const w1 = HP.sim.twall[kC];
         out.radConv = !!(w1 && w1.mode === 'heat' && Math.abs(w1.T - 1.2) < 1e-12 && Math.abs(w1.rate - rate0) < 1e-12);
       }
       HP.loadPreset('saturn', false);
@@ -53539,6 +53541,9 @@ if (!FAST) {
       if (id === 'convection' && p && p.bodies[0] && p.bodies[0].n === 210) key = 'convection-n210';
       // 第96便: c₀=30 相似変換は timeScale ÷k が描画の物理時刻を保つので、スクショ基準キーの
       // 世代分離は不要(第96便ゲート1で 16/16 PASS を実測 — mAD 最大 5.65)
+      // 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399): 視点の傾き θ の既定を +90 に改めた世代は画面の上下が逆になるので、
+      // 基準のキーを分ける(-vt90 —— 初回のフル QA で新規記録。θ の既定が −90 の世代〔root ほか〕は従来のキーのまま)
+      if (typeof VIEW_TILT_DEFAULT !== 'undefined' && VIEW_TILT_DEFAULT === 90) key += '-vt90';
       o[id] = key;
     }
     return o;
@@ -59684,6 +59689,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       for (let i = 0; i < 200; i++) HP.sim.step(0.016);
       out.dispMagInert = dump() === s1;
       // ③ 上下反転: w2sY が画面中央まわりの鏡像になり、OFF で戻る(表示専用)
+      setFlipY(false);   // 第346便c: 既定が +90 になったので、OFF(θ=−90)から始める(この後の項目は従来どおり θ=−90 の状態で続く)
       const y0 = w2sY(camY + 50);
       setFlipY(true);
       const y1 = w2sY(camY + 50);
@@ -76364,7 +76370,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         setViewTilt(-90);
         for (let k = 0; k < 20; k++) HP.sim.step(0.016);
         // ① θ=−90
-        o.def = viewTiltDeg === VIEW_TILT_DEFAULT && VIEW_TILT_DEFAULT === -90 && viewCs === 0 && viewSn === -1;
+        // 第346便c(R399): 既定は +90 に改めた(既定の値と保存の扱いは ui.viewTiltDefault346c)—— ここでは θ=−90 の式だけを見る
+        o.def = viewTiltDeg === -90 && (VIEW_TILT_DEFAULT === -90 || VIEW_TILT_DEFAULT === 90) && viewCs === 0 && viewSn === -1;
         const ys = [camY + 50, camY - 1e-7, camY + 3.3e5, -17.25, 0.1 + 0.2];
         o.m90 = ys.every((y) => w2sY(y) === ch / 2 + (y - camY) * zoom() * 1 && w2sY(y, 123) === w2sY(y));
         const sy0 = [0, 1, ch / 3, ch - 0.5];
@@ -76436,8 +76443,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       info.picks = picks;
       // ⑥ 移行と再読み込み
       const M = await vp2.evaluate(() => ({
-        a: viewTiltFromStore(null, '1') === 90, b: viewTiltFromStore(null, '0') === -90, c: viewTiltFromStore(null, null) === -90,
-        d: viewTiltFromStore('30', '1') === 30, e: viewTiltFromStore('abc', null) === -90, f: viewTiltFromStore('200', null) === 90,
+        a: viewTiltFromStore(null, '1') === 90, b: viewTiltFromStore(null, '0') === -90, c: viewTiltFromStore(null, null) === VIEW_TILT_DEFAULT,   // 第346便c: 保存の無い端末は既定(+90)
+        d: viewTiltFromStore('30', '1') === 30, e: viewTiltFromStore('abc', null) === VIEW_TILT_DEFAULT, f: viewTiltFromStore('200', null) === 90,
         g: viewTiltFromStore('-12.4', null) === -12,
         sl: (() => { const r = document.getElementById('viewTiltSlider'); return !!r && r.min === '-90' && r.max === '90' && r.value === String(viewTiltDeg); })(),
         noCb: !document.getElementById('flipYCb'),

@@ -1467,7 +1467,7 @@ ja: {
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
   tgFlipY:"視点の傾き θ(°)",
-  tgFlipYDesc:"X 軸まわりにカメラを回す表示専用のスライダー(共通設定・永続 —— 旧「上下反転」)。画面右はいつも +X。−90(既定)= 画面下が +Y(これまでの見え方)/ 0 = 横から見る・画面上が +Z / +90 = 画面上が +Y(旧「上下反転」と同じ —— 見た目の公転・自転が逆回転になる)。二次元の本は z=0 の面なので、0 では x 軸上の線に潰れて見える(上下のドラッグは y に割り当て、横から ±5.7° 以内では効かない)。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で変わるだけ。タッチの画面では 2 本指をそろえて上下にスワイプしても変えられる(上へで θ が減り下へで増える・画面の高さぶんで 180°)。マウスでは Shift+ホイールでも変えられる(手前へ回すと θ が増える・1 ノッチ 5°・Shift なしのホイールは拡大縮小のまま)。OS によってホイールの向きが逆に届くときは「Shift+ホイールの θ の向きを反転」で逆にできる。",
+  tgFlipYDesc:"X 軸まわりにカメラを回す表示専用のスライダー(共通設定・永続 —— 旧「上下反転」)。画面右はいつも +X。+90(既定)= 画面上が +Y(旧「上下反転」と同じ)/ 0 = 横から見る・画面上が +Z / −90 = 画面下が +Y(以前の既定 —— +90 と比べて見た目の公転・自転が逆回転になる)。二次元の本は z=0 の面なので、0 では x 軸上の線に潰れて見える(上下のドラッグは y に割り当て、横から ±5.7° 以内では効かない)。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で変わるだけ。タッチの画面では 2 本指をそろえて上下にスワイプしても変えられる(上へで θ が減り下へで増える・画面の高さぶんで 180°)。マウスでは Shift+ホイールでも変えられる(手前へ回すと θ が増える・1 ノッチ 5°・Shift なしのホイールは拡大縮小のまま)。OS によってホイールの向きが逆に届くときは「Shift+ホイールの θ の向きを反転」で逆にできる。",
   // 第171便(原仮定者報告「粒子が多いサンプルで fps が低い・操作レスポンスを良くしたい」)
   tgTiltWheelInv:"Shift+ホイールの θ の向きを反転",
   tgTiltWheelInvDesc:"マウスの Shift+ホイールで視点の傾き θ を変えるときの向きを逆にする(共通設定・端末に永続・既定 OFF = 手前へ回すと θ が増える)。OS の設定によってはホイールの向きが逆に届く(macOS のナチュラルスクロールなど)ので、逆に感じるときに ON にする。表示専用 —— 物理・保存データ・署名は変わらない。",
@@ -1861,7 +1861,7 @@ ja: {
   beDdq:"引きずりq: この粒子が源となる自転引きずり(E2/E3)の減衰指数 q_i(0.5〜40・body.dragQ)。空欄=既定 physics.q。連星では各天体が自分の q_i を持つ。E5′ スピン斥力の q には効かない。宣言が 1 個でもあると汎用カーネル経路になる。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
   // 第299便f(原仮定者の裁定(第89報)⑤・R172): 選択粒子の編集の出し分けと三次元・構造核・コア軸の欄
-  beDz:"z/vz: 三次元の本(physics.coord:\"3d\")だけの位置と速度の z 成分(右手系 +z = x×y —— 既定の視点では画面の奥)。値域は z ±5000・vz ±100(vx/vy と同じ)。二次元の本には出ない。",
+  beDz:"z/vz: 三次元の本(physics.coord:\"3d\")だけの位置と速度の z 成分(右手系 +z = x×y —— 既定の視点〔θ=+90〕では画面の手前・θ=−90 では画面の奥)。値域は z ±5000・vz ±100(vx/vy と同じ)。二次元の本には出ない。",
   beLdcOn:"構造核 dragCore",
   beDcNote:(R)=>"慣性決定力の構造核(一様のコア+マントル殻)。f=コアの質量の割合(0<f≤1)・R_d=コアの半径(0<R_d≤R"+((R===null)? " —— この粒子は半径 radius の宣言が無いので付けられない" : "="+R)+")。",
   beDcShell:(eta,Rd)=>"引きずり核の殻(読み取り): 引きずり核球面近似係数 η="+eta+"(核の半径/天体の半径)・R_d="+Rd+"。体積の構造核とは排他(本の宣言 dragCore:{shellRatio} —— ここでは付け外ししない)。",
@@ -2109,7 +2109,7 @@ ja: {
   hudMeshDeprecated:"physics.spaceMesh(旧法則版の空間メッシュ)は廃止—— この本は退役の履歴として走る(新しく作る設定は慣性決定力 relativeDrag.law:\"inertial\" と三次元で)",   // 第298便c
   coord3dHaltCleared:"(設定は戻っています —— ▶ で再開)",
   coord3dHaltPause:(wa,wb,isAB)=>"三次元では未対応の設定で再生を止めました("+(isAB? "A: "+(wa||"—")+" / B: "+(wb||"—") : (wa||"—"))+")。その設定を 0/OFF に戻してから ▶ で再開してください(A/B は両側とも同じ時刻で止まっています)",
-  hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の奥)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
+  hudCoord3d:(nAx,halt)=>"三次元(右手系・既定の視点で +z は画面の手前)"+(nAx? "・自転軸の宣言 "+nAx+" 粒子(歳差は規定運動)" : "")+"・時計 τ は三次元では未対応"+(halt? "\n⛔ 三次元では未対応の設定で停止: "+halt : ""),
   loadGeo0Legacy:(lv)=>"geoPN=0 で spaceMesh.lawVersion:\""+lv+"\" を宣言した設定です —— geoPN=0 でも旧空間メッシュ(legacy-spaceMesh:"+lv+")で走ります(以前の版では宣言が残るだけでニュートン等の他の宣言で走っていました)。値は保存どおり",
   geo4NoMesh:(law)=>"測地線モード geoPN=4(慣性決定力の多粒子): 慣性の連鎖の宣言(relativeDrag.law:\"inertial\")が走っていません —— 慣性の連鎖の宣言が要ります(旧メッシュ physics.spaceMesh.lawVersion は廃止 —— 履歴)。測地線の法則("+law+")で走ります。値は 4 のまま保存・再読込されます",
   geo3InertialOn:"測地線モード geoPN=3: 慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が宣言されています —— 測地線 OFF・1PN なし・法則 inertial-drag で走ります",
@@ -2847,7 +2847,7 @@ en: {
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
   tgFlipY:"View tilt θ (°)",
-  tgFlipYDesc:"Display-only slider that rotates the camera about the X axis (General, persisted — formerly \"Flip vertically\"). Screen right is always +X. −90 (default) = screen down is +Y (the usual view) / 0 = side view, screen up is +Z / +90 = screen up is +Y (same as the old flip — apparent orbits and spins reverse). 2D samples live in the z=0 plane, so at 0 they collapse onto a line along the x axis (vertical drag pans y and is disabled within ±5.7° of the side view). Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input change, as a pair. On a touch screen you can also swipe two fingers up or down together (up lowers θ and down raises it; a full screen height is 180°). With a mouse, Shift+wheel also changes it (rolling the wheel towards you raises θ; 5° per notch; the wheel without Shift still zooms). If the OS delivers the wheel reversed, \"Reverse the Shift+wheel θ direction\" flips it.",
+  tgFlipYDesc:"Display-only slider that rotates the camera about the X axis (General, persisted — formerly \"Flip vertically\"). Screen right is always +X. +90 (default) = screen up is +Y (same as the old flip) / 0 = side view, screen up is +Z / −90 = screen down is +Y (the earlier default — apparent orbits and spins reverse compared with +90). 2D samples live in the z=0 plane, so at 0 they collapse onto a line along the x axis (vertical drag pans y and is disabled within ±5.7° of the side view). Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input change, as a pair. On a touch screen you can also swipe two fingers up or down together (up lowers θ and down raises it; a full screen height is 180°). With a mouse, Shift+wheel also changes it (rolling the wheel towards you raises θ; 5° per notch; the wheel without Shift still zooms). If the OS delivers the wheel reversed, \"Reverse the Shift+wheel θ direction\" flips it.",
   tgTiltWheelInv:"Reverse the Shift+wheel θ direction",
   tgTiltWheelInvDesc:"Reverses the direction in which Shift+wheel changes the view tilt θ (General, persisted on the device; default OFF = rolling towards you raises θ). Some OS settings deliver the wheel in the opposite direction (macOS natural scrolling, for example) - turn this on if it feels reversed. Display only: physics, saved data and signatures do not change.",
   tgDragPause:"Pause physics while dragging",
@@ -3219,7 +3219,7 @@ en: {
   beDdq:"drag q: per-body falloff exponent q_i of the spin drag this body sources (E2/E3; 0.5-40; body.dragQ). Empty = default physics.q. In a binary each star carries its own q_i. Does not touch the E5' spin-repulsion q. Any declaration routes to the generic kernel.",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
   // wave 299f: editor rows for 3D, the structure core and the core axis
-  beDz:"z/vz: the z components of position and velocity, only in a 3D book (physics.coord:\"3d\"; right-handed, +z = x×y, into the screen in the default view). Range z ±5000, vz ±100 (as vx/vy). Not shown in a 2D book.",
+  beDz:"z/vz: the z components of position and velocity, only in a 3D book (physics.coord:\"3d\"; right-handed, +z = x×y, out of the screen in the default view [θ=+90] and into it at θ=−90). Range z ±5000, vz ±100 (as vx/vy). Not shown in a 2D book.",
   beLdcOn:"Structure core dragCore",
   beDcNote:(R)=>"Inertial-determinacy structure core (uniform core + mantle shell). f = core mass fraction (0<f≤1), R_d = core radius (0<R_d≤R"+((R===null)? " - this body declares no radius, so none can be attached" : "="+R)+").",
   beDcShell:(eta,Rd)=>"Drag-core shell (read-only): drag-core sphere approximation coefficient eta="+eta+" (core radius / body radius), R_d="+Rd+". Exclusive with the volume structure core (book declaration dragCore:{shellRatio} - not attached or removed here).",
@@ -3469,7 +3469,7 @@ en: {
   hudMeshDeprecated:"physics.spaceMesh (the legacy space-mesh law) is retired - this sample runs as retired history (new setups use the inertial determinacy relativeDrag.law:\"inertial\" in 3D)",
   coord3dHaltCleared:" (setting restored - press ▶ to resume)",
   coord3dHaltPause:(wa,wb,isAB)=>"Playback paused on a setting 3D does not support ("+(isAB? "A: "+(wa||"-")+" / B: "+(wb||"-") : (wa||"-"))+"). Set it back to 0/off, then press ▶ to resume (in A/B both sides stopped at the same time)",
-  hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points into the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
+  hudCoord3d:(nAx,halt)=>"3D (right-handed; in the default view +z points out of the screen)"+(nAx? "; spin axes declared on "+nAx+" bodies (precession is prescribed)" : "")+"; the clock τ is not supported in 3D"+(halt? "\n⛔ stopped on a setting 3D does not support: "+halt : ""),
   loadGeo0Legacy:(lv)=>"This setting declares spaceMesh.lawVersion:\""+lv+"\" with geoPN=0 - geoPN=0 also runs the legacy space mesh (legacy-spaceMesh:"+lv+") (in earlier versions the declaration was only kept and the other declarations, e.g. Newton, ran). Values are as saved",
   geo4NoMesh:(law)=>"Geodesic mode geoPN=4 (inertial determinacy, many-particle): no inertial chain declaration (relativeDrag.law:\"inertial\") is running - one is needed (the legacy mesh physics.spaceMesh.lawVersion was retired - history). It runs the geodesic law ("+law+"). The value stays 4 on save and reload",
   geo3InertialOn:"Geodesic mode geoPN=3: the inertial-determinacy drag (physics.relativeDrag.law:\"inertial\") is declared - it runs with the geodesic off, no 1PN, law inertial-drag",
@@ -11405,6 +11405,7 @@ function spinAxisOf(S,i){
 //   三次元では自転軸の傾きを粒子ごとに有効化(多粒子の全部には不要)・歳差にも対応」・統括の検証項目 R165): **三次元座標の土台** =====
 // 宣言: `physics.coord:"3d"`(未宣言・"2d" は二次元 —— 二次元の本の状態には z を作らない。"2d" は正準形に出さない=署名不変)。
 //   右手系: +x・+y・+z = x×y。画面は右 +x・下 +y なので、既定の視点では +z は**画面の奥**。
+//   (第346便c: 既定の視点を θ=+90〔画面の上 +y〕に改めた —— 既定の視点では +z は画面の手前・上の文は θ=−90 の視点で読む)
 //   二次元のスカラー spin は Ω_z(既存の符号のまま: 正の spin は +x から +y へ回る = 画面で時計回り —— E9 の t̂=ẑ×n̂・フレームの
 //   ω ẑ×(r−r_j)=ω(−dy,dx)・L_z=m(x v_y−y v_x) と同じ向き)。三次元の本でも spin は「その粒子の自転軸まわりの角速度」で、
 //   軸を有効化しない粒子の軸は +z(= 二次元と同じ Ω_z)。
@@ -24043,14 +24044,14 @@ const BUILTIN_PRESETS = [
       control:"One-tap A/B: side B drops the rotational drag (no spinDrag - translational chain only). Compare with 🔗 (2D, the same values) and 🪛 (the copy with the axis tilted 30 degrees)."},
     parameterAudit:{
       observedInputs:["NONE - this sample transcribes no observation"],
-      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen at θ=−90)",
         "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 0 = +z)"],
       fitted:["NOTHING - W₀ = 0.125 [M/L^3] (coefficient 1/W₀ = 8) is 🔗's declared value"],
       derived:["the rotational drag m Omega M1(r)(a x e)/W₀ uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"],
       numerical:["drag-kernel softening eps=1, gravity softening 0.5","stateCarry double","solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"]}},
   parameterAudit:{
     observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
-    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・θ=−90 の視点で +z は画面の奥)",
       "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 0 = +z)"],
     fitted:["**無し** —— W₀ = 0.125 [M/L³](係数 1/W₀ = 8)は 🔗 の宣言値"],
     derived:["回転引きずり m Ω M1(r)(â×ê)/W₀ の M1 は二次元と同じ一様球の表裏核(r だけの関数)"],
@@ -24101,14 +24102,14 @@ const BUILTIN_PRESETS = [
       control:"One-tap A/B: side B drops the axial drag (axial off - the rotational drag stays). On side B only the attitude angle differs; positions and velocities match side A (the axial drag is never added to the linear velocity). Compare with 🔩 (axis +z)."},
     parameterAudit:{
       observedInputs:["NONE - this sample transcribes no observation"],
-      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen in the default view)",
+      fixedConventions:["a copy of 🔗 chainDiskToy (toy units G=0.005, cLight=30, geoPN=4, kFrame=0, 80 particles, seed 20261008) with physics.coord 3d (right-handed, +z into the screen at θ=−90)",
         "centre m=100, radius 6 (uniform sphere), spin 0.5, pinned; the spin axis is enabled for that one body only (tilt 30 deg, azimuth 0)"],
       fitted:["NOTHING - W₀ = 0.125 [M/L^3] (coefficient 1/W₀ = 8) is 🔗's declared value; the axial coupling A_k=4 is declared, uncalibrated"],
       derived:["the rotational drag m Omega M1(r)(a x e)/W₀ uses the same uniform-sphere front/back moment M1 as 2D (a function of r only)"],
       numerical:["drag-kernel softening eps=1, gravity softening 0.5","stateCarry double","solver gate: original-equation relative residual 1e-10 (network-pcg-v1); 16 Gauss-Legendre points per interval for the spin source"]}},
   parameterAudit:{
     observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
-    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+    fixedConventions:["🔗 chainDiskToy の写し(トイ単位 G=0.005・cLight=30・geoPN=4・kFrame=0・粒子 80 個・乱数種 20261008)に physics.coord:\"3d\"(右手系・θ=−90 の視点で +z は画面の奥)",
       "中心 m=100・半径 6(一様球)・spin 0.5・pinned・自転軸を 1 粒子だけ有効化(傾き 30°・方位 0)"],
     fitted:["**無し** —— W₀ = 0.125 [M/L³](係数 1/W₀ = 8)は 🔗 の宣言値・軸引きずりの係数 A_k=4 は宣言値(未較正)"],
     derived:["回転引きずり m Ω M1(r)(â×ê)/W₀ の M1 は二次元と同じ一様球の表裏核(r だけの関数)"],
@@ -24403,7 +24404,7 @@ const BUILTIN_PRESETS = [
     {q:"保存(実測)", model:"8000 步で P の相対のずれ 1.0e-6・L(3 成分)1.9e-6・E 1.5e-4(状態は Float32 —— 倍精度では P 1.4e-16・L 4.8e-15)", obs:"—"},
     {q:"言わないこと", model:"三次元の回転引きずり・軸引きずり・1PN・現実の軌道との一致は主張の外(三次元の土台の原理だけ)", obs:"—"}],
   descStruct:{
-    summary:"**三次元の座標で走る最初の本**(「三次元座標化する。右手系。サンプルごとの選択」)。宣言 physics.coord:\"3d\" の本だけが三次元の別の步(dfmStep3 —— 二次元の核 S._core は 1 命令も変えていない)を通り、位置・速度・相互距離・力が x・y・z の 3 成分になる。右手系で +z=x×y(画面は右 +x・下 +y なので、既定の視点では +z は画面の奥)。2 体(m=10・1)を近点距離 20・離心率 0.3 の楕円に置き、軌道面を x 軸のまわりに 30° 傾けた。画面の楕円は軌道を xy 面へ投影したもので、縦に縮んで見える。働く法則は E4 重力(三次元版)だけ。",
+    summary:"**三次元の座標で走る最初の本**(「三次元座標化する。右手系。サンプルごとの選択」)。宣言 physics.coord:\"3d\" の本だけが三次元の別の步(dfmStep3 —— 二次元の核 S._core は 1 命令も変えていない)を通り、位置・速度・相互距離・力が x・y・z の 3 成分になる。右手系で +z=x×y(θ=−90 の視点では画面は右 +x・下 +y なので +z は画面の奥 —— 既定の θ=+90 では画面の上 +y・+z は画面の手前)。2 体(m=10・1)を近点距離 20・離心率 0.3 の楕円に置き、軌道面を x 軸のまわりに 30° 傾けた。画面の楕円は軌道を xy 面へ投影したもので、縦に縮んで見える。働く法則は E4 重力(三次元版)だけ。",
     observe:"トレイルで軽い方の楕円が同じ形で閉じるのを見る(投影で縦に縮んだ楕円)。HUD の 2 行目に「三次元」の表示と、保存量モニタを開くと P₃・L₃ の 3 成分が出る。周期と軌道面の向きは器が実測した(説明の観測カード)。",
     control:"ワンタップ対照は置いていない。同じ本の二次元の双子(physics.coord を外し z・vz を 0 にした写し)は、三次元の步の z=0 の走行とビット同一に走る(器の零試験)。"},
   en:{name:"Two bodies on a tilted orbital plane — a 3D ellipse",
@@ -24415,19 +24416,19 @@ const BUILTIN_PRESETS = [
       {q:"Conservation (measured)", model:"8000 steps: P 1.0e-6, L 1.9e-6, E 1.5e-4 (Float32 state; in double P 1.4e-16, L 4.8e-15)", obs:"-"},
       {q:"Not claimed", model:"no 3D rotational/axial drag, no 1PN, no match to a real orbit (only the 3D foundation)", obs:"-"}],
     descStruct:{
-      summary:"THE FIRST SAMPLE THAT RUNS IN 3D COORDINATES (make the coordinates 3D, right-handed, chosen per sample). Only a sample that declares physics.coord:\"3d\" takes the separate 3D step (dfmStep3 - the 2D core S._core is untouched), so positions, velocities, separations and forces have x, y and z components. Right-handed: +z = x cross y (the screen has +x to the right and +y down, so in the default view +z points into the screen). Two bodies (m=10 and 1) sit on an ellipse with periapsis 20 and eccentricity 0.3, with the orbital plane tilted 30 degrees about the x axis. The ellipse on screen is the orbit projected onto the xy plane, so it looks squashed vertically. The only law at work is E4 gravity (in 3D).",
+      summary:"THE FIRST SAMPLE THAT RUNS IN 3D COORDINATES (make the coordinates 3D, right-handed, chosen per sample). Only a sample that declares physics.coord:\"3d\" takes the separate 3D step (dfmStep3 - the 2D core S._core is untouched), so positions, velocities, separations and forces have x, y and z components. Right-handed: +z = x cross y (at θ=−90 the screen has +x to the right and +y down, so +z points into the screen; at the default θ=+90, +y is up and +z points out of the screen). Two bodies (m=10 and 1) sit on an ellipse with periapsis 20 and eccentricity 0.3, with the orbital plane tilted 30 degrees about the x axis. The ellipse on screen is the orbit projected onto the xy plane, so it looks squashed vertically. The only law at work is E4 gravity (in 3D).",
       observe:"Use the trail to watch the light body's ellipse close on itself (squashed by the projection). The HUD shows a 3D line, and the conservation monitor adds the three components P3 and L3. The period and the plane orientation were measured by the harness (see the observation card).",
       control:"No one-tap control. The 2D twin of the same sample (physics.coord removed, z and vz set to 0) runs bit-identically to a z=0 run of the 3D step (the harness's zero test)."},
     parameterAudit:{
       observedInputs:["NONE - this sample transcribes no observation"],
-      fixedConventions:["toy units G=1, cLight=30, geoPN=0, kFrame=0, physics.coord 3d (right-handed, +z into the screen in the default view)",
+      fixedConventions:["toy units G=1, cLight=30, geoPN=0, kFrame=0, physics.coord 3d (right-handed, +z into the screen at θ=−90)",
         "two bodies m=10 and m=1 (M=11), radius 1 and 0.5, barycentric frame, orbital plane tilted 30 degrees about x"],
       fitted:["NOTHING"],
       derived:["periapsis 20, e=0.3, a=20/0.7=28.5714, v_p=sqrt(GM(1+e)/r_p)=0.8455767262643882; Kepler period 289.322"],
       numerical:["softening eps=0.05","state in Float32 like x (z the same type)","screen step stepDt=P/360=0.803672"]}},
   parameterAudit:{
     observedInputs:["**無し** —— 本サンプルは観測を 1 つも転写していない"],
-    fixedConventions:["トイ単位 G=1・cLight=30・geoPN=0・kFrame=0・physics.coord:\"3d\"(右手系・既定の視点で +z は画面の奥)",
+    fixedConventions:["トイ単位 G=1・cLight=30・geoPN=0・kFrame=0・physics.coord:\"3d\"(右手系・θ=−90 の視点で +z は画面の奥)",
       "2 体 m=10・m=1(M=11)・半径 1・0.5・重心系・軌道面を x 軸のまわりに 30° 傾けた"],
     fitted:["**無し**"],
     derived:["近点距離 20・e=0.3・a=20/0.7=28.5714・v_p=√(GM(1+e)/r_p)=0.8455767262643882・ケプラー周期 289.322"],
@@ -36452,10 +36453,17 @@ function applyPresetMonitor(S){
 // 粒子の z は S.coord3d===true の本の S.z[i](二次元の本は 0)。**表示専用**: 物理・保存 JSON・署名・S.params には
 // 1 bit も書かない(永続は localStorage hp_view_tilt —— 旧 hp_flip_y="1" は θ=+90 へ移す)。
 // sin/cos は ±90・0 で厳密値(viewCs===0 の間は第118便の式そのままを通るので、既定の描画は 1 bit も変わらない)。
-const VIEW_TILT_MIN=-90, VIEW_TILT_MAX=90, VIEW_TILT_DEFAULT=-90, VIEW_TILT_STEP=1;
-let viewTiltDeg=VIEW_TILT_DEFAULT, viewSn=-1, viewCs=0, viewFy=1;
+// 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「「視点の傾き θ(°)」のデフォルトを「90」にする。デフォルトのy軸が逆さになるので、
+// 一様重力のあるサンプルは配置のy座標を逆さにし、g_yをマイナスにする」・統括の検証項目 R399): **既定を −90 → +90 に改めた**
+// (上の第88報の「初期値は −90」の文は当時の文として残す)。θ の意味・範囲・操作・表示専用は変えない。θ=+90 の描画は従来どおり
+// 第118便の「上下反転 ON」の式(viewCs===0 の道)を通る。端末に保存された hp_view_tilt は従来どおり優先する(保存は操作したときだけ ——
+// 触っていない端末には何も書かれていないので、新しい既定 +90 で始まる)。旧 hp_flip_y は "1" → +90・"0" → −90(第118便の OFF)の意味のまま移す。
+// 「−90 だけの従来の速い道」(viewStrokeBox の strokeRect・決定力マップのキャッシュの鍵)は、既定ではなく θ=−90(VIEW_TILT_MIN)に結び付け直した
+// (どの θ でも描画と鍵は第346便の前と 1 字も変わらない)。
+const VIEW_TILT_MIN=-90, VIEW_TILT_MAX=90, VIEW_TILT_DEFAULT=90, VIEW_TILT_STEP=1;
+let viewTiltDeg=VIEW_TILT_DEFAULT, viewSn=1, viewCs=0, viewFy=-1;
 let camZ=0, camFollowOffZ=0;   // 第298便d: カメラの z(縦のドラッグを z に割り当てるのは三次元の本だけ —— 二次元の本では 0 のまま)
-let flipY=false;               // 互換の読み口(θ=+90 のときだけ true)。描画は viewSn/viewCs/viewFy を読む
+let flipY=true;                // 互換の読み口(θ=+90 のときだけ true —— 第346便c: 既定 +90 なので初期値も true)。描画は viewSn/viewCs/viewFy を読む
 function viewTiltTrig(d){
   if(d===-90) return [-1,0]; if(d===90) return [1,0]; if(d===0) return [0,1];
   const r=d*Math.PI/180; return [Math.sin(r),Math.cos(r)];
@@ -36464,7 +36472,9 @@ function viewTiltNorm(v){ v=+v; if(!isFinite(v)) return VIEW_TILT_DEFAULT; retur
 // 永続値からの読み出し(純関数 —— QA が移行を単体で叩く)。hp_view_tilt があればそれを・無ければ旧 hp_flip_y("1" → +90)
 function viewTiltFromStore(rawTilt, rawFlip){
   if(rawTilt!==null && rawTilt!==undefined && String(rawTilt).trim()!=="" && isFinite(parseFloat(rawTilt))) return viewTiltNorm(parseFloat(rawTilt));
-  return (rawFlip==="1")? 90 : VIEW_TILT_DEFAULT;
+  if(rawFlip==="1") return 90;
+  if(rawFlip==="0") return VIEW_TILT_MIN;   // 第346便c: 旧 hp_flip_y="0"(第118便の OFF を保存した端末)は −90 のまま(既定が +90 になっても意味を変えない)
+  return VIEW_TILT_DEFAULT;
 }
 function applyViewTilt(d){
   viewTiltDeg=viewTiltNorm(d);
@@ -36480,8 +36490,8 @@ function setViewTilt(d){
   if(num && document.activeElement!==num) num.value=String(viewTiltDeg);
   if(typeof requestRender==="function") requestRender();
 }
-// 第118便の入口(互換): true = θ=+90・false = θ=−90
-function setFlipY(v){ setViewTilt(v? VIEW_TILT_MAX : VIEW_TILT_DEFAULT); }
+// 第118便の入口(互換): true = θ=+90・false = θ=−90(第346便c: 既定が +90 になったので false は VIEW_TILT_MIN へ)
+function setFlipY(v){ setViewTilt(v? VIEW_TILT_MAX : VIEW_TILT_MIN); }
 // 第300便d(原仮定者の裁定(第90報)⑦「二本指の上下スワイプで視点の傾き θ」・統括の検証項目 R178): **二本指の縦スワイプ → θ**(表示専用)。
 //   既存の二本指のピンチ(拡大縮小)と共存させる —— 2 本目の指が触れた時点の中点 m₀・指の間隔 d₀・θ₀ を控え、中点の移動 Δm と
 //   間隔の変化 Δd のどれかが VIEW_TILT_SWIPE_DECIDE_PX(px)に達した最初の touchmove で、その二本指の操作を 1 回だけ判定して固定する:
@@ -36596,7 +36606,7 @@ function viewStrokeCircle(cx,cy,r){
 // 世界の箱 [−s, s]²(z=0 の面)。θ=−90 は従来の strokeRect そのまま。それ以外は 2 隅の画面座標から(第118便の上下反転で
 // 箱が下へずれていたのも、ここで直る)
 function viewStrokeBox(SXf,SYf,s,z){
-  if(viewTiltDeg===VIEW_TILT_DEFAULT){ ctx.strokeRect(SXf(-s),SYf(-s),2*s*z,2*s*z); return; }
+  if(viewTiltDeg===VIEW_TILT_MIN){ ctx.strokeRect(SXf(-s),SYf(-s),2*s*z,2*s*z); return; }   // 第346便c: −90 の従来の道(既定ではなく −90 に結ぶ)
   const ya=SYf(-s), yb=SYf(s);
   ctx.strokeRect(SXf(-s),Math.min(ya,yb),2*s*z,Math.abs(yb-ya));
 }
@@ -37158,8 +37168,8 @@ function fieldKeyOf(){
          ","+sim.n+","+s1+","+s2+","+s3+
          ","+sim.params.G+","+sim.params.gravityX+","+sim.params.gravityY+viewKeySuffix();   // 第37便 A4: 表示合成もキーに含める
 }
-// 第298便d: 視点の傾き(θ と camZ)をキャッシュの鍵に足す。既定 θ=−90 では空文字(鍵は従来と 1 字も変わらない)
-function viewKeySuffix(){ return (viewTiltDeg===VIEW_TILT_DEFAULT)? "" : ",vt"+viewTiltDeg+","+camZ; }
+// 第298便d: 視点の傾き(θ と camZ)をキャッシュの鍵に足す。θ=−90 では空文字(鍵は従来と 1 字も変わらない —— 第346便c: 既定ではなく −90 に結ぶ)
+function viewKeySuffix(){ return (viewTiltDeg===VIEW_TILT_MIN)? "" : ",vt"+viewTiltDeg+","+camZ; }
 // 第37便 A4(原仮定者裁定): 決定力マップの表示規約 — 一様重力場を等価決定力勾配として重ねる。
 // a=G∇W より、一様加速度 g に対応する等価的な W 勾配は g/G。よって表示合成
 // Φ_g=(gravityX·x+gravityY·y)/G_eff、G_eff=(G>0?G:1) を W に加えたものをマップの色付けに使う。
@@ -38176,11 +38186,12 @@ function drawPhaseGraph(slot=0){
   const chartX0=X+18, chartX1=X+W-8;
   const topY0=Y+12, topY1=Y+62, botY0=Y+70, botY1=Y+112;
   // 相前線プロファイル(左端の縦帯 10px — 現在値。上=天井・下=床)
+  // 第346便c(R399): 帯の並びは画面の上下に合わせる(_phProf の帯 0 は y=−size —— 視点の傾き θ>0〔既定 +90〕では画面の下なので帯を逆に並べる。データは変えない)
   if(sim._phProf){
     for(let b=0;b<8;b++){
       const v=Math.min(1,sim._phProf[b]/6);   // 配位6で飽和
       ctx.fillStyle=`rgba(120,170,255,${(0.10+0.85*v).toFixed(3)})`;
-      const y0p=topY0+(b/8)*(botY1-topY0);
+      const y0p=topY0+(((viewSn>0)? 7-b : b)/8)*(botY1-topY0);
       ctx.fillRect(X+6, y0p, 8, (botY1-topY0)/8-1);
     }
   }
@@ -45378,12 +45389,15 @@ function buildLabBoxRows(g){
     });
     row.appendChild(lab); row.appendChild(rng); row.appendChild(num); g.appendChild(row);
   };
-  const sides=T("pcWallSides");
+  // 第346便c(R399): 面の呼び名(底・天井)は**いまの視点の上下**で付ける —— 視点の傾き θ>0(既定 +90 —— 画面の上が +y)では
+  //   y=+size の面(S.twall[0]・宣言の bottom)が画面の上に見えるので「天井」、y=−size の面(S.twall[1]・宣言の top)を「底」と呼ぶ。
+  //   θ≤0 は従来どおり。表示順(天井・左側面・右側面・底 —— 原仮定者指定)も画面の上下で並べる。宣言の鍵の名・状態の添字は変えない(呼び名だけ)
+  const wallUp=(viewSn>0), sides0=T("pcWallSides"), sides=wallUp? [sides0[1],sides0[0],sides0[2],sides0[3]] : sides0, wallOrd=wallUp? [0,2,3,1] : [1,2,3,0];
   const ensure=(k)=>{ const S=editSim(); if(!S.twall[k]) S.twall[k]={mode:"heat",T:0,rate:0}; return S.twall[k]; };
   // 第58便 58B(原仮定者指示「天井と右が無い」): rad(放熱)面も行を出す。
   // 壁温は rad では 0 表示・0より大きく設定するとその面は加熱面(heat)へ変わる(レートは維持)。
   // 壁レートはモードを問わずその面のレートを編集する
-  if(tw) for(const k of [1,2,3,0]){   // 表示順: 天井・左側面・右側面・底(原仮定者指定)
+  if(tw) for(const k of wallOrd){   // 表示順: 天井・左側面・右側面・底(原仮定者指定 —— 第346便c: 画面の上下で)
     mkRow(T("pcWallT")(sides[k]), "pcWallTDesc",
       ()=>{ const w2=editSim().twall[k]; return (w2 && w2.mode==="heat")? w2.T : 0; },
       (cv)=>{ const S=editSim(); const w2=S.twall[k];
@@ -45395,7 +45409,7 @@ function buildLabBoxRows(g){
   }
   // 第94便(原仮定者指示): 壁別反発係数 — 箱境界なら常に編集可能(既定 0.95・0..1)。
   // 表示順は伝熱壁の行と同じ 天井・左側面・右側面・底
-  if(isBox) for(const k of [1,2,3,0]){
+  if(isBox) for(const k of wallOrd){   // 第346便c: 画面の上下で
     mkRow(T("pcWallRest")(sides[k]), "pcWallRestDesc",
       ()=>{ const S=editSim(); return S.wallRest? S.wallRest[k] : WALL_REST_DEF; },
       (cv)=>{ const S=editSim(); if(!S.wallRest) S.wallRest=normWallRest(S.world);
@@ -47455,7 +47469,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 8. 時空係数の鍵: 時空係数 X_k の正準キーは physics.kappaT(X_k=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは X_k を編集し、セーブ・プリセット・few-shot とも kappaT で記す。内部エンジンも kappaT 正準(ψ = X_k W)で、Kt は境界で受理する後方互換の入力キーだけである。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 10. 時間: 時間経過倍率は timeScale=1 が標準。公転する系は physics.stepDt に「最内の公転周期 ÷ 360」を書き(1 公転 ≈360 步)、最上位に timeRef:{"pRef":その周期,"pair":[中心の番号,周回体の番号],"def":"osculating","stepsPerOrbit":360} を添える(番号は ring/disk を展開した後の粒子の並び)。公転しない系(気体・衝突・光線など)は timeRef:{"basis":"observe","tObs":観察したい時間} とし timeScale は 1〜4。stepDt を省くと刻みは既定のまま・timeRef を省くと取込時の整形が同じ規則で補う。
-11. 座標: 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の奥)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 か 1(1 は EIH の 1PN —— 二次元と同じ式の 3 成分・approxMany とは一緒にしない)にする(三次元の geoPN=4 は規則 12)。geoPN=2・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
+11. 座標: 既定は二次元(physics.coord を書かない)。三次元で走らせるときだけ physics.coord:"3d" を書き、single に z,vz(既定 0)、ring/disk に incl(軌道面の傾き°)・node(昇交点の向き°)を足せる。右手系で +z=x×y(既定の視点では画面の手前)。三次元では kFrame・kRep・muF・kappaS・etaRad・gravityX・gravityY を 0 にし、geoPN は 0 か 1(1 は EIH の 1PN —— 二次元と同じ式の 3 成分・approxMany とは一緒にしない)にする(三次元の geoPN=4 は規則 12)。geoPN=2・光線・熱(tint)・融合・コア・層・壁(boundary)は三次元では受理で拒否される。自転軸は single の spinAxis:{"enable":true,"tiltDeg":+z からの傾き,"azimuthDeg":+x からの方位,"precessionRate":歳差の角速度(rad/時間・規定運動),"source":出所} で粒子ごとに有効化する(全粒子に付けなくてよい)。二次元の本に z・vz・incl を書くと警告が出る(走行は二次元のまま)。
 12. 三次元の慣性決定力: geoPN=4(慣性決定力の多粒子版)の既定は三次元(physics.coord:"3d")で、二次元の 4 の本も互換で受理される。慣性決定力の引きずりの宣言(physics.relativeDrag)と、自転する源の回転引きずり(赤道面で最大・自転軸の上で 0)・軸引きずり(軸の上で最大・赤道で 0 —— 受け手の向きだけを回す)の宣言 spinDrag(三次元の本だけ)は内蔵の本とアプリの生成器が付けるもので、この出力では書かない。physics.spaceMesh(旧法則版の空間メッシュ)は廃止(受理で拒否される)なので書かない(空間メッシュの表示は三次元の本では慣性決定力の場を描く)。慣性決定力の引きずりの強さは、受け手が感じる慣性決定力の総和(背景慣性決定力を含む —— 背景は分母にだけ入る)で割る(既定の合成則がその形。鍵 norm・background は書かない)。背景慣性決定力は鍵 Wbg [M/L³](正の数 —— 引きずりは W₀ が小さいほど強い。未推定は {Wbg:null, enabled:false}・引きずり無しは enabled:false)で直接書く(gain は廃止・書かない。旧 gain は Wbg = 1/gain として読まれる)。
 13. 近似の原則: 背景宇宙の近似として、直属の支配天体の方向を固定する。地球が支配天体の系でも月の公転周期は恒星月で読む(朔望月へ換算しない)。天体表面の一様重力(gravityX/gravityY)は直属の支配天体の方向に固定した一定のベクトルとして書く(毎步回さない —— 三次元では一様重力を使わない)。宣言は任意で最上位に approximation:{"background":"dominant-direction-fixed","periodBasis":"sidereal"} か {"uniformGravity":"dominant-direction-fixed"} を書ける(力学は変わらない)。
 
