@@ -1,0 +1,377 @@
+{
+ "version": "w346a-opttour-1",
+ "libVersion": "w346a-opttour-lib-1",
+ "generator": "tests/exp-w346a-opttour.mjs",
+ "target": "beta/index.html",
+ "all": false,
+ "ruling": "原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」・統括の検証項目 R397",
+ "decl": {
+  "presets": [
+   "galaxyGeo2",
+   "galaxy",
+   "cosmicweb",
+   "darkrotor",
+   "axisBarStill",
+   "binary",
+   "selfRotor"
+  ],
+  "modes": [
+   "ab",
+   "two"
+  ],
+  "modeNames": {
+   "ab": "A/B(kFrame 0 —— A/B 比較の既定)",
+   "two": "2 つの sim が同じ設定で両方進む形"
+  },
+  "steps": 300,
+  "capMs": 60000,
+  "dt": 0.016,
+  "jsFlags": "--allow-natives-syntax --trace-opt --trace-deopt",
+  "reasonTooBig": "Function is too big to be optimized",
+  "gate": {
+   "v8Prefix": "15.7.",
+   "mode": "ab",
+   "fn": "S._core",
+   "maxPresets": 0
+  }
+ },
+ "engine": {
+  "chromium": "157.0.8103.78",
+  "v8": "15.7.112.43",
+  "mathFingerprint": "b8a976bf83f0fd7d",
+  "sameAsDeclared": true,
+  "explicit": null
+ },
+ "runs": [
+  {
+   "preset": "galaxyGeo2",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 4.099,
+   "rateStepsPerSec": 146.4,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [],
+   "traceSeen": true
+  },
+  {
+   "preset": "galaxyGeo2",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 23.636,
+   "rateStepsPerSec": 25.4,
+   "coreStatus": 16385,
+   "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "galaxy",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 3.639,
+   "rateStepsPerSec": 164.9,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [],
+   "traceSeen": true
+  },
+  {
+   "preset": "galaxy",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 15.788,
+   "rateStepsPerSec": 38,
+   "coreStatus": 16385,
+   "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "cosmicweb",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 5.121,
+   "rateStepsPerSec": 117.2,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [],
+   "traceSeen": true
+  },
+  {
+   "preset": "cosmicweb",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 21.759,
+   "rateStepsPerSec": 27.6,
+   "coreStatus": 16385,
+   "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "darkrotor",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 3.511,
+   "rateStepsPerSec": 170.9,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [],
+   "traceSeen": true
+  },
+  {
+   "preset": "darkrotor",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 25.373,
+   "rateStepsPerSec": 23.6,
+   "coreStatus": 16385,
+   "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "axisBarStill",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 4.411,
+   "rateStepsPerSec": 136,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [
+    "pairChannelOm"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "axisBarStill",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 8.225,
+   "rateStepsPerSec": 72.9,
+   "coreStatus": 16385,
+   "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core",
+    "pairChannelOm"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "binary",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 2.079,
+   "rateStepsPerSec": 288.7,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {},
+   "abortedFns": [],
+   "traceSeen": true
+  },
+  {
+   "preset": "binary",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 2.117,
+   "rateStepsPerSec": 283.4,
+   "coreStatus": 25,
+   "coreDecoded": "25(関数・最適化済み・Maglev)",
+   "disabled": {
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "selfRotor",
+   "mode": "ab",
+   "steps": 300,
+   "wallSec": 1.115,
+   "rateStepsPerSec": 538.2,
+   "coreStatus": 41,
+   "coreDecoded": "41(関数・最適化済み・TurboFan)",
+   "disabled": {
+    "S._fuse": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._fuse"
+   ],
+   "traceSeen": true
+  },
+  {
+   "preset": "selfRotor",
+   "mode": "two",
+   "steps": 300,
+   "wallSec": 1.56,
+   "rateStepsPerSec": 384.6,
+   "coreStatus": 25,
+   "coreDecoded": "25(関数・最適化済み・Maglev)",
+   "disabled": {
+    "reactionPass": "Function is too big to be optimized",
+    "S._core": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "S._core",
+    "reactionPass"
+   ],
+   "traceSeen": true
+  }
+ ],
+ "summary": {
+  "ab": {
+   "n": 7,
+   "coreStopped": [],
+   "coreStoppedN": 0,
+   "coreStoppedBy": {
+    "trace": [],
+    "status": []
+   },
+   "fnStopped": {
+    "S._fuse": [
+     "selfRotor"
+    ]
+   },
+   "errors": []
+  },
+  "two": {
+   "n": 7,
+   "coreStopped": [
+    "galaxyGeo2",
+    "galaxy",
+    "cosmicweb",
+    "darkrotor",
+    "axisBarStill",
+    "binary",
+    "selfRotor"
+   ],
+   "coreStoppedN": 7,
+   "coreStoppedBy": {
+    "trace": [
+     "galaxyGeo2",
+     "galaxy",
+     "cosmicweb",
+     "darkrotor",
+     "axisBarStill",
+     "binary",
+     "selfRotor"
+    ],
+    "status": [
+     "galaxyGeo2",
+     "galaxy",
+     "cosmicweb",
+     "darkrotor",
+     "axisBarStill"
+    ]
+   },
+   "fnStopped": {
+    "S._core": [
+     "galaxyGeo2",
+     "galaxy",
+     "cosmicweb",
+     "darkrotor",
+     "axisBarStill",
+     "binary",
+     "selfRotor"
+    ],
+    "reactionPass": [
+     "selfRotor"
+    ]
+   },
+   "errors": []
+  }
+ },
+ "gate": {
+  "applies": true,
+  "pass": true,
+  "v8": "15.7.112.43",
+  "n": 0,
+  "note": "ab で S._core が止まる本 0(上限 0)"
+ },
+ "ok": true,
+ "notClaim": "「新しい版で速くなった」「止まる件を解決した」とは言わない —— この版・この箱・この本・この使い方での、最適化が止まった関数の記録。1 步の ms は記録だけ(門にしない)",
+ "elapsedS": 137.125,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第346便a",
+  "target": "beta/index.html",
+  "targetSha256": "1c5073b656617e01de96fad964ac5be35f5d670637314448374dd82bf5cacd8e",
+  "generatedAt": "2026-11-21T20:57:02.345Z",
+  "inputs": [
+   {
+    "file": "tests/data-w345-engine.json",
+    "bytes": 2649,
+    "sha256": "11380d5f64e3b3aa18a9c859917eb25efee57c34b5cd4638a4820df0faa966a0",
+    "mtime": "2026-11-21T20:08:13.011Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w346a-opttour.mjs",
+    "bytes": 9547,
+    "sha256": "bf6db936fe40ef8a9ef0ab6573e7000529fa5320f576c9f9c5dcdb91f5821bc8",
+    "mtime": "2026-11-21T20:36:33.098Z"
+   },
+   {
+    "file": "tests/lib-w346a-opttour.mjs",
+    "bytes": 9859,
+    "sha256": "31edd7f73395f3c655def609f62812d2a1dbbf909098ba7659955c38f88bd329",
+    "mtime": "2026-11-21T20:54:02.004Z"
+   },
+   {
+    "file": "tests/lib-w345-engine.mjs",
+    "bytes": 22936,
+    "sha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
+    "mtime": "2026-11-21T20:08:13.175Z"
+   },
+   {
+    "file": "tests/lib-w345d-perfengine.mjs",
+    "bytes": 18488,
+    "sha256": "1095a8637a01a8cd426e7a1611380c6442c2b17d4841a2d8ccbefde8c80b7564",
+    "mtime": "2026-11-21T20:30:21.315Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-21T20:08:13.123Z"
+   }
+  ],
+  "codeSha256": "a5322da1d283c4501d9224ab2b3cfa2a3b9055b7b007fd0bea93564d2a50ef1f",
+  "harnessVersion": "w346a-opttour-1",
+  "stage": "opttour-346a",
+  "engine": "157.0.8103.78 / V8 15.7.112.43",
+  "notClaim": "「新しい版で速くなった」「止まる件を解決した」とは言わない —— この版・この箱・この本・この使い方での、最適化が止まった関数の記録。1 步の ms は記録だけ(門にしない)"
+ }
+}
