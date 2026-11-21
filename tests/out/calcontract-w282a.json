@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T17:23:36.470Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:19:28.560Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732244,
-    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
-    "mtime": "2026-11-18T16:43:50.157Z"
+    "bytes": 1734284,
+    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
+    "mtime": "2026-11-21T11:36:39.834Z"
    }
   ],
   "code": [
@@ -24,19 +24,19 @@
     "file": "tests/exp-w282a-calcontract.mjs",
     "bytes": 23707,
     "sha256": "45c81c3b45a942c825547f1b6cf1b3ce675eed9f1045a79dfe42aa57f53e058a",
-    "mtime": "2026-11-18T01:07:52.486Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "9717abe447822e682a584b0915c0a1c1066d83829dca1c80480051d098f86805",
@@ -73,7 +73,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "682256dc840dfcda8584580801ddf64a073e7fe444316cec59e3c0900199bfd5",
+    "stableSha256": "96d76856b97f2bb4701fc1766dfc9ebeb9ea556da287abafcaf1cf7005360d12",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -137,7 +137,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "03c0a6caa4117960c479f65936f511996557c68da05217616ab71463b1e14ce9",
+    "stableSha256": "de42bd042bbbda0daae6739b4dc3698291315ec00df2bf41b627e239ef00563c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2782,17 +2782,17 @@
      "kind": "period",
      "target": "カロン",
      "status": "数値未解決",
-     "nSigma": 278.5921424264764,
-     "residualPct": 0.001308512110222583,
-     "absResidual": 7.221108331694268,
+     "nSigma": 278.5921482517338,
+     "residualPct": 0.0013085121375830816,
+     "absResidual": 7.22110848268494,
      "unit": "s"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 278.5921424264764,
-    "residualPct": 0.001308512110222583
+    "nSigma": 278.5921482517338,
+    "residualPct": 0.0013085121375830816
    }
   },
   {
@@ -2953,7 +2953,7 @@
      "target": "B",
      "status": "合(3σ)",
      "nSigma": 0.09561602617161595,
-     "residualPct": 0.002277934830645248,
+     "residualPct": 0.00227793483600638,
      "absResidual": 57330.833842754364,
      "unit": "s"
     },
@@ -2971,7 +2971,7 @@
    "oldRepresentative": {
     "kind": "period",
     "nSigma": 0.09561602617161595,
-    "residualPct": 0.002277934830645248
+    "residualPct": 0.00227793483600638
    }
   },
   {
@@ -3025,7 +3025,7 @@
      "target": "B",
      "status": "合(3σ)",
      "nSigma": 0.2740909116196267,
-     "residualPct": 0.0023523146363466215,
+     "residualPct": 0.0023523146414256685,
      "absResidual": 37193.50081586838,
      "unit": "s"
     },
@@ -3043,7 +3043,7 @@
    "oldRepresentative": {
     "kind": "period",
     "nSigma": 0.2740909116196267,
-    "residualPct": 0.0023523146363466215
+    "residualPct": 0.0023523146414256685
    }
   },
   {
@@ -4270,7 +4270,7 @@
      "target": "D68",
      "status": "否(3σ)",
      "nSigma": 14.603406073544262,
-     "residualPct": -0.3058994957736397,
+     "residualPct": -0.30589949577366565,
      "absResidual": -42.67115254689634,
      "unit": "deg/yr"
     }
@@ -4279,7 +4279,7 @@
    "oldRepresentative": {
     "kind": "precession",
     "nSigma": 14.603406073544262,
-    "residualPct": -0.3058994957736397
+    "residualPct": -0.30589949577366565
    }
   },
   {
