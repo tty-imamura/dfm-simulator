@@ -1290,6 +1290,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.convbody347b docs.convbody347b"
 #   第338便c の recheckRun で正本と照合・イオンの見込みが〔第344便c〕の作り方と同じ数 / docs.selfclock347c —— 正本の門と表が PHYSICS〔第347便c〕に逐語・文書)と、新しい段 selfclock-347c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.selfclock347c docs.selfclock347c"
 # ==== 第347便c の塊(ここまで)====
+# ==== 第347便d の塊(ここから)====
+# 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.draglong347d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・長い走りの 1e4 周を走らせ直して照合・2 体の極限 / docs.draglong347d —— 正本の門と表が PHYSICS〔第347便d〕に逐語・文書)と、前の便の behavior.dragconv344d。新しい段 draglong-347d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.draglong347d docs.draglong347d behavior.dragconv344d"
+# ==== 第347便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

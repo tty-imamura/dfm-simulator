@@ -2628,6 +2628,18 @@ export const REGEN_STEPS = [
     note: '第347便c: 零試験 8/局所光速の時計(型 6 × 物 11 × 外 3)・速さの表(物 4 × 型 6 × 速さ 5)/イオンの測定の内のノブの範囲(1σ・2σ)/'
       + '「時間が進む半径」(定義 3 × 外 3 × しきい値 3)/ガンマ線バースト(噴き出す塊 5 × 10・落ち込む物質 9 × 8)' }),
   // ==== 第347便c の塊(ここまで)====
+  // ==== 第347便d の塊(ここから)====
+  // ---- 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403): **引きずりの 3 体と長い走り —— 宣言 D0(主)〜D3 の 3 体の近点と交点の率・重心の漂い・
+  //   角運動量の残り/2 体を周期の 1e5 倍まで走らせた帳簿の残り/重力の換算 (α) と D0 の組**(段 draglong-347d —— 正本 tests/out/draglong-347d.json・lib tests/lib-w347d-draglong.mjs ——
+  //   第344便d・第344便b〔照合だけ〕・第343便b・第341便e・第331便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便d の段と同じ 8 段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。正本は第338便c の settleRun で書く(長い走りは 1 回)。所要は第347便d の枝の実測 39 s
+  S('draglong-347d', 'node tests/exp-w347d-draglong.mjs', ['tests/out/draglong-347d.json'], 39, { secSource: 'w347d-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第344便d の段と同じ —— 第341便e の lib の import の先が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 39 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/draglong-347d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便d: 純関数の場面 6/3 体 2 系 × 引きずり 5 × 刻み 2 の近点と交点の率・重心の漂い・E と角運動量の残り・2 体の極限/'
+      + '2 体の帳簿 × 宣言 4 × 刻み 2 × 1e3・1e4 周 + D0・D1 × 刻み 2 × 1e5 周/近点 重力の換算 2 × 引きずり 3 × 刻み 2・二次の読み μ 3' }),
+  // ==== 第347便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
