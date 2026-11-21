@@ -11,10 +11,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const DISKNAME_VERSION_346B = 'w346b-diskname-1';
+export const DISKNAME_VERSION_346B = 'w346b-diskname-2';   // 2: 原仮定者の回答(2026-11-21 —— 第145報の回答 4)—— E2/E3 の枠の回転の分を分けた(specific・保留・forbidNewNear)
 
 export const DECL_346B = Object.freeze({
-  version: 'w346b-diskname-1',
+  version: 'w346b-diskname-2',   // 2: 原仮定者の回答(2026-11-21 —— 第145報の回答 4)を受けて、E2/E3 の枠の回転の分を指していた旧称を分けた(specific・保留)
   oldJa: '回転引きずり',
   newJa: '円盤引きずり',
   // 語の対(長いものから当てる —— 複合の語は日本語では同じ規則で自動: 一様回転引きずり → 一様円盤引きずり)
@@ -35,11 +35,21 @@ export const DECL_346B = Object.freeze({
   // 」の直後に(第N報 /(原仮定者 が続くとき、その「…」は当時の文のまま
   quoteBefore: '(原仮定者|第\\d+報|AN\\d+|裁定|指示|整理|補足|追記|決断|回答|予定|の用語の)[^「」。]{0,50}$',
   quoteAfter: '^[((](第\\d+報|原仮定者)',
+  // (ii) の戻り止め: 新しい呼び名が E2/E3 の枠の回転(kFrame・引きずり減衰 q・qLock・dragQ)の文に入っていないこと(同じ文の中 —— 句点・引用符まで)
+  forbidNewNear: ['円盤引きずり[^。"\'`]{0,60}(E2|E3|kFrame|dragQ|qLock)', '(E2|E3|kFrame|dragQ|qLock)[^。"\'`]{0,60}円盤引きずり',
+    '[Dd]isk[ -]drag[^."\'`]{0,60}(E2|E3|kFrame|dragQ|qLock)', '(E2|E3|kFrame|dragQ|qLock)[^."\'`]{0,60}[Dd]isk[ -]drag'],
   files: [
     {
       file: 'beta/index.html', kind: 'screen', en: true,
       // 範囲: 全体。除く: JavaScript の // の注記(過去の便の記録 —— 「第N便x」の札つき)と、下の守る文字列
       skipJsLineComment: true,
+      // (ii) E2/E3 の枠の回転(A8 のスピン引きずり ω(d) = s (R/(R+d))^q —— 並進引きずりの回転の分)を指していた旧称: 円盤引きずりにせず、文ごとに置く
+      specific: [
+        ['スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。',
+          '並進引きずりのうち、源の自転による回転の分が距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。'],
+        ['Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q).',
+          'Falloff exponent, with distance, of the rotation part (from the source\'s spin) of the translational drag (E3: (R/(R+d))^q).'],
+      ],
       protect: [
         // 原仮定者の裁定(第88報)の引用(🪛 の説明 —— 出どころの語が「…」の前後に無いので名指しで守る)
         '「三次元の慣性決定力: 『回転引きずり』は赤道面で最大・自転軸方向でゼロ。『並進引きずり』『回転引きずり』と別に『軸引きずり』',
@@ -64,7 +74,8 @@ export const DECL_346B = Object.freeze({
       // 範囲: 全体(計算式の一覧 —— 今の状態)。除く: 便ごとの記録の箇条(「- **第N…」で始まる行)・引用・
       //   各項の「- **ノブの台帳**:」の行(ノブの名は PHYSICS〔第337便g〕の台帳の行の名 —— 台帳は統括が持つので、名は台帳と一緒に変える)
       skipLines: ['^- \\*\\*第\\d', '^\\s*- \\*\\*第\\d', '^> ', '^- \\*\\*ノブの台帳\\*\\*'],
-      protect: [],
+      // (iii) 保留(座標変換版の回転の引きずり —— 第332便b で並進引きずりに統合された読みか、3 つ目の引きずりかを決められない所): 旧称のまま
+      protect: ['G_loc と回転引きずりの組み合わせを調べる', '源の枠を順回転で回す回転引きずりの型', '同じ報の追記 1(回転引きずりの大きな影響は遠心力を弱めること)'],
     },
     {
       file: 'docs/AI_SPEC.md', kind: 'doc',
@@ -76,7 +87,8 @@ export const DECL_346B = Object.freeze({
       file: 'docs/PHENOMENA_STATUS.md', kind: 'doc',
       // 範囲: 全体。除く: 便ごとの更新の注(> の行)・「- **第N便の調べ**」の箇条(過去の記録)・引用
       skipLines: ['^> ', '^- \\*\\*第\\d+便の調べ\\*\\*'],
-      protect: [],
+      // (iii) 保留(上と同じ理由)
+      protect: ['K1 の引きずりの分(+71.63)を回転引きずり(座標変換)'],
     },
     {
       file: 'README.md', kind: 'doc',
@@ -159,6 +171,14 @@ export function scanText346b(text, spec, decl = DECL_346B) {
         out.push({ line: i + 1, term: t, ctx: line.slice(Math.max(0, p - 30), p + t.length + 20) });
       }
     }
+    // (ii) の戻り止め: 新しい呼び名が E2/E3 の枠の回転の文に入っていない(注記は除く)
+    for (const src of decl.forbidNewNear || []) {
+      const re = new RegExp(src, 'g');
+      for (let m = re.exec(line); m; m = re.exec(line)) {
+        if (spec.skipJsLineComment && lineInJsComment(line, m.index)) continue;
+        out.push({ line: i + 1, term: 'E2/E3 の文に新しい呼び名', ctx: line.slice(Math.max(0, m.index - 10), m.index + m[0].length + 10) });
+      }
+    }
   }
   return out;
 }
@@ -210,6 +230,9 @@ export function probe346b(root, decl = DECL_346B) {
     ['html の注記に旧称(落ちない)', { 'beta/index.html': iHtmlCmt >= 0 ? H.slice(0, iHtmlCmt) + '\n// 第346便b の試し: ' + decl.oldJa + H.slice(iHtmlCmt) : H }, false],
     ['原仮定者の文の引用に旧称(落ちない)', { 'docs/EQUATIONS.md': E + '\n原仮定者の整理(2026-11-11)「' + decl.oldJa + 'は試し」\n' }, false],
     ['PHYSICS の過去の節に旧称(落ちない)', { 'docs/PHYSICS.md': iPast >= 0 ? P.slice(0, iPast) + '\n' + decl.oldJa + P.slice(iPast) : P }, false],
+    ['E3 の q の説明を円盤引きずりに戻す', { 'beta/index.html': H.replace('並進引きずりのうち、源の自転による回転の分が距離とともに', 'スピン(自転)による円盤引きずりが距離とともに') }, true],
+    ['E3 の q の英語の説明を disk drag に戻す', { 'beta/index.html': H.replace("of the rotation part (from the source's spin) of the translational drag (E3", 'of the disk drag (E3') }, true],
+    ['保留の旧称(落ちない)', { 'docs/PHENOMENA_STATUS.md': base['docs/PHENOMENA_STATUS.md'] }, false],
     ['EQUATIONS の便の記録の箇条に旧称(落ちない)', { 'docs/EQUATIONS.md': E + '\n- **第346便の試し**: ' + decl.oldJa + '\n' }, false],
   ];
   const res = mut.map(([nm, over, shouldFail]) => { const n = total(over); return { nm, shouldFail, n, ok: shouldFail ? n > 0 : n === 0 }; });

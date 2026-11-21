@@ -114724,7 +114724,8 @@ function view343aOf344a(eq) {
     if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第346便b〕が無いか〔第345便e〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
     const want = ['原仮定者の回答(2026-11-21 —— 第145報の回答 3)', '「「回転引きずり」の呼び名を「円盤引きずり」に変える。理由は、並進引きずりや軸引きずりにも回転要素が有り、紛らわしい為。引きずりの形が円盤状に現れる」',
       'R398', '呼び名だけ', 'tests/lib-w346b-diskname.mjs', '| ファイル | 範囲(今の読み手が読む所) | 当てた件数 | 変えない所(当時の語のまま) |', '一様円盤引きずり', 'disk drag', 'spin drag',
-      'ノブの台帳', 'lint.diskDragName346b', 'docs.diskDragName346b', '187/187', '言わないこと'];
+      'ノブの台帳', 'lint.diskDragName346b', 'docs.diskDragName346b', '187/187', '言わないこと',
+      '原仮定者の回答(2026-11-21 —— 第145報の回答 4)', '「「引きずり減衰 q」は、現状の並進引きずりに相当するので、実装を確認する」', 'pairCorePlain', 'ω_j(d) = s_j (R_j/(R_j + d))^q', '159 件', '2 件', '4 件'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第346便b〕に「' + w + '」が無い');
     if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第346便b〕に \\| ');
     cases.push('① 節の位置・必須の語 ' + want.length);
@@ -114735,7 +114736,7 @@ function view343aOf344a(eq) {
     if (!(s2a.indexOf('\n| 円盤引きずり | ') >= 0 && s2a.indexOf('\n| 回転引きずり | ') < 0 && s2a.indexOf('- **呼び名(第346便b') >= 0)) bad.push('② 計算式の一覧 §2a の行の名か呼び名の箇条');
     cases.push('② つなぎ 1 か所(冒頭の用語の段)・§2a の行の名と呼び名の箇条');
     const a0 = AS.indexOf('\n## 290. 第346便b'), ai = secUntilNext329c(AS, a0, '\n## ');
-    if (!(a0 >= 0 && ai.indexOf('円盤引きずり') >= 0 && ai.indexOf('R398') >= 0 && ai.indexOf('disk drag') >= 0 && ai.indexOf('lint.diskDragName346b') >= 0)) bad.push('③ AI_SPEC §290');
+    if (!(a0 >= 0 && ai.indexOf('円盤引きずり') >= 0 && ai.indexOf('第145報の回答 4') >= 0 && ai.indexOf('R398') >= 0 && ai.indexOf('disk drag') >= 0 && ai.indexOf('lint.diskDragName346b') >= 0)) bad.push('③ AI_SPEC §290');
     // 過去の節は当時の語のまま(書き換えていない)
     const past = secUntilNext329c(PH, PH.indexOf('〔第339便 — 統括'), /\n〔第\d+便[a-z]* — |\n## /), a247 = secUntilNext329c(AS, AS.indexOf('\n## 247. 第339便a'), '\n## ');
     if (!(past.indexOf('回転引きずり') >= 0 && past.indexOf('円盤引きずり') < 0 && a247.indexOf('回転引きずり') >= 0 && a247.indexOf('円盤引きずり') < 0)) bad.push('③ 過去の節(〔第339便 — 統括〕・AI_SPEC §247)が書き換わった');
