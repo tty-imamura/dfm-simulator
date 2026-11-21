@@ -2604,6 +2604,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/opttour-346a.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec'] },
     note: '第346便a: 7 本 × 2 つの使い方の、最適化が止まった関数と理由・S._core の最適化の状態の数・ブラウザの版・V8・指紋・門(V8 15.7 の A/B で S._core が止まる本 0)' }),
   // ==== 第346便a の塊(ここまで)====
+  // ==== 第347便b の塊(ここから)====
+  // ---- 第347便b(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・統括の検証項目 R401):
+  //   **当事者時間の換算の多体 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列(太陽–地球–月の型の 3 体・金星と水星の型・時計に入れる背景・場の側の運動量の帳簿・8 惑星と月の型の表)**
+  //   (段 convbody-347b —— 正本 tests/out/convbody-347b.json・lib tests/lib-w347b-convbody.mjs —— 第344便b・第343便b・第341便e・第299便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便b の段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。純関数の場面・T3・T5 は第338便c の settleRun。所要は第347便b の枝の実測 31 s
+  S('convbody-347b', 'node tests/exp-w347b-convbody.mjs', ['tests/out/convbody-347b.json'], 31, { secSource: 'w347b-branch', node: true,
+    after: ['partyconv-344b'],   // 順序だけ(第344便b の lib を呼ぶ —— 同じ lib の先が読む正本の書き手の後)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 31 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/convbody-347b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便b: 太陽–地球–月の型 2 系 × ε 2 点 + 刻みと窓の幅 × 型 (0)・(α) 枠 3・(β) 枠 3 の率の差/金星と水星の型の 2 体の照合 6 行と摂動の多体 10 行/'
+      + '水星の本の背景の値の (α) の一次/2 体・3 体 × n_G 2 × 型 3 の帳簿 12 行/8 惑星の (0) − (α) の近点の二次と周期の比 + 月の型 3 行' }),
+  // ==== 第347便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
