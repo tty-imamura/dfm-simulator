@@ -42685,7 +42685,7 @@ regen と always の集合は同じ(段の差 0)。残る recheck 14 段はデ�
 | twobody | tests/exp-w272c-twobody.mjs | 足した(complete) | 1 本 | 6 |
 | meshnod0 | tests/exp-w275b-meshnod0.mjs | 足した(complete) | 1 本 | 8 |
 | bgcompose | tests/exp-w279c-bgcompose.mjs | 足した(complete) | 0 本 | 15 |
-| sphereKernel | tests/exp-w280b-sphereKernel.mjs | 足した(complete) | 1 本 | 24 |
+| sphereKernel | tests/exp-w280b-sphereKernel.mjs | 足した(complete) | 1 本 | 25 |
 | qsplit | tests/exp-w271c-qsplit.mjs | 足した(complete) | "all" | 18 |
 | rpar | tests/exp-w272c-rpar.mjs | 足した(complete) | 0 本 | 3 |
 | nslockledger | tests/exp-w273c-nslockledger.mjs | 足した(complete) | "all" | 3 |
