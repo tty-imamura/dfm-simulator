@@ -7,8 +7,8 @@
 //
 // ■ 走らせたノブの格子と判定の物差し(正本の先頭 —— 式の形の宣言ではなく、何を測ったかの記録)
 //   T1: 系 2(太陽–地球–月の型〔質量 1e-3・1e-5・1e-7・月の軌道 a = 0.05・e = 0.055・傾き 5°・外の 10 周〕・水星の型 + 木星の型〔太陽 1e-4・水星の型 a = 1・e = 0.2056・傾き 7°・
-//       木星の型 1e-7・a = 3・外の 4 周〕)× 引きずり なし・D0〜D3 × 内側の周期の刻み 2(160・320/400・800)。重力はニュートン。率は内側の軌道の LRL のベクトルと角運動量の向きの
-//       線形の当てはめ(rad / 内側の周期)。2 体の極限: 水星の型で木星の型の質量を 0 —— 第344便d の試験粒子の近点(μ = 1e-4)と照合。
+//       木星の型 1e-7・a = 3・外の 4 周〕)× 引きずり なし・D0〜D3 × 内側の周期の刻み 2(160・320/400・800)。重力はニュートン。率は内側の軌道の近点の通過〔二分法〕ごとの
+//       近点の経度 ϖ = Ω + ω と交点の経度 Ω の、通過の番号に対する傾き(rad / 近点から近点までの 1 周)。2 体の極限: 水星の型で木星の型の質量を 0 —— 第344便d の試験粒子の近点(μ = 1e-4)と照合。
 //   T2: 2 体(第343便b の系)× D0〜D3 × 1 周の刻み 128・256 × 1e3(尺度の走り直しに入る)・1e4 周、D0・D1 × 128・160 × 1e5 周(1 回だけ —— QA は 1e4 周までを走らせ直す)。
 //       物差し: 帳簿 E_mod = E − m₁m₂K/(2r²)(D0 で保たれる量)の残り ÷ |E₀| の 10 倍ごとの窓の最大・平均・傾き。
 //   T3: 試験粒子(中心は固定)× 重力 (0)(指数 2)・(α)(指数 1)× 引きずり なし・D0・D1 × 1 周 3000・6000 刻み(μ = 1e-5)・二次の読み μ = 1e-4・2e-4・4e-4。
@@ -41,7 +41,7 @@ export function gatesOf(J) {
   const [s1, s2] = L.DECL.long.steps;
   return {
     pure: Object.values(J.pure.gates).every(Boolean),
-    t1Limit: Math.abs(lim.d0OverPN - lim.ref344dD0) < 5e-3 && Math.abs(lim.d1MinusD0 - lim.ref344dD1MinusD0) < 0.02 * Math.abs(lim.ref344dD1MinusD0) && Math.abs(lim.d0OverPN - lim.k1) < 5e-3,
+    t1Limit: Math.abs(lim.d0OverPN - lim.ref344dD0) < 1e-4 && Math.abs(lim.d1MinusD0 - lim.ref344dD1MinusD0) < 1e-4 * Math.abs(lim.ref344dD1MinusD0) && Math.abs(lim.d0OverPN - lim.k1) < 4e-3,
     t1Bary: ['sem', 'mj'].every((k) => row(k, 'D0').xp < 1e-9 && ['D1', 'D2', 'D3'].every((d) => row(k, d).xp > 1e-7)),
     t1AngMom: row('sem', 'D0').dLmax < 1e-10 && ['D1', 'D2', 'D3'].every((d) => row('sem', d).dLmax > 100 * row('sem', 'D0').dLmax) && row('mj', 'D0').dLmax < 1e-10,
     t1Step: ['sem', 'mj'].every((k) => t1[k].diff.every((d) => Math.abs(d.dPeri - d.dPeriCoarse) < 0.01 * Math.abs(d.dPeri) && Math.abs(d.dNode - d.dNodeCoarse) < 0.01 * Math.abs(d.dNode))),

@@ -32,10 +32,10 @@ export const DECL = Object.freeze({
   kK1: 10,
   /** T1: 3 体の系(重力定数 1・c₀ = 1・誇張した場)。inner = 率を読む内側の軌道(b のまわりの a)・outer = 外の周期で走る長さを数える */
   systems: Object.freeze({
-    sem: Object.freeze({ name: '太陽–地球–月の型', m: Object.freeze([1e-3, 1e-5, 1e-7]), outer: Object.freeze({ a: 1, e: 0.0167 }), inner: Object.freeze({ a: 0.05, e: 0.055, incDeg: 5 }),
-      orbitsOuter: 10, steps: Object.freeze([160, 320]), sampleDiv: 8, note: '質量の比 1 : 1e-2 : 1e-4(地球と月を誇張)・月の軌道は地球のヒル半径の約 0.34 倍・外の周期 ÷ 月の周期 ≈ 9' }),
+    sem: Object.freeze({ name: '太陽–地球–月の型', m: Object.freeze([1e-3, 1e-5, 1e-7]), outer: Object.freeze({ a: 1, e: 0.0167 }), inner: Object.freeze({ a: 0.03, e: 0.1, incDeg: 5 }),
+      orbitsOuter: 10, steps: Object.freeze([160, 320]), sampleDiv: 16, note: '質量の比 1 : 1e-2 : 1e-4(地球と月を誇張)・月の軌道は地球のヒル半径の約 0.2 倍・外の周期 ÷ 月の周期 ≈ 19' }),
     mj: Object.freeze({ name: '水星の型 + 木星の型', m: Object.freeze([1e-4, 1e-10, 1e-7]), inner: Object.freeze({ a: 1, e: 0.20563593, incDeg: 7 }), outer: Object.freeze({ a: 3, e: 0.048 }),
-      orbitsOuter: 4, steps: Object.freeze([400, 800]), sampleDiv: 16, note: '太陽の ψ = 1e-4(水星の軌道)・木星の型は質量の比 1e-3・長半径 3(誇張して近い)・水星の型の質量 1e-10(ほぼ試験粒子)' }),
+      orbitsOuter: 4, limitOuter: 16, steps: Object.freeze([400, 800]), sampleDiv: 16, note: '太陽の ψ = 1e-4(水星の軌道)・木星の型は質量の比 1e-3・長半径 3(誇張して近い)・水星の型の質量 1e-10(ほぼ試験粒子)' }),
   }),
   /** T2: 2 体(第343便b の systemOf('two') —— 質量 0.01・0.005・a = 1・e = 0.3)・1 周の刻み 2 つ(1e5 周は 128 と 160)・走る長さ(周期の倍)・帳簿を 8 步ごとに読む・10 倍ごとの窓 */
   long: Object.freeze({ steps: Object.freeze([128, 256]), orbitsShort: 1e3, orbitsAll: 1e4, orbitsMax: 1e5, stepsMax: Object.freeze([128, 160]), maxDrags: Object.freeze(['D0', 'D1']), sampleEvery: 8,
@@ -204,19 +204,20 @@ export function systemOf3(key) {
   return { key, m, P: P.map((p) => p.map((x, c) => x - C[c])), V: V.map((v) => v.map((x, c) => x - Vc[c])), inner,
     Tin: 2 * Math.PI * sqrt(inner.a ** 3 / inner.mu), Tout: 2 * Math.PI * sqrt(outerA ** 3 / outerMu), aRef: outerA };
 }
-/** 内側の軌道の要素(幾何の速度 dp/dt —— 移送を含む): 近点の経度 ϖ(LRL のベクトルの xy 面の角)・交点の経度 Ω */
+/** 内側の軌道の LRL のベクトル(離心率のベクトル)と角運動量の単位ベクトル(幾何の速度 dp/dt —— 移送を含む)。呼び手は近点の通過の時の角運動量の向きから交点の経度を作る */
 function elemsOf(s, d, N3, inner) {
   const { b, c, mu } = inner;
   const r = [s[3 * b] - s[3 * c], s[3 * b + 1] - s[3 * c + 1], s[3 * b + 2] - s[3 * c + 2]], w = [d[3 * b] - d[3 * c], d[3 * b + 1] - d[3 * c + 1], d[3 * b + 2] - d[3 * c + 2]];
   const h = [r[1] * w[2] - r[2] * w[1], r[2] * w[0] - r[0] * w[2], r[0] * w[1] - r[1] * w[0]], rn = sqrt(r[0] ** 2 + r[1] ** 2 + r[2] ** 2);
   const wh = [w[1] * h[2] - w[2] * h[1], w[2] * h[0] - w[0] * h[2], w[0] * h[1] - w[1] * h[0]], e = [0, 1, 2].map((k) => wh[k] / mu - r[k] / rn);
-  return { varpi: Math.atan2(e[1], e[0]), node: Math.atan2(h[0], -h[1]), ecc: sqrt(e[0] ** 2 + e[1] ** 2 + e[2] ** 2) };
+  const hn = sqrt(h[0] ** 2 + h[1] ** 2 + h[2] ** 2);
+  return { ev: e, hv: [h[0] / hn, h[1] / hn, h[2] / hn] };
 }
 const unwrapSeq = (a) => { const o = [a[0]]; for (let i = 1; i < a.length; i++) { let x = a[i]; while (x - o[i - 1] > Math.PI) x -= 2 * Math.PI; while (x - o[i - 1] < -Math.PI) x += 2 * Math.PI; o.push(x); } return o; };
 const slopeOf = (t, y) => { const n = t.length, mt = t.reduce((a, b) => a + b, 0) / n, my = y.reduce((a, b) => a + b, 0) / n; let sxy = 0, sxx = 0; for (let i = 0; i < n; i++) { sxy += (t[i] - mt) * (y[i] - my); sxx += (t[i] - mt) ** 2; } return sxy / sxx; };
 
 /* ───────── T1 3 体 ───────── */
-/** 3 体を走らせ、内側の軌道の近点と交点の率(rad / 内側の周期)・重心の漂い・E と角運動量の残りを読む。mOverride で質量を差し替え(2 体の極限) */
+/** 3 体を走らせ、内側の軌道の近点と交点の率(rad / 近点から近点までの 1 周)・重心の漂い・E と角運動量の残りを読む。mOverride で質量を差し替え(2 体の極限) */
 export function runTriple(key, drag, { steps, orbitsOuter, mOverride = null } = {}) {
   const S0 = systemOf3(key), D = DECL.systems[key], m = mOverride || S0.m;
   const st = steps || D.steps[0], no = orbitsOuter || D.orbitsOuter, N3 = 9;
@@ -224,17 +225,33 @@ export function runTriple(key, drag, { steps, orbitsOuter, mOverride = null } = 
   const h = S0.Tin / st, nst = Math.round(no * S0.Tout / h), every = Math.max(1, Math.floor(st / D.sampleDiv));
   const E0 = energyN(m, s), L0 = angmomN(m, s), Ln0 = Math.hypot(...L0), MR0 = mass3(m, s, 0), P0 = mass3(m, s, N3), Mt = m.reduce((a, b) => a + b, 0);
   const vScale = m.reduce((a, x, i) => a + x * Math.hypot(S0.V[i][0], S0.V[i][1], S0.V[i][2]), 0);
+  // 近点の通過(内側の相対の位置と幾何の速度の内積が − → +)を二分法で詰め、その時の近点の経度(ϖ = Ω + ω)と交点の経度 Ω を読む(第344便d の近点の数え方を 3 体へ)
+  const { b: ib, c: ic } = S0.inner, sPrev = new Float64Array(18), sT = new Float64Array(18), dT = new Float64Array(18);
+  const rvOf = (x, dx) => { let a = 0; for (let c = 0; c < 3; c++) a += (x[3 * ib + c] - x[3 * ic + c]) * (dx[3 * ib + c] - dx[3 * ic + c]); return a; };
   const tt = [], vp = [], nd = []; let dEmax = 0, dLmax = 0;
+  f(s, d); let g0 = rvOf(s, d);
   for (let k = 0; k <= nst; k++) {
-    if (k % every === 0) { f(s, d); const el = elemsOf(s, d, N3, S0.inner); tt.push(k * h); vp.push(el.varpi); nd.push(el.node);
-      dEmax = Math.max(dEmax, Math.abs(energyN(m, s) - E0) / Math.abs(E0)); const L = angmomN(m, s); dLmax = Math.max(dLmax, Math.hypot(L[0] - L0[0], L[1] - L0[1], L[2] - L0[2]) / Ln0); }
-    if (k < nst) step(s, h);
+    if (k % every === 0) { dEmax = Math.max(dEmax, Math.abs(energyN(m, s) - E0) / Math.abs(E0)); const L = angmomN(m, s); dLmax = Math.max(dLmax, Math.hypot(L[0] - L0[0], L[1] - L0[1], L[2] - L0[2]) / Ln0); }
+    if (k === nst) break;
+    sPrev.set(s); step(s, h); f(s, d); const g1 = rvOf(s, d);
+    if (g0 < 0 && g1 >= 0) {
+      let lo = 0, hi = h;
+      for (let j = 0; j < 50; j++) { const mid = 0.5 * (lo + hi); sT.set(sPrev); step(sT, mid); f(sT, dT); if (rvOf(sT, dT) < 0) lo = mid; else hi = mid; }
+      const tm = 0.5 * (lo + hi); sT.set(sPrev); step(sT, tm); f(sT, dT);
+      // 近点の経度 ϖ = Ω + ω(ω は軌道の面の中で交点の線から測る —— xy 面へ射影した角は傾き i で cos i 倍に縮むので使わない)
+      const el = elemsOf(sT, dT, N3, S0.inner), hv = el.hv, r = [0, 1, 2].map((c) => sT[3 * ib + c] - sT[3 * ic + c]);
+      const nn = Math.hypot(hv[0], hv[1]), n = [-hv[1] / nn, hv[0] / nn, 0], mv = [hv[1] * n[2] - hv[2] * n[1], hv[2] * n[0] - hv[0] * n[2], hv[0] * n[1] - hv[1] * n[0]];
+      const Om = Math.atan2(n[1], n[0]), om = Math.atan2(r[0] * mv[0] + r[1] * mv[1] + r[2] * mv[2], r[0] * n[0] + r[1] * n[1] + r[2] * n[2]);
+      tt.push(k * h + tm); vp.push(Om + om); nd.push(Om);
+    }
+    g0 = g1;
   }
   const T = nst * h, MR = mass3(m, s, 0), L = angmomN(m, s);
   const xp = Math.hypot(MR[0] - MR0[0] - P0[0] * T, MR[1] - MR0[1] - P0[1] * T, MR[2] - MR0[2] - P0[2] * T) / (vScale * S0.aRef);
-  const wv = slopeOf(tt, unwrapSeq(vp)) * S0.Tin, wn = slopeOf(tt, unwrapSeq(nd)) * S0.Tin;
+  // 率は近点の通過ごと(近点から近点まで —— 第344便d と同じ「1 周」の取り方): 通過の番号に対する傾き
+  const ix = vp.map((_, i) => i), wv = slopeOf(ix, unwrapSeq(vp)), wn = slopeOf(ix, unwrapSeq(nd)), tAnom = slopeOf(ix, tt);
   return { periRate: wv, nodeRate: wn, xp, dEmax, dEend: (energyN(m, s) - E0) / Math.abs(E0), dLmax, dLend: Math.hypot(L[0] - L0[0], L[1] - L0[1], L[2] - L0[2]) / Ln0,
-    nInner: T / S0.Tin, nSteps: nst, Mt };
+    nInner: T / S0.Tin, nPeri: vp.length, anomOverKepler: tAnom / S0.Tin, nSteps: nst, Mt };
 }
 export function t1Rows() {
   const out = {};
@@ -254,7 +271,7 @@ export function t1Rows() {
   // 2 体の極限: 水星の型で木星の型の質量を 0 に —— 引きずりの近点の分 ÷ 1PN(6πμ/(a(1 − e²)))を第344便d の試験粒子の近点(μ = 1e-4)と照合
   const S = DECL.systems.mj, mu = S.m[0], pn = 6 * Math.PI * mu / (S.inner.a * (1 - S.inner.e ** 2)), m0 = [S.m[0], S.m[1], 0];
   const lim = {};
-  for (const drag of ['none', 'D0', 'D1']) lim[drag] = runTriple('mj', drag, { steps: S.steps[1], mOverride: m0 }).periRate;
+  for (const drag of ['none', 'D0', 'D1']) lim[drag] = runTriple('mj', drag, { steps: S.steps[0], orbitsOuter: S.limitOuter, mOverride: m0 }).periRate;
   const ref = {}; for (const drag of ['D0', 'D1']) ref[drag] = apsidalDrag({ drag, grav: 'none', mu, e: S.inner.e }).overPN;
   out.limit = { mu, k1: k1Share(), d0OverPN: (lim.D0 - lim.none) / pn, d1OverPN: (lim.D1 - lim.none) / pn, ref344dD0: ref.D0, ref344dD1: ref.D1,
     d1MinusD0: (lim.D1 - lim.D0) / pn, ref344dD1MinusD0: ref.D1 - ref.D0, noneOverPN: lim.none / pn };
