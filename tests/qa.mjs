@@ -114194,6 +114194,153 @@ function view343aOf344a(eq) {
 }
 // ==== 第345便b の塊(ここまで)====
 
+// ==== 第345便d の塊(ここから —— behavior.perfengine345d・docs.perfengine345d・lint.perfExplicitBrowser345d の 3 ブロック。前の 2 本は root で SKIP・lint は両方で回る)====
+// ---- 第345便d(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」「AN922: 進める。第345便で環境を揃え、第346便も進める」・統括の検証項目 R395):
+// ----   **性能の検査を 2 つの版のブラウザで測り直す**(器 tests/exp-w345d-perfengine.mjs —— 手動の診断の器・**再生成の鎖の段にしない・門を置かない**・lib tests/lib-w345d-perfengine.mjs・
+// ----   記録 tests/out/perfengine-w345d.json)。世代切替 = beta 対象 ∧ 器・lib・記録がある。
+// ----   behavior.perfengine345d: ① 版・純関数の場面 6 ② 記録の形(2 版 × 3 回・明示の回は版 153.0.8010.12・箱の記録・門の欄なし)
+// ----     ③ 記録の回ごとの要約から表・切り分けの読み・普通の使い方の読みを lib で作り直して同じ ④ 器の作り(段にしない・html を書かない・perf.mjs の閾値を写すだけ)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w345d-perfengine.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w345d-perfengine.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'perfengine-w345d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wOut))) {
+    console.log('SKIP behavior.perfengine345d(第345便d の性能の測り直しの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  try {
+    const X = await import('file://' + wHarn), L = await import('file://' + wLib), J = JSON.parse(fs.readFileSync(wOut, 'utf8'));
+    const js = (x) => JSON.stringify(x);
+    // ① 版・純関数の場面
+    if (!(L.LIB_VERSION === 'w345d-perfengine-lib-1' && X.HARNESS_VERSION === 'w345d-perfengine-1' && J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && js(J.decl) === js(L.DECL))) bad.push('① 版(器・lib・記録)か宣言が記録と違う');
+    const PG = L.pureGates(L.pureScenes());
+    for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+    if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+    cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(通過数の数え方・再トス・1 步・切り分けの 3 つの読み・揺れ・普通の使い方)`);
+    // ② 記録の形
+    const runs = (J.t2 && J.t2.runs) || [];
+    const nb = (b) => runs.filter((x) => x.browser === b).length;
+    if (!(nb('default') === 3 && nb('explicit153') === 3)) bad.push(`② 回の数(既定 ${nb('default')}・明示 ${nb('explicit153')} —— 3 回ずつ)`);
+    if (!runs.filter((x) => x.browser === 'explicit153').every((x) => x.summary.chromium === L.DECL.expect153 && x.summary.explicit === true)) bad.push('② 明示の回の版が 153.0.8010.12 でないか explicit の印が無い');
+    if (!runs.filter((x) => x.browser === 'default').every((x) => x.summary.explicit === false && typeof x.summary.chromium === 'string')) bad.push('② 既定の回に explicit の印が立っている');
+    if (!runs.every((x) => typeof x.summary.jsVersion === 'string' && x.summary.nRows > 0)) bad.push('② 回の V8 の版か行の数が無い');
+    if (!(J.t3 && J.t3.cut && J.t3.cut.default && J.t3.cut.explicit153 && J.t3.deopt && J.t3.deopt.default && J.t3.deopt.explicit153)) bad.push('② 切り分け(T3)が 2 版そろっていない');
+    if (!(J.box && J.box.cpu && J.box.cores > 0 && J.box.node && J.box.beta && /^[0-9a-f]{64}$/.test(J.box.beta.sha256 || ''))) bad.push('② 箱の記録(CPU・コア・Node・測った html の sha)');
+    if (/"(gates|ok|pass2|gate)"\s*:/.test(js({ g: J.gates, o: J.ok })) || J.gates !== undefined || J.ok !== undefined || !/informational/.test(J.judgement || '')) bad.push('② 記録に門の欄がある(時間の量には門を置かない)');
+    cases.push(`② 記録: 既定 ${nb('default')} 回(${(runs.find((x) => x.browser === 'default') || { summary: {} }).summary.chromium})・明示 ${nb('explicit153')} 回(${L.DECL.expect153})・T3 2 版・箱 ${J.box && J.box.cores} コア・門の欄なし`);
+    // ③ 作り直して同じ(ブラウザを起こさない —— 記録の回ごとの要約から)
+    const J2 = X.buildDoc(JSON.parse(js(J)), {});
+    for (const k of ['table']) if (js(J2.t2[k]) !== js(J.t2[k])) bad.push('③ t2.' + k + ' を作り直すと違う');
+    if (js(J2.usage) !== js(J.usage)) bad.push('③ 普通の使い方の読みを作り直すと違う');
+    if (js(J2.t3.reading) !== js(J.t3.reading)) bad.push('③ 切り分けの読みを作り直すと違う');
+    for (const b of L.DECL.browsers) if (!Object.values(L.LABELS).includes(J.t3.reading[b].label)) bad.push('③ 読みが 3 つの言葉のどれでもない: ' + b);
+    cases.push(`③ 表・読みを lib で作り直して同じ(切り分け: 既定 ${J.t3.reading.default.key}・明示 ${J.t3.reading.explicit153.key} / 普通の使い方: ${J.usage.allSame ? '3 本とも 1 ± ' + L.DECL.usage.same + ' の内' : '外の標本あり'})`);
+    // ④ 器の作り
+    const th = rd('tests/exp-w345d-perfengine.mjs'), tl = rd('tests/lib-w345d-perfengine.mjs'), RT = rd('tests/lib-w281a-regentable.mjs'), PF = rd('tests/perf.mjs');
+    if (/perfengine/.test(RT)) bad.push('④ 再生成の鎖の表に perfengine の段がある(段にしない)');
+    if (/writeFileSync\([^)]*index\.html/.test(th + tl) || /from '/.test(tl) || /Math\.random/.test(th + tl) || /\bfetch\(|https?\.get\(|\bcurl\b/.test(th + tl)) bad.push('④ 器か lib が html を書く・lib が import する・乱数・ネット');
+    const C = L.DECL.perfCopy;
+    if (!(PF.indexOf("const THRESH = +(process.env.PERF_THRESH || " + C.thresh.toFixed(2) + ")") >= 0 && PF.indexOf('ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || ' + C.selfFail + ')') >= 0
+      && PF.indexOf('ABJIT_CROSS_FAIL = +(process.env.PERF_ABJIT_CROSS_FAIL || ' + C.crossFail + ')') >= 0 && PF.indexOf('GEO2_THRESH = +(process.env.GEO2_THRESH || ' + C.geo2 + ')') >= 0))
+      bad.push('④ lib の perf の閾値の写しが perf.mjs の値と違う(写すだけ —— perf.mjs の値は変えない)');
+    cases.push('④ 段にしない(鎖の表に無い)・html を書かない・lib は import なし・perf の閾値は写すだけ(1.10・4・1.5・1.65)');
+  } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('behavior.perfengine345d', bad.length === 0,
+    `**性能の検査を 2 つの版のブラウザで測り直した記録**(第345便d・第145報 AN921・R395 —— 手動の診断の器・段にしない・門を置かない・時間は箱で揺れる): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+
+// ---- 第345便d: docs.perfengine345d —— 文書(PHYSICS〔第345便d〕の表 5 本が逐語・節の位置・必須の語・AI_SPEC §287・CHANGELOG・.gitignore・post-merge・書かない語)。世代切替は上と同じ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w345d-perfengine.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w345d-perfengine.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'perfengine-w345d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wOut))) {
+    console.log('SKIP docs.perfengine345d(第345便d の性能の測り直しの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  try {
+    const L = await import('file://' + wLib), J = JSON.parse(fs.readFileSync(wOut, 'utf8'));
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第345便d — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第344便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第345便d〕が無いか〔第344便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const T = L.tablesOf(J);
+    for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('① PHYSICS〔第345便d〕に表 ' + k + ' が逐語で無い');
+    if (Object.keys(T).length !== 5) bad.push('① 表の数 ' + Object.keys(T).length);
+    cases.push(`① 表 ${Object.keys(T).length} 本が PHYSICS〔第345便d〕に逐語(lib ${L.LIB_VERSION})`);
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN921: 推奨で進める', 'R395', 'tests/exp-w345d-perfengine.mjs', 'tests/lib-w345d-perfengine.mjs', 'tests/out/perfengine-w345d.json',
+      'CHROMIUM_PATH', 'DFM_EXPECT_CHROMIUM', '153.0.8010.12', '段にしない', '門を置かない', 'headless shell', '手元では測れない', 'PR の CI で初めて分かる',
+      L.LABELS.measure, L.LABELS.app, L.LABELS.unknown, '(A)', '(B)', '(C)', '推奨しない', '決断事項の候補', '次の便へ', 'behavior.perfengine345d', 'docs.perfengine345d', 'lint.perfExplicitBrowser345d'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第345便d〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('② PHYSICS〔第345便d〕に \\| ');
+    const a0 = AS.indexOf('\n## 287. 第345便d'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('tests/out/perfengine-w345d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R395') >= 0 && ai.indexOf('CHROMIUM_PATH') >= 0))
+      bad.push('② AI_SPEC §287(記録・SYSTEM_PROMPT・R395・明示のブラウザ)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const i345d = clLines.findIndex((l) => l.indexOf('**第345便d**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl = i345d >= 0 ? clLines[i345d] : '';
+    if (!(i345d > 0 && (i344t < 0 || i345d < i344t) && cl.indexOf('tests/perf.mjs') >= 0 && cl.indexOf('tests/exp-w345d-perfengine.mjs') >= 0 && cl.indexOf('第145報') >= 0 && cl.indexOf('R395') >= 0))
+      bad.push('② CHANGELOG の第345便d の行(見出しより後・第344便(統括)の行より前・perf.mjs・器・第145報・R395)');
+    if (GI.indexOf('!tests/out/perfengine-w345d.json') < 0) bad.push('② .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第345便d の塊(ここから)====') >= 0 && /behavior\.perfengine345d docs\.perfengine345d lint\.perfExplicitBrowser345d/.test(PM))) bad.push('② post-merge に第345便d の塊');
+    cases.push('② 節の位置・必須の語 ' + want.length + '・AI_SPEC §287・CHANGELOG の行の位置・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /一致した/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第345便d の書かない語(引用符の外 —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・収束・遅くなったと断定する 2 つの言い方
+    const W345 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収'].map(rvC);
+    const W345q = ['たっなく遅がリプア', 'い悪が版'].map(rvC);   // 引用の「 」の中では書いてよい(言わないことの一覧)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第345便d〕', sec], ['AI_SPEC §287', ai], ['CHANGELOG の第345便d の行', cl], ['器', rd('tests/exp-w345d-perfengine.mjs')], ['lib', rd('tests/lib-w345d-perfengine.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W345)) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const w of W345q) if (strip(tx).indexOf(w) >= 0) bad.push('③ ' + nm + ' に断定の言い方(' + w.length + ' 字 —— 「」の外)');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('③ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('③ ' + nm + ' に裸の係数記号');
+    }
+    cases.push('③ 書かない語・禁句・断定の言い方・裸の係数記号(節・AI_SPEC・CHANGELOG・器・lib)');
+  } catch (e) { bad.push('読めない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('docs.perfengine345d', bad.length === 0,
+    `**性能の測り直しの文書**(第345便d・第145報 AN921・R395 —— 表・切り分け・言わないこと): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+
+// ---- 第345便d: lint.perfExplicitBrowser345d —— tests/perf.mjs の**明示のブラウザ**の約束(root でも回る —— perf.mjs は root と beta で同じ)
+// ----   ① 両方が在るときだけ明示(env の 4 通りを式で評価)② 版が違えば例外 ③ どちらかが無ければ今までの起動の順(既定の chromium.launch() が先)
+// ----   ④ env.browserLaunch(explicit・chromium・jsVersion)⑤ 閾値・標本・再トスの決まりの行が基点と同じ
+{
+  const bad = [], cases = [];
+  const PF = (() => { try { return fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8'); } catch (e) { return ''; } })();
+  const m = /const PERF_EXPLICIT_BROWSER = \((process\.env\.CHROMIUM_PATH && process\.env\.DFM_EXPECT_CHROMIUM)\)\s*\n?\s*\? \{ executablePath: process\.env\.CHROMIUM_PATH, expect: process\.env\.DFM_EXPECT_CHROMIUM \} : null;/.exec(PF);
+  if (!m) bad.push('① PERF_EXPLICIT_BROWSER の宣言の形(両方が在るときだけ)が無い');
+  else {
+    const f = new Function('process', 'return (' + m[1] + ') ? 1 : 0;');
+    const combos = [[{}, 0], [{ CHROMIUM_PATH: '/x' }, 0], [{ DFM_EXPECT_CHROMIUM: '1' }, 0], [{ CHROMIUM_PATH: '/x', DFM_EXPECT_CHROMIUM: '1' }, 1]];
+    for (const [env, want] of combos) if (f({ env }) !== want) bad.push('① env ' + JSON.stringify(env) + ' で明示=' + f({ env }));
+    cases.push('① env の 4 通りで、両方が在るときだけ明示');
+  }
+  const gb = PF.slice(PF.indexOf('async function getBrowser()'), PF.indexOf("throw new Error('playwright が見つかりません"));
+  if (!(/if \(got !== want\.expect\) \{[\s\S]{0,80}await b\.close\(\);[\s\S]{0,40}throw new Error\(/.test(PF))) bad.push('② 版が違うときの例外が無い');
+  if (!(/^async function getBrowser\(\) \{\n  if \(PERF_EXPLICIT_BROWSER\) return launchExplicitBrowser\(PERF_EXPLICIT_BROWSER\);\n  const exe = process\.env\.CHROMIUM_PATH \|\| '\/opt\/pw-browsers\/chromium-1194\/chrome-linux\/chrome';\n  try \{ const \{ chromium \} = await import\('playwright'\); return await chromium\.launch\(\); \} catch \{\}\n  try \{ const \{ chromium \} = await import\('playwright-core'\); return await chromium\.launch\(\{ executablePath: exe \}\); \} catch \{\}/.test(gb)))
+    bad.push('③ 今までの起動の順(既定の chromium.launch() → playwright-core → PLAYWRIGHT_CORE_DIR)が崩れている');
+  if (!(/env\.browserLaunch = \{ version: 'w345d-browser-launch-1', explicit: !!PERF_EXPLICIT_BROWSER,/.test(PF) && /jsVersion: v\.jsVersion/.test(PF) && /chromium: browser\.version\(\)/.test(PF))) bad.push('④ env.browserLaunch(explicit・chromium・jsVersion)が無い');
+  const KEEP = ["const THRESH = +(process.env.PERF_THRESH || 1.10);", 'const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;',
+    "const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];", 'const FRAMES_OVERRIDE = { echo: 720, starSeed: 60000, merger: 240, freebox: 480,',
+    'const ALLOW = {};', 'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
+    'if (!v.pass || forced) {', 'const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);'];
+  for (const k of KEEP) if (PF.indexOf(k) < 0) bad.push('⑤ 基点の行が無い: ' + k.slice(0, 40));
+  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま');
+  add('lint.perfExplicitBrowser345d', bad.length === 0,
+    `**tests/perf.mjs の明示のブラウザ**(第345便d・第145報 AN921・R395 —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ・版が違えば測らずに止める・閾値は不変): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+}
+// ==== 第345便d の塊(ここまで)====
+
 // ==== 第345便e の塊(ここから —— lint.ciEngine345e・lint.regenEngineInput345e・docs.ciEngine345e の 3 ブロック。root は SKIP)====
 // ---- 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396 —— 道具と設定だけ・html は変えない):
 // ----   lint.ciEngine345e: ① package.json の playwright が 1.63.0 の固定(範囲の記号なし)・package-lock の根の宣言と playwright・playwright-core の項が同じ版・

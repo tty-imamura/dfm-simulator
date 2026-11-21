@@ -5366,6 +5366,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 同じ数値の実行系かは版の名前でなく指紋で見る。同じ実行系の中ではビットで同じ・実行系の間は許容つき(許容はその検査の量に限る)。Node の数学関数は、ブラウザと最後の 1 ビットが違う関数がある(事実の列)。アプリの物理が変わった・どの版が正しい、とは書かない。**SYSTEM_PROMPT には載せない**(道具と記録)。
 - QA `lint.engineDeclared345b`(root でも走る)・`behavior.engine345b`・`docs.engine345b`(本節と PHYSICS〔第345便b〕・CHANGELOG —— behavior と docs は root で SKIP)。
 
+
+## 287. 第345便d —— 性能の検査を 2 つの版のブラウザで測り直す: 明示のブラウザ・回ごとの揺れ・渦巻銀河の自己対照の遅さの切り分け(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R395・**html は変えない** —— 門の閾値・標本・再トスの決まりも不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: `tests/perf.mjs` に明示のブラウザ(`CHROMIUM_PATH` と `DFM_EXPECT_CHROMIUM` の両方が在るときだけその実行ファイルで起動・版が違えば例外で止まる・どちらかが無ければ今までの起動の順・結果の `env.browserLaunch` に版と V8)。既定のブラウザ(157.0.8103.78)と Playwright 1.63.0 の標準(153.0.8010.12)で perf を 3 回ずつ測り、渦巻銀河の本の自己対照の遅さを手動の診断の器 `tests/exp-w345d-perfengine.mjs`(記録 `tests/out/perfengine-w345d.json` —— 段にしない・門を置かない)で切り分けた。
+- **AI が読むときの要点**: 157 では `perf.abJit.self.galaxyGeo2` が 3 回とも 8.2〜10.0(門は > 4 で FAIL)・153 では 0.59〜0.89。遅さは 157 で 2 つの sim を同じページで進めたときだけ出て、別のページに置くと出ない・1 sim の素の走行では出ない(この箱・この回では)。A/B はアプリの機能でもあるので、157 の型のエンジンで A/B を使うとこの本では 1 步が約 10 倍になる見込みが残る(実機では測っていない)。普通の使い方(1 ページに sim 1 つ)の 1 步は、版で一方向に変わったとは読めない(この箱の揺れの内)。CI(153 の headless shell)で通るかは PR の CI で初めて分かる。「アプリが遅くなった」「版が悪い」と断定しない。
+- QA `behavior.perfengine345d`・`docs.perfengine345d`(本節と PHYSICS〔第345便d〕・CHANGELOG —— root は SKIP)・`lint.perfExplicitBrowser345d`(root でも回る)。
+
 ## 288. 第345便e —— CI の版と、鎖の作り直しの計画に実行系の宣言を乗せる(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396・**html は変えない**)
 - **何をしたか**: `package.json` の playwright を 1.63.0 に固定し、`package-lock.json` を npm に作り直させた(playwright と playwright-core が 1.63.0)。`.github/workflows/ci.yml` の beta の 1 本の上限を 120 → 180 分にした(ハング防止のガード —— 性能の門は perf のまま)。再生成表の段のうちブラウザで測る段を機械で判定し(`tests/data-w345e-browserstages.json`)、実行系の宣言 `tests/data-w345-engine.json` が在るときだけ、その段の済み印の契約の入力に宣言を足し、計画で台帳 `tests/data-w345e-enginestamp.json` と違う段を作り直しにする。段 engine-345b が表に在るとき、ブラウザの段はその後に走る。
 - **AI が読むときの要点**: 「作り直し」の理由の種類 engine は、html の指紋や器のコードが同じでも、測ったブラウザの宣言が変わったことを示す(物理の値が変わったことは示さない)。済み印の契約の版は w287f-chaincontract-2 のまま。**SYSTEM_PROMPT には載せない**(道具と設定だけ)。

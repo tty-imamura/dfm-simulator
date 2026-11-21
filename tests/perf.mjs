@@ -151,7 +151,33 @@ const FORCE_RETOSS = new Set(String(process.env.PERF_FORCE_RETOSS || '')
 // コミット対象の perf-results.json を**上書きしない**。
 const ABJIT_ONLY = process.env.PERF_ABJIT_ONLY === '1';
 
+// ---- 第345便d(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R395): **明示のブラウザ** ----
+// `CHROMIUM_PATH` と `DFM_EXPECT_CHROMIUM` の**両方が在るときだけ**、その実行ファイルで起動し、`browser.version()` が
+// `DFM_EXPECT_CHROMIUM` と違えば**例外**で止める(違う版で測った数を、宣言した版の数として残さない)。
+// **どちらかが無ければ今までの起動の順のまま**(下の 3 段 —— 既定の `chromium.launch()` が先)。
+// 起動の仕方と版・V8 は結果の JSON の `env.browserLaunch` に残す。**閾値・標本・再トスの決まりは変えない**。
+const PERF_EXPLICIT_BROWSER = (process.env.CHROMIUM_PATH && process.env.DFM_EXPECT_CHROMIUM)
+  ? { executablePath: process.env.CHROMIUM_PATH, expect: process.env.DFM_EXPECT_CHROMIUM } : null;
+async function launchExplicitBrowser(want) {
+  const tries = [async () => (await import('playwright')).chromium, async () => (await import('playwright-core')).chromium];
+  const dir = process.env.PLAYWRIGHT_CORE_DIR;
+  if (dir) tries.push(async () => { const { createRequire } = await import('node:module'); return createRequire(path.join(dir, 'noop.js'))('playwright-core').chromium; });
+  let lastErr = null;
+  for (const get of tries) {
+    let chromium = null;
+    try { chromium = await get(); } catch (e) { lastErr = e; continue; }
+    const b = await chromium.launch({ executablePath: want.executablePath });
+    const got = b.version();
+    if (got !== want.expect) {
+      await b.close();
+      throw new Error(`明示のブラウザの版が宣言と違う: CHROMIUM_PATH=${want.executablePath} の版 ${got} ≠ DFM_EXPECT_CHROMIUM=${want.expect}(測らずに止める)`);
+    }
+    return b;
+  }
+  throw new Error('明示のブラウザを起動する playwright が見つかりません: ' + String(lastErr));
+}
 async function getBrowser() {
+  if (PERF_EXPLICIT_BROWSER) return launchExplicitBrowser(PERF_EXPLICIT_BROWSER);
   const exe = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
   try { const { chromium } = await import('playwright'); return await chromium.launch(); } catch {}
   try { const { chromium } = await import('playwright-core'); return await chromium.launch({ executablePath: exe }); } catch {}
@@ -276,6 +302,16 @@ const env = {
   method: `paired-alternating(SETS=${SETS} REPS=${REPS} FRAMES=${FRAMES} WARMUP=${WARMUP_FRAMES})`,
   startedAt: new Date().toISOString(),
 };
+// 第345便d: **起動の仕方とエンジン**(既存の欄 chromium は不変 —— 新しい欄 browserLaunch だけ)。
+//   explicit = CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方で起動したか・jsVersion = V8 の版(CDP の Browser.getVersion)。
+env.browserLaunch = { version: 'w345d-browser-launch-1', explicit: !!PERF_EXPLICIT_BROWSER,
+  executablePath: PERF_EXPLICIT_BROWSER ? PERF_EXPLICIT_BROWSER.executablePath : null,
+  expect: PERF_EXPLICIT_BROWSER ? PERF_EXPLICIT_BROWSER.expect : null,
+  chromium: browser.version(), jsVersion: null, product: null, userAgent: null };
+try { const cdp = await browser.newBrowserCDPSession(); const v = await cdp.send('Browser.getVersion');
+  Object.assign(env.browserLaunch, { jsVersion: v.jsVersion || null, product: v.product || null, userAgent: v.userAgent || null });
+  await cdp.detach(); } catch { /* CDP が無い起動 —— 版だけを残す */ }
+console.log(`perf gate: ブラウザ ${env.browserLaunch.chromium}(V8 ${env.browserLaunch.jsVersion || '不明'}・${PERF_EXPLICIT_BROWSER ? '明示 ' + PERF_EXPLICIT_BROWSER.executablePath : '既定の起動の順'})`);
 // Release 監査用の証跡結び付け(Release前レビュー P0-4): ローカル HEAD と CI の Run 情報を記録
 try { env.commit = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch { env.commit = 'unknown'; }
 env.run = { githubRunId: process.env.GITHUB_RUN_ID || null, sha: process.env.GITHUB_SHA || null,

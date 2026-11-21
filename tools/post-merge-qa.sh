@@ -1242,6 +1242,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145_345a docs.sourceVerify345a"
 #   数学関数の指紋が宣言 tests/data-w345-engine.json と同じ / behavior.engine345b —— lib の純関数の場面・変異・正本 tests/out/engine-345b.json と宣言の整合 / docs.engine345b —— 文書)と、新しい常時の段 engine-345b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.engineDeclared345b behavior.engine345b docs.engine345b"
 # ==== 第345便b の塊(ここまで)====
+# ==== 第345便d の塊(ここから)====
+# 第345便d(原仮定者の回答(2026-11-21 —— 第145報)AN921・統括の検証項目 R395 —— 道具と診断・html は変えない): 枝 d の新設 3 本(behavior.perfengine345d —— 性能の測り直しの記録の形と
+#   lib で作り直して同じ / docs.perfengine345d —— 表 5 本が PHYSICS〔第345便d〕に逐語・文書 / lint.perfExplicitBrowser345d —— tests/perf.mjs の明示のブラウザの約束)。段は足さない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.perfengine345d docs.perfengine345d lint.perfExplicitBrowser345d"
+# ==== 第345便d の塊(ここまで)====
 # ==== 第345便e の塊(ここから)====
 # 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396 —— 道具と設定だけ・html は変えない): 枝 e の新設 3 本(lint.ciEngine345e —— Playwright 1.63.0 の固定と
 #   lock・ci.yml の beta の上限 180 分・依存の導入の行 / lint.regenEngineInput345e —— ブラウザで測る段の判定・実行系の宣言を作り直しの計画と済み印の契約の入力に・
