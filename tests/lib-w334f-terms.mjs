@@ -10,7 +10,7 @@
 import { NOT_WORDS_331E, wordAudit331e, parsePhenoDoc331e } from './lib-w331e-phenostatus.mjs';
 
 export const TERMS_VERSION_334F = 'w334f-terms-1';
-export const TERM_KINDS_334F = Object.freeze(['並進引きずり', '軸引きずり', '回転引きずり']);
+export const TERM_KINDS_334F = Object.freeze(['並進引きずり', '軸引きずり', '円盤引きずり']);   // 第346便b: 3 行目の呼び名を「円盤引きずり」に(旧称: 回転引きずり —— 定義の語と必須の語は同じ)
 export const TERM_COLS_334F = Object.freeze(['種', '定義(原仮定者の整理(2026-11-11)の語)', '式(説明の記号)', '今のエンジンの口との対応', '状態のラベル']);
 export const EQ_LABELS_334F = Object.freeze(['実装〔既定〕', '実装〔opt-in〕', '実装〔読み口〕', '診断', '宣言〔未接続〕']);
 export const NEW_LABELS_334F = Object.freeze(['診断', '宣言〔未接続〕']);
@@ -21,10 +21,10 @@ export const NEW_EQ_IDS_334F = Object.freeze(['EQ-29', 'EQ-30', 'EQ-31', 'EQ-32'
 export const TERM_MUST_334F = Object.freeze({
   並進引きずり: Object.freeze(['移動と回転を使った座標変換', '慣性', 'W_ii', 'EQ-11', 'EQ-12', 'EQ-13', 'EQ-28', 'EQ-31']),
   軸引きずり: Object.freeze(['受ける側の部位による差分', '潮汐力の引きずり版', '源が横を通り抜けても', 'ω_field = ½∇×U', 'EQ-16', 'EQ-31', '別の量']),
-  回転引きずり: Object.freeze(['回転による空間の捩れ', 'J 案が有望', 's_d = λ_J (f_obs/f_d)(R_obs/R_d)² s', 'EQ-15', 'EQ-29', 'EQ-30', '比べる列', '第334便で診断中']),
+  円盤引きずり: Object.freeze(['回転による空間の捩れ', 'J 案が有望', 's_d = λ_J (f_obs/f_d)(R_obs/R_d)² s', 'EQ-15', 'EQ-29', 'EQ-30', '比べる列', '第334便で診断中']),
 });
 /** §2a の地の文の必須の語 */
-export const SEC_MUST_334F = Object.freeze(['原仮定者の整理(2026-11-11)', 'R327', '比べる列(凍結の対照 —— 消さない)', '同じ「回転引きずり」の名で 2 つの型を両方とも主の型にしない',
+export const SEC_MUST_334F = Object.freeze(['原仮定者の整理(2026-11-11)', 'R327', '比べる列(凍結の対照 —— 消さない)', '同じ「円盤引きずり」の名で 2 つの型を両方とも主の型にしない',
   '自己の並進 = 慣性', 'EQ-12', '慣性の起源の主張ではない', '第334便で診断中']);
 /** 注記を足した既存の項 */
 export const NOTE_EQ_334F = Object.freeze(['EQ-15', 'EQ-16', 'EQ-28']);
@@ -218,7 +218,7 @@ export function selfTest334f(src) {
   const MUT = [
     ['用語の表の行を 1 つ消す(軸引きずり)', { eq: eq.replace(rowLine('軸引きずり') + '\n', '') }, /^① §2a の表の行が 3 種の順でない/],
     ['用語の表の行の順を入れ替える', { eq: eq.replace(rowLine('並進引きずり') + '\n' + rowLine('軸引きずり'), rowLine('軸引きずり') + '\n' + rowLine('並進引きずり')) }, /^① §2a の表の行が 3 種の順でない/],
-    ['回転引きずりの行の「比べる列」を消す', { eq: eq.replace(rowLine('回転引きずり'), rowLine('回転引きずり').split('比べる列').join('対照')) }, /^① 回転引きずり の行に「比べる列」が無い/],
+    ['円盤引きずりの行の「比べる列」を消す', { eq: eq.replace(rowLine('円盤引きずり'), rowLine('円盤引きずり').split('比べる列').join('対照')) }, /^① 円盤引きずり の行に「比べる列」が無い/],
     ['用語の表が無い項を指す', { eq: eq.replace(rowLine('軸引きずり'), rowLine('軸引きずり').replace('(EQ-16 ', '(EQ-96 ')) }, /^① 軸引きずり の行が無い項 EQ-96 を指す/],
     ['状態のラベルに語彙の外の語', { eq: eq.replace(rowLine('並進引きずり'), rowLine('並進引きずり').replace(/\| ([^|]*) \|$/, '| $1・本採用 |')) }, /^① 並進引きずり の状態のラベルに語彙の外の語/],
     ['比べる列の明記を消す', { eq: eq.replace('比べる列(凍結の対照 —— 消さない)', '対照') }, /^② §2a に「比べる列\(凍結の対照 —— 消さない\)」が無い/],

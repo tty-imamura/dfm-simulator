@@ -22793,7 +22793,7 @@ if (!FAST) {
         const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
         if (cut < 0) bad.push('「書かないこと」が無い');
         const FORBID = ['反比例則を実装した', '1PN と同等が証明された', '観測一致を再現した', '観測一致を達成した', '較正を完了した', '複素場を接続した', '新しい法則を実装した',
-          '回転引きずりが創発した', '連鎖で円盤ができた', '層が V2 を置き換えた', '引きずりが戻った', '歳差を発見した', '新発見', 'RC を切った', 'Chromium の版を固定した'];
+          '回転引きずりが創発した', '円盤引きずりが創発した', '連鎖で円盤ができた', '層が V2 を置き換えた', '引きずりが戻った', '歳差を発見した', '新発見', 'RC を切った', 'Chromium の版を固定した'];
         const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
         if (hit.length) bad.push('本文(書かないことの外)に禁止の言い回し: ' + hit.join(','));
         const TS = fs.readFileSync(path.join(ROOT, 'docs', 'THEORY_SYNTHESIS.md'), 'utf8');
@@ -23002,7 +23002,7 @@ if (!FAST) {
         if (an.indexOf(w) < 0) bad.push('DFM 外のアナロジーの節に「' + w + '」が無い');
       const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
       if (cut < 0) bad.push('〔第290便a〕に「書かないこと」が無い');
-      const FORBID = ['現実の宇宙は DFM である', '観測一致を達成した', '較正を完了した', '1PN と同等が証明された', '回転引きずりが創発した', '連鎖で円盤ができた',
+      const FORBID = ['現実の宇宙は DFM である', '観測一致を達成した', '較正を完了した', '1PN と同等が証明された', '回転引きずりが創発した', '円盤引きずりが創発した', '連鎖で円盤ができた',
         '慣性決定力場を接続した', '新しい法則が正しい', '渦巻が創発した', '新発見', 'RC を切った'];
       const hitF = FORBID.filter((w) => body.indexOf(w) >= 0);
       if (hitF.length) bad.push('〔第290便a〕の本文(書かないことの外)に禁止の言い回し: ' + hitF.join(','));
@@ -23363,7 +23363,7 @@ if (!FAST) {
         else {
           if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
           const cut = psec289.indexOf('**書かないこと。**'), body = cut >= 0 ? psec289.slice(0, cut) : psec289;
-          const FORBID = ['回転引きずりが創発した', '連鎖で円盤ができた', '複素場を接続した', '新しい法則を実装した', '1PN と同等が証明された', '観測一致を達成した', '新発見', 'RC を切った'];
+          const FORBID = ['回転引きずりが創発した', '円盤引きずりが創発した', '連鎖で円盤ができた', '複素場を接続した', '新しい法則を実装した', '1PN と同等が証明された', '観測一致を達成した', '新発見', 'RC を切った'];
           const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
           if (hit.length) bad.push('PHYSICS〔第289便c〕の本文に禁止語: ' + hit.join(','));
           if (cut < 0) bad.push('PHYSICS〔第289便c〕に「書かないこと」が無い');
@@ -23513,8 +23513,8 @@ if (!FAST) {
           const sum = (p.descStruct && p.descStruct.summary) || '';
           // 第335便a(原仮定者の決断(2026-11-12)・AN641・R328 —— 世代): 説明文の記号を W_bg → W₀ に直した世代(🎱 の概要の中心重力の係数の注記の有無で判定)は期待の記号を W₀ に(検査は同じ数)
           const w0g335a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg';
-          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && (/gain=0 で既定経路とビット同一/.test(sum) || sum.indexOf('引きずり OFF(' + w0g335a + ' を掛けない)で既定経路とビット同一') >= 0) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
-          const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && (/gain=0 で既定経路とビット同一/.test(sum) || sum.indexOf('引きずり OFF(' + w0g335a + ' を掛けない)で既定経路とビット同一') >= 0) && /較正ではない/.test(sum) && /(?:回転|円盤)引きずり\(手前\/反対\)と連鎖は未実装/.test(sum))) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /円盤引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
           const txt = JSON.stringify([p.name, p.descStruct, p.en]);
           const hit = NG.filter((re) => re.test(txt));
           if (hit.length) bad.push('説明文に禁止の言い回し: ' + hit.map(String).join(','));
@@ -23531,7 +23531,7 @@ if (!FAST) {
         else {
           if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
           const cut = psec290.indexOf('**書かないこと。**'), body = cut >= 0 ? psec290.slice(0, cut) : psec290;
-          const FORBID = ['回転引きずりが創発した', '連鎖で円盤ができた', '慣性決定力場を接続した(既定で)', '1PN と同等が証明された', '観測一致を達成した', '新しい法則が正しい', '新発見', 'RC を切った', '安定化した'];
+          const FORBID = ['回転引きずりが創発した', '円盤引きずりが創発した', '連鎖で円盤ができた', '慣性決定力場を接続した(既定で)', '1PN と同等が証明された', '観測一致を達成した', '新しい法則が正しい', '新発見', 'RC を切った', '安定化した'];
           const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
           if (hit.length) bad.push('PHYSICS〔第290便c〕の本文に禁止語: ' + hit.join(','));
           if (cut < 0) bad.push('PHYSICS〔第290便c〕に「書かないこと」が無い');
@@ -102956,7 +102956,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   {
     const bad = [], cases = [];
     try {
-      if (TM334f.TERMS_VERSION_334F !== 'w334f-terms-1' || TM334f.TERM_KINDS_334F.join('|') !== '並進引きずり|軸引きずり|回転引きずり' || TM334f.TERM_COLS_334F.length !== 5
+      if (TM334f.TERMS_VERSION_334F !== 'w334f-terms-1' || TM334f.TERM_KINDS_334F.join('|') !== '並進引きずり|軸引きずり|円盤引きずり' || TM334f.TERM_COLS_334F.length !== 5
         || TM334f.NEW_EQ_IDS_334F.join('|') !== 'EQ-29|EQ-30|EQ-31|EQ-32|EQ-33' || TM334f.NEW_LABELS_334F.join('|') !== '診断|宣言〔未接続〕'
         || TM334f.PHENO_ROWS_334F.join('|') !== 'P01|P05|P10|P12|P23|P24|P33') bad.push('① 版と宣言');
       const T = TM334f.TRANSCRIPTS_334F;
@@ -107808,7 +107808,7 @@ function view338aOf340a(eq) {
   // 項の中の数(出どころの節に同じ字)
   const NUMS = [['EQ-64', '104.48°', '〔第338便b — '], ['EQ-64', '0.134', '〔第338便b — '], ['EQ-65', '10.4 m', '〔第338便d — '], ['EQ-66', '82〜2070', '〔第338便e — '], ['EQ-66', '0.028 c', '〔第338便e — '],
     ['EQ-67', '0.0160', '〔第338便f — '], ['EQ-68', '3.35e-2', '〔第338便f — '], ['EQ-69', '6.560e-7', '〔第339便a — ']];
-  const TERMS140 = ['**ジャイロトルク**', '**部位差分**', '**座標変換(天体が 1 つの場合)**', '**回転成分の二重計上**', '**回転引きずり(2 つの文を並べて置く)**'];
+  const TERMS140 = ['**ジャイロトルク**', '**部位差分**', '**座標変換(天体が 1 つの場合)**', '**回転成分の二重計上**', '**円盤引きずり(2 つの文を並べて置く)**'];
   TERMS140.push('**重力(第140報の文と修正の文)**', '移動だけから回転込みに改訂した', '第140報は検証が必要');
   const NOT340 = [/回転引きずりの機構が導けた/, /軸引きずりは軸方向で 0 と確かめられた/, /光速を超えないことが分かった/, /環が薄い理由が分かった/, /イオの熱が合った/, /金星の自転が解けた/];
   const UPD_MUST = ['**第340便の状態の更新(第340便a —— 原仮定者の指示(2026-11-17 —— 第140報)・統括の検証項目 R356)。**', '**判定の理由には使わない**', '82〜2070 倍', '「原文の文」(引用)と「読み」(数に直したもの)',
@@ -114714,6 +114714,82 @@ function view343aOf344a(eq) {
 }
 // ==== 第345便e の塊(ここまで)====
 
+// ==== 第346便b の塊(ここから —— lint.diskDragName346b・docs.diskDragName346b の 2 ブロック。root は SKIP)====
+// ---- 第346便b(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「「回転引きずり」の呼び名を「円盤引きずり」に変える」・統括の検証項目 R398 —— 呼び名だけ):
+// ----   lint.diskDragName346b: ① lib tests/lib-w346b-diskname.mjs の宣言(対象のファイル・範囲・語の対・除く範囲)の範囲の中に旧称(日本語・英語)が 0 件
+// ----     ② 新しい呼び名が範囲の中に在る(html・計算式の一覧・SYSTEM_PROMPT とその写し)③ 変異 10 種(範囲の中に足すと落ちる/注記・引用・過去の節・記録の箇条では落ちない)
+// ----   docs.diskDragName346b: PHYSICS〔第346便b〕(位置・必須の語)・冒頭の用語の段のつなぎ(1 か所)・計算式の一覧 §2a の行の名・AI_SPEC §290・
+// ----     過去の節に当時の語が残る(〔第339便 — 統括〕・AI_SPEC §247)・post-merge の塊・書かない語と禁句
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP lint.diskDragName346b(root 対象 — 呼び名の戻り止めは beta 対象の走行で 1 回見る)');
+  else {
+    try {
+      const DN = await import('file://' + path.join(ROOT, 'tests', 'lib-w346b-diskname.mjs'));
+      const D = DN.DECL_346B;
+      if (!(DN.DISKNAME_VERSION_346B === D.version && D.oldJa === '回転引きずり' && D.newJa === '円盤引きずり' && D.files.length === 7)) bad.push('① 宣言の版・語・対象の数');
+      const r = DN.scanTree346b(ROOT);
+      if (r.missing.length) bad.push('① 対象が読めない: ' + r.missing.join(','));
+      for (const f of r.files) for (const h of f.hits.slice(0, 3)) bad.push(`① ${f.file}:${h.line} に旧称「${h.term}」(…${h.ctx}…)`);
+      cases.push(`① 宣言 ${D.version} の範囲の中の旧称 ${r.total} 件(対象 ${r.files.length}: ${r.files.map((f) => f.file + ' ' + f.n).join('・')})`);
+      const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+      const spec = (f) => D.files.find((s) => s.file === f);
+      const H = rd('beta/index.html'), E = rd('docs/EQUATIONS.md'), A = rd('docs/AI_SPEC.md');
+      const nH = DN.countNew346b(H, spec('beta/index.html')), nE = DN.countNew346b(E, spec('docs/EQUATIONS.md')), nA = DN.countNew346b(A, spec('docs/AI_SPEC.md'));
+      const sp0 = H.indexOf('const SYSTEM_PROMPT = `'), sp = sp0 >= 0 ? H.slice(sp0, H.indexOf('`;', sp0)) : '';
+      if (!(nH >= 60 && nE >= 30 && nA >= 1 && sp.indexOf('円盤引きずり') >= 0 && sp.indexOf('回転引きずり') < 0 && /disk drag/.test(H))) bad.push(`② 新しい呼び名の数(html ${nH}・計算式の一覧 ${nE}・AI_SPEC §5 ${nA})か SYSTEM_PROMPT`);
+      cases.push(`② 新しい呼び名: html ${nH}・計算式の一覧 ${nE}・AI_SPEC §5 ${nA}・SYSTEM_PROMPT に在り(旧称なし)・英語 disk drag`);
+      const p = DN.probe346b(ROOT);
+      if (!p.ok) bad.push('③ 変異: ' + p.res.filter((x) => !x.ok).map((x) => x.nm).join(','));
+      cases.push(`③ 変異 ${p.res.filter((x) => x.ok).length}/${p.res.length}(落ちる ${p.res.filter((x) => x.shouldFail).length}・落ちない ${p.res.filter((x) => !x.shouldFail).length})`);
+    } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
+    add('lint.diskDragName346b', bad.length === 0,
+      `**呼び名の戻り止め**(第346便b・原仮定者の回答 第145報の回答 3・R398 —— 回転引きずり → 円盤引きずり・呼び名だけ): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP docs.diskDragName346b(root 対象 — 文書は beta 対象の走行で 1 回見る)');
+  else {
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), EQ = rd('docs/EQUATIONS.md'), PM = rd('tools/post-merge-qa.sh');
+    const i0 = PH.indexOf('〔第346便b — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第345便e — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第346便b〕が無いか〔第345便e〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報の回答 3)', '「「回転引きずり」の呼び名を「円盤引きずり」に変える。理由は、並進引きずりや軸引きずりにも回転要素が有り、紛らわしい為。引きずりの形が円盤状に現れる」',
+      'R398', '呼び名だけ', 'tests/lib-w346b-diskname.mjs', '| ファイル | 範囲(今の読み手が読む所) | 当てた件数 | 変えない所(当時の語のまま) |', '一様円盤引きずり', 'disk drag', 'spin drag',
+      'ノブの台帳', 'lint.diskDragName346b', 'docs.diskDragName346b', '187/187', '言わないこと',
+      '原仮定者の回答(2026-11-21 —— 第145報の回答 4)', '「「引きずり減衰 q」は、現状の並進引きずりに相当するので、実装を確認する」', 'pairCorePlain', 'ω_j(d) = s_j (R_j/(R_j + d))^q', '159 件', '2 件', '4 件'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第346便b〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第346便b〕に \\| ');
+    cases.push('① 節の位置・必須の語 ' + want.length);
+    const bridge = '**円盤引きずり**(旧称: 回転引きずり —— 第346便で呼び名を変えた。過去の便の節では旧称のまま)';
+    const nb = PH.split(bridge).length - 1, ib = PH.indexOf(bridge), i1 = PH.indexOf('\n## 1. ');
+    if (!(nb === 1 && ib >= 0 && ib < i1 && PH.lastIndexOf('**用語(第346便b・', ib) > PH.lastIndexOf('\n\n', ib) - 1)) bad.push('② 冒頭の用語の段のつなぎが 1 か所でない・§1 の前でない');
+    const s2a = secUntilNext329c(EQ, EQ.indexOf('\n## 2a. '), '\n## ');
+    if (!(s2a.indexOf('\n| 円盤引きずり | ') >= 0 && s2a.indexOf('\n| 回転引きずり | ') < 0 && s2a.indexOf('- **呼び名(第346便b') >= 0)) bad.push('② 計算式の一覧 §2a の行の名か呼び名の箇条');
+    cases.push('② つなぎ 1 か所(冒頭の用語の段)・§2a の行の名と呼び名の箇条');
+    const a0 = AS.indexOf('\n## 290. 第346便b'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('円盤引きずり') >= 0 && ai.indexOf('第145報の回答 4') >= 0 && ai.indexOf('R398') >= 0 && ai.indexOf('disk drag') >= 0 && ai.indexOf('lint.diskDragName346b') >= 0)) bad.push('③ AI_SPEC §290');
+    // 過去の節は当時の語のまま(書き換えていない)
+    const past = secUntilNext329c(PH, PH.indexOf('〔第339便 — 統括'), /\n〔第\d+便[a-z]* — |\n## /), a247 = secUntilNext329c(AS, AS.indexOf('\n## 247. 第339便a'), '\n## ');
+    if (!(past.indexOf('回転引きずり') >= 0 && past.indexOf('円盤引きずり') < 0 && a247.indexOf('回転引きずり') >= 0 && a247.indexOf('円盤引きずり') < 0)) bad.push('③ 過去の節(〔第339便 — 統括〕・AI_SPEC §247)が書き換わった');
+    if (!(PM.indexOf('# ==== 第346便b の塊(ここから)====') >= 0 && /lint\.diskDragName346b docs\.diskDragName346b/.test(PM))) bad.push('③ post-merge に第346便b の塊');
+    cases.push('③ AI_SPEC §290・過去の節は当時の語・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /円盤の形が導けた/, /中身が変わった/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+      .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
+    for (const [nm, tx] of [['PHYSICS〔第346便b〕', sec], ['AI_SPEC §290', ai]]) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const re of NOT) if (re.test(strip(tx).replace(/[^。]*とは書かない[^。]*。/g, ''))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ 書かない語・禁句(「言わないこと」の文の外)');
+    add('docs.diskDragName346b', bad.length === 0, `**呼び名の変更の文書**(第346便b・R398): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第346便b の塊(ここまで)====
 // ==== 第346便c の塊(ここから —— ui.viewTiltDefault346c・behavior.gravityMirror346c・ui.spinMarkerAxis346c・docs.viewTilt346c の 4 ブロック。root は SKIP)====
 // ---- 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「「視点の傾き θ(°)」のデフォルトを「90」にする。デフォルトのy軸が逆さになるので、
 // ----   一様重力のあるサンプルは配置のy座標を逆さにし、g_yをマイナスにする」「saturnRotVertExplore3dで、土星の回転表示の傾きが、軸と90度ズレているので、修正する」・
