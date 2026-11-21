@@ -61528,6 +61528,29 @@ T3 三次元の残り(極の選び方 × 向ける先の写像 —— 宣言の�
 
 **⑭ 書かないこと。** この表は「この解・この元期・この出どころの列では」の表 —— 重力定数・周期・離心率を一つに定めた形の文にしない。未照合の数を一次資料と照合した数のように書かない。近点の引数の元期の差を歳差と読まない。共分散の無い値の 1σ は空欄。定義の差をノブに吸収しない。QA `behavior.plutogm344g`・`docs.plutogm344g`(root は SKIP)。
 
+〔第345便e — CI の版と、鎖の作り直しの計画に実行系の宣言を乗せる(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396)(**道具と設定だけ —— beta/index.html と root の index.html は 1 byte も変えていない・エンジン・内蔵の本・受理器・`S._core`・physics の鍵は不変・段は足していない**・lib `tests/lib-w281a-regentable.mjs` の第345便e の塊・道具 `tools/regen-plan.mjs --browser-stages`・`tools/regen-chain.mjs --engine-stamp`・一覧の正本 `tests/data-w345e-browserstages.json`)〕
+
+**① 何を変えたか。** (1) `package.json` の devDependencies の playwright を `^1.50.0` から **1.63.0 の固定**にし、`package-lock.json` を npm に作り直させた(`npm install --package-lock-only` を別の空の場所で走らせ、差分だけを木に戻した —— integrity は npm が registry から引いた値)。lock の変更は、根の宣言・playwright と playwright-core の 2 つの項(版・resolved・integrity・engines の node が >=18 → >=20)と、1.63.0 が任意の依存として持たなくなった fsevents の項(macOS だけの任意の依存 —— 項ごと消えた)。(2) `.github/workflows/ci.yml` の qa ジョブの上限を **120 → 180 分**(既存のコメントの型で第345便の行を足した —— ほかの所は変えていない。`npx playwright install --with-deps chromium` はそのまま —— 1.63.0 の標準のブラウザが入る)。(3) 再生成表の段のうち**ブラウザで測る段**を機械で判定し、実行系の宣言 `tests/data-w345-engine.json` が在るとき、その段を作り直しの計画と済み印の契約に乗せる。
+
+**② なぜ固定か。** 範囲 `^1.63.0` のままだと、lock を作り直した便ごとに CI の引く Playwright の版(= `playwright install` が入れる標準のブラウザの版)が動き得る。版の固定で「CI と手元が同じ標準のブラウザを引く」を package.json の 1 行で読めるようにした(lock は npm ci が守るが、package.json の範囲が広いと lock を作り直した時に黙って上がる)。版を上げるときは package.json と lock を同じ便で変える(lint.ciEngine345e が両方の版の一致を見る)。
+
+**③ 上限の数の出どころ。** 第344便の main の push の run で beta の 1 本が 107 分(preflight 32 分 + 全 QA 75 分・上限 120 分)。新しい実行系では手元の全 QA が約 35% 遅い(75 分 → 約 101 分の見込み —— 統括の手元の測り)。preflight と合わせて 133 分前後になり得るので 180 分にした。**上限はハング防止のガードで、性能の門ではない**(性能は perf ジョブ)。perf ジョブの上限 15 分は変えていない(perf の 1 回の測りは約 7 分 —— 依存の導入 2〜3 分と合わせて 10 分前後の見込み。CI で 12 分を超えたら 15 → 25 分を伺う)。
+
+**④ ブラウザの段の一覧の数え方。** 段の cmd が名指す器(tests/*.mjs・tools/*.mjs)から、静的な import(`from './x.mjs'`・`from '../tests/x.mjs'`)・動的な import(`import('./x.mjs')`)・子プロセス(spawn・execFile・fork を持つ本文の `path.join(…, 'tests', 'x.mjs')`)を辿り、どこかの本文(注釈は除く)が playwright か playwright-core を読み込む(import・require・createRequire の呼び)か chromium.launch を呼べば**ブラウザで測る段**。Node の vm(loadHtmlHeadless)だけの段はブラウザの段ではない(Node の版でも数学関数は違い得るが、本便の対象はブラウザ)。再生成表と刻印の道具(段の器が刻印に読むだけ)・QA の本体は辿らない。今の表(現行の段 278)では**ブラウザで測る段 52**・Node だけ 226・**実測秒の和 11998 s**(表の実測秒 —— `tests/data-w311c-regensec.json` の較正を含む)・最長 1583 s(charon-h2)・ブラウザの段だけを 4 レーンの ready queue で模擬した見積り **3777 s**(下限 3000 s —— 和 ÷ 4)。段の行の `node: true` の宣言とは食い違い 0(宣言のある段にブラウザの段は無い —— 宣言の無い 28 段は Node だけ)。
+
+**⑤ 計画と鎖への乗せ方。**
+- 宣言が**在るときだけ**: (a) ブラウザの段(engine-345b 自身を除く)の済み印の契約の入力に `json:tests/data-w345-engine.json`(意味的出力 —— 来歴と時刻の欄を除く)を足す。(b) 計画(`planRegen` —— 鎖の `--gate` も同じ関数)で、段の刻印の台帳 `tests/data-w345e-enginestamp.json` の宣言の hash が今の宣言と違う(か段が台帳に無い)ブラウザの段を regen にする(**理由の種類 engine** —— html の指紋・器のコード・入力が同じでも再利用しない)。宣言が無ければ今までどおり(計画も契約も変わらない)。
+- 台帳は鎖の後に `node tools/regen-chain.mjs --engine-stamp <REGEN_LOG>` で書く(済み印が run/manual で、入力の行の宣言の hash が今の宣言と同じブラウザの段だけ)。
+- 段 engine-345b が表に在るとき: ブラウザの段 → engine-345b の**順序の辺**(鎖の波と段の DEP・`--check-order` の順序の照合にだけ使う —— 依存の閉包で鎖に引き込まない・入力にしない・速い判定のデータの上流にしない)。engine-345b が rc ≠ 0 なら鎖はそこで止まり、ブラウザの段は始まらない。
+- 済み印の契約の版は **w287f-chaincontract-2 のまま**(契約の形 —— 静的な部分 + 入力の行 —— は同じ。宣言が在るときにブラウザの段の入力の行が 1 本増えるだけ。済み印は便をまたいで使わないので、既存の lint の鍵への影響は無い)。
+- 自分の木で宣言の仮の写しを置いて計画を引いた数(置いた写しは計画の後に消した —— コミットしない): 置かない計画 regen 9・recheck 25・reuse 231・always 13(regen の 9 は正本の無い 6 段・clusterAnalogy・lib の変更で families と timing294)→ 置いた計画 **regen 51**・recheck 12・reuse 202・always 13。理由の種類 engine の段はブラウザの段 52 と同じ(常時群 3 段と既に regen の timing294 を含む)。Node だけの段で engine の理由が付いた段は 0(strain は依存先が走るので recheck —— engine の理由ではない)。
+
+**⑥ 確かめの道具と鍵。** `node tools/regen-plan.mjs --browser-stages [--write|--check]`(一覧の正本の作り直しと照合 —— 統合で段が増えたら --write)・`node tools/regen-chain.mjs --engine-stamp <REGEN_LOG> [--dry]`。QA lint.ciEngine345e(package.json と lock の版・ci.yml の上限とコメント・install の行・変異 4)・lint.regenEngineInput345e(判定の自己試験・宣言が在る/無い/変わった/時刻だけのときの計画の差・順序の辺・契約の入力の行・台帳の刻み・変異・一覧の正本の照合)・docs.ciEngine345e(本節・AI_SPEC §288・CHANGELOG)。
+
+**⑦ 決断事項の候補。** (A) perf ジョブの上限 15 分を 25 分にするか —— 本便は変えていない(見積り 10 分前後)。CI の実測で 12 分を超えたら上げる、を推奨。(B) Node の vm だけの段(226)にも Node の版の宣言を入れるか —— 本便の対象はブラウザだけ(Node 22 と 24 で数学関数が違い得る)。推奨は次の便で Node の版を記録だけに。
+
+**⑧ 次の便へ。** 枝 b の統合の後に、宣言が在る木で計画を引き直し(ブラウザの段 52 が engine で regen に乗る見込み)、鎖の後に `--engine-stamp` で台帳を作る。段 engine-345b が足された後は `--browser-stages --write` で一覧の正本を引き直す(engine-345b もブラウザの段に数えられる見込み)。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

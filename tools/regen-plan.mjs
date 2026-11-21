@@ -80,6 +80,29 @@ if (argv.includes('--roster')) {
   }
   process.exit(0);
 }
+// ==== 第345便e の塊(ここから)====
+// 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396): `--browser-stages [--write|--check] [--json <file>]` —— 再生成表の段のうち
+//   **ブラウザで測る段**(器と import・子プロセスの閉包が playwright を import する段 —— tests/lib-w281a-regentable.mjs の browserStages345e)の一覧・実測秒の和・4 レーンの見積り
+//   (ブラウザの段だけの ready queue の模擬)を出す(計画は引かない)。--write で tests/data-w345e-browserstages.json・--check で今の表と照合(段の集合と版 —— 違えば終了コード 1)
+if (argv.includes('--browser-stages')) {
+  const doc = T.browserListDoc345e({ root: ROOT });
+  const file = path.join(ROOT, T.BROWSER_LIST_FILE_345E);
+  console.log(`browser-stages(${doc.version}): 現行の段 ${doc.count.all} のうちブラウザで測る段 ${doc.count.browser}・Node だけ ${doc.count.node} —— 実測秒の和 ${doc.secSum} s・最長 ${doc.secMax} s・`
+    + `${doc.lanes} レーンの見積り ${doc.makespan} s(下限 ${doc.lowerBound} s)`);
+  for (const r of doc.stages) console.log(`  ${r.key.padEnd(20)} ${String(r.sec).padStart(5)} s  ${r.via.join(' → ')}`);
+  if (doc.mismatch.browserButNode.length) console.log('  段の行に node: true の宣言があるのにブラウザ: ' + doc.mismatch.browserButNode.join(','));
+  if (argv.includes('--write')) { fs.writeFileSync(file, JSON.stringify(doc, null, 1) + '\n'); console.log('  → ' + T.BROWSER_LIST_FILE_345E); }
+  const js = getArg('--json', null); if (js) fs.writeFileSync(resolve(js), JSON.stringify(doc, null, 1) + '\n');
+  if (argv.includes('--check')) {
+    let cur = null; try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { cur = null; }
+    const keys = (d) => (d && d.stages ? d.stages.map((z) => z.key).sort().join(',') : '');
+    const ok = !!cur && cur.version === doc.version && keys(cur) === keys(doc);
+    console.log(ok ? '  --check: ブラウザの段の一覧は今の表と同じ' : '  --check: 一覧が今の表と違う(統合で段が増えた —— node tools/regen-plan.mjs --browser-stages --write で引き直す)');
+    process.exit(ok ? 0 : 1);
+  }
+  process.exit(0);
+}
+// ==== 第345便e の塊(ここまで)====
 // 第323便b(AN517/AN518 —— 第324便の影の照合): `--shadow-compare <前の記録> [--fp-record <今の記録>] [--keys a,b]` —— 計画は引かない。
 //   前の記録(前の便のフルの後に取った指紋)と今の記録(今の便の鎖の後に取った指紋)・今の正本の物理の値で、段ごとに trueSame / falseSame(誤判定)/ trueDiff / missed / na。
 //   誤判定が 1 段でもあれば終了コード 1(本運用の門は 0 段)

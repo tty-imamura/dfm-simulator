@@ -113758,6 +113758,150 @@ function view343aOf344a(eq) {
 }
 // ==== 第344便g の塊(ここまで)====
 
+// ==== 第345便e の塊(ここから —— lint.ciEngine345e・lint.regenEngineInput345e・docs.ciEngine345e の 3 ブロック。root は SKIP)====
+// ---- 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396 —— 道具と設定だけ・html は変えない):
+// ----   lint.ciEngine345e: ① package.json の playwright が 1.63.0 の固定(範囲の記号なし)・package-lock の根の宣言と playwright・playwright-core の項が同じ版・
+// ----     resolved の版・integrity・lock の項は根と 2 つだけ ② ci.yml の qa ジョブの上限 180 分と第345便のコメント(前の便のコメントは残る)・perf の上限 15 分のまま・
+// ----     依存の導入の行(npm ci と npx playwright install --with-deps chromium —— 2 ジョブ)・ワークフローに Playwright の版の固定の書き方が無い ③ 変異(上限 120・範囲 ^1.63.0・
+// ----     lock の playwright-core だけ古い版)で落ちる
+// ----   lint.regenEngineInput345e: ① 自己試験 regenEngineInputProbe345e(判定・宣言の在る/無い/変わった/時刻だけのときの計画・順序の辺・契約の入力の行・台帳の刻み・変異)
+// ----     ② ブラウザの段の一覧の正本 tests/data-w345e-browserstages.json が今の表と同じ(段の集合と版)③ 今の表の順序の辺(engine-345b が在れば全部のブラウザの段に・無ければ 0)
+// ----     ④ 済み印の契約の版は w287f-chaincontract-2 のまま・道具の口(--browser-stages・--engine-stamp)
+// ----   docs.ciEngine345e: PHYSICS〔第345便e〕(位置・必須の語・数が一覧の正本と同じ)・AI_SPEC §288・CHANGELOG の行・post-merge の塊・.gitignore を足していない・書かない語と禁句
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP lint.ciEngine345e(root 対象 — CI と依存の版の契約は beta 対象の走行で 1 回見る)');
+  else {
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PW_VER = '1.63.0';
+    const check = (pkgText, lockText, ciText) => {
+      const b = [];
+      let pkg = null, lock = null;
+      try { pkg = JSON.parse(pkgText); } catch (e) { b.push('① package.json が読めない'); }
+      try { lock = JSON.parse(lockText); } catch (e) { b.push('① package-lock.json が読めない'); }
+      if (pkg && lock) {
+        const want = (pkg.devDependencies || {}).playwright;
+        if (want !== PW_VER) b.push('① package.json の playwright が固定の ' + PW_VER + ' でない: ' + want);
+        const P = lock.packages || {};
+        if (((P[''] || {}).devDependencies || {}).playwright !== want) b.push('① lock の根の宣言が package.json と違う');
+        for (const k of ['playwright', 'playwright-core']) {
+          const e = P['node_modules/' + k] || {};
+          if (e.version !== PW_VER) b.push('① lock の ' + k + ' の版 ' + e.version);
+          if (e.resolved !== 'https://registry.npmjs.org/' + k + '/-/' + k + '-' + PW_VER + '.tgz') b.push('① lock の ' + k + ' の resolved');
+          if (!/^sha512-[A-Za-z0-9+/]{86}==$/.test(String(e.integrity || ''))) b.push('① lock の ' + k + ' の integrity');
+        }
+        if (((P['node_modules/playwright'] || {}).dependencies || {})['playwright-core'] !== PW_VER) b.push('① lock の playwright が playwright-core の ' + PW_VER + ' を引かない');
+        const keys = Object.keys(P).sort().join(',');
+        if (keys !== ',node_modules/playwright,node_modules/playwright-core') b.push('① lock の項が根と 2 つでない: ' + keys);
+        if (lock.lockfileVersion !== 3) b.push('① lockfileVersion');
+      }
+      const ci = String(ciText);
+      const jq = ci.search(/^  qa:\s*$/m), jp = ci.search(/^  perf:\s*$/m);
+      const qa = jq >= 0 && jp > jq ? ci.slice(jq, jp) : '', perf = jp >= 0 ? ci.slice(jp) : '';
+      const tq = qa.match(/^    timeout-minutes:\s*(\d+)\s*$/m), tp = perf.match(/^    timeout-minutes:\s*(\d+)\s*$/m);
+      if (!tq || tq[1] !== '180') b.push('② qa ジョブの timeout-minutes が 180 でない: ' + (tq ? tq[1] : 'なし'));
+      if (!/# 第345便: 120→180 分 —— /.test(qa)) b.push('② 第345便のコメント(120→180 分)が無い');
+      if (!/# 第335便: 90→120 分 —— /.test(qa)) b.push('② 前の便のコメント(第335便)が消えた');
+      if (!tp || tp[1] !== '15') b.push('② perf ジョブの timeout-minutes が 15 でない: ' + (tp ? tp[1] : 'なし'));
+      if ((ci.match(/^          npx playwright install --with-deps chromium\s*$/gm) || []).length !== 2) b.push('② npx playwright install --with-deps chromium の行が 2 ジョブに無い');
+      if ((ci.match(/^          npm ci\s*$/gm) || []).length !== 2) b.push('② npm ci の行が 2 ジョブに無い');
+      if (/playwright@\d|chromium@\d|chromium-\d{3,}/.test(ci)) b.push('② ワークフローが Playwright か Chromium の版を固定する書き方をしている');
+      return b;
+    };
+    const pkgT = rd('package.json'), lockT = rd('package-lock.json'), ciT = rd('.github/workflows/ci.yml');
+    for (const x of check(pkgT, lockT, ciT)) bad.push(x);
+    cases.push(`① package.json の playwright = ${PW_VER}(固定)・lock の playwright と playwright-core = ${PW_VER}(resolved・integrity・項は根と 2 つ)`);
+    cases.push('② ci.yml: qa の上限 180 分(第345便のコメント・前の便のコメントは残る)・perf 15 分・npm ci と npx playwright install --with-deps chromium が 2 ジョブ・版の固定の書き方なし');
+    // ③ 変異
+    const mut = [
+      ['上限 120', pkgT, lockT, ciT.replace(/^    timeout-minutes: 180$/m, '    timeout-minutes: 120')],
+      ['範囲 ^1.63.0', pkgT.replace('"playwright": "1.63.0"', '"playwright": "^1.63.0"'), lockT, ciT],
+      ['lock の playwright-core だけ 1.61.1', pkgT, (() => { try { const L = JSON.parse(lockT); L.packages['node_modules/playwright-core'].version = '1.61.1'; return JSON.stringify(L); } catch (e) { return lockT; } })(), ciT],
+      ['install の行を消す', pkgT, lockT, ciT.replace(/^          npx playwright install --with-deps chromium\s*$/m, '')],
+    ];
+    const caught = mut.filter(([, p, l, c]) => check(p, l, c).length > 0).map(([n]) => n);
+    if (caught.length !== mut.length) bad.push('③ 変異が落ちない: ' + mut.map(([n]) => n).filter((n) => !caught.includes(n)).join(','));
+    cases.push(`③ 変異 ${caught.length}/${mut.length} で落ちる(${caught.join('・')})`);
+    add('lint.ciEngine345e', bad.length === 0,
+      `**CI の版**(第345便e・原仮定者の回答 第145報 AN921・R396 —— Playwright を ${PW_VER} に固定・beta の上限 120 → 180 分): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP lint.regenEngineInput345e(root 対象 — 再生成の計画の契約は beta 対象の走行で 1 回見る)');
+  else {
+    try {
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      if (typeof RT.regenEngineInputProbe345e !== 'function') throw new Error('regenEngineInputProbe345e が無い');
+      const tmp = fs.mkdtempSync(path.join((await import('node:os')).tmpdir(), 'w345e-'));
+      let r = null;
+      try { r = RT.regenEngineInputProbe345e({ tmpDir: tmp }); } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f']) if (!r[k] || r[k].ok !== true) bad.push(`① (${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      cases.push('① 自己試験 (a) 判定〔import・動的 import・createRequire・子プロセス・vm だけ・注釈〕(b) 宣言の無い/在る/刻印あり/時刻だけ/変わった/切った計画 (c) 順序の辺〔engine-345b が在るときだけ・波・checkOrder・引き込まない〕'
+        + '(d) 契約の入力の行 (e) 台帳の刻み (f) 変異 —— ' + ['a', 'b', 'c', 'd', 'e', 'f'].filter((k) => r[k] && r[k].ok).length + '/6');
+      const doc = RT.browserListDoc345e({ root: ROOT });
+      let cur = null; try { cur = JSON.parse(fs.readFileSync(path.join(ROOT, RT.BROWSER_LIST_FILE_345E), 'utf8')); } catch (e) { cur = null; }
+      const keys = (d) => (d && d.stages ? d.stages.map((z) => z.key).sort().join(',') : '');
+      if (!(cur && cur.version === doc.version && keys(cur) === keys(doc))) bad.push('② ' + RT.BROWSER_LIST_FILE_345E + ' が今の表と違う(node tools/regen-plan.mjs --browser-stages --write)');
+      if (doc.mismatch.browserButNode.length) bad.push('② 段の行に node: true の宣言があるのにブラウザ: ' + doc.mismatch.browserButNode.join(','));
+      cases.push(`② 一覧の正本が今の表と同じ —— ブラウザで測る段 ${doc.count.browser}/${doc.count.all}・実測秒の和 ${doc.secSum} s・4 レーンの見積り ${doc.makespan} s`);
+      const hasEng = RT.REGEN_STEPS.some((z) => z.key === RT.ENGINE_STAGE_KEY_345E && z.role !== 'history');
+      const E = RT.engineEdges345e({ root: ROOT });
+      const wantE = hasEng ? doc.stages.filter((z) => z.key !== RT.ENGINE_STAGE_KEY_345E).length : 0;
+      if (E.size !== wantE) bad.push(`③ 順序の辺 ${E.size}(期待 ${wantE})`);
+      cases.push(`③ 順序の辺: 段 ${RT.ENGINE_STAGE_KEY_345E} ${hasEng ? '在り' : '無し'} → ${E.size} 本`);
+      if (RT.CHAIN_CONTRACT_VERSION !== 'w287f-chaincontract-2') bad.push('④ 済み印の契約の版が変わった: ' + RT.CHAIN_CONTRACT_VERSION);
+      const RP = fs.readFileSync(path.join(ROOT, 'tools', 'regen-plan.mjs'), 'utf8'), RC = fs.readFileSync(path.join(ROOT, 'tools', 'regen-chain.mjs'), 'utf8');
+      if (!(RP.indexOf("argv.includes('--browser-stages')") >= 0 && RP.indexOf('// ==== 第345便e の塊(ここから)====') >= 0)) bad.push('④ regen-plan の --browser-stages');
+      if (!(RC.indexOf("argv.includes('--engine-stamp')") >= 0 && RC.indexOf('// ==== 第345便e の塊(ここから)====') >= 0)) bad.push('④ regen-chain の --engine-stamp');
+      const declIn = fs.existsSync(path.join(ROOT, RT.ENGINE_DECL_FILE_345E));
+      cases.push(`④ 契約の版 ${RT.CHAIN_CONTRACT_VERSION} のまま・道具の口 2 つ・宣言 ${RT.ENGINE_DECL_FILE_345E} ${declIn ? '在り(ブラウザの段は台帳 ' + RT.ENGINE_STAMP_FILE_345E + ' と照らす)' : '無し(計画は今までどおり)'}`);
+    } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
+    add('lint.regenEngineInput345e', bad.length === 0,
+      `**ブラウザで測る段の入力に実行系の宣言**(第345便e・R396): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+{
+  const bad = [], cases = [];
+  if (!TARGET.startsWith('beta/')) console.log('SKIP docs.ciEngine345e(root 対象 — 文書は beta 対象の走行で 1 回見る)');
+  else {
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    let LIST = null; try { LIST = JSON.parse(rd('tests/data-w345e-browserstages.json')); } catch (e) { LIST = null; }
+    const i0 = PH.indexOf('〔第345便e — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第344便g — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('PHYSICS〔第345便e〕が無いか〔第344便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN921', 'R396', '1.63.0', '120 → 180 分', '107 分', '約 35%', 'ハング防止のガード', 'npx playwright install --with-deps chromium',
+      'tests/data-w345-engine.json', 'tests/data-w345e-enginestamp.json', 'tests/data-w345e-browserstages.json', 'engine-345b', '--browser-stages', '--engine-stamp', 'w287f-chaincontract-2',
+      '固定', 'playwright-core', 'fsevents', '理由の種類 engine', 'lint.ciEngine345e', 'lint.regenEngineInput345e', 'docs.ciEngine345e', '決断事項の候補', '次の便へ'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第345便e〕に「' + w + '」が無い');
+    if (LIST) for (const w of ['ブラウザで測る段 ' + LIST.count.browser, '実測秒の和 ' + LIST.secSum + ' s', String(LIST.makespan) + ' s']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第345便e〕の数が一覧の正本と違う(「' + w + '」が無い)');
+    if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第345便e〕に \\| ');
+    cases.push('① 節の位置・必須の語 ' + want.length + '・数が一覧の正本と同じ');
+    const a0 = AS.indexOf('\n## 288. 第345便e'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && ai.indexOf('1.63.0') >= 0 && ai.indexOf('180') >= 0 && ai.indexOf('engine-345b') >= 0 && ai.indexOf('R396') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('② AI_SPEC §288(1.63.0・180・engine-345b・R396・SYSTEM_PROMPT)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const iMe = clLines.findIndex((l) => l.indexOf('**第345便e**') >= 0), iT = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), clMe = iMe >= 0 ? clLines[iMe] : '';
+    if (!(iMe > 0 && (iT < 0 || iMe < iT) && clMe.indexOf('1.63.0') >= 0 && clMe.indexOf('180') >= 0 && clMe.indexOf('第145報') >= 0 && clMe.indexOf('R396') >= 0)) bad.push('② CHANGELOG の第345便e の行(見出しより後・第344便(統括)の行より前・1.63.0・180・第145報・R396)');
+    if (!(PM.indexOf('# ==== 第345便e の塊(ここから)====') >= 0 && /lint\.ciEngine345e lint\.regenEngineInput345e docs\.ciEngine345e/.test(PM))) bad.push('② post-merge に第345便e の塊');
+    cases.push('② AI_SPEC §288・CHANGELOG の行の位置・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+      .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第345便e〕', sec], ['AI_SPEC §288', ai], ['CHANGELOG の第345便e の行', clMe]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const re of NOT) if (re.test(strip(tx))) bad.push('③ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('③ 書かない語・禁句(節・AI_SPEC・CHANGELOG)');
+    add('docs.ciEngine345e', bad.length === 0, `**CI の版と鎖の宣言の文書**(第345便e・R396): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+// ==== 第345便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
