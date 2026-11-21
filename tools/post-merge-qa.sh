@@ -1232,6 +1232,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.chainResume344f docs.tools344f lint.lib
 #   PHYSICS〔第344便g〕に逐語・文書)と、新しい段 plutogm-344g の lint 一式(第337便i の塊で足した一式)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.plutogm344g docs.plutogm344g"
 # ==== 第344便g の塊(ここまで)====
+# ==== 第345便a の塊(ここから)====
+# 第345便a(原仮定者の回答(2026-11-21 —— 第145報)・統括の検証項目 R392 —— 文書と照合の鍵だけ・html は変えない): 新設 2 本(docs.report145_345a —— PHYSICS〔第345便a〕の
+#   第145報の決断事項 8 項の原文・訂正の鎖・論文の改訂案・題の表・用語・AI_SPEC §284・CHANGELOG / docs.sourceVerify345a —— docs/SOURCE_VERIFICATION.md の手順の 5 段・記録の 3 段・様式の欄・未照合の 3 件)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145_345a docs.sourceVerify345a"
+# ==== 第345便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
