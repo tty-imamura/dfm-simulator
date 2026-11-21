@@ -37,6 +37,15 @@ export const H2_REL_TOL_345C = 1e-6;
  * 約 2.7e8 ulp なので、4 ulp は物理の変化を隠さない。超えたら止める。
  */
 export const KF1_MAX_ULP_345C = 4;
+/**
+ * ❄️(第290便b で退役)の kF0 の周期の「正式の値」(過去の便に固定した記録 —— 第291便の鎖 2 の正本の値・実行系の記録が無い)の ulp の差の上限 = 1024。
+ * 第345便(統括 —— 鎖の後の転記照合)で tests/qa.mjs の先頭に CHARON_KF0_RECORD_MAX_ULP_345 として置いた値を、第346便a でここへ移した(値は同じ ——
+ * 器 tests/exp-w280c-geo3.mjs・tests/exp-w280d-charonInput.mjs が自分で fixedRecordGate を呼び、鍵 docs.geo3-sync・docs.charonInput が同じ定数で照合する)。
+ * 根拠(当時の注を写す): chromium 157 で測った差は +316 ulp(h)・−475 ulp(h/2)—— 相対 1e−13・絶対 3.7e−8 s と 5.5e−8 s。この門が見るのは抽出器・窓・刻みの定義の違いで、
+ * 一番小さい例(刻み h と h/2 の値の差 9.7e−5 s)が約 8.4e5 ulp —— 1024 ulp(1.2e−7 s)はそれより 3 桁小さい。超えたら止める。
+ * 現役の calaudit の行から来た正式の値は、今までどおりビットで同じを要求する。
+ */
+export const CHARON_KF0_MAX_ULP_345 = 1024;
 
 // ---- 記録を測った実行系 ----
 /**

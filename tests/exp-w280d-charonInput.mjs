@@ -41,9 +41,13 @@ import { CHARON_INPUT_VERSION, OLD_INPUT, TARGETS, definitionMixAudit, oldUnitsP
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { jr337fRead, jr337fMeta } from './lib-w337f-jsonread.mjs';   // 第337便f(AN702・R342): 上流の正本を読む経路を記録して meta.jsonRead337f へ(計画は読む経路の部分木で再利用を判定)
+// 第346便a(統括の検証項目 R397 —— 第345便(統括)の継ぎ目の直し (a) の「器に門を持たせるのは、次に器を作り直す便で」): ❄️ の正式の値が過去の便に固定した記録
+//   (FORMAL.from が history(…))のとき、器が自分で fixedRecordGate を呼んで、段ごとの結果(ulp・符号つき ulp・門)を正本に書く(水星の器と同じ形 —— 上限を超えたら器を止める)
+import { fixedRecordGate, CHARON_KF0_MAX_ULP_345, CROSSENGINE_LIB_VERSION_345C } from './lib-w345c-crossengine.mjs';
+import * as E345 from './lib-w345-engine.mjs';
 // 第337便f(AN702・R342): 上流の正本の読む経路の宣言(calaudit の 🥶 と ❄️ の量の行 —— id で引く・❄️ は無くてよい(無いことも指紋に入る) —— 器が実際に読んだ経路は meta.jsonRead337f.rows[].readPaths・宣言の外を読めば QA lint.jsonPathInputs337f が FAIL)
 const JSON_READ_337F = [{"file":"tests/out/calaudit-w249.json","keyed":{"/presets":"id"},"paths":["/presets/plutoCharonDiagInput/quantities","/presets/plutoCharonReal/quantities"],"optional":["/presets/plutoCharonReal/quantities"]}];
-const REGEN_SCOPE = {"presets":["plutoCharonDFM","plutoCharonDiagInput","plutoCharonKF0Control","plutoCharonReal","plutoCharonSyncZero"],"roots":["$","HP.allPresets","HP.dfmRelativeDragStep","HP.relativeDragProbe","HP.sim","HP.validatePreset","SCALE_DIMS","T","applyQLock","ch","clamp","ctx","cv","dfmRelativeDragStep","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
+const REGEN_SCOPE = {"presets":["plutoCharonDFM","plutoCharonDiagInput","plutoCharonKF0Control","plutoCharonReal","plutoCharonSyncZero"],"roots":["$","HP.allPresets","HP.dfmRelativeDragStep","HP.relativeDragProbe","HP.sim","HP.validatePreset","PROBE_VERSION","SCALE_DIMS","T","applyQLock","ch","clamp","ctx","cv","dfmRelativeDragStep","isNum","validatePreset"],"core":true,"consts":[],"complete":true,"abBody":false};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -252,6 +256,19 @@ if (want('B')) {
   for (const s of STAGE_KEYS) factors.formalCheck[s] = (FORMAL[s] === null && s === 'h4' && FORMAL.h4Note)
     ? { formal: null, measured: byKey.base.stages[s].p2, bitSame: null, notRun: FORMAL.h4Note }   // 第288便g: 正式の段が無い(2 段の世代)
     : { formal: FORMAL[s], measured: byKey.base.stages[s].p2, bitSame: Object.is(FORMAL[s], byKey.base.stages[s].p2) };
+  // 第346便a: 退役の記録の門(段ごと)—— 記録とビットで同じか ±CHARON_KF0_MAX_ULP_345 ulp まで(比べる列)。現役の calaudit の行ならビットで同じを要求する(従来どおり鍵の側)
+  if (/^history\(/.test(String(FORMAL.from || ''))) {
+    const fpNow = E345.mathFingerprint(E345.checkProbe(await page.evaluate(E345.probeExpression())));
+    factors.formalCheck.engineNow = { fingerprint: fpNow, chromium: String(browser.version()), lib: CROSSENGINE_LIB_VERSION_345C };
+    for (const s of STAGE_KEYS) {
+      const fc = factors.formalCheck[s];
+      if (!fc || typeof fc.formal !== 'number' || typeof fc.measured !== 'number') continue;
+      const g = fixedRecordGate(fc.measured, fc.formal, { nowFp: fpNow, recFp: null /* 過去の便に固定した記録 —— 実行系の記録が無い */, maxUlp: CHARON_KF0_MAX_ULP_345 });
+      Object.assign(fc, { ulp: g.ulp, signedUlp: g.signedUlp, maxUlp: g.maxUlp, mode: g.mode, engineOfRecord: g.engineOfRecord, gateOk: g.ok, gateWhy: g.why });
+      console.error('[w280d] ❄️ kF0 の退役の記録の門(' + s + '): ' + g.why);
+      if (g.stop) throw new Error('❄️ kF0(退役の記録)の門で止める(' + s + '): ' + g.why);
+    }
+  }
   // ---- 鎖: 入力の丸め → 軟化 → 質量の精度 → 積分器(**この順に 1 つずつ足す**)
   const chainDefs = [
     { key: 'c0', step: '出発点 ❄️ kF0(旧入力: a=19596 km・質量×G=6.674・ε=50 km・Float32 質量・semi)', cfg: base },
@@ -481,7 +498,8 @@ const meta = withProvenance({
   wallSec: (Date.now() - T0) / 1000,
 }, { root: ROOT, wave: '第280便d', target: TARGET,
   code: ['tests/exp-w280d-charonInput.mjs', 'tests/lib-w280d-charoninput.mjs', 'tests/lib-w277b-charondfm.mjs',
-    'tests/lib-w276b-units.mjs', 'tests/lib-w276b-charonfactors.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs'],
+    'tests/lib-w276b-units.mjs', 'tests/lib-w276b-charonfactors.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w337f-jsonread.mjs',
+    'tests/lib-w345c-crossengine.mjs', 'tests/lib-w345-engine.mjs'],   // 第346便a: 門の lib 2 本
   inputs: [TARGET, 'tests/out/calaudit-w249.json'] });
 const out = { meta, audit, factors, cleaned, sameDef, zero, pageErrors,
   runsSummary: Object.fromEntries(Object.entries(runs).map(([k, r]) => [k, { dt: r.dt, steps: r.steps, stop: r.stop,

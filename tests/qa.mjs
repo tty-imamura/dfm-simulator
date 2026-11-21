@@ -65,7 +65,8 @@ const C7_286B = C_TRUE_286B ? 29.9792458 : 30;   // L−T=7(合体連星族)
 //   今の実行系で器が測った値は、記録とビットで同じか、この ulp の上限まで(差を比べる列に残す —— tests/lib-w345c-crossengine.mjs の fixedRecordGate・水星の退役の kF1 と同じ門)。
 //   根拠: chromium 157 で測った差は +316 ulp(h)・−475 ulp(h/2)—— 相対 1e−13・絶対 3.7e−8 s と 5.5e−8 s。この門が見るのは抽出器・窓・刻みの定義の違いで、
 //   一番小さい例(刻み h と h/2 の値の差 9.7e−5 s)が約 8.4e5 ulp —— 1024 ulp(1.2e−7 s)はそれより 3 桁小さい。超えたら止める。現役の calaudit の行から来た正式の値は、今までどおりビットで同じを要求する。
-const CHARON_KF0_RECORD_MAX_ULP_345 = 1024;
+//   **第346便a**(統括の検証項目 R397): この定数は tests/lib-w345c-crossengine.mjs の CHARON_KF0_MAX_ULP_345(値 1024 —— 上の根拠の注を写した)へ移した。
+//   器 tests/exp-w280c-geo3.mjs・tests/exp-w280d-charonInput.mjs が自分で門を呼んで結果を正本に書き、鍵 docs.geo3-sync・docs.charonInput は同じ lib の定数で照合する。
 // 第345便(統括 —— ゲートの root の全 QA): root(公開版)の html に埋めてある正式判定値の表は、昇格の時点の正本の写し(本便は root を変えない)。
 //   判定器の正本を新しい実行系で作り直した後は、写しの世代が正本と違う —— そのときは、値(12 桁)・判定段・門の状態は同じを要求し、σ 倍だけこの許容で比べる
 //   (測った差は 5.8e−6 σ〔🪐 入力診断の 1 行〕。門は σ の 1 倍の桁で分かれるので、1e−3 σ は門の変化を隠さない)。beta の写しは今までどおり 12 桁で同じを要求する。
@@ -27517,7 +27518,11 @@ if (!FAST) {
       if (fc[s] && fc[s].bitSame === true) continue;
       // 第345便(統括): 正式の値が過去の便に固定した記録(meta.formal.from が history(…))のときは、記録とビットで同じか ±CHARON_KF0_RECORD_MAX_ULP_345 ulp まで(比べる列)
       if (histRec345 && fc[s] && typeof fc[s].formal === 'number' && typeof fc[s].measured === 'number') {
-        const g345 = C345ci.fixedRecordGate(fc[s].measured, fc[s].formal, { nowFp: null, recFp: null, maxUlp: CHARON_KF0_RECORD_MAX_ULP_345 });
+        const g345 = C345ci.fixedRecordGate(fc[s].measured, fc[s].formal, { nowFp: null, recFp: null, maxUlp: C345ci.CHARON_KF0_MAX_ULP_345 });
+        // 第346便a: 器が門の結果を正本に書いた世代では、器と同じ門・同じ定数で引き直して同じであること(書いていない世代 —— 作り直しの前 —— は鍵の側の門だけ)
+        if (fc[s].gateOk !== undefined && !(fc[s].gateOk === g345.ok && fc[s].ulp === g345.ulp && fc[s].signedUlp === g345.signedUlp && fc[s].maxUlp === C345ci.CHARON_KF0_MAX_ULP_345))
+          bad.push(`②正式の値(${s})の、器が書いた門の結果が鍵で引き直した門と違う(器 ${fc[s].signedUlp} ulp・上限 ${fc[s].maxUlp} / 鍵 ${g345.signedUlp} ulp・上限 ${C345ci.CHARON_KF0_MAX_ULP_345})`);
+        if (fc[s].gateOk !== undefined) recNote345.gateInRecord = true;
         if (g345.ok) { recNote345.push(`${s} ${g345.signedUlp > 0 ? '+' : ''}${g345.signedUlp} ulp`); continue; }
         bad.push(`②正式の値(${s})の、退役の記録との差が上限を超えた: ${g345.why}`); continue;
       }
@@ -27579,7 +27584,7 @@ if (!FAST) {
       }
     const c0 = chain[0] ? chain[0].stages.h4 : {};
     add('docs.charonInput', bad.length === 0,
-      `**❄️ の否の要因**(第280便d・R68): 正式の値を 1 bit 再現(h/h2/h4=${['h', 'h2', 'h4'].map((s) => fc[s] && fc[s].bitSame).join('/')}${two288 ? ' —— 第288便b の世代は正式 2 段・h4 は未走行' : ''}${recNote345.length ? ' —— 正式の値は退役の記録(実行系の記録が無い): 記録との差 ' + recNote345.join('・') + '(上限 ±' + CHARON_KF0_RECORD_MAX_ULP_345 + ' ulp —— 比べる列)' + (sameEng345 === true ? '・同じ実行系の器 geo3 の値とはビットで同じ' : '') : ''})/ `
+      `**❄️ の否の要因**(第280便d・R68): 正式の値を 1 bit 再現(h/h2/h4=${['h', 'h2', 'h4'].map((s) => fc[s] && fc[s].bitSame).join('/')}${two288 ? ' —— 第288便b の世代は正式 2 段・h4 は未走行' : ''}${recNote345.length ? ' —— 正式の値は退役の記録(実行系の記録が無い): 記録との差 ' + recNote345.join('・') + '(上限 ±' + C345ci.CHARON_KF0_MAX_ULP_345 + ' ulp —— 比べる列' + (recNote345.gateInRecord ? '・器が正本に書いた門と同じ' : '・器の門の記録が無い世代') + ')' + (sameEng345 === true ? '・同じ実行系の器 geo3 の値とはビットで同じ' : '') : ''})/ `
       + `鎖 ${chain.map((c) => c.key + ' ' + sgn(c.stages.h4.resid, 3)).join(' → ')} s(Buie 比・dt 0.004)/ `
       + `終点と閉じた式(PLU060 の同じ解の二体 P − Buie ${Number.isFinite(cf) ? sgn(cf, 4) : '—'} s)の差 ${Number.isFinite(tail - cf) ? (tail - cf).toExponential(2) : '—'} s / `
       + `Buie の a・P が含意する GM ${Number.isFinite(au.gmBuieImplied) ? au.gmBuieImplied.toFixed(3) : '—'} km³/s²(PLU060 975.4±0.5 と ${Number.isFinite(au.gmGapInPluSigma) ? au.gmGapInPluSigma.toFixed(2) : '—'}σ_GM)/ `
@@ -50454,18 +50459,24 @@ if (!FAST) {
       const c1 = TC.find((z) => z.tag === 'dt'), c2 = TC.find((z) => z.tag === 'dt/2');
       if (!(m1 && m1.officialReproducedBit === true)) bad.push('② ☄️ の近点移動が正本 calaudit とビット一致しない');
       // 第345便(統括): ❄️ の kF0 の正式の値が過去の便に固定した記録(officialKf0.period.from が history(…))のときは、記録とビットで同じか ±CHARON_KF0_RECORD_MAX_ULP_345 ulp まで(比べる列)
-      let kf0Rec345 = null;
+      let kf0Rec345 = null, maxUlp346 = null, gateInRec346 = false;
       if (!(c1 && c1.officialKf0ReproducedBit === true)) {
         const offPer345 = ((((J.cases || {}).charon || {}).officialKf0 || {}).period) || {};
         const here345 = ((((((J.cases || {}).charon || {}).rows || {}).C0 || {}).runs || {}).dt) || null;
         if (c1 && /^history\(/.test(String(offPer345.from || '')) && here345 && typeof here345.rev2S === 'number' && typeof offPer345.meas === 'number') {
           const C345g = await import('file://' + path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs'));
-          const g345 = C345g.fixedRecordGate(here345.rev2S, offPer345.meas, { nowFp: null, recFp: null, maxUlp: CHARON_KF0_RECORD_MAX_ULP_345 });
+          const g345 = C345g.fixedRecordGate(here345.rev2S, offPer345.meas, { nowFp: null, recFp: null, maxUlp: C345g.CHARON_KF0_MAX_ULP_345 });
+          maxUlp346 = C345g.CHARON_KF0_MAX_ULP_345;
+          // 第346便a: 器が門の結果を正本に書いた世代(cases.charon.officialKf0.recordGate)では、器と同じ門・同じ定数で引き直して同じであること
+          const rg346 = ((((J.cases || {}).charon || {}).officialKf0 || {}).recordGate) || null;
+          if (rg346 && !(rg346.gateOk === g345.ok && rg346.ulp === g345.ulp && rg346.signedUlp === g345.signedUlp && rg346.maxUlp === C345g.CHARON_KF0_MAX_ULP_345 && rg346.here === here345.rev2S))
+            bad.push(`② ❄️ の kF0 の、器が書いた門の結果が鍵で引き直した門と違う(器 ${rg346.signedUlp} ulp・上限 ${rg346.maxUlp} / 鍵 ${g345.signedUlp} ulp)`);
+          gateInRec346 = !!rg346;
           if (g345.ok) kf0Rec345 = `${g345.signedUlp > 0 ? '+' : ''}${g345.signedUlp} ulp`;
           else bad.push('② ❄️ の kF0 の周期の、退役の記録との差が上限を超えた: ' + g345.why);
         } else bad.push('② ❄️ の kF0 の周期が正本 calaudit とビット一致しない');
       }
-      cases.push(kf0Rec345 ? `同じ抽出器(sha 一致)・☄️ の正本値をビットで再現・❄️ kF0 は退役の記録(実行系の記録が無い)との差 ${kf0Rec345}(上限 ±${CHARON_KF0_RECORD_MAX_ULP_345} ulp —— 比べる列)` : '同じ抽出器(sha 一致)・☄️ と ❄️ kF0 の正本値をビットで再現');
+      cases.push(kf0Rec345 ? `同じ抽出器(sha 一致)・☄️ の正本値をビットで再現・❄️ kF0 は退役の記録(実行系の記録が無い)との差 ${kf0Rec345}(上限 ±${maxUlp346} ulp —— 比べる列${gateInRec346 ? '・器が正本に書いた門と同じ' : '・器の門の記録が無い世代'})` : '同じ抽出器(sha 一致)・☄️ と ❄️ kF0 の正本値をビットで再現');
       const W = m2 ? Math.abs(m2.stepWidthM0) : null;
       for (const [tag, row] of [['dt', m1], ['dt/2', m2]]) {
         if (!row || !W) { bad.push('③ 水星の表が欠けている'); break; }
@@ -114410,14 +114421,17 @@ function view343aOf344a(eq) {
   if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第345便c〕に \\| ');
   const tabRows = (h) => { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith(h)); if (k < 0) return []; const out = []; for (let n = k + 1; n < L.length; n++) { if (L[n].startsWith('|')) out.push(L[n]); else if (out.length) break; } return out.slice(2); };
   const T1 = tabRows('**直した検査の表**'), T4 = tabRows('**洗い出しの表**');
-  if (T1.length !== 5 || !T1.every((l) => l.split(' | ').length === 5)) bad.push('① 直した検査の表が 5 行 × 5 欄でない(' + T1.length + ')');
-  for (const k of ['preset.qlockKernel', 'ui.liveMeasure297', 'docs.mercuryDecomp', 'docs.sphereKernel', 'tests/exp-w258c-qapart.mjs']) if (!T1.some((l) => l.indexOf(k) >= 0)) bad.push('① 直した検査の表に ' + k + ' の行が無い');
+  // 第346便a: ❄️ の kF0 の退役の記録の行(docs.geo3-sync・docs.charonInput —— ±1024 ulp)を足した(5 → 6 行)
+  if (T1.length !== 6 || !T1.every((l) => l.split(' | ').length === 5)) bad.push('① 直した検査の表が 6 行 × 5 欄でない(' + T1.length + ')');
+  for (const k of ['preset.qlockKernel', 'ui.liveMeasure297', 'docs.mercuryDecomp', 'docs.sphereKernel', 'tests/exp-w258c-qapart.mjs', 'docs.geo3-sync']) if (!T1.some((l) => l.indexOf(k) >= 0)) bad.push('① 直した検査の表に ' + k + ' の行が無い');
   if (T4.length < 5) bad.push('① 洗い出しの表の行が少ない(' + T4.length + ')');
   cases.push(`① 節の位置・必須の語 ${want.length}・直した検査の表 ${T1.length} 行・洗い出しの表 ${T4.length} 行`);
   try {
     const C = await import('file://' + cLib);
     const r128 = T1.find((l) => l.indexOf('preset.qlockKernel') >= 0) || '', rH2 = T1.find((l) => l.indexOf('ui.liveMeasure297') >= 0) || '', rK = T1.find((l) => l.indexOf('docs.mercuryDecomp') >= 0) || '';
-    if (!(C.KERNEL_REL_TOL_345C === 128 * Number.EPSILON && r128.indexOf('128ε') >= 0 && C.H2_REL_TOL_345C === 1e-6 && rH2.indexOf('1e−6') >= 0 && C.KF1_MAX_ULP_345C === 4 && rK.indexOf('±4 ulp') >= 0))
+    const rC = T1.find((l) => l.indexOf('docs.geo3-sync') >= 0) || '';
+    if (!(C.KERNEL_REL_TOL_345C === 128 * Number.EPSILON && r128.indexOf('128ε') >= 0 && C.H2_REL_TOL_345C === 1e-6 && rH2.indexOf('1e−6') >= 0 && C.KF1_MAX_ULP_345C === 4 && rK.indexOf('±4 ulp') >= 0
+      && C.CHARON_KF0_MAX_ULP_345 === 1024 && rC.indexOf('±1024 ulp') >= 0))
       bad.push('② 表の許容の値が lib の定数と違う');
     cases.push(`② 表の許容 = lib の定数(128ε・${C.H2_REL_TOL_345C}・±${C.KF1_MAX_ULP_345C} ulp)`);
   } catch (e) { bad.push('② lib が読めない: ' + String(e && e.message || e).slice(0, 120)); }
