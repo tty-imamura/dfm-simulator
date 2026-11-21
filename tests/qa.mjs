@@ -115426,6 +115426,7 @@ function view343aOf344a(eq) {
   })();
 }
 // ==== 第347便a の塊(ここまで)====
+
 // ==== 第347便b の塊(ここから —— behavior.convbody347b・docs.convbody347b の 2 ブロック。root は SKIP)====
 // ---- 第347便b(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・統括の検証項目 R401):
 // ----   **当事者時間の換算の多体 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列**(新設 —— 器 tests/exp-w347b-convbody.mjs〔html を読まない〕・lib tests/lib-w347b-convbody.mjs・
@@ -115438,31 +115439,6 @@ function view343aOf344a(eq) {
   const wOut = path.join(ROOT, 'tests', 'out', 'convbody-347b.json');
   if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
     console.log('SKIP behavior.convbody347b(第347便b の当事者時間の換算の多体の前の世代か beta 対象でない — ' + TARGET + ')');
-// ==== 第347便c の塊(ここから —— behavior.selfclock347c・docs.selfclock347c の 2 ブロック。root は SKIP)====
-// ---- 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904「探索のアプローチを変える」・統括の検証項目 R402):
-// ----   **自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3・対照 S0)・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅**
-// ----   (新設 —— 器 tests/exp-w347c-selfclock.mjs〔html を読まない〕・lib tests/lib-w347c-selfclock.mjs・文書の lib tests/lib-w347c-selfclockdoc.mjs・正本 tests/out/selfclock-347c.json・入力のファイルは無い)。
-// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
-// ----   behavior.selfclock347c: ① 版・宣言・零試験の場面 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・ion・t2・t3)
-// ----     ③ 門・零試験(自己 0 と遅い極限で今の点の時計・0〜1・単調)・イオンの見込みが〔第344便c〕の作り方と同じ数・r ÷ r_s の閉じた形 ④ 呼ぶだけ
-{
-  await (async () => {   // 第310便c(heap)
-  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
-  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
-  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
-    console.log('SKIP behavior.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
-// ==== 第347便d の塊(ここから —— behavior.draglong347d・docs.draglong347d の 2 ブロック。root は SKIP)====
-// ---- 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」= 引きずりには当事者時間の因子を掛けない型 D0 を主・掛ける型 D1〜D3 は比べる列・統括の検証項目 R403):
-// ----   **引きずりの 3 体と長い走り —— 3 体の近点と交点の率・重心の漂い・角運動量の残り・2 体の帳簿の残り(1e3〜1e5 周)・重力の換算 (α) と D0 の組**(新設 —— 器 tests/exp-w347d-draglong.mjs〔html を読まない〕・
-// ----   lib tests/lib-w347d-draglong.mjs・文書の lib tests/lib-w347d-draglongdoc.mjs・正本 tests/out/draglong-347d.json・入力のファイルは無い)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
-// ----   behavior.draglong347d: ① 版・宣言・純関数の場面 6 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・t2short・t3)・長い走りの 1e4 周の行を走らせ直して相対 1e-6 で照合
-// ----     (1e5 周の行は段の作り直しだけ —— 門と要約を正本から作り直して同じ)③ 門・2 体の極限(第344便d の近点との差)・D0 の重心と角運動量・帳簿の残りが有界 ④ 呼ぶだけ
-{
-  await (async () => {   // 第310便c(heap)
-  const wHarn = path.join(ROOT, 'tests', 'exp-w347d-draglong.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347d-draglong.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347d-draglongdoc.mjs');
-  const wOut = path.join(ROOT, 'tests', 'out', 'draglong-347d.json');
-  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
-    console.log('SKIP behavior.draglong347d(第347便d の引きずりの 3 体と長い走りの前の世代か beta 対象でない — ' + TARGET + ')');
     return;
   }
   const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
@@ -115473,12 +115449,6 @@ function view343aOf344a(eq) {
     const bad = [], cases = [];
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else if (!J) bad.push('正本 tests/out/convbody-347b.json が読めない');
-  // ───── behavior.selfclock347c ─────
-  {
-    const bad = [], cases = [];
-    if (err0) bad.push('器/lib が読めない: ' + err0);
-    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
-    else if (!J) bad.push('正本 tests/out/draglong-347d.json が読めない');
     else {
       try {
         const js = (x) => JSON.stringify(x);
@@ -115522,6 +115492,120 @@ function view343aOf344a(eq) {
     add('behavior.convbody347b', bad.length === 0,
       `**当事者時間の換算の多体の作り直し**(第347便b・原仮定者の回答(2026-11-21 —— 第145報)AN902・R401 —— html を読まない・アプリには入れない・水星の今の収支に足さない): ${cases.join(' / ')}`
       + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第347便b: docs.convbody347b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.convbody347b(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし・照合の lib を meta に)② 表 14 本が PHYSICS〔第347便b〕に逐語
+// ----     ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 3 行)・AI_SPEC §293(次の見出しまで)・CHANGELOG(第347便b の行が在れば —— 見出しより後・第346便(統括)の行より前)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG の行・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347b-convbody.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347b-convbody.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347b-convbodydoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'convbody-347b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.convbody347b(第347便b の当事者時間の換算の多体の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第347便b — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便b〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/convbody-347b.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'convbody'
+        && J.target === 'tests/lib-w347b-convbody.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便b〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN902', 'AN914', 'AN915', 'AN919', 'R401', 'tests/exp-w347b-convbody.mjs', 'tests/out/convbody-347b.json', 'tests/lib-w347b-convbody.mjs', 'convbody-347b',
+      'AN902: 推奨で進める。現状も近似として比較可能にする', '加減速のステップで進む時間を、当事者時間に合わせる', 'X_k=G_0/c _0^2=G_loc/c_loc^2', '(0)「現行の近似」', '(α) 主の候補', '(β) 比べる列',
+      '現行が正しい/誤り、とは書かない', '換算の型は決めない', '今の点の時計の枠', '主星の枠', '絶対の枠', '固定の係数 —— 合わせない', '一次から残る', '二次から', 'ψ/4', 'ψ₀ = X_k D₀', 'mercurySunInertial3d',
+      '帳簿 P_f = Σ m v(0) − Σ m v(t)', 'Π = Σ m v ÷ q', '決め打ちしない', '文献の値・未照合', '統括の参考の試作', '光速を候補の採否に使っていない', '原文の文', '読み', '候補', '対照',
+      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第145報の AN902 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.convbody347b', 'docs.convbody347b'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便b〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便b〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
+    if (!(ki >= 0 && krows.length === 3 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・3 行・状態は候補か対照)');
+    const a0 = AS.indexOf('\n## 293. 第347便b'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/convbody-347b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R401') >= 0 && ai.indexOf('AN902') >= 0))
+      bad.push('③ AI_SPEC §293(正本・SYSTEM_PROMPT・候補・R401・AN902)');
+    // CHANGELOG の行は統合で足す(枝は木に書かない —— 共通ブリーフ)。在れば、見出しより後・第346便(統括)の行より前で、器・段・R401 を含む
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const ci = cls.findIndex((l) => l.indexOf('**第347便b**') >= 0), cu = cls.findIndex((l) => l.indexOf('**第346便(統括') >= 0), cl = ci >= 0 ? cls[ci] : '';
+    if (ci >= 0 && !(ci > 0 && (cu < 0 || ci < cu) && cl.indexOf('tests/exp-w347b-convbody.mjs') >= 0 && cl.indexOf('convbody-347b') >= 0 && cl.indexOf('AN902') >= 0 && cl.indexOf('R401') >= 0)) bad.push('③ CHANGELOG の第347便b の行(見出しより後・第346便(統括)の行より前・器・段・AN902・R401)');
+    if (!(/S\('convbody-347b', 'node tests\/exp-w347b-convbody\.mjs', \['tests\/out\/convbody-347b\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 convbody-347b(塊)');
+    if (GI.indexOf('!tests/out/convbody-347b.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第347便b の塊(ここから)====') >= 0 && /behavior\.convbody347b docs\.convbody347b/.test(PM))) bad.push('③ post-merge に第347便b の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §293(次の見出しまで)・CHANGELOG の行(' + (ci >= 0 ? '在る' : '統合で足す') + ')・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/, /回転引きずり/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第347便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・換算の型が決まった・月が合った・月が合わない・現行の近似で十分
+    const W347 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決が型の算換', 'たっ合が月', 'いなわ合が月', '分十で似近の行現'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第347便b〕', sec], ['AI_SPEC §293', ai], ['CHANGELOG の第347便b の行', cl], ['器', rd('tests/exp-w347b-convbody.mjs')], ['lib', rd('tests/lib-w347b-convbody.mjs')], ['文書の lib', rd('tests/lib-w347b-convbodydoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W347)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT347) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG の行・器・lib・文書の lib)');
+    add('docs.convbody347b', bad.length === 0,
+      `**当事者時間の換算の多体の文書**(第347便b・原仮定者の回答(2026-11-21 —— 第145報)AN902・R401 —— この型・この系・この ε では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第347便b の塊(ここまで)====
+
+// ==== 第347便c の塊(ここから —— behavior.selfclock347c・docs.selfclock347c の 2 ブロック。root は SKIP)====
+// ---- 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904「探索のアプローチを変える」・統括の検証項目 R402):
+// ----   **自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3・対照 S0)・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅**
+// ----   (新設 —— 器 tests/exp-w347c-selfclock.mjs〔html を読まない〕・lib tests/lib-w347c-selfclock.mjs・文書の lib tests/lib-w347c-selfclockdoc.mjs・正本 tests/out/selfclock-347c.json・入力のファイルは無い)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.selfclock347c: ① 版・宣言・零試験の場面 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・ion・t2・t3)
+// ----     ③ 門・零試験(自己 0 と遅い極限で今の点の時計・0〜1・単調)・イオンの見込みが〔第344便c〕の作り方と同じ数・r ÷ r_s の閉じた形 ④ 呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.selfclock347c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const C344 = await import('file://' + path.join(ROOT, 'tests', 'lib-w344c-clockmid.mjs'));
         // ① 版・宣言・零試験の場面
         if (!(L.LIB_VERSION === 'w347c-selfclock-lib-1' && X.HARNESS_VERSION === 'w347c-selfclock-1' && D0.DOC_VERSION === 'w347c-selfclockdoc-1' && X.AMEND.length === 0
@@ -115563,6 +115647,119 @@ function view343aOf344a(eq) {
     add('behavior.selfclock347c', bad.length === 0,
       `**自分自身の決定力で局所光速でもわずかに進む時計の読みの候補・時間が進む半径・ガンマ線バーストの列の作り直し**(第347便c・原仮定者の回答(2026-11-21 —— 第145報)AN904・R402 —— html を読まない・アプリには入れない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第347便c: docs.selfclock347c は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.selfclock347c(正本): ① 門・版・来歴 ② 表が PHYSICS〔第347便c〕に逐語・比べる列の出どころ ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕の前)・原文の全文・必須の語・ノブの表(6 列)・
+// ----     AI_SPEC §294・CHANGELOG(在れば照らす —— 統合で足す)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.selfclock347c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第347便c — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便c〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'selfclock'
+        && J.target === 'tests/lib-w347c-selfclock.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便c〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const s of [J.ion.srcHigh].concat(J.t3.src)) if (sec.indexOf(s) < 0) bad.push('② 比べる列の出どころの文(文献の値・未照合)');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便c〕に逐語(文書の lib ${D0.DOC_VERSION})・比べる列の出どころの文 ${1 + J.t3.src.length}`);
+    }
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', '「AN904: 探索のアプローチを変える。粒子が局所光速に達した時も、自分自身の決定力により、わずかに当事者時間が進む。時間が進む半径と、シュバルツシルト半径を比較する。ガンマ線バーストへの影響も調べる」',
+      'AN840', 'AN866', 'AN839', 'AN928', 'AN929', 'R402', '〔第344便c〕', '〔第342便a〕', '〔第345便a〕', '第145報の回答 1',
+      'tests/exp-w347c-selfclock.mjs', 'tests/out/selfclock-347c.json', 'tests/lib-w347c-selfclock.mjs', 'selfclock-347c',
+      'S0p', 'S0s', 'S1', 'S2', 'S3L', 'S3Q', 'R1', 'R2', 'R3', 'r_s = 2G₀m/c₀²', '光の伝わりは今のまま', '放出する側の時計だけ', '文献の値・未照合', '宣言の帰結', 'どの型を採るかは、この節では決めない', '枝の読み',
+      '原文の文', '読み', '候補', '推奨', 'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '原仮定者の回答への枝の答え', '決断事項の候補', '次の便へ', '書かないこと',
+      'behavior.selfclock347c', 'docs.selfclock347c'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便c〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便c〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = []; if (ki >= 0) for (const l of sec.slice(ki).split('\n').slice(2)) { if (!l.startsWith('| ')) break; krows.push(l); }
+    if (!(ki >= 0 && krows.length === 4 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・4 行・状態は候補か対照)');
+    const a0 = AS.indexOf('\n## 294. 第347便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/selfclock-347c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R402') >= 0 && ai.indexOf('AN904') >= 0))
+      bad.push('③ AI_SPEC §294(正本・SYSTEM_PROMPT・候補・R402・AN904)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
+    const clMe = (clg.split('\n').find((l) => l.indexOf('**第347便c**') >= 0)) || '';
+    if (clMe && !(clMe.indexOf('R402') >= 0 && clMe.indexOf('AN904') >= 0 && clMe.indexOf('selfclock-347c') >= 0)) bad.push('③ CHANGELOG の第347便c の行(R402・AN904・段の名)');
+    if (!(/S\('selfclock-347c', 'node tests\/exp-w347c-selfclock\.mjs', \['tests\/out\/selfclock-347c\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 selfclock-347c(塊)');
+    if (GI.indexOf('!tests/out/selfclock-347c.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第347便c の塊(ここから)====') >= 0 && /behavior\.selfclock347c docs\.selfclock347c/.test(PM))) bad.push('③ post-merge に第347便c の塊');
+    cases.push('③ 節の位置・原文の全文・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §294・段の行・.gitignore・post-merge' + (clMe ? '・CHANGELOG の行' : '(CHANGELOG の行は統合で足す —— 在れば照らす)'));
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/, /回転引きずり/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第347便c の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・確かめられた・示した・説明できた・説明した・導けた・導いた・時計の形が決まった・ガンマ線バーストが説明
+    const W347 = ['ためか確', 'たれらめか確', 'たし示', 'たきで明説', 'たし明説', 'たけ導', 'たい導', 'たっま決が形の計時', '明説がトスーバ線マンガ'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第347便c〕', sec], ['AI_SPEC §294', ai], ['CHANGELOG の第347便c の行', clMe], ['器', rd('tests/exp-w347c-selfclock.mjs')], ['lib', rd('tests/lib-w347c-selfclock.mjs')], ['文書の lib', rd('tests/lib-w347c-selfclockdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W347)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT347) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.selfclock347c', bad.length === 0,
+      `**自分自身の決定力で局所光速でもわずかに進む時計の読みの候補・時間が進む半径・ガンマ線バーストの列の文書**(第347便c・原仮定者の回答(2026-11-21 —— 第145報)AN904・R402 —— この型・このノブ・この物の表では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第347便c の塊(ここまで)====
+
+// ==== 第347便d の塊(ここから —— behavior.draglong347d・docs.draglong347d の 2 ブロック。root は SKIP)====
+// ---- 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」= 引きずりには当事者時間の因子を掛けない型 D0 を主・掛ける型 D1〜D3 は比べる列・統括の検証項目 R403):
+// ----   **引きずりの 3 体と長い走り —— 3 体の近点と交点の率・重心の漂い・角運動量の残り・2 体の帳簿の残り(1e3〜1e5 周)・重力の換算 (α) と D0 の組**(新設 —— 器 tests/exp-w347d-draglong.mjs〔html を読まない〕・
+// ----   lib tests/lib-w347d-draglong.mjs・文書の lib tests/lib-w347d-draglongdoc.mjs・正本 tests/out/draglong-347d.json・入力のファイルは無い)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.draglong347d: ① 版・宣言・純関数の場面 6 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・t2short・t3)・長い走りの 1e4 周の行を走らせ直して相対 1e-6 で照合
+// ----     (1e5 周の行は段の作り直しだけ —— 門と要約を正本から作り直して同じ)③ 門・2 体の極限(第344便d の近点との差)・D0 の重心と角運動量・帳簿の残りが有界 ④ 呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347d-draglong.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347d-draglong.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347d-draglongdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'draglong-347d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.draglong347d(第347便d の引きずりの 3 体と長い走りの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/draglong-347d.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
         const K331 = await import('file://' + path.join(ROOT, 'tests', 'lib-w331c-k1scale.mjs'));
         // ① 版・宣言・純関数の場面
         if (!(L.LIB_VERSION === 'w347d-draglong-lib-1' && X.HARNESS_VERSION === 'w347d-draglong-1' && D0.DOC_VERSION === 'w347d-draglongdoc-1' && X.AMEND.length === 0
@@ -115605,6 +115802,92 @@ function view343aOf344a(eq) {
     }
     add('behavior.draglong347d', bad.length === 0,
       `**引きずりの 3 体と長い走りの作り直し**(第347便d・原仮定者の回答(2026-11-21 —— 第145報)AN909・R403 —— html を読まない・アプリには入れない・水星の今の収支に足さない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第347便d: docs.draglong347d は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.draglong347d(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし)② 表 8 本が PHYSICS〔第347便d〕に逐語
+// ----     ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 2 行)・AI_SPEC §295(次の見出しまで)・CHANGELOG の第347便d の行(在れば —— 便の開始の前は統括が足す)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号・旧称(節・AI_SPEC・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347d-draglong.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347d-draglong.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347d-draglongdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'draglong-347d.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.draglong347d(第347便d の引きずりの 3 体と長い走りの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第347便d — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便d〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/draglong-347d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && Object.values(J.t2long.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真・長い走りの門も)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'draglong'
+        && J.target === 'tests/lib-w347d-draglong.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・長い走りの門 ${Object.keys(J.t2long.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便d〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN909: 推奨で進める', 'R403', 'tests/exp-w347d-draglong.mjs', 'tests/out/draglong-347d.json', 'tests/lib-w347d-draglong.mjs', 'dragconv-344d', 'draglong-347d',
+      '当事者時間については、相対的な時間に換算して重力加速度などの加減速を計算する', '引きずり自体は、座標変換なので熱を発生しない', '引きずりは単純加算しない', 'AN207', '当事者時間', '絶対時間',
+      'D0', 'D1', 'D2', 'D3', '主', '比べる列', '3 体', '太陽–地球–月の型', '水星の型 + 木星の型', '近点', '交点', '重心', '角運動量', '2 体の極限', '帳簿', 'E_mod = E − m₁m₂K/(2r²)', '有界', '時間に比例', '1e5', '刻み',
+      '現行の近似', '(α)', '42.98', '二次', '文献の値・未照合', '光速を候補の採否に使っていない', '測っていない', '原文の文', '読み',
+      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '決断事項の候補', '次の便へ', 'behavior.draglong347d', 'docs.draglong347d'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便d〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便d〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
+    if (!(ki >= 0 && krows.length === 2 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|主|物差し) \|$/.test(l)))) bad.push('③ ノブの表(6 列・2 行・状態は主・候補・物差し)');
+    const a0 = AS.indexOf('\n## 295. 第347便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/draglong-347d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('D0') >= 0 && ai.indexOf('R403') >= 0 && ai.indexOf('AN909') >= 0))
+      bad.push('③ AI_SPEC §295(正本・SYSTEM_PROMPT・D0・R403・AN909)');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const ci = cls.findIndex((l) => l.indexOf('**第347便d**') >= 0), cl = ci >= 0 ? cls[ci] : '';
+    if (ci >= 0 && !(cl.indexOf('tests/exp-w347d-draglong.mjs') >= 0 && cl.indexOf('draglong-347d') >= 0 && cl.indexOf('AN909') >= 0 && cl.indexOf('R403') >= 0)) bad.push('③ CHANGELOG の第347便d の行(器・段・AN909・R403)');
+    if (!(/S\('draglong-347d', 'node tests\/exp-w347d-draglong\.mjs', \['tests\/out\/draglong-347d\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 draglong-347d(塊)');
+    if (GI.indexOf('!tests/out/draglong-347d.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第347便d の塊(ここから)====') >= 0 && /behavior\.draglong347d docs\.draglong347d/.test(PM))) bad.push('③ post-merge に第347便d の塊');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §295(次の見出しまで)・CHANGELOG の行' + (ci >= 0 ? '' : '(まだ無い —— 便の開始の後に統括が足す)') + '・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第347便d の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・引きずりの換算が決まった・確かめられた・熱を出さないと分かった・旧称(回転引きずり)
+    const W347 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決が算換のりずき引', 'たれらめか確', 'たっか分といなさ出を熱', 'りずき引転回'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第347便d〕', sec], ['AI_SPEC §295', ai], ['CHANGELOG の第347便d の行', cl], ['器', rd('tests/exp-w347d-draglong.mjs')], ['lib', rd('tests/lib-w347d-draglong.mjs')], ['文書の lib', rd('tests/lib-w347d-draglongdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W347)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT347) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.draglong347d', bad.length === 0,
+      `**引きずりの 3 体と長い走りの文書**(第347便d・原仮定者の回答(2026-11-21 —— 第145報)AN909・R403 —— この宣言・この長さ・この刻みでは、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第347便d の塊(ここまで)====
+
 // ==== 第347便e の塊(ここから —— behavior.spintorque347e・docs.spintorque347e の 2 ブロック。root は SKIP)====
 // ---- 第347便e(原仮定者の回答(2026-11-21 —— 第145報)「AN910: 推奨で進める」「AN911: 推奨で進める」・推奨で進める項 AN912・AN913・統括の検証項目 R404):
 // ----   **続けて足すトルク(C2)を主の候補にした天体の表(2 倍角の則の引数 2 つ)・尺度の置き方 3 列・熱の窓・120° の三次元の残りの候補 2 つ**(新設 —— 器 tests/exp-w347e-spintorque.mjs〔html を読まない〕・
@@ -115698,35 +115981,6 @@ function view343aOf344a(eq) {
   })();   // 第310便c(heap)
 }
 
-// ---- 第347便b: docs.convbody347b は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
-// ----   docs.convbody347b(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし・照合の lib を meta に)② 表 14 本が PHYSICS〔第347便b〕に逐語
-// ----     ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 3 行)・AI_SPEC §293(次の見出しまで)・CHANGELOG(第347便b の行が在れば —— 見出しより後・第346便(統括)の行より前)・段の行・.gitignore・post-merge
-// ----     ④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG の行・器・lib・文書の lib)
-{
-  await (async () => {   // 第310便c(heap)
-  const wHarn = path.join(ROOT, 'tests', 'exp-w347b-convbody.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347b-convbody.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347b-convbodydoc.mjs');
-  const wOut = path.join(ROOT, 'tests', 'out', 'convbody-347b.json');
-  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
-    console.log('SKIP docs.convbody347b(第347便b の当事者時間の換算の多体の前の世代か beta 対象でない — ' + TARGET + ')');
-// ---- 第347便c: docs.selfclock347c は別の最上位のブロック。世代切替は上と同じ
-// ----   docs.selfclock347c(正本): ① 門・版・来歴 ② 表が PHYSICS〔第347便c〕に逐語・比べる列の出どころ ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕の前)・原文の全文・必須の語・ノブの表(6 列)・
-// ----     AI_SPEC §294・CHANGELOG(在れば照らす —— 統合で足す)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号
-{
-  await (async () => {   // 第310便c(heap)
-  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
-  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
-  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
-    console.log('SKIP docs.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
-// ---- 第347便d: docs.draglong347d は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
-// ----   docs.draglong347d(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし)② 表 8 本が PHYSICS〔第347便d〕に逐語
-// ----     ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 2 行)・AI_SPEC §295(次の見出しまで)・CHANGELOG の第347便d の行(在れば —— 便の開始の前は統括が足す)・段の行・.gitignore・post-merge
-// ----     ④ 書かない語・禁句・裸の係数記号・旧称(節・AI_SPEC・器・lib・文書の lib)
-{
-  await (async () => {   // 第310便c(heap)
-  const wHarn = path.join(ROOT, 'tests', 'exp-w347d-draglong.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347d-draglong.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347d-draglongdoc.mjs');
-  const wOut = path.join(ROOT, 'tests', 'out', 'draglong-347d.json');
-  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
-    console.log('SKIP docs.draglong347d(第347便d の引きずりの 3 体と長い走りの前の世代か beta 対象でない — ' + TARGET + ')');
 // ---- 第347便e: docs.spintorque347e は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.spintorque347e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
 // ----     ② 表 7 本と入れ替わる行の並びが PHYSICS〔第347便e〕に逐語 ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕の前)・必須の語・ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §296・
@@ -115743,153 +115997,6 @@ function view343aOf344a(eq) {
   let X = null, L = null, D0 = null, J = null, err0 = null;
   try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
   try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
-  {
-    const bad = [], cases = [];
-    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
-    const i0 = PH.indexOf('〔第347便b — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
-    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
-    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便b〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
-    if (err0) bad.push('器/lib が読めない: ' + err0);
-    else if (!J) bad.push('正本 tests/out/convbody-347b.json が読めない');
-    else {
-      const G2 = X.gatesOf(J);
-      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
-      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'convbody'
-        && J.target === 'tests/lib-w347b-convbody.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
-        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
-      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
-      const T = D0.tablesOf(J);
-      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便b〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 14) bad.push('② 表の数 ' + Object.keys(T).length);
-      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便b〕に逐語(文書の lib ${D0.DOC_VERSION})`);
-    }
-    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN902', 'AN914', 'AN915', 'AN919', 'R401', 'tests/exp-w347b-convbody.mjs', 'tests/out/convbody-347b.json', 'tests/lib-w347b-convbody.mjs', 'convbody-347b',
-      'AN902: 推奨で進める。現状も近似として比較可能にする', '加減速のステップで進む時間を、当事者時間に合わせる', 'X_k=G_0/c _0^2=G_loc/c_loc^2', '(0)「現行の近似」', '(α) 主の候補', '(β) 比べる列',
-      '現行が正しい/誤り、とは書かない', '換算の型は決めない', '今の点の時計の枠', '主星の枠', '絶対の枠', '固定の係数 —— 合わせない', '一次から残る', '二次から', 'ψ/4', 'ψ₀ = X_k D₀', 'mercurySunInertial3d',
-      '帳簿 P_f = Σ m v(0) − Σ m v(t)', 'Π = Σ m v ÷ q', '決め打ちしない', '文献の値・未照合', '統括の参考の試作', '光速を候補の採否に使っていない', '原文の文', '読み', '候補', '対照',
-      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第145報の AN902 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.convbody347b', 'docs.convbody347b'];
-    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便b〕に「' + w + '」が無い');
-    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便b〕の表の行に \\| がある');
-    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
-    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
-    if (!(ki >= 0 && krows.length === 3 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・3 行・状態は候補か対照)');
-    const a0 = AS.indexOf('\n## 293. 第347便b'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
-    if (!(a0 >= 0 && ai.indexOf('tests/out/convbody-347b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R401') >= 0 && ai.indexOf('AN902') >= 0))
-      bad.push('③ AI_SPEC §293(正本・SYSTEM_PROMPT・候補・R401・AN902)');
-    // CHANGELOG の行は統合で足す(枝は木に書かない —— 共通ブリーフ)。在れば、見出しより後・第346便(統括)の行より前で、器・段・R401 を含む
-    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
-    const ci = cls.findIndex((l) => l.indexOf('**第347便b**') >= 0), cu = cls.findIndex((l) => l.indexOf('**第346便(統括') >= 0), cl = ci >= 0 ? cls[ci] : '';
-    if (ci >= 0 && !(ci > 0 && (cu < 0 || ci < cu) && cl.indexOf('tests/exp-w347b-convbody.mjs') >= 0 && cl.indexOf('convbody-347b') >= 0 && cl.indexOf('AN902') >= 0 && cl.indexOf('R401') >= 0)) bad.push('③ CHANGELOG の第347便b の行(見出しより後・第346便(統括)の行より前・器・段・AN902・R401)');
-    if (!(/S\('convbody-347b', 'node tests\/exp-w347b-convbody\.mjs', \['tests\/out\/convbody-347b\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 convbody-347b(塊)');
-    if (GI.indexOf('!tests/out/convbody-347b.json') < 0) bad.push('③ .gitignore の例外');
-    if (!(PM.indexOf('# ==== 第347便b の塊(ここから)====') >= 0 && /behavior\.convbody347b docs\.convbody347b/.test(PM))) bad.push('③ post-merge に第347便b の塊');
-    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §293(次の見出しまで)・CHANGELOG の行(' + (ci >= 0 ? '在る' : '統合で足す') + ')・段の行・.gitignore・post-merge');
-  // ───── docs.selfclock347c ─────
-  {
-    const bad = [], cases = [];
-    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
-    const i0 = PH.indexOf('〔第347便c — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
-    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
-    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便c〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
-    if (err0) bad.push('器/lib が読めない: ' + err0);
-    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
-    else {
-      const G2 = X.gatesOf(J);
-      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
-      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'selfclock'
-        && J.target === 'tests/lib-w347c-selfclock.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
-        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
-      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
-      const T = D0.tablesOf(J);
-      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
-      for (const s of [J.ion.srcHigh].concat(J.t3.src)) if (sec.indexOf(s) < 0) bad.push('② 比べる列の出どころの文(文献の値・未照合)');
-      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便c〕に逐語(文書の lib ${D0.DOC_VERSION})・比べる列の出どころの文 ${1 + J.t3.src.length}`);
-    }
-    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', '「AN904: 探索のアプローチを変える。粒子が局所光速に達した時も、自分自身の決定力により、わずかに当事者時間が進む。時間が進む半径と、シュバルツシルト半径を比較する。ガンマ線バーストへの影響も調べる」',
-      'AN840', 'AN866', 'AN839', 'AN928', 'AN929', 'R402', '〔第344便c〕', '〔第342便a〕', '〔第345便a〕', '第145報の回答 1',
-      'tests/exp-w347c-selfclock.mjs', 'tests/out/selfclock-347c.json', 'tests/lib-w347c-selfclock.mjs', 'selfclock-347c',
-      'S0p', 'S0s', 'S1', 'S2', 'S3L', 'S3Q', 'R1', 'R2', 'R3', 'r_s = 2G₀m/c₀²', '光の伝わりは今のまま', '放出する側の時計だけ', '文献の値・未照合', '宣言の帰結', 'どの型を採るかは、この節では決めない', '枝の読み',
-      '原文の文', '読み', '候補', '推奨', 'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '原仮定者の回答への枝の答え', '決断事項の候補', '次の便へ', '書かないこと',
-      'behavior.selfclock347c', 'docs.selfclock347c'];
-    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便c〕に「' + w + '」が無い');
-    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便c〕の表の行に \\| がある');
-    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
-    const krows = []; if (ki >= 0) for (const l of sec.slice(ki).split('\n').slice(2)) { if (!l.startsWith('| ')) break; krows.push(l); }
-    if (!(ki >= 0 && krows.length === 4 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・4 行・状態は候補か対照)');
-    const a0 = AS.indexOf('\n## 294. 第347便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
-    if (!(a0 >= 0 && ai.indexOf('tests/out/selfclock-347c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R402') >= 0 && ai.indexOf('AN904') >= 0))
-      bad.push('③ AI_SPEC §294(正本・SYSTEM_PROMPT・候補・R402・AN904)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
-    const clMe = (clg.split('\n').find((l) => l.indexOf('**第347便c**') >= 0)) || '';
-    if (clMe && !(clMe.indexOf('R402') >= 0 && clMe.indexOf('AN904') >= 0 && clMe.indexOf('selfclock-347c') >= 0)) bad.push('③ CHANGELOG の第347便c の行(R402・AN904・段の名)');
-    if (!(/S\('selfclock-347c', 'node tests\/exp-w347c-selfclock\.mjs', \['tests\/out\/selfclock-347c\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 selfclock-347c(塊)');
-    if (GI.indexOf('!tests/out/selfclock-347c.json') < 0) bad.push('③ .gitignore の例外');
-    if (!(PM.indexOf('# ==== 第347便c の塊(ここから)====') >= 0 && /behavior\.selfclock347c docs\.selfclock347c/.test(PM))) bad.push('③ post-merge に第347便c の塊');
-    cases.push('③ 節の位置・原文の全文・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §294・段の行・.gitignore・post-merge' + (clMe ? '・CHANGELOG の行' : '(CHANGELOG の行は統合で足す —— 在れば照らす)'));
-    const strip = (t) => t.replace(/「[^」]*」/g, '');
-    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
-    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/, /回転引きずり/];
-    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
-    // 第347便b の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・換算の型が決まった・月が合った・月が合わない・現行の近似で十分
-    const W347 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決が型の算換', 'たっ合が月', 'いなわ合が月', '分十で似近の行現'].map(rvC);
-    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
-      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
-    const texts = [['PHYSICS〔第347便b〕', sec], ['AI_SPEC §293', ai], ['CHANGELOG の第347便b の行', cl], ['器', rd('tests/exp-w347b-convbody.mjs')], ['lib', rd('tests/lib-w347b-convbody.mjs')], ['文書の lib', rd('tests/lib-w347b-convbodydoc.mjs')]];
-    // 第347便c の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・確かめられた・示した・説明できた・説明した・導けた・導いた・時計の形が決まった・ガンマ線バーストが説明
-    const W347 = ['ためか確', 'たれらめか確', 'たし示', 'たきで明説', 'たし明説', 'たけ導', 'たい導', 'たっま決が形の計時', '明説がトスーバ線マンガ'].map(rvC);
-    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
-      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
-    const texts = [['PHYSICS〔第347便c〕', sec], ['AI_SPEC §294', ai], ['CHANGELOG の第347便c の行', clMe], ['器', rd('tests/exp-w347c-selfclock.mjs')], ['lib', rd('tests/lib-w347c-selfclock.mjs')], ['文書の lib', rd('tests/lib-w347c-selfclockdoc.mjs')]];
-    const i0 = PH.indexOf('〔第347便d — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
-    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
-    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便d〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
-    if (err0) bad.push('器/lib が読めない: ' + err0);
-    else if (!J) bad.push('正本 tests/out/draglong-347d.json が読めない');
-    else {
-      const G2 = X.gatesOf(J);
-      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && Object.values(J.t2long.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真・長い走りの門も)');
-      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'draglong'
-        && J.target === 'tests/lib-w347d-draglong.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
-        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
-      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・長い走りの門 ${Object.keys(J.t2long.gates).length}・版 ${J.version}・target ${J.target}`);
-      const T = D0.tablesOf(J);
-      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便d〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
-      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
-    }
-    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN909: 推奨で進める', 'R403', 'tests/exp-w347d-draglong.mjs', 'tests/out/draglong-347d.json', 'tests/lib-w347d-draglong.mjs', 'dragconv-344d', 'draglong-347d',
-      '当事者時間については、相対的な時間に換算して重力加速度などの加減速を計算する', '引きずり自体は、座標変換なので熱を発生しない', '引きずりは単純加算しない', 'AN207', '当事者時間', '絶対時間',
-      'D0', 'D1', 'D2', 'D3', '主', '比べる列', '3 体', '太陽–地球–月の型', '水星の型 + 木星の型', '近点', '交点', '重心', '角運動量', '2 体の極限', '帳簿', 'E_mod = E − m₁m₂K/(2r²)', '有界', '時間に比例', '1e5', '刻み',
-      '現行の近似', '(α)', '42.98', '二次', '文献の値・未照合', '光速を候補の採否に使っていない', '測っていない', '原文の文', '読み',
-      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '決断事項の候補', '次の便へ', 'behavior.draglong347d', 'docs.draglong347d'];
-    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便d〕に「' + w + '」が無い');
-    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便d〕の表の行に \\| がある');
-    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
-    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
-    if (!(ki >= 0 && krows.length === 2 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|主|物差し) \|$/.test(l)))) bad.push('③ ノブの表(6 列・2 行・状態は主・候補・物差し)');
-    const a0 = AS.indexOf('\n## 295. 第347便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
-    if (!(a0 >= 0 && ai.indexOf('tests/out/draglong-347d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('D0') >= 0 && ai.indexOf('R403') >= 0 && ai.indexOf('AN909') >= 0))
-      bad.push('③ AI_SPEC §295(正本・SYSTEM_PROMPT・D0・R403・AN909)');
-    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
-    const ci = cls.findIndex((l) => l.indexOf('**第347便d**') >= 0), cl = ci >= 0 ? cls[ci] : '';
-    if (ci >= 0 && !(cl.indexOf('tests/exp-w347d-draglong.mjs') >= 0 && cl.indexOf('draglong-347d') >= 0 && cl.indexOf('AN909') >= 0 && cl.indexOf('R403') >= 0)) bad.push('③ CHANGELOG の第347便d の行(器・段・AN909・R403)');
-    if (!(/S\('draglong-347d', 'node tests\/exp-w347d-draglong\.mjs', \['tests\/out\/draglong-347d\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便d の塊(ここから)====') >= 0)) bad.push('③ 段の行 draglong-347d(塊)');
-    if (GI.indexOf('!tests/out/draglong-347d.json') < 0) bad.push('③ .gitignore の例外');
-    if (!(PM.indexOf('# ==== 第347便d の塊(ここから)====') >= 0 && /behavior\.draglong347d docs\.draglong347d/.test(PM))) bad.push('③ post-merge に第347便d の塊');
-    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §295(次の見出しまで)・CHANGELOG の行' + (ci >= 0 ? '' : '(まだ無い —— 便の開始の後に統括が足す)') + '・段の行・.gitignore・post-merge');
-    const strip = (t) => t.replace(/「[^」]*」/g, '');
-    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
-    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
-    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
-    // 第347便d の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・引きずりの換算が決まった・確かめられた・熱を出さないと分かった・旧称(回転引きずり)
-    const W347 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'たっま決が算換のりずき引', 'たれらめか確', 'たっか分といなさ出を熱', 'りずき引転回'].map(rvC);
-    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
-      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
-    const texts = [['PHYSICS〔第347便d〕', sec], ['AI_SPEC §295', ai], ['CHANGELOG の第347便d の行', cl], ['器', rd('tests/exp-w347d-draglong.mjs')], ['lib', rd('tests/lib-w347d-draglong.mjs')], ['文書の lib', rd('tests/lib-w347d-draglongdoc.mjs')]];
-    for (const [nm, tx] of texts) {
-      for (const w of NGC.concat(W347)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
-      for (const re of NOT347) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
   // ───── docs.spintorque347e ─────
   {
     const bad = [], cases = [];
@@ -115958,12 +116065,6 @@ function view343aOf344a(eq) {
       if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
       if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
     }
-    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG の行・器・lib・文書の lib)');
-    add('docs.convbody347b', bad.length === 0,
-      `**当事者時間の換算の多体の文書**(第347便b・原仮定者の回答(2026-11-21 —— 第145報)AN902・R401 —— この型・この系・この ε では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
-    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
-    add('docs.draglong347d', bad.length === 0,
-      `**引きずりの 3 体と長い走りの文書**(第347便d・原仮定者の回答(2026-11-21 —— 第145報)AN909・R403 —— この宣言・この長さ・この刻みでは、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
     cases.push('④ 書かない語・禁句・旧い呼び名・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・器・lib・文書の lib)');
     add('docs.spintorque347e', bad.length === 0,
       `**続けて足すトルクの表・角の引数・尺度・熱の窓・120° の残りの文書**(第347便e・原仮定者の回答(2026-11-21 —— 第145報)AN910・AN911・R404 —— 候補の表・ノブの範囲・配置): ${cases.join(' / ')}`
@@ -115971,17 +116072,8 @@ function view343aOf344a(eq) {
   }
   })();   // 第310便c(heap)
 }
-// ==== 第347便b の塊(ここまで)====
-    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
-    add('docs.selfclock347c', bad.length === 0,
-      `**自分自身の決定力で局所光速でもわずかに進む時計の読みの候補・時間が進む半径・ガンマ線バーストの列の文書**(第347便c・原仮定者の回答(2026-11-21 —— 第145報)AN904・R402 —— この型・このノブ・この物の表では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
-      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
-  }
-  })();   // 第310便c(heap)
-}
-// ==== 第347便c の塊(ここまで)====
-// ==== 第347便d の塊(ここまで)====
 // ==== 第347便e の塊(ここまで)====
+
 // ==== 第347便f の塊(ここから —— docs.equations347f の 1 ブロック。root は SKIP)====
 // ---- 第347便f(原仮定者の回答(2026-11-21 —— 第145報)を受けた推奨で進める項〔第344便の枝 b〜g の式を計算式の一覧の EQ-92 から〕・統括の検証項目 R405): **文書と照合の鍵だけ**
 // ----   (docs/EQUATIONS.md の EQ-92〜EQ-96〔第344便 b・c・d・e・g の候補の型の式〕・§2a の 2 行・§3・§6・§7 の規則 17・冒頭の 1 行・PHYSICS〔第347便f〕・AI_SPEC §297・post-merge ——
