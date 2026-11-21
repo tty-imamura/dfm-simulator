@@ -16839,10 +16839,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
         if (rateRow) {
           const inp = rateRow.querySelector('input.valIn');
           inp.value = '0.5'; inp.dispatchEvent(new Event('change'));
-          const w = HP.sim.twall[1];
+          // 第346便c(R399): 「天井」の行は画面の上の面 —— 視点の傾き θ>0(既定 +90)では y=+size の面(S.twall[0] —— 鏡映の後の 🧊 では未設定の面)
+          const kTop = (typeof viewSn !== 'undefined' && viewSn > 0) ? 0 : 1;
+          const w = HP.sim.twall[kTop];
           out.created = !!(w && w.mode === 'heat' && Math.abs(w.rate - 0.5) < 1e-12);
           inp.value = '0'; inp.dispatchEvent(new Event('change'));   // 後続ゲートのため戻す
-          out.reset0 = HP.sim.twall[1].rate === 0;
+          out.reset0 = HP.sim.twall[kTop].rate === 0;
         }
       }
       // 57B: カテゴリ開閉の保持 — 実験箱を開いて再構築(プリセット再読込)しても開いたまま
@@ -16879,14 +16881,16 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       HP.loadPreset('emergent2', false);
       let s = HP.sim;
       s.phase.bondN = 4.5; s.phase.condN = 5;
-      s.twall[0].T = 0.9;
-      s.twall[1] = { mode: 'heat', T: 0.4, rate: 0.2 };
+      // 第346便c(R399): 床の面は一様重力の向きの側 —— y を鏡映した 🧊(g_y<0)では S.twall[1](宣言の top)・未設定の面は S.twall[0]
+      const kF = (s.params.gravityY < 0) ? 1 : 0, kN = 1 - kF;
+      s.twall[kF].T = 0.9;
+      s.twall[kN] = { mode: 'heat', T: 0.4, rate: 0.2 };
       document.getElementById('btnReset').click();
       s = HP.sim;
       out.keepPhase = Math.abs(s.phase.bondN - 4.5) < 1e-12 && Math.abs(s.phase.condN - 5) < 1e-12;
-      out.keepWall = !!(s.twall[0] && Math.abs(s.twall[0].T - 0.9) < 1e-12);
-      out.keepNew = !!(s.twall[1] && s.twall[1].mode === 'heat'
-        && Math.abs(s.twall[1].T - 0.4) < 1e-12 && Math.abs(s.twall[1].rate - 0.2) < 1e-12);
+      out.keepWall = !!(s.twall[kF] && Math.abs(s.twall[kF].T - 0.9) < 1e-12);
+      out.keepNew = !!(s.twall[kN] && s.twall[kN].mode === 'heat'
+        && Math.abs(s.twall[kN].T - 0.4) < 1e-12 && Math.abs(s.twall[kN].rate - 0.2) < 1e-12);
       // ② convection(天井=rad)で壁行が4面すべて出る+rad 面の T>0 編集は heat へ変換(レート保持)
       HP.loadPreset('convection', false);
       const lab = [...document.querySelectorAll('#paramRows details.catParams')]
@@ -55709,21 +55713,22 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
         HP.loadPreset('emergent2', false);
         const s = HP.sim;
         s.phase.bondK = 7; s.phase.condN = 5; s.phase.angK = 1.1;
-        s.twall[0].T = 9; s.twall[0].rate = 0.7;
+        const kF = (s.params.gravityY < 0) ? 1 : 0;   // 第346便c(R399): 床の面(y を鏡映した 🧊 では S.twall[1])
+        s.twall[kF].T = 9; s.twall[kF].rate = 0.7;
         document.querySelector('#saveName').value = 'qa54b';
         document.querySelector('#btnSave').click();
         const item = JSON.parse(localStorage.getItem('hp_saves'))[0];
         const saved = { pp: item.phaseParams, tw: item.twallHeat };
         HP.loadPreset('emergent2', false);   // 素の emergent2 に戻す(bondK=5 等)
-        const defBondK = s.phase.bondK, defWallT = s.twall[0].T;
+        const defBondK = s.phase.bondK, defWallT = s.twall[kF].T;
         HP.loadSaveItem(item);
         const restored = { bondK: s.phase.bondK, condN: s.phase.condN, angK: s.phase.angK,
-          wallT: s.twall[0].T, wallRate: s.twall[0].rate };
+          wallT: s.twall[kF].T, wallRate: s.twall[kF].rate };
         // 旧スキーマ+値域クランプ: bondK 99999→100・meltT は無視(phase に載らない)
         HP.loadSaveItem({ presetId: 'emergent2', name: 'x', physics: Object.assign({}, s.params),
           phaseParams: { bondK: 99999, meltT: 5, cohesion: 2 } });
         const legacy = { bondK: s.phase.bondK, meltT: s.phase.meltT, cohesion: s.phase.cohesion };
-        return { saved, defBondK, defWallT, restored, legacy };
+        return { saved: { pp: saved.pp, tw: saved.tw ? { 0: saved.tw[kF] } : saved.tw }, defBondK, defWallT, restored, legacy };   // 第346便c: 床の面の記録を [0] の位置で返す(判定の式は同じ)
       } finally {
         if (keep === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep);
       }
@@ -57484,7 +57489,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       && r.bitEqual && r.asyncOk && r.paused
       && dlg === 1 && ap.gridOk
       && Math.abs(ap.after.kRep - 0) < 1e-12 && Math.abs(ap.after.gy - 0.5) < 1e-12
-      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(ap.before.gy - 0.03) < 1e-12,
+      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(Math.abs(ap.before.gy) - 0.03) < 1e-12,   // 第346便c(R399): 🧬 の g_y は鏡映で −0.03(大きさで見る)
       `宣言: 🧬${d0.emergent.axes}/${d0.emergent.metric}(${d0.emergent.n}セル×${d0.emergent.steps}步) ` +
       `🥚${d0.selfRotor.axes}/${d0.selfRotor.metric}(${d0.selfRotor.n}セル×${d0.selfRotor.steps}步) ` +
       `未宣言🌌=行なし(${r.rowOff}) / スキーマ: 警告つき無視 ${r.dropped.length}/${r.badN}(${r.dropped.join(',')})・` +
@@ -114776,7 +114781,8 @@ function view343aOf344a(eq) {
           return o;
         });
         for (const k of ['fresh', 'noWrite', 'store', 'flip90', 'keyAt90', 'flipOff', 'flipOn', 'fastSrc', 'txt']) if (R[k] !== true) bad.push('検査 ' + k + ' が成り立たない');
-        if (!(R.wall90 && R.wall90[0] === '144' && R.wall90[1] === '0' && R.wallM90[0] === '0' && R.wallM90[1] === '144')) bad.push('面の呼び名 θ=+90 [底,天井]=' + JSON.stringify(R.wall90) + ' θ=−90 ' + JSON.stringify(R.wallM90));
+        const nv = (a) => (a || []).map((v) => parseFloat(v));
+        if (!(R.wall90 && nv(R.wall90)[0] === 144 && nv(R.wall90)[1] === 0 && nv(R.wallM90)[0] === 0 && nv(R.wallM90)[1] === 144)) bad.push('面の呼び名 θ=+90 [底,天井]=' + JSON.stringify(R.wall90) + ' θ=−90 ' + JSON.stringify(R.wallM90));
         cases.push(`既定 +90(viewSn 1・viewFy −1・flipY true・スライダー 90)・触っていない端末に保存なし・保存の優先(−90 を保存した端末は −90)・旧 hp_flip_y "1"→+90 "0"→−90`
           + ` / θ=+90 = 第118便 ON の式(w2sY・逆写像)・−90 の速い道は VIEW_TILT_MIN に結ぶ(鍵 θ=−90 で空・θ=+90 で ",vt90,…") / 説明の文 / 面の呼び名 θ=+90 [底,天井]=${JSON.stringify(R.wall90)}・θ=−90 ${JSON.stringify(R.wallM90)}`);
         // 保存の優先(実際の再読み込み)
@@ -114826,7 +114832,7 @@ function view343aOf344a(eq) {
             out.rows[id] = { h0, h600, nBad, dif };
           }
           // 生成器 mirrorY の約束: {cy:c, mirrorY} は {cy:−c} を y → −y で写したもの(box・grid —— 乱数の揺らぎ・乱数の速度・乱数の自転を含む)
-          const mk = (rows) => ({ id: 'qa_w346c_gen', name: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 150 }, seed: 11, thermal: 'tint',
+          const mk = (rows) => ({ id: 'qa_w346c_gen', name: 'x', description: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 150 }, seed: 11, thermal: 'tint',
             physics: { G: 0, D0: 2, kFrame: 0, kRep: 0, gravityY: 0 }, bodies: rows });
           const V = HP.validatePreset(mk([{ type: 'box', n: 5, cx: 0, cy: 3, w: 40, h: 30, mMin: 1, mMax: 1, spinMin: -0.5, spinMax: 0.7, vScale: 0.4, mirrorY: true },
             { type: 'grid', n: 7, cols: 3, cx: 2, cy: -4, pitch: 5, jitter: 0.8, vScale: 0.3, mMin: 1, mMax: 1, mirrorY: 1 }]));
@@ -114903,7 +114909,7 @@ function view343aOf344a(eq) {
         });
         if (R.bad.length) bad.push(...R.bad.slice(0, 6));
         const HT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-        if (!((HT.match(/drawSpinSpokes\((sx|px),/g) || []).length === 2 && (HT.match(/spinMarkerBasis\((sim|S),i\)/g) || []).length === 2)) bad.push('本体の印の 2 か所(メインと A/B)が spinMarkerBasis を通らない');
+        if (!((HT.match(/drawSpinSpokes\((sx|px),/g) || []).length === 2 && (HT.match(/const bs=spinMarkerBasis\((sim|S),i\)/g) || []).length === 2)) bad.push('本体の印の 2 か所(メインと A/B)が spinMarkerBasis を通らない');
         if (!(R.n === 40)) bad.push('点の数 ' + R.n);
         for (const k of ['nullRing', 'null2d', 'plusZ', 'src']) if (R[k] !== true) bad.push('検査 ' + k);
         cases.push(`5 本(🛟 の土星・🔩 の傾いた中心・歳差の粒子・水星の本の太陽・天王星)× θ 8 = ${R.n} 点: 印の楕円の長軸 ⊥ 軸の画面への射影・短軸/長軸 = √(1 − |射影|²)`
