@@ -23501,7 +23501,7 @@ if (!FAST) {
           const sum = (p.descStruct && p.descStruct.summary) || '';
           // 第335便a(原仮定者の決断(2026-11-12)・AN641・R328 —— 世代): 説明文の記号を W_bg → W₀ に直した世代(🎱 の概要の中心重力の係数の注記の有無で判定)は期待の記号を W₀ に(検査は同じ数)
           const w0g335a = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('引きずり係数 Y_k とは別の量') >= 0; } catch (e) { return false; } })() ? 'W₀' : 'W_bg';
-          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && (/gain=0 で既定経路とビット同一/.test(sum) || sum.indexOf('引きずり OFF(' + w0g335a + ' を掛けない)で既定経路とビット同一') >= 0) && /較正ではない/.test(sum) && /(?:回転|円盤)引きずり(手前\/反対)と連鎖は未実装/.test(sum))) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && (/gain=0 で既定経路とビット同一/.test(sum) || sum.indexOf('引きずり OFF(' + w0g335a + ' を掛けない)で既定経路とビット同一') >= 0) && /較正ではない/.test(sum) && /(?:回転|円盤)引きずり\(手前\/反対\)と連鎖は未実装/.test(sum))) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
           const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /円盤引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
           const txt = JSON.stringify([p.name, p.descStruct, p.en]);
           const hit = NG.filter((re) => re.test(txt));
