@@ -13185,7 +13185,9 @@ const W5C_UNITS = {
       if (s.pinned[i]) continue;
       if (s.m[i] > 1) { hy += s.y[i]; hc++; } else { ly += s.y[i]; lc++; }
     }
-    return { buoySep: (hc ? hy / hc : 0) - (lc ? ly / lc : 0), buoyNaN: s.hasNaN() };
+    // 第346便c(R399): 「下」は一様重力の向き(g_y の符号)—— y を鏡映した世代(g_y<0)でも、重い粒子が下へ寄るほど正
+    const gdn = (s.params.gravityY < 0) ? -1 : 1;
+    return { buoySep: gdn * ((hc ? hy / hc : 0) - (lc ? ly / lc : 0)), buoyNaN: s.hasNaN() };
   }) },
   galaxyAB: { enabled: !FAST, weight: 62, run: (pg) => pg.evaluate(() => {
     // 🌌 galaxy A/B 部分のみ(元8節 1916-1930行から抽出)
@@ -13230,6 +13232,8 @@ const W5C_UNITS = {
       sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
     }
     const qIn = s.wallEin - w0[0], qOut = (s.wallEout - w0[1]) + (s.wallKE - w0[2]);
+    // 第346便c(R399): 循環の向きは画面の見え方(重力が下)で数える —— y を鏡映した世代(g_y<0)は L_z の符号が逆なので g_y の符号を掛ける
+    circ *= (s.params.gravityY < 0) ? -1 : 1;
     return { convCirc: freeC ? circ / freeC : 0, convV: freeC ? sumV / freeC : 0, convNaN: s.hasNaN(),
       convQIn: qIn, convQOut: qOut, convImb: qIn > 0 ? Math.abs(qIn - qOut) / qIn : 1,
       convPin: s.n - freeC, convWall: !!s.twall };
@@ -16637,9 +16641,11 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     res.spinlensCtl = Math.abs(res.asym1) > 0.05 && Math.abs(res.asym0) < 1e-6;
     // ⑥ projectile: 説明と画面配置の一致 — 斜方投射球(最下段=最大y)が上向き(vy<0)に発射
     const p = HP.allPresets().find(q => q.id === 'projectile');
-    const ys = p.bodies.map(b => b.y);
+    // 第346便c(R399): 「下」は一様重力の向き(g_y の符号)—— y を鏡映した世代(g_y<0)では最下段 = 最小の y・上向き = vy>0
+    const gdn = (p.physics.gravityY < 0) ? -1 : 1;
+    const ys = p.bodies.map(b => gdn * b.y);
     res.projOk = p.description.includes('下段は斜方投射') && p.en.description.includes('bottom one obliquely')
-      && ys[3] === Math.max(...ys) && p.bodies[3].vy < 0;
+      && ys[3] === Math.max(...ys) && gdn * p.bodies[3].vy < 0;
     HP.loadPreset('saturn', false);
     return res;
   });
@@ -16650,7 +16656,7 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
   add('trail.sampled', r.trailSampled, `${r.trId}: 記録本数=${r.trailN}(核+代表16前後、全粒子ではない)`);
   add('spinlens.kframe-control', r.spinlensCtl,
     `非対称度 kF=1: ${r.asym1.toExponential(2)} / kF=0: ${r.asym0.toExponential(2)}(0で消失)`);
-  add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](最大y・vy<0)の一致');
+  add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](重力の向きに最も下・上向きの初速 —— g_y>0 の世代は最大y・vy<0)の一致');
 }
 
 // ---- 7k) v1.22 性能・UXスプリント: activeParams / 描画オンデマンド / 光線・フィールド
@@ -54520,6 +54526,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
     // 世代判定方式 — 対象の宣言値から基準世代を選ぶ。root=0.03 は従来基準のまま)
     const convGy95 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     if (convGy95 === 0.031) MB.convection = 'd3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b';
+    // 第346便c(R399): ♨️ は y を鏡映(g_y −0.031)—— y=±size の 2 面の壁の熱の足す順が入れ替わるので、鏡映は丸めの桁で基点と違う(符号を戻した指紋の再採取)
+    if (convGy95 === -0.031) MB.convection = 'e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421';
     // 第96便→第97便: ☿🌌は c₀=30 相似変換を維持(PN/光線が主役)— 宣言 cLight===30 で世代判定。
     // 🪐🕊️は第97便で c₀=30 のみの巻き戻し = 従来基準と bit 一致に復帰(行ごと削除)
     const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'mercury').physics.cLight === 30);
@@ -54549,7 +54557,9 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
       if (kF !== undefined) s.params.kFrame = kF;
       for (let k = 0; k < 300; k++) s.step(0.016);
       const a = [];
-      for (let i = 0; i < s.n; i++) { a.push(s.x[i], s.y[i], s.spin[i]); if (s.Tint) a.push(s.Tint[i]); }
+      // 第346便c(R399): y を鏡映した一様重力の本(g_y<0)は y と spin の符号を戻して指紋を取る(鏡映がビットで同じなら基点の記録とそのまま比べられる)
+      const my = (s.params.gravityY < 0) ? -1 : 1;
+      for (let i = 0; i < s.n; i++) { a.push(s.x[i], my * s.y[i], my * s.spin[i]); if (s.Tint) a.push(s.Tint[i]); }
       const spec = (mon && s.mechSpec) ? s.mechSpec(true) : null;
       const slots = mon ? HP.overlaySlots() : [];
       return { str: a.map(v => v.toExponential(12)).join(','), spec, hasMech: !!s.mech, slots };
@@ -54932,7 +54942,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
     // 第95便: g_y 0.031(日常規約)世代は再採取基準(50J と同じ世代判定方式)
     const convGyF = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     ZCF.convection = convN0 === 210
-      ? (convGyF === 0.031
+      ? (convGyF === -0.031 ? ['e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421', 210]   // 第346便c(R399): y の鏡映の世代(符号を戻した指紋)
+        : convGyF === 0.031
         ? ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210]
         : ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210])
       : ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300];
@@ -54943,7 +54954,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
         const s = HP.sim;
         for (let k = 0; k < 300; k++) s.step(0.016);
         const a = [];
-        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        const my = (s.params.gravityY < 0) ? -1 : 1;   // 第346便c(R399): y を鏡映した一様重力の本は符号を戻して指紋を取る
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], my * s.y[i], my * s.spin[i], s.Tint ? s.Tint[i] : 0);
         return { n: s.n, fusion: s.fusion, fusN: s.fusN, fusU: s.fusU, str: a.map(v => v.toExponential(12)).join(',') };
       }, id);
       const h = crypto.createHash('sha256').update(r.str).digest('hex');
@@ -55460,6 +55472,8 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       conv: HP.allPresets().find((q) => q.id === 'convection').physics.gravityY,
       buoy: HP.allPresets().find((q) => q.id === 'buoyancy').physics.gravityY }));
     if (gy95.conv === 0.031) ZPC.convection = ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210];
+    if (gy95.conv === -0.031) ZPC.convection = ['e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421', 210];   // 第346便c(R399): y の鏡映の世代(符号を戻した指紋 —— 🧪 は鏡映がビットで同じなので 0.031 の記録のまま)
+    if (gy95.buoy === -0.031) ZPC.buoyancy = ['a0a373a8cda3c917880baadbbf82fbb5b72c41287048a2b18d01a8db706befc4', 280];
     if (gy95.buoy === 0.031) ZPC.buoyancy = ['a0a373a8cda3c917880baadbbf82fbb5b72c41287048a2b18d01a8db706befc4', 280];
     const zpc = [];
     for (const [id, [base, n]] of Object.entries(ZPC)) {
@@ -55468,7 +55482,8 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
         const s = HP.sim;
         for (let k = 0; k < 300; k++) s.step(0.016);
         const a = [];
-        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        const my = (s.params.gravityY < 0) ? -1 : 1;   // 第346便c(R399): y を鏡映した一様重力の本は符号を戻して指紋を取る
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], my * s.y[i], my * s.spin[i], s.Tint ? s.Tint[i] : 0);
         return { n: s.n, phase: !!s.phase, str: a.map(v => v.toExponential(12)).join(',') };
       }, id);
       const h = crypto.createHash('sha256').update(r.str).digest('hex');
@@ -55830,7 +55845,9 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       const l1 = s.phHist[s.phHist.length - 1];
       const prof = Array.from(s._phProf);
       const liq = { psi6: l1.psi6, churn: l1.churn, hasFields: 'psi6' in l1 && 'churn' in l1 };
-      const botC = (prof[5] + prof[6] + prof[7]) / 3, topC = (prof[0] + prof[1] + prof[2]) / 3;
+      // 第346便c(R399): 床は一様重力の向きの側(_phProf の帯 0 は y=−size)—— y を鏡映した世代(g_y<0)では床側が帯 0〜2
+      const flr = (s.params.gravityY < 0);
+      const botC = flr ? (prof[0] + prof[1] + prof[2]) / 3 : (prof[5] + prof[6] + prof[7]) / 3, topC = flr ? (prof[5] + prof[6] + prof[7]) / 3 : (prof[0] + prof[1] + prof[2]) / 3;
       s.build({ id: 'qa_obs_solid', name: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 60 },
         thermal: 'tint', phaseChange: { bondN: 6, bondK: 5, bondRange: 1.6, bondDamp: 0.1 },
         physics: { G: 0, D0: 0, kFrame: 0, kRep: 1, q: 2, muF: 0, gammaN: 0.3, kappaS: 0,
@@ -56352,7 +56369,9 @@ if (hasSwAutoCb) {
       // (画面近傍の点だと粒子配置の非対称性がΦ_gの寄与と紛れうるため、Φ_g の寄与を
       // 支配的にする設計 — 「床方向ほどW_dispが高い」という主張は Φ_g 単体の式で厳密に
       // 保証されるので、以下ではΦ_g=W_disp−Wat を各点で直接検算する)
-      const yTop = -3000, yBot = 3000;
+      // 第346便c(R399): 「床」は一様重力の向きの側 —— y を鏡映した世代(g_y<0)では床が y の負の側(既定の視点 θ=+90 で画面の下)
+      const gdn = (S.params.gravityY < 0) ? -1 : 1;
+      const yTop = -3000 * gdn, yBot = 3000 * gdn;
       const wTop = HP.fieldWDisp(0, yTop), wBot = HP.fieldWDisp(0, yBot);
       const wPlainTop = S.Wat(0, yTop), wPlainBot = S.Wat(0, yBot);
       const gravOk = wBot > wTop;   // 遠方では Φ_g が支配的なので厳密にこの符号になるはず
@@ -60860,12 +60879,15 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       //    天井(粒子が届かない面)を変えても同一窓の軌道は不変(壁「別」に効く)。
       //    第95便: ⚾は g_y=0.031 化で自然落下が遅くなったため、粒子0を床近くへ置き
       //    下向き初速を注入して短窓(200步)で決定論的にバウンドさせる
+      // 第346便c(R399): 床は一様重力の向きの側 —— y を鏡映した世代(g_y<0)では床が y=−190(宣言の top・S.wallRest[1])
+      const gW = (HP.allPresets().find((q) => q.id === 'projectile').physics.gravityY < 0) ? -1 : 1;
+      const kFloor = gW < 0 ? 1 : 0, kCeil = gW < 0 ? 0 : 1;
       const drop = (side, wr) => { HP.loadPreset('projectile', false); const s = HP.sim;
         if (side >= 0) s.wallRest[side] = wr;
-        s.y[0] = 170; s.vy[0] = 10;   // 床(y=+190)まで 20 → 2 モデル時間で衝突
+        s.y[0] = 170 * gW; s.vy[0] = 10 * gW;   // 床(y=+190·gW)まで 20 → 2 モデル時間で衝突
         for (let k = 0; k < 200; k++) s.step(0.016);
         return { y: s.y[0], vy: s.vy[0], ke: s.wallKE }; };
-      const base = drop(-1, 0), low = drop(0, 0.2), top = drop(1, 0.2);
+      const base = drop(-1, 0), low = drop(kFloor, 0.2), top = drop(kCeil, 0.2);
       const differs = base.y !== low.y || base.vy !== low.vy;
       const keMore = low.ke > base.ke;
       const indep = base.y === top.y && base.vy === top.vy && base.ke === top.ke;

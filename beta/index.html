@@ -2790,7 +2790,7 @@ ja: {
     pRad:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。",
     cHeat:"内部温度モード(thermal:\"tint\" のサンプル)でだけ働く熱容量係数。粒子が持つ熱エネルギーは E=C·m·T_int で、散逸ΔEは ΔT_int=ΔE/(C·m) として内部温度に貯まる(A9′/E9)。大きくすると同じ散逸でも温まりにくくなる。既定のスピン=熱モード(thermal 省略)のサンプルでは一切効かない。",
     gravityX:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。",
-    gravityY:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。",
+    gravityY:"画面全体に働く縦方向の一様な外部重力場(既定の視点〔視点の傾き θ=+90〕では +y が画面の上 —— 下向きは負の値)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は −0.031(換算 ≈9.8 m/s² の下向き — 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 −9.8(そのまま 9.8 m/s² の下向き)。0にすると無重力になる。",
     geoPN:"**目的の組**: 0: 汎用 / 1: 1PN準拠 / 2: 引きずり近似 / 3: 慣性決定力 / 4: 空間メッシュ(旧法則版 spaceMesh.lawVersion の置き場 —— 新しい物理ではない)。v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じ ψ = X_k W から物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔実測〕、法則として同一とは断言しない)。0=従来(legacy)。**geoPN は「主な用途」の分類で、モードが違っても制限はセーブ時の警告だけ**: 0=汎用(主に原理実証 —— physics.geodesic:true を宣言すると測地線〔1PN〕も使える —— 保存時に警告)/ 1=1PN準拠(観測再現の組・GR 1PN —— kFrame=0 以外は保存時に警告 —— kFrame>0 は GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ 2=引きずり近似(q で近似 —— kFrame=1 以外は保存時に警告)/ 3=慣性決定力(引きずりを慣性決定力で計算 —— physics.relativeDrag.law:\"inertial\" が未宣言なら保存時に警告)/ 4=空間メッシュ(旧法則版の置き場 —— 旧法則版が走らない・慣性を重ねた・kFrame>0 で toyAllowDrag の明示が無いときは保存・読込で警告)。**走る法則は宣言から決まる**(測地線 ON ∧ kFrame=0 → EIH 型の 1PN・kFrame>0 → v−u 則・3 で旧法則版 physics.spaceMesh.lawVersion〔scalar/local/complex/vMinusU〕を宣言していればその旧法則版 —— 数値は従来どおり。scalar/local/complex は **3=トイ(慣性決定力場)**)。値は保存どおりに保存・再読込される(旧法則版の宣言が無い 3 も 3 のまま —— 測地線の法則で走り、HUD に law: を出す)。旧法則版の内部整合(トイは kFrame=0・spaceMesh の inertia/weave と排他・vMinusU は kFrame=0)は残すが、矛盾した宣言は拒否せず警告して旧法則版を無効化する(ステップ会計の geoToy:denied)。physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag)。vMinusU を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する)。",
     kFrame:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。サンプル JSON の標準は **0 か 1 の二値**である(分数の補正はそのサンプル限りで予測に使えない)。0<kFrame<1 の分数は**値をそのまま保持**する。宣言 `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)が無い分数は、読み込み時と保存時に**警告 1 行**(実験設定であり予測に使えない)。現実較正クラス(sampleClass:calibration)でも受理し、**較正の合否の母集団には数えない**(判定器の側で除く)。旧版で読み込み時に 0/1 へ書き換えられたまま保存された値は、元の分数に戻せない。",
     lambdaPN:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。",
@@ -4120,7 +4120,7 @@ en: {
     pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
-    gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
+    gravityY:"Uniform external gravity acting vertically (in the default view [view tilt θ=+90] +y is up on screen — downward is negative). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) use −0.031 (≈9.8 m/s² downward, converted — the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value −9.8 (9.8 m/s² downward as-is). Set 0 for weightlessness.",
     geoPN:"PURPOSE SET: 0: general / 1: 1PN-compliant / 2: drag approximation / 3: inertial determinacy. The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ = X_k W that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 - with kFrame=0 it is routed to the same EIH-type 1PN path as geoPN=1 by the kF0 contract (lambda_PN=1 and kFrame=0) - this is NOT the v−u equation reducing to geoPN=1 at u=0; the 400-step states agreed for 6 samples, but the two are not asserted to be the same law. 0 = legacy. geoPN CLASSIFIES THE MAIN USE, AND THE ONLY RESTRICTION ACROSS MODES IS A WARNING ON SAVE: 0 = general (mainly proof of principle - declaring physics.geodesic:true switches the geodesic 1PN on too - warned on save) / 1 = 1PN-compliant (the observation-reproduction set, GR 1PN - any kFrame other than 0 is warned on save - kFrame>0 runs the v−u law as an experimental setup that layers dragging on GR 1PN) / 2 = drag approximation (approximated with q - any kFrame other than 1 is warned on save) / 3 = inertial determinacy (dragging computed from the inertial determinacy - warned on save when physics.relativeDrag.law:\"inertial\" is not declared). THE LAW THAT RUNS IS RESOLVED FROM THE DECLARATIONS (geodesic on with kFrame=0 -> the EIH-type 1PN, kFrame>0 -> the v−u law; a 3 that declares a legacy law physics.spaceMesh.lawVersion (scalar/local/complex/vMinusU) runs that legacy law - numbers unchanged; scalar/local/complex are the toy (the inertial determinacy field)). Values are saved and reloaded as they are (a 3 without a legacy declaration stays 3 - it runs the geodesic law and the HUD shows law:). The internal consistency of the legacy laws stays (the toy needs kFrame=0 and excludes the space-mesh inertia/weave; vMinusU needs kFrame=0), but a contradictory declaration is no longer rejected: it is warned and the legacy law is disabled (geoToy:denied in the step accounting). Only a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag). A 3 that declares vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (no integer restriction). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
@@ -6962,7 +6962,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
                // cLight を全件明示しているため挙動不変 — 効くのは cLight 省略の手書き/外部 JSON のみ
   bM:1, etaRad:0, pRad:4,
   cHeat:1,   // 第36便 D(台帳4-51): 熱容量係数 C(E_int = C·m·T_int)。thermal:"tint" のときだけ効く
-  gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
+  gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き —— 第346便c: 視点の既定 θ=+90 では +y は画面の上・下向きは負)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1,   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
   dispMag:1 };   // 第118便(原仮定者指示): 粒子表示倍率(描画半径のみ×dispMag — 表示専用・力学不変)
@@ -13739,13 +13739,14 @@ const BUILTIN_PRESETS = [
   camera:{scale:220}, world:{boundary:"box",size:190},
   timeRef:{basis:"observe", tObs:2.6016, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群・旧 timeScale=0.271 → 1(刻み ×0.271)", legacyTimeScale:0.271},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
-    cLight:30/* 第98便: c₀は一律規約の30(⚾は光速非依存 — τ比のみ僅かに変わる。力学は第94便の実値 g_y=9.8 のまま) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:9.8, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.004336, frameWeight:"share"},
+    cLight:30/* 第98便: c₀は一律規約の30(⚾は光速非依存 — τ比のみ僅かに変わる。力学は第94便の実値 g_y=9.8 のまま) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:-9.8/* 第346便c(R399): 視点の既定 θ=+90(画面の上 +y)に合わせ配置の y と g_y を鏡映(旧 +9.8 —— 見え方と軌跡は同じ) */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1, stepDt:0.004336, frameWeight:"share"},
+  // 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399): 4 球の y・vy の符号を逆に(旧 y −140/−140/−20/100・vy 0/0/0/−39.84)
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
            // 第94便: 相似変換(×11.068)— 旧 vx3/vy−3.6・timeScale3・g0.08 と同一軌跡(第98便で本版を日常タグの正とする — 原仮定者指示)
-    {type:"single", rMul:1.2, m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:33.2,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:33.2,vy:-39.84, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:2, x:-150,y:140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:20, x:-110,y:140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:20, vx:33.2,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:-100, vx:33.2,vy:39.84, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -16978,10 +16979,10 @@ const BUILTIN_PRESETS = [
     // 右壁を放熱にしているのは、床を一様に加熱すると左右対称になって「向きの定まった循環」が
     // 生まれないため(実測: 一様加熱では循環指標が 0〜5 で符号も定まらない)。旧版が
     // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
-    thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
+    thermalWalls:{ top:{mode:"heat", T:144, rate:1}, bottom:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},   // 第346便c(R399): y の鏡映で加熱面は y=−size(旧 bottom —— 視点の既定 θ=+90 では画面の下)・放熱面は y=+size(旧 top)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, kappaT:0,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)→ 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:-0.031/* 第346便c(R399): y の鏡映(旧 +0.031) */ /* 第95便: 日常規約(≈9.8 m/s²)→ 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2, frameWeight:"share"},
   bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
            // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
            // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
@@ -16989,7 +16990,7 @@ const BUILTIN_PRESETS = [
            // 第50便 50J(原仮定者指摘「初回起動が重い」): n 300→210(力対 44.9k→21.9k =
            // 負荷 2.0 分の 1)。24000步の再実測で循環セルは持続: 循環=21.4(>12)・平均|v|=0.90
            // (>0.5)・定常熱流の不均衡 0.02%(<20%)— QA behavior.convection の閾値は不変のまま充足
-    {type:"box", rMul:4, n:210, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
+    {type:"box", rMul:4, n:210, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05, mirrorY:true/* 第346便c */,
      spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
@@ -17015,10 +17016,10 @@ const BUILTIN_PRESETS = [
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, kappaT:0,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
-    gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 → 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
+    gravityX:0, gravityY:-0.031/* 第346便c(R399): y の鏡映(旧 +0.031) */ /* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 → 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
-    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
-    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
+    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5, mirrorY:true/* 第346便c */},
+    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1, mirrorY:true/* 第346便c */}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -17033,11 +17034,11 @@ const BUILTIN_PRESETS = [
   notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"熱いお茶(T_int=60 の気体)を、四方の冷たい壁(壁温2の伝熱壁)に囲まれた箱に注ぐ。粒が壁に触れるたび熱が壁へ逃げ、内側では熱伝導(E10′: S_k)が温度を運ぶ — 全体がゆっくり壁温へ近づく、ニュートン冷却様の曲線を描く。温度は内部状態変数T_int(A9改訂)で、スピンは動かない。",
-    observe:"平均温度は 60 → 約56(800步)→ 約42(2400步)→ 約25(4800步)と単調に冷える(実測・種固定)。縁から先に冷え、中心が最後まで温かい。弱い重力(ビーカー規約 g_y=0.031 ≈9.8 m/s²)で軽い対流も混ざる。色=温度。伝熱壁はエネルギーの出口なので、保存量モニタは開放系判定になる。",
+    observe:"平均温度は 60 → 約56(800步)→ 約42(2400步)→ 約25(4800步)と単調に冷える(実測・種固定)。縁から先に冷え、中心が最後まで温かい。弱い重力(ビーカー規約 g_y=−0.031 ≈9.8 m/s²)で軽い対流も混ざる。色=温度。伝熱壁はエネルギーの出口なので、保存量モニタは開放系判定になる。",
     control:"壁の伝達率を 0(断熱)にすると冷えが止まる。S_k を上げると内側の温度が速く均される(おすすめA/B)。"},
   en:{name:"Cooling Tea — Heat Loss to the Walls", descStruct:{
     summary:"Hot tea (gas at T_int=60) poured into a box whose four walls are cold heat-conducting walls (wall temperature 2). Each wall contact leaks heat out, while conduction (E10′: S_k) carries temperature inside — the whole cup relaxes toward the wall temperature along a Newton-cooling-like curve. Temperature is the internal state variable T_int (A9 revision); spins never move.",
-    observe:"Mean temperature falls monotonically: 60 → ≈56 (800 steps) → ≈42 (2400) → ≈25 (4800) — measured, fixed seed. The rim cools first, the center stays warm longest. Weak gravity (beaker convention g_y=0.031 ≈9.8 m/s²) adds a hint of convection. Color = temperature. The walls are an energy outlet, so the conservation monitor reports an open system.",
+    observe:"Mean temperature falls monotonically: 60 → ≈56 (800 steps) → ≈42 (2400) → ≈25 (4800) — measured, fixed seed. The rim cools first, the center stays warm longest. Weak gravity (beaker convention g_y=−0.031 ≈9.8 m/s²) adds a hint of convection. Color = temperature. The walls are an energy outlet, so the conservation monitor reports an open system.",
     control:"Set the wall transfer rate to 0 (adiabatic) and the cooling stops. Raise S_k to even out the inside faster (suggested A/B)."}},
   activeParams:["kappaS","kRep","gravityY"],
   thermal:"tint",
@@ -17048,10 +17049,10 @@ const BUILTIN_PRESETS = [
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0, gammaN:0.1, kappaS:0.4, kappaT:0,
     cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
-    cHeat:1, gravityX:0, gravityY:0.031/* ビーカー規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1,
+    cHeat:1, gravityX:0, gravityY:-0.031/* 第346便c(R399): y の鏡映(旧 +0.031 —— 4 面の壁は同じ宣言なので入れ替えは要らない) */ /* ビーカー規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
   bodies:[{type:"box", rMul:3, n:220, cx:0, cy:0, w:260, h:260, mMin:0.1, mMax:0.1,
-    tInt:60, spinMin:0, spinMax:0, vScale:0.3}],
+    tInt:60, spinMin:0, spinMax:0, vScale:0.3, mirrorY:true/* 第346便c */}],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 // ===== E14″ 創発相変化サンプル(第60便で創発一本に整理 — 旧サンプル群は廃止)=====
@@ -17102,23 +17103,24 @@ const BUILTIN_PRESETS = [
   // 軸は実測で選んだ: 熱圧 kRep(結合を剥がす側)× 一様重力 g_y(分子を加熱床へ押し付ける側)。
   // 秩序変数は最大塊の質量比(1.00=単一の格子=固体 / 0.1台=ばらけた分子の気体)。
   // 実測(第83便B・exp-4-86・6×6・2500步): 値域は 0.107〜1.000。相境界(中点 0.55 の交差位置)は
-  // g_y=0 で kRep≈11.4 → g_y=0.5 で kRep≈6.8 と、一様重力を上げるほど低い熱圧側へ寄る
+  // g_y=0 で kRep≈11.4 → g_y=0.5 で kRep≈6.8 と(第346便c: 鏡映の後の宣言では g_y=−0.5 —— 大きさの読み)、一様重力を上げるほど低い熱圧側へ寄る
   // (押し付けが強いほど早く壊れる)。1枚 73.1秒 = 2.03秒/セル(実測)。
   // ※ cHeat・γn は実測で相図を動かさなかったので軸に採らなかった
-  phaseMap:{ xKey:"kRep", xValues:[0,4,8,12,16,20], yKey:"gravityY", yValues:[0,0.03,0.08,0.2,0.35,0.5],
+  phaseMap:{ xKey:"kRep", xValues:[0,4,8,12,16,20], yKey:"gravityY", yValues:[0,-0.03,-0.08,-0.2,-0.35,-0.5],   // 第346便c(R399): y の鏡映(旧 0〜0.5 —— 加熱床へ押し付ける向きは g_y<0)
+   
     steps:2500, metric:"maxFrac",
     label:{ja:"三態の相図(熱圧 kRep × 一様重力 g_y)",
       en:"Three-state phase map (thermal pressure kRep × uniform gravity g_y)"} },
   thermal:"tint",
   phaseChange:{ bondN:6, bondK:5, bondRange:1.6, bondDamp:0.02, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
-    thermalWalls:{ bottom:{mode:"heat", T:2, rate:0.25} }},
+    thermalWalls:{ top:{mode:"heat", T:2, rate:0.25} }},   // 第346便c(R399): y の鏡映で加熱面は y=−size(旧 bottom —— 視点の既定 θ=+90 では画面の下)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, kappaT:0,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:-0.03/* 第346便c(R399): y の鏡映(旧 +0.03) */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2, frameWeight:"share"},
   seed:7,
   bodies:[ // 初期は低温の結晶(pitch=接触間隔)— 加熱で三態が順に現れる
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:-93, mirrorY:true/* 第346便c(R399): y の鏡映(旧 cy 93) */, pitch:5, mMin:1, mMax:1, tInt:0.2}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
@@ -17156,13 +17158,13 @@ const BUILTIN_PRESETS = [
   thermal:"tint",
   phaseChange:{ bondN:3, bondK:5, bondRange:1.6, bondDamp:0.1, angK:2, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
-    thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.15} }},
+    thermalWalls:{ top:{mode:"heat", T:0.15, rate:0.15} }},   // 第346便c(R399): y の鏡映で加熱面は y=−size(旧 bottom —— 視点の既定 θ=+90 では画面の下)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:-0.03/* 第346便c(R399): y の鏡映(旧 +0.03) */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[ // 温かい液体スタート(jitter で秩序を崩す)
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:-93, mirrorY:true/* 第346便c(R399): y の鏡映(旧 cy 93) */, pitch:7, jitter:1.0, vScale:0.3,
      mMin:1, mMax:1, tInt:1.5}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
@@ -17202,13 +17204,13 @@ const BUILTIN_PRESETS = [
   thermal:"tint",
   phaseChange:{ bondN:2, bondK:5, bondRange:1.6, bondDamp:0.1, angK:1.2, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
-    thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15} }},
+    thermalWalls:{ top:{mode:"heat", T:0.6, rate:0.15} }},   // 第346便c(R399): y の鏡映で加熱面は y=−size(旧 bottom —— 視点の既定 θ=+90 では画面の下)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:-0.03/* 第346便c(R399): y の鏡映(旧 +0.03) */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[ // 🧊と同じ温かい液体スタート — 差は bondN=2(予算)と壁温だけ
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:-93, mirrorY:true/* 第346便c(R399): y の鏡映(旧 cy 93) */, pitch:7, jitter:1.0, vScale:0.3,
      mMin:1, mMax:1, tInt:1.5}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
@@ -17263,13 +17265,13 @@ const BUILTIN_PRESETS = [
   thermal:"tint",
   phaseChange:{ bondN:2, bondK:5, bondRange:1.6, bondDamp:0.1, angK:1.2, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
-    thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15, T2:20, tSwitch:288} }},
+    thermalWalls:{ top:{mode:"heat", T:0.6, rate:0.15, T2:20, tSwitch:288} }},   // 第346便c(R399): y の鏡映で加熱面は y=−size(旧 bottom —— 視点の既定 θ=+90 では画面の下)
   timeRef:{basis:"observe", tObs:9.6, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},   // 第297便c(原仮定者の裁定(第87報)③・R163): 時間の標準 —— 観察の基準(tObs=600 步×画面の刻み)・timeScale は 1〜4
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, kappaT:0,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:-0.03/* 第346便c(R399): y の鏡映(旧 +0.03) */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4, frameWeight:"share"},
   seed:7,
   bodies:[
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:-93, mirrorY:true/* 第346便c(R399): y の鏡映(旧 cy 93) */, pitch:7, jitter:1.0, vScale:0.3,
      mMin:1, mMax:1, tInt:1.5}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,phaseGraph:true,mechSpectrum:true} },
@@ -29302,6 +29304,7 @@ function validatePreset(obj, opts){
           if(!isNum(b.tInt)){ bad(reasonText("validatePreset/msg#119", at)); return; }
           oB.tInt=wc(b.tInt,0,10000,"tInt");
         }
+        if(b.mirrorY===true) oB.mirrorY=true;   // 第346便c(R399): 群の配置を y の鏡像で作る(true だけ —— 他の値は省略と同じ。省略の本は 1 bit も変わらない)
         out.push(oB);
       } else if(t==="grid"){
         // 第53便 53A(E14): 格子配置(六方充填の決定論初期条件)。n=総数・cols=列数・
@@ -29319,6 +29322,7 @@ function validatePreset(obj, opts){
           if(!isNum(b.vScale)){ bad(reasonText("validatePreset/msg#136", at)); return; }
           oG.vScale=wc(b.vScale,0,50,"vScale");
         }
+        if(b.mirrorY===true) oG.mirrorY=true;   // 第346便c(R399): 群の配置を y の鏡像で作る(box と同じ)
         if(b.rMul!==undefined){
           if(!isNum(b.rMul)){ bad(reasonText("validatePreset/msg#115", at)); return; }
           oG.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
@@ -31608,13 +31612,17 @@ function makeSim(){
       } else if(b.type==="box"){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
+        // 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399): mirrorY:true の群は**同じ乱数列のまま y の鏡像**で作る ——
+        //   中心 cy からの y のずれ・乱数の速度の y 成分・乱数の自転の符号を逆にする(cy と bulkVy は宣言の値をそのまま使う)。
+        //   宣言 {cy: c, mirrorY:true} の群は、{cy: −c}(mirrorY なし)の群を y → −y で写したものとビットで同じ(IEEE の丸めは符号に対称)
+        const mY=(b.mirrorY===true);
         for(let i=0;i<b.n;i++){
           let x,y,tries=0;
-          do{ x=b.cx+(rng()-0.5)*b.w; y=b.cy+(rng()-0.5)*b.h; }while(insideBig(x,y) && ++tries<30);
+          do{ x=b.cx+(rng()-0.5)*b.w; y=mY? b.cy-(rng()-0.5)*b.h : b.cy+(rng()-0.5)*b.h; }while(insideBig(x,y) && ++tries<30);
           const a2=rng()*Math.PI*2, v=b.vScale*rng();
-          push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
-            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),   // v1.18: 並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, ...((b.particleRadius>0)? {radius:b.particleRadius} : null)});   // 第285便a(R96): 群の代表粒子の半径
+          push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,   // 乱数の順(m → spin)は従来のまま
+            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:(mY? -(v*Math.sin(a2)) : v*Math.sin(a2))+(b.bulkVy||0),   // v1.18: 並進速度
+            spin:mY? -(b.spinMin+(b.spinMax-b.spinMin)*rng()) : b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, ...((b.particleRadius>0)? {radius:b.particleRadius} : null)});   // 第285便a(R96): 群の代表粒子の半径
         }
       } else if(b.type==="grid"){
         // 第53便 53A(E14): 格子配置 — 六方充填の決定論初期条件(相変化デモの「結晶」用)。
@@ -31626,18 +31634,19 @@ function makeSim(){
         const tI=(b.tInt===undefined?0:b.tInt);
         const cols=Math.max(1,Math.round(b.cols)), pit=b.pitch, HEX=0.8660254037844386;
         const rows=Math.ceil(b.n/cols);
-        const W2=(cols-1)*pit/2, H2=(rows-1)*pit*HEX/2;
+        const W2=(cols-1)*pit/2, H2=(rows-1)*pit*HEX/2, mYg=(b.mirrorY===true);
         // 第53便 53B(外部レビュー P1「凝固初期の格子記憶」): vScale — 乱数向きの初期速度(box と
         // 同形)。液体初期条件では格子を配置だけで表すと結晶の並びが位置に残るため、攪拌して
         // 秩序を崩してから冷却へ入る(粘性・凝集が数百步で減衰させ、運動Eは dQi=熱へ入る)
         for(let i=0;i<b.n;i++){
           const r=(i/cols)|0, c=i%cols;
-          let x=b.cx - W2 + c*pit + ((r%2)? pit*0.5 : 0), y=b.cy - H2 + r*pit*HEX;
+          // 第346便c(R399): mirrorY:true の群は y の鏡像(行は cy から −y の向きへ並べ・揺らぎと乱数の速度の y を逆に —— box と同じ約束)
+          let x=b.cx - W2 + c*pit + ((r%2)? pit*0.5 : 0), y=mYg? b.cy + H2 - r*pit*HEX : b.cy - H2 + r*pit*HEX;
           const jt=(b.jitter||0);
-          if(jt>0){ x+=(rng()*2-1)*jt; y+=(rng()*2-1)*jt; }
+          if(jt>0){ x+=(rng()*2-1)*jt; if(mYg) y-=(rng()*2-1)*jt; else y+=(rng()*2-1)*jt; }
           const a2=rng()*Math.PI*2, v=(b.vScale||0)*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
-            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),
+            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:(mYg? -(v*Math.sin(a2)) : v*Math.sin(a2))+(b.bulkVy||0),
             spin:0, pinned:0, railOmega:0, rMul:rM, tInt:tI, ...((b.particleRadius>0)? {radius:b.particleRadius} : null)});   // 第285便a(R96): 群の代表粒子の半径
         }
       }
@@ -47434,7 +47443,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
-- 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
+- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ時空係数 X_k(kappaT)で決まり、X_k が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き X_k を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
@@ -47445,12 +47454,12 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - 光を曲げる・ブラックホール: rays + 時空係数 X_k(kappaT)0.017〜0.025 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
 - 加熱・冷却: ヒーター=pinned 高スピン(8〜12)の列、冷却板=pinned スピン0 の列。系全体を冷やすなら etaRad 0.005〜0.05。
 - 銀河・渦巻き・円盤: 中心 single(質量500〜2000)+ disk vMode:"kepler" aroundMass=中心質量。
-- 地上実験・落下・対流: gravityY 0.02〜0.1 + world.boundary:"box"。自己重力は G=0〜0.05。
+- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面)。自己重力は G=0〜0.05。
 
 # スケールタグと表示換算(表示専用 — 物理は不変)
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
 - タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速の換算指数 eC はティア別 x−eT 固定(分子3 / ビーカー・日常0 / 惑星・恒星4 / 銀河5 / 宇宙全体6)で、cLight=30 はそのティアの次元的光速として表示される(日常 ≈30 m/s・惑星/恒星 ≈3×10^5 m/s)。手動での上書きはできない。
-- 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=9.8、beaker は gravityY=0.031 が ≈9.8 m/s²)。
+- 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=−9.8、beaker は gravityY=−0.031 が ≈9.8 m/s² の下向き)。
 
 # 主張の範囲とフィット
 - ${CLAIM_SCOPE.ja}
@@ -47504,8 +47513,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 {"name":"回転リングの空間引きずり","emoji":"🌀","scaleTier":"stellar","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"ring","rMul":1.2,"n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","rMul":1.2,"n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","scaleTier":"beaker","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":1,"softening":4,"timeScale":2},"bodies":[{"type":"single","rMul":4,"m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","rMul":4,"n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
-(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=0.03 — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する。自己重力・引きずり・放射は0にして「重力+熱膨張」だけで循環を作ると要因が明確になる)`;
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","scaleTier":"beaker","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":-0.03,"radiusScale":1,"softening":4,"timeScale":2},"bodies":[{"type":"single","rMul":4,"m":1,"x":-170,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-150,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-130,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-110,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-90,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-70,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-50,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-30,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-10,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":30,"y":-186,"vx":0,"vy":0,"spin":-12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":50,"y":186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":90,"y":186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":130,"y":186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":170,"y":186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","rMul":4,"n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=−0.03(既定の視点では +y が画面の上なので、下向きは負) — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する。自己重力・引きずり・放射は0にして「重力+熱膨張」だけで循環を作ると要因が明確になる)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
 // スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
