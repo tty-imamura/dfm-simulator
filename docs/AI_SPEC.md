@@ -5398,3 +5398,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 既定の視点(θ = +90)では **+y が画面の上**。下向きの一様重力は **gravityY < 0**(SYSTEM_PROMPT の一様重力の行・数値の規約〔everyday −9.8・beaker −0.031〕・例の ♨️ を新しい規約に直した —— 受理の条件は同じ)。宣言の `world.thermalWalls` の bottom は y = +size の面・top は y = −size の面のまま(名前は座標の側 —— 既定の視点では top が画面の下)。`mirrorY` は SYSTEM_PROMPT には載せない(内蔵の本の鏡映のための鍵)。
 - 600 步の鏡映は 6 本がビットで同じ・♨️ ☕ は 2 面の伝熱壁の熱を足す順で丸めの桁が違う(記録 `tests/data-w346c-gravmirror.json` の上限の内)。
 - QA `ui.viewTiltDefault346c`・`behavior.gravityMirror346c`・`ui.spinMarkerAxis346c`・`docs.viewTilt346c`(本節と PHYSICS〔第346便c〕 —— root は SKIP)。
+
+## 293. 第347便b —— 当事者時間の換算の多体: (α) 主の候補・(0)「現行の近似」・(β) 比べる列(太陽–地球–月の型の 3 体・金星と水星の型・時計に入れる背景・場の側の運動量の帳簿・8 惑星と月の型の表)(原仮定者の回答(2026-11-21 —— 第145報)AN902・統括の検証項目 R401・**診断だけ** —— html・本の宣言・エンジン・重力の式・時計・積分は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 器 `tests/exp-w347b-convbody.mjs`・lib `tests/lib-w347b-convbody.mjs`・文書の lib `tests/lib-w347b-convbodydoc.mjs`・正本 `tests/out/convbody-347b.json`・段 `convbody-347b`(html を読まない)を足し、PHYSICS〔第347便b〕に表を置いた。(0) dv/dt = a(指数 2)・(α) dv/dt = q a(指数 1)・(β) 状態 U = dp/dτ(指数 1)を、天体ごとの ψ と時計の因子で多体に積み、ニュートンとの差の率を並べた。月の相対の速さを測る枠(絶対・今の点の時計・主星)を列にした(AN919)。
+- **AI が読むときの要点**: どれも候補の表(この型・この系・この ε での数)。2 体の惑星では (0) と (α) の近点の差は二次から・周期の比は一次 ψ/4。月の型と摂動のある多体では差が一次から残る。時計に入れる背景(アプリの水星の本の値 ψ₀ = X_k D₀)で (α) の一次が動く大きさは水星の換算で 1e-8″/世紀の桁。場の側の帳簿は、置いた形と候補の式 Π = Σ m v ÷ q では周ごとに戻らない(決め打ちしない)。アプリの積分を変える提案はしていない(決断事項の候補)。
+- QA `behavior.convbody347b`・`docs.convbody347b`(本節と PHYSICS〔第347便b〕 —— root は SKIP)。
