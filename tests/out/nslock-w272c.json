@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+  "targetSha256": "af6056366acd0c7cd3379fdea65aa0ecd09415e49dcf8bfc08e586ee2c211fbf",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-11-18T22:27:08.882Z",
+  "at": "2026-11-21T11:24:32.467Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -27,9 +27,9 @@
   "signConvention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
   "spinZeroNote": "**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある = エンジンに自転源を置かない)。",
   "env": {
-   "node": "v22.22.0",
-   "v8": "12.4.254.21-node.33",
-   "chromium": "141.0.7390.37",
+   "node": "v22.23.5",
+   "v8": "12.4.254.21-node.57",
+   "chromium": "157.0.8103.78",
    "platform": "linux",
    "arch": "x64"
   },
@@ -151,29 +151,29 @@
     "file": "tests/exp-w272c-nslock.mjs",
     "bytes": 36577,
     "sha256": "32bc1b8c0c096d2fef993e6f32709bf3720dd753e7b91c77a65bd251a36503f6",
-    "mtime": "2026-11-05T03:10:54.226Z"
+    "mtime": "2026-11-19T16:19:54.520Z"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
     "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w272c-binlock.mjs",
     "bytes": 23335,
     "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w322d-nslockmerge.mjs",
     "bytes": 18389,
     "sha256": "a58fdc98a842715231048382b91cfb0646f918ee554b3cbfb9f0a76f8bed9712",
-    "mtime": "2026-11-01T08:10:11.144Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    }
   ],
   "codeSha256": "b804d1befea734d488b9cf1081722b8c9f00326b2b30f602e9150c5ea0ed8bd8",
-  "spentSec": 723.7,
+  "spentSec": 1209.8,
   "stages": 102
  },
  "builtinDeclared": [
@@ -5122,7 +5122,7 @@
        "nan": false,
        "e": 0.44947104344672595,
        "P": 180149.56081277743,
-       "omegaDot": 0.9348203933232975,
+       "omegaDot": 0.9348203933232978,
        "used": {
         "kFrame": 1,
         "lambdaPN": 0,
@@ -7198,7 +7198,7 @@
        "nan": false,
        "e": 0.5204062448137005,
        "P": 2518802292.9988904,
-       "omegaDot": 0.011143226907659124,
+       "omegaDot": 0.011143226907659117,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
@@ -7264,7 +7264,7 @@
        "nan": false,
        "e": 0.5204047007733004,
        "P": 2518861010.8412857,
-       "omegaDot": 0.01114281068766531,
+       "omegaDot": 0.011142810687665304,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
@@ -7295,11 +7295,11 @@
        "note": null
       },
       "omegaDot": {
-       "p": 0.9603011578556434,
-       "ext": 0.011142661280536658,
+       "p": 0.960301157766094,
+       "ext": 0.011142661280536629,
        "monotone": true,
-       "d1": 2.7492327960357277e-7,
-       "d2": 1.412967142108701e-7,
+       "d1": 2.749232795966339e-7,
+       "d2": 1.4129671421607426e-7,
        "note": null
       },
       "e": {
@@ -7312,7 +7312,7 @@
       }
      },
      "Pext": 2518879672.529538,
-     "omegaDotExt": 0.011142661280536658,
+     "omegaDotExt": 0.011142661280536629,
      "eExt": 0.5204046586160272,
      "resolved": {
       "P": true,
@@ -7336,8 +7336,8 @@
         "sigma": null,
         "recordId": "SOL-2c8e091b",
         "solutionId": null,
-        "modelExt": 0.011142661280536658,
-        "modelH4": 0.01114281068766531,
+        "modelExt": 0.011142661280536629,
+        "modelH4": 0.011142810687665304,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
