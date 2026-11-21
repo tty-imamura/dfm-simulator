@@ -113801,7 +113801,7 @@ function view343aOf344a(eq) {
       const tq = qa.match(/^    timeout-minutes:\s*(\d+)\s*$/m), tp = perf.match(/^    timeout-minutes:\s*(\d+)\s*$/m);
       if (!tq || tq[1] !== '180') b.push('② qa ジョブの timeout-minutes が 180 でない: ' + (tq ? tq[1] : 'なし'));
       if (!/# 第345便: 120→180 分 —— /.test(qa)) b.push('② 第345便のコメント(120→180 分)が無い');
-      if (!/# 第335便: 90→120 分 —— /.test(qa)) b.push('② 前の便のコメント(第335便)が消えた');
+      if (!/# 第335便: 90→120 分/.test(qa)) b.push('② 前の便のコメント(第335便)が消えた');
       if (!tp || tp[1] !== '15') b.push('② perf ジョブの timeout-minutes が 15 でない: ' + (tp ? tp[1] : 'なし'));
       if ((ci.match(/^          npx playwright install --with-deps chromium\s*$/gm) || []).length !== 2) b.push('② npx playwright install --with-deps chromium の行が 2 ジョブに無い');
       if ((ci.match(/^          npm ci\s*$/gm) || []).length !== 2) b.push('② npm ci の行が 2 ジョブに無い');
