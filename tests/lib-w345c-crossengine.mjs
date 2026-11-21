@@ -178,11 +178,11 @@ export function pureScenes() {
   S.fRepeat = fixedRecordGate(kf1now, kf1rec, { nowFp: fp, recFp: null, maxUlp: KF1_MAX_ULP_345C, repeat: nudge(kf1now, 1) });
   S.fSign = fixedRecordGate(-kf1rec, kf1rec, { nowFp: fp, recFp: null, maxUlp: KF1_MAX_ULP_345C });
   // 記録の実行系
-  const decl = { mathFingerprint: fp }, box = { mathFingerprint: fp }, led = { stages: { mercury: { decl: 'D1' } } };
-  S.eKnown = recordEngineOf({ stageKey: 'mercury', ledger: led, declSha: 'D1', decl, box });
-  S.eNoLedger = recordEngineOf({ stageKey: 'mercury', ledger: null, declSha: 'D1', decl, box });
-  S.eStale = recordEngineOf({ stageKey: 'mercury', ledger: led, declSha: 'D2', decl, box });
-  S.eBox = recordEngineOf({ stageKey: 'mercury', ledger: led, declSha: 'D1', decl, box: { mathFingerprint: fpN } });
+  const decl = { mathFingerprint: fp }, box = { mathFingerprint: fp }, led = { stages: { stageA: { decl: 'D1' } } };
+  S.eKnown = recordEngineOf({ stageKey: 'stageA', ledger: led, declSha: 'D1', decl, box });
+  S.eNoLedger = recordEngineOf({ stageKey: 'stageA', ledger: null, declSha: 'D1', decl, box });
+  S.eStale = recordEngineOf({ stageKey: 'stageA', ledger: led, declSha: 'D2', decl, box });
+  S.eBox = recordEngineOf({ stageKey: 'stageA', ledger: led, declSha: 'D1', decl, box: { mathFingerprint: fpN } });
   S.eHtml = recordEngineOf({ stageKey: null, ledger: led, declSha: 'D1', decl, box });
   S.kf1 = { now: kf1now, rec: kf1rec, signedUlp: signedUlp(kf1now, kf1rec) };
   return S;

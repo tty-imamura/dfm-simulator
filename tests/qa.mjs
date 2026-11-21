@@ -114238,6 +114238,117 @@ function view343aOf344a(eq) {
 }
 // ==== 第345便b の塊(ここまで)====
 
+// ==== 第345便c の塊(ここから —— behavior.crossEngine345c・docs.crossEngine345c の 2 ブロック。root は SKIP)====
+// ---- 第345便c(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R394): **検査を実行系(ブラウザと Node)に依らない形へ**
+// ----   (lib tests/lib-w345c-crossengine.mjs —— 許容の純関数・記録の実行系・過去の便に固定した記録の門)。世代切替 = beta 対象 ∧ lib が在る。
+// ----   behavior.crossEngine345c(Node だけ —— ブラウザを起こさない): ① 版・純関数の場面 6(T1 の求積の比べ・その変異 7・T2 の記録の門・T3 の固定の記録の門・記録の実行系)
+// ----   ② T1〜T3 と docs.sphereKernel と qapart の判定の形(本文の照合 —— 旧条件が残っていない・器と鍵が同じ定数を読む)③ 許容の大きさ(128ε・1e−6・±4 ulp)
+{
+  await (async () => {   // 第310便c(heap)
+  const cLib = path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(cLib))) {
+    console.log('SKIP behavior.crossEngine345c(第345便c の実行系に依らない検査の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  try {
+    const C = await import('file://' + cLib), E = await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs'));
+    // ① 版・純関数の場面
+    if (!/^w345c-crossengine-\d+$/.test(C.CROSSENGINE_LIB_VERSION_345C)) bad.push('① lib の版の名の型');
+    const S = C.pureScenes(), PG = C.pureGates(S);
+    for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+    if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+    cases.push(`① lib ${C.CROSSENGINE_LIB_VERSION_345C}・場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(求積の比べ: 同じ実行系はビット・違えば 17 ulp を許容・変異 7〔NaN・零が非零に・節点の数・1e−8 のずれ・符号・キー・組の数〕は落ちる`
+      + ` / 記録の門: 同じ実行系で違えば落ちる・記録に実行系が無ければ相対 ${S.rNoRec.rel.toExponential(2)} を許容・2e−6 は落ちる / 固定の記録: kF1 の ${S.kf1.signedUlp} ulp は続ける・5 ulp・同じ実行系・2 回の不一致・符号は止める / 記録の実行系: 台帳と箱の記録がそろうときだけ分かる)`);
+    // ② 判定の形(本文)
+    const Q = rd('tests/qa.mjs'), M = rd('tests/exp-w280a-mercury.mjs'), SK = rd('tests/exp-w280b-sphereKernel.mjs'), QP = rd('tests/exp-w258c-qapart.mjs');
+    const blk = (id) => { const j = Q.indexOf("add('" + id + "'"); if (j < 0) return ''; const i = Q.lastIndexOf('\n{\n', j); return Q.slice(i < 0 ? 0 : i, j); };
+    const qk = blk('preset.qlockKernel'), lm = blk('ui.liveMeasure297'), md = blk('docs.mercuryDecomp'), sk = blk('docs.sphereKernel');
+    if (!(qk.indexOf('C345.compareKernelOutputs(') >= 0 && qk.indexOf('res.p7b') >= 0 && qk.indexOf('JSON.stringify(nodeP7) !== JSON.stringify(nodeP7b)') >= 0 && qk.indexOf('E345.runProbe()') >= 0
+      && qk.indexOf("'⑦ ページと node の相対差が 1e−15 を超えた: '") < 0 && qk.indexOf('がページと node でビット一致しない`') < 0)) bad.push('② T1 preset.qlockKernel ⑦ の形(2 回ずつ・指紋・求積の比べ —— 旧条件が残っていない)');
+    if (!(lm.indexOf('C345.recordGate(R1.half.numErr, h2w') >= 0 && lm.indexOf('C345.H2_REL_TOL_345C') >= 0 && lm.indexOf('C345.recordEngineOf(') >= 0 && lm.indexOf('Object.is(R1.half.v, hMain.v)') >= 0
+      && lm.indexOf('<= 1e-9 * Math.abs(h2w)') < 0)) bad.push('② T2 ui.liveMeasure297 ① の形(記録の実行系で分ける・h/2 の走りの中の h —— 旧条件 1e−9 が残っていない)');
+    if (!(M.indexOf('fixedRecordGate(r01.slopeDegA, CAL1.meas,') >= 0 && M.indexOf('KF1_MAX_ULP_345C') >= 0 && M.indexOf('const r01b = await run(KF1_ID, 0.016);') >= 0 && M.indexOf('repeat: r01b.slopeDegA') >= 0
+      && M.indexOf('if (gateKF1.stop) throw') >= 0 && M.indexOf('if (!repro.kF0.bitIdentical) throw') >= 0 && M.indexOf('!repro.kF1.bitIdentical) throw') < 0 && M.indexOf('E345.launchEngine(') >= 0))
+      bad.push('② T3 器 tests/exp-w280a-mercury.mjs の形(kF0 はビット・kF1 は固定の記録の門・同じ実行系の 2 回・明示のブラウザ)');
+    if (!(md.indexOf('C345.fixedRecordGate(R.kF1.here, 0.00002252587001128979') >= 0 && md.indexOf('C345.KF1_MAX_ULP_345C') >= 0 && md.indexOf('R.kF1.repeatSame === true') >= 0 && md.indexOf('R.engineNow') >= 0))
+      bad.push('② T3 鍵 docs.mercuryDecomp ② の形(器と同じ門・同じ定数)');
+    if (!(SK.indexOf('relTol: C345.KERNEL_REL_TOL_345C') >= 0 && SK.indexOf('same: fpPage === fpNode') >= 0 && sk.indexOf('C345s.KERNEL_REL_TOL_345C') >= 0 && sk.indexOf("z.decl.densityClass === 'gas' || z.decl.densityClass === 'star'") < 0))
+      bad.push('② docs.sphereKernel ⑧ と器の形(指紋を記録・同じならビット・違えば 128ε —— 旧条件が残っていない)');
+    if (!(QP.indexOf('__E345.launchEngine(bt, process.env, null)') >= 0 && QP.indexOf("process.env.CHROMIUM_PATH && process.env.DFM_EXPECT_CHROMIUM") >= 0 && QP.indexOf('# qapart(第345便c): ブラウザ chromium ') >= 0))
+      bad.push('② qapart の前文の明示のブラウザ(両方の環境変数でだけ・版の印字)');
+    const sp1 = E.explicitBrowserSpec({ CHROMIUM_PATH: '/opt/pw-browsers/chromium', DFM_EXPECT_CHROMIUM: '153.0.8010.12' }), sp2 = E.explicitBrowserSpec({ CHROMIUM_PATH: '/opt/pw-browsers/chromium' });
+    if (!(sp1 && sp1.expect === '153.0.8010.12' && sp2 === null)) bad.push('② 明示のブラウザの約束(両方でだけ)');
+    cases.push('② 判定の形: T1(2 回ずつ・指紋・求積の値の欄だけ許容)・T2(記録の実行系で分ける)・T3(器と鍵が同じ門 fixedRecordGate と同じ定数)・docs.sphereKernel ⑧・qapart の明示のブラウザ —— 旧条件は残っていない');
+    // ③ 許容の大きさ(根拠は PHYSICS〔第345便c〕の表)
+    if (!(C.KERNEL_REL_TOL_345C === 128 * Number.EPSILON && C.H2_REL_TOL_345C === 1e-6 && C.KF1_MAX_ULP_345C === 4)) bad.push('③ 許容の大きさが節の表と違う');
+    cases.push(`③ 許容: 求積の値の欄 128ε(${C.KERNEL_REL_TOL_345C.toExponential(2)})・🟫 の h/2 の差 相対 ${C.H2_REL_TOL_345C}・退役の kF1 ±${C.KF1_MAX_ULP_345C} ulp(量ごとに別 —— ほかの門へ広げない)`);
+  } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('behavior.crossEngine345c', bad.length === 0,
+    `**検査を実行系に依らない形へ —— 同じ実行系の中はビットで同じ・実行系の間は量ごとに宣言した許容**(第345便c・AN921・R394 —— ブラウザを起こさない・html を読まない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+
+// ---- 第345便c: docs.crossEngine345c: ① PHYSICS〔第345便c〕の位置(〔第345便b〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・直した検査の表(5 行)・洗い出しの表
+// ----   ② 表の許容の値が lib の定数と同じ ③ AI_SPEC §286(次の見出しまで)・CHANGELOG(見出しより後・第344便(統括)の行より前)・post-merge ④ 書かない語・禁句。root は SKIP
+{
+  await (async () => {   // 第310便c(heap)
+  const cLib = path.join(ROOT, 'tests', 'lib-w345c-crossengine.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(cLib))) {
+    console.log('SKIP docs.crossEngine345c(第345便c の実行系に依らない検査の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+  const i0 = PH.indexOf('〔第345便c — '), i7 = PH.indexOf('\n## 7. 論文'), ib = PH.indexOf('〔第345便b — '), iu = PH.indexOf('〔第328便 — 統括');
+  const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+  if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ib >= 0 && ib < i0 && iu > i0)) bad.push('① PHYSICS〔第345便c〕が無いか〔第345便b〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+  const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN921: 推奨で進める', 'R394', 'tests/lib-w345c-crossengine.mjs', '同じ実行系の中ではビットで同じ', '実行系の間', '量ごとに',
+    'preset.qlockKernel', 'ui.liveMeasure297', 'docs.mercuryDecomp', 'docs.sphereKernel', 'tests/exp-w280a-mercury.mjs', 'tests/exp-w280b-sphereKernel.mjs', 'tests/exp-w258c-qapart.mjs',
+    '−2 ulp', '17 ulp', '11.1ε', '3.4e−9', '128ε', '1e−6', '±4 ulp', '記録に実行系が無い', '書き換えない', '比べる列',
+    '**直した検査の表**', '**洗い出しの表**', '(a) 同じ実行系の中', '(b) ページと Node', '(c) 記録と今', '鎖で落ちそうな残り', '言わないこと', '決断事項の候補', '次の便へ',
+    'behavior.crossEngine345c', 'docs.crossEngine345c'];
+  for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第345便c〕に「' + w + '」が無い');
+  if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第345便c〕に \\| ');
+  const tabRows = (h) => { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith(h)); if (k < 0) return []; const out = []; for (let n = k + 1; n < L.length; n++) { if (L[n].startsWith('|')) out.push(L[n]); else if (out.length) break; } return out.slice(2); };
+  const T1 = tabRows('**直した検査の表**'), T4 = tabRows('**洗い出しの表**');
+  if (T1.length !== 5 || !T1.every((l) => l.split(' | ').length === 5)) bad.push('① 直した検査の表が 5 行 × 5 欄でない(' + T1.length + ')');
+  for (const k of ['preset.qlockKernel', 'ui.liveMeasure297', 'docs.mercuryDecomp', 'docs.sphereKernel', 'tests/exp-w258c-qapart.mjs']) if (!T1.some((l) => l.indexOf(k) >= 0)) bad.push('① 直した検査の表に ' + k + ' の行が無い');
+  if (T4.length < 5) bad.push('① 洗い出しの表の行が少ない(' + T4.length + ')');
+  cases.push(`① 節の位置・必須の語 ${want.length}・直した検査の表 ${T1.length} 行・洗い出しの表 ${T4.length} 行`);
+  try {
+    const C = await import('file://' + cLib);
+    const r128 = T1.find((l) => l.indexOf('preset.qlockKernel') >= 0) || '', rH2 = T1.find((l) => l.indexOf('ui.liveMeasure297') >= 0) || '', rK = T1.find((l) => l.indexOf('docs.mercuryDecomp') >= 0) || '';
+    if (!(C.KERNEL_REL_TOL_345C === 128 * Number.EPSILON && r128.indexOf('128ε') >= 0 && C.H2_REL_TOL_345C === 1e-6 && rH2.indexOf('1e−6') >= 0 && C.KF1_MAX_ULP_345C === 4 && rK.indexOf('±4 ulp') >= 0))
+      bad.push('② 表の許容の値が lib の定数と違う');
+    cases.push(`② 表の許容 = lib の定数(128ε・${C.H2_REL_TOL_345C}・±${C.KF1_MAX_ULP_345C} ulp)`);
+  } catch (e) { bad.push('② lib が読めない: ' + String(e && e.message || e).slice(0, 120)); }
+  const a0 = AS.indexOf('\n## 286. 第345便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+  if (!(a0 >= 0 && ai.indexOf('tests/lib-w345c-crossengine.mjs') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN921') >= 0 && ai.indexOf('R394') >= 0 && ai.indexOf('許容') >= 0))
+    bad.push('③ AI_SPEC §286(lib・SYSTEM_PROMPT・AN921・R394・許容)');
+  const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+  const i345c = clLines.findIndex((l) => l.indexOf('**第345便c**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl345c = i345c >= 0 ? clLines[i345c] : '';
+  if (!(i345c > 0 && (i344t < 0 || i345c < i344t) && cl345c.indexOf('tests/lib-w345c-crossengine.mjs') >= 0 && cl345c.indexOf('第145報') >= 0 && cl345c.indexOf('R394') >= 0))
+    bad.push('③ CHANGELOG の第345便c の行(見出しより後・第344便(統括)の行より前・lib・第145報・R394)');
+  if (!(PM.indexOf('# ==== 第345便c の塊(ここから)====') >= 0 && /behavior\.crossEngine345c docs\.crossEngine345c/.test(PM))) bad.push('③ post-merge に第345便c の塊');
+  cases.push('③ AI_SPEC §286(次の見出しまで)・CHANGELOG の行の位置・post-merge');
+  const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+  const W345 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たし認確', 'たし致一', 'たし正較', 'たし現再', 'いなし現再'].map(rvC);
+  const NGC = [cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+    .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+  const texts = [['PHYSICS〔第345便c〕', sec], ['AI_SPEC §286', ai], ['CHANGELOG の第345便c の行', cl345c], ['lib', rd('tests/lib-w345c-crossengine.mjs')]];
+  for (const [nm, tx] of texts) for (const w of NGC.concat(W345)) if (tx.replace(/「[^」]*」/g, '').indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+  cases.push('④ 書かない語・禁句(節・AI_SPEC・CHANGELOG・lib)');
+  add('docs.crossEngine345c', bad.length === 0,
+    `**検査を実行系に依らない形への文書**(第345便c・AN921・R394 —— 直した検査の表・許容の根拠・洗い出しの表・言わないこと): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第345便c の塊(ここまで)====
+
 // ==== 第345便e の塊(ここから —— lint.ciEngine345e・lint.regenEngineInput345e・docs.ciEngine345e の 3 ブロック。root は SKIP)====
 // ---- 第345便e(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396 —— 道具と設定だけ・html は変えない):
 // ----   lint.ciEngine345e: ① package.json の playwright が 1.63.0 の固定(範囲の記号なし)・package-lock の根の宣言と playwright・playwright-core の項が同じ版・
