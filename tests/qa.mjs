@@ -2776,6 +2776,8 @@ lastAddAt = Date.now();
         'd68three'];   // 第286便 統合(統括): 第268便a の 3 段(旧形式・meta なし → 毎回 regen)
       // 第288便f(原仮定者の裁定(第78報)AN90): 集約段 htmlagg(一時出力の断片を 1 回だけ html へ —— 断片が無ければ何もしない)も常時群(表に段があるとき)
       if (RT.REGEN_STEPS.some((z) => z.key === 'htmlagg')) ALWAYS.push('htmlagg');
+      // 第345便b(原仮定者の回答(2026-11-21 —— 第145報)AN921・R393): 鎖が走った箱の実行系の記録 engine-345b も常時群(表に段があるとき —— 箱が変わったかは走らせないと分からない)
+      if (RT.REGEN_STEPS.some((z) => z.key === 'engine-345b')) ALWAYS.push('engine-345b');
       const tableAlways = RT.REGEN_STEPS.filter((z) => z.alwaysRun).map((z) => z.key).sort();
       if (JSON.stringify(tableAlways) !== JSON.stringify(ALWAYS.slice().sort())) bad.push('③ 常時群の集合が契約と違う: ' + tableAlways.join(','));
       const plan = RT.planRegen({ root: ROOT, html: HTML });

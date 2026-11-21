@@ -199,11 +199,11 @@ export function assertExpectedVersion(version, expect) {
  * 起動の順(ブラウザの module は呼ぶ側が渡す —— この lib は import しない)。明示のブラウザ(両方の環境変数)ならその実行ファイルで起動して版を照合(違えば閉じて例外)。
  * そうでなければ opts.fallback(呼ぶ側の今までの起動の関数 —— 例: qa.mjs の順)を呼ぶ。返り値: { browser, explicit }
  */
-export async function launchEngine(chromium, env, fallback) {
+export async function launchEngine(browserType, env, fallback) {
   const spec = explicitBrowserSpec(env);
   if (spec) {
-    if (!chromium || typeof chromium.launch !== 'function') throw new Error('明示のブラウザ: chromium の module が要る');
-    const browser = await chromium.launch({ executablePath: spec.executablePath });
+    if (!browserType || typeof browserType.launch !== 'function') throw new Error('明示のブラウザ: ブラウザの型(playwright の chromium)が要る');
+    const browser = await browserType.launch({ executablePath: spec.executablePath });
     try { assertExpectedVersion(browser.version(), spec.expect); } catch (e) { await browser.close().catch(() => {}); throw e; }
     return { browser, explicit: spec };
   }
