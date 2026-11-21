@@ -51,6 +51,9 @@ export const ALWAYS_SHADOW_DECL_326E = Object.freeze({
   samplestatus: Object.freeze({ html: 'reads', readsFrom: 'HTMLPHYS_DECL_325A', why: '第325便a の宣言(本の説明の欄・文の表・版名〔一覧 md の見出し〕)—— 版名の行が変わる便は毎回走る' }),
   htmlagg: Object.freeze({ html: 'follows', why: '書く段(obscompare・samplestatus)が置いた断片を当てる集約段 —— 書く段が走れば走る(自分の判定は上流に従う)', refCanon: 'tests/out/samplestatus-w279a.json' }),
   mercury: Object.freeze({ html: 'scope', why: '器の領域の宣言(REGEN_SCOPE —— 本 35 本・roots 13・S._core)で見る(計画の行の領域の一致)' }),
+  // 第345便b(原仮定者の回答(2026-11-21 —— 第145報)AN921・R393): 鎖が走った箱の実行系の記録(常時の段 engine-345b)。html は読まない —— ブラウザを起こして数学関数の探りを走らせる段で、
+  //   箱の実行系が変わったかは走らせないと分からない(影の判定の code・data の差では見えない —— 影の世界で reuse と出ても常時群のまま)
+  'engine-345b': N326('ブラウザを起こして数学関数の探り(tests/lib-w345-engine.mjs)を走らせ、宣言 tests/data-w345-engine.json と比べる —— html を読まない(箱の実行系の記録。影の code・data の差では箱の入れ替わりは見えない)'),
 });
 /** 照合で物理の値から外す刻印の欄(来歴の時刻・html の sha —— physValue の外す欄名に無いもの)。欄名はどの階層でも外す。 */
 export const EXTRA_STAMP_KEYS_326E = Object.freeze(['calauditWhen', 'canonicalWhen']);
