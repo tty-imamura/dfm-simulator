@@ -98,6 +98,19 @@ async function getBrowser() {
   // CI: playwright(npm install でブラウザ管理)。ローカル: playwright-core + 既存 Chromium も可。
   // どちらも無い環境では PLAYWRIGHT_CORE_DIR(playwright-core 入り node_modules を持つディレクトリ)を指定。
   const exe = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+  // 第345便b(原仮定者の回答(2026-11-21 —— 第145報)AN921・R393): **明示のブラウザ** —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の**両方が在るときだけ**、その実行ファイルで起動し、
+  //   browser.version() が DFM_EXPECT_CHROMIUM と違えば例外(tests/lib-w345-engine.mjs の launchEngine)。どちらかが無ければ下の今までの起動の順のまま
+  if (process.env.CHROMIUM_PATH && process.env.DFM_EXPECT_CHROMIUM) {
+    const E345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs'));
+    let mod = null;
+    try { mod = (await import('playwright')).chromium; } catch {}
+    if (!mod) { try { mod = (await import('playwright-core')).chromium; } catch {} }
+    if (!mod && process.env.PLAYWRIGHT_CORE_DIR) {
+      const { createRequire } = await import('node:module');
+      mod = createRequire(path.join(process.env.PLAYWRIGHT_CORE_DIR, 'noop.js'))('playwright-core').chromium;
+    }
+    return (await E345.launchEngine(mod, process.env, () => { throw new Error('明示のブラウザの約束が読めない(CHROMIUM_PATH・DFM_EXPECT_CHROMIUM)'); })).browser;
+  }
   // v1.16: await を付けて launch 失敗(同梱ブラウザとの版ずれ等)を捕捉し、次の経路へ確実に落とす
   try { const { chromium } = await import('playwright'); return await chromium.launch(); } catch {}
   try { const { chromium } = await import('playwright-core'); return await chromium.launch({ executablePath: exe }); } catch {}
@@ -113758,6 +113771,154 @@ function view343aOf344a(eq) {
 }
 // ==== 第344便g の塊(ここまで)====
 
+// ==== 第345便b の塊(ここから —— lint.engineDeclared345b・behavior.engine345b・docs.engine345b の 3 ブロック。lint は root でも走る・behavior と docs は root で SKIP)====
+// ---- 第345便b(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R393): **実行系(ブラウザと Node)の宣言と記録**(新設 —— lib tests/lib-w345-engine.mjs・
+// ----   宣言 tests/data-w345-engine.json・道具 tools/engine-check.mjs・器 tests/exp-w345b-engine.mjs・正本 tests/out/engine-345b.json・常時の段 engine-345b)。世代切替 = lib と宣言がある。
+// ----   lint.engineDeclared345b(ブラウザを使う層): この走行のブラウザで探りを走らせた数学関数の指紋が宣言と同じ(違えば FAIL —— 文に版・V8・違う関数の名)。ブラウザの無い切り出しでは SKIP の印
+{
+  await (async () => {   // 第310便c(heap)
+  const eLib = path.join(ROOT, 'tests', 'lib-w345-engine.mjs'), eDecl = path.join(ROOT, 'tests', 'data-w345-engine.json');
+  if (!(fs.existsSync(eLib) && fs.existsSync(eDecl))) { console.log('SKIP lint.engineDeclared345b(第345便b の実行系の宣言の前の世代 — ' + TARGET + ')'); return; }
+  let br = null; try { br = typeof browser === 'undefined' ? null : browser; } catch (e) { br = null; }
+  if (!br) { console.log('SKIP lint.engineDeclared345b(ブラウザの無い切り出し —— ページで探りを走らせられない)'); return; }
+  const bad = [], cases = [];
+  try {
+    const E = await import('file://' + eLib), D = E.loadDeclaration(ROOT);
+    const M = await E.measureBrowser(br), V = E.engineVerdict(M.probe, D, { chromium: M.chromium });
+    if (!V.same) bad.push(`この走行の実行系 chromium ${M.chromium}・V8 ${M.v8} の指紋 ${M.mathFingerprint} が宣言 ${D.mathFingerprint} と違う(違う関数: ${V.diff.join(',')})—— 宣言と違う実行系(ブラウザで測る正本は作り直さない)`);
+    cases.push(`chromium ${M.chromium}・V8 ${M.v8}・指紋 ${M.mathFingerprint}(宣言 ${D.mathFingerprint}・探り ${E.PROBE_VERSION}・関数 ${E.PROBE_FUNCTIONS.length})${V.knownVersion === false ? '・版は宣言の observed に無い(指紋で判定)' : ''}`);
+  } catch (e) { bad.push('測れない: ' + String(e && e.message || e).slice(0, 200)); }
+  add('lint.engineDeclared345b', bad.length === 0,
+    `**この走行のブラウザの実行系が宣言と同じ数値の実行系か**(第345便b・AN921・R393 —— 版の名前でなく数学関数の指紋で見る): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+
+// ---- 第345便b: behavior.engine345b(Node だけ —— ブラウザを起こさない): ① 版・lib の純関数の場面 ② 変異(関数の hash を 1 ビット変えた宣言・探り)③ 正本 tests/out/engine-345b.json と宣言の整合
+// ----   ④ 宣言の形(observed の 2 版・nodeDiffers の関数の名)と、この走行の Node の指紋(事実 —— 判定に使わない)⑤ 明示のブラウザの約束(作り物の chromium で launchEngine)と qa.mjs の getBrowser・env の欄。root は SKIP
+{
+  await (async () => {   // 第310便c(heap)
+  const eLib = path.join(ROOT, 'tests', 'lib-w345-engine.mjs'), eDecl = path.join(ROOT, 'tests', 'data-w345-engine.json'), eHarn = path.join(ROOT, 'tests', 'exp-w345b-engine.mjs');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(eLib) && fs.existsSync(eDecl) && fs.existsSync(eHarn))) {
+    console.log('SKIP behavior.engine345b(第345便b の実行系の宣言の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  try {
+    const js = (x) => JSON.stringify(x);
+    const E = await import('file://' + eLib), X = await import('file://' + eHarn), D = E.loadDeclaration(ROOT);
+    // ① 版・純関数の場面
+    if (!(/^w345-engine-lib-\d+$/.test(E.LIB_VERSION) && /^w345-mathprobe-\d+$/.test(E.PROBE_VERSION) && /^w345b-engine-\d+$/.test(X.HARNESS_VERSION) && D.version === E.DECL_VERSION && D.probeVersion === E.PROBE_VERSION))
+      bad.push('① 版(lib・探り・器・宣言)の名の型か宣言の版が lib と違う');
+    const PG = E.pureGates(E.pureScenes());
+    for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 場面 ' + k);
+    if (Object.keys(PG).length !== 6) bad.push('① 場面の数 ' + Object.keys(PG).length);
+    cases.push(`① lib ${E.LIB_VERSION}・探り ${E.PROBE_VERSION}・器 ${X.HARNESS_VERSION}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(ulp の差・値の比べ方・入力の拒否・配列・探りの決定性と順・明示のブラウザ)`);
+    // ② 変異: 宣言の関数の hash を 1 ビット変えると宣言が通らない・探りを変えると違う関数の名が出る
+    const flip = (h) => (BigInt('0x' + h) ^ 1n).toString(16).padStart(16, '0');
+    const thr = (f) => { try { f(); return false; } catch (e) { return true; } };
+    const Dm = JSON.parse(JSON.stringify(D)); Dm.functions.pow = flip(Dm.functions.pow);
+    const Pm = { version: D.probeVersion, functions: Object.assign({}, D.functions, { exp: flip(D.functions.exp), log10: flip(D.functions.log10) }) };
+    const Vm = E.engineVerdict(Pm, D), Vs = E.engineVerdict({ version: D.probeVersion, functions: D.functions }, D);
+    if (!(thr(() => E.checkDeclaration(Dm)) && Vm.same === false && js(Vm.diff) === js(['exp', 'log10']) && Vs.same === true && Vs.diff.length === 0)) bad.push('② 変異(宣言の hash を変えると通らない・探りの 2 関数を変えると違う関数の名が 2 つ)');
+    cases.push('② 変異: 宣言の pow の hash を 1 ビット変えると宣言が通らない・探りの exp と log10 を変えると違う関数 ' + Vm.diff.join(','));
+    // ③ 正本と宣言の整合
+    let J = null; try { J = JSON.parse(rd('tests/out/engine-345b.json')); } catch (e) { J = null; }
+    if (!J) bad.push('③ 正本 tests/out/engine-345b.json が読めない(node tests/exp-w345b-engine.mjs)');
+    else {
+      const G = X.gatesOf(J, D), declSha = crypto.createHash('sha256').update(fs.readFileSync(eDecl)).digest('hex');
+      const inp = (J.meta && J.meta.inputs || []).find((x) => x.file === 'tests/data-w345-engine.json');
+      if (!(Object.values(G).every((v) => v === true) && js(G) === js(J.gates) && J.ok === true)) bad.push('③ 正本の門: ' + Object.entries(G).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === E.LIB_VERSION && J.probeVersion === E.PROBE_VERSION && js(J.functions) === js(D.functions) && J.mathFingerprint === D.mathFingerprint
+        && J.target === 'tests/lib-w345-engine.mjs' && J.meta && J.meta.stage === 'engine' && J.meta.provenanceVersion && inp && inp.sha256 === declSha && J.meta.inputs.length === 1))
+        bad.push('③ 正本の版・関数の hash・指紋・来歴(target は lib・入力は宣言 1 本〔sha が今の宣言と同じ〕)が宣言・lib と違う —— 器を走らせ直す');
+      cases.push(`③ 正本 ${J.version}・${J.engine && J.engine.label}・門 ${Object.values(G).filter(Boolean).length}/${Object.keys(G).length}・宣言の sha ${declSha.slice(0, 12)}`);
+    }
+    // ④ 宣言の形と、この走行の Node の指紋(事実 —— 判定に使わない)
+    const obs = D.observed.map((o) => o.chromium);
+    const nd = Object.values(D.nodeDiffers || {});
+    if (!(obs.includes('157.0.8103.78') && obs.includes('153.0.8010.12') && D.previous && D.previous.chromium === '141.0.7390.37' && nd.length >= 2 && nd.every((n) => Array.isArray(n.diff) && n.diff.every((k) => E.PROBE_FUNCTIONS.includes(k)))
+      && /AN921/.test(D.ruling) && /R393/.test(D.ruling)))
+      bad.push('④ 宣言の形(observed の 157 と 153・previous の 141・nodeDiffers の関数の名・出どころ)');
+    const NP = E.runProbe(), nfp = E.mathFingerprint(NP), ndiff = E.diffFunctions(NP, D);
+    const rec = nd.find((n) => n.mathFingerprint === nfp);
+    cases.push(`④ 宣言 observed ${obs.join('・')}・この走行の Node ${process.version} の指紋 ${nfp}(宣言と違う関数 ${ndiff.length}${rec ? ' —— 宣言の nodeDiffers の ' + rec.node + ' と同じ指紋' : ' —— 宣言の nodeDiffers に無い指紋(事実 —— 判定に使わない)'})`);
+    // ⑤ 明示のブラウザの約束(作り物の chromium)と qa.mjs の getBrowser・env の欄
+    const mk = (ver) => { const st = { launched: null, closed: 0 }; return { st, mod: { launch: async (o) => { st.launched = o; return { version: () => ver, close: async () => { st.closed++; } }; } } }; };
+    const a1 = mk('1.2.3.4'), r1 = await E.launchEngine(a1.mod, { CHROMIUM_PATH: '/x/c', DFM_EXPECT_CHROMIUM: '1.2.3.4' }, () => { throw new Error('no'); });
+    const a2 = mk('9.9.9.9'); let e2 = false; try { await E.launchEngine(a2.mod, { CHROMIUM_PATH: '/x/c', DFM_EXPECT_CHROMIUM: '1.2.3.4' }, () => null); } catch (e) { e2 = /版が違う/.test(String(e.message)); }
+    let fb = 0; const a3 = mk('1'); const r3 = await E.launchEngine(a3.mod, { CHROMIUM_PATH: '/x/c' }, async () => { fb++; return 'FALLBACK'; });
+    if (!(r1.explicit && a1.st.launched && a1.st.launched.executablePath === '/x/c' && e2 && a2.st.closed === 1 && fb === 1 && r3.browser === 'FALLBACK' && a3.st.launched === null))
+      bad.push('⑤ 明示のブラウザの約束(両方の環境変数でだけその実行ファイル・版が違えば閉じて例外・片方だけなら今までの起動)');
+    const Q = rd('tests/qa.mjs'), gb = Q.slice(Q.indexOf('async function getBrowser() {'), Q.indexOf('async function getBrowser() {') + 3000);
+    if (!(/process\.env\.CHROMIUM_PATH && process\.env\.DFM_EXPECT_CHROMIUM/.test(gb) && /launchEngine\(/.test(gb) && gb.indexOf("return await chromium.launch(); } catch {}") > gb.indexOf('launchEngine(')))
+      bad.push('⑤ qa.mjs の getBrowser に明示のブラウザの枝(今までの順の前)が無い');
+    if (!(/env: \{ node: process\.version, playwright: playwrightVersion, chromium: chromiumVersion, platform: `\$\{process\.platform\}\/\$\{process\.arch\}`,\n\s+v8: engineEnv345b\.v8, mathFingerprint: engineEnv345b\.mathFingerprint, engineDeclared: engineEnv345b\.engineDeclared \}/.test(Q)
+      && Q.indexOf('const M345 = await E345.measureBrowser(browser);') >= 0 && Q.indexOf('const M345 = await E345.measureBrowser(browser);') < Q.lastIndexOf('await browser.close();')))
+      bad.push('⑤ 結果 JSON の env に v8・mathFingerprint・engineDeclared が無いか、閉じる前に測っていない');
+    const T = rd('tools/engine-check.mjs');
+    if (!(/rc 0 = 宣言と同じ指紋/.test(T) && /rc 2 = 起動できない/.test(T) && /launchEngine\(/.test(T) && /--json/.test(T))) bad.push('⑤ tools/engine-check.mjs(rc 0/1/2・--json・明示のブラウザ)');
+    cases.push('⑤ 明示のブラウザの約束(作り物の chromium 3 場面)・qa.mjs の getBrowser の枝と env の欄(閉じる前に測る)・tools/engine-check.mjs の rc');
+  } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('behavior.engine345b', bad.length === 0,
+    `**実行系の宣言と記録 —— 数学関数の指紋・ulp の差・値の比べ方・明示のブラウザ**(第345便b・AN921・R393 —— ブラウザを起こさない・html を読まない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+
+// ---- 第345便b: docs.engine345b: ① 関数ごとの表(宣言から lib の functionTable で引く)が PHYSICS〔第345便b〕に逐語 ② 節の位置(〔第344便g〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語
+// ----   ③ AI_SPEC §285(次の見出しまで)・CHANGELOG(見出しより後・第344便(統括)の行より前)・段の行・.gitignore・post-merge ④ 書かない語・禁句。root は SKIP
+{
+  await (async () => {   // 第310便c(heap)
+  const eLib = path.join(ROOT, 'tests', 'lib-w345-engine.mjs'), eDecl = path.join(ROOT, 'tests', 'data-w345-engine.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(eLib) && fs.existsSync(eDecl))) {
+    console.log('SKIP docs.engine345b(第345便b の実行系の宣言の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const bad = [], cases = [];
+  const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+  const i0 = PH.indexOf('〔第345便b — '), i7 = PH.indexOf('\n## 7. 論文'), ih = PH.indexOf('〔第344便g — '), iu = PH.indexOf('〔第328便 — 統括');
+  const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /);
+  if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ih >= 0 && ih < i0 && iu > i0)) bad.push('② PHYSICS〔第345便b〕が無いか〔第344便g〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+  try {
+    const E = await import('file://' + eLib), D = E.loadDeclaration(ROOT), T = E.functionTable(D);
+    if (sec.indexOf(T) < 0) bad.push('① PHYSICS〔第345便b〕に関数ごとの表(宣言から引いた表)が逐語で無い');
+    if (sec.indexOf(D.mathFingerprint) < 0) bad.push('① PHYSICS〔第345便b〕に宣言の指紋 ' + D.mathFingerprint + ' が無い');
+    cases.push(`① 関数ごとの表(${E.PROBE_FUNCTIONS.length} 関数 × 列 ${D.observed.length + Object.keys(D.nodeDiffers || {}).length})と宣言の指紋 ${D.mathFingerprint} が PHYSICS〔第345便b〕に逐語`);
+  } catch (e) { bad.push('① 宣言か lib が読めない: ' + String(e && e.message || e).slice(0, 160)); }
+  const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN921: 推奨で進める', 'R393', 'tests/lib-w345-engine.mjs', 'tests/data-w345-engine.json', 'tools/engine-check.mjs', 'tests/exp-w345b-engine.mjs',
+    'tests/out/engine-345b.json', 'engine-345b', '157.0.8103.78', '153.0.8010.12', '141.0.7390.37', '15.7.112.43', '15.3.76.4', '数学関数の指紋', '版の名前ではなく', '153 でも同じ指紋', '最後の 1 ビット',
+    'CHROMIUM_PATH', 'DFM_EXPECT_CHROMIUM', '両方が在るときだけ', 'engineDeclared', '言わないこと', 'アプリの物理が変わった、とは言わない', 'どの版の値が正しい、とも言わない', '第145報への枝の答え', '決断事項の候補', '次の便へ',
+    'lint.engineDeclared345b', 'behavior.engine345b', 'docs.engine345b'];
+  for (const w of want) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第345便b〕に「' + w + '」が無い');
+  if (/\\\|/.test(sec)) bad.push('② PHYSICS〔第345便b〕に \\| ');
+  cases.push('② 節の位置・必須の語 ' + want.length);
+  const a0 = AS.indexOf('\n## 285. 第345便b'), ai = secUntilNext329c(AS, a0, '\n## ');
+  if (!(a0 >= 0 && ai.indexOf('tests/data-w345-engine.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN921') >= 0 && ai.indexOf('R393') >= 0 && ai.indexOf('指紋') >= 0))
+    bad.push('③ AI_SPEC §285(宣言・SYSTEM_PROMPT・AN921・R393・指紋)');
+  const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+  const i345b = clLines.findIndex((l) => l.indexOf('**第345便b**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl345b = i345b >= 0 ? clLines[i345b] : '';
+  if (!(i345b > 0 && (i344t < 0 || i345b < i344t) && cl345b.indexOf('tests/lib-w345-engine.mjs') >= 0 && cl345b.indexOf('engine-345b') >= 0 && cl345b.indexOf('第145報') >= 0 && cl345b.indexOf('R393') >= 0))
+    bad.push('③ CHANGELOG の第345便b の行(見出しより後・第344便(統括)の行より前・lib・段・第145報・R393)');
+  if (!(/S\('engine-345b', 'node tests\/exp-w345b-engine\.mjs', \['tests\/out\/engine-345b\.json'\], \d+, \{[^}]*alwaysRun: true/.test(RT) && RT.indexOf('// ==== 第345便b の塊(ここから)====') >= 0)) bad.push('③ 段の行 engine-345b(常時群・塊)');
+  if (GI.indexOf('!tests/out/engine-345b.json') < 0) bad.push('③ .gitignore の例外');
+  if (!(PM.indexOf('# ==== 第345便b の塊(ここから)====') >= 0 && /lint\.engineDeclared345b behavior\.engine345b docs\.engine345b/.test(PM))) bad.push('③ post-merge に第345便b の塊');
+  cases.push('③ AI_SPEC §285(次の見出しまで)・CHANGELOG の行の位置・段の行(常時群)・.gitignore・post-merge');
+  const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+  const W345 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たし認確', 'たし致一', 'たし正較'].map(rvC);
+  const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+    .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+  const texts = [['PHYSICS〔第345便b〕', sec], ['AI_SPEC §285', ai], ['CHANGELOG の第345便b の行', cl345b], ['lib', rd('tests/lib-w345-engine.mjs')], ['器', rd('tests/exp-w345b-engine.mjs')], ['道具', rd('tools/engine-check.mjs')], ['宣言', rd('tests/data-w345-engine.json')]];
+  for (const [nm, tx] of texts) for (const w of NGC.concat(W345)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+  cases.push('④ 書かない語・禁句(節・AI_SPEC・CHANGELOG・lib・器・道具・宣言)');
+  add('docs.engine345b', bad.length === 0,
+    `**実行系の宣言と記録の文書**(第345便b・AN921・R393 —— 版の名前でなく指紋・アプリの物理が変わったとは言わない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第345便b の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
@@ -114181,6 +114342,15 @@ function view343aOf344a(eq) {
 //   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
 let chromiumVersion = 'unknown';
 try { chromiumVersion = browser.version() || 'unknown'; } catch {}
+// 第345便b(原仮定者の回答(2026-11-21 —— 第145報)AN921・R393): 結果 JSON の env に **V8 の版・数学関数の指紋・宣言と同じか** を足す(tests/lib-w345-engine.mjs の measureBrowser ——
+//   閉じる前に新しいページで探りを 1 回。読めなければ null)。同じ数値の実行系かは版の名前でなく指紋で見る(宣言 tests/data-w345-engine.json)
+let engineEnv345b = { v8: null, mathFingerprint: null, engineDeclared: null };
+try {
+  const E345 = await import('file://' + path.join(ROOT, 'tests', 'lib-w345-engine.mjs'));
+  const M345 = await E345.measureBrowser(browser);
+  let decl345 = null; try { decl345 = E345.loadDeclaration(ROOT).mathFingerprint; } catch (e) { decl345 = null; }
+  engineEnv345b = { v8: M345.v8, mathFingerprint: M345.mathFingerprint, engineDeclared: decl345 === null ? null : M345.mathFingerprint === decl345 };
+} catch (e) { /* 前の世代(lib が無い)か測れない —— null のまま */ }
 await browser.close();
 
 // ---- 結果JSON(コミット固定の再現記録)----
@@ -114210,7 +114380,8 @@ const QA_OUT = JSON.stringify({
          attempt: process.env.GITHUB_RUN_ATTEMPT || null, sha: process.env.GITHUB_SHA || null,
          ref: process.env.GITHUB_REF || null, headRef: process.env.GITHUB_HEAD_REF || null,
          baseRef: process.env.GITHUB_BASE_REF || null },
-  env: { node: process.version, playwright: playwrightVersion, chromium: chromiumVersion, platform: `${process.platform}/${process.arch}` },   // 第288便f: chromium
+  env: { node: process.version, playwright: playwrightVersion, chromium: chromiumVersion, platform: `${process.platform}/${process.arch}`,
+    v8: engineEnv345b.v8, mathFingerprint: engineEnv345b.mathFingerprint, engineDeclared: engineEnv345b.engineDeclared },   // 第288便f: chromium・第345便b: v8・指紋・宣言と同じか
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
   // 第279便b: `ms`(直前の add() からの経過)は互換のため従来どおり。実際の壁時計は wallDurationMs、

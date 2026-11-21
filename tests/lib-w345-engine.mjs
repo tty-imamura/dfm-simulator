@@ -219,6 +219,16 @@ export async function measureBrowser(browser) {
   finally { await page.close().catch(() => {}); }
 }
 
+/** 文書の表(関数ごと: 宣言の observed の版は「同じ」・nodeDiffers の各 Node は違う関数に「違う」)—— PHYSICS〔第345便b〕に逐語で載せる */
+export function functionTable(decl) {
+  const D = checkDeclaration(decl);
+  const nodes = Object.values(D.nodeDiffers || {});
+  const head = '| 関数 | ' + D.observed.map((o) => 'chromium ' + o.chromium + '(V8 ' + o.v8 + ')').concat(nodes.map((n) => 'Node ' + n.node + '(V8 ' + n.v8 + ')')).join(' | ') + ' |';
+  const sep = '|' + ' --- |'.repeat(1 + D.observed.length + nodes.length);
+  const rows = PROBE_FUNCTIONS.map((k) => '| ' + k + ' | ' + D.observed.map(() => '宣言と同じ').concat(nodes.map((n) => (n.diff.includes(k) ? '違う' : '同じ'))).join(' | ') + ' |');
+  return [head, sep].concat(rows).join('\n');
+}
+
 // ---- 自己試験の場面 ----
 export function pureScenes() {
   const S = {};
