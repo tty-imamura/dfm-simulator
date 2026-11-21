@@ -2583,6 +2583,16 @@ export const REGEN_STEPS = [
     note: '第344便g: 元期 2 × 重力定数の出どころ 4 列の接触の要素・(3) の列と参考の試作の表/接触の周期と平均の周期の差 4 列/e と近点の引数 4 列/'
       + '第341便g の 4 量 + 近日点の段 × 9 列・定義の差の作り直し 9 列/質量の比・2 体のケプラーで元期 A → B(4 列)' }),
   // ==== 第344便g の塊(ここまで)====
+  // ==== 第345便b の塊(ここから)====
+  // ---- 第345便b(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R393): **鎖が走った箱の実行系の記録**(常時の段 engine-345b —— 正本 tests/out/engine-345b.json・
+  //   lib tests/lib-w345-engine.mjs・道具 tools/engine-check.mjs・入力は宣言 tests/data-w345-engine.json)。今のブラウザを起こして数学関数の指紋を測り、宣言と違えば正本を書かずに rc 1
+  //   (鎖が止まる —— 違う実行系ではブラウザで測る正本を作り直さない)。**常時群**(箱が変わったかは走らせないと分からない)。html を読まない(来歴の対象は lib —— 領域の宣言なし)。
+  //   ブラウザで測る段をこの段の後に置く順序(after の辺)と、ブラウザで測る段の入力に宣言を足すのは第345便e。所要は第345便b の枝の実測 1 s 未満(ブラウザの起動を含む)
+  S('engine-345b', 'node tests/exp-w345b-engine.mjs', ['tests/out/engine-345b.json'], 1, { secSource: 'w345b-branch', alwaysRun: true,
+    quickVerify: false, quickVerifyWhy: '実行系の記録だけ(ブラウザを 1 回起こして探りを 1 回走らせる —— 1 s の内)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/engine-345b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS'] },
+    note: '第345便b: ブラウザの版・V8・playwright・node・数学関数の指紋(25 関数)と宣言との同じさ・Node と違う関数(事実の列)' }),
+  // ==== 第345便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
