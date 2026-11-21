@@ -1,0 +1,416 @@
+{
+ "version": "w345e-browserstage-1",
+ "note": "第345便e: 再生成表の段のうちブラウザで測る段(器と import・子プロセスの閉包が playwright を import する段)。node tools/regen-plan.mjs --browser-stages --write で作り直す(--check で今の表と照合)。sec は表の実測秒(tests/data-w311c-regensec.json の較正を含む)",
+ "count": {
+  "all": 279,
+  "browser": 52,
+  "node": 227
+ },
+ "secSum": 11998,
+ "secMax": 1583,
+ "lanes": 4,
+ "lowerBound": 3000,
+ "makespan": 3777,
+ "mismatch": {
+  "browserButNode": [],
+  "notBrowserNotNode": [
+   "obsintake",
+   "recordid",
+   "corrections",
+   "plutostates",
+   "solarsigma",
+   "stoprule",
+   "issues",
+   "intakeB",
+   "confirm2",
+   "confirm3",
+   "confirm4",
+   "declmatch",
+   "solutionid",
+   "derived",
+   "bhcore",
+   "armbar",
+   "sync",
+   "dyncenter",
+   "powerball",
+   "powerball2",
+   "galaxyproto",
+   "nsgrid",
+   "selfinertia",
+   "slipaudit",
+   "nsmode",
+   "kf0ledger-old",
+   "kf0ledger",
+   "htmlagg",
+   "engine-345b"
+  ]
+ },
+ "stages": [
+  {
+   "key": "bh90",
+   "sec": 21,
+   "via": [
+    "tests/exp-w269c-bh90.mjs"
+   ]
+  },
+  {
+   "key": "nslock",
+   "sec": 766,
+   "via": [
+    "tests/exp-w272c-nslock.mjs"
+   ]
+  },
+  {
+   "key": "calaudit",
+   "sec": 541,
+   "via": [
+    "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "dt3",
+   "sec": 24,
+   "via": [
+    "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "kf0",
+   "sec": 59,
+   "via": [
+    "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "d68three",
+   "sec": 47,
+   "via": [
+    "tests/exp-w268a-d68.mjs"
+   ]
+  },
+  {
+   "key": "assessed",
+   "sec": 1,
+   "via": [
+    "tests/exp-w273c-assessedtable.mjs"
+   ]
+  },
+  {
+   "key": "d0audit",
+   "sec": 28,
+   "via": [
+    "tests/exp-w275b-d0audit.mjs"
+   ]
+  },
+  {
+   "key": "charon-h",
+   "sec": 913,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charon-h2",
+   "sec": 1583,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charon-h4",
+   "sec": 657,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charonk",
+   "sec": 718,
+   "via": [
+    "tests/exp-w273b-charonk.mjs"
+   ]
+  },
+  {
+   "key": "charoneps-h",
+   "sec": 320,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charoneps-h2",
+   "sec": 697,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charoneps-h4",
+   "sec": 804,
+   "via": [
+    "tests/exp-w272b-charon.mjs"
+   ]
+  },
+  {
+   "key": "charonfactors",
+   "sec": 333,
+   "via": [
+    "tests/exp-w276b-charonfactors.mjs"
+   ]
+  },
+  {
+   "key": "charondfm",
+   "sec": 75,
+   "via": [
+    "tests/exp-w277b-charondfm.mjs"
+   ]
+  },
+  {
+   "key": "charonwin",
+   "sec": 110,
+   "via": [
+    "tests/exp-w278b-charonwin.mjs"
+   ]
+  },
+  {
+   "key": "sparc",
+   "sec": 225,
+   "via": [
+    "tests/exp-w269c-sparc.mjs"
+   ]
+  },
+  {
+   "key": "cluster",
+   "sec": 82,
+   "via": [
+    "tests/exp-w269d-cluster.mjs"
+   ]
+  },
+  {
+   "key": "galaxydiag",
+   "sec": 299,
+   "via": [
+    "tests/exp-w271d-galaxydiag.mjs"
+   ]
+  },
+  {
+   "key": "qsplit",
+   "sec": 2,
+   "via": [
+    "tests/exp-w271c-qsplit.mjs"
+   ]
+  },
+  {
+   "key": "twobody",
+   "sec": 9,
+   "via": [
+    "tests/exp-w272c-twobody.mjs"
+   ]
+  },
+  {
+   "key": "rpar",
+   "sec": 2,
+   "via": [
+    "tests/exp-w272c-rpar.mjs"
+   ]
+  },
+  {
+   "key": "nslockledger",
+   "sec": 2,
+   "via": [
+    "tests/exp-w273c-nslockledger.mjs"
+   ]
+  },
+  {
+   "key": "shapetoy",
+   "sec": 199,
+   "via": [
+    "tests/exp-w274d-shapetoy.mjs"
+   ]
+  },
+  {
+   "key": "galaxylite",
+   "sec": 50,
+   "via": [
+    "tests/exp-w274c-galaxylite.mjs"
+   ]
+  },
+  {
+   "key": "galaxyprof2",
+   "sec": 19,
+   "via": [
+    "tests/exp-w275c-galaxyprof2.mjs"
+   ]
+  },
+  {
+   "key": "meshnod0",
+   "sec": 5,
+   "via": [
+    "tests/exp-w275b-meshnod0.mjs"
+   ]
+  },
+  {
+   "key": "shapecrit",
+   "sec": 85,
+   "via": [
+    "tests/exp-w275d-shapecrit.mjs"
+   ]
+  },
+  {
+   "key": "presetaxes",
+   "sec": 2,
+   "via": [
+    "tests/exp-w275a-presetaxes.mjs"
+   ]
+  },
+  {
+   "key": "bgfield",
+   "sec": 2,
+   "via": [
+    "tests/exp-w276a-bgfield.mjs"
+   ]
+  },
+  {
+   "key": "d0audit2",
+   "sec": 2,
+   "via": [
+    "tests/exp-w276a-d0audit2.mjs"
+   ]
+  },
+  {
+   "key": "bgpredict",
+   "sec": 2,
+   "via": [
+    "tests/exp-w276a-bgpredict.mjs"
+   ]
+  },
+  {
+   "key": "corefield",
+   "sec": 136,
+   "via": [
+    "tests/exp-w276d-corefield.mjs"
+   ]
+  },
+  {
+   "key": "bgequiv",
+   "sec": 48,
+   "via": [
+    "tests/exp-w278d-bgequiv.mjs"
+   ]
+  },
+  {
+   "key": "bgbudget",
+   "sec": 28,
+   "via": [
+    "tests/exp-w277d-bgbudget.mjs"
+   ]
+  },
+  {
+   "key": "bgcompose",
+   "sec": 2,
+   "via": [
+    "tests/exp-w279c-bgcompose.mjs"
+   ]
+  },
+  {
+   "key": "bgbudget2",
+   "sec": 51,
+   "via": [
+    "tests/exp-w279c-bgbudget2.mjs"
+   ]
+  },
+  {
+   "key": "sphereKernel",
+   "sec": 5,
+   "via": [
+    "tests/exp-w280b-sphereKernel.mjs"
+   ]
+  },
+  {
+   "key": "galaxyprof",
+   "sec": 25,
+   "via": [
+    "tests/exp-w274c-galaxyprof.mjs"
+   ]
+  },
+  {
+   "key": "needmesh",
+   "sec": 2,
+   "via": [
+    "tests/exp-w274c-needmesh.mjs"
+   ]
+  },
+  {
+   "key": "d68",
+   "sec": 152,
+   "via": [
+    "tests/exp-w280e-d68.mjs"
+   ]
+  },
+  {
+   "key": "charonInput",
+   "sec": 925,
+   "via": [
+    "tests/exp-w280d-charonInput.mjs"
+   ]
+  },
+  {
+   "key": "geo3",
+   "sec": 820,
+   "via": [
+    "tests/exp-w280c-geo3.mjs"
+   ]
+  },
+  {
+   "key": "calcontract",
+   "sec": 4,
+   "via": [
+    "tests/exp-w282a-calcontract.mjs"
+   ]
+  },
+  {
+   "key": "obscompare",
+   "sec": 6,
+   "via": [
+    "tests/exp-w285d-obscompare.mjs"
+   ]
+  },
+  {
+   "key": "samplestatus",
+   "sec": 3,
+   "via": [
+    "tests/exp-w279a-samplestatus.mjs"
+   ]
+  },
+  {
+   "key": "mercury",
+   "sec": 358,
+   "via": [
+    "tests/exp-w280a-mercury.mjs"
+   ]
+  },
+  {
+   "key": "tpsign",
+   "sec": 153,
+   "via": [
+    "tests/exp-w284e-tpsign.mjs",
+    "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "contact285",
+   "sec": 365,
+   "via": [
+    "tests/exp-w285a-contact.mjs",
+    "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "timing294",
+   "sec": 231,
+   "via": [
+    "tests/exp-w294d-timing.mjs"
+   ]
+  }
+ ]
+}

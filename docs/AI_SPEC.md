@@ -5365,3 +5365,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: lib `tests/lib-w345-engine.mjs`(数学関数の探り・指紋・ulp の差・値の比べ方・明示のブラウザの約束)・宣言 `tests/data-w345-engine.json`(指紋 b8a976bf83f0fd7d —— chromium 157.0.8103.78 と 153.0.8010.12 で同じ)・道具 `tools/engine-check.mjs`・器 `tests/exp-w345b-engine.mjs` と常時の段 engine-345b(正本 `tests/out/engine-345b.json` —— 宣言と違う指紋なら書かずに rc 1)・QA の `getBrowser` の明示のブラウザ(`CHROMIUM_PATH` と `DFM_EXPECT_CHROMIUM` の両方)と結果 JSON の env の欄 `v8`・`mathFingerprint`・`engineDeclared`。
 - **AI が読むときの要点**: 同じ数値の実行系かは版の名前でなく指紋で見る。同じ実行系の中ではビットで同じ・実行系の間は許容つき(許容はその検査の量に限る)。Node の数学関数は、ブラウザと最後の 1 ビットが違う関数がある(事実の列)。アプリの物理が変わった・どの版が正しい、とは書かない。**SYSTEM_PROMPT には載せない**(道具と記録)。
 - QA `lint.engineDeclared345b`(root でも走る)・`behavior.engine345b`・`docs.engine345b`(本節と PHYSICS〔第345便b〕・CHANGELOG —— behavior と docs は root で SKIP)。
+
+## 288. 第345便e —— CI の版と、鎖の作り直しの計画に実行系の宣言を乗せる(原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R396・**html は変えない**)
+- **何をしたか**: `package.json` の playwright を 1.63.0 に固定し、`package-lock.json` を npm に作り直させた(playwright と playwright-core が 1.63.0)。`.github/workflows/ci.yml` の beta の 1 本の上限を 120 → 180 分にした(ハング防止のガード —— 性能の門は perf のまま)。再生成表の段のうちブラウザで測る段を機械で判定し(`tests/data-w345e-browserstages.json`)、実行系の宣言 `tests/data-w345-engine.json` が在るときだけ、その段の済み印の契約の入力に宣言を足し、計画で台帳 `tests/data-w345e-enginestamp.json` と違う段を作り直しにする。段 engine-345b が表に在るとき、ブラウザの段はその後に走る。
+- **AI が読むときの要点**: 「作り直し」の理由の種類 engine は、html の指紋や器のコードが同じでも、測ったブラウザの宣言が変わったことを示す(物理の値が変わったことは示さない)。済み印の契約の版は w287f-chaincontract-2 のまま。**SYSTEM_PROMPT には載せない**(道具と設定だけ)。
+- QA `lint.ciEngine345e`・`lint.regenEngineInput345e`・`docs.ciEngine345e`(本節と PHYSICS〔第345便e〕・CHANGELOG —— root は SKIP)。
