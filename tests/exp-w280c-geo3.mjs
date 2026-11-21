@@ -37,7 +37,11 @@ import { GEO3_HARNESS_VERSION, uniformBackground, makeGeo3Copy, extractCalauditP
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.timeStd","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
+// 第346便a(統括の検証項目 R397 —— 第345便(統括)の継ぎ目の直し (b) の「器に門を持たせるのは、次に器を作り直す便で」): ❄️ の kF0 の正式の値が過去の便に固定した記録のとき、
+//   器が自分で fixedRecordGate を呼んで、結果(ulp・符号つき ulp・門)を正本に書く(水星の器 tests/exp-w280a-mercury.mjs と同じ形 —— 上限を超えたら器を止める)
+import { fixedRecordGate, CHARON_KF0_MAX_ULP_345, CROSSENGINE_LIB_VERSION_345C } from './lib-w345c-crossengine.mjs';
+import * as E345 from './lib-w345-engine.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.timeStd","HP.validatePreset","PROBE_VERSION","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -265,8 +269,18 @@ if (!PART || PART === 'charon') {
   const offP = (() => { const p = calRow('plutoCharonReal', false); const q = p && p.quantities.find((z) => z.kind === 'period' && /kFrame=0/.test(z.name));
     if (!p) return Object.assign({}, CHARON_HISTORY.officialKf0.period, { from: CHARON_HISTORY_FROM, sourceSet: CHARON_HISTORY.sourceSet });   // 第290便b・第291便b の世代切替
     return q ? { name: q.name, meas: q.meas, rev: q.detail ? q.detail.revSec : null } : {}; })();
+  // 第346便a: 退役の記録(offP.from が history(…))のときの門 —— 記録とビットで同じか ±CHARON_KF0_MAX_ULP_345 ulp まで(比べる列)。現役の calaudit の行ならビットで同じを要求する(従来どおり鍵の側)
+  let recordGate = null;
+  if (!QUICK && /^history\(/.test(String(offP.from || '')) && rows.C0 && rows.C0.runs.dt && typeof rows.C0.runs.dt.rev2S === 'number' && typeof offP.meas === 'number') {
+    const fpNow = E345.mathFingerprint(E345.checkProbe(await pg.evaluate(E345.probeExpression())));
+    const g = fixedRecordGate(rows.C0.runs.dt.rev2S, offP.meas, { nowFp: fpNow, recFp: null /* 過去の便に固定した記録 —— 実行系の記録が無い */, maxUlp: CHARON_KF0_MAX_ULP_345 });
+    recordGate = { here: rows.C0.runs.dt.rev2S, formal: offP.meas, bitIdentical: g.bitIdentical, ulp: g.ulp, signedUlp: g.signedUlp, maxUlp: g.maxUlp, mode: g.mode,
+      engineOfRecord: g.engineOfRecord, gateOk: g.ok, gateWhy: g.why, engineNow: { fingerprint: fpNow, chromium: String(browser.version()), lib: CROSSENGINE_LIB_VERSION_345C } };
+    log(`❄️ kF0 の退役の記録の門: ${g.why}`);
+    if (g.stop) throw new Error('❄️ kF0(退役の記録)の門で止める: ' + g.why);
+  }
   out.cases.charon = { base: 'plutoCharonReal', window: W, background: charonBg, uBackgroundMS: charonBg.A0[1] / charonBg.W0 * 1e4,
-    unitsNote: '1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)', officialKf0: { period: offP }, rows };
+    unitsNote: '1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)', officialKf0: { period: offP, recordGate }, rows };
   out.tables.charon = tags.map((tag) => ({ tag,
     officialKf0ReproducedBit: (tag === 'dt' && !QUICK) ? (rows.C0.runs[tag].rev2S === offP.meas) : null,
     rev2: { pn1PN: dd('C0', 'C0n', tag, 'rev2S'), C1_minus_C0: dd('C1', 'C0', tag, 'rev2S'), C2_minus_C0: dd('C2', 'C0', tag, 'rev2S'),
@@ -417,7 +431,7 @@ if (!PART || PART === 'checks') {
 await browser.close();
 
 /* ── 書き出し ── */
-const CODE = ['tests/exp-w280c-geo3.mjs', 'tests/lib-w280c-geo3.mjs', 'tests/exp-w249b-calaudit.mjs', 'tests/lib-w272e-provenance.mjs'];
+const CODE = ['tests/exp-w280c-geo3.mjs', 'tests/lib-w280c-geo3.mjs', 'tests/exp-w249b-calaudit.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w345c-crossengine.mjs', 'tests/lib-w345-engine.mjs'];   // 第346便a: 門の lib 2 本
 const doc = {
   meta: Object.assign(provenanceMeta({ root: ROOT, wave: '第280便c', target: TARGET, code: CODE,
     inputs: [TARGET, 'tests/out/calaudit-w249.json', 'tests/out/bgbudget2-w279c.json'] }), {
