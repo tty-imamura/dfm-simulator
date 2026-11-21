@@ -1285,6 +1285,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paperPlan347a docs.report145_347a"
 #   第338便c の recheckRun・2 体と第344便b の数の照合・門 / docs.convbody347b —— 表が PHYSICS〔第347便b〕に逐語・文書)と、新しい段 convbody-347b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.convbody347b docs.convbody347b"
 # ==== 第347便b の塊(ここまで)====
+# ==== 第347便c の塊(ここから)====
+# 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904・統括の検証項目 R402 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.selfclock347c —— 純関数の零試験・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・イオンの見込みが〔第344便c〕の作り方と同じ数 / docs.selfclock347c —— 正本の門と表が PHYSICS〔第347便c〕に逐語・文書)と、新しい段 selfclock-347c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.selfclock347c docs.selfclock347c"
+# ==== 第347便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
