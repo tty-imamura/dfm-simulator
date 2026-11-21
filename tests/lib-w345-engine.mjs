@@ -182,6 +182,43 @@ export function engineVerdict(probeOut, decl, engine) {
   return { same, fingerprint: fp, declared: D.mathFingerprint, diff: same ? [] : diffFunctions(probeOut, D), knownVersion: chromium ? D.observed.some((o) => o.chromium === chromium) : null };
 }
 
+// ---- 明示のブラウザの約束(qa.mjs の getBrowser・tools/engine-check.mjs・perf が同じ形で使う) ----
+/** CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ { executablePath, expect } を返す。どちらかが無ければ null(今までの起動の順のまま) */
+export function explicitBrowserSpec(env) {
+  const e = env || {};
+  const p = typeof e.CHROMIUM_PATH === 'string' ? e.CHROMIUM_PATH.trim() : '', x = typeof e.DFM_EXPECT_CHROMIUM === 'string' ? e.DFM_EXPECT_CHROMIUM.trim() : '';
+  return p && x ? { executablePath: p, expect: x } : null;
+}
+/** 起動したブラウザの版が期待と違えば例外(明示のブラウザのとき) */
+export function assertExpectedVersion(version, expect) {
+  if (String(version) !== String(expect)) throw new Error('明示のブラウザの版が違う: browser.version() = ' + version + '・DFM_EXPECT_CHROMIUM = ' + expect);
+  return true;
+}
+
+/**
+ * 起動の順(ブラウザの module は呼ぶ側が渡す —— この lib は import しない)。明示のブラウザ(両方の環境変数)ならその実行ファイルで起動して版を照合(違えば閉じて例外)。
+ * そうでなければ opts.fallback(呼ぶ側の今までの起動の関数 —— 例: qa.mjs の順)を呼ぶ。返り値: { browser, explicit }
+ */
+export async function launchEngine(chromium, env, fallback) {
+  const spec = explicitBrowserSpec(env);
+  if (spec) {
+    if (!chromium || typeof chromium.launch !== 'function') throw new Error('明示のブラウザ: chromium の module が要る');
+    const browser = await chromium.launch({ executablePath: spec.executablePath });
+    try { assertExpectedVersion(browser.version(), spec.expect); } catch (e) { await browser.close().catch(() => {}); throw e; }
+    return { browser, explicit: spec };
+  }
+  if (typeof fallback !== 'function') throw new Error('launchEngine: 既定の起動の関数が要る');
+  return { browser: await fallback(), explicit: null };
+}
+/** 起動したブラウザの版・V8(CDP の Browser.getVersion —— 読めなければ null)・数学関数の探り(新しいページで走らせて閉じる) */
+export async function measureBrowser(browser) {
+  let v8 = null;
+  try { const cdp = await browser.newBrowserCDPSession(); const v = await cdp.send('Browser.getVersion'); v8 = v && v.jsVersion ? String(v.jsVersion) : null; await cdp.detach().catch(() => {}); } catch (e) { v8 = null; }
+  const page = await browser.newPage();
+  try { const probe = checkProbe(await page.evaluate(probeExpression())); return { chromium: String(browser.version()), v8, probe, mathFingerprint: mathFingerprint(probe) }; }
+  finally { await page.close().catch(() => {}); }
+}
+
 // ---- 自己試験の場面 ----
 export function pureScenes() {
   const S = {};
@@ -201,6 +238,8 @@ export function pureScenes() {
   const mut = { version: P1.version, functions: Object.assign({}, P1.functions, { cbrt: (BigInt('0x' + P1.functions.cbrt) ^ 1n).toString(16).padStart(16, '0') }) };
   S.probe = { det: fp1 === mathFingerprint(P2), order: fp1 === mathFingerprint(rev), mutDiff: diffFunctions(P1, mut), mutFp: mathFingerprint(mut) !== fp1, nFn: Object.keys(P1.functions).length,
     nanFree: Object.values(P1.counts).every((n) => n > 0) && P1.counts.sin === P1.n, same: sameNumericEngine(fp1, fp1), describe: describeEngine({ chromium: '1.2', mathFingerprint: fp1 }).label };
+  S.explicit = { both: explicitBrowserSpec({ CHROMIUM_PATH: '/x/chrome', DFM_EXPECT_CHROMIUM: '1.2' }), onlyPath: explicitBrowserSpec({ CHROMIUM_PATH: '/x/chrome' }),
+    onlyExpect: explicitBrowserSpec({ DFM_EXPECT_CHROMIUM: '1.2' }), none: explicitBrowserSpec({}), ok: assertExpectedVersion('1.2', '1.2'), bad: thr(() => assertExpectedVersion('1.3', '1.2')) };
   return S;
 }
 export function pureGates(S) {
@@ -210,5 +249,7 @@ export function pureGates(S) {
     reject: Object.values(S.reject).every((v) => v === true),
     arrays: S.arr.ok === true && S.arr.nDiffBits === 1 && S.arr.worstUlp === 1 && S.arr.worstIndex === 1 && S.arr.len === true,
     probe: S.probe.det && S.probe.order && S.probe.mutDiff.join() === 'cbrt' && S.probe.mutFp && S.probe.nFn === PROBE_FUNCTIONS.length && S.probe.nanFree && S.probe.same === true && /^chromium 1\.2・指紋 [0-9a-f]{16}$/.test(S.probe.describe),
+    explicit: !!S.explicit.both && S.explicit.both.executablePath === '/x/chrome' && S.explicit.both.expect === '1.2' && S.explicit.onlyPath === null && S.explicit.onlyExpect === null
+      && S.explicit.none === null && S.explicit.ok === true && S.explicit.bad === true,
   };
 }
