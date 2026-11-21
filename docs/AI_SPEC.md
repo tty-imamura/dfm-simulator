@@ -5398,3 +5398,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 既定の視点(θ = +90)では **+y が画面の上**。下向きの一様重力は **gravityY < 0**(SYSTEM_PROMPT の一様重力の行・数値の規約〔everyday −9.8・beaker −0.031〕・例の ♨️ を新しい規約に直した —— 受理の条件は同じ)。宣言の `world.thermalWalls` の bottom は y = +size の面・top は y = −size の面のまま(名前は座標の側 —— 既定の視点では top が画面の下)。`mirrorY` は SYSTEM_PROMPT には載せない(内蔵の本の鏡映のための鍵)。
 - 600 步の鏡映は 6 本がビットで同じ・♨️ ☕ は 2 面の伝熱壁の熱を足す順で丸めの桁が違う(記録 `tests/data-w346c-gravmirror.json` の上限の内)。
 - QA `ui.viewTiltDefault346c`・`behavior.gravityMirror346c`・`ui.spinMarkerAxis346c`・`docs.viewTilt346c`(本節と PHYSICS〔第346便c〕 —— root は SKIP)。
+
+## 294. 第347便c —— 自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3・対照 S0)・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅(原仮定者の回答(2026-11-21 —— 第145報)AN904・統括の検証項目 R402・**診断だけ** —— html・本の宣言・アプリの点の時計・表面の時計・光学・受理器・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。器 `tests/exp-w347c-selfclock.mjs`・lib `tests/lib-w347c-selfclock.mjs`・文書の lib `tests/lib-w347c-selfclockdoc.mjs`・正本 `tests/out/selfclock-347c.json`・段 `selfclock-347c` を足し、PHYSICS〔第347便c〕に表を置いた。
+- **AI が本を作るときの説明**: 今のアプリの点の時計と表面の時計は局所光速で止まる形のまま。自分自身の決定力で局所光速でもわずかに進む時計は候補(型 S1〜S3)で、どれも採っていない。「時間が進む半径」は定義が 3 つの候補(R1・R2・R3)で、シュバルツシルト半径との比は定義とノブで変わる。ガンマ線バーストの到着の幅の表は、光の伝わりを今のまま固定し放出する側の時計だけを変えた列 —— 観測の数を書くなら文献の値・未照合と書き、見込みと照らして結論しない。
+- QA `behavior.selfclock347c`・`docs.selfclock347c`(root は SKIP)。

@@ -115178,6 +115178,162 @@ function view343aOf344a(eq) {
 }
 // ==== 第346便c の塊(ここまで)====
 
+// ==== 第347便c の塊(ここから —— behavior.selfclock347c・docs.selfclock347c の 2 ブロック。root は SKIP)====
+// ---- 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904「探索のアプローチを変える」・統括の検証項目 R402):
+// ----   **自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3・対照 S0)・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅**
+// ----   (新設 —— 器 tests/exp-w347c-selfclock.mjs〔html を読まない〕・lib tests/lib-w347c-selfclock.mjs・文書の lib tests/lib-w347c-selfclockdoc.mjs・正本 tests/out/selfclock-347c.json・入力のファイルは無い)。
+// ----   世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.selfclock347c: ① 版・宣言・零試験の場面 ② 器を走らせ直して第338便c の recheckRun で正本と照合(pure・t1・ion・t2・t3)
+// ----     ③ 門・零試験(自己 0 と遅い極限で今の点の時計・0〜1・単調)・イオンの見込みが〔第344便c〕の作り方と同じ数・r ÷ r_s の閉じた形 ④ 呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── behavior.selfclock347c ─────
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        const C344 = await import('file://' + path.join(ROOT, 'tests', 'lib-w344c-clockmid.mjs'));
+        // ① 版・宣言・零試験の場面
+        if (!(L.LIB_VERSION === 'w347c-selfclock-lib-1' && X.HARNESS_VERSION === 'w347c-selfclock-1' && D0.DOC_VERSION === 'w347c-selfclockdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・照合の lib)');
+        if (!(js(L.DECL.types) === js(['S0p', 'S0s', 'S1', 'S2', 'S3L', 'S3Q']) && js(L.DECL.xGrid) === js([0.338, 0.6, 0.9, 0.99, 1]) && L.DECL.bodies.length === 11 && L.DECL.exts.length === 3
+          && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN))) bad.push('① 宣言(型・速さ・物・外)が lib・器・正本で同じでない');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 8) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(自己 0・遅い極限・0〜1・単調・局所光速の閉じた形・S0s の止まり・丸め・拒否)`);
+        // ② 器を走らせ直して正本と照合(第338便c の量ごとの尺度)
+        const parts = ['pure', 't1', 'ion', 't2', 't3'], RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), R = RC.base, diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 器を走らせ直して ${parts.join('・')} が正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero} —— 局所光速 ${R.t1.atC.length} 行・半径 ${R.t2.rows.length} 行・噴き出す塊 ${R.t3.jet.length} 行・落ち込み ${R.t3.fall.length} 行)`);
+        // ③ 門・零試験・〔第344便c〕の作り方と同じ数
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        let zs = 0; for (const x of [0, 0.338, 0.9, 1]) { const G = L.Gp(x); zs = Math.max(zs, Math.abs(L.gS1w(0, x) - G), Math.abs(L.gS2phi(0, 4, x) - G), Math.abs(L.gS3phi(0, x) - G), Math.abs(L.gS0s(0, x) - G)); }
+        let ze = 0; for (const x of [0.064, 0.338, 0.6]) for (const g of [0.5, 0.9, 1]) ze = Math.max(ze, Math.abs(L.epsPred(g, x) - C344.epsOf(g, x)));
+        const ion = J.ion, i1 = ion.rows[0];
+        if (!(zs < 1e-15 && ze === 0 && Math.abs(L.epsPred(L.Gp(0.338), 0.338) - C344.clockAtX('F', 0.338).eps) < 1e-15 && ion.epsRep === C344.DECL.ion.epsRep && ion.epsSig === C344.DECL.ion.epsSig && ion.x === C344.DECL.ion.xHigh))
+          bad.push('③ 零試験(自己 0 で今の点の時計 ' + zs + ')・イオンの見込みが〔第344便c〕の epsOf と同じ ' + ze + '・報告の値と速さが〔第344便c〕の宣言と同じ');
+        const r2 = (def, type, ext, th) => J.t2.rows.find((r) => r.def === def && r.type === type && r.ext === ext && r.theta === th);
+        if (!(Math.abs(r2('R1', 'S1・S2', 'galaxy', null).ratio - 5e5) < 1e-6 && Math.abs(r2('R2', 'S3L', null, 0.5).ratio - 1) < 1e-12 && Math.abs(r2('R2', 'S3Q', null, 1e-3).ratio - Math.sqrt(1000) / 2) < 1e-9
+          && Math.abs(J.t2.rsLine.clockAtRs - Math.exp(-0.5)) < 1e-12)) bad.push('③ r ÷ r_s の閉じた形(R1 銀河の中 5e5・S3L θ = ½ で 1・S3Q θ = 1e-3 で √1000/2・r_s の静止の時計 e^(−½))');
+        if (!(i1.S2[0].phiMax < i1.S2[1].phiMax && i1.S2[1].phiMax < i1.S2[2].phiMax && i1.S1.wMax > 2.9e-8 && i1.S1.wMax < 3.0e-8)) bad.push('③ イオンの内のノブの範囲(S1 の重み 2.95e-8 の桁・S2 は n で増す)');
+        if (JSON.stringify(J).indexOf('Infinity') >= 0) bad.push('③ 正本に Infinity');
+        cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・自己 0 で今の点の時計・イオンの見込みが〔第344便c〕の epsOf と同じ・S1 の重みの上の限り ${i1.S1.wMax.toExponential(3)}・R1(銀河の中)r ÷ r_s = ${r2('R1', 'S1・S2', 'galaxy', null).ratio}`);
+        // ④ 呼ぶだけ
+        const tl = rd('tests/lib-w347c-selfclock.mjs'), th = rd('tests/exp-w347c-selfclock.mjs'), td = rd('tests/lib-w347c-selfclockdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(js(imps) === js(['lib-w342b-clockstop.mjs', 'lib-w344c-clockmid.mjs']) && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td)
+          && !/from '/.test(td) && !/Math\.random/.test(tl + th) && !/w347c/.test(rd('tests/lib-w344c-clockmid.mjs') + rd('tests/lib-w342b-clockstop.mjs'))))
+          bad.push('④ 呼ぶだけ(lib の import は第344便c・第342便b の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・既存の lib は変えない)');
+        cases.push('④ lib の import は 2 本の既存の lib だけ・html を読まない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.selfclock347c', bad.length === 0,
+      `**自分自身の決定力で局所光速でもわずかに進む時計の読みの候補・時間が進む半径・ガンマ線バーストの列の作り直し**(第347便c・原仮定者の回答(2026-11-21 —— 第145報)AN904・R402 —— html を読まない・アプリには入れない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第347便c: docs.selfclock347c は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.selfclock347c(正本): ① 門・版・来歴 ② 表が PHYSICS〔第347便c〕に逐語・比べる列の出どころ ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕の前)・原文の全文・必須の語・ノブの表(6 列)・
+// ----     AI_SPEC §294・CHANGELOG(在れば照らす —— 統合で足す)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w347c-selfclock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w347c-selfclock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w347c-selfclockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'selfclock-347c.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.selfclock347c(第347便c の自分自身の決定力で進む時計の読みの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  // ───── docs.selfclock347c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第347便c — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第346便c — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第347便c〕が無いか〔第346便c〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/selfclock-347c.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'selfclock'
+        && J.target === 'tests/lib-w347c-selfclock.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便c〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 15) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const s of [J.ion.srcHigh].concat(J.t3.src)) if (sec.indexOf(s) < 0) bad.push('② 比べる列の出どころの文(文献の値・未照合)');
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便c〕に逐語(文書の lib ${D0.DOC_VERSION})・比べる列の出どころの文 ${1 + J.t3.src.length}`);
+    }
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', '「AN904: 探索のアプローチを変える。粒子が局所光速に達した時も、自分自身の決定力により、わずかに当事者時間が進む。時間が進む半径と、シュバルツシルト半径を比較する。ガンマ線バーストへの影響も調べる」',
+      'AN840', 'AN866', 'AN839', 'AN928', 'AN929', 'R402', '〔第344便c〕', '〔第342便a〕', '〔第345便a〕', '第145報の回答 1',
+      'tests/exp-w347c-selfclock.mjs', 'tests/out/selfclock-347c.json', 'tests/lib-w347c-selfclock.mjs', 'selfclock-347c',
+      'S0p', 'S0s', 'S1', 'S2', 'S3L', 'S3Q', 'R1', 'R2', 'R3', 'r_s = 2G₀m/c₀²', '光の伝わりは今のまま', '放出する側の時計だけ', '文献の値・未照合', '宣言の帰結', 'どの型を採るかは、この節では決めない', '枝の読み',
+      '原文の文', '読み', '候補', '推奨', 'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '原仮定者の回答への枝の答え', '決断事項の候補', '次の便へ', '書かないこと',
+      'behavior.selfclock347c', 'docs.selfclock347c'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第347便c〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第347便c〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = []; if (ki >= 0) for (const l of sec.slice(ki).split('\n').slice(2)) { if (!l.startsWith('| ')) break; krows.push(l); }
+    if (!(ki >= 0 && krows.length === 4 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・4 行・状態は候補か対照)');
+    const a0 = AS.indexOf('\n## 294. 第347便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/selfclock-347c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R402') >= 0 && ai.indexOf('AN904') >= 0))
+      bad.push('③ AI_SPEC §294(正本・SYSTEM_PROMPT・候補・R402・AN904)');
+    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
+    const clMe = (clg.split('\n').find((l) => l.indexOf('**第347便c**') >= 0)) || '';
+    if (clMe && !(clMe.indexOf('R402') >= 0 && clMe.indexOf('AN904') >= 0 && clMe.indexOf('selfclock-347c') >= 0)) bad.push('③ CHANGELOG の第347便c の行(R402・AN904・段の名)');
+    if (!(/S\('selfclock-347c', 'node tests\/exp-w347c-selfclock\.mjs', \['tests\/out\/selfclock-347c\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 selfclock-347c(塊)');
+    if (GI.indexOf('!tests/out/selfclock-347c.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第347便c の塊(ここから)====') >= 0 && /behavior\.selfclock347c docs\.selfclock347c/.test(PM))) bad.push('③ post-merge に第347便c の塊');
+    cases.push('③ 節の位置・原文の全文・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §294・段の行・.gitignore・post-merge' + (clMe ? '・CHANGELOG の行' : '(CHANGELOG の行は統合で足す —— 在れば照らす)'));
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT347 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/, /回転引きずり/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第347便c の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・確かめられた・示した・説明できた・説明した・導けた・導いた・時計の形が決まった・ガンマ線バーストが説明
+    const W347 = ['ためか確', 'たれらめか確', 'たし示', 'たきで明説', 'たし明説', 'たけ導', 'たい導', 'たっま決が形の計時', '明説がトスーバ線マンガ'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第347便c〕', sec], ['AI_SPEC §294', ai], ['CHANGELOG の第347便c の行', clMe], ['器', rd('tests/exp-w347c-selfclock.mjs')], ['lib', rd('tests/lib-w347c-selfclock.mjs')], ['文書の lib', rd('tests/lib-w347c-selfclockdoc.mjs')]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W347)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      for (const re of NOT347) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・裸の係数記号・km/s の数の字列・旧い記号・旧称(節・AI_SPEC・CHANGELOG・器・lib・文書の lib)');
+    add('docs.selfclock347c', bad.length === 0,
+      `**自分自身の決定力で局所光速でもわずかに進む時計の読みの候補・時間が進む半径・ガンマ線バーストの列の文書**(第347便c・原仮定者の回答(2026-11-21 —— 第145報)AN904・R402 —— この型・このノブ・この物の表では、の表・判定の条件を原文の文と読みに分ける): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第347便c の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
