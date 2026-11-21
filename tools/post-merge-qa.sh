@@ -1258,6 +1258,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.perfengine345d docs.perfengine345d 
 #   段 engine-345b の後に走る順序の辺・台帳 / docs.ciEngine345e —— 文書)と、鎖の道具を照らす既存の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.ciEngine345e lint.regenEngineInput345e docs.ciEngine345e"
 # ==== 第345便e の塊(ここまで)====
+# ==== 第346便c の塊(ここから)====
+# 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・統括の検証項目 R399): 枝 c の新設 4 本(ui.viewTiltDefault346c —— 視点の傾き θ の既定 +90・保存の扱い /
+#   behavior.gravityMirror346c —— 一様重力の本 8 本の y の鏡映の受け入れ / ui.spinMarkerAxis346c —— 回転の印の面と三次元の自転軸 / docs.viewTilt346c —— 文書)と、
+#   θ の既存の鍵・追従させた本の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.viewTiltDefault346c behavior.gravityMirror346c ui.spinMarkerAxis346c docs.viewTilt346c ui.viewTilt298 ui.tiltSwipe300 behavior.buoyancy behavior.convection projectile.layout field.uniform-gravity box.wall-restitution phasechange.observables"
+# ==== 第346便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

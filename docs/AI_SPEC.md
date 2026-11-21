@@ -3456,6 +3456,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 
 ## 69. 第298便d —— 視点の傾き θ(上下反転のトグルをスライダーへ)と、説明タブのフィットの標的の行のはみ出し(原仮定者の裁定(第88報)「説明タブのフィットの標的の行が枠をはみ出すので修正」「共通設定の上下反転をスライダー化。画面右は X 方向固定。初期値は −90 で画面下が Y 方向。0 で横から画面上が Z 方向。90 で上下反転、画面上が Y 方向」・統括の検証項目 R168・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
+- **訂正(第346便c・原仮定者の回答(2026-11-21 —— 第145報の回答 3))**: 既定を `VIEW_TILT_DEFAULT`=+90 に改めた(下の「既定 −90」は当時の文 —— §291)。
 - **状態**(表示層のモジュール変数 —— presetSig・保存 JSON・`S.params` の外): `viewTiltDeg`(整数度・[`VIEW_TILT_MIN`=−90, `VIEW_TILT_MAX`=+90]・既定 `VIEW_TILT_DEFAULT`=−90・スライダーの刻み `VIEW_TILT_STEP`=1)・`viewSn`=sin θ・`viewCs`=cos θ(±90・0 では厳密値)・`viewFy`=−sin θ(θ=±90 では第118便の fy=±1)・`camZ`・`camFollowOffZ`・互換の読み口 `flipY`(θ=+90 のときだけ true)。
 - **写像**: 画面の上向き U = sin θ·y + cos θ·z・奥行き = cos θ·y − sin θ·z。`w2sY(wy, wz)`(wz 省略 = 0)= `viewSYc(ch/2, zoom(), wy, wz)`。`viewSYc(c0, z, wy, wz)` は viewCs===0 のとき第118便の式 c0+(wy−camY)·z·viewFy そのまま、それ以外は c0 − ((wy−camY)·sin θ + (wz−camZ)·cos θ)·z。逆写像 `viewInvYc(c0, z, sy)` は z=0 の面の y(sin θ=0 では NaN)。`viewDownOf(dy, dz)`・`viewAxisUV(ex, ey, ez, L)`・`viewDepthOf(y, z)`・`viewDrawOrder(S)`(三次元の本 ∧ θ≠±90 だけ遠い順・それ以外は null)・`viewStrokeCircle`・`viewStrokeBox`・`viewPickNearest(S, cx, cy, c0, z, rPx)`・`viewKeySuffix()`(決定力マップ・光線のキャッシュの鍵 —— 既定 θ では空文字)。
 - **z の読み口**: `viewZOf(S, i)` = `S.coord3d===true && S.z ? S.z[i] : 0`(枝の約束 —— 二次元の本は 0)。カメラの追従の基準点 `camFollowAnchor()` と軌跡の追従フレームの原点 `trailAnchorOf()` は三次元の本だけ 3 番目の要素に z を返す。線の軌跡は三次元の本だけ `buf._z[i]`(1 点 1 要素)に z を積む。
@@ -5381,3 +5382,9 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: `package.json` の playwright を 1.63.0 に固定し、`package-lock.json` を npm に作り直させた(playwright と playwright-core が 1.63.0)。`.github/workflows/ci.yml` の beta の 1 本の上限を 120 → 180 分にした(ハング防止のガード —— 性能の門は perf のまま)。再生成表の段のうちブラウザで測る段を機械で判定し(`tests/data-w345e-browserstages.json`)、実行系の宣言 `tests/data-w345-engine.json` が在るときだけ、その段の済み印の契約の入力に宣言を足し、計画で台帳 `tests/data-w345e-enginestamp.json` と違う段を作り直しにする。段 engine-345b が表に在るとき、ブラウザの段はその後に走る。
 - **AI が読むときの要点**: 「作り直し」の理由の種類 engine は、html の指紋や器のコードが同じでも、測ったブラウザの宣言が変わったことを示す(物理の値が変わったことは示さない)。済み印の契約の版は w287f-chaincontract-2 のまま。**SYSTEM_PROMPT には載せない**(道具と設定だけ)。
 - QA `lint.ciEngine345e`・`lint.regenEngineInput345e`・`docs.ciEngine345e`(本節と PHYSICS〔第345便e〕・CHANGELOG —— root は SKIP)。
+
+## 291. 第346便c —— 視点の傾き θ の既定 +90・一様重力の本の y の鏡映・三次元の回転の印の面(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・統括の検証項目 R399・**表示と本の宣言だけ** —— 重力・引きずり・時計・積分の式・受理の条件は不変)
+- **何をしたか**: `VIEW_TILT_DEFAULT` を −90 → +90(保存の値は優先・触っていない端末には書かない・旧 `hp_flip_y` は "1"→+90・"0"→−90・−90 の速い道と `setFlipY(false)` は `VIEW_TILT_MIN` に結ぶ)。一様重力の内蔵の本 8 本(projectile・convection・buoyancy・cooling・emergent・emergent2・chain2・chaincycle)の g_y の符号・配置の y・加熱面(bottom → top)を鏡映し、乱数で作る群(box・grid)に任意の鍵 `mirrorY:true`(同じ乱数列のまま y の鏡像 —— true だけを受理)。三次元の軸を持つ粒子の回転の印を軸に垂直な面に描く(`spinMarkerBasis`・`HP.spinMarkerBasis(i, S)`)。実験箱の面の呼び名と相前線の帯は画面の上下に合わせる。
+- **AI が読むときの要点**: 既定の視点(θ = +90)では **+y が画面の上**。下向きの一様重力は **gravityY < 0**(SYSTEM_PROMPT の一様重力の行・数値の規約〔everyday −9.8・beaker −0.031〕・例の ♨️ を新しい規約に直した —— 受理の条件は同じ)。宣言の `world.thermalWalls` の bottom は y = +size の面・top は y = −size の面のまま(名前は座標の側 —— 既定の視点では top が画面の下)。`mirrorY` は SYSTEM_PROMPT には載せない(内蔵の本の鏡映のための鍵)。
+- 600 步の鏡映は 6 本がビットで同じ・♨️ ☕ は 2 面の伝熱壁の熱を足す順で丸めの桁が違う(記録 `tests/data-w346c-gravmirror.json` の上限の内)。
+- QA `ui.viewTiltDefault346c`・`behavior.gravityMirror346c`・`ui.spinMarkerAxis346c`・`docs.viewTilt346c`(本節と PHYSICS〔第346便c〕 —— root は SKIP)。
