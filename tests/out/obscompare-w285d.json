@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "af6056366acd0c7cd3379fdea65aa0ecd09415e49dcf8bfc08e586ee2c211fbf",
-  "generatedAt": "2026-11-21T11:42:59.841Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T13:26:02.374Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734284,
-    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
-    "mtime": "2026-11-21T11:36:39.834Z"
+    "bytes": 1734298,
+    "sha256": "405c04cea881cda0adde64c7cd5796d6deda1bf8d52172f14bcdaae1444bbbe1",
+    "mtime": "2026-11-21T13:17:05.086Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 57386,
-    "sha256": "db77eb3c4f579bd94df1fb86c71d07946adf5bccab8bfa7d128dbd430d1e5663",
-    "mtime": "2026-11-21T11:42:55.934Z"
+    "bytes": 57385,
+    "sha256": "96811483893b73672558f4999d92865eb812f9e12b0f8522e63c9925fef7ec0f",
+    "mtime": "2026-11-21T13:25:56.142Z"
    },
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "af6056366acd0c7cd3379fdea65aa0ecd09415e49dcf8bfc08e586ee2c211fbf",
-    "mtime": "2026-11-21T09:26:42.189Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    }
   ],
   "code": [
@@ -143,7 +143,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "96d76856b97f2bb4701fc1766dfc9ebeb9ea556da287abafcaf1cf7005360d12",
+    "stableSha256": "d3129e54f07b05ef83eca2f120207069c98aa33542d395c7bd72823f0fc6a1ca",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -239,7 +239,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "3d0b03525f3a25538f8872147ee471184df4466904bae9db2c153556a0824f44",
+    "stableSha256": "fe0a7565aea1f7942e2ed714a5bb1b00d7f2b7989d5dfb88e6e1d3cc80078257",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -303,5 +303,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 5.27
+ "elapsedS": 3.948
 }

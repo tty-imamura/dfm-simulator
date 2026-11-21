@@ -4,7 +4,7 @@
   "wave": "第284便e",
   "target": "beta/index.html",
   "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-  "generatedAt": "2026-11-21T12:15:41.504Z",
+  "generatedAt": "2026-11-21T13:24:34.338Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -14,9 +14,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734284,
-    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
-    "mtime": "2026-11-21T11:36:39.834Z"
+    "bytes": 1734298,
+    "sha256": "405c04cea881cda0adde64c7cd5796d6deda1bf8d52172f14bcdaae1444bbbe1",
+    "mtime": "2026-11-21T13:17:05.086Z"
    }
   ],
   "code": [
@@ -103,7 +103,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "96d76856b97f2bb4701fc1766dfc9ebeb9ea556da287abafcaf1cf7005360d12",
+    "stableSha256": "d3129e54f07b05ef83eca2f120207069c98aa33542d395c7bd72823f0fc6a1ca",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -209,13 +209,17 @@
   "note": "基点の正本は git show の一時読み(ファイルに書かない)"
  },
  "after": {
-  "source": "fresh-run",
-  "cmd": "node tests/exp-w249b-calaudit.mjs --only uranusReal,saturnRingReal(W249_OUT は一時ファイル)",
+  "source": "canon",
+  "file": "tests/out/calaudit-w249.json",
   "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-  "when": "2026-11-21T12:11:22.431Z",
-  "wallSec": 263.116,
-  "why": "正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)",
-  "canonFourValues": null
+  "when": "2026-11-21T13:17:04.894Z",
+  "canonFourValues": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 1,
+   "保留": 16
+  },
+  "wallSec": 0.023
  },
  "signed": {
   "solarInner": {
@@ -588,7 +592,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 73.95,
+      "wallSec": 56.565,
       "tags": [
        "dt"
       ],
@@ -803,7 +807,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 181.006,
+      "wallSec": 143.906,
       "tags": [
        "dt"
       ],
@@ -971,5 +975,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 263.379
+ "elapsedS": 0.2
 }
