@@ -13185,7 +13185,9 @@ const W5C_UNITS = {
       if (s.pinned[i]) continue;
       if (s.m[i] > 1) { hy += s.y[i]; hc++; } else { ly += s.y[i]; lc++; }
     }
-    return { buoySep: (hc ? hy / hc : 0) - (lc ? ly / lc : 0), buoyNaN: s.hasNaN() };
+    // 第346便c(R399): 「下」は一様重力の向き(g_y の符号)—— y を鏡映した世代(g_y<0)でも、重い粒子が下へ寄るほど正
+    const gdn = (s.params.gravityY < 0) ? -1 : 1;
+    return { buoySep: gdn * ((hc ? hy / hc : 0) - (lc ? ly / lc : 0)), buoyNaN: s.hasNaN() };
   }) },
   galaxyAB: { enabled: !FAST, weight: 62, run: (pg) => pg.evaluate(() => {
     // 🌌 galaxy A/B 部分のみ(元8節 1916-1930行から抽出)
@@ -13230,6 +13232,8 @@ const W5C_UNITS = {
       sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
     }
     const qIn = s.wallEin - w0[0], qOut = (s.wallEout - w0[1]) + (s.wallKE - w0[2]);
+    // 第346便c(R399): 循環の向きは画面の見え方(重力が下)で数える —— y を鏡映した世代(g_y<0)は L_z の符号が逆なので g_y の符号を掛ける
+    circ *= (s.params.gravityY < 0) ? -1 : 1;
     return { convCirc: freeC ? circ / freeC : 0, convV: freeC ? sumV / freeC : 0, convNaN: s.hasNaN(),
       convQIn: qIn, convQOut: qOut, convImb: qIn > 0 ? Math.abs(qIn - qOut) / qIn : 1,
       convPin: s.n - freeC, convWall: !!s.twall };
@@ -16637,9 +16641,11 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
     res.spinlensCtl = Math.abs(res.asym1) > 0.05 && Math.abs(res.asym0) < 1e-6;
     // ⑥ projectile: 説明と画面配置の一致 — 斜方投射球(最下段=最大y)が上向き(vy<0)に発射
     const p = HP.allPresets().find(q => q.id === 'projectile');
-    const ys = p.bodies.map(b => b.y);
+    // 第346便c(R399): 「下」は一様重力の向き(g_y の符号)—— y を鏡映した世代(g_y<0)では最下段 = 最小の y・上向き = vy>0
+    const gdn = (p.physics.gravityY < 0) ? -1 : 1;
+    const ys = p.bodies.map(b => gdn * b.y);
     res.projOk = p.description.includes('下段は斜方投射') && p.en.description.includes('bottom one obliquely')
-      && ys[3] === Math.max(...ys) && p.bodies[3].vy < 0;
+      && ys[3] === Math.max(...ys) && gdn * p.bodies[3].vy < 0;
     HP.loadPreset('saturn', false);
     return res;
   });
@@ -16650,7 +16656,7 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
   add('trail.sampled', r.trailSampled, `${r.trId}: 記録本数=${r.trailN}(核+代表16前後、全粒子ではない)`);
   add('spinlens.kframe-control', r.spinlensCtl,
     `非対称度 kF=1: ${r.asym1.toExponential(2)} / kF=0: ${r.asym0.toExponential(2)}(0で消失)`);
-  add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](最大y・vy<0)の一致');
+  add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](重力の向きに最も下・上向きの初速 —— g_y>0 の世代は最大y・vy<0)の一致');
 }
 
 // ---- 7k) v1.22 性能・UXスプリント: activeParams / 描画オンデマンド / 光線・フィールド
@@ -16833,10 +16839,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
         if (rateRow) {
           const inp = rateRow.querySelector('input.valIn');
           inp.value = '0.5'; inp.dispatchEvent(new Event('change'));
-          const w = HP.sim.twall[1];
+          // 第346便c(R399): 「天井」の行は画面の上の面 —— 視点の傾き θ>0(既定 +90)では y=+size の面(S.twall[0] —— 鏡映の後の 🧊 では未設定の面)
+          const kTop = (typeof viewSn !== 'undefined' && viewSn > 0) ? 0 : 1;
+          const w = HP.sim.twall[kTop];
           out.created = !!(w && w.mode === 'heat' && Math.abs(w.rate - 0.5) < 1e-12);
           inp.value = '0'; inp.dispatchEvent(new Event('change'));   // 後続ゲートのため戻す
-          out.reset0 = HP.sim.twall[1].rate === 0;
+          out.reset0 = HP.sim.twall[kTop].rate === 0;
         }
       }
       // 57B: カテゴリ開閉の保持 — 実験箱を開いて再構築(プリセット再読込)しても開いたまま
@@ -16873,14 +16881,16 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       HP.loadPreset('emergent2', false);
       let s = HP.sim;
       s.phase.bondN = 4.5; s.phase.condN = 5;
-      s.twall[0].T = 0.9;
-      s.twall[1] = { mode: 'heat', T: 0.4, rate: 0.2 };
+      // 第346便c(R399): 床の面は一様重力の向きの側 —— y を鏡映した 🧊(g_y<0)では S.twall[1](宣言の top)・未設定の面は S.twall[0]
+      const kF = (s.params.gravityY < 0) ? 1 : 0, kN = 1 - kF;
+      s.twall[kF].T = 0.9;
+      s.twall[kN] = { mode: 'heat', T: 0.4, rate: 0.2 };
       document.getElementById('btnReset').click();
       s = HP.sim;
       out.keepPhase = Math.abs(s.phase.bondN - 4.5) < 1e-12 && Math.abs(s.phase.condN - 5) < 1e-12;
-      out.keepWall = !!(s.twall[0] && Math.abs(s.twall[0].T - 0.9) < 1e-12);
-      out.keepNew = !!(s.twall[1] && s.twall[1].mode === 'heat'
-        && Math.abs(s.twall[1].T - 0.4) < 1e-12 && Math.abs(s.twall[1].rate - 0.2) < 1e-12);
+      out.keepWall = !!(s.twall[kF] && Math.abs(s.twall[kF].T - 0.9) < 1e-12);
+      out.keepNew = !!(s.twall[kN] && s.twall[kN].mode === 'heat'
+        && Math.abs(s.twall[kN].T - 0.4) < 1e-12 && Math.abs(s.twall[kN].rate - 0.2) < 1e-12);
       // ② convection(天井=rad)で壁行が4面すべて出る+rad 面の T>0 編集は heat へ変換(レート保持)
       HP.loadPreset('convection', false);
       const lab = [...document.querySelectorAll('#paramRows details.catParams')]
@@ -16894,10 +16904,12 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       const tRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallT')('天井') : '壁温(天井)'));
       out.hasTopT = !!tRow;
       if (tRow) {
-        const w0 = HP.sim.twall[1]; out.topWasRad = !!(w0 && w0.mode === 'rad'); const rate0 = w0 ? w0.rate : 0;
+        // 第346便c(R399): 面の呼び名は画面の上下で付く —— 視点の傾き θ>0(既定 +90)では「天井」の行は y=+size の面(S.twall[0])
+        const kC = (typeof viewSn !== 'undefined' && viewSn > 0) ? 0 : 1;
+        const w0 = HP.sim.twall[kC]; out.topWasRad = !!(w0 && w0.mode === 'rad'); const rate0 = w0 ? w0.rate : 0;
         const inp = tRow.querySelector('input.valIn');
         inp.value = '1.2'; inp.dispatchEvent(new Event('change'));
-        const w1 = HP.sim.twall[1];
+        const w1 = HP.sim.twall[kC];
         out.radConv = !!(w1 && w1.mode === 'heat' && Math.abs(w1.T - 1.2) < 1e-12 && Math.abs(w1.rate - rate0) < 1e-12);
       }
       HP.loadPreset('saturn', false);
@@ -53539,6 +53551,9 @@ if (!FAST) {
       if (id === 'convection' && p && p.bodies[0] && p.bodies[0].n === 210) key = 'convection-n210';
       // 第96便: c₀=30 相似変換は timeScale ÷k が描画の物理時刻を保つので、スクショ基準キーの
       // 世代分離は不要(第96便ゲート1で 16/16 PASS を実測 — mAD 最大 5.65)
+      // 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399): 視点の傾き θ の既定を +90 に改めた世代は画面の上下が逆になるので、
+      // 基準のキーを分ける(-vt90 —— 初回のフル QA で新規記録。θ の既定が −90 の世代〔root ほか〕は従来のキーのまま)
+      if (typeof VIEW_TILT_DEFAULT !== 'undefined' && VIEW_TILT_DEFAULT === 90) key += '-vt90';
       o[id] = key;
     }
     return o;
@@ -54515,6 +54530,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
     // 世代判定方式 — 対象の宣言値から基準世代を選ぶ。root=0.03 は従来基準のまま)
     const convGy95 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     if (convGy95 === 0.031) MB.convection = 'd3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b';
+    // 第346便c(R399): ♨️ は y を鏡映(g_y −0.031)—— y=±size の 2 面の壁の熱の足す順が入れ替わるので、鏡映は丸めの桁で基点と違う(符号を戻した指紋の再採取)
+    if (convGy95 === -0.031) MB.convection = 'e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421';
     // 第96便→第97便: ☿🌌は c₀=30 相似変換を維持(PN/光線が主役)— 宣言 cLight===30 で世代判定。
     // 🪐🕊️は第97便で c₀=30 のみの巻き戻し = 従来基準と bit 一致に復帰(行ごと削除)
     const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'mercury').physics.cLight === 30);
@@ -54544,7 +54561,9 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
       if (kF !== undefined) s.params.kFrame = kF;
       for (let k = 0; k < 300; k++) s.step(0.016);
       const a = [];
-      for (let i = 0; i < s.n; i++) { a.push(s.x[i], s.y[i], s.spin[i]); if (s.Tint) a.push(s.Tint[i]); }
+      // 第346便c(R399): y を鏡映した一様重力の本(g_y<0)は y と spin の符号を戻して指紋を取る(鏡映がビットで同じなら基点の記録とそのまま比べられる)
+      const my = (s.params.gravityY < 0) ? -1 : 1;
+      for (let i = 0; i < s.n; i++) { a.push(s.x[i], my * s.y[i], my * s.spin[i]); if (s.Tint) a.push(s.Tint[i]); }
       const spec = (mon && s.mechSpec) ? s.mechSpec(true) : null;
       const slots = mon ? HP.overlaySlots() : [];
       return { str: a.map(v => v.toExponential(12)).join(','), spec, hasMech: !!s.mech, slots };
@@ -54927,7 +54946,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
     // 第95便: g_y 0.031(日常規約)世代は再採取基準(50J と同じ世代判定方式)
     const convGyF = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     ZCF.convection = convN0 === 210
-      ? (convGyF === 0.031
+      ? (convGyF === -0.031 ? ['e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421', 210]   // 第346便c(R399): y の鏡映の世代(符号を戻した指紋)
+        : convGyF === 0.031
         ? ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210]
         : ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210])
       : ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300];
@@ -54938,7 +54958,8 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
         const s = HP.sim;
         for (let k = 0; k < 300; k++) s.step(0.016);
         const a = [];
-        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        const my = (s.params.gravityY < 0) ? -1 : 1;   // 第346便c(R399): y を鏡映した一様重力の本は符号を戻して指紋を取る
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], my * s.y[i], my * s.spin[i], s.Tint ? s.Tint[i] : 0);
         return { n: s.n, fusion: s.fusion, fusN: s.fusN, fusU: s.fusU, str: a.map(v => v.toExponential(12)).join(',') };
       }, id);
       const h = crypto.createHash('sha256').update(r.str).digest('hex');
@@ -55455,6 +55476,8 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       conv: HP.allPresets().find((q) => q.id === 'convection').physics.gravityY,
       buoy: HP.allPresets().find((q) => q.id === 'buoyancy').physics.gravityY }));
     if (gy95.conv === 0.031) ZPC.convection = ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210];
+    if (gy95.conv === -0.031) ZPC.convection = ['e75f9f8a5c8acc0f912f2a646c3c7288dd8e56ad4011e9a6fe8bdebfac6d0421', 210];   // 第346便c(R399): y の鏡映の世代(符号を戻した指紋 —— 🧪 は鏡映がビットで同じなので 0.031 の記録のまま)
+    if (gy95.buoy === -0.031) ZPC.buoyancy = ['a0a373a8cda3c917880baadbbf82fbb5b72c41287048a2b18d01a8db706befc4', 280];
     if (gy95.buoy === 0.031) ZPC.buoyancy = ['a0a373a8cda3c917880baadbbf82fbb5b72c41287048a2b18d01a8db706befc4', 280];
     const zpc = [];
     for (const [id, [base, n]] of Object.entries(ZPC)) {
@@ -55463,7 +55486,8 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
         const s = HP.sim;
         for (let k = 0; k < 300; k++) s.step(0.016);
         const a = [];
-        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        const my = (s.params.gravityY < 0) ? -1 : 1;   // 第346便c(R399): y を鏡映した一様重力の本は符号を戻して指紋を取る
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], my * s.y[i], my * s.spin[i], s.Tint ? s.Tint[i] : 0);
         return { n: s.n, phase: !!s.phase, str: a.map(v => v.toExponential(12)).join(',') };
       }, id);
       const h = crypto.createHash('sha256').update(r.str).digest('hex');
@@ -55689,21 +55713,22 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
         HP.loadPreset('emergent2', false);
         const s = HP.sim;
         s.phase.bondK = 7; s.phase.condN = 5; s.phase.angK = 1.1;
-        s.twall[0].T = 9; s.twall[0].rate = 0.7;
+        const kF = (s.params.gravityY < 0) ? 1 : 0;   // 第346便c(R399): 床の面(y を鏡映した 🧊 では S.twall[1])
+        s.twall[kF].T = 9; s.twall[kF].rate = 0.7;
         document.querySelector('#saveName').value = 'qa54b';
         document.querySelector('#btnSave').click();
         const item = JSON.parse(localStorage.getItem('hp_saves'))[0];
         const saved = { pp: item.phaseParams, tw: item.twallHeat };
         HP.loadPreset('emergent2', false);   // 素の emergent2 に戻す(bondK=5 等)
-        const defBondK = s.phase.bondK, defWallT = s.twall[0].T;
+        const defBondK = s.phase.bondK, defWallT = s.twall[kF].T;
         HP.loadSaveItem(item);
         const restored = { bondK: s.phase.bondK, condN: s.phase.condN, angK: s.phase.angK,
-          wallT: s.twall[0].T, wallRate: s.twall[0].rate };
+          wallT: s.twall[kF].T, wallRate: s.twall[kF].rate };
         // 旧スキーマ+値域クランプ: bondK 99999→100・meltT は無視(phase に載らない)
         HP.loadSaveItem({ presetId: 'emergent2', name: 'x', physics: Object.assign({}, s.params),
           phaseParams: { bondK: 99999, meltT: 5, cohesion: 2 } });
         const legacy = { bondK: s.phase.bondK, meltT: s.phase.meltT, cohesion: s.phase.cohesion };
-        return { saved, defBondK, defWallT, restored, legacy };
+        return { saved: { pp: saved.pp, tw: saved.tw ? { 0: saved.tw[kF] } : saved.tw }, defBondK, defWallT, restored, legacy };   // 第346便c: 床の面の記録を [0] の位置で返す(判定の式は同じ)
       } finally {
         if (keep === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep);
       }
@@ -55825,7 +55850,9 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       const l1 = s.phHist[s.phHist.length - 1];
       const prof = Array.from(s._phProf);
       const liq = { psi6: l1.psi6, churn: l1.churn, hasFields: 'psi6' in l1 && 'churn' in l1 };
-      const botC = (prof[5] + prof[6] + prof[7]) / 3, topC = (prof[0] + prof[1] + prof[2]) / 3;
+      // 第346便c(R399): 床は一様重力の向きの側(_phProf の帯 0 は y=−size)—— y を鏡映した世代(g_y<0)では床側が帯 0〜2
+      const flr = (s.params.gravityY < 0);
+      const botC = flr ? (prof[0] + prof[1] + prof[2]) / 3 : (prof[5] + prof[6] + prof[7]) / 3, topC = flr ? (prof[5] + prof[6] + prof[7]) / 3 : (prof[0] + prof[1] + prof[2]) / 3;
       s.build({ id: 'qa_obs_solid', name: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 60 },
         thermal: 'tint', phaseChange: { bondN: 6, bondK: 5, bondRange: 1.6, bondDamp: 0.1 },
         physics: { G: 0, D0: 0, kFrame: 0, kRep: 1, q: 2, muF: 0, gammaN: 0.3, kappaS: 0,
@@ -56347,7 +56374,9 @@ if (hasSwAutoCb) {
       // (画面近傍の点だと粒子配置の非対称性がΦ_gの寄与と紛れうるため、Φ_g の寄与を
       // 支配的にする設計 — 「床方向ほどW_dispが高い」という主張は Φ_g 単体の式で厳密に
       // 保証されるので、以下ではΦ_g=W_disp−Wat を各点で直接検算する)
-      const yTop = -3000, yBot = 3000;
+      // 第346便c(R399): 「床」は一様重力の向きの側 —— y を鏡映した世代(g_y<0)では床が y の負の側(既定の視点 θ=+90 で画面の下)
+      const gdn = (S.params.gravityY < 0) ? -1 : 1;
+      const yTop = -3000 * gdn, yBot = 3000 * gdn;
       const wTop = HP.fieldWDisp(0, yTop), wBot = HP.fieldWDisp(0, yBot);
       const wPlainTop = S.Wat(0, yTop), wPlainBot = S.Wat(0, yBot);
       const gravOk = wBot > wTop;   // 遠方では Φ_g が支配的なので厳密にこの符号になるはず
@@ -57460,7 +57489,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       && r.bitEqual && r.asyncOk && r.paused
       && dlg === 1 && ap.gridOk
       && Math.abs(ap.after.kRep - 0) < 1e-12 && Math.abs(ap.after.gy - 0.5) < 1e-12
-      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(ap.before.gy - 0.03) < 1e-12,
+      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(Math.abs(ap.before.gy) - 0.03) < 1e-12,   // 第346便c(R399): 🧬 の g_y は鏡映で −0.03(大きさで見る)
       `宣言: 🧬${d0.emergent.axes}/${d0.emergent.metric}(${d0.emergent.n}セル×${d0.emergent.steps}步) ` +
       `🥚${d0.selfRotor.axes}/${d0.selfRotor.metric}(${d0.selfRotor.n}セル×${d0.selfRotor.steps}步) ` +
       `未宣言🌌=行なし(${r.rowOff}) / スキーマ: 警告つき無視 ${r.dropped.length}/${r.badN}(${r.dropped.join(',')})・` +
@@ -59684,6 +59713,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       for (let i = 0; i < 200; i++) HP.sim.step(0.016);
       out.dispMagInert = dump() === s1;
       // ③ 上下反転: w2sY が画面中央まわりの鏡像になり、OFF で戻る(表示専用)
+      setFlipY(false);   // 第346便c: 既定が +90 になったので、OFF(θ=−90)から始める(この後の項目は従来どおり θ=−90 の状態で続く)
       const y0 = w2sY(camY + 50);
       setFlipY(true);
       const y1 = w2sY(camY + 50);
@@ -60854,12 +60884,15 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       //    天井(粒子が届かない面)を変えても同一窓の軌道は不変(壁「別」に効く)。
       //    第95便: ⚾は g_y=0.031 化で自然落下が遅くなったため、粒子0を床近くへ置き
       //    下向き初速を注入して短窓(200步)で決定論的にバウンドさせる
+      // 第346便c(R399): 床は一様重力の向きの側 —— y を鏡映した世代(g_y<0)では床が y=−190(宣言の top・S.wallRest[1])
+      const gW = (HP.allPresets().find((q) => q.id === 'projectile').physics.gravityY < 0) ? -1 : 1;
+      const kFloor = gW < 0 ? 1 : 0, kCeil = gW < 0 ? 0 : 1;
       const drop = (side, wr) => { HP.loadPreset('projectile', false); const s = HP.sim;
         if (side >= 0) s.wallRest[side] = wr;
-        s.y[0] = 170; s.vy[0] = 10;   // 床(y=+190)まで 20 → 2 モデル時間で衝突
+        s.y[0] = 170 * gW; s.vy[0] = 10 * gW;   // 床(y=+190·gW)まで 20 → 2 モデル時間で衝突
         for (let k = 0; k < 200; k++) s.step(0.016);
         return { y: s.y[0], vy: s.vy[0], ke: s.wallKE }; };
-      const base = drop(-1, 0), low = drop(0, 0.2), top = drop(1, 0.2);
+      const base = drop(-1, 0), low = drop(kFloor, 0.2), top = drop(kCeil, 0.2);
       const differs = base.y !== low.y || base.vy !== low.vy;
       const keMore = low.ke > base.ke;
       const indep = base.y === top.y && base.vy === top.vy && base.ke === top.ke;
@@ -76364,7 +76397,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         setViewTilt(-90);
         for (let k = 0; k < 20; k++) HP.sim.step(0.016);
         // ① θ=−90
-        o.def = viewTiltDeg === VIEW_TILT_DEFAULT && VIEW_TILT_DEFAULT === -90 && viewCs === 0 && viewSn === -1;
+        // 第346便c(R399): 既定は +90 に改めた(既定の値と保存の扱いは ui.viewTiltDefault346c)—— ここでは θ=−90 の式だけを見る
+        o.def = viewTiltDeg === -90 && (VIEW_TILT_DEFAULT === -90 || VIEW_TILT_DEFAULT === 90) && viewCs === 0 && viewSn === -1;
         const ys = [camY + 50, camY - 1e-7, camY + 3.3e5, -17.25, 0.1 + 0.2];
         o.m90 = ys.every((y) => w2sY(y) === ch / 2 + (y - camY) * zoom() * 1 && w2sY(y, 123) === w2sY(y));
         const sy0 = [0, 1, ch / 3, ch - 0.5];
@@ -76436,8 +76470,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       info.picks = picks;
       // ⑥ 移行と再読み込み
       const M = await vp2.evaluate(() => ({
-        a: viewTiltFromStore(null, '1') === 90, b: viewTiltFromStore(null, '0') === -90, c: viewTiltFromStore(null, null) === -90,
-        d: viewTiltFromStore('30', '1') === 30, e: viewTiltFromStore('abc', null) === -90, f: viewTiltFromStore('200', null) === 90,
+        a: viewTiltFromStore(null, '1') === 90, b: viewTiltFromStore(null, '0') === -90, c: viewTiltFromStore(null, null) === VIEW_TILT_DEFAULT,   // 第346便c: 保存の無い端末は既定(+90)
+        d: viewTiltFromStore('30', '1') === 30, e: viewTiltFromStore('abc', null) === VIEW_TILT_DEFAULT, f: viewTiltFromStore('200', null) === 90,
         g: viewTiltFromStore('-12.4', null) === -12,
         sl: (() => { const r = document.getElementById('viewTiltSlider'); return !!r && r.min === '-90' && r.max === '90' && r.value === String(viewTiltDeg); })(),
         noCb: !document.getElementById('flipYCb'),
@@ -114679,6 +114713,247 @@ function view343aOf344a(eq) {
   }
 }
 // ==== 第345便e の塊(ここまで)====
+
+// ==== 第346便c の塊(ここから —— ui.viewTiltDefault346c・behavior.gravityMirror346c・ui.spinMarkerAxis346c・docs.viewTilt346c の 4 ブロック。root は SKIP)====
+// ---- 第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)「「視点の傾き θ(°)」のデフォルトを「90」にする。デフォルトのy軸が逆さになるので、
+// ----   一様重力のあるサンプルは配置のy座標を逆さにし、g_yをマイナスにする」「saturnRotVertExplore3dで、土星の回転表示の傾きが、軸と90度ズレているので、修正する」・
+// ----   統括の検証項目 R399): 世代切替 = html の VIEW_TILT_DEFAULT が 90 ∧ function spinMarkerBasis(。
+// ----   ① ui.viewTiltDefault346c …… 既定 +90(θ=+90 は第118便の上下反転 ON の式)・触っていない端末には何も書かない・保存の値の優先・旧 hp_flip_y の移し方・
+// ----      −90 の従来の速い道(箱の strokeRect・決定力マップの鍵)は −90 に結ぶ・説明の文・面の呼び名(底・天井)が画面の上下に付く
+// ----   ② behavior.gravityMirror346c …… 一様重力の本 8 本の y の鏡映: 宣言(g_y<0・群の mirrorY・加熱面は top)・t=0 と 600 步の指紋(符号を戻す)が
+// ----      記録 tests/data-w346c-gravmirror.json の基点と同じ(ビットで同じ本 6)・同じページで符号を戻した写しとの差(ビットで同じ本は 0・♨️☕ は記録の上限の内)・
+// ----      生成器 mirrorY の約束(宣言 {cy:c, mirrorY} = {cy:−c} の y の鏡像)と受理(true だけ)
+// ----   ③ ui.spinMarkerAxis346c …… 回転の印(スポーク)の面が三次元の自転軸に垂直: θ ∈ {−90,−60,−30,0,30,45,60,90} で、印の楕円の長軸 ⊥ 軸の画面への射影・
+// ----      短軸/長軸 = √(1 − |射影|²)・軸の無い粒子と二次元の本は null(従来の式)・軸 +z の粒子は従来の式と同じ値
+// ----   ④ docs.viewTilt346c …… PHYSICS〔第346便c〕・AI_SPEC §291・post-merge・書かない語
+{
+  const has346c = await page.evaluate(() => typeof VIEW_TILT_DEFAULT !== 'undefined' && VIEW_TILT_DEFAULT === 90 && typeof spinMarkerBasis === 'function');
+  if (!(TARGET.startsWith('beta/') && has346c)) {
+    console.log('SKIP ui.viewTiltDefault346c(第346便c の視点の既定 +90 の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP behavior.gravityMirror346c(第346便c の一様重力の本の鏡映の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP ui.spinMarkerAxis346c(第346便c の回転の印の直しの前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.viewTilt346c(第346便c の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+  } else {
+    // ---- ① ui.viewTiltDefault346c
+    {
+      const bad = [], cases = [];
+      const c346 = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+      const pg = await c346.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      try {
+        await pg.goto(INDEX, { waitUntil: 'load' });
+        await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+        const R = await pg.evaluate(() => {
+          const o = { bad: [] };
+          const sl = document.getElementById('viewTiltSlider');
+          o.fresh = VIEW_TILT_DEFAULT === 90 && VIEW_TILT_MIN === -90 && VIEW_TILT_MAX === 90 && viewTiltDeg === 90 && viewSn === 1 && viewCs === 0 && viewFy === -1
+            && flipY === true && !!sl && sl.value === '90' && HP.viewTilt().def === 90;
+          HP.loadPreset('saturn', false); render();
+          o.noWrite = localStorage.getItem('hp_view_tilt') === null && localStorage.getItem('hp_flip_y') === null;
+          o.store = viewTiltFromStore('-90', null) === -90 && viewTiltFromStore('-90', '1') === -90 && viewTiltFromStore(null, '1') === 90
+            && viewTiltFromStore(null, '0') === -90 && viewTiltFromStore(null, null) === 90 && viewTiltFromStore('', null) === 90 && viewTiltFromStore('x', '0') === -90;
+          const ys = [camY + 50, camY - 1e-7, -17.25, 0.1 + 0.2];
+          o.flip90 = ys.every((y) => w2sY(y) === ch / 2 + (y - camY) * zoom() * -1 && w2sY(y, 77) === w2sY(y))
+            && [0, 1, ch / 3].every((s) => viewInvYc(ch / 2, zoom(), s) === camY + (s - ch / 2) / zoom() * -1);
+          o.keyAt90 = viewKeySuffix() === ',vt90,' + camZ;
+          setFlipY(false); o.flipOff = viewTiltDeg === -90 && flipY === false && viewKeySuffix() === '';
+          setFlipY(true); o.flipOn = viewTiltDeg === 90 && flipY === true;
+          o.fastSrc = String(viewStrokeBox).indexOf('viewTiltDeg===VIEW_TILT_MIN') >= 0 && String(viewKeySuffix).indexOf('viewTiltDeg===VIEW_TILT_MIN') >= 0
+            && String(setFlipY).indexOf('VIEW_TILT_MIN') >= 0;
+          o.txt = I18N.ja.tgFlipYDesc.indexOf('+90(既定)= 画面上が +Y') >= 0 && I18N.en.tgFlipYDesc.indexOf('+90 (default) = screen up is +Y') >= 0
+            && I18N.ja.hudCoord3d(0, false).indexOf('+z は画面の手前') >= 0
+            && SYSTEM_PROMPT.indexOf('physics.gravityY<0') >= 0 && SYSTEM_PROMPT.indexOf('gravityY=−9.8') >= 0 && SYSTEM_PROMPT.indexOf('"gravityY":-0.03,') >= 0;
+          // 面の呼び名: ♨️(鏡映の後 —— 加熱面 S.twall[1] は y=−size)を θ=+90 で開くと「底」の行が 144(加熱)・「天井」の行が 0(放熱)。θ=−90 では従来の呼び名
+          const rowVal = (side) => { const want = T('pcWallT')(side);
+            const r = [...document.querySelectorAll('#paramRows .prow')].find((x) => { const l = x.querySelector('label'); return l && (l.firstChild ? l.firstChild.textContent : l.textContent) === want; });
+            return r ? r.querySelector('input.valIn').value : null; };
+          const sides = T('pcWallSides');
+          document.querySelector('#tabs button[data-tab=params]').click();
+          HP.loadPreset('convection', false);
+          o.wall90 = [rowVal(sides[0]), rowVal(sides[1])];
+          setViewTilt(-90); HP.loadPreset('convection', false);
+          o.wallM90 = [rowVal(sides[0]), rowVal(sides[1])];
+          document.querySelector('#tabs button[data-tab=params]').click();
+          setViewTilt(90);
+          try { localStorage.removeItem('hp_view_tilt'); localStorage.removeItem('hp_flip_y'); } catch (_) {}
+          HP.loadPreset('saturn', false);
+          return o;
+        });
+        for (const k of ['fresh', 'noWrite', 'store', 'flip90', 'keyAt90', 'flipOff', 'flipOn', 'fastSrc', 'txt']) if (R[k] !== true) bad.push('検査 ' + k + ' が成り立たない');
+        const nv = (a) => (a || []).map((v) => parseFloat(v));
+        if (!(R.wall90 && nv(R.wall90)[0] === 144 && nv(R.wall90)[1] === 0 && nv(R.wallM90)[0] === 0 && nv(R.wallM90)[1] === 144)) bad.push('面の呼び名 θ=+90 [底,天井]=' + JSON.stringify(R.wall90) + ' θ=−90 ' + JSON.stringify(R.wallM90));
+        cases.push(`既定 +90(viewSn 1・viewFy −1・flipY true・スライダー 90)・触っていない端末に保存なし・保存の優先(−90 を保存した端末は −90)・旧 hp_flip_y "1"→+90 "0"→−90`
+          + ` / θ=+90 = 第118便 ON の式(w2sY・逆写像)・−90 の速い道は VIEW_TILT_MIN に結ぶ(鍵 θ=−90 で空・θ=+90 で ",vt90,…") / 説明の文 / 面の呼び名 θ=+90 [底,天井]=${JSON.stringify(R.wall90)}・θ=−90 ${JSON.stringify(R.wallM90)}`);
+        // 保存の優先(実際の再読み込み)
+        await pg.evaluate(() => localStorage.setItem('hp_view_tilt', '-90'));
+        await pg.reload({ waitUntil: 'load' });
+        await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+        const R2 = await pg.evaluate(() => { const o = { t: viewTiltDeg, sl: (document.getElementById('viewTiltSlider') || {}).value }; localStorage.removeItem('hp_view_tilt'); return o; });
+        if (!(R2.t === -90 && R2.sl === '-90')) bad.push('再読み込みで保存の −90 が優先されない ' + JSON.stringify(R2));
+        cases.push('再読み込み: 保存 "-90" → ' + R2.t);
+      } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+      if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+      await c346.close();
+      add('ui.viewTiltDefault346c', bad.length === 0, `**視点の傾き θ の既定 +90**(第346便c・原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399 —— 表示専用): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.gravityMirror346c
+    {
+      const bad = [], cases = [];
+      try {
+        const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w346c-gravmirror.json'), 'utf8'));
+        const R = await page.evaluate((D) => {
+          const H = (T, my) => { let a = 0x811c9dc5; const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+            const push = (v) => { f[0] = v + 0; for (let k = 0; k < 8; k++) { a ^= u[k]; a = Math.imul(a, 0x01000193) >>> 0; } };
+            for (const [k, sg] of [['x', 1], ['y', my], ['vx', 1], ['vy', my], ['spin', my], ['R', 1], ['m', 1]]) for (let i = 0; i < T.n; i++) push(sg * T[k][i]);
+            if (T.Tint) for (let i = 0; i < T.n; i++) push(T.Tint[i]); push(T.t); return a.toString(16); };
+          const snap = (T) => ({ x: Array.from(T.x), y: Array.from(T.y), vx: Array.from(T.vx), vy: Array.from(T.vy), spin: Array.from(T.spin), Tint: T.Tint ? Array.from(T.Tint) : null });
+          const out = { rows: {}, decl: {}, gen: null };
+          const all = HP.allPresets().filter((q) => q.physics && (q.physics.gravityX || q.physics.gravityY)).map((q) => q.id).sort();
+          out.ids = all;
+          for (const id of Object.keys(D.presets)) {
+            const p = HP.allPresets().find((q) => q.id === id), ph = p.physics, tw = (p.world && p.world.thermalWalls) || null;
+            const rows = p.bodies.filter((b) => b.type === 'box' || b.type === 'grid');
+            out.decl[id] = { gy: ph.gravityY, gx: ph.gravityX, ap: !!(p.approximation && p.approximation.uniformGravity), mir: rows.every((b) => b.mirrorY === true),
+              heatTop: !tw || !(tw.bottom && tw.bottom.mode === 'heat' && !(tw.top && tw.top.mode === 'heat')) };
+            HP.loadPreset(id, false); let T = HP.sim; const my = (T.params.gravityY < 0) ? -1 : 1;
+            const h0 = H(T, my); for (let i = 0; i < D.steps; i++) T.step(D.dt); const h600 = H(T, my); const A = snap(T);
+            // 同じページで符号を戻した写し(y・vy・spin・g_y を逆に・y=±size の壁を入れ替え)を同じ步だけ回して比べる
+            HP.loadPreset(id, false); T = HP.sim;
+            for (let i = 0; i < T.n; i++) { T.y[i] = -T.y[i]; T.vy[i] = -T.vy[i]; T.spin[i] = -T.spin[i]; }
+            T.params.gravityY = -T.params.gravityY;
+            if (T.twall) { const a = T.twall[0]; T.twall[0] = T.twall[1]; T.twall[1] = a; }
+            if (T.wallRest) { const a = T.wallRest[0]; T.wallRest[0] = T.wallRest[1]; T.wallRest[1] = a; }
+            for (let i = 0; i < D.steps; i++) T.step(D.dt); const B = snap(T);
+            const dif = {}; let nBad = 0;
+            for (const [k, sg] of [['x', 1], ['y', -1], ['vx', 1], ['vy', -1], ['spin', -1], ['Tint', 1]]) { if (!A[k]) continue; let mx = 0;
+              for (let i = 0; i < A[k].length; i++) { const v = sg * B[k][i]; if (!(A[k][i] === v)) { nBad++; mx = Math.max(mx, Math.abs(A[k][i] - v)); } } dif[k] = mx; }
+            out.rows[id] = { h0, h600, nBad, dif };
+          }
+          // 生成器 mirrorY の約束: {cy:c, mirrorY} は {cy:−c} を y → −y で写したもの(box・grid —— 乱数の揺らぎ・乱数の速度・乱数の自転を含む)
+          const mk = (rows) => ({ id: 'qa_w346c_gen', name: 'x', description: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 150 }, seed: 11, thermal: 'tint',
+            physics: { G: 0, D0: 2, kFrame: 0, kRep: 0, gravityY: 0 }, bodies: rows });
+          const V = HP.validatePreset(mk([{ type: 'box', n: 5, cx: 0, cy: 3, w: 40, h: 30, mMin: 1, mMax: 1, spinMin: -0.5, spinMax: 0.7, vScale: 0.4, mirrorY: true },
+            { type: 'grid', n: 7, cols: 3, cx: 2, cy: -4, pitch: 5, jitter: 0.8, vScale: 0.3, mMin: 1, mMax: 1, mirrorY: 1 }]));
+          const keep = V.ok && V.preset.bodies[0].mirrorY === true && V.preset.bodies[1].mirrorY === undefined;
+          const s = HP.sim;
+          s.build(mk([{ type: 'box', n: 9, cx: 1, cy: 7, w: 40, h: 30, mMin: 1, mMax: 1, spinMin: -0.5, spinMax: 0.7, vScale: 0.4, mirrorY: true },
+            { type: 'grid', n: 11, cols: 4, cx: 2, cy: -6, pitch: 5, jitter: 0.8, vScale: 0.3, mMin: 1, mMax: 1, mirrorY: true }]));
+          const G1 = snap(s);
+          s.build(mk([{ type: 'box', n: 9, cx: 1, cy: -7, w: 40, h: 30, mMin: 1, mMax: 1, spinMin: -0.5, spinMax: 0.7, vScale: 0.4 },
+            { type: 'grid', n: 11, cols: 4, cx: 2, cy: 6, pitch: 5, jitter: 0.8, vScale: 0.3, mMin: 1, mMax: 1 }]));
+          const G2 = snap(s);
+          let gBad = 0; for (let i = 0; i < G1.x.length; i++) if (!(G1.x[i] === G2.x[i] && G1.y[i] === -G2.y[i] && G1.vx[i] === G2.vx[i] && G1.vy[i] === -G2.vy[i] && G1.spin[i] === -G2.spin[i])) gBad++;
+          out.gen = { keep, n: G1.x.length, gBad };
+          HP.loadPreset('saturn', false);
+          return out;
+        }, D);
+        const ids = Object.keys(D.presets);
+        if (JSON.stringify(R.ids) !== JSON.stringify(ids.slice().sort())) bad.push('一様重力の本の一覧が記録と違う ' + R.ids.join(','));
+        let nBit = 0;
+        for (const id of ids) {
+          const d = D.presets[id], r = R.rows[id], dc = R.decl[id];
+          if (!(dc.gy === d.gy[1] && dc.gx === 0 && dc.ap && dc.mir && dc.heatTop)) bad.push(id + ' の宣言 ' + JSON.stringify(dc));
+          if (r.h0 !== d.base.t0) bad.push(id + ' t=0 の指紋(符号を戻す)' + r.h0 + ' ≠ 基点 ' + d.base.t0);
+          if (r.h600 !== d.mirror346c.t600) bad.push(id + ' 600 步の指紋 ' + r.h600 + ' ≠ 記録 ' + d.mirror346c.t600);
+          if (d.bitMirror) { nBit++; if (!(r.h600 === d.base.t600 && r.nBad === 0)) bad.push(id + ' ビットで同じ鏡映が崩れた(差の数 ' + r.nBad + ')'); }
+          else { for (const [k, v] of Object.entries(r.dif)) if (!(v <= d.maxAbs[k])) bad.push(id + ' の差 ' + k + ' ' + v.toExponential(2) + ' > 上限 ' + d.maxAbs[k]);
+            if (r.h600 === d.base.t600) bad.push(id + ' ビットで同じになった(記録の更新が要る)'); }
+        }
+        if (!(R.gen && R.gen.keep && R.gen.gBad === 0 && R.gen.n === 20)) bad.push('生成器 mirrorY の約束・受理 ' + JSON.stringify(R.gen));
+        cases.push(`一様重力の本 ${ids.length}(g_y<0・近似の宣言・群の mirrorY・加熱面は top)・t=0 は ${ids.length} 本とも基点とビットで同じ(符号を戻す)`
+          + `・600 步: ビットで同じ ${nBit} 本・丸めの順で違う ${ids.length - nBit} 本(${ids.filter((id) => !D.presets[id].bitMirror).map((id) => id + ' 最大 ' + Math.max(...Object.values(R.rows[id].dif)).toExponential(2)).join('・')} —— 記録の上限の内)`
+          + ` / 生成器 mirrorY(box・grid の 20 粒 —— 位置・速度・自転の y の鏡像がビットで同じ・受理は true だけ)`);
+      } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+      add('behavior.gravityMirror346c', bad.length === 0, `**一様重力の本の y の鏡映**(第346便c・原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399 —— 物理は変えない・座標の鏡映): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- ③ ui.spinMarkerAxis346c
+    {
+      const bad = [], cases = [];
+      try {
+        const R = await page.evaluate(() => {
+          const o = { bad: [], n: 0 };
+          const TH = [-90, -60, -30, 0, 30, 45, 60, 90];
+          const W = [['saturnRotVertExplore3d', 0], ['chainDiskToy3dTilt', 0], ['coord3dSpinPrecess', 1], ['mercurySunInertial3d', 0], ['uranusSunInertial3d', 1]];
+          for (const [id, i] of W) {
+            if (!HP.allPresets().some((q) => q.id === id)) { o.bad.push('本が無い ' + id); continue; }
+            HP.loadPreset(id, false); const S = HP.sim;
+            for (const th of TH) {
+              setViewTilt(th);
+              const B = HP.spinMarkerBasis(i); if (!B) { o.bad.push(id + ' θ' + th + ' 基底が null'); continue; }
+              const ex = S.sax[i], ey = S.say[i], ez = S.saz[i], ax = ex, ay = viewDownOf(ey, ez), la = Math.hypot(ax, ay);
+              // 楕円 c + cosα·U + sinα·V の長軸・短軸(M Mᵀ の固有値)
+              const a11 = B[0] * B[0] + B[2] * B[2], a12 = B[0] * B[1] + B[2] * B[3], a22 = B[1] * B[1] + B[3] * B[3];
+              const tr = a11 + a22, det = a11 * a22 - a12 * a12, disc = Math.sqrt(Math.max(0, tr * tr / 4 - det));
+              const l1 = tr / 2 + disc, l2 = Math.max(0, tr / 2 - disc), maj = Math.sqrt(l1), mnr = Math.sqrt(l2);
+              let vx = a12, vy = l1 - a11; if (Math.hypot(vx, vy) < 1e-12) { vx = l1 - a22; vy = a12; } const vl = Math.hypot(vx, vy);
+              const ratioOk = Math.abs(mnr / maj - Math.sqrt(Math.max(0, 1 - la * la))) < 1e-9 && Math.abs(maj - 1) < 1e-9;
+              const perpOk = (la < 1e-9 || maj - mnr < 1e-9 || vl < 1e-12) ? true : Math.abs((vx * ax + vy * ay) / (vl * la)) < 1e-9;
+              o.n++;
+              if (!(ratioOk && perpOk)) o.bad.push(`${id} θ${th}: 長軸 ${maj.toFixed(6)}・短軸 ${mnr.toFixed(6)}・軸の射影 ${la.toFixed(6)}・直交 ${perpOk}`);
+            }
+          }
+          setViewTilt(90);
+          // 軸の無い粒子(🛟 の環の粒子)・二次元の本(🪐)は null —— 従来の式。軸 +z の粒子(🔩 chainDiskToy3d の中心)は従来の式と同じ値
+          HP.loadPreset('saturnRotVertExplore3d', false); o.nullRing = HP.spinMarkerBasis(5) === null;
+          HP.loadPreset('saturn', false); o.null2d = HP.spinMarkerBasis(0) === null;
+          HP.loadPreset('chainDiskToy3d', false);
+          o.plusZ = [-90, 90].every((th) => { setViewTilt(th); const B = HP.spinMarkerBasis(0); return !!B && B[0] === 1 && B[1] === 0 && B[2] === 0 && B[3] === viewFy; });
+          setViewTilt(90);
+          const src = String(drawSpinSpokes);
+          o.src = src.indexOf('fy*Math.sin(a)*rr*0.3') >= 0;
+          HP.loadPreset('saturn', false);
+          return o;
+        });
+        if (R.bad.length) bad.push(...R.bad.slice(0, 6));
+        const HT = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        if (!((HT.match(/drawSpinSpokes\((sx|px),/g) || []).length === 2 && (HT.match(/const bs=spinMarkerBasis\((sim|S),i\)/g) || []).length === 2)) bad.push('本体の印の 2 か所(メインと A/B)が spinMarkerBasis を通らない');
+        if (!(R.n === 40)) bad.push('点の数 ' + R.n);
+        for (const k of ['nullRing', 'null2d', 'plusZ', 'src']) if (R[k] !== true) bad.push('検査 ' + k);
+        cases.push(`5 本(🛟 の土星・🔩 の傾いた中心・歳差の粒子・水星の本の太陽・天王星)× θ 8 = ${R.n} 点: 印の楕円の長軸 ⊥ 軸の画面への射影・短軸/長軸 = √(1 − |射影|²)`
+          + ` / 軸の無い粒子・二次元の本は null(従来の式)・軸 +z は従来の式と同じ値(θ=±90)`);
+      } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+      add('ui.spinMarkerAxis346c', bad.length === 0, `**回転の印の面と自転軸**(第346便c・原仮定者の回答(2026-11-21 —— 第145報の回答 3)・R399 —— 表示専用): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+    // ---- ④ docs.viewTilt346c
+    {
+      const bad = [], cases = [];
+      const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+      const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+      const i0 = PH.indexOf('〔第346便c — '), i5 = PH.indexOf('〔第345便e — '), iT = PH.indexOf('〔第328便 — 統括');
+      const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z]* — |\n## /) : '';
+      if (!(i0 > i5 && i5 >= 0 && (iT < 0 || i0 < iT))) bad.push('① PHYSICS〔第346便c〕の位置(〔第345便e〕の後・〔第328便 — 統括〕の前)');
+      const want = ['第145報の回答 3', 'R399', 'VIEW_TILT_DEFAULT', '第88報', 'hp_view_tilt', 'mirrorY', 'spinMarkerBasis', 'saturnRotVertExplore3d',
+        'ui.viewTiltDefault346c', 'behavior.gravityMirror346c', 'ui.spinMarkerAxis346c', 'docs.viewTilt346c', 'tests/data-w346c-gravmirror.json', '決断事項の候補'];
+      for (const w of want) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第346便c〕に「' + w + '」が無い');
+      for (const id of ['projectile', 'convection', 'buoyancy', 'cooling', 'emergent', 'emergent2', 'chain2', 'chaincycle']) if (sec.indexOf(id) < 0) bad.push('① 対象の本の表に ' + id + ' が無い');
+      if (/\\\|/.test(sec)) bad.push('① PHYSICS〔第346便c〕に \\| ');
+      cases.push('① 節の位置・必須の語 ' + want.length + '・対象の本 8');
+      const a0 = AS.indexOf('\n## 291. 第346便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+      if (!(a0 >= 0 && ai.indexOf('R399') >= 0 && ai.indexOf('mirrorY') >= 0 && ai.indexOf('gravityY') >= 0 && ai.indexOf('+90') >= 0)) bad.push('② AI_SPEC §291(R399・mirrorY・gravityY・+90)');
+      if (!(PM.indexOf('# ==== 第346便c の塊(ここから)====') >= 0 && /ui\.viewTiltDefault346c behavior\.gravityMirror346c ui\.spinMarkerAxis346c docs\.viewTilt346c/.test(PM))) bad.push('② post-merge に第346便c の塊');
+      const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
+      const clMe = (clg.split('\n').find((l) => l.indexOf('**第346便c**') >= 0)) || '';
+      if (clMe && !(clMe.indexOf('R399') >= 0 && clMe.indexOf('第145報の回答 3') >= 0)) bad.push('② CHANGELOG の第346便c の行(R399・第145報の回答 3)');
+      cases.push('② AI_SPEC §291・post-merge' + (clMe ? '・CHANGELOG の行' : '(CHANGELOG の行は統合で足す —— 在れば照らす)'));
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /物理が変わった/, /正しい向きになった/];
+      const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+      const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])]
+        .concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA'].map(rvC));   // 禁句(文字で持たない)
+      for (const [nm, tx] of [['PHYSICS〔第346便c〕', sec], ['AI_SPEC §291', ai], ['CHANGELOG の第346便c の行', clMe]]) {
+        for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に禁句(' + w.length + ' 字)');
+        for (const re of NOT) if (re.test(strip(tx))) bad.push('③ ' + nm + ' に書かない語 ' + re.source);
+      }
+      cases.push('③ 書かない語・禁句(節・AI_SPEC・CHANGELOG)');
+      add('docs.viewTilt346c', bad.length === 0, `**視点の既定 +90・一様重力の本の鏡映・回転の印の文書**(第346便c・R399): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    }
+  }
+}
+// ==== 第346便c の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
