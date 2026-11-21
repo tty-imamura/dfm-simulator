@@ -426,11 +426,17 @@ if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }
 // …
 vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
 // …
-const phi=(m[j]/Math.sqrt(d*d+eps2))/Wi;
-const rpx=phi*dpxi, rpy=phi*dpyi;
-// …
 Jx=mu*(phiIJ*dix-phiJI*reqX[j]); Jy=mu*(phiIJ*diy-phiJI*reqY[j]); }
 ```
+
+- **プログラム版 2**(`beta/index.html` · `reactionPass`)
+
+```js
+const phi=(m[j]/Math.sqrt(d*d+eps2))/Wi;
+const rpx=phi*dpxi, rpy=phi*dpyi;
+```
+
+(反作用の対のループの本体は、第346便で `S._core` から同じ文字のまま関数 `reactionPass` へ移した —— 式・順序・読み書きは変えていない。)
 
 - **PHYSICS の節**: §5 E6′(A5・A13)・E6′-R
 
