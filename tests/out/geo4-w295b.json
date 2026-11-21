@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第295便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T00:51:52.351Z",
+  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+  "generatedAt": "2026-11-21T23:28:34.150Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708049,
+    "sha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+    "mtime": "2026-11-21T21:46:31.740Z"
    }
   ],
   "code": [
@@ -18,31 +18,31 @@
     "file": "tests/exp-w295b-geo4.mjs",
     "bytes": 13884,
     "sha256": "e5087545ad60ab869899382e11fe30015487165d17ac6e533732db33742d1082",
-    "mtime": "2026-11-05T03:10:54.265Z"
+    "mtime": "2026-11-19T16:19:54.536Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "06639b01037245189746f8b25c3c346f9b20e7d3811ed925a34602d8b634d130",
@@ -111,11 +111,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1343,
-   "segments": 1174,
+   "names": 1344,
+   "segments": 1175,
    "closureShare": 0.2888
   },
-  "scopeSha256": "7db0846463f56d59143a1a1ee47d16cfa71aa6e4e8ee13c36deaa3240b64c0cd",
+  "scopeSha256": "71ebbad2dcbb332bfbd679dca0f29d9fc32ffe70f61a840a3a2b7901df39c4ca",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -200,7 +200,7 @@
      "n": 123,
      "hex": "1a4311a8"
     },
-    "wallSec": 21.691
+    "wallSec": 28.316
    },
    "geo4": {
     "mode": {
@@ -264,7 +264,7 @@
      "n": 123,
      "hex": "1a4311a8"
     },
-    "wallSec": 22.198
+    "wallSec": 26.228
    },
    "cmp": {
     "firstDiffStep": null,
@@ -354,7 +354,7 @@
      "n": 124,
      "hex": "6b7da44b"
     },
-    "wallSec": 6.731
+    "wallSec": 6.243
    },
    "geo4": {
     "mode": {
@@ -418,7 +418,7 @@
      "n": 124,
      "hex": "6b7da44b"
     },
-    "wallSec": 6.081
+    "wallSec": 5.904
    },
    "cmp": {
     "firstDiffStep": null,
@@ -508,7 +508,7 @@
      "n": 124,
      "hex": "6b7da44b"
     },
-    "wallSec": 5.596
+    "wallSec": 6.319
    },
    "geo4": {
     "mode": {
@@ -572,7 +572,7 @@
      "n": 124,
      "hex": "6b7da44b"
     },
-    "wallSec": 5.598
+    "wallSec": 5.979
    },
    "cmp": {
     "firstDiffStep": null,
@@ -662,7 +662,7 @@
      "n": 124,
      "hex": "55999856"
     },
-    "wallSec": 6.373
+    "wallSec": 6.955
    },
    "geo4": {
     "mode": {
@@ -726,7 +726,7 @@
      "n": 124,
      "hex": "55999856"
     },
-    "wallSec": 6.542
+    "wallSec": 6.706
    },
    "cmp": {
     "firstDiffStep": null,
@@ -816,7 +816,7 @@
      "n": 124,
      "hex": "d7cb4ffa"
     },
-    "wallSec": 6.106
+    "wallSec": 7.44
    },
    "geo4": {
     "mode": {
@@ -880,7 +880,7 @@
      "n": 124,
      "hex": "d7cb4ffa"
     },
-    "wallSec": 6.193
+    "wallSec": 8.71
    },
    "cmp": {
     "firstDiffStep": null,
@@ -970,7 +970,7 @@
      "n": 124,
      "hex": "f3c2fec8"
     },
-    "wallSec": 33.846
+    "wallSec": 40.562
    },
    "geo4": {
     "mode": {
@@ -1034,7 +1034,7 @@
      "n": 124,
      "hex": "f3c2fec8"
     },
-    "wallSec": 33.509
+    "wallSec": 36.666
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1124,7 +1124,7 @@
      "n": 123,
      "hex": "3e43344d"
     },
-    "wallSec": 0.089
+    "wallSec": 0.141
    },
    "geo4": {
     "mode": {
@@ -1188,7 +1188,7 @@
      "n": 123,
      "hex": "3e43344d"
     },
-    "wallSec": 0.087
+    "wallSec": 0.113
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1278,7 +1278,7 @@
      "n": 123,
      "hex": "a1c46c34"
     },
-    "wallSec": 0.111
+    "wallSec": 0.125
    },
    "geo4": {
     "mode": {
@@ -1342,7 +1342,7 @@
      "n": 123,
      "hex": "a1c46c34"
     },
-    "wallSec": 0.08
+    "wallSec": 0.092
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1432,7 +1432,7 @@
      "n": 123,
      "hex": "62e29f9d"
     },
-    "wallSec": 0.087
+    "wallSec": 0.089
    },
    "geo4": {
     "mode": {
@@ -1496,7 +1496,7 @@
      "n": 123,
      "hex": "62e29f9d"
     },
-    "wallSec": 0.02
+    "wallSec": 0.04
    },
    "cmp": {
     "firstDiffStep": null,
@@ -1613,7 +1613,7 @@
     "n": 123,
     "hex": "ef6bb248"
    },
-   "wallSec": 0.057
+   "wallSec": 0.055
   },
   "kFrame1": {
    "mode": {
@@ -1683,7 +1683,7 @@
     "n": 125,
     "hex": "f0a6b1b7"
    },
-   "wallSec": 0.266
+   "wallSec": 0.172
   }
  },
  "frozen": [
@@ -1723,5 +1723,5 @@
   "inertial3": true
  },
  "ok": true,
- "elapsedS": 164.604
+ "elapsedS": 190.73
 }

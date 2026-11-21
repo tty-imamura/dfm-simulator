@@ -1,11 +1,11 @@
 {
  "meta": {
   "wave": "第249便b",
-  "when": "2026-11-21T13:17:04.894Z",
+  "when": "2026-11-21T23:22:43.721Z",
   "target": "beta/index.html",
   "dtBase": 0.016,
   "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
-  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
   "measurementCodeSha256": "80843ae7fcdf4906609e4aefc18697cef081bc7d333c840246ee23beb238d35c",
   "measurementCodeFiles": [
    "tests/exp-w249b-calaudit.mjs",
@@ -315,7 +315,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 40000000,
-    "wallSec": 51.069,
+    "wallSec": 46.416,
     "orbits": [
      {
       "label": "月",
@@ -338,12 +338,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 51.069,
+      "wallSec": 46.416,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 40000000,
       "stepsRun": 40000000,
-      "rateStepsPerSec": 312500,
+      "rateStepsPerSec": 307692,
       "dt": 0.016,
       "periFoundA": [
        27
@@ -358,12 +358,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 108.133,
+      "wallSec": 91.692,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 80000000,
       "stepsRun": 80000000,
-      "rateStepsPerSec": 1000000,
+      "rateStepsPerSec": 1176471,
       "dt": 0.008,
       "periFoundA": [
        27
@@ -407,7 +407,7 @@
      "stepsHit": true,
      "minPeriastra": 27,
      "periastraOk": true,
-     "wallSec": 51.069,
+     "wallSec": 46.416,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -427,7 +427,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 312500,
+     "rateStepsPerSec": 307692,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -466,7 +466,7 @@
       "stepsHit": true,
       "minPeriastra": 27,
       "periastraOk": true,
-      "wallSec": 51.069,
+      "wallSec": 46.416,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -486,7 +486,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 312500,
+      "rateStepsPerSec": 307692,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -524,7 +524,7 @@
       "stepsHit": true,
       "minPeriastra": 27,
       "periastraOk": true,
-      "wallSec": 108.133,
+      "wallSec": 91.692,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -544,7 +544,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1000000,
+      "rateStepsPerSec": 1176471,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -556,21 +556,21 @@
     "h2Reuse": {
      "key": "earthMoonReal",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "55e9176b1168354d594c1edf99f31200d0e9f0fc37d07d3f5cc3713ae17f365e",
+     "contractSha": "93717a54c95f4dd9f5c8ae70171a4d8089f40851a53c12ef063a39bdc2e8a292",
      "hSig": "5b7d3d82cb2b8bd9fb69c2334e240c83c8eac1148699f99038b3cf4d83b0f920",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "36a53b8f6352c3ac4374cd87992211d467c0078fe63d233e2fef4bb3aa249999",
+      "sha": "5fcc88b9acb42cea9ed413f83bb8f8fa0b75b64d5b6fe077e52ff244930a7d3f",
       "parts": {
        "physicsDecl": "4f8f4488ba82dc91665d5ae2de8e5b6a6416270ff882c4b2355504232f38cbd4",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "70c525d4537b03be25cf6a5f2cd0a91572dc6fc770b31e6e7143ea6e26664ea8",
        "stopRule": "a3c6eb4ddeb0dc29859d34ef28cf8c449510eb22226812790f9461dc1a311ed6",
-       "numerics": "35aa95af713a67b3c760f67e9608c578fcd421dc6516839378af06841e024916",
+       "numerics": "814f8cb507c4ce79b713607089ff4d9c77f3431c0171259ec92f033a806c94ec",
        "precision": "c34a4143e9449b05d24a617969f9a0e7d93835d85d51c7556c7bd2cd3bb20c63",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -1615,7 +1615,7 @@
     "n": 3,
     "dt": 0.016,
     "steps": 885179,
-    "wallSec": 1.683,
+    "wallSec": 1.852,
     "orbits": [
      {
       "label": "月",
@@ -1638,12 +1638,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.683,
+      "wallSec": 1.852,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 890906,
       "stepsRun": 885179,
-      "rateStepsPerSec": 194175,
+      "rateStepsPerSec": 350877,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -1658,12 +1658,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.367,
+      "wallSec": 2.698,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1781813,
       "stepsRun": 1770360,
-      "rateStepsPerSec": 714286,
+      "rateStepsPerSec": 833333,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -1707,7 +1707,7 @@
      "stepsHit": false,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 1.683,
+     "wallSec": 1.852,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -1727,7 +1727,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 194175,
+     "rateStepsPerSec": 350877,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -1766,7 +1766,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 1.683,
+      "wallSec": 1.852,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -1786,7 +1786,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 194175,
+      "rateStepsPerSec": 350877,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -1824,7 +1824,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 4.367,
+      "wallSec": 2.698,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -1844,7 +1844,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 714286,
+      "rateStepsPerSec": 833333,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -1856,21 +1856,21 @@
     "h2Reuse": {
      "key": "emAuditSolar",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "a7622dcbc78d21dbfb6c270dfb486899021f8327802f8ad99ef6e4047082ca65",
+     "contractSha": "e514a83907038add28da756175fe2fe1bcab36d1c38e7c640e6b8147167ee893",
      "hSig": "b191437e7aaaa0493e659b9e8991b157d6505d68b31ca743a500547542056b90",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "757f4b416560e0863a73ccc092b3b4303eeb03f56eb2ffdd06a2e55a2ab2fc3a",
+      "sha": "e18e1a40affe58a2a1ce5e06726421d0e8283881c7a61fd4d670be6256fff008",
       "parts": {
        "physicsDecl": "d471cff85f7e9fd321fc57a1efb3237a18905b48bbc9972b83e979df3c2a03ca",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "144a4e989627d407dbe339fa946c38408a4e597e5fb1c240fea3c654b86c0389",
        "stopRule": "4e831a5acf401f78ad72ee114f7d400ae9305678e9e2a27cdabf99ed30867e42",
-       "numerics": "22f96c1eaecdc84293c1840d9f708705b4d6eae76b2e17ad5f93d11236b037c0",
+       "numerics": "b34f19161b31835a71a21f6661f9029c892066a367c17f0ff98312569d6589a5",
        "precision": "9b36bfd3eb64769dd76d3d21cf8436644c6e233ae83f827a9f3627cf92503094",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -2879,7 +2879,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 2850199,
-    "wallSec": 3.281,
+    "wallSec": 2.967,
     "orbits": [
      {
       "label": "水星",
@@ -2902,12 +2902,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.281,
+      "wallSec": 2.967,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2850199,
       "stepsRun": 2850199,
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 555556,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -2922,7 +2922,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.674,
+      "wallSec": 5.45,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5700398,
@@ -2971,7 +2971,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 3.281,
+     "wallSec": 2.967,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -2991,7 +2991,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 606061,
+     "rateStepsPerSec": 555556,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -3030,7 +3030,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 3.281,
+      "wallSec": 2.967,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -3050,7 +3050,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 555556,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -3088,7 +3088,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 6.674,
+      "wallSec": 5.45,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -3120,21 +3120,21 @@
     "h2Reuse": {
      "key": "mercuryReal",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "91cb9b7b886f7ea4ab394c8a813f1eb7e500d0f60ed592171d2901cf98818373",
+     "contractSha": "044cdf96773a78bb880830a23d3b046dfae9a4740d8acb3144cbed2e459d3271",
      "hSig": "8fc868cbd84e006528e510a2f9b8aac0e04ad2caee72236795a1e77c81f76f2f",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "86479f8ea6d4d7bc524c1ebd1fbb3f682f4682d875f275ad2d2bdf6ed8946e0d",
+      "sha": "9730cfa762ff1a86dd3c178bf2cd6983be241540614ef346c55411f6e52ad344",
       "parts": {
        "physicsDecl": "1c0a616abb9c51ed1534627146a02108ceeef0530d4e515b3ab2a945cae860ca",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "3e82be94afafedba2bc2694b385ca30b38ef13cfdb33ef7def9288280e341c70",
        "stopRule": "433fa3b8dbb8b471a03e78b68de577745a53adbe160b5bfbac53077533fb74e9",
-       "numerics": "b15a6e54c414b6e8e72ad3e00619861409247433ca37b451c156156b43c82e45",
+       "numerics": "0838074fd0ea68453d4391c5d27cf229b54a7c587f90bec320ba0d5c37727de0",
        "precision": "9b36bfd3eb64769dd76d3d21cf8436644c6e233ae83f827a9f3627cf92503094",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -4104,7 +4104,7 @@
     "n": 5,
     "dt": 0.016,
     "steps": 5405815,
-    "wallSec": 17.721,
+    "wallSec": 15.72,
     "orbits": [
      {
       "label": "イオ",
@@ -4145,12 +4145,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 17.721,
+      "wallSec": 15.72,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5407442,
       "stepsRun": 5405815,
-      "rateStepsPerSec": 194175,
+      "rateStepsPerSec": 454545,
       "dt": 0.016,
       "periFoundA": [
        63,
@@ -4171,12 +4171,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 36.615,
+      "wallSec": 32.113,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 10814883,
       "stepsRun": 10811628,
-      "rateStepsPerSec": 434783,
+      "rateStepsPerSec": 425532,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -4226,7 +4226,7 @@
      "stepsHit": false,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 17.721,
+     "wallSec": 15.72,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -4258,7 +4258,7 @@
       true,
       true
      ],
-     "rateStepsPerSec": 194175,
+     "rateStepsPerSec": 454545,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -4297,7 +4297,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 17.721,
+      "wallSec": 15.72,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -4329,7 +4329,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 194175,
+      "rateStepsPerSec": 454545,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -4367,7 +4367,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 36.615,
+      "wallSec": 32.113,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -4399,7 +4399,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 434783,
+      "rateStepsPerSec": 425532,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -4414,21 +4414,21 @@
     "h2Reuse": {
      "key": "jupiterGalilean",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "9c8c45459c621bb62c08fd85d07d7d996154c20673d851874fca469c3be65efe",
+     "contractSha": "f9dfb89b0e4f6a063fc0b946f657f44df05aa827e8215cb6dfe07a05f1ca038a",
      "hSig": "ac3f62b856e4176033c364c582c47f03c03e8bcf54fcbdaf6832e647e3b12747",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "d18754ccba917941a429c1542052fe1baba559e0e2b46c1624e9227364a74f8d",
+      "sha": "169becf5feab65168e32e51c63fabc736c5fe94d602a869167a3761c0bbf1422",
       "parts": {
        "physicsDecl": "335112afdc84bac63ff3883f2fa6e54b50275181abd37c02c4aad03ae995604a",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "34ddbc03c458622026b13faeee85b7ab9a8f718fac92dc7ff3f522263d30f9fc",
        "stopRule": "0e8ec6468d0535de1538c90772e3f07ddb83686ac5ce4004990df39500a87c35",
-       "numerics": "cddfdee5fc8dfc8a2e2ff012e56285c23f2c4ff05cec6020fa958072fdb08511",
+       "numerics": "783d17bf57997b4199303422323f152b37e2a04b72c07ada9ab0839264b04a6d",
        "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -9107,7 +9107,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 7280208,
-    "wallSec": 10.242,
+    "wallSec": 8.268,
     "orbits": [
      {
       "label": "金星",
@@ -9130,12 +9130,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 10.242,
+      "wallSec": 8.268,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 7280208,
       "stepsRun": 7280208,
-      "rateStepsPerSec": 465116,
+      "rateStepsPerSec": 625000,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -9150,12 +9150,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 18.381,
+      "wallSec": 15.973,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 14560415,
       "stepsRun": 14560415,
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 1111111,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -9199,7 +9199,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 10.242,
+     "wallSec": 8.268,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -9219,7 +9219,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 465116,
+     "rateStepsPerSec": 625000,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -9258,7 +9258,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 10.242,
+      "wallSec": 8.268,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -9278,7 +9278,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 465116,
+      "rateStepsPerSec": 625000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -9316,7 +9316,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 18.381,
+      "wallSec": 15.973,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -9336,7 +9336,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 1111111,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -9348,21 +9348,21 @@
     "h2Reuse": {
      "key": "venusReal",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "7988eae7bf523a5819b24917a05b28959d918a5c3e4379d44c8a210b6a292687",
+     "contractSha": "9372383211771ebb79db012e5bb6c4f1dcfc7ca36d00d73a0720ccb53ab3ad98",
      "hSig": "9524d933ca33189087aa4132f439d85763a13f68fb9252fb00b46175e30ddae3",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "7aa14e2c6c9691ee1be0b85dabc4ccb5037a179c149509234ce7394a8bff2f3d",
+      "sha": "9c6840a3c4c6b1411d5f6825f3423af7221e3151f3e5572ef89d780080b9585c",
       "parts": {
        "physicsDecl": "de0f586213046d616033708941f207e08dac222d67195c9834cb29ef8e970ec4",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "f25b6fece4477d3b31b4912390653a06cf9dd2bba71bf5a3f2a24408fab941d1",
        "stopRule": "438e49f263d1075f1b684f990349ca5374669f40de3e1c1101d86f50be56c79f",
-       "numerics": "fabda8d3ee9c0236c896d8aac43597285e939eff7bd723e21dc351490e7e1eb7",
+       "numerics": "08f17e74f761ef1820eb79b04c16b2722fe9909da3dc402e0fde508c4645872d",
        "precision": "9b36bfd3eb64769dd76d3d21cf8436644c6e233ae83f827a9f3627cf92503094",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -10829,7 +10829,7 @@
     "n": 3,
     "dt": 0.016,
     "steps": 4091814,
-    "wallSec": 6.117,
+    "wallSec": 5.812,
     "orbits": [
      {
       "label": "フォボス",
@@ -10858,12 +10858,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.117,
+      "wallSec": 5.812,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 4091814,
       "stepsRun": 4091814,
-      "rateStepsPerSec": 434783,
+      "rateStepsPerSec": 909091,
       "dt": 0.016,
       "periFoundA": [
        63,
@@ -10880,12 +10880,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 16.037,
+      "wallSec": 12.074,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 8183629,
       "stepsRun": 8183629,
-      "rateStepsPerSec": 909091,
+      "rateStepsPerSec": 689655,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -10931,7 +10931,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 6.117,
+     "wallSec": 5.812,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -10955,7 +10955,7 @@
       true,
       true
      ],
-     "rateStepsPerSec": 434783,
+     "rateStepsPerSec": 909091,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -10994,7 +10994,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 6.117,
+      "wallSec": 5.812,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -11018,7 +11018,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 434783,
+      "rateStepsPerSec": 909091,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -11056,7 +11056,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 16.037,
+      "wallSec": 12.074,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -11080,7 +11080,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 909091,
+      "rateStepsPerSec": 689655,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -11093,21 +11093,21 @@
     "h2Reuse": {
      "key": "marsMoonsReal",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "1902290c02ca32df57cd2cd7ef83eb2463f89396b217f060d924ab5e8cfc8423",
+     "contractSha": "b79fa18df9ff84918a93310fec67edc1a373a9472f49b8fc473d02e11361037a",
      "hSig": "7d27e3e179ab678d6f86cf79dcb94968733aeda186ee8da2dac5d1e955ace589",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "144f8de3a5fb8bbe90fdfb3cffe7d1331acfb4340eecb3bd47d2f4e602110f5d",
+      "sha": "fab5649687893fff545e4191769f2e0688b6db496fbb175fa087c629782ffaf6",
       "parts": {
        "physicsDecl": "2aa4d3e8c6177fadb8e4d67fc04c447fa2d369ac4039c0a4e4b47d84fd0da744",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "896db98b39bcac1d4cd683f80e3b44c026720f3993b802c5ea437fe1eba046b6",
        "stopRule": "9ce6a37d0769165dc644af5567b545831e4c6701c36768a8a7925a544133756d",
-       "numerics": "f200713fc2c556eb2b9d9b42ad1105f79ed77811dee489cad6fa819cf42c8d2c",
+       "numerics": "e21dd973f68037d125091ad38388fe7671e87248a10ea3d3ca1e8989b0d6360f",
        "precision": "c34a4143e9449b05d24a617969f9a0e7d93835d85d51c7556c7bd2cd3bb20c63",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -13440,7 +13440,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 40000000,
-    "wallSec": 96.901,
+    "wallSec": 82.873,
     "orbits": [
      {
       "label": "カロン",
@@ -13463,12 +13463,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 96.901,
+      "wallSec": 82.873,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 40000000,
       "stepsRun": 40000000,
-      "rateStepsPerSec": 246914,
+      "rateStepsPerSec": 273973,
       "dt": 0.016,
       "periFoundA": [
        11
@@ -13483,12 +13483,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 177.524,
+      "wallSec": 162.013,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 80000000,
       "stepsRun": 80000000,
-      "rateStepsPerSec": 625000,
+      "rateStepsPerSec": 645161,
       "dt": 0.008,
       "periFoundA": [
        11
@@ -13532,7 +13532,7 @@
      "stepsHit": true,
      "minPeriastra": 11,
      "periastraOk": false,
-     "wallSec": 96.901,
+     "wallSec": 82.873,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -13551,7 +13551,7 @@
      "windowFilledA": [
       false
      ],
-     "rateStepsPerSec": 246914,
+     "rateStepsPerSec": 273973,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -13591,7 +13591,7 @@
       "stepsHit": true,
       "minPeriastra": 11,
       "periastraOk": false,
-      "wallSec": 96.901,
+      "wallSec": 82.873,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -13610,7 +13610,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 246914,
+      "rateStepsPerSec": 273973,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -13649,7 +13649,7 @@
       "stepsHit": true,
       "minPeriastra": 11,
       "periastraOk": false,
-      "wallSec": 177.524,
+      "wallSec": 162.013,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -13668,7 +13668,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 625000,
+      "rateStepsPerSec": 645161,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -13681,21 +13681,21 @@
     "h2Reuse": {
      "key": "plutoCharonDiagInput",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "28df42747a1e9f74aed287292f118cd5bfee0751871eda1ebfd6def3bcf0a26a",
+     "contractSha": "b482edcb056d99e4ff2f372f11c877c3ba2b9b7902de21bc28779c7f27c309d4",
      "hSig": "ae2aa522b60c9f292c6ef61b92c1dcc289dea8eab98fa6226eec8aaa70497258",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "ab7a076746e473d6293cd568a521a097f8d2f26819409042ed196cc7c107ea03",
+      "sha": "a985560b4f3773b6d0b379ecf1da06369201756b74500b95f33acec34b465d7e",
       "parts": {
        "physicsDecl": "c3679ed1c2f941444abaf9bb9eb7e90f706eab2d7f745e1234017a4bce22548a",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "c3983937d5b92eebdbe45d6e89ea5a27b7a5f1954bff544996278b8dde9536f0",
        "stopRule": "d708f1f277b9374997c67fddca01e9c8a6da7fc614ca9419a2088f888530275c",
-       "numerics": "10031cb2f7683f6201a3c5b4ee1df24037595013876662cf5087039895e7a475",
+       "numerics": "89dc5319ff96d49cadbdbced40d35d35033a030ca60afe2c8a28fbb9809f241d",
        "precision": "1ca0f8e7af9d3ebd425d6b9c99a72a08d913d245d0c41cfbc4b747d0043a4411",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -15593,7 +15593,7 @@
     "n": 94,
     "dt": 0.016,
     "steps": 1075028,
-    "wallSec": 56.565,
+    "wallSec": 55.864,
     "orbits": [
      {
       "label": "ミランダ",
@@ -15637,12 +15637,12 @@
       "tag": "dt",
       "budgetSec": 240,
       "heavy": true,
-      "wallSec": 56.565,
+      "wallSec": 55.864,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1075028,
       "stepsRun": 1075028,
-      "rateStepsPerSec": 20812,
+      "rateStepsPerSec": 20346,
       "dt": 0.016,
       "periFoundA": [
        14,
@@ -15694,7 +15694,7 @@
      "stepsHit": true,
      "minPeriastra": 1,
      "periastraOk": false,
-     "wallSec": 56.565,
+     "wallSec": 55.864,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -15729,7 +15729,7 @@
       false,
       false
      ],
-     "rateStepsPerSec": 20812,
+     "rateStepsPerSec": 20346,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -15769,7 +15769,7 @@
       "stepsHit": true,
       "minPeriastra": 1,
       "periastraOk": false,
-      "wallSec": 56.565,
+      "wallSec": 55.864,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -15804,7 +15804,7 @@
        false,
        false
       ],
-      "rateStepsPerSec": 20812,
+      "rateStepsPerSec": 20346,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -19643,7 +19643,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 1904169,
-    "wallSec": 2.048,
+    "wallSec": 2.542,
     "orbits": [
      {
       "label": "トリトン",
@@ -19666,12 +19666,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.048,
+      "wallSec": 2.542,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1904169,
       "stepsRun": 1904169,
-      "rateStepsPerSec": 1052632,
+      "rateStepsPerSec": 769231,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -19686,12 +19686,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.619,
+      "wallSec": 4.696,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3808338,
       "stepsRun": 3808338,
-      "rateStepsPerSec": 1176471,
+      "rateStepsPerSec": 1052632,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -19735,7 +19735,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 2.048,
+     "wallSec": 2.542,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -19755,7 +19755,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 1052632,
+     "rateStepsPerSec": 769231,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -19794,7 +19794,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 2.048,
+      "wallSec": 2.542,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -19814,7 +19814,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1052632,
+      "rateStepsPerSec": 769231,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -19852,7 +19852,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 4.619,
+      "wallSec": 4.696,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -19872,7 +19872,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1176471,
+      "rateStepsPerSec": 1052632,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -19884,21 +19884,21 @@
     "h2Reuse": {
      "key": "neptuneReal",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "5801cfd27052aaea511af40e9b69114924cb372377b0279ddd48b328fad62113",
+     "contractSha": "f72090316c3be862794a3c9555e1c49daab57fc83fd8f1044e244a82bcd85a42",
      "hSig": "38efe0babe4558ae94b81bc14f0af791b1805e237d90b4b2a4fedb3aed161ca0",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "8484e0b7aca5b0534ec76c0725f1e7421e8b1fb678f85a9f719a236e277d4898",
+      "sha": "90db23b8097d4592a98f222ff597246e439b7e4524959e62356b8f3f3bcc7d68",
       "parts": {
        "physicsDecl": "1ce583b337f409dea8d777db3e6b1ff2c23b0de67f06f65f8737db25788edd91",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "a33c4b5ee0f57c46f0df2655b431ad95af554f6e3933c9a8e534849898a1a076",
        "stopRule": "c35865024c108b1daddefa934efd14a980acf0f9252a197a0438591a808ab5b8",
-       "numerics": "ddf2e2eab4b8ba8f88af84ee7b97ca705366a38d8ed6c20f20e4b2a7117d9faf",
+       "numerics": "3834cc5923d8aa5de6f94a85a39d7482eb8b3ded883f220b4c394f39d3ae8bfd",
        "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -21466,7 +21466,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 9439328,
-    "wallSec": 13.476,
+    "wallSec": 11.881,
     "orbits": [
      {
       "label": "B",
@@ -21483,20 +21483,15 @@
      "steps": 18878657,
      "skippedBy": "reuse-dt2",
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "9c1d9189afb19de796c7db35eef430e6e72318827d2ee522d34b861a381fff65",
-      "wallSec": 29.063
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "eb7e4beecd8fdaac29ac8e9513da605245ec9026786e44b73e4bf434149b98c6",
+      "wallSec": 24.427
      }
     },
     "dtQuarter": {
      "dt": 0.004,
-     "steps": 37757313,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "steps": 37757313
     },
     "dtEighth": null,
     "timeBudget": [
@@ -21504,12 +21499,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 13.476,
+      "wallSec": 11.881,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 9439328,
       "stepsRun": 9439328,
-      "rateStepsPerSec": 217391,
+      "rateStepsPerSec": 153846,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -21524,12 +21519,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 29.063,
+      "wallSec": 24.427,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 18878657,
       "stepsRun": 18878657,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 1000000,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -21541,10 +21536,10 @@
       "reused": true,
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "9c1d9189afb19de796c7db35eef430e6e72318827d2ee522d34b861a381fff65",
-       "wallSec": 29.063
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "eb7e4beecd8fdaac29ac8e9513da605245ec9026786e44b73e4bf434149b98c6",
+       "wallSec": 24.427
       },
       "noteRef": "timeBudget.note#bb6955d8"
      },
@@ -21552,12 +21547,12 @@
       "tag": "dt/4",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 48.57,
+      "wallSec": 46.965,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 37757313,
       "stepsRun": 37757313,
-      "rateStepsPerSec": 689655,
+      "rateStepsPerSec": 1000000,
       "dt": 0.004,
       "periFoundA": [
        60
@@ -21566,12 +21561,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -21607,7 +21596,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 13.476,
+     "wallSec": 11.881,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -21627,7 +21616,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 217391,
+     "rateStepsPerSec": 153846,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -21666,7 +21655,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 13.476,
+      "wallSec": 11.881,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -21686,7 +21675,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 217391,
+      "rateStepsPerSec": 153846,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -21724,7 +21713,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 29.063,
+      "wallSec": 24.427,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -21744,14 +21733,14 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "9c1d9189afb19de796c7db35eef430e6e72318827d2ee522d34b861a381fff65",
-       "wallSec": 29.063
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "eb7e4beecd8fdaac29ac8e9513da605245ec9026786e44b73e4bf434149b98c6",
+       "wallSec": 24.427
       },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -21789,7 +21778,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 48.57,
+      "wallSec": 46.965,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -21809,13 +21798,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 689655,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
      }
@@ -21825,40 +21809,39 @@
     ],
     "h4Reuse": {
      "key": "alphaCenAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "reused": false,
+     "reason": "contract",
+     "diff": [
+      "engineSha"
+     ],
+     "reusedFrom": null
     },
     "h2Reuse": {
      "key": "alphaCenAB",
      "reused": true,
      "reason": null,
      "diff": [],
-     "contractSha": "9c1d9189afb19de796c7db35eef430e6e72318827d2ee522d34b861a381fff65",
+     "contractSha": "eb7e4beecd8fdaac29ac8e9513da605245ec9026786e44b73e4bf434149b98c6",
      "hSig": "9d119aba78d693a6a30f58c988417f3782a7677b63cb192fb9c0aaaa60a0255d",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "16016ce36f8d7e256f936b46963c6deb32851b9f3a98e87ff29898b874d181d6",
+      "sha": "3ecba68e2dda1980fd6f8d0ee29597dc836aa3e0aef5598836999af22ef9bd8b",
       "parts": {
        "physicsDecl": "ddaf19806e775e7a745e314b88e95aba3601285c489951b9d114c8c3a55ce42a",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "a0dcd5eed4cf275de57af34ee3623c7a5086d3423cc66510f234f2dedcd51532",
-       "numerics": "267b7170fe08d522a3571469b3cde4b352326001102135b33d908a7e8dd6fcb3",
+       "numerics": "397e3081ab0ddcfb9dd02af6aeef421c5f3e44d8c6b8ff94b37b9a296fa04f46",
        "precision": "3e5d19da87c4aa31b527da8391ac9655fd6a84953ef53116fb8741aec75e16b2",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
       "missing": []
      },
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "9c1d9189afb19de796c7db35eef430e6e72318827d2ee522d34b861a381fff65",
-      "wallSec": 29.063
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "eb7e4beecd8fdaac29ac8e9513da605245ec9026786e44b73e4bf434149b98c6",
+      "wallSec": 24.427
      }
     }
    },
@@ -22017,30 +22000,30 @@
       "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 1.4030146598815918,
+     "numBoundDt2": 1.4027767181396484,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 7.002209663391113,
-     "pObs": 1.9966893422227034,
+     "numBoundDt3": 7.00197172164917,
+     "pObs": 1.9969340342369666,
      "dtStages": {
       "dt": 2517154629.036052,
       "dtHalf": 2517154623.436857,
-      "dtQuarter": 2517154622.0338426
+      "dtQuarter": 2517154622.0340805
      },
      "numBoundDecl": {
-      "value": 1.4030146598815918,
+      "value": 1.4027767181396484,
       "steps": 3,
-      "order": 1.9966893422227034,
+      "order": 1.9969340342369666,
       "assessedStage": "h4",
       "estimate": {
-       "raw": 1.4030146598815918,
-       "order": 1.9966893422227034,
-       "factor": 0.3343551861425896,
-       "refined": 0.46910522776549163,
+       "raw": 1.4027767181396484,
+       "order": 1.9969340342369666,
+       "factor": 0.33427952666925514,
+       "refined": 0.4689195373623728,
        "side": "fine",
        "asymptotic": "order-positive",
        "richardsonUsable": true,
        "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3344 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3343 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
       },
       "basisRef": "numBoundDecl.basis#5627953f",
       "orderNoteRef": "numBoundDecl.orderNote#7e4679fa"
@@ -22048,33 +22031,33 @@
      "orderEstimable": {
       "ok": true,
       "d1": 5.5991950035095215,
-      "d2": 1.4030146598815918,
+      "d2": 1.4027767181396484,
       "reason": null,
       "asymptotic": "order-estimable",
       "richardsonUsable": true,
       "ruleRef": "orderEstimable.rule#a18ab000"
      },
      "assessedStage": "h4",
-     "assessedValue": 2517154622.0338426,
+     "assessedValue": 2517154622.0340805,
      "coarseValue": 2517154629.036052,
-     "coarseNumBound": 7.002209663391113,
+     "coarseNumBound": 7.00197172164917,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": 57330.833842754364,
-      "nSigma": 0.09561602617161595,
+      "residual": 57330.834080696106,
+      "nSigma": 0.09561602656845378,
       "sigma": 599594.4,
       "status": "合(3σ)",
-      "numBound": 1.4030146598815918,
-      "tolerance": 1798784.60301466,
+      "numBound": 1.4027767181396484,
+      "tolerance": 1798784.6027767183,
       "key": "alphaCenAB|B|period",
       "assessedStage": "h4",
-      "assessedValue": 2517154622.0338426,
+      "assessedValue": 2517154622.0340805,
       "coarseStage": "h",
       "coarseValue": 2517154629.036052,
-      "coarseNumBound": 7.002209663391113,
+      "coarseNumBound": 7.00197172164917,
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -22108,20 +22091,20 @@
       "defSpreadPct": 9.4717508456612e-14,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 1.4030146598815918,
+       "value": 1.4027767181396484,
        "steps": 3,
-       "order": 1.9966893422227034,
+       "order": 1.9969340342369666,
        "assessedStage": "h4",
        "estimate": {
-        "raw": 1.4030146598815918,
-        "order": 1.9966893422227034,
-        "factor": 0.3343551861425896,
-        "refined": 0.46910522776549163,
+        "raw": 1.4027767181396484,
+        "order": 1.9969340342369666,
+        "factor": 0.33427952666925514,
+        "refined": 0.4689195373623728,
         "side": "fine",
         "asymptotic": "order-positive",
         "richardsonUsable": true,
         "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3344 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3343 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
        },
        "basisRef": "numBoundDecl.basis#5627953f",
        "orderNoteRef": "numBoundDecl.orderNote#7e4679fa"
@@ -22130,13 +22113,13 @@
        "ok": true,
        "okLegacy": true,
        "steps": 3,
-       "order": 1.9966893422227034,
+       "order": 1.9969340342369666,
        "orderGuard": true,
-       "epsHat": 0.4691052277654916,
-       "epsHatInSigma": 7.823709290238393e-7,
+       "epsHat": 0.46891953736237285,
+       "epsHatInSigma": 7.820612356659316e-7,
        "epsHatOk": true,
-       "lastDiff": 1.4030146598815918,
-       "lastDiffInSigma": 0.0000023399395656156757,
+       "lastDiff": 1.4027767181396484,
+       "lastDiffInSigma": 0.0000023395427277833957,
        "lastDiffOk": true,
        "assessedStage": "h4",
        "orderEstimable": true,
@@ -22145,7 +22128,7 @@
        "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 7.002209663391113,
+       "coarseNumBound": 7.00197172164917,
        "budget": 179878.32,
        "windowsComplete": true,
        "extractionClean": true,
@@ -23350,7 +23333,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 5932383,
-    "wallSec": 7.255,
+    "wallSec": 7.14,
     "orbits": [
      {
       "label": "B",
@@ -23367,20 +23350,15 @@
      "steps": 11864765,
      "skippedBy": "reuse-dt2",
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "03b4397efd17bca2ce4d40ab5bedfeca39b7624c93e593a8fff485432dc96d74",
-      "wallSec": 15.925
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "a1fb18363ab967098bcf3e57eeceb311a823104476d95a5675a50ff671f3c65c",
+      "wallSec": 14.765
      }
     },
     "dtQuarter": {
      "dt": 0.004,
-     "steps": 23729530,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "steps": 23729530
     },
     "dtEighth": null,
     "timeBudget": [
@@ -23388,12 +23366,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 7.255,
+      "wallSec": 7.14,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5932383,
       "stepsRun": 5932383,
-      "rateStepsPerSec": 384615,
+      "rateStepsPerSec": 344828,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -23408,12 +23386,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 15.925,
+      "wallSec": 14.765,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 11864765,
       "stepsRun": 11864765,
-      "rateStepsPerSec": 769231,
+      "rateStepsPerSec": 909091,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -23425,10 +23403,10 @@
       "reused": true,
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "03b4397efd17bca2ce4d40ab5bedfeca39b7624c93e593a8fff485432dc96d74",
-       "wallSec": 15.925
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "a1fb18363ab967098bcf3e57eeceb311a823104476d95a5675a50ff671f3c65c",
+       "wallSec": 14.765
       },
       "noteRef": "timeBudget.note#bb6955d8"
      },
@@ -23436,12 +23414,12 @@
       "tag": "dt/4",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 30.301,
+      "wallSec": 27.73,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 23729530,
       "stepsRun": 23729530,
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 1000000,
       "dt": 0.004,
       "periFoundA": [
        60
@@ -23450,12 +23428,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -23491,7 +23463,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 7.255,
+     "wallSec": 7.14,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -23511,7 +23483,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 384615,
+     "rateStepsPerSec": 344828,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -23550,7 +23522,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 7.255,
+      "wallSec": 7.14,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -23570,7 +23542,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 384615,
+      "rateStepsPerSec": 344828,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -23608,7 +23580,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 15.925,
+      "wallSec": 14.765,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -23628,14 +23600,14 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 769231,
+      "rateStepsPerSec": 909091,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "03b4397efd17bca2ce4d40ab5bedfeca39b7624c93e593a8fff485432dc96d74",
-       "wallSec": 15.925
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "a1fb18363ab967098bcf3e57eeceb311a823104476d95a5675a50ff671f3c65c",
+       "wallSec": 14.765
       },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -23673,7 +23645,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 30.301,
+      "wallSec": 27.73,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -23693,13 +23665,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
      }
@@ -23709,40 +23676,39 @@
     ],
     "h4Reuse": {
      "key": "siriusAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "reused": false,
+     "reason": "contract",
+     "diff": [
+      "engineSha"
+     ],
+     "reusedFrom": null
     },
     "h2Reuse": {
      "key": "siriusAB",
      "reused": true,
      "reason": null,
      "diff": [],
-     "contractSha": "03b4397efd17bca2ce4d40ab5bedfeca39b7624c93e593a8fff485432dc96d74",
+     "contractSha": "a1fb18363ab967098bcf3e57eeceb311a823104476d95a5675a50ff671f3c65c",
      "hSig": "c70e35a7e7c3dad38be625155ae0098fad592c5fb8f190522a6a402da8803ab6",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "ab3f4c3329aa532179f44d374788807dfc4887ff287ca225d565ee19ea6603b3",
+      "sha": "633955ea15276b6df0d0e63ecdee5925f50d09fda2484ffa9d60b0c5313e09d4",
       "parts": {
        "physicsDecl": "3b634831e405a407a485cdddaa8f5c4f68785f97f882771cb379a9db4eba8510",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "4487c2034c644664b4ad6eb65d1bf58e207f6f04c75236118acbd5a54d638086",
-       "numerics": "16737c6b0936a25e7ffd9aaa9955a8c29cdced4444794a1e57bb6bf22c2066a7",
+       "numerics": "b7ade6e8ee401715ec0387c7e8dcc3021c3542ee03635c7487ce4a44677c0efd",
        "precision": "3e5d19da87c4aa31b527da8391ac9655fd6a84953ef53116fb8741aec75e16b2",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
       "missing": []
      },
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "03b4397efd17bca2ce4d40ab5bedfeca39b7624c93e593a8fff485432dc96d74",
-      "wallSec": 15.925
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "a1fb18363ab967098bcf3e57eeceb311a823104476d95a5675a50ff671f3c65c",
+      "wallSec": 14.765
      }
     }
    },
@@ -23901,25 +23867,25 @@
       "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 3.711674690246582,
+     "numBoundDt2": 3.7118186950683594,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 18.517139673233032,
-     "pObs": 1.9959876246539414,
+     "numBoundDt3": 18.51728367805481,
+     "pObs": 1.9959316523423936,
      "dtStages": {
       "dt": 1581969207.8579555,
       "dtHalf": 1581969193.0524905,
-      "dtQuarter": 1581969189.3408158
+      "dtQuarter": 1581969189.3406718
      },
      "numBoundDecl": {
-      "value": 3.711674690246582,
+      "value": 3.7118186950683594,
       "steps": 3,
-      "order": 1.9959876246539414,
+      "order": 1.9959316523423936,
       "assessedStage": "h4",
       "estimate": {
-       "raw": 3.711674690246582,
-       "order": 1.9959876246539414,
-       "factor": 0.3345722780315778,
-       "refined": 1.2418234564279498,
+       "raw": 3.7118186950683594,
+       "order": 1.9959316523423936,
+       "factor": 0.3345896018976953,
+       "refined": 1.2419359394993452,
        "side": "fine",
        "asymptotic": "order-positive",
        "richardsonUsable": true,
@@ -23932,33 +23898,33 @@
      "orderEstimable": {
       "ok": true,
       "d1": 14.80546498298645,
-      "d2": 3.711674690246582,
+      "d2": 3.7118186950683594,
       "reason": null,
       "asymptotic": "order-estimable",
       "richardsonUsable": true,
       "ruleRef": "orderEstimable.rule#a18ab000"
      },
      "assessedStage": "h4",
-     "assessedValue": 1581969189.3408158,
+     "assessedValue": 1581969189.3406718,
      "coarseValue": 1581969207.8579555,
-     "coarseNumBound": 18.517139673233032,
+     "coarseNumBound": 18.51728367805481,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": 37193.50081586838,
-      "nSigma": 0.2740909116196267,
+      "residual": 37193.500671863556,
+      "nSigma": 0.2740909105584087,
       "sigma": 135697.68,
       "status": "合(3σ)",
-      "numBound": 3.711674690246582,
-      "tolerance": 407096.7516746902,
+      "numBound": 3.7118186950683594,
+      "tolerance": 407096.75181869505,
       "key": "siriusAB|B|period",
       "assessedStage": "h4",
-      "assessedValue": 1581969189.3408158,
+      "assessedValue": 1581969189.3406718,
       "coarseStage": "h",
       "coarseValue": 1581969207.8579555,
-      "coarseNumBound": 18.517139673233032,
+      "coarseNumBound": 18.51728367805481,
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -23992,15 +23958,15 @@
       "defSpreadPct": 1.0549703240241549e-13,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 3.711674690246582,
+       "value": 3.7118186950683594,
        "steps": 3,
-       "order": 1.9959876246539414,
+       "order": 1.9959316523423936,
        "assessedStage": "h4",
        "estimate": {
-        "raw": 3.711674690246582,
-        "order": 1.9959876246539414,
-        "factor": 0.3345722780315778,
-        "refined": 1.2418234564279498,
+        "raw": 3.7118186950683594,
+        "order": 1.9959316523423936,
+        "factor": 0.3345896018976953,
+        "refined": 1.2419359394993452,
         "side": "fine",
         "asymptotic": "order-positive",
         "richardsonUsable": true,
@@ -24014,13 +23980,13 @@
        "ok": true,
        "okLegacy": true,
        "steps": 3,
-       "order": 1.9959876246539414,
+       "order": 1.9959316523423936,
        "orderGuard": true,
-       "epsHat": 1.2418234564279498,
-       "epsHatInSigma": 0.000009151397845769728,
+       "epsHat": 1.2419359394993452,
+       "epsHatInSigma": 0.000009152226769826465,
        "epsHatOk": true,
-       "lastDiff": 3.711674690246582,
-       "lastDiffInSigma": 0.00002735252872596335,
+       "lastDiff": 3.7118186950683594,
+       "lastDiffInSigma": 0.000027353589943972214,
        "lastDiffOk": true,
        "assessedStage": "h4",
        "orderEstimable": true,
@@ -24029,7 +23995,7 @@
        "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 18.517139673233032,
+       "coarseNumBound": 18.51728367805481,
        "budget": 40709.304,
        "windowsComplete": true,
        "extractionClean": true,
@@ -25490,7 +25456,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 3312950,
-    "wallSec": 4.684,
+    "wallSec": 4.174,
     "orbits": [
      {
       "label": "B",
@@ -25513,12 +25479,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.684,
+      "wallSec": 4.174,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3312950,
       "stepsRun": 3312950,
-      "rateStepsPerSec": 526316,
+      "rateStepsPerSec": 512821,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -25533,7 +25499,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 8.235,
+      "wallSec": 8.292,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 6625899,
@@ -25582,7 +25548,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 4.684,
+     "wallSec": 4.174,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -25602,7 +25568,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 526316,
+     "rateStepsPerSec": 512821,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -25641,7 +25607,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 4.684,
+      "wallSec": 4.174,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -25661,7 +25627,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 526316,
+      "rateStepsPerSec": 512821,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -25699,7 +25665,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 8.235,
+      "wallSec": 8.292,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -25731,21 +25697,21 @@
     "h2Reuse": {
      "key": "psrDoubleAB",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "74993e7801ee63ef384f935ac82043616ed1992abc47554465b3da5d7975b7a5",
+     "contractSha": "c5f050220d1b24e2bb702fc7a2f360e0248ff78b778646e2cfd4262317b8ed7c",
      "hSig": "6c445ca605c32ce2ebee43af7a19d384c7eefc5bd817b5f956aac867b600a4da",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "bb70e8000d76b980664534b7c9077acb33c88f2213f1f2379885e9bdd16a00eb",
+      "sha": "13cc908893fcff76441193c8b66395fc6f998af75d5b2b70149fae1eab66d813",
       "parts": {
        "physicsDecl": "17f1bca15dee8f91ddca87232520a2815c367bd7fd0cabbfddd354bf3bfb77ff",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "545f43d66cea463e503a87b39a8d4f32fd71fa8ea584688c60eda39ef8dcd041",
-       "numerics": "50a576c630791f61eb2b1e3c7c17629600450bd01f2c8792c4b182c136b63aa5",
+       "numerics": "2d3ccc0c622210310b742f6582416a2257259a14f74daf409cf230562970b83d",
        "precision": "4f37251fa2861f5b98acf46ef0c02e7de18dd7ce51b511b07bd2c114c8395849",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -27371,7 +27337,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 2180354,
-    "wallSec": 3.345,
+    "wallSec": 2.848,
     "orbits": [
      {
       "label": "B",
@@ -27394,12 +27360,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.345,
+      "wallSec": 2.848,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2180354,
       "stepsRun": 2180354,
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 444444,
       "dt": 0.016,
       "periFoundA": [
        22
@@ -27414,12 +27380,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.506,
+      "wallSec": 5.607,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 4360708,
       "stepsRun": 4360708,
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 1000000,
       "dt": 0.008,
       "periFoundA": [
        22
@@ -27466,7 +27432,7 @@
      "stepsHit": true,
      "minPeriastra": 22,
      "periastraOk": true,
-     "wallSec": 3.345,
+     "wallSec": 2.848,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -27486,7 +27452,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 740741,
+     "rateStepsPerSec": 444444,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -27529,7 +27495,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 3.345,
+      "wallSec": 2.848,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -27549,7 +27515,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 444444,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -27591,7 +27557,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 6.506,
+      "wallSec": 5.607,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -27611,7 +27577,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -27624,21 +27590,21 @@
     "h2Reuse": {
      "key": "psrJ1757DFM",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "21b6ebe541c680bc97922f7abed1d4cccb92f47a79fac5fedef3671d0033573f",
+     "contractSha": "71d3e9281346673e6dead73e26202fbefbd096c90778e7eeeed045392d8adf64",
      "hSig": "ec89f37f71ec07945252b335865c6205f27ec9d1b7cd420ad047a1cc0eb89fa6",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "01da74727690e4507545534e550806ab7bfe2b92f766db5ef83dcaf15307ace6",
+      "sha": "b4e4efe32b41db3064e4e06dfc83c0715b868e89e256596a3c5312e0e497c348",
       "parts": {
        "physicsDecl": "f378ca5c06c09d8890a1e925ab62f9f6c44c163ba552bcd288f4e486c129489f",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "c73be2cc4d7ad728dc9bb83dd09d2dfe30c9111d8a5928296e53e4de7dbca7eb",
-       "numerics": "0ca109e56a310013f0d5ba9ef8fe813b5d892b3db012dede048db90a6173d9b1",
+       "numerics": "26e869662d143001c92162df9de39ec45c4901c8ff5aa0c4a027918b76f4ab9a",
        "precision": "5cf70a888dc740224b387ca4c87caf484bbfdd5037303c5420e22081b35d6991",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -29283,7 +29249,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 932492,
-    "wallSec": 1.447,
+    "wallSec": 1.135,
     "orbits": [
      {
       "label": "B",
@@ -29306,12 +29272,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.447,
+      "wallSec": 1.135,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 932492,
       "stepsRun": 932492,
-      "rateStepsPerSec": 625000,
+      "rateStepsPerSec": 1052632,
       "dt": 0.016,
       "periFoundA": [
        22
@@ -29326,12 +29292,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.984,
+      "wallSec": 2.496,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1864984,
       "stepsRun": 1864984,
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 526316,
       "dt": 0.008,
       "periFoundA": [
        22
@@ -29378,7 +29344,7 @@
      "stepsHit": true,
      "minPeriastra": 22,
      "periastraOk": true,
-     "wallSec": 1.447,
+     "wallSec": 1.135,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -29398,7 +29364,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 625000,
+     "rateStepsPerSec": 1052632,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -29441,7 +29407,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 1.447,
+      "wallSec": 1.135,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -29461,7 +29427,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 625000,
+      "rateStepsPerSec": 1052632,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -29503,7 +29469,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 2.984,
+      "wallSec": 2.496,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -29523,7 +29489,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 526316,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -29536,21 +29502,21 @@
     "h2Reuse": {
      "key": "psrJ1946DFM",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "562478016f8dab0496b3157b15cf04bc518b15e57379dd1fac33dcc324601a4b",
+     "contractSha": "0e1d498d79b94c36e1e1843892512f76e51f6514e0c07b394670c1397f0a25ad",
      "hSig": "f99f85b83c33da6c717cbc1c843fce982f3b59264441433c3bb08ea815cda013",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "93942870f689d04d31ecf408bc3fbc0259540054c9b5166dbd6f7a2d921ce555",
+      "sha": "787d165f08bde96ab0513a43bc26ffb6b35af4207b06aaf9752e3e28e8d69c7e",
       "parts": {
        "physicsDecl": "abe91b1e26cbf5baac63b9f42843f4986e56fac3e5a7e64effc615ab85d9677e",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "93474b571e475ce34a7293907673459f4088edea28a37880bea738d1099a087a",
-       "numerics": "35fd428a44f6456bbd651a11c90c6b799c93048ea62956ee3b2aac573e15dbd4",
+       "numerics": "f2d8e9f07f93b9d320c59518c2d1c4f64d11b98a9d7b07faf13fd1a59304fcaa",
        "precision": "5cf70a888dc740224b387ca4c87caf484bbfdd5037303c5420e22081b35d6991",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -31418,7 +31384,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 13631880,
-    "wallSec": 21.611,
+    "wallSec": 20.222,
     "orbits": [
      {
       "label": "B",
@@ -31441,12 +31407,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 21.611,
+      "wallSec": 20.222,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 13631888,
       "stepsRun": 13631880,
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 238095,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -31461,12 +31427,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 40.128,
+      "wallSec": 41.781,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 27263777,
       "stepsRun": 27263758,
-      "rateStepsPerSec": 476190,
+      "rateStepsPerSec": 540541,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -31510,7 +31476,7 @@
      "stepsHit": false,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 21.611,
+     "wallSec": 20.222,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -31530,7 +31496,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 606061,
+     "rateStepsPerSec": 238095,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -31569,7 +31535,7 @@
       "stepsHit": false,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 21.611,
+      "wallSec": 20.222,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -31589,7 +31555,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 238095,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -31627,7 +31593,7 @@
       "stepsHit": false,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 40.128,
+      "wallSec": 41.781,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -31647,7 +31613,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 476190,
+      "rateStepsPerSec": 540541,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -31659,21 +31625,21 @@
     "h2Reuse": {
      "key": "psrB1534",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "44bd910c0de59a522da9410f898f7016785303a46138f0ad872b4a4bbcaa5179",
+     "contractSha": "a4ec25eeace17a15dda8f06c695f24d9a92a4c895c9eb15b41f88aba09c988fb",
      "hSig": "27518e043abbcafb3bb6fa88d2acd1a0a5de79d596fd323dded6e9aed89a70bc",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "607b2429e064f0204912e05d2f03d67709f49f7f862b57da0acd68329f0ab8c5",
+      "sha": "ee0d2a3b8a8292aa8b5bf6c4791ee38b4d6190ff2027174b4d3df8a16a5ce2f6",
       "parts": {
        "physicsDecl": "a592d55b7b3aa94576e3e69f8c9565e18d1b43e5c39cdfd45d9ed5e3a5fa085e",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "ccfd4c4abb5c40668960fc082c0fe8fa037c6f42c52acfeb94c72674ea3fbb84",
-       "numerics": "6c488eadcdcd25e25ec27fdfd20eb49bb9858eeaff3c8cd780247d6f45c59151",
+       "numerics": "b73993250fd2330f448d679d8a8995ba0c9c3dbd4db58f505f8dff2bfa64118f",
        "precision": "5cf70a888dc740224b387ca4c87caf484bbfdd5037303c5420e22081b35d6991",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -33297,7 +33263,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 681306,
-    "wallSec": 0.73,
+    "wallSec": 0.686,
     "orbits": [
      {
       "label": "B",
@@ -33320,12 +33286,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.73,
+      "wallSec": 0.686,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 681306,
       "stepsRun": 681306,
-      "rateStepsPerSec": 833333,
+      "rateStepsPerSec": 400000,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -33340,12 +33306,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.284,
+      "wallSec": 1.196,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1362611,
       "stepsRun": 1362611,
-      "rateStepsPerSec": 714286,
+      "rateStepsPerSec": 1250000,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -33389,7 +33355,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 0.73,
+     "wallSec": 0.686,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -33409,7 +33375,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 833333,
+     "rateStepsPerSec": 400000,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -33448,7 +33414,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 0.73,
+      "wallSec": 0.686,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -33468,7 +33434,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 833333,
+      "rateStepsPerSec": 400000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -33506,7 +33472,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 1.284,
+      "wallSec": 1.196,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -33526,7 +33492,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 714286,
+      "rateStepsPerSec": 1250000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -33538,21 +33504,21 @@
     "h2Reuse": {
      "key": "gw150914",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "646375fe793f90fa9b6bc7992a7180d8be01b3df8324c24b677e60cd20332b4d",
+     "contractSha": "328ca946f7d6715a5d5839941cecc2e16c301f919c0e7b681b0d39cc5a78467c",
      "hSig": "d0d16b085e742b38000415b0ad850a85fa3a8eb872b67c590fe29172edf6a9d5",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "7581e43f6e52ea6f48b5b182f7dabff315faaca68b95631d2ff5fc5d1b72a26f",
+      "sha": "b0bc616cbfd0c6dce1c7ce04c762f2f004d2dde61db5035f07fd58101625a1ea",
       "parts": {
        "physicsDecl": "76f6304b7cce77a079af725d684c20c4b96866af9b88ecc4134318194bcb193f",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "8bbbd1e72b7dae9d0263a59507379d07aea4fb0c380759c65328155fa8425107",
        "stopRule": "14e497d82d13e95a644b624b60cf58adcf84139dbea41cb08cbb9dd30441f929",
-       "numerics": "71330cc79b5194a8b27fa326b7b9cc5ed22c8e3334f290b8908d0e6547ae3b66",
+       "numerics": "7297932659756a8a69725ebf9a55b4b7e3cc901263731200f49429dd16534e2e",
        "precision": "e921b6087d66a7e429ec1c462d2222f1ffe2b3d40aa60d2e9da85a9f11e121f5",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -35081,7 +35047,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 34013,
-    "wallSec": 0.095,
+    "wallSec": 0.094,
     "orbits": [
      {
       "label": "B",
@@ -35104,12 +35070,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.095,
+      "wallSec": 0.094,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 34065,
       "stepsRun": 34013,
-      "rateStepsPerSec": 327869,
+      "rateStepsPerSec": 425532,
       "dt": 0.016,
       "periFoundA": [
        3
@@ -35124,12 +35090,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.102,
+      "wallSec": 0.145,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 68131,
       "stepsRun": 68025,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 625000,
       "dt": 0.008,
       "periFoundA": [
        3
@@ -35173,7 +35139,7 @@
      "stepsHit": false,
      "minPeriastra": 3,
      "periastraOk": false,
-     "wallSec": 0.095,
+     "wallSec": 0.094,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -35192,7 +35158,7 @@
      "windowFilledA": [
       false
      ],
-     "rateStepsPerSec": 327869,
+     "rateStepsPerSec": 425532,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#7310cc43",
@@ -35232,7 +35198,7 @@
       "stepsHit": false,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 0.095,
+      "wallSec": 0.094,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -35251,7 +35217,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 327869,
+      "rateStepsPerSec": 425532,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7310cc43",
@@ -35290,7 +35256,7 @@
       "stepsHit": false,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 0.102,
+      "wallSec": 0.145,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -35309,7 +35275,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 625000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7310cc43",
@@ -35322,21 +35288,21 @@
     "h2Reuse": {
      "key": "gw150914Merge4s",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "engineSha"
      ],
-     "contractSha": "9d96cd4085c38f3fb08ec6d21a534a9d3dcd7588de74e49087eb3b165d6c2401",
+     "contractSha": "4a34d57a7d18c5b3d319e9f0fa4055d33e6b6cf52636177fa2effb0e40b7584e",
      "hSig": "3fa9dcd923d6dd3269c29564c1a191a05b6d641dfac036d6b601e7bd5810abb0",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "340d7006ec66cbbe1351067436109359cd206b9bb6cb58e3ba165f6c65bb5256",
+      "sha": "bff10c53d543ce7ae72e32bec7f8c1d68c4a1ff763757609e131cd8871ab7c30",
       "parts": {
        "physicsDecl": "08fb24ba020840df31669f773a5290807ef05476b30cd6780894736b3d67fc88",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "05e128cd72758728e28e0ec1ab555acb3b037a759d9dc1c7a9b0ccf6621098ec",
        "stopRule": "3e5e766d4f9dd28003bbb5b748e200bb783e47346d986e0b94268a2e2f2cde78",
-       "numerics": "71330cc79b5194a8b27fa326b7b9cc5ed22c8e3334f290b8908d0e6547ae3b66",
+       "numerics": "7297932659756a8a69725ebf9a55b4b7e3cc901263731200f49429dd16534e2e",
        "precision": "e921b6087d66a7e429ec1c462d2222f1ffe2b3d40aa60d2e9da85a9f11e121f5",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
@@ -37115,7 +37081,7 @@
     "n": 11,
     "dt": 0.016,
     "steps": 668676,
-    "wallSec": 6.192,
+    "wallSec": 6.168,
     "orbits": [
      {
       "label": "D68",
@@ -37132,20 +37098,15 @@
      "steps": 1337353,
      "skippedBy": "reuse-dt2",
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "b6a3c97ac0f7b994b3927d3b7de30ec64dfa9829c4080a88c9d7295da0427fdf",
-      "wallSec": 12.23
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "c2f6f14ac26cde36387c7d3632e44854cd57587e856a63558bd05875f8686c34",
+      "wallSec": 11.897
      }
     },
     "dtQuarter": {
      "dt": 0.004,
-     "steps": 2674708,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "steps": 2674708
     },
     "dtEighth": null,
     "timeBudget": [
@@ -37153,12 +37114,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.192,
+      "wallSec": 6.168,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 699401,
       "stepsRun": 668676,
-      "rateStepsPerSec": 87719,
+      "rateStepsPerSec": 82988,
       "dt": 0.016,
       "periFoundA": [
        58
@@ -37173,12 +37134,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 12.23,
+      "wallSec": 11.897,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1398802,
       "stepsRun": 1337353,
-      "rateStepsPerSec": 125786,
+      "rateStepsPerSec": 94787,
       "dt": 0.008,
       "periFoundA": [
        58
@@ -37190,10 +37151,10 @@
       "reused": true,
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "b6a3c97ac0f7b994b3927d3b7de30ec64dfa9829c4080a88c9d7295da0427fdf",
-       "wallSec": 12.23
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "c2f6f14ac26cde36387c7d3632e44854cd57587e856a63558bd05875f8686c34",
+       "wallSec": 11.897
       },
       "noteRef": "timeBudget.note#bb6955d8"
      },
@@ -37201,12 +37162,12 @@
       "tag": "dt/4",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 28.125,
+      "wallSec": 23.062,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2797603,
       "stepsRun": 2674708,
-      "rateStepsPerSec": 70423,
+      "rateStepsPerSec": 125000,
       "dt": 0.004,
       "periFoundA": [
        58
@@ -37215,12 +37176,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -37256,7 +37211,7 @@
      "stepsHit": false,
      "minPeriastra": 58,
      "periastraOk": true,
-     "wallSec": 6.192,
+     "wallSec": 6.168,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -37276,7 +37231,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 87719,
+     "rateStepsPerSec": 82988,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#7e5a4a34"
@@ -37315,7 +37270,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 6.192,
+      "wallSec": 6.168,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -37335,7 +37290,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 87719,
+      "rateStepsPerSec": 82988,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7e5a4a34"
@@ -37373,7 +37328,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 12.23,
+      "wallSec": 11.897,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -37393,14 +37348,14 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 125786,
+      "rateStepsPerSec": 94787,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "skippedBy": "reuse-dt2",
       "reusedFrom": {
-       "generatedAt": "2026-11-21T13:15:34.840Z",
-       "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-       "contractSha": "b6a3c97ac0f7b994b3927d3b7de30ec64dfa9829c4080a88c9d7295da0427fdf",
-       "wallSec": 12.23
+       "generatedAt": "2026-11-21T23:20:27.982Z",
+       "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+       "contractSha": "c2f6f14ac26cde36387c7d3632e44854cd57587e856a63558bd05875f8686c34",
+       "wallSec": 11.897
       },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7e5a4a34"
@@ -37438,7 +37393,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 28.125,
+      "wallSec": 23.062,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -37458,13 +37413,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 70423,
+      "rateStepsPerSec": 125000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-11-18T16:42:35.036Z",
-       "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7e5a4a34"
      }
@@ -37474,40 +37424,39 @@
     ],
     "h4Reuse": {
      "key": "saturnZonalD68",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-11-18T16:42:35.036Z",
-      "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
-     }
+     "reused": false,
+     "reason": "contract",
+     "diff": [
+      "engineSha"
+     ],
+     "reusedFrom": null
     },
     "h2Reuse": {
      "key": "saturnZonalD68",
      "reused": true,
      "reason": null,
      "diff": [],
-     "contractSha": "b6a3c97ac0f7b994b3927d3b7de30ec64dfa9829c4080a88c9d7295da0427fdf",
+     "contractSha": "c2f6f14ac26cde36387c7d3632e44854cd57587e856a63558bd05875f8686c34",
      "hSig": "0d45a69bf08a4516412889bf1875bb62b57c6b3fbd7f192358f958ee7985c394",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "79b0cfa56c0320f7ee4fcbd8410754154a5a70527e56ba1dc087c40bb96be1d3",
+      "sha": "5855242362fd5ac16c31e64bbf7257356832089d42112859b65d41f82f6edef3",
       "parts": {
        "physicsDecl": "863cc7efe5b76728647928d0182862b3daf0059095ac385f7b06396a2914be11",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "19b988a41917810a6c9c294fc764b6d30cf0a1708ee283f58cb85ef432878579",
        "stopRule": "9df37234a88b4569ce74ba45181f99ae46c895f821625254c647485b75d27cf9",
-       "numerics": "be6587ff2c8b7f4c30005c2ac86cd092e95d1e79893d9cbd03f7b383f0643164",
+       "numerics": "79d164ee586e3be9cd25922c7e5df5f00f5395c9a5cd520c020f4e5896ad4b9a",
        "precision": "c34a4143e9449b05d24a617969f9a0e7d93835d85d51c7556c7bd2cd3bb20c63",
        "engine": "518e9c94166fffc613ec80c167ce68b94eaff9dc093784a9377d90318ab99d69"
       },
       "missing": []
      },
      "reusedFrom": {
-      "generatedAt": "2026-11-21T13:15:34.840Z",
-      "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-      "contractSha": "b6a3c97ac0f7b994b3927d3b7de30ec64dfa9829c4080a88c9d7295da0427fdf",
-      "wallSec": 12.23
+      "generatedAt": "2026-11-21T23:20:27.982Z",
+      "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
+      "contractSha": "c2f6f14ac26cde36387c7d3632e44854cd57587e856a63558bd05875f8686c34",
+      "wallSec": 11.897
      }
     }
    },
@@ -38023,25 +37972,25 @@
       "rowsN": 3,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.01026592293419526,
+     "numBoundDt2": 0.010265922766848234,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 0.028926621555001475,
-     "pObs": 0.8621396634817864,
+     "numBoundDt3": 0.02892662138765445,
+     "pObs": 0.8621396869994697,
      "dtStages": {
       "dt": 17865.949831775622,
       "dtHalf": 17865.968492474243,
-      "dtQuarter": 17865.978758397177
+      "dtQuarter": 17865.97875839701
      },
      "numBoundDecl": {
-      "value": 0.01026592293419526,
+      "value": 0.010265922766848234,
       "steps": 3,
-      "order": 0.8621396634817864,
+      "order": 0.8621396869994697,
       "assessedStage": "h4",
       "estimate": {
-       "raw": 0.01026592293419526,
-       "order": 0.8621396634817864,
-       "factor": 1.2228942520249404,
-       "refined": 0.012554138147958393,
+       "raw": 0.010265922766848234,
+       "order": 0.8621396869994697,
+       "factor": 1.2228942077122933,
+       "refined": 0.012554137488400466,
        "side": "fine",
        "asymptotic": "order-positive",
        "richardsonUsable": true,
@@ -38054,16 +38003,16 @@
      "orderEstimable": {
       "ok": true,
       "d1": -0.018660698620806215,
-      "d2": -0.01026592293419526,
+      "d2": -0.010265922766848234,
       "reason": null,
       "asymptotic": "order-estimable",
       "richardsonUsable": true,
       "ruleRef": "orderEstimable.rule#a18ab000"
      },
      "assessedStage": "h4",
-     "assessedValue": 17865.978758397177,
+     "assessedValue": 17865.97875839701,
      "coarseValue": 17865.949831775622,
-     "coarseNumBound": 0.028926621555001475,
+     "coarseNumBound": 0.02892662138765445,
      "contractRange": {
       "status": "宣言なし",
       "held": false
@@ -38081,10 +38030,10 @@
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "saturnZonalD68|D68|period",
       "assessedStage": "h4",
-      "assessedValue": 17865.978758397177,
+      "assessedValue": 17865.97875839701,
       "coarseStage": "h",
       "coarseValue": 17865.949831775622,
-      "coarseNumBound": 0.028926621555001475,
+      "coarseNumBound": 0.02892662138765445,
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -38103,7 +38052,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.01026592293419526,
+      "numBound": 0.010265922766848234,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -38120,15 +38069,15 @@
       "defSpreadPct": 0.0000551975511351958,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.01026592293419526,
+       "value": 0.010265922766848234,
        "steps": 3,
-       "order": 0.8621396634817864,
+       "order": 0.8621396869994697,
        "assessedStage": "h4",
        "estimate": {
-        "raw": 0.01026592293419526,
-        "order": 0.8621396634817864,
-        "factor": 1.2228942520249404,
-        "refined": 0.012554138147958393,
+        "raw": 0.010265922766848234,
+        "order": 0.8621396869994697,
+        "factor": 1.2228942077122933,
+        "refined": 0.012554137488400466,
         "side": "fine",
         "asymptotic": "order-positive",
         "richardsonUsable": true,
@@ -38142,12 +38091,12 @@
        "ok": false,
        "okLegacy": true,
        "steps": 3,
-       "order": 0.8621396634817864,
+       "order": 0.8621396869994697,
        "orderGuard": false,
-       "epsHat": 0.012554138147958393,
+       "epsHat": 0.012554137488400464,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.01026592293419526,
+       "lastDiff": 0.010265922766848234,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
        "assessedStage": "h4",
@@ -38157,7 +38106,7 @@
        "richardsonUsable": true,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
        "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 0.028926621555001475,
+       "coarseNumBound": 0.02892662138765445,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
@@ -39003,7 +38952,7 @@
     "n": 127,
     "dt": 0.016,
     "steps": 2042988,
-    "wallSec": 143.906,
+    "wallSec": 125.864,
     "orbits": [
      {
       "label": "C環内縁",
@@ -39035,12 +38984,12 @@
       "tag": "dt",
       "budgetSec": 240,
       "heavy": true,
-      "wallSec": 143.906,
+      "wallSec": 125.864,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2042988,
       "stepsRun": 2042988,
-      "rateStepsPerSec": 16807,
+      "rateStepsPerSec": 16694,
       "dt": 0.016,
       "periFoundA": [
        63,
@@ -39088,7 +39037,7 @@
      "stepsHit": true,
      "minPeriastra": 3,
      "periastraOk": false,
-     "wallSec": 143.906,
+     "wallSec": 125.864,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -39115,7 +39064,7 @@
       true,
       false
      ],
-     "rateStepsPerSec": 16807,
+     "rateStepsPerSec": 16694,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -39155,7 +39104,7 @@
       "stepsHit": true,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 143.906,
+      "wallSec": 125.864,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -39182,7 +39131,7 @@
        true,
        false
       ],
-      "rateStepsPerSec": 16807,
+      "rateStepsPerSec": 16694,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -42430,7 +42379,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "cd1ede503e798835f037c9ac707091737b9011649f1ee8bfdee4595e067b9c3c",
+   "fileSha256": "a8b1cd974c61a7ba97cdd218e6b831fa84b1dcf6693e627db3560cadeebdeee2",
    "citedValue": 551864.0613634596,
    "citedCfg": {
     "kFrame": 0,
@@ -43600,7 +43549,7 @@
     },
     "representative": {
      "kind": "period",
-     "nSigma": 0.09561602617161595,
+     "nSigma": 0.09561602656845378,
      "residualPct": 0.00227793483600638
     },
     "missing": [
@@ -43633,7 +43582,7 @@
     },
     "representative": {
      "kind": "period",
-     "nSigma": 0.2740909116196267,
+     "nSigma": 0.2740909105584087,
      "residualPct": 0.0023523146414256685
     },
     "missing": [
@@ -44425,7 +44374,7 @@
   "csvSha": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "judgementSourcesSha": "4e792ca7636a46f7b049e9807f0a105a717fd5bac333aa97123c23765615eb68",
   "target": "beta/index.html",
-  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
   "measurementCodeSha256": "80843ae7fcdf4906609e4aefc18697cef081bc7d333c840246ee23beb238d35c",
   "measurementCodeFiles": [
    "tests/exp-w249b-calaudit.mjs",
@@ -44505,13 +44454,35 @@
    "eH4Formula": 7.680000000000001e-10,
    "reads": "Q(h₀)=Q(h₀/2)=Q★ でも Q(h₀/4)=Q★+c·3h₀⁴/256 —— 2 段の一致だけでは漸近域に居るかが分からない"
   },
-  "reused": [
+  "reused": [],
+  "fresh": [
    "alphaCenAB",
    "siriusAB",
    "saturnZonalD68"
   ],
-  "fresh": [],
-  "refused": [],
+  "refused": [
+   {
+    "id": "alphaCenAB",
+    "reason": "contract",
+    "diff": [
+     "engineSha"
+    ]
+   },
+   {
+    "id": "siriusAB",
+    "reason": "contract",
+    "diff": [
+     "engineSha"
+    ]
+   },
+   {
+    "id": "saturnZonalD68",
+    "reason": "contract",
+    "diff": [
+     "engineSha"
+    ]
+   }
+  ],
   "skippedDtDt2": [],
   "storeFrom": "tests/out/calaudit-w249-diag.json#h4Store",
   "tpCopy": false
@@ -44579,113 +44550,113 @@
   "refused": [
    {
     "id": "earthMoonReal",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "emAuditSolar",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "mercuryReal",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "jupiterGalilean",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "venusReal",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "marsMoonsReal",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "plutoCharonDiagInput",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "neptuneReal",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "psrDoubleAB",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "psrJ1757DFM",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "psrJ1946DFM",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "psrB1534",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "gw150914",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    },
    {
     "id": "gw150914Merge4s",
-    "reason": "other-flight",
+    "reason": "contract",
     "diff": [
-     "targetSha256"
+     "engineSha"
     ]
    }
   ],
-  "reusedSec": 57.218,
+  "reusedSec": 51.089,
   "storeFrom": "tests/out/calaudit-w249-diag.json#h2Store",
   "engineFingerprint": {
-   "sha256": "a02024c58c930c655b982d1737db2a24c8b03f662a98e1cac1098d262051d776",
+   "sha256": "2a3dfce7d19ffdc13e282bc1efcf1e1787833dbda0f24c4a2109f9f98eeec9d0",
    "closure": {
     "complete": true,
-    "sha256": "a02024c58c930c655b982d1737db2a24c8b03f662a98e1cac1098d262051d776",
+    "sha256": "2a3dfce7d19ffdc13e282bc1efcf1e1787833dbda0f24c4a2109f9f98eeec9d0",
     "version": "w327c-scope-8",
-    "names": 1339,
-    "closureShare": 0.2877,
+    "names": 1340,
+    "closureShare": 0.2878,
     "why": []
    },
    "scope": {
@@ -44709,7 +44680,7 @@
     "consts": [],
     "complete": true
    },
-   "w283cNineFunctionsSha": "acc15a842f08678610f6143d7061f88fdc839c0e95d6a87b4b72ee4703c8b38c",
+   "w283cNineFunctionsSha": "39f96e86e2f98ec9a22070b155ce671770a28556895d8b58253728e079d08c3a",
    "rule": "第284便c: 法則の指紋は停止集合つき依存閉包(tests/lib-w281a-scope.mjs)の hash —— 名指しの関数だけの指紋は補助関数を取りこぼした"
   }
  },
@@ -46219,7 +46190,7 @@
    "commit": "第274便a(署名便)",
    "csvSha": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
    "judgementSourcesSha": "4e792ca7636a46f7b049e9807f0a105a717fd5bac333aa97123c23765615eb68",
-   "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+   "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
    "measurementCodeSha256": "80843ae7fcdf4906609e4aefc18697cef081bc7d333c840246ee23beb238d35c",
    "kf0Runs": {
     "on": true,
@@ -46229,7 +46200,7 @@
      "h/2"
     ]
    },
-   "when": "2026-11-21T13:17:04.894Z"
+   "when": "2026-11-21T23:22:43.721Z"
   },
   "history": [
    {
@@ -47521,8 +47492,8 @@
   "since": "第271便a(第61報・AF16)",
   "file": "tests/out/calaudit-w249-diag.json",
   "relPath": "./calaudit-w249-diag.json",
-  "sha256": "1af5fd9c3e12c16212a0acd1842f2036ad829337182e45231cf436f2bf12728c",
-  "bytes": 571570,
+  "sha256": "66cc9d18153b01d8a1303e140b9c26132516b159da64b8e37745c99df695153d",
+  "bytes": 571585,
   "movedFields": 340,
   "fields": [
    {
@@ -47552,14 +47523,14 @@
   ],
   "presets": 19,
   "missingReferences": [],
-  "carriedOverFrom": "2026-11-21T13:15:57.574Z",
-  "bytesBeforeSplit": 2079744,
+  "carriedOverFrom": "2026-11-21T23:21:43.291Z",
+  "bytesBeforeSplit": 2077684,
   "contractsHoisted": 981,
   "contractsTexts": 349,
   "contractsDangling": 0,
   "rule": "**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配るとこれらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。",
   "says": "**分離はサイズの都合であって、診断を捨てたという意味ではない**。",
-  "bytesAfterSplit": 1734298
+  "bytesAfterSplit": 1732238
  },
  "budgetTable": {
   "since": "第286便f(原仮定者の裁定(第76報)AN44)",
