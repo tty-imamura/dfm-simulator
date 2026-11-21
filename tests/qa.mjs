@@ -115252,7 +115252,7 @@ function view343aOf344a(eq) {
 }
 
 // ---- 第347便d: docs.draglong347d は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
-// ----   docs.draglong347d(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし)② 表 9 本が PHYSICS〔第347便d〕に逐語
+// ----   docs.draglong347d(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルなし)② 表 8 本が PHYSICS〔第347便d〕に逐語
 // ----     ③ 節の位置(〔第346便c〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 2 行)・AI_SPEC §295(次の見出しまで)・CHANGELOG の第347便d の行(在れば —— 便の開始の前は統括が足す)・段の行・.gitignore・post-merge
 // ----     ④ 書かない語・禁句・裸の係数記号・旧称(節・AI_SPEC・器・lib・文書の lib)
 {
@@ -115284,7 +115284,7 @@ function view343aOf344a(eq) {
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・長い走りの門 ${Object.keys(J.t2long.gates).length}・版 ${J.version}・target ${J.target}`);
       const T = D0.tablesOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第347便d〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
       cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第347便d〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN909: 推奨で進める', 'R403', 'tests/exp-w347d-draglong.mjs', 'tests/out/draglong-347d.json', 'tests/lib-w347d-draglong.mjs', 'dragconv-344d', 'draglong-347d',
