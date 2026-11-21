@@ -45,18 +45,16 @@
    }
   },
   "mergeDecision": {
-   "accept": "scope",
-   "reasons": [
-    "対象 html と観測入力ファイルの hash だけが違い、領域 hash(REGEN_SCOPE)と採用行が一致 —— 旧段を転記で残す"
-   ]
+   "accept": "same",
+   "reasons": []
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-11-21T12:25:59.611Z",
+  "generatedAt": "2026-11-21T12:41:18.149Z",
   "pilot": false,
-  "stage": "h2",
-  "dt": 0.008,
-  "stepsRequested": 41400000,
+  "stage": "h4",
+  "dt": 0.004,
+  "stepsRequested": 82800000,
   "contract": {
    "stepH": 20700000,
    "orbMax": 60,
@@ -394,7 +392,7 @@
   "codeSha256": "cd217c95d0c49e71f414b0b1274d144c06cf3ace20a7e4d09aa32f1f15006ec9",
   "carriedStages": [
    "h",
-   "h4"
+   "h2"
   ]
  },
  "declaredSystems": [
@@ -1000,18 +998,18 @@
    "stages": [
     553210.630443371,
     553210.9003054278,
-    553211.1464493255
+    553211.1464493199
    ],
    "d1": 0.2698620568262413,
-   "d2": 0.24614389764610678,
+   "d2": 0.24614389205817133,
    "sameSign": true,
-   "pObs": 0.13272017211331164,
-   "epsHat": 2.55444859309159,
-   "epsHatSigma": 98.55125744952122,
-   "assessedValue": 553211.1464493255,
+   "pObs": 0.13272020486523803,
+   "epsHat": 2.554447875288744,
+   "epsHatSigma": 98.55122975651018,
+   "assessedValue": 553211.1464493199,
    "assessedStage": "h4",
-   "residPct": 0.24548191056131952,
-   "sigma": 52264.95869311394,
+   "residPct": 0.24548191056030694,
+   "sigma": 52264.95869289836,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   },
@@ -1019,18 +1017,18 @@
    "stages": [
     551864.0613634596,
     551864.0612661713,
-    551864.0612408934
+    551864.0612407206
    ],
    "d1": -0.00009728828445076942,
-   "d2": -0.00002527784090489149,
+   "d2": -0.00002545071765780449,
    "sameSign": true,
-   "pObs": 1.9443928430882726,
-   "epsHat": 0.000008873285725645024,
-   "epsHatSigma": 0.0003423335542301321,
-   "assessedValue": 551864.0612408934,
+   "pObs": 1.9345597468324884,
+   "epsHat": 0.00000901671727223248,
+   "epsHatSigma": 0.0003478671787126729,
+   "assessedValue": 551864.0612407206,
    "assessedStage": "h4",
-   "residPct": 0.0013812506946812005,
-   "sigma": 294.07873817372433,
+   "residPct": 0.001381250663354801,
+   "sigma": 294.0787315040965,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   },
@@ -1038,18 +1036,18 @@
    "stages": [
     553224.9272364733,
     553224.7588905699,
-    553224.6747429437
+    553224.6747429522
    ],
    "d1": -0.16834590339567512,
-   "d2": -0.08414762618485838,
+   "d2": -0.08414761768653989,
    "sameSign": true,
-   "pObs": 1.0004341357749402,
-   "epsHat": 0.08409700562895851,
-   "epsHatSigma": 3.2444832418579677,
-   "assessedValue": 553224.6747429437,
+   "pObs": 1.000434281477001,
+   "epsHat": 0.08409698015445267,
+   "epsHatSigma": 3.2444822590452422,
+   "assessedValue": 553224.6747429522,
    "assessedStage": "h4",
-   "residPct": 0.24793332594203193,
-   "sigma": 52786.88360122482,
+   "residPct": 0.24793332594357187,
+   "sigma": 52786.88360155268,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   },
@@ -1057,18 +1055,18 @@
    "stages": [
     551617.202440436,
     551617.1240119648,
-    551617.0848226522
+    551617.0848226696
    ],
    "d1": -0.07842847122810781,
-   "d2": -0.03918931260704994,
+   "d2": -0.03918929514475167,
    "sameSign": true,
-   "pObs": 1.0009172110353568,
-   "epsHat": 0.039139529913082505,
-   "epsHatSigma": 1.5100127281281832,
-   "assessedValue": 551617.0848226522,
+   "pObs": 1.0009178538834975,
+   "epsHat": 0.039139477614920884,
+   "epsHatSigma": 1.5100107104521947,
+   "assessedValue": 551617.0848226696,
    "assessedStage": "h4",
-   "residPct": -0.043372493379434225,
-   "sigma": -9234.332459406385,
+   "residPct": -0.04337249337626994,
+   "sigma": -9234.332458732684,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   },
@@ -1076,18 +1074,18 @@
    "stages": [
     551864.061361607,
     551864.0612644712,
-    551864.0612390139
+    551864.0612389288
    ],
    "d1": -0.00009713589679449797,
-   "d2": -0.000025457236915826797,
+   "d2": -0.000025542336516082287,
    "sameSign": true,
-   "pObs": 1.931928705330701,
-   "epsHat": 0.000009041336884443842,
-   "epsHatSigma": 0.0003488170094307038,
-   "assessedValue": 551864.0612390139,
+   "pObs": 1.9271140421107704,
+   "epsHat": 0.00000911270444106524,
+   "epsHatSigma": 0.0003515703873867763,
+   "assessedValue": 551864.0612389288,
    "assessedStage": "h4",
-   "residPct": 0.001381250354098897,
-   "sigma": 294.07866566117144,
+   "residPct": 0.0013812503386782923,
+   "sigma": 294.07866237800783,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   }
@@ -1487,7 +1485,13 @@
     "oscA": 19.596010875679063,
     "oscE": 0.0019262669293545179,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    },
    "h4": {
     "id": "C0",
@@ -1502,28 +1506,28 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 113.118,
+    "wallSec": 156.46,
     "revSec": [
-     553210.8385701745,
-     553211.1464493255,
-     553211.0126767239,
-     553210.9058035116,
-     553210.8009341591,
-     553210.5852254656,
-     553210.4781629132,
-     553210.3471284528
+     553210.8385701912,
+     553211.1464493199,
+     553211.0126767666,
+     553210.9058034904,
+     553210.8009340831,
+     553210.5852255146,
+     553210.4781629452,
+     553210.3471286013
     ],
     "revN": 59,
-    "rev2Sec": 553211.1464493255,
+    "rev2Sec": 553211.1464493199,
     "periASec": 556272.3388550415,
     "periBSec": 556306.7626346985,
     "oscSec": 551856.8769788258,
-    "residPctRev": 0.24548191056131952,
-    "sigmaRev": 52264.95869311394,
+    "residPctRev": 0.24548191056030694,
+    "sigmaRev": 52264.95869289836,
     "residPctPeriA": 0.8001900177669389,
     "sigmaPeriA": 170366.5175556159,
     "precessDegPerRevA": 1.4512365204749158,
-    "precessResidDegA": 3.4288090149980444,
+    "precessResidDegA": 3.428809014998044,
     "precessDegPerRevB": 1.4637507901333506,
     "precessResidDegB": 3.5526071263577723,
     "eProxy": 0.0024101524128596428,
@@ -1569,14 +1573,8 @@
     ],
     "oscA": 19.596084725451302,
     "oscE": 0.0019253817789960282,
-    "mergeKey": "589a734498e8aee5f5ce9d4ff5c88a2eba9aa9fc8fa60781d7e78176d1a1f0a1",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-11-19T01:25:07.203Z",
-     "fromTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
-    }
+    "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
+    "canonicalRun": true
    }
   },
   "C1": {
@@ -1754,7 +1752,13 @@
     "oscA": 19.59599965284415,
     "oscE": 0.000013705498471678544,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    },
    "h4": {
     "id": "C1",
@@ -1769,30 +1773,30 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 89.855,
+    "wallSec": 136.967,
     "revSec": [
-     551863.6612430442,
-     551864.0612408934,
-     551864.0612408371,
-     551864.0612411291,
-     551864.0612410924,
-     551864.0612413855,
-     551864.0612415009,
-     551864.0612415904
+     551863.6612431348,
+     551864.0612407206,
+     551864.061240732,
+     551864.0612411167,
+     551864.0612410585,
+     551864.0612413564,
+     551864.0612415737,
+     551864.0612416617
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612408934,
+    "rev2Sec": 551864.0612407206,
     "periASec": 551858.6723236938,
     "periBSec": 1132762.5684210528,
     "oscSec": 551853.2832706916,
-    "residPctRev": 0.0013812506946812005,
-    "sigmaRev": 294.07873817372433,
+    "residPctRev": 0.001381250663354801,
+    "sigmaRev": 294.0787315040965,
     "residPctPeriA": 0.0004047436139294512,
     "sigmaPeriA": 86.17298201302837,
-    "precessDegPerRevA": -0.0035154396675456633,
-    "precessResidDegA": 4.1636518284335964e-7,
-    "precessDegPerRevB": -0.0065831452755707376,
-    "precessResidDegB": 0.005207434706045484,
+    "precessDegPerRevA": -0.0035154396675456624,
+    "precessResidDegA": 4.163651828427898e-7,
+    "precessDegPerRevB": -0.0065831452755707445,
+    "precessResidDegB": 0.005207434706045402,
     "eProxy": 0.00001000987266649659,
     "eProxy1": 0.000010009871589151506,
     "rMin": 19.595994857195215,
@@ -1838,14 +1842,8 @@
     ],
     "oscA": 19.595999652241925,
     "oscE": 0.000012752871433028034,
-    "mergeKey": "589a734498e8aee5f5ce9d4ff5c88a2eba9aa9fc8fa60781d7e78176d1a1f0a1",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-11-19T01:25:07.203Z",
-     "fromTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
-    }
+    "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
+    "canonicalRun": true
    }
   },
   "C3_k0": {
@@ -2023,7 +2021,13 @@
     "oscA": 19.59599965284415,
     "oscE": 0.000013705498471678544,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C3_k0.1": {
@@ -2199,7 +2203,13 @@
     "oscA": 19.591298612054256,
     "oscE": 0.000154856506574185,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C3_k0.3": {
@@ -2375,7 +2385,13 @@
     "oscA": 19.581894640700398,
     "oscE": 0.0004617849112986578,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C3_k0.5": {
@@ -2551,7 +2567,13 @@
     "oscA": 19.572485111406262,
     "oscE": 0.0007765825526948978,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C3_k0.7": {
@@ -2727,7 +2749,13 @@
     "oscA": 19.563077136406285,
     "oscE": 0.001104004414540839,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C3_k1": {
@@ -2901,7 +2929,13 @@
     "oscA": 19.548949806799836,
     "oscE": 0.0016276524144226267,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_i_f1": {
@@ -3077,7 +3111,13 @@
     "oscA": 19.59599965283523,
     "oscE": 0.000013705498363145494,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_i_flin": {
@@ -3253,7 +3293,13 @@
     "oscA": 19.59599965283523,
     "oscE": 0.000013705498363145494,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_ii_f1": {
@@ -3429,7 +3475,13 @@
     "oscA": 19.596011409865735,
     "oscE": 0.0019198645015410176,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_ii_flin": {
@@ -3605,7 +3657,13 @@
     "oscA": 19.549057742025447,
     "oscE": 0.0016232859733132006,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_iii_f1": {
@@ -3781,7 +3839,13 @@
     "oscA": 19.595999652621572,
     "oscE": 0.000013707453876898443,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C5_iii_flin": {
@@ -3957,7 +4021,13 @@
     "oscA": 19.595999652621572,
     "oscE": 0.000013707453876898443,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "C6_scalar": {
@@ -4133,7 +4203,13 @@
     "oscA": 19.5962535810197,
     "oscE": 0.0019412840918647323,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    },
    "h4": {
     "id": "C6_scalar",
@@ -4149,28 +4225,28 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 177.175,
+    "wallSec": 198.114,
     "revSec": [
-     553224.2203877618,
-     553224.6747429437,
-     553224.7273709836,
-     553224.7782735627,
-     553224.8274516569,
-     553224.8749061186,
-     553224.9206393149,
-     553224.9646526536
+     553224.2203877566,
+     553224.6747429522,
+     553224.7273709454,
+     553224.778273627,
+     553224.8274516328,
+     553224.8749061895,
+     553224.9206394103,
+     553224.9646526063
     ],
     "revN": 59,
-    "rev2Sec": 553224.6747429437,
+    "rev2Sec": 553224.6747429522,
     "periASec": 556278.1460718982,
     "periBSec": 556312.3078951944,
     "oscSec": 551862.3307973678,
-    "residPctRev": 0.24793332594203193,
-    "sigmaRev": 52786.88360122482,
+    "residPctRev": 0.24793332594357187,
+    "sigmaRev": 52786.88360155268,
     "residPctPeriA": 0.8012423234843639,
     "sigmaPeriA": 170590.56141582533,
     "precessDegPerRevA": 1.450868018055398,
-    "precessResidDegA": 3.3994299691346734,
+    "precessResidDegA": 3.399429969134674,
     "precessDegPerRevB": 1.4632579800554366,
     "precessResidDegB": 3.5217307136988474,
     "eProxy": 0.002423684058249065,
@@ -4216,14 +4292,8 @@
     ],
     "oscA": 19.596213832988674,
     "oscE": 0.0019404302534954587,
-    "mergeKey": "589a734498e8aee5f5ce9d4ff5c88a2eba9aa9fc8fa60781d7e78176d1a1f0a1",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-11-19T01:25:07.203Z",
-     "fromTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
-    }
+    "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
+    "canonicalRun": true
    }
   },
   "C6_local": {
@@ -4399,7 +4469,13 @@
     "oscA": 19.596031795835195,
     "oscE": 0.0005039039562013387,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    },
    "h4": {
     "id": "C6_local",
@@ -4415,28 +4491,28 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 220.922,
+    "wallSec": 248.886,
     "revSec": [
-     551616.6588330005,
-     551617.0848226522,
-     551617.1106921285,
-     551617.1364413247,
-     551617.1620703316,
-     551617.1875804004,
-     551617.2129697538,
-     551617.2382391436
+     551616.6588329993,
+     551617.0848226696,
+     551617.1106922072,
+     551617.1364414312,
+     551617.162070387,
+     551617.1875803793,
+     551617.2129697122,
+     551617.2382392258
     ],
     "revN": 60,
-    "rev2Sec": 551617.0848226522,
+    "rev2Sec": 551617.0848226696,
     "periASec": 548271.4328389356,
     "periBSec": 548254.4994191163,
     "oscSec": 551853.8562586227,
-    "residPctRev": -0.043372493379434225,
-    "sigmaRev": -9234.332459406385,
+    "residPctRev": -0.04337249337626994,
+    "sigmaRev": -9234.332458732684,
     "residPctPeriA": -0.6496265386301479,
     "sigmaPeriA": -138310.4120780995,
-    "precessDegPerRevA": -0.7387533703412464,
-    "precessResidDegA": 7.318328319476286,
+    "precessDegPerRevA": -0.7387533703412462,
+    "precessResidDegA": 7.318328319476288,
     "precessDegPerRevB": -0.7464744394299148,
     "precessResidDegB": 7.348288788384089,
     "eProxy": 0.0008126539556165831,
@@ -4482,14 +4558,8 @@
     ],
     "oscA": 19.596013216554855,
     "oscE": 0.0005021502445758458,
-    "mergeKey": "589a734498e8aee5f5ce9d4ff5c88a2eba9aa9fc8fa60781d7e78176d1a1f0a1",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-11-19T01:25:07.203Z",
-     "fromTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
-    }
+    "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
+    "canonicalRun": true
    }
   },
   "C6_complex": {
@@ -4665,7 +4735,13 @@
     "oscA": 19.59599965283485,
     "oscE": 0.00001370549659440613,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    },
    "h4": {
     "id": "C6_complex",
@@ -4681,30 +4757,30 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 80.834,
+    "wallSec": 134.122,
     "revSec": [
-     551863.6612412025,
-     551864.0612390139,
-     551864.0612389387,
-     551864.0612393694,
-     551864.0612392192,
-     551864.0612393843,
-     551864.0612398405,
-     551864.0612397299
+     551863.6612412855,
+     551864.0612389288,
+     551864.0612389016,
+     551864.0612394058,
+     551864.0612391926,
+     551864.0612394313,
+     551864.0612398885,
+     551864.0612398281
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612390139,
+    "rev2Sec": 551864.0612389288,
     "periASec": 551858.6723416836,
     "periBSec": 1045626.9684210527,
     "oscSec": 551853.2832700869,
-    "residPctRev": 0.001381250354098897,
-    "sigmaRev": 294.07866566117144,
+    "residPctRev": 0.0013812503386782923,
+    "sigmaRev": 294.07866237800783,
     "residPctPeriA": 0.0004047468738157641,
     "sigmaPeriA": 86.17367606752346,
     "precessDegPerRevA": -0.003515471638546263,
-    "precessResidDegA": 3.795441428718762e-7,
-    "precessDegPerRevB": -0.005376350604016325,
-    "precessResidDegB": 0.007501712619099627,
+    "precessResidDegA": 3.795441428732515e-7,
+    "precessDegPerRevB": -0.00537635060401633,
+    "precessResidDegB": 0.007501712619099712,
     "eProxy": 0.000010009870483172267,
     "eProxy1": 0.000010009869977445385,
     "rMin": 19.595994857189012,
@@ -4748,14 +4824,8 @@
     ],
     "oscA": 19.595999652227572,
     "oscE": 0.00001275286945873011,
-    "mergeKey": "589a734498e8aee5f5ce9d4ff5c88a2eba9aa9fc8fa60781d7e78176d1a1f0a1",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-11-19T01:25:07.203Z",
-     "fromTargetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
-    }
+    "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
+    "canonicalRun": true
    }
   },
   "S_e0.05_k0": {
@@ -4933,7 +5003,13 @@
     "oscA": 19.59599965284415,
     "oscE": 0.000013705498471678544,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "S_e0.05_k1": {
@@ -5107,7 +5183,13 @@
     "oscA": 19.596010875679063,
     "oscE": 0.0019262669293545179,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "S_e0.025_k0": {
@@ -5285,7 +5367,13 @@
     "oscA": 19.59599964933326,
     "oscE": 0.000006572167877669111,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "S_e0.025_k1": {
@@ -5459,7 +5547,13 @@
     "oscA": 19.59600854544448,
     "oscE": 0.001918402755822796,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "S_e0.0125_k0": {
@@ -5637,7 +5731,13 @@
     "oscA": 19.595999649131695,
     "oscE": 0.000005847436170998395,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   },
   "S_e0.0125_k1": {
@@ -5811,7 +5911,13 @@
     "oscA": 19.596006009646327,
     "oscE": 0.0019163521464654212,
     "mergeKey": "c9b6dc6fd5dc80e51f93fe3296a8d720ec8bb7d2fcf5d5cd8251f02b16a376bd",
-    "canonicalRun": true
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-11-21T12:25:59.611Z",
+     "fromTargetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+     "fromScopeSha256": "379404da407815b05692db87672a1381e0ed41e11be217a1af4d16fc5a3763c1"
+    }
    }
   }
  },
