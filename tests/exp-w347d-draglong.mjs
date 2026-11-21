@@ -25,8 +25,8 @@ export const AMEND = Object.freeze([]);
 export const OUT_MAIN = 'tests/out/draglong-347d.json';
 export const TARGET = 'tests/lib-w347d-draglong.mjs';
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
-export const NOT_CLAIM = Object.freeze(['引きずりの換算が決まったとは書かない(D0 は原仮定者の回答〔AN909〕で主に置いた列 —— 掛ける型 D1〜D3 は比べる列)',
-  '引きずりは熱を出さないと確かめられた、とは書かない(この宣言・この長さ・この刻み・この系では、帳簿の残りが有界か時間に比例して積むか、の表)',
+export const NOT_CLAIM = Object.freeze(['引きずりの換算をどれとも結論しない(D0 は原仮定者の回答〔AN909〕で主に置いた列 —— 掛ける型 D1〜D3 は比べる列)',
+  '引きずりが熱を出すかどうかを結論しない(この宣言・この長さ・この刻み・この系では、帳簿の残りが有界か時間に比例して積むか、の表)',
   '数は誇張した系の比 —— 水星や月の観測の値へ合わせたものではない・今の収支(42.98″/世紀)に項を足さない',
   'アプリの引きずり・重力・積分を変える提案は決断事項の候補に置く(本器はアプリに何も入れない)',
   '光速を、候補の採否に使わない(座標を運ぶ速さ u は切らない)']);

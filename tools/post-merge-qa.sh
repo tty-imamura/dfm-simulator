@@ -1275,6 +1275,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.diskDragName346b docs.diskDragName346b"
 #   θ の既存の鍵・追従させた本の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.viewTiltDefault346c behavior.gravityMirror346c ui.spinMarkerAxis346c docs.viewTilt346c ui.viewTilt298 ui.tiltSwipe300 behavior.buoyancy behavior.convection projectile.layout field.uniform-gravity box.wall-restitution phasechange.observables"
 # ==== 第346便c の塊(ここまで)====
+# ==== 第347便d の塊(ここから)====
+# 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.draglong347d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・長い走りの 1e4 周を走らせ直して照合・2 体の極限 / docs.draglong347d —— 正本の門と表が PHYSICS〔第347便d〕に逐語・文書)と、前の便の behavior.dragconv344d。新しい段 draglong-347d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.draglong347d docs.draglong347d behavior.dragconv344d"
+# ==== 第347便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

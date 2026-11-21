@@ -46,7 +46,7 @@ export function tablesOf(J) {
   const win = (d, st) => J.t2long.rows.find((r) => r.drag === d && r.steps === st);
   T.t2win = ['| 宣言 | 1 周の刻み | ' + win('D0', L2.steps[1]).windows.map((w) => `〜${w.hi} 周`).join(' | ') + ' |', '|---|---|' + win('D0', L2.steps[1]).windows.map(() => '---|').join('')]
     .concat(J.decl.drags.flatMap((d) => L2.steps.map((st) => `| ${DRAG_NAME[d]} | ${st} | ` + win(d, st).windows.map((w) => fe(w.maxR)).join(' | ') + ' |'))).join('\n')
-    + '\n\n(窓ごとの帳簿の残りの最大 ÷ abs(E₀)。D0 は刻みを倍にすると約 1/32 —— 積分の誤差で、窓ごとに約 10 倍〔時間に比例〕。D1〜D3 は刻み 256 で 1.3e-3〜1.8e-3 の振れが 1e4 周まで変わらない〔有界〕。刻み 128 の 1e3〜1e4 周の窓は積分の誤差が振れを上回る)';
+    + '\n\n(窓ごとの帳簿の残りの最大 ÷ abs(E₀)。D0 は刻みを倍にすると約 1/33 —— 積分の誤差で、窓ごとに約 10 倍〔時間に比例〕。D1〜D3 は刻み 256 で 1.3e-3〜1.8e-3 の振れが 1e4 周まで変わらない〔有界〕。刻み 128 の 1e3〜1e4 周の窓は積分の誤差が振れを上回る)';
 
   const t3 = J.t3, at = (g, d) => t3.rows.find((r) => r.grav === g && r.drag === d);
   T.t3 = ['| 重力の換算 | 引きずり | 近点 ÷ 1PN | 見込み(一次) | 見込みとの差 | ″/世紀(× 42.98) | 刻みを半分にした差 |', '|---|---|---|---|---|---|---|']
