@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T17:23:04.505Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:55:50.989Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732244,
-    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
-    "mtime": "2026-11-18T16:43:50.157Z"
+    "bytes": 1734284,
+    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
+    "mtime": "2026-11-21T11:36:39.834Z"
    }
   ],
   "code": [
@@ -24,49 +24,49 @@
     "file": "tests/exp-w285a-contact.mjs",
     "bytes": 33400,
     "sha256": "9cc774bd48a91d8ccdade66105754eec3b1edb8b377ced91af267ed04749b2d0",
-    "mtime": "2026-11-05T03:10:54.247Z"
+    "mtime": "2026-11-19T16:19:54.532Z"
    },
    {
     "file": "tests/exp-w284e-tpsign.mjs",
     "bytes": 16799,
     "sha256": "ff45be9de88b0dcc01effa396e0a2f8ae88348fec9a463a29a7c3d9e80b48bc6",
-    "mtime": "2026-11-05T03:10:54.247Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 367425,
     "sha256": "b156938d6623b2a367612e2440e8c696c5e5a1b348dec7667659f545527d59b4",
-    "mtime": "2026-11-02T03:19:09.829Z"
+    "mtime": "2026-11-19T16:19:54.512Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "b0d104e21a68f589d6352b8ac004055f9737aa59329a3cddf4dd7dfd5927b20f",
@@ -136,7 +136,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "682256dc840dfcda8584580801ddf64a073e7fe444316cec59e3c0900199bfd5",
+    "stableSha256": "96d76856b97f2bb4701fc1766dfc9ebeb9ea556da287abafcaf1cf7005360d12",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -200,7 +200,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "03c0a6caa4117960c479f65936f511996557c68da05217616ab71463b1e14ce9",
+    "stableSha256": "de42bd042bbbda0daae6739b4dc3698291315ec00df2bf41b627e239ef00563c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -1774,9 +1774,10 @@
    "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0"
   },
   "after": {
-   "source": "canon",
-   "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba"
+   "source": "fresh-run",
+   "cmd": "node tests/exp-w249b-calaudit.mjs --only saturnRingReal(W249_OUT は一時ファイル)",
+   "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+   "why": "正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)"
   },
   "table": [
    {
@@ -1790,9 +1791,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 20823.780331545262,
-      "after": 20823.780332546252,
-      "absDiff": 0.0000010009898687712848,
-      "relDiff": 4.8069555711501533e-11,
+      "after": 20823.780332546048,
+      "absDiff": 0.0000010007861419580877,
+      "relDiff": 4.805977233836018e-11,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1806,9 +1807,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 1378015.700291505,
-      "after": 1378015.7002955412,
-      "absDiff": 0.00000403611920773983,
-      "relDiff": 2.928935575179608e-12,
+      "after": 1378015.7002958665,
+      "absDiff": 0.000004361383616924286,
+      "relDiff": 3.164973821417042e-12,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1854,9 +1855,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 0.22848126507759803,
-      "after": 0.22848124274733334,
-      "absDiff": -2.2330264692893564e-8,
-      "relDiff": -9.77334604888048e-8,
+      "after": 0.22848124274733325,
+      "absDiff": -2.233026477616029e-8,
+      "relDiff": -9.773346085324049e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1870,9 +1871,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 81511.71770572502,
-      "after": 81511.71770736402,
-      "absDiff": 0.0000016389967640861869,
-      "relDiff": 2.010749877708774e-11,
+      "after": 81511.71770736406,
+      "absDiff": 0.000001639040419831872,
+      "relDiff": 2.010803435340626e-11,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1946,7 +1947,7 @@
     ],
     "nQuantities": 10,
     "nChanged": 9,
-    "maxAbsDiff": 0.00000403611920773983,
+    "maxAbsDiff": 0.000004361383616924286,
     "verdictMoved": 0,
     "gateMoved": 0,
     "run": {
@@ -1978,7 +1979,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 143.926,
+      "wallSec": 134.66,
       "tags": [
        "dt"
       ],
@@ -1993,5 +1994,5 @@
   ],
   "note": null
  },
- "elapsedS": 361.433
+ "elapsedS": 346.238
 }

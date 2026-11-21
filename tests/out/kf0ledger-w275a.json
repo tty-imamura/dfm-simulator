@@ -3,50 +3,50 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "0c45855f6b9ae00d067331cafbcb297c7d5328439b0d11448c9195df4f168d2b",
-  "generatedAt": "2026-11-19T15:04:47.568Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T13:00:10.902Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
     "bytes": 107881,
-    "sha256": "8208cedf7a3d0647ab5271d2b21f6d86acea329b4b9345748889b73da8f1b9b2",
-    "mtime": "2026-11-19T01:56:41.911Z"
+    "sha256": "b07275621e8e93fbc1c4acc9f95229c04c84839b8b2c267029315386b42af758",
+    "mtime": "2026-11-21T13:00:01.590Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734317,
-    "sha256": "fb1904a1983244ddbab19e05a88f6dde2cdf346c7bf9a88740634080dcd0f480",
-    "mtime": "2026-11-19T14:56:18.752Z"
+    "bytes": 1734284,
+    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
+    "mtime": "2026-11-21T11:36:39.834Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 178977,
-    "sha256": "0b60923d6bba3c61204e35f043b90189ad592ee18206925fd5f1708f4d389396",
-    "mtime": "2026-11-19T01:25:07.439Z"
+    "bytes": 178914,
+    "sha256": "cd1ede503e798835f037c9ac707091737b9011649f1ee8bfdee4595e067b9c3c",
+    "mtime": "2026-11-21T12:41:18.366Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 13312,
-    "sha256": "7fb6c70296ebdef3f489887b8f2aa723563bf3bde85d11dbe149e768facc71fc",
-    "mtime": "2026-11-19T01:56:40.427Z"
+    "sha256": "15ec9e6b6df3f636d75bb0e1679445323c7235e3ad37b5a81d4804546aa65ee4",
+    "mtime": "2026-11-21T12:59:56.162Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 224029,
-    "sha256": "80ebbce0a93b0b16af1b54d09ef56804d4fce872c979e5a22df9dc22cc3a4906",
-    "mtime": "2026-11-18T22:32:07.924Z"
+    "sha256": "254620132459610318f12ec557605b5e7d352c5dbb7efc51140fbdc107914a64",
+    "mtime": "2026-11-21T11:38:17.046Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
     "bytes": 9323,
     "sha256": "ae207310de5a2ed3d39d2a20de8fdc2eb7be4323dfba70bcf3997384a0cec694",
-    "mtime": "2026-10-20T16:19:56.788Z"
+    "mtime": "2026-11-19T16:19:54.712Z"
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 145825,
-    "sha256": "93f1290549ab8500161cb73c7d330a9745a650a7b6f449e0d87d582c21780d37",
-    "mtime": "2026-11-18T17:23:39.662Z"
+    "bytes": 145826,
+    "sha256": "dbab532eaf97fe514dbab6a97415726ff19842a3be823bc1d207c5d3403062f8",
+    "mtime": "2026-11-21T12:19:32.914Z"
    }
   ],
   "code": [
@@ -54,13 +54,13 @@
     "file": "tests/exp-w275a-kf0ledger.mjs",
     "bytes": 46175,
     "sha256": "efbfc842ebcb03823b7cdad0b1069533eaea68e9363ffa5aad0fdf80fe391423",
-    "mtime": "2026-10-28T18:04:20.425Z"
+    "mtime": "2026-11-19T16:19:54.524Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    }
   ],
   "codeSha256": "ec1fe0ca51762b7b704afc12b4d35616befc39081088a9e39d91e05e3ee53f2d",
@@ -727,7 +727,7 @@
      "nSigma": [
       {
        "key": "plutoCharonDiagInput|カロン|period",
-       "nSigma": 278.5921424264764,
+       "nSigma": 278.5921482517338,
        "status": "数値未解決"
       }
      ]
@@ -922,8 +922,8 @@
      "orders": [
       {
        "key": "alphaCenAB|B|period",
-       "order": 1.996855092747337,
-       "epsHatInSigma": 7.821640639653845e-7,
+       "order": 1.9966893422227034,
+       "epsHatInSigma": 7.823709290238393e-7,
        "assessedStage": "h4"
       },
       {
@@ -1018,8 +1018,8 @@
      "orders": [
       {
        "key": "siriusAB|B|period",
-       "order": 1.9959793317263326,
-       "epsHatInSigma": 0.000009151470401640203,
+       "order": 1.9959876246539414,
+       "epsHatInSigma": 0.000009151397845769728,
        "assessedStage": "h4"
       },
       {
@@ -1555,8 +1555,8 @@
      "orders": [
       {
        "key": "saturnZonalD68|D68|precession",
-       "order": 1.979664850440595,
-       "epsHatInSigma": 0.00135600193672017,
+       "order": 1.9796648505546766,
+       "epsHatInSigma": 0.001356001936576522,
        "assessedStage": "h4"
       }
      ]
@@ -1671,19 +1671,19 @@
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
      "stages": [
-      553210.6304433692,
-      553210.9003053728,
-      553211.1464493255
+      553210.630443371,
+      553210.9003054278,
+      553211.1464493199
      ],
-     "pObs": 0.1327195649510854,
-     "epsHat": 2.5544613963412197,
-     "epsHatSigma": 98.55175140205324,
+     "pObs": 0.13272020486523803,
+     "epsHat": 2.554447875288744,
+     "epsHatSigma": 98.55122975651018,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "extrapolatedEvidence": {
-     "nSigma": 52264.95869311394,
-     "residPct": 0.24548191056131952,
+     "nSigma": 52264.95869289836,
+     "residPct": 0.24548191056030694,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -1694,8 +1694,8 @@
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 52264.95869311394,
-     "residPct": 0.24548191056131952,
+     "nSigma": 52264.95869289836,
+     "residPct": 0.24548191056030694,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -1726,19 +1726,19 @@
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
      "stages": [
-      551864.0613634228,
-      551864.0612662266,
-      551864.0612408934
+      551864.0613634596,
+      551864.0612661713,
+      551864.0612407206
      ],
-     "pObs": 1.9398741057873583,
-     "epsHat": 0.000008930427880087685,
-     "epsHatSigma": 0.00034453811265770394,
+     "pObs": 1.9345597468324884,
+     "epsHat": 0.00000901671727223248,
+     "epsHatSigma": 0.0003478671787126729,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "extrapolatedEvidence": {
-     "nSigma": 294.07873817372433,
-     "residPct": 0.0013812506946812005,
+     "nSigma": 294.0787315040965,
+     "residPct": 0.001381250663354801,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -1749,8 +1749,8 @@
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 294.07873817372433,
-     "residPct": 0.0013812506946812005,
+     "nSigma": 294.0787315040965,
+     "residPct": 0.001381250663354801,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -1774,20 +1774,20 @@
      {
       "column": "S_e0.05_k0",
       "softening": 0.05,
-      "rev2Sec": 551864.0613634228,
-      "residPctRev": 0.0013812728977995329
+      "rev2Sec": 551864.0613634596,
+      "residPctRev": 0.001381272904465622
      },
      {
       "column": "S_e0.025_k0",
       "softening": 0.025,
-      "rev2Sec": 551855.9777991155,
-      "residPctRev": -0.00008352188217208393
+      "rev2Sec": 551855.9777991321,
+      "residPctRev": -0.00008352187915546767
      },
      {
       "column": "S_e0.0125_k0",
       "softening": 0.0125,
-      "rev2Sec": 551853.9568784185,
-      "residPctRev": -0.00044972594453746733
+      "rev2Sec": 551853.956878435,
+      "residPctRev": -0.00044972594154194635
      }
     ],
     "signFlip": true,

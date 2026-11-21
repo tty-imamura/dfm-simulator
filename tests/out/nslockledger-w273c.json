@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:38.601Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:59:54.162Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 232655,
-    "sha256": "90b861d463ad624266651f73a1683eba4509df5384f54129904e16020463ab8f",
-    "mtime": "2026-11-18T22:39:12.664Z"
+    "bytes": 232657,
+    "sha256": "450715eb6d75d3ee0e1a275bbeb893674472ef5da0478667f7a15ee9f0abde86",
+    "mtime": "2026-11-21T11:44:42.334Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w273c-nslockledger.mjs",
     "bytes": 9389,
     "sha256": "5ae717ff8606dba7b6550debfb4a53e9a718ff0b69db6bb009d0d324a93308bd",
-    "mtime": "2026-11-05T03:10:54.230Z"
+    "mtime": "2026-11-19T16:19:54.524Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    }
   ],
   "codeSha256": "c48beb829c3b4a99373284d5bcc0512f97fbc83275a7e1b06587af61dafe3bef",
@@ -49,7 +49,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-11-18T22:27:08.882Z",
+ "sourceAt": "2026-11-21T11:24:32.467Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",

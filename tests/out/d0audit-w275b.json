@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T00:58:14.153Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T12:58:06.105Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732244,
-    "sha256": "930dbe78ee3142c113ad87e166b84d22be441aa07dca2f2745ad2aad3d26d5d1",
-    "mtime": "2026-11-18T16:43:50.157Z"
+    "bytes": 1734284,
+    "sha256": "9b0a764b33d02201aa23a96a78a054512b9d1c824fcc3ed8ec845654681aab1a",
+    "mtime": "2026-11-21T11:36:39.834Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w275b-d0audit.mjs",
     "bytes": 25665,
     "sha256": "aa0a9a8bccdd8fbca78436fa952c15846f05a9500ee65d24f31993334c9328bc",
-    "mtime": "2026-11-18T01:07:52.486Z"
+    "mtime": "2026-11-19T16:19:54.524Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
     "bytes": 10918,
     "sha256": "0320d33c45339e747b2095a3fa57cffc22b77800afb878f561210588bccc9440",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "c66261a9e9696fe8da7d1b428cbe45729c37ee5e6979ce207677959f8f2ecc40",
@@ -72,7 +72,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "682256dc840dfcda8584580801ddf64a073e7fe444316cec59e3c0900199bfd5",
+    "stableSha256": "96d76856b97f2bb4701fc1766dfc9ebeb9ea556da287abafcaf1cf7005360d12",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -136,7 +136,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "03c0a6caa4117960c479f65936f511996557c68da05217616ab71463b1e14ce9",
+    "stableSha256": "de42bd042bbbda0daae6739b4dc3698291315ec00df2bf41b627e239ef00563c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -266,14 +266,14 @@
     "calaudit": null,
     "name": null,
     "noCounterpart": "第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い",
-    "here": 19414266.578568343,
+    "here": 19414266.578568034,
     "absDiff": null,
     "bitSame": null
    },
    "kF0": {
-    "calaudit": 19413888.609576266,
+    "calaudit": 19413888.609576274,
     "name": "公転周期(kFrame=0 対照)",
-    "here": 19413888.609576266,
+    "here": 19413888.609576274,
     "absDiff": 0,
     "bitSame": true
    },
@@ -2061,9 +2061,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3728609058135,
-      1941.3888609576265,
-      1941.3888610094277
+      1941.3728609058044,
+      1941.3888609576275,
+      1941.3888610094295
      ],
      "revN": 3,
      "rMin": 1074.5053874554594,
@@ -2084,9 +2084,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.566,
-     "rev2Sec": 19413888.609576266,
-     "residPct": -0.001430864545037849,
+     "wallSec": 0.571,
+     "rev2Sec": 19413888.609576274,
+     "residPct": -0.001430864544999472,
      "sigma": null
     },
     "h2": {
@@ -2097,9 +2097,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3808580781872,
-      1941.3888581042995,
-      1941.388858129922
+      1941.3808580781968,
+      1941.3888581042586,
+      1941.3888581299107
      ],
      "revN": 3,
      "rMin": 1074.5054268638291,
@@ -2120,9 +2120,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.063,
-     "rev2Sec": 19413888.581042994,
-     "residPct": -0.0014310115164393364,
+     "wallSec": 0.86,
+     "rev2Sec": 19413888.581042584,
+     "residPct": -0.0014310115185500732,
      "sigma": null
     },
     "h4": {
@@ -2133,9 +2133,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3848573679309,
-      1941.3888573812872,
-      1941.3888573943104
+      1941.3848573679302,
+      1941.38885738127,
+      1941.388857394169
      ],
      "revN": 3,
      "rMin": 1074.5054367159553,
@@ -2156,9 +2156,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.075,
-     "rev2Sec": 19413888.573812872,
-     "residPct": -0.0014310487579128738,
+     "wallSec": 1.742,
+     "rev2Sec": 19413888.5738127,
+     "residPct": -0.0014310487587955456,
      "sigma": null
     }
    }
@@ -2179,9 +2179,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3728609058135,
-      1941.3888609576265,
-      1941.3888610094277
+      1941.3728609058044,
+      1941.3888609576275,
+      1941.3888610094295
      ],
      "revN": 3,
      "rMin": 1074.5053874554594,
@@ -2202,9 +2202,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.555,
-     "rev2Sec": 19413888.609576266,
-     "residPct": -0.001430864545037849,
+     "wallSec": 0.418,
+     "rev2Sec": 19413888.609576274,
+     "residPct": -0.001430864544999472,
      "sigma": null
     },
     "h2": {
@@ -2215,9 +2215,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3808580781872,
-      1941.3888581042995,
-      1941.388858129922
+      1941.3808580781968,
+      1941.3888581042586,
+      1941.3888581299107
      ],
      "revN": 3,
      "rMin": 1074.5054268638291,
@@ -2238,9 +2238,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.869,
-     "rev2Sec": 19413888.581042994,
-     "residPct": -0.0014310115164393364,
+     "wallSec": 1.34,
+     "rev2Sec": 19413888.581042584,
+     "residPct": -0.0014310115185500732,
      "sigma": null
     },
     "h4": {
@@ -2251,9 +2251,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3848573679309,
-      1941.3888573812872,
-      1941.3888573943104
+      1941.3848573679302,
+      1941.38885738127,
+      1941.388857394169
      ],
      "revN": 3,
      "rMin": 1074.5054367159553,
@@ -2274,9 +2274,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.749,
-     "rev2Sec": 19413888.573812872,
-     "residPct": -0.0014310487579128738,
+     "wallSec": 1.63,
+     "rev2Sec": 19413888.5738127,
+     "residPct": -0.0014310487587955456,
      "sigma": null
     }
    }
@@ -2297,9 +2297,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3728609058135,
-      1941.3888609576265,
-      1941.3888610094277
+      1941.3728609058044,
+      1941.3888609576275,
+      1941.3888610094295
      ],
      "revN": 3,
      "rMin": 1074.5053874554594,
@@ -2320,9 +2320,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.338,
-     "rev2Sec": 19413888.609576266,
-     "residPct": -0.001430864545037849,
+     "wallSec": 0.514,
+     "rev2Sec": 19413888.609576274,
+     "residPct": -0.001430864544999472,
      "sigma": null
     },
     "h2": {
@@ -2333,9 +2333,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3808580781872,
-      1941.3888581042995,
-      1941.388858129922
+      1941.3808580781968,
+      1941.3888581042586,
+      1941.3888581299107
      ],
      "revN": 3,
      "rMin": 1074.5054268638291,
@@ -2356,9 +2356,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.677,
-     "rev2Sec": 19413888.581042994,
-     "residPct": -0.0014310115164393364,
+     "wallSec": 0.798,
+     "rev2Sec": 19413888.581042584,
+     "residPct": -0.0014310115185500732,
      "sigma": null
     },
     "h4": {
@@ -2369,9 +2369,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3848573679309,
-      1941.3888573812872,
-      1941.3888573943104
+      1941.3848573679302,
+      1941.38885738127,
+      1941.388857394169
      ],
      "revN": 3,
      "rMin": 1074.5054367159553,
@@ -2392,9 +2392,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.693,
-     "rev2Sec": 19413888.573812872,
-     "residPct": -0.0014310487579128738,
+     "wallSec": 1.63,
+     "rev2Sec": 19413888.5738127,
+     "residPct": -0.0014310487587955456,
      "sigma": null
     }
    }
@@ -2422,7 +2422,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.103,
+     "wallSec": 0.196,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2441,7 +2441,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.093,
+     "wallSec": 0.19,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2460,7 +2460,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.098,
+     "wallSec": 0.225,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2483,9 +2483,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.4092507287041,
-      1941.4266578568345,
-      1941.42807731512
+      1941.4092507286985,
+      1941.4266578568033,
+      1941.4280773150913
      ],
      "revN": 3,
      "rMin": 1074.5053876500065,
@@ -2506,9 +2506,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.845,
-     "rev2Sec": 19414266.578568343,
-     "residPct": 0.0005160075703511187,
+     "wallSec": 0.779,
+     "rev2Sec": 19414266.578568034,
+     "residPct": 0.000516007568758472,
      "sigma": null
     },
     "h2": {
@@ -2519,9 +2519,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.416867143288,
-      1941.4254920992603,
-      1941.4261707465416
+      1941.4168671432917,
+      1941.4254920992166,
+      1941.4261707465034
      ],
      "revN": 3,
      "rMin": 1074.5054269124657,
@@ -2542,9 +2542,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.747,
-     "rev2Sec": 19414254.9209926,
-     "residPct": 0.00045596082149142907,
+     "wallSec": 1.407,
+     "rev2Sec": 19414254.920992166,
+     "residPct": 0.0004559608192463727,
      "sigma": null
     },
     "h4": {
@@ -2555,9 +2555,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.4206583131652,
-      1941.4249618583624,
-      1941.425254031566
+      1941.4206583131086,
+      1941.4249618583972,
+      1941.4252540315078
      ],
      "revN": 3,
      "rMin": 1074.5054367281134,
@@ -2578,9 +2578,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.706,
-     "rev2Sec": 19414249.618583623,
-     "residPct": 0.000428648760447474,
+     "wallSec": 2.102,
+     "rev2Sec": 19414249.618583973,
+     "residPct": 0.00042864876225119446,
      "sigma": null
     }
    }
@@ -2620,7 +2620,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.533,
+     "wallSec": 0.504,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2652,7 +2652,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.106,
+     "wallSec": 1.565,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2684,7 +2684,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.734,
+     "wallSec": 2.2,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2707,9 +2707,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3730995153996,
-      1941.3890993609134,
-      1941.3890992035977
+      1941.373099515423,
+      1941.3890993608918,
+      1941.3890992035813
      ],
      "revN": 3,
      "rMin": 1074.5053873083589,
@@ -2730,9 +2730,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.605,
-     "rev2Sec": 19413890.993609134,
-     "residPct": -0.0014185846829066122,
+     "wallSec": 0.494,
+     "rev2Sec": 19413890.993608918,
+     "residPct": -0.0014185846840195462,
      "sigma": null
     },
     "h2": {
@@ -2743,9 +2743,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3810967373365,
-      1941.3890966572862,
-      1941.389096581056
+      1941.38109673737,
+      1941.3890966573642,
+      1941.38909658099
      ],
      "revN": 3,
      "rMin": 1074.505426788778,
@@ -2766,9 +2766,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.932,
-     "rev2Sec": 19413890.966572862,
-     "residPct": -0.0014187239434415861,
+     "wallSec": 1.004,
+     "rev2Sec": 19413890.96657364,
+     "residPct": -0.0014187239394311865,
      "sigma": null
     },
     "h4": {
@@ -2779,9 +2779,9 @@
      "stop": "orbMax",
      "nan": false,
      "rev": [
-      1941.3850960498348,
-      1941.3890960099775,
-      1941.3890959718233
+      1941.3850960498164,
+      1941.3890960099873,
+      1941.389095971901
      ],
      "revN": 3,
      "rMin": 1074.5054366787733,
@@ -2802,9 +2802,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.066,
-     "rev2Sec": 19413890.960099775,
-     "residPct": -0.001418757285520978,
+     "wallSec": 2,
+     "rev2Sec": 19413890.960099872,
+     "residPct": -0.0014187572850220766,
      "sigma": null
     }
    }
@@ -2832,7 +2832,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.201,
+     "wallSec": 0.276,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2851,7 +2851,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.145,
+     "wallSec": 0.139,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2870,7 +2870,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.126,
+     "wallSec": 0.262,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null

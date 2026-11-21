@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便f",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T00:37:03.419Z",
+  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+  "generatedAt": "2026-11-21T13:00:14.735Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
+    "mtime": "2026-11-21T11:51:32.818Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
     "bytes": 107709,
     "sha256": "4a8e4805e97f15610bbdb81fd20a2f9ff9afb25d1b2414713ec637d75406417b",
-    "mtime": "2026-10-20T16:19:56.570Z"
+    "mtime": "2026-11-19T16:19:54.488Z"
    },
    {
     "file": "beta/_w283_base.html",
     "bytes": 4836622,
     "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-10-20T16:27:34.308Z"
+    "mtime": "2026-11-21T12:47:43.286Z"
    }
   ],
   "code": [
@@ -30,37 +30,37 @@
     "file": "tests/exp-w283f-cluster.mjs",
     "bytes": 32819,
     "sha256": "f2486e54c636e479f0328968b3e4f17eef3cf621e3845d9a3b8c7a68f61ab5df",
-    "mtime": "2026-11-05T03:10:54.247Z"
+    "mtime": "2026-11-19T16:19:54.528Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-10-20T16:19:56.676Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "e5667eaf266c21e95daffdd46b2b2763eed4c19681786eaf0deb01bcaea812bc",
@@ -160,7 +160,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 407.3166132377899,
+   "rateStepsPerSec": 213.2140036851803,
    "spinCenter": 12,
    "samples": [
     {
@@ -678,7 +678,7 @@
    },
    "label": "基準(宣言どおり・N_rep 40)",
    "info": false,
-   "wallSec": 15.931
+   "wallSec": 30.446
   },
   {
    "key": "spin0",
@@ -688,7 +688,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 395.74935873946504,
+   "rateStepsPerSec": 334.81450862870724,
    "spinCenter": 0,
    "samples": [
     {
@@ -1206,7 +1206,7 @@
    },
    "label": "中心 spin 0(自転の寄与だけを外す)",
    "info": false,
-   "wallSec": 16.389
+   "wallSec": 19.398
   },
   {
    "key": "noDR",
@@ -1216,7 +1216,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 608.8508879075448,
+   "rateStepsPerSec": 479.0065050266115,
    "spinCenter": 12,
    "samples": [
     {
@@ -1733,7 +1733,7 @@
    },
    "label": "DR なし(DR の行と台帳を外す —— 総質量は M★+中心だけ)",
    "info": false,
-   "wallSec": 10.656
+   "wallSec": 13.542
   },
   {
    "key": "nrep80",
@@ -1743,7 +1743,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 273.1411229135053,
+   "rateStepsPerSec": 212.72404963561158,
    "spinCenter": 12,
    "samples": [
     {
@@ -2261,7 +2261,7 @@
    },
    "label": "N_rep 80(DR の総質量 2125 一定・1 体 26.5625)",
    "info": false,
-   "wallSec": 23.745
+   "wallSec": 30.484
   },
   {
    "key": "nrep160",
@@ -2271,7 +2271,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 160.97379207551856,
+   "rateStepsPerSec": 134.8482956673742,
    "spinCenter": 12,
    "samples": [
     {
@@ -2790,7 +2790,7 @@
    },
    "label": "N_rep 160(DR の総質量 2125 一定・1 体 13.28125)",
    "info": false,
-   "wallSec": 40.315
+   "wallSec": 48.11
   },
   {
    "key": "toyOff",
@@ -2800,7 +2800,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 2183.288409703504,
+   "rateStepsPerSec": 1916.026020106446,
    "spinCenter": 12,
    "samples": [
     {
@@ -3318,7 +3318,7 @@
    },
    "label": "情報の対照: トイを外す(geoPN=0・spaceMesh なし —— 重力 E4 だけ・同じ初期配置)",
    "info": true,
-   "wallSec": 3.004
+   "wallSec": 3.419
   },
   {
    "key": "toyOffNoDR",
@@ -3328,7 +3328,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 3421.3305174234424,
+   "rateStepsPerSec": 2637.3626373626375,
    "spinCenter": 12,
    "samples": [
     {
@@ -3845,7 +3845,7 @@
    },
    "label": "情報の対照: トイを外し DR も外す(重力 E4 だけ・恒星と中心)",
    "info": true,
-   "wallSec": 1.912
+   "wallSec": 2.478
   },
   {
    "key": "smallR",
@@ -3855,7 +3855,7 @@
    "steps": 6480,
    "stepsPerSample": 540,
    "ToutEff": 34.56,
-   "rateStepsPerSec": 398.8428632978396,
+   "rateStepsPerSec": 326.59644171160727,
    "spinCenter": 12,
    "samples": [
     {
@@ -4373,7 +4373,7 @@
    },
    "label": "情報の対照: DR 代表粒子の半径を小さく(rMul 1.2 → 0.2・R 8.75 → 1.46 —— E9 の接触ばねが DR どうしで働かない大きさ)",
    "info": true,
-   "wallSec": 16.265
+   "wallSec": 19.859
   }
  ],
  "controls": {
@@ -6635,5 +6635,5 @@
   "compare": "not-compared",
   "why": "参照の行を並べるだけ —— 単位の写像(トイ単位 ↔ pc・km/s)を宣言していないので比較の数を作らない(一致とは書かない)"
  },
- "elapsedS": 156.752
+ "elapsedS": 196.388
 }
