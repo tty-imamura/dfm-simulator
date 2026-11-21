@@ -115178,6 +115178,252 @@ function view343aOf344a(eq) {
 }
 // ==== 第346便c の塊(ここまで)====
 
+// ==== 第347便a の塊(ここから —— docs.paperPlan347a・docs.report145_347a の 2 ブロック。root は SKIP)====
+// ---- 第347便a(原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・原仮定者の指示(2026-11-21 —— 第145報)の論文の改訂案・統括の検証項目 R400): **文書と照合の鍵だけ**
+// ----   (docs/PAPER_PLAN.md〔新設 —— 論文 5 本の構成案〕・PHYSICS〔第347便a〕の表 1〜表 3・AI_SPEC §292・README の 1 行 —— html・論文の本文・エンジン・内蔵の本・受理器・
+// ----   既存の lib の本文・physics の鍵は変えない・器と段と lib と正本は足さない)。世代切替 = beta 対象 ∧ docs/PAPER_PLAN.md が在る。
+// ----   在位の本の数(構成案の §1.2・PHYSICS の表 2)は、html の本の宣言を headless で読んで数え直す(手書きの期待を持たない)。
+{
+  await (async () => {
+  const rd347a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const PP0 = rd347a('docs/PAPER_PLAN.md');
+  if (!(TARGET.startsWith('beta/') && PP0 !== null)) {
+    console.log('SKIP docs.paperPlan347a(第347便a の論文の構成案の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    console.log('SKIP docs.report145_347a(第347便a の第145報の回答の当たり所の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const T37 = await import('file://' + path.join(ROOT, 'tests', 'lib-w337g-equations.mjs'));
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/『[^』]*』/g, '');
+  const cells = (l) => l.split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''));
+  const tabIn = (text, h) => { const L = String(text || '').split('\n'), k = L.findIndex((x) => x.startsWith(h)); if (k < 0) return []; const out = []; for (let n = k + 1; n < L.length; n++) { if (L[n].startsWith('|')) out.push(L[n]); else if (out.length) break; } return out.slice(2); };
+  const tabH = (text, h) => { const L = String(text || '').split('\n'), k = L.findIndex((x) => x.startsWith(h)); if (k < 0) return []; const out = []; for (let n = k + 2; n < L.length; n++) { if (L[n].startsWith('|')) out.push(L[n]); else break; } return out; };
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  const mdSec = (md, head, lvl) => { const i = md.indexOf('\n' + head); if (i < 0) return ''; const re = new RegExp('\\n#{1,' + lvl + '} ', 'g'); re.lastIndex = i + 2; const z = re.exec(md); return md.slice(i + 1, z ? z.index : md.length); };
+  const quotes = (t) => (String(t || '').match(/「[^」]*」/g) || []).map((q) => q.slice(1, -1));
+  const rv = (x) => x.split('').reverse().join('');
+  // 禁句(引用も含めて書かない —— 外の照合の名・資料を添えた旨の語・非公開の文書の名。逆順で持つ —— 第310便c の型)
+  const NG347 = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_541TROPER'].map(rv);
+  const NOT347 = [/論文の内容が確定した/, /検証が済んだ/, /構成が決まった/, /論文の構成が決まった/, /本文の改訂が済んだ/, /順番が決まった/, /わずかに進むと分かった/, /換算の型が決まった/, /現実の宇宙である/];
+  const SRC145 = '原仮定者の回答(2026-11-21 —— 第145報)', SRCA1 = '原仮定者の回答(2026-11-21 —— 第145報の回答 1)', SRCP = '原仮定者の指示(2026-11-21 —— 第145報)';
+  const Q925 = '推奨で進める。論文1では、AN904は未解決。構成案に基づいて、それぞれの本文の改訂前に、必要な検証やサンプル作成を行う';
+  const Q904 = '探索のアプローチを変える。粒子が局所光速に達した時も、自分自身の決定力により、わずかに当事者時間が進む。時間が進む半径と、シュバルツシルト半径を比較する。ガンマ線バーストへの影響も調べる';
+  const PREM = '現実の宇宙を主張しないが、現実の宇宙との照合も可能である事を示す', DIR = '盛り込む内容が多いので、簡潔な説明を心掛け、途中経過は省く。未解決問題への言及も、本文中ではなく、最後にリストでまとめる';
+  const PAPERS = [
+    { n: 1, sec: '## 2. 論文1', geo: 1, q: '主にgeoPN=1を使用。「もしも物質の相対位置で空間が決まるなら」の思考実験で始まる。決定力場、局所光速で止まる当事者時間、1PNを採用。相対性理論との差異を最小限に留めつつ、DFMの直観的な光学を説明する。GPS時計オフセット、太陽縁での光の偏向、シャピロ遅延などを扱う。現状から内容を整理する', te: 'もしも物質の相対位置で空間が決まるなら', must2: ['決定力場、局所光速で止まる当事者時間、1PNを採用', 'GPS時計オフセット、太陽縁での光の偏向、シャピロ遅延など'] },
+    { n: 2, sec: '## 3. 論文2', geo: 0, q: '主にgeoPN=0を使用。「もしも宇宙に天体が１つだけだったら」の思考実験で始まる。ハッブルテンション類似などを扱う', te: 'もしも宇宙に天体が１つだけだったら', must2: ['ハッブルテンション類似など'] },
+    { n: 3, sec: '## 4. 論文3', geo: 3, q: '主にgeoPN=3を使用。「もしも宇宙に天体が２つだけだったら」の思考実験で始まる。慣性決定力、引きずり、ジャイロトルクを採用。太陽系の天体との照合を通じて、DFMにおける慣性と重力の解釈を説明する', te: 'もしも宇宙に天体が２つだけだったら', must2: ['慣性決定力、引きずり、ジャイロトルクを採用'] },
+    { n: 4, sec: '## 5. 論文4', geo: 4, q: '主にgeoPN=4を使用。アナロジーとして、DFM版の銀河の検証結果を示す', te: null, must2: ['DFM版の銀河の検証結果'] },
+    { n: 5, sec: '## 6. 論文5', geo: 2, q: '主にgeoPN=2を使用。アナロジーとして、熱の三態の創発の検証結果を示す。3Dに拡張し、理想気体の状態方程式に近付ける', te: null, must2: ['熱の三態の創発の検証結果', '3Dに拡張し、理想気体の状態方程式に近付ける'] }];
+  const ITEMS = ['### ① 入口の思考実験', '### ② 主に使う geoPN と、採る要素', '### ③ 章立て(簡潔 —— 途中経過は省く)', '### ④ 図表の案', '### ⑤ 使う本', '### ⑥ 今の論文の節の行き先', '### ⑦ 末尾にまとめる未解決の一覧', '### ⑧ 本文の改訂の前に要る検証と本'];
+  const GEO_LABEL = ['汎用', '1PN準拠', '引きずり近似', '慣性決定力', '空間メッシュ(旧法則版の置き場)'];
+  const ENOUGH = ['足りる', '一部', '足りない'];
+  // html の本の宣言(headless —— 受理する前の宣言)
+  const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+  const BP = L.evalExpr('BUILTIN_PRESETS'), RP = L.evalExpr('RETIRED_PRESETS') || {};
+  const geoOf = (p) => { const g = p.physics && p.physics.geoPN; return (typeof g === 'number') ? g : 0; };
+  const COUNT = [0, 1, 2, 3, 4].map((g) => { const x = BP.filter((p) => geoOf(p) === g); return { g, live: x.filter((p) => !RP[p.id]).length, ret: x.filter((p) => RP[p.id]).length, d3: x.filter((p) => !RP[p.id] && p.physics && p.physics.coord === '3d').length }; });
+  const HEAT = BP.filter((p) => p.group === 'スピンと熱' && !RP[p.id]);
+  const ngIn = (nm, tx, bad, tag) => { for (const w of NG347) if (String(tx || '').indexOf(w) >= 0) bad.push(tag + ' ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)'); };
+  const planCounts = (pp) => PAPERS.map((P) => { const s8 = mdSec(mdSec(pp, P.sec, 2), ITEMS[7], 3), T = tabIn(s8, ITEMS[7]); return { n: T.length, short: T.filter((l) => cells(l)[3] === '足りない').length }; });
+  const checkPlan = (pp, ph) => {
+    const bad = [], cases = [];
+    // ① 冒頭(出どころ・案であること・現実の宇宙の主張ではない)
+    const head = pp.split('\n## ')[0];
+    for (const w of ['# 論文 5 本の構成案', SRCP, SRCA1 + '「AN925: ' + Q925 + '」', 'R400', 'PHYSICS〔第347便a〕', '**本書は構成案である。**', '論文の本文(`paper/*.tex`)は本便では変えていない', '現実の宇宙の主張ではない']) if (head.indexOf(w) < 0) bad.push('① 冒頭に「' + w.slice(0, 24) + '」が無い');
+    cases.push('① 冒頭の出どころ(AN925 の原文)・案であること・本文を変えていない');
+    // ② §0 の前提と方向性(原文の字)・冒頭の定型の段落
+    { const s0 = mdSec(pp, '## 0. ', 2);
+      const T0 = tabH(s0, '| 項 |');
+      for (const [k, q] of [['前提', PREM], ['方向性', DIR]]) { const l = T0.find((x) => x.startsWith('| ' + k + ' |')); if (!l) { bad.push('② §0 に「' + k + '」の行が無い'); continue; } if (cells(l)[1] !== '「' + q + '」') bad.push('② §0 の「' + k + '」の原文の字が原文と違う'); }
+      for (const w of ['**各論文の冒頭の定型の段落(案)。**', '本稿は現実の宇宙を主張しない', '照合することはできる', '末尾の一覧にまとめる']) if (s0.indexOf(w) < 0) bad.push('② §0 の定型の段落に「' + w + '」が無い');
+      }
+    cases.push('② §0 の前提と方向性(原文の字)・冒頭の定型の段落');
+    // ③ 5 本 × 8 項(順・見出し)
+    let iPrev = -1;
+    for (const P of PAPERS) { const i = pp.indexOf('\n' + P.sec + '\n'); if (i < 0 || i < iPrev) bad.push('③ ' + P.sec + ' が無いか順が違う'); iPrev = i;
+      const s = mdSec(pp, P.sec, 2); let j = -1;
+      for (const h of ITEMS) { const k = s.indexOf('\n' + h + '\n'); if (k < 0 || k < j) bad.push('③ 論文' + P.n + ' に「' + h.slice(4) + '」が無いか順が違う'); j = k; } }
+    cases.push(`③ 論文 ${PAPERS.length} 本 × ${ITEMS.length} 項の見出し(順)`);
+    // ④ ① と ② の原文の引用の字(「」の中は原文の部分の字そのまま —— アプリの名を除く)
+    for (const P of PAPERS) { const s = mdSec(pp, P.sec, 2), s1 = mdSec(s, ITEMS[0], 3), s2 = mdSec(s, ITEMS[1], 3);
+      for (const q of quotes(s1)) if (P.q.indexOf(q) < 0 && q !== P.q) bad.push('④ 論文' + P.n + ' の ① の引用「' + q.slice(0, 16) + '」が原文の字と違う');
+      if (P.te) { if (s1.indexOf('「' + P.te + '」(原文のまま)') < 0) bad.push('④ 論文' + P.n + ' の ① に入口の思考実験の原文が無い'); }
+      else if (s1.indexOf('原文に思考実験の指定は無い') < 0 || s1.indexOf('「' + P.q + '」') < 0 || s1.indexOf('決めていない') < 0) bad.push('④ 論文' + P.n + ' の ① に「原文に思考実験の指定は無い」と原文の全文と「決めていない」が無い');
+      for (const q of quotes(s2)) if (P.q.indexOf(q) < 0 && GEO_LABEL.indexOf(q) < 0) bad.push('④ 論文' + P.n + ' の ② の引用「' + q.slice(0, 16) + '」が原文の字でもアプリの名でもない');
+      if (s2.indexOf('原文「主にgeoPN=' + P.geo + 'を使用」') < 0) bad.push('④ 論文' + P.n + ' の ② に geoPN の原文が無い');
+      if (s2.indexOf('アプリの名は「' + GEO_LABEL[P.geo] + '」') < 0) bad.push('④ 論文' + P.n + ' の ② にアプリの名「' + GEO_LABEL[P.geo] + '」が無い');
+      for (const w of P.must2) if (s2.indexOf('「' + w + '」') < 0) bad.push('④ 論文' + P.n + ' の ② に採る要素の原文「' + w.slice(0, 12) + '」が無い');
+      const live = COUNT[P.geo].live; if (s2.indexOf('在位の本 ' + live) < 0 && s2.indexOf('在位の本は ' + live) < 0) bad.push('④ 論文' + P.n + ' の ② の在位の本の数が本の宣言(' + live + ')と違う'); }
+    cases.push('④ ① と ② の引用の字(原文の部分かアプリの名)・geoPN の原文・採る要素・在位の本の数(本の宣言から)');
+    // ⑤ 使う本(今ある本は在位の本・足す必要が在る本の行)
+    let nIds = 0;
+    for (const P of PAPERS) { const s5 = mdSec(mdSec(pp, P.sec, 2), ITEMS[4], 3), L5 = s5.split('\n');
+      const la = L5.find((x) => x.startsWith('- 今ある本')) || '', lb = L5.find((x) => x.startsWith('- 足す必要が在る本')) || '';
+      if (!la) bad.push('⑤ 論文' + P.n + ' の ⑤ に「今ある本」の行が無い'); if (!lb) bad.push('⑤ 論文' + P.n + ' の ⑤ に「足す必要が在る本」の行が無い');
+      const ids = (la.split('。')[0].match(/`([A-Za-z0-9]+)`/g) || []).map((x) => x.slice(1, -1));
+      if (!ids.length) bad.push('⑤ 論文' + P.n + ' の今ある本に本の id が無い');
+      for (const id of ids) { nIds++; const p = BP.find((x) => x.id === id); if (!p) bad.push('⑤ 論文' + P.n + ' の今ある本 ' + id + ' が内蔵の本に無い'); else if (RP[id]) bad.push('⑤ 論文' + P.n + ' の今ある本 ' + id + ' が退役の本'); } }
+    cases.push(`⑤ 使う本(今ある本 ${nIds} 件が在位の内蔵の本・足す必要が在る本の行)`);
+    // ⑥ 節の行き先(残す・移す・落とす)
+    for (const P of PAPERS) { const T = tabH(mdSec(mdSec(pp, P.sec, 2), ITEMS[5], 3), '| 今の節 |');
+      if (!T.length) bad.push('⑥ 論文' + P.n + ' の節の行き先の表が無い');
+      for (const l of T) { const c = cells(l); if (c.length !== 2 || !/^(残す|移す|落とす|第 \d 章へ)/.test(c[1])) bad.push('⑥ 論文' + P.n + ' の行き先「' + (c[1] || '').slice(0, 10) + '」が残す・移す・落とす で始まらない'); } }
+    cases.push('⑥ 節の行き先の表(残す・移す・落とす)');
+    // ⑦ 未解決の一覧(論文1 の最初の行は AN904)
+    for (const P of PAPERS) { const T = tabH(mdSec(mdSec(pp, P.sec, 2), ITEMS[6], 3), '| 番号 |');
+      if (!T.length) { bad.push('⑦ 論文' + P.n + ' の未解決の一覧が無い'); continue; }
+      T.forEach((l, k) => { const c = cells(l); if (c.length !== 3 || c[0] !== 'U' + P.n + '-' + (k + 1)) bad.push('⑦ 論文' + P.n + ' の未解決の一覧の番号か欄(' + (c[0] || '') + ')'); });
+      if (P.n === 1) { const c = cells(T[0]); if (!(c[1].indexOf('AN904') === 0 && c[1].indexOf('局所光速で止まる標準の時計') >= 0 && c[2].indexOf(SRC145 + 'AN904') >= 0 && c[2].indexOf(SRCA1 + 'AN925') >= 0)) bad.push('⑦ 論文1 の未解決の一覧の最初の行が AN904(標準の時計・出どころ AN904 と AN925)でない'); } }
+    cases.push('⑦ 未解決の一覧(番号の順・論文1 の最初の行は AN904)');
+    // ⑧ 要る検証と本(6 欄・足りるか の 3 値・足りなければ作るものがある)
+    for (const P of PAPERS) { const T = tabH(mdSec(mdSec(pp, P.sec, 2), ITEMS[7], 3), '| 番号 |');
+      if (T.length < 3) bad.push('⑧ 論文' + P.n + ' の要る検証と本が 3 行未満');
+      T.forEach((l, k) => { const c = cells(l);
+        if (c.length !== 6 || c[0] !== 'V' + P.n + '-' + (k + 1)) { bad.push('⑧ 論文' + P.n + ' の要る検証と本の番号か欄(' + (c[0] || '') + ')'); return; }
+        if (ENOUGH.indexOf(c[3]) < 0) bad.push('⑧ 論文' + P.n + ' の ' + c[0] + ' の「足りるか」が 3 値でない');
+        if (c[3] !== '足りる' && (c[4] === '——' || c[5] === '——')) bad.push('⑧ 論文' + P.n + ' の ' + c[0] + ' が足りないのに作るものか見積りが無い');
+        if (c[3] === '足りる' && c[2] === '——') bad.push('⑧ 論文' + P.n + ' の ' + c[0] + ' が足りるのに今ある器・正本・ゲートが無い'); }); }
+    cases.push('⑧ 要る検証と本(番号・6 欄・足りるか の 3 値・作るものと見積り)');
+    // ⑨ §1.2 の数が本の宣言と同じ・熱の群の文
+    { const T = tabH(mdSec(pp, '### 1.2 ', 3), '| geoPN |');
+      for (const C of COUNT) { const l = T.find((x) => x.startsWith('| ' + C.g + ' |')), c = l ? cells(l) : [];
+        if (c.length !== 5) { bad.push('⑨ §1.2 に geoPN=' + C.g + ' の行が無い'); continue; }
+        if (c[1] !== GEO_LABEL[C.g]) bad.push('⑨ §1.2 の geoPN=' + C.g + ' のアプリの名');
+        if (+c[2] !== C.live || +c[3] !== C.ret || +c[4] !== C.d3) bad.push('⑨ §1.2 の geoPN=' + C.g + ' の数(' + c.slice(2).join('・') + ')が本の宣言(' + [C.live, C.ret, C.d3].join('・') + ')と違う'); }
+      const heatOk = HEAT.length > 0 && HEAT.every((p) => geoOf(p) === 0 && !(p.physics && p.physics.coord === '3d'));
+      if (!heatOk || pp.indexOf('熱の群(🌡️ スピンと熱)の ' + HEAT.length + ' 本は、全部 geoPN=0・二次元') < 0) bad.push('⑨ §1.2 の熱の群の文(' + HEAT.length + ' 本・geoPN=0・二次元)が本の宣言と違う'); }
+    cases.push('⑨ §1.2 の在位・退役・三次元の数が本の宣言と同じ(' + COUNT.map((C) => C.g + ':' + C.live + '/' + C.ret + '/' + C.d3).join(' ') + ')・熱の群 ' + HEAT.length + ' 本');
+    // ⑩ 棚卸し・順番・並べて読む所・書かないこと・文書の維持
+    { if (tabH(mdSec(pp, '### 1.3 ', 3), '| 論文 |').length < 15) bad.push('⑩ §1.3 の節ごとの棚卸しが 15 行未満');
+      if (tabH(mdSec(pp, '### 1.1 ', 3), '| 論文 |').length !== 6) bad.push('⑩ §1.1 が 5 本と 6 本目の骨子の 6 行でない');
+      const T7 = tabH(mdSec(pp, '## 7. ', 2), '| 順 |'); if (T7.length < 5) bad.push('⑩ §7 の順番の案が 5 行未満');
+      if (mdSec(pp, '## 7. ', 2).indexOf('決めていない') < 0) bad.push('⑩ §7 に「決めていない」が無い');
+      const s8 = mdSec(pp, '## 8. ', 2); if ((s8.match(/\n\d\. \*\*/g) || []).length < 5) bad.push('⑩ §8 の並べて読む所が 5 項未満');
+      for (const w of ['## 9. 書かないこと', '## 10. 文書の維持', 'docs.paperPlan347a', 'docs.report145_347a']) if (pp.indexOf(w) < 0) bad.push('⑩ 「' + w + '」が無い');
+      if (physSecOf(ph, '〔第347便a — ').indexOf('`docs/PAPER_PLAN.md`') < 0) bad.push('⑩ PHYSICS〔第347便a〕から構成案の文書を指していない'); }
+    cases.push('⑩ 棚卸し(§1.1・§1.3)・順番の案・並べて読む所・書かないこと・文書の維持・PHYSICS からの参照');
+    // ⑪ 禁句と書かない語
+    ngIn('構成案の文書', pp, bad, '⑪');
+    { const s = stripQ(pp); for (const re of NOT347) if (re.test(s)) bad.push('⑪ 構成案の文書に書かない語 ' + re.source); }
+    for (const b of T37.wordAudit337g('構成案の文書', pp)) bad.push('⑪ ' + b);
+    cases.push(`⑪ 禁句 ${NG347.length}(引用も含めて)・書かない語(第347便の ${NOT347.length}・第337便までの禁句)`);
+    return { bad, cases };
+  };
+  const AN6 = [['AN902', SRC145, '推奨で進める。現状も近似として比較可能にする', '枝 b'], ['AN904', SRC145, Q904, '枝 c'], ['AN909', SRC145, '推奨で進める', '枝 d'], ['AN910', SRC145, '推奨で進める', '枝 e'], ['AN911', SRC145, '推奨で進める', '枝 e'], ['AN925', SRCA1, Q925, '枝 a']];
+  const TERMS = [['現行の近似', '「推奨で進める。現状も近似として比較可能にする」(' + SRC145 + 'AN902)', ['絶対時間', '指数 2', 'どの表にも必ず並べる', 'アプリの式は変えない']], ['主の候補', '(原文の語ではない —— 統括の語)', ['推奨で進める', '決まった形ではない']], ['比べる列', '(原文の語ではない —— 統括の語)', ['消さない', '採用や棄却の判定には使わない', '文献の値・未照合']]];
+  const checkRep = (ph, pp, as, pm, rm) => {
+    const bad = [], cases = [];
+    // ① 節の位置と必須の語
+    const sec = physSecOf(ph, '〔第347便a — '), iA = ph.indexOf('\n〔第347便a — '), iC = ph.indexOf('\n〔第346便c — '), iT = ph.indexOf('\n〔第328便 — 統括'), i7 = ph.indexOf('\n## 7. 論文');
+    if (!(iA >= 0 && iC >= 0 && iC < iA && (iT < 0 || iA < iT) && (i7 < 0 || iA < i7))) bad.push('① PHYSICS〔第347便a〕の位置(第346便c の節の後・第328便の統括の節と「## 7.」の前)');
+    if (sec.split('\n')[0].indexOf('「AN925: ' + Q925 + '」') < 0) bad.push('① 見出しに AN925 の原文が無い');
+    for (const w of ['R400', '`docs/PAPER_PLAN.md`', '**表 1 第145報の回答の本便での当たり所(', '**表 2 構成案の要約(', '**表 3 用語(', '**論文の本文は本便で変えていない**', '**② 並べて読む所', '**③ 決断事項の候補。**', '**④ 次の便へ。**', '**⑤ 書かないこと。**', 'docs.paperPlan347a', 'docs.report145_347a', '枝 b〜f の結果は本節に書かない']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第347便a〕に「' + w.slice(0, 24) + '」が無い');
+    cases.push('① PHYSICS〔第347便a〕の位置・見出しの原文・必須の語');
+    // ② 表 1(回答 6 項 —— 原文の字・出どころ・当たり所の枝・数を書かない)
+    { const T = tabIn(sec, '**表 1 ');
+      if (T.map((l) => cells(l)[0]).join('|') !== AN6.map((z) => z[0]).join('|')) bad.push('② 表 1 の項の並び: ' + T.map((l) => cells(l)[0]).join('・'));
+      for (const [k, src, q, br] of AN6) { const l = T.find((x) => x.startsWith('| ' + k + ' |')), c = l ? cells(l) : [];
+        if (c.length !== 5) { bad.push('② 表 1 に ' + k + ' の 5 欄の行が無い'); continue; }
+        if (c[1] !== src) bad.push('② 表 1 の ' + k + ' の出どころ'); if (c[2] !== '「' + q + '」') bad.push('② 表 1 の ' + k + ' の原文の字が原文と違う');
+        if (c[3] !== br) bad.push('② 表 1 の ' + k + ' の当たり所が「' + br + '」でない');
+        if (/\d\.\d|\de[−-]?\d|\d+ ?(%|倍(?!角)|分|秒)/.test(c[4])) bad.push('② 表 1 の ' + k + ' の何を数えるかに数(ほかの枝の結果を先取りしない)'); } }
+    cases.push(`② 表 1 の回答 ${AN6.length} 項(原文の字・出どころ・当たり所の枝・数なし)`);
+    // ③ 表 2(構成案と同じ —— 入口・geoPN・在位の本・要る検証の数)
+    { const T = tabIn(sec, '**表 2 '), PC = planCounts(pp);
+      if (T.length !== PAPERS.length) bad.push('③ 表 2 の行の数 ' + T.length);
+      PAPERS.forEach((P, k) => { const l = T.find((x) => x.startsWith('| 論文' + P.n + ' |')), c = l ? cells(l) : [];
+        if (c.length !== 6) { bad.push('③ 表 2 に論文' + P.n + ' の 6 欄の行が無い'); return; }
+        if (P.te ? c[1] !== '「' + P.te + '」' : c[1].indexOf('原文に指定は無い') < 0) bad.push('③ 表 2 の論文' + P.n + ' の入口の思考実験');
+        if (+c[2] !== P.geo) bad.push('③ 表 2 の論文' + P.n + ' の geoPN');
+        if (+c[3] !== COUNT[P.geo].live) bad.push('③ 表 2 の論文' + P.n + ' の在位の本(本の宣言 ' + COUNT[P.geo].live + ')');
+        if (+c[4] !== PC[k].n || +c[5] !== PC[k].short) bad.push('③ 表 2 の論文' + P.n + ' の要る検証の数(' + c[4] + '・' + c[5] + ')が構成案の ⑧(' + PC[k].n + '・' + PC[k].short + ')と違う'); });
+      for (const w of ['論文1 の未解決の一覧の最初の行は AN904', '「論文1では、AN904は未解決」', '局所光速で止まる当事者時間の標準の時計', 'アプリを変える便が先に要る']) if (sec.indexOf(w) < 0) bad.push('③ 表 2 の注に「' + w + '」が無い'); }
+    cases.push('③ 表 2 の構成案の要約(入口・geoPN・在位の本は本の宣言から・要る検証の数は構成案の ⑧ から)');
+    // ④ 表 3 の用語
+    { const T = tabIn(sec, '**表 3 ');
+      for (const [k, q, must] of TERMS) { const l = T.find((x) => x.startsWith('| ' + k + ' |')); if (!l) { bad.push('④ 表 3 に「' + k + '」の行が無い'); continue; } const c = cells(l);
+        if (c.length !== 3 || c[1] !== q) bad.push('④ 表 3 の「' + k + '」の原文か出どころ');
+        for (const w of must) if ((c[2] || '').indexOf(w) < 0) bad.push('④ 表 3 の「' + k + '」の読みに「' + w + '」が無い'); } }
+    cases.push(`④ 表 3 の用語 ${TERMS.length}(原文と出どころ・統括の語は原文の語ではないと書く)`);
+    // ⑤ AI_SPEC §292・post-merge・README の 1 行
+    const a292 = as.search(/\n## 292\. 第347便a/), a291 = as.search(/\n## 291\. 第346便c/), ai = a292 >= 0 ? secUntilNext329c(as, a292 + 1, '\n## ') : '';
+    if (!(a292 >= 0 && a291 >= 0 && a291 < a292 && ['AN925', '`docs/PAPER_PLAN.md`', 'AN904', 'SYSTEM_PROMPT には載せない', 'docs.paperPlan347a', 'docs.report145_347a', '構成案は案'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑤ AI_SPEC §292(§291 の後・必須の語)');
+    if (!(pm.indexOf('# ==== 第347便a の塊(ここから)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS docs\.paperPlan347a docs\.report145_347a"/.test(pm))) bad.push('⑤ post-merge に第347便a の塊');
+    const rml = rm.split('\n').find((l) => l.startsWith('| [docs/PAPER_PLAN.md](docs/PAPER_PLAN.md) |')) || '';
+    if (!rml || rml.indexOf('構成案') < 0) bad.push('⑤ README の文書の一覧に構成案の文書の行が無い');
+    cases.push('⑤ AI_SPEC §292(§291 の後)・post-merge・README の 1 行');
+    // ⑥ 禁句と書かない語
+    for (const [nm, tx] of [['PHYSICS〔第347便a〕', sec], ['AI_SPEC §292', ai], ['README の行', rml]]) {
+      ngIn(nm, tx, bad, '⑥');
+      const s = stripQ(tx); for (const re of NOT347) if (re.test(s)) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+      for (const b of T37.wordAudit337g(nm, tx)) bad.push('⑥ ' + b); }
+    cases.push(`⑥ 禁句 ${NG347.length}(引用も含めて)・書かない語 —— 3 本`);
+    return { bad, cases };
+  };
+  const PH = rd347a('docs/PHYSICS.md') || '', AS = rd347a('docs/AI_SPEC.md') || '', PM = rd347a('tools/post-merge-qa.sh') || '', RM = rd347a('README.md') || '';
+  const runMut = (MUT, fn, bad, cases, tag) => {
+    const sc = [];
+    for (const [nm, args, re] of MUT) {
+      const r = fn(...args);
+      if (re === null) { if (r.bad.length) bad.push(tag + ' 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push(tag + ' 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`${tag} 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+  };
+  // ───── docs.paperPlan347a ─────
+  {
+    let bad = [], cases = [];
+    try {
+      const R = checkPlan(PP0, PH); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const B = (pp) => [pp, PH];
+      const MUT = [
+        ['論文1 の入口の原文を 1 字変える', B(PP0.replace('「もしも物質の相対位置で空間が決まるなら」(原文のまま)', '「もしも物質の相対位置で空間が定まるなら」(原文のまま)')), /^④ 論文1 の ①/],
+        ['論文3 の採る要素の原文を 1 字変える', B(PP0.replace('「慣性決定力、引きずり、ジャイロトルクを採用」', '「慣性決定力、引きずり、ジャイロトルクを使用」')), /^④ 論文3 の ②/],
+        ['論文1 の未解決の一覧から AN904 の行を消す', B(PP0.replace(/\n\| U1-1 \| AN904[^\n]*/, '')), /^⑦ 論文1 の未解決の一覧/],
+        ['論文5 から ⑧ の見出しを消す', B(PP0.replace(/(## 6\. 論文5[\s\S]*?)\n### ⑧ 本文の改訂の前に要る検証と本\n/, '$1\n')), /^③ 論文5 に「⑧/],
+        ['§1.2 の geoPN=4 の在位の本を 1 にする', B(PP0.replace('| 4 | 空間メッシュ(旧法則版の置き場) | 0 | 15 | 0 |', '| 4 | 空間メッシュ(旧法則版の置き場) | 1 | 15 | 0 |')), /^⑨ §1\.2 の geoPN=4 の数/],
+        ['論文4 の今ある本に退役の本を足す', B(PP0.replace('- 今ある本(geoPN=4 では在位 0 —— 在位の銀河の本): 🌌 `galaxy`', '- 今ある本(geoPN=4 では在位 0 —— 在位の銀河の本): 🌚 `galaxyAnalogyBH`・🌌 `galaxy`')), /^⑤ 論文4 の今ある本 galaxyAnalogyBH が退役の本/],
+        ['⑧ の「足りるか」を 4 値目にする', B(PP0.replace('| V2-1 | 天体が 1 つだけの宇宙の本(思考実験の入口) | —— | 足りない |', '| V2-1 | 天体が 1 つだけの宇宙の本(思考実験の入口) | —— | ほぼ足りる |')), /^⑧ 論文2 の V2-1 の「足りるか」/],
+        ['前提の原文を 1 字変える', B(PP0.replace('| 前提 | 「現実の宇宙を主張しないが、現実の宇宙との照合も可能である事を示す」 |', '| 前提 | 「現実の宇宙を主張しないが、現実の宇宙との照合も可能である事を表す」 |')), /^② §0 の「前提」の原文の字/],
+        ['文書に外の照合の名を書く', B(PP0.replace('## 9. 書かないこと\n', '## 9. 書かないこと\n\n' + rv('inimeG') + ' の案。\n')), /^⑪ 構成案の文書 に禁句/],
+        ['「検証が済んだ」を地の文で書く', B(PP0.replace('## 9. 書かないこと\n', '## 9. 書かないこと\n\n論文1 の検証が済んだ。\n')), /^⑪ 構成案の文書に書かない語 検証が済んだ/],
+        ['書かない語を「」の中に置く(数えない)', B(PP0.replace('## 9. 書かないこと\n', '## 9. 書かないこと\n\n「論文の内容が確定した」とは書かない。\n')), null],
+      ];
+      runMut(MUT, checkPlan, bad, cases, '⑫');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.paperPlan347a', bad.length === 0,
+      `**論文 5 本の構成案 docs/PAPER_PLAN.md**(第347便a・${SRCA1}「AN925: ${Q925}」・R400 —— 5 本 × 8 項・原文の引用の字・論文1 の未解決の一覧に AN904・在位の本の数は本の宣言から・案であって決まった内容ではない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.report145_347a ─────
+  {
+    let bad = [], cases = [];
+    try {
+      const R = checkRep(PH, PP0, AS, PM, RM); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const A = (ph, pp) => [ph || PH, pp || PP0, AS, PM, RM];
+      const iS = PH.indexOf('\n〔第347便a — '), inSec = (a, z) => PH.slice(0, iS) + PH.slice(iS).replace(a, z);   // 本節の中だけを変える(〔第345便a〕に同じ字の行が在る)
+      const MUT = [
+        ['表 1 の AN904 の原文を 1 字変える', A(inSec('| AN904 | ' + SRC145 + ' | 「探索のアプローチを変える。粒子が局所光速に達した時も', '| AN904 | ' + SRC145 + ' | 「探索のアプローチを変える。粒子が局所光速に至った時も')), /^② 表 1 の AN904 の原文の字/],
+        ['表 1 の AN910 の当たり所を枝 d に', A(PH.replace(/(\| AN910 \| [^\n]*? \| 「推奨で進める」 \| )枝 e( \|)/, '$1枝 d$2')), /^② 表 1 の AN910 の当たり所/],
+        ['表 1 の何を数えるかに数を書く', A(PH.replace('| 枝 d | 引きずりの 3 体と長い走り —— ', '| 枝 d | 引きずりの 3 体と長い走り 1.5 倍 —— ')), /^② 表 1 の AN909 の何を数えるかに数/],
+        ['表 2 の論文5 の足りない項の数を変える', A(PH.replace('| 論文5 | (原文に指定は無い —— 案は決めていない) | 2 | 7 | 5 | 3 |', '| 論文5 | (原文に指定は無い —— 案は決めていない) | 2 | 7 | 5 | 2 |')), /^③ 表 2 の論文5 の要る検証の数/],
+        ['構成案の ⑧ に行を足す(表 2 と食い違う)', A(null, PP0.replace(/(\n\| V5-5 \|[^\n]*)/, '$1\n| V5-6 | 足した行 | —— | 足りない | 器 | 枝 1 本 |')), /^③ 表 2 の論文5 の要る検証の数/],
+        ['表 3 の現行の近似の原文を 1 字変える', A(inSec('| 現行の近似 | 「推奨で進める。現状も近似として比較可能にする」(' + SRC145 + 'AN902) | 今のアプリの重力の步', '| 現行の近似 | 「推奨で進める。現状も近似として比較できるようにする」(' + SRC145 + 'AN902) | 今のアプリの重力の步')), /^④ 表 3 の「現行の近似」の原文か出どころ/],
+        ['節に資料を添えた旨の語を「」の中で書く(引用も禁句)', A(PH.replace('**⑤ 書かないこと。** 構成案は案', '**⑤ 書かないこと。** 「' + rv('付添') + 'ファイル」。構成案は案')), /^⑥ PHYSICS〔第347便a〕 に禁句/],
+        ['節に「構成が決まった」を地の文で書く', A(PH.replace('**④ 次の便へ。** 論文1 の要る検証', '**④ 次の便へ。** 構成が決まった。論文1 の要る検証')), /^⑥ PHYSICS〔第347便a〕 に書かない語 構成が決まった/],
+      ];
+      runMut(MUT, checkRep, bad, cases, '⑦');
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report145_347a', bad.length === 0,
+      `**第145報の回答の本便での当たり所・構成案の要約・用語 3 つ**(第347便a・${SRCA1}・R400 —— 原文は言葉を変えずに引く・当たり所は題の割り当て・ほかの枝の結果の数は書かない・表 2 は構成案と本の宣言から数え直す・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第347便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

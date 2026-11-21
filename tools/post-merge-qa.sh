@@ -1275,6 +1275,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.diskDragName346b docs.diskDragName346b"
 #   θ の既存の鍵・追従させた本の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.viewTiltDefault346c behavior.gravityMirror346c ui.spinMarkerAxis346c docs.viewTilt346c ui.viewTilt298 ui.tiltSwipe300 behavior.buoyancy behavior.convection projectile.layout field.uniform-gravity box.wall-restitution phasechange.observables"
 # ==== 第346便c の塊(ここまで)====
+# ==== 第347便a の塊(ここから)====
+# 第347便a(原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R400 —— 文書と照合の鍵だけ・html と論文の本文は変えない): 新設 2 本(docs.paperPlan347a —— docs/PAPER_PLAN.md の
+#   5 本 × 8 項・原文の引用の字・論文1 の未解決の一覧に AN904 の行・在位の本の数 / docs.report145_347a —— PHYSICS〔第347便a〕の回答の当たり所・構成案の要約・用語・AI_SPEC §292・README の 1 行)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paperPlan347a docs.report145_347a"
+# ==== 第347便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
