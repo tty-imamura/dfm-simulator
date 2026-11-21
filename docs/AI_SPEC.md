@@ -5398,3 +5398,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 既定の視点(θ = +90)では **+y が画面の上**。下向きの一様重力は **gravityY < 0**(SYSTEM_PROMPT の一様重力の行・数値の規約〔everyday −9.8・beaker −0.031〕・例の ♨️ を新しい規約に直した —— 受理の条件は同じ)。宣言の `world.thermalWalls` の bottom は y = +size の面・top は y = −size の面のまま(名前は座標の側 —— 既定の視点では top が画面の下)。`mirrorY` は SYSTEM_PROMPT には載せない(内蔵の本の鏡映のための鍵)。
 - 600 步の鏡映は 6 本がビットで同じ・♨️ ☕ は 2 面の伝熱壁の熱を足す順で丸めの桁が違う(記録 `tests/data-w346c-gravmirror.json` の上限の内)。
 - QA `ui.viewTiltDefault346c`・`behavior.gravityMirror346c`・`ui.spinMarkerAxis346c`・`docs.viewTilt346c`(本節と PHYSICS〔第346便c〕 —— root は SKIP)。
+
+## 297. 第347便f —— 文書: 計算式の一覧の EQ-92〜EQ-96(第344便 b・c・d・e・g の候補の型の式)(統括の検証項目 R405・**html は変えない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。`docs/EQUATIONS.md` に EQ-92〜EQ-96(当事者時間の換算の型と近点の一次の見込み・X_k の単位ごとの比/イオンの時計の観測量と見込み・h の立ち上がりの型/引きずりへの換算の宣言 D0〜D3/「今の自転に合成する」の型と 2 倍角の則の 2 つの引数/冥王星とカロンの重力定数の出どころの 4 列と周期)を足した。ラベルは全部 診断。PHYSICS〔第347便f〕に表 1。
+- **AI が本を作るときの説明**: EQ-92〜EQ-96 は tests の lib の候補の式で、アプリの時間発展には入っていない。原仮定者の回答(2026-11-21 —— 第145報)で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。本節は **SYSTEM_PROMPT には載せない**(現実の宇宙の主張ではない)。
+- QA `docs.equations347f`(root は SKIP)。

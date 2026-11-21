@@ -1275,6 +1275,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.diskDragName346b docs.diskDragName346b"
 #   θ の既存の鍵・追従させた本の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.viewTiltDefault346c behavior.gravityMirror346c ui.spinMarkerAxis346c docs.viewTilt346c ui.viewTilt298 ui.tiltSwipe300 behavior.buoyancy behavior.convection projectile.layout field.uniform-gravity box.wall-restitution phasechange.observables"
 # ==== 第346便c の塊(ここまで)====
+# ==== 第347便f の塊(ここから)====
+# 第347便f(統括の検証項目 R405 —— 文書と照合の鍵だけ・html は変えない): 枝 f の新設 1 本(docs.equations347f —— 計算式の一覧の EQ-92〜EQ-96 の欄・式の字・抜粋と lib の照合・番号の連続)と、
+#   世代の写しを足した第344便a・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations347f docs.report144_344a lint.equations344a docs.report145_345a lint.equations331d docs.equations331d"
+# ==== 第347便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
