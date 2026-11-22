@@ -229,7 +229,7 @@
 > **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`tests/out/calaudit-w249.json`(各本の壁時計)・`tests/out/qa-results-full-beta.json`(試験ごとの所要 ms)の転記で、走行のたびに変わる。
 
 - **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。
-- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・`skippedBy:"reuse-dt2"`)3 段(元の走行 51.1 s)・**h4**(同一契約の dt/4 の転記 —— `skippedBy:"reuse"`)0 段(元の走行 0.00 s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。
+- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・`skippedBy:"reuse-dt2"`)3 段(元の走行 50.5 s)・**h4**(同一契約の dt/4 の転記 —— `skippedBy:"reuse"`)3 段(元の走行 97.8 s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。
 - **再生成の段**: 下の「再生成の段の表」に段ごとの実測秒と対象の本を置いた(第318便 —— 本の表の段の列は外した)。段の所要は対象の本で共有する(本ごとに足し上げない)。
 - **宣言の無い段**(どの本に関与するかを宣言していない 69 段・実測 2279 s —— うち **html を読まない段** 61 段・実測 2071 s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** 7 段・実測 208 s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**html の全文を文字列で読むと宣言した段** 1 段・実測 0.00 s〔第327便c —— 物理は読まず全文の語を数える(理由を宣言)〕・**対象 html の全体に縛られる段** 0 段・実測 0.00 s)と**常時群**(14 段・実測 1035 s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「html の全文(宣言)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 280 段の実測秒の和 77453 s(21.51 h・逐次の上限。履歴の段は除く)。
 - **保存 QA の来歴**(第320便d): 保存物は版名 `v1.47-b343`・commit a5da35c・2026-11-19T10:49:48.695Z・対象 html の sha feb5c8b55a09 —— 今の html(版名 `v1.47-b346`)に対して **前の便のゲートの保存物**(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)。
@@ -314,13 +314,13 @@
 | 📀 `shapeToyDiskCore` | — | — | 0.98・1 | `preset.shapeToyDiskCore` 0.98 |
 | 🧹 `shapeToyArmCore` | — | — | 0.47・1 | `preset.shapeToyArmCore` 0.47 |
 | 🎢 `shapeToySpiralCore` | — | — | 6.58・4 | `behavior.spiralGeometry` 4.82・`preset.shapeToySpiral` 1.39・`preset.shapeToySpiral` 0.23 |
-| 🌙 `earthMoonReal` | 138 | dt 46.4・dt/2 91.7 | 0.08・1 | `preset.earthMoonReal` 0.08 |
-| 🔆 `emAuditSolar` | 4.55 | dt 1.85・dt/2 2.70 | 0.01・2 | `preset.emAuditSolar` 0.01・`behavior.emAudit` 0.00 |
+| 🌙 `earthMoonReal` | 135 | dt 45.5・dt/2 89.1 | 0.08・1 | `preset.earthMoonReal` 0.08 |
+| 🔆 `emAuditSolar` | 3.89 | dt 1.33・dt/2 2.56 | 0.01・2 | `preset.emAuditSolar` 0.01・`behavior.emAudit` 0.00 |
 | 🌦️ `earthMoonSunInertial3d` | — | — | 49.1・10 | `behavior.gLocNull307` 38.1・`behavior.wbgDirect302` 2.70・`behavior.shell304` 2.00 |
 | 🌔 `earthMoonOnly3d` | — | — | 2.94・3 | `behavior.wbgEstimate302` 1.62・`preset.earthReorg300` 1.07・`behavior.dragNorm301` 0.25 |
 | 📶 `qLockRadialAudit` | — | — | 0.66・2 | `behavior.qlockRadial` 0.61・`preset.qLockRadialAudit` 0.05 |
 | 📐 `qLockRadialAuditQ3` | — | — | 0.66・2 | `behavior.qlockRadial` 0.61・`preset.qLockRadialAuditQ3` 0.05 |
-| ☄️ `mercuryReal` | 8.42 | dt 2.97・dt/2 5.45 | 0.02・1 | `preset.mercuryReal` 0.02 |
+| ☄️ `mercuryReal` | 8.41 | dt 2.93・dt/2 5.48 | 0.02・1 | `preset.mercuryReal` 0.02 |
 | 🟫 `mercurySunInertialFit` | — | — | 64.4・8 | `ui.liveMeasure297` 49.5・`behavior.gLoc302` 11.0・`ui.wbgSlider302` 1.36 |
 | 🌡️ `mercurySunInertial3d` | — | — | 20.7・11 | `behavior.gLoc302` 11.0・`behavior.shell304` 2.00・`behavior.inertialR2_303` 1.91 |
 | 🌋 `venusSunInertial3d` | — | — | 0.17・1 | `preset.planets306` 0.17 |
@@ -331,30 +331,30 @@
 | 🔷 `uranusSunInertial3d` | — | — | 0.17・1 | `preset.planets306` 0.17 |
 | 💙 `neptuneSunInertial3d` | — | — | 0.17・1 | `preset.planets306` 0.17 |
 | 🗺️ `solarSystem16Inertial3d` | — | — | 9.64・3 | `behavior.solar16Builtin318c` 7.18・`preset.solarSystem16Inertial3d` 2.29・`docs.solar16Builtin318c` 0.17 |
-| 🟠 `jupiterGalilean` | 47.8 | dt 15.7・dt/2 32.1 | 0.50・2 | `behavior.jupiter` 0.48・`preset.jupiterGalilean` 0.01 |
-| 🌇 `venusReal` | 24.2 | dt 8.27・dt/2 16.0 | 4.94・2 | `behavior.venusReal` 4.92・`preset.venusReal` 0.02 |
-| 🥔 `marsMoonsReal` | 17.9 | dt 5.81・dt/2 12.1 | 0.03・2 | `preset.marsMoonsReal` 0.02・`behavior.marsMoonsReal` 0.00 |
-| 🥶 `plutoCharonDiagInput` | 245 | dt 82.9・dt/2 162 | 0.02・1 | `preset.plutoCharonDiagInput` 0.02 |
+| 🟠 `jupiterGalilean` | 46.3 | dt 15.3・dt/2 31.0 | 0.50・2 | `behavior.jupiter` 0.48・`preset.jupiterGalilean` 0.01 |
+| 🌇 `venusReal` | 25.0 | dt 8.57・dt/2 16.4 | 4.94・2 | `behavior.venusReal` 4.92・`preset.venusReal` 0.02 |
+| 🥔 `marsMoonsReal` | 17.8 | dt 6.12・dt/2 11.7 | 0.03・2 | `preset.marsMoonsReal` 0.02・`behavior.marsMoonsReal` 0.00 |
+| 🥶 `plutoCharonDiagInput` | 239 | dt 77.1・dt/2 162 | 0.02・1 | `preset.plutoCharonDiagInput` 0.02 |
 | 🟪 `plutoCharonInertialFit` | — | — | 9.85・8 | `behavior.wbgDirect302` 2.70・`behavior.shell304` 2.00・`behavior.inertialR2_303` 1.91 |
-| 💠 `uranusReal` | 55.9 | dt 55.9 | 0.04・2 | `preset.uranusReal` 0.04・`behavior.uranusReal` 0.00 |
-| 🌊 `neptuneReal` | 7.24 | dt 2.54・dt/2 4.70 | 0.02・2 | `preset.neptuneReal` 0.02・`behavior.neptuneReal` 0.00 |
-| ✨ `alphaCenAB` | 58.8 | dt 11.9・dt/2 再利用〔h2〕(元 24.4)・dt/4 47.0 | 3.31・2 | `behavior.alphaCenAB` 3.28・`preset.alphaCenAB` 0.02 |
-| 🌟 `siriusAB` | 34.9 | dt 7.14・dt/2 再利用〔h2〕(元 14.8)・dt/4 27.7 | 2.53・2 | `behavior.siriusAB` 2.51・`preset.siriusAB` 0.03 |
+| 💠 `uranusReal` | 53.9 | dt 53.9 | 0.04・2 | `preset.uranusReal` 0.04・`behavior.uranusReal` 0.00 |
+| 🌊 `neptuneReal` | 8.04 | dt 3.03・dt/2 5.01 | 0.02・2 | `preset.neptuneReal` 0.02・`behavior.neptuneReal` 0.00 |
+| ✨ `alphaCenAB` | 11.7 | dt 11.7・dt/2 再利用〔h2〕(元 23.8)・dt/4 再利用〔h4〕(元 47.0) | 3.31・2 | `behavior.alphaCenAB` 3.28・`preset.alphaCenAB` 0.02 |
+| 🌟 `siriusAB` | 6.95 | dt 6.95・dt/2 再利用〔h2〕(元 15.0)・dt/4 再利用〔h4〕(元 27.7) | 2.53・2 | `behavior.siriusAB` 2.51・`preset.siriusAB` 0.03 |
 | 🌠 `siriusABInertial3d` | — | — | 0.51・2 | `behavior.binBooks322b` 0.29・`docs.binBooks322b` 0.22 |
 | 🔶 `alphaCenABInertial3d` | — | — | 0.51・2 | `behavior.binBooks322b` 0.29・`docs.binBooks322b` 0.22 |
 | 🔸 `alphaCenABInertial3dJ` | — | — | 0.97・2 | `behavior.obsSpin324b` 0.74・`docs.obsSpin324b` 0.23 |
 | 📟 `psrDoubleABInertial3d` | — | — | 0.97・2 | `behavior.obsSpin324b` 0.74・`docs.obsSpin324b` 0.23 |
-| 📻 `psrDoubleAB` | 12.5 | dt 4.17・dt/2 8.29 | 0.02・2 | `preset.psrDoubleAB` 0.02・`behavior.psrDoubleAB` 0.00 |
-| 🧮 `psrJ1757DFM` | 8.46 | dt 2.85・dt/2 5.61 | 0.02・1 | `preset.psrJ1757DFM` 0.02 |
-| 🩺 `psrJ1946DFM` | 3.63 | dt 1.14・dt/2 2.50 | 0.02・1 | `preset.psrJ1946DFM` 0.02 |
-| 📿 `psrB1534` | 62.0 | dt 20.2・dt/2 41.8 | 0.01・1 | `preset.psrB1534` 0.01 |
-| 🎐 `gw150914` | 1.88 | dt 0.69・dt/2 1.20 | 4.49・2 | `behavior.gw150914` 4.45・`preset.gw150914` 0.04 |
-| ⏰ `gw150914Merge4s` | 0.24 | dt 0.09・dt/2 0.14 | 0.02・1 | `preset.gw150914Merge4s` 0.02 |
+| 📻 `psrDoubleAB` | 11.2 | dt 3.88・dt/2 7.36 | 0.02・2 | `preset.psrDoubleAB` 0.02・`behavior.psrDoubleAB` 0.00 |
+| 🧮 `psrJ1757DFM` | 8.06 | dt 2.76・dt/2 5.30 | 0.02・1 | `preset.psrJ1757DFM` 0.02 |
+| 🩺 `psrJ1946DFM` | 3.46 | dt 1.21・dt/2 2.25 | 0.02・1 | `preset.psrJ1946DFM` 0.02 |
+| 📿 `psrB1534` | 60.3 | dt 20.5・dt/2 39.8 | 0.01・1 | `preset.psrB1534` 0.01 |
+| 🎐 `gw150914` | 1.97 | dt 0.72・dt/2 1.25 | 4.49・2 | `behavior.gw150914` 4.45・`preset.gw150914` 0.04 |
+| ⏰ `gw150914Merge4s` | 0.22 | dt 0.09・dt/2 0.13 | 0.02・1 | `preset.gw150914Merge4s` 0.02 |
 | ⚛️ `gw150914SpinDipole` | — | — | 0.03・1 | `preset.gw150914SpinDipole` 0.03 |
-| 📡 `saturnZonalD68` | 29.2 | dt 6.17・dt/2 再利用〔h2〕(元 11.9)・dt/4 23.1 | 9.80・4 | `zonal.d68-realunit` 9.74・`preset.saturnZonalD68` 0.03・`zonal.analytic-d68` 0.02 |
+| 📡 `saturnZonalD68` | 5.98 | dt 5.98・dt/2 再利用〔h2〕(元 11.7)・dt/4 再利用〔h4〕(元 23.1) | 9.80・4 | `zonal.d68-realunit` 9.74・`preset.saturnZonalD68` 0.03・`zonal.analytic-d68` 0.02 |
 | 🧷 `saturnD68Consistent` | — | — | 0.02・1 | `preset.saturnD68Consistent` 0.02 |
 | 📎 `saturnD68ObsOrbit` | — | — | 0.02・1 | `preset.saturnD68ObsOrbit` 0.02 |
-| 💍 `saturnRingReal` | 126 | dt 126 | 0.11・2 | `preset.saturnRingReal` 0.06・`wave121.ui` 0.05 |
+| 💍 `saturnRingReal` | 128 | dt 128 | 0.11・2 | `preset.saturnRingReal` 0.06・`wave121.ui` 0.05 |
 | 🍇 `tuc47` | — | — | 1.41・2 | `preset.tuc47` 1.41・`behavior.tuc47` 0.00 |
 | 🌃 `ngc3198` | — | — | 3.19・2 | `preset.ngc3198` 3.19・`behavior.ngc3198` 0.00 |
 | 🥀 `supernovaProg` | — | — | 0.01・1 | `preset.supernovaProg` 0.01 |
