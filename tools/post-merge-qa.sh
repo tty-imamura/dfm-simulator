@@ -1275,6 +1275,52 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.diskDragName346b docs.diskDragName346b"
 #   θ の既存の鍵・追従させた本の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ui.viewTiltDefault346c behavior.gravityMirror346c ui.spinMarkerAxis346c docs.viewTilt346c ui.viewTilt298 ui.tiltSwipe300 behavior.buoyancy behavior.convection projectile.layout field.uniform-gravity box.wall-restitution phasechange.observables"
 # ==== 第346便c の塊(ここまで)====
+# ==== 第347便a の塊(ここから)====
+# 第347便a(原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R400 —— 文書と照合の鍵だけ・html と論文の本文は変えない): 新設 2 本(docs.paperPlan347a —— docs/PAPER_PLAN.md の
+#   5 本 × 8 項・原文の引用の字・論文1 の未解決の一覧に AN904 の行・在位の本の数 / docs.report145_347a —— PHYSICS〔第347便a〕の回答の当たり所・構成案の要約・用語・AI_SPEC §292・README の 1 行)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paperPlan347a docs.report145_347a"
+# ==== 第347便a の塊(ここまで)====
+# ==== 第347便b の塊(ここから)====
+# 第347便b(原仮定者の回答(2026-11-21 —— 第145報)AN902・統括の検証項目 R401 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.convbody347b —— 純関数の場面・器の純関数の部分の作り直しと
+#   第338便c の recheckRun・2 体と第344便b の数の照合・門 / docs.convbody347b —— 表が PHYSICS〔第347便b〕に逐語・文書)と、新しい段 convbody-347b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.convbody347b docs.convbody347b"
+# ==== 第347便b の塊(ここまで)====
+# ==== 第347便c の塊(ここから)====
+# 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904・統括の検証項目 R402 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.selfclock347c —— 純関数の零試験・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・イオンの見込みが〔第344便c〕の作り方と同じ数 / docs.selfclock347c —— 正本の門と表が PHYSICS〔第347便c〕に逐語・文書)と、新しい段 selfclock-347c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.selfclock347c docs.selfclock347c"
+# ==== 第347便c の塊(ここまで)====
+# ==== 第347便d の塊(ここから)====
+# 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.draglong347d —— 純関数の場面・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・長い走りの 1e4 周を走らせ直して照合・2 体の極限 / docs.draglong347d —— 正本の門と表が PHYSICS〔第347便d〕に逐語・文書)と、前の便の behavior.dragconv344d。新しい段 draglong-347d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.draglong347d docs.draglong347d behavior.dragconv344d"
+# ==== 第347便d の塊(ここまで)====
+# ==== 第347便e の塊(ここから)====
+# 第347便e(原仮定者の回答(2026-11-21 —— 第145報)AN910・AN911・統括の検証項目 R404 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.spintorque347e —— 零試験 7・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・1 公転の平均の閉じた形・尺度の式・呼ぶだけ / docs.spintorque347e —— 正本の門と表が PHYSICS〔第347便e〕に逐語・文書)と、
+#   新しい段 spintorque-347e・呼ぶ一覧を足した behavior.judgeScale341c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spintorque347e docs.spintorque347e behavior.judgeScale341c"
+# ==== 第347便e の塊(ここまで)====
+# ==== 第347便f の塊(ここから)====
+# 第347便f(統括の検証項目 R405 —— 文書と照合の鍵だけ・html は変えない): 枝 f の新設 1 本(docs.equations347f —— 計算式の一覧の EQ-92〜EQ-96 の欄・式の字・抜粋と lib の照合・番号の連続)と、
+#   世代の写しを足した第344便a・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations347f docs.report144_344a lint.equations344a docs.report145_345a lint.equations331d docs.equations331d"
+# ==== 第347便f の塊(ここまで)====
+# ==== 第347便g の塊(ここから)====
+# 第347便g(原仮定者の回答(2026-11-22 —— 第145報の回答 5)・統括の検証項目 R406 —— 文書と照合の鍵だけ・html と論文の本文は変えない): 枝 g の新設 1 本(docs.report145ans5_347g —— 構成案の回答 5 の所・
+#   表 5a の鍵と退役の本の名・表 5b の節・PHYSICS〔第347便g〕・AI_SPEC §298)。照合を回答の後の状態に直した docs.paperPlan347a・docs.report145_347a は第347便a の塊のまま。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145ans5_347g"
+# ==== 第347便g の塊(ここまで)====
+# ==== 第347便h の塊(ここから)====
+# 第347便h(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R407 —— 診断だけ・html は変えない): 枝 h の新設 2 本(behavior.axisdiff347h —— 零試験 12・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・場の式を第321便a の lib と照合・呼ぶだけ / docs.axisdiff347h —— 原文の箇条・表と数の文が PHYSICS〔第347便h〕に逐語・文書)と、新しい段 axisdiff-347h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
+# ==== 第347便h の塊(ここまで)====
+# ==== 第347便i の塊(ここから)====
+# 第347便i(原仮定者の回答(2026-11-22 —— 第145報の回答 8・回答 9)・統括の検証項目 R408 —— 診断だけ・html は変えない): 枝 i の新設 2 本(behavior.axisenergy347i —— 零試験 10・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便h〕表 15 の (R1) を QA の中で別に照合・呼ぶだけ / docs.axisenergy347i —— 原文と表と数の文が PHYSICS〔第347便i〕に逐語・文書)と、新しい段 axisenergy-347i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisenergy347i docs.axisenergy347i"
+# ==== 第347便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
