@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.47-b346",
+  "betaBuild": "v1.47-b347",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,8 +13,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "7aed2144dc9c7502eea6b9c9993421aae264391b3edf1accc30325ded5bf728b",
-  "generatedAt": "2026-11-22T13:43:22.124Z",
+  "targetSha256": "68a11b07c880dfe5af384a05f82d5e18741f4c32f33b7bf96d8353b76a790306",
+  "generatedAt": "2026-11-22T16:08:45.252Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -24,9 +24,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734330,
-    "sha256": "7da9cafe30df5e0264c35274cea5414dae9981e497de6718eb8a4debc03a4b12",
-    "mtime": "2026-11-22T06:47:16.770Z"
+    "bytes": 1734332,
+    "sha256": "d758686f30ba6c1c0af080db0312d3d4c0bfcae5d20d2c2569016889d8109a98",
+    "mtime": "2026-11-22T16:07:57.961Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -36,9 +36,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 113656,
-    "sha256": "4a5258b841489ff2254d2aa68eccddaf8ebf1c642f86c844d336ed13fb3ef2f4",
-    "mtime": "2026-11-22T13:43:22.107Z"
+    "bytes": 114028,
+    "sha256": "c011e3597908259748f62e9553267bb750b4b23acf78ae75da8cd3330497d7a4",
+    "mtime": "2026-11-22T16:08:45.233Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -25418,17 +25418,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 134.518,
+     "wallSec": 124.83500000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 45.462,
+       "wallSec": 42.042,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 89.056,
+       "wallSec": 82.793,
        "reused": false,
        "reusedBy": null
       }
@@ -27654,17 +27654,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.893,
+     "wallSec": 3.527,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.333,
+       "wallSec": 1.26,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.56,
+       "wallSec": 2.267,
        "reused": false,
        "reusedBy": null
       }
@@ -31500,17 +31500,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.415,
+     "wallSec": 10.098,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.934,
+       "wallSec": 2.794,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.481,
+       "wallSec": 7.304,
        "reused": false,
        "reusedBy": null
       }
@@ -39224,17 +39224,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 46.283,
+     "wallSec": 44.52,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.299,
+       "wallSec": 14.115,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 30.984,
+       "wallSec": 30.405,
        "reused": false,
        "reusedBy": null
       }
@@ -39856,17 +39856,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 24.96,
+     "wallSec": 25.225,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.567,
+       "wallSec": 8.132,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.393,
+       "wallSec": 17.093,
        "reused": false,
        "reusedBy": null
       }
@@ -40392,17 +40392,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 17.849,
+     "wallSec": 17.555,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.117,
+       "wallSec": 5.408,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.732,
+       "wallSec": 12.147,
        "reused": false,
        "reusedBy": null
       }
@@ -42052,17 +42052,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 238.64,
+     "wallSec": 227.92700000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 77.123,
+       "wallSec": 73.871,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 161.517,
+       "wallSec": 154.056,
        "reused": false,
        "reusedBy": null
       }
@@ -44050,11 +44050,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.872,
+     "wallSec": 55.411,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 53.872,
+       "wallSec": 55.411,
        "reused": false,
        "reusedBy": null
       }
@@ -44532,17 +44532,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.041,
+     "wallSec": 8.039,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.032,
+       "wallSec": 2.455,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.009,
+       "wallSec": 5.584,
        "reused": false,
        "reusedBy": null
       }
@@ -45066,17 +45066,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.701,
+     "wallSec": 11.059,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.701,
+       "wallSec": 11.059,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 23.804,
+       "wallSec": 23.072,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45087,8 +45087,8 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 70.769,
-     "reusedH2Sec": 23.804,
+     "reusedSec": 70.037,
+     "reusedH2Sec": 23.072,
      "reusedH4Sec": 46.965
     },
     "regenSteps": [
@@ -45868,17 +45868,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.948,
+     "wallSec": 6.342,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.948,
+       "wallSec": 6.342,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.994,
+       "wallSec": 12.789,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -45889,9 +45889,9 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 42.724000000000004,
-     "reusedH2Sec": 14.994,
-     "reusedH4Sec": 27.730000000000004
+     "reusedSec": 40.519,
+     "reusedH2Sec": 12.789,
+     "reusedH4Sec": 27.729999999999997
     },
     "regenSteps": [
      {
@@ -48077,17 +48077,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.241,
+     "wallSec": 10.95,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.88,
+       "wallSec": 3.311,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.361,
+       "wallSec": 7.639,
        "reused": false,
        "reusedBy": null
       }
@@ -49568,17 +49568,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.064,
+     "wallSec": 7.281,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.761,
+       "wallSec": 2.351,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.303,
+       "wallSec": 4.93,
        "reused": false,
        "reusedBy": null
       }
@@ -50015,17 +50015,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.4610000000000003,
+     "wallSec": 3.253,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.207,
+       "wallSec": 1.074,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.254,
+       "wallSec": 2.179,
        "reused": false,
        "reusedBy": null
       }
@@ -52538,17 +52538,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 60.321,
+     "wallSec": 59.581999999999994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.546,
+       "wallSec": 19.176,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 39.775,
+       "wallSec": 40.406,
        "reused": false,
        "reusedBy": null
       }
@@ -58390,17 +58390,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.972,
+     "wallSec": 2.416,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.72,
+       "wallSec": 0.866,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.252,
+       "wallSec": 1.55,
        "reused": false,
        "reusedBy": null
       }
@@ -59146,17 +59146,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.217,
+     "wallSec": 0.15999999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.088,
+       "wallSec": 0.074,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.129,
+       "wallSec": 0.086,
        "reused": false,
        "reusedBy": null
       }
@@ -63160,17 +63160,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.976,
+     "wallSec": 6.199,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.976,
+       "wallSec": 6.199,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.706,
+       "wallSec": 11.248,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
@@ -63181,9 +63181,9 @@
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 34.768,
-     "reusedH2Sec": 11.706,
-     "reusedH4Sec": 23.062
+     "reusedSec": 34.31,
+     "reusedH2Sec": 11.248,
+     "reusedH4Sec": 23.062000000000005
     },
     "regenSteps": [
      {
@@ -64220,11 +64220,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 127.921,
+     "wallSec": 126.017,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 127.921,
+       "wallSec": 126.017,
        "reused": false,
        "reusedBy": null
       }
@@ -70483,11 +70483,11 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 280,
-  "regenSecSum": 77453,
+  "regenSteps": 285,
+  "regenSecSum": 77535,
   "alwaysSec": 1035,
-  "undeclaredSteps": 69,
-  "undeclaredSec": 2279,
+  "undeclaredSteps": 74,
+  "undeclaredSec": 2361,
   "qaTotal": 1672,
   "qaDurationMs": 8957969,
   "qaProvenance": {
@@ -70497,14 +70497,14 @@
    "date": "2026-11-22T10:20:11.497Z",
    "betaBuild": "v1.47-b346",
    "targetSha256": "7aed2144dc9c7502eea6b9c9993421aae264391b3edf1accc30325ded5bf728b",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
    "since": "第320便d(R265)",
-   "n": 61,
-   "sec": 2071,
+   "n": 66,
+   "sec": 2153,
    "keys": [
     "obsintake",
     "recordid",
@@ -70566,7 +70566,12 @@
     "clockmid-344c",
     "dragconv-344d",
     "spincompose-344e",
-    "plutogm-344g"
+    "plutogm-344g",
+    "convbody-347b",
+    "selfclock-347c",
+    "draglong-347d",
+    "spintorque-347e",
+    "axisdiff-347h"
    ],
    "rule": "宣言の無い段のうち再生成表の htmlReadOf が none(html を読まない)の段"
   },
@@ -70574,7 +70579,7 @@
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 50.504000000000005
+    "sec": 47.108999999999995
    },
    "h4": {
     "n": 3,
@@ -72266,6 +72271,12 @@
      ]
     },
     {
+     "key": "draglong-347d",
+     "sec": 39,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "binarylaw-334d",
      "sec": 38,
      "kind": "領域の宣言",
@@ -72325,6 +72336,12 @@
      "presets": [
       "chainDiskToy3dTilt"
      ]
+    },
+    {
+     "key": "convbody-347b",
+     "sec": 31,
+     "kind": "html を読まない",
+     "presets": null
     },
     {
      "key": "drag3d-298c",
@@ -72705,6 +72722,12 @@
     },
     {
      "key": "accelloss-337d",
+     "sec": 9,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
+     "key": "axisdiff-347h",
      "sec": 9,
      "kind": "html を読まない",
      "presets": null
@@ -73419,6 +73442,12 @@
      "presets": null
     },
     {
+     "key": "selfclock-347c",
+     "sec": 2,
+     "kind": "html を読まない",
+     "presets": null
+    },
+    {
      "key": "recordid",
      "sec": 1,
      "kind": "html を読まない",
@@ -73566,6 +73595,12 @@
      "key": "engine-345b",
      "sec": 1,
      "kind": "常時群",
+     "presets": null
+    },
+    {
+     "key": "spintorque-347e",
+     "sec": 1,
+     "kind": "html を読まない",
      "presets": null
     },
     {
