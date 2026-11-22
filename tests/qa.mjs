@@ -114811,12 +114811,15 @@ function view343aOf344a(eq) {
       cases.push(`① lib ${L.OPTTOUR_LIB_VERSION_346A}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(出力の行の読み・要約・157 の門・別の版・two は門にしない・走りの誤り)`);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.OPTTOUR_LIB_VERSION_346A && js(J.decl) === js(L.DECL_346A) && J.all === false && J.target === 'beta/index.html')) bad.push('② 版(器・lib)か宣言が正本と違う・全本の走り');
-      if (!(J.meta && J.meta.targetSha256 === sha)) bad.push('② 正本が今の html で測ったものでない(鎖で作り直す)');
+      // 第346便(統括 —— 継ぎ目): 段 opttour-346a は html の物理の部分の宣言(コード・配置・7 本の物理の宣言)を持つ(再生成表)。計画は「版名・説明・状況の文だけの差」なら作り直さないので、
+      //   鍵も計画と同じ判定(html の sha の一致・領域 hash の一致・物理の部分の一致〔台帳〕)で見る(ほかの段の鍵と同じ targetOk325 —— html の sha の一致だけを求めると、文だけを直した便で落ちる)
+      const t325o = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/opttour-346a.json'));
+      if (!t325o.ok) bad.push('② 正本が今の html で測ったものでない(鎖で作り直す)' + (t325o.why ? '(' + String(t325o.why).slice(0, 120) + ')' : ''));
       const want = L.DECL_346A.presets.flatMap((p) => L.DECL_346A.modes.map((m) => p + '/' + m));
       if (js((J.runs || []).map((r) => r.preset + '/' + r.mode)) !== js(want)) bad.push('② 走りの並び(7 本 × 2)が宣言と違う');
       if (!(J.engine && typeof J.engine.chromium === 'string' && typeof J.engine.v8 === 'string' && /^[0-9a-f]{16}$/.test(J.engine.mathFingerprint || '') && typeof J.engine.sameAsDeclared === 'boolean')) bad.push('② ブラウザの版・V8・指紋');
       if (!(J.runs || []).every((r) => r.error || (Number.isFinite(r.coreStatus) && r.traceSeen === true && r.steps === L.DECL_346A.steps))) bad.push('② 走りに状態の数か出力の行が無いか、步の数が宣言(300)に届いていない');
-      cases.push(`② 正本: ${J.engine && J.engine.chromium}(V8 ${J.engine && J.engine.v8}・指紋 ${J.engine && String(J.engine.mathFingerprint).slice(0, 12)})・走り ${(J.runs || []).length}・今の html で測った`);
+      cases.push(`② 正本: ${J.engine && J.engine.chromium}(V8 ${J.engine && J.engine.v8}・指紋 ${J.engine && String(J.engine.mathFingerprint).slice(0, 12)})・走り ${(J.runs || []).length}・${t325o.how === 'exact' ? '今の html で測った' : (t325o.how === 'scope' ? '領域 hash の一致(刻印の html と今の html)' : '今の html と物理の部分が同じ html で測った(版名・説明・状況の文だけの差)')}`);
       const S2 = L.summarize346a(J.runs), G2 = L.gate346a(S2, J.engine);
       if (js(S2) !== js(J.summary) || js(G2) !== js(J.gate) || J.ok !== G2.pass) bad.push('③ 要約か門を lib で引き直すと正本と違う');
       cases.push(`③ 引き直して同じ(A/B: S._core が止まる本 ${S2.ab.coreStoppedN} / 2 つの sim が両方進む形: ${S2.two.coreStoppedN} —— 記録だけ)`);
