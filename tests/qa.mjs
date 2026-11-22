@@ -115230,6 +115230,7 @@ function view343aOf344a(eq) {
 // ----   既存の lib の本文・physics の鍵は変えない・器と段と lib と正本は足さない)。世代切替 = beta 対象 ∧ docs/PAPER_PLAN.md が在る。
 // ----   在位の本の数(構成案の §1.2・PHYSICS の表 2)は、html の本の宣言を headless で読んで数え直す(手書きの期待を持たない)。
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {
   const rd347a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
   const PP0 = rd347a('docs/PAPER_PLAN.md');
@@ -115474,6 +115475,7 @@ function view343aOf344a(eq) {
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   }
   })();
+  })();   // 第310便c(heap)
 }
 // ==== 第347便a の塊(ここまで)====
 
@@ -116336,6 +116338,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
 // ----   (docs/PAPER_PLAN.md の回答 5 の所・PHYSICS〔第347便g〕の表 1〜表 3・AI_SPEC §298 —— html・論文の本文・エンジン・内蔵の本・受理器・既存の lib の本文・physics の鍵は変えない・
 // ----   器と段と lib と正本は足さない)。世代切替 = beta 対象 ∧ PHYSICS〔第347便g〕が在る。表 5a の鍵と退役の本の名は html の本の宣言と文の表を headless と字で読んで照らす(手書きの期待を持たない)。
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {
   const rd347g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
   const PP0 = rd347g('docs/PAPER_PLAN.md'), PH0 = rd347g('docs/PHYSICS.md');
@@ -116550,6 +116553,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     `**第145報の回答 5 を論文 5 本の構成案へ**(第347便g・原仮定者の回答(2026-11-22 —— 第145報の回答 5)・R406 —— 原文は言葉を変えずに引く・決まったのは原文に在ることだけ・「最近の検証結果」の範囲と新しい geoPN=4 の計算の中身・3D 版の本の中身・ジャイロトルクの採否は決めていない・表 5a は html と本の宣言から照らす・文書): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   })();
+  })();   // 第310便c(heap)
 }
 // ==== 第347便g の塊(ここまで)====
 
