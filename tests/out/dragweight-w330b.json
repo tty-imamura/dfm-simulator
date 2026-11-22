@@ -3,7 +3,7 @@
  "libVersion": "w330b-dragweight-lib-1",
  "generator": "tests/exp-w330b-dragweight.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "reuseFrom": null,
  "ruling": "原仮定者の整理(2026-11-08)「引きずり = Σ(相対速度 × 重み)/Σ重み(自分を含む)・重み = 質量/距離²・慣性移動 = 自分自身の引きずり」「ディスクは平坦回転する」(作業仮説 —— 診断で検査)・「ジャイロ効果も DFM の範囲」・「2 本の腕は密度波・棒は解決案は無い」・原仮定者の補足(2026-11-08)「回転引きずりは座標変換 —— 角速度は距離で変わらず接線の速度は r に比例・重み 1/r² で 1/r に見える」・原仮定者の補足その2(2026-11-08)「回転引きずりは回転にも効く —— 角速度そのままの順回転・重み 1/r²・潮汐との二重計上に注意・軸引きずりは現状どおり」・原仮定者の回答(2026-11-08 —— AN578・AN580)・統括の検証項目 R308",
  "decl": {
@@ -4467,31 +4467,31 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.011
+   "wallSec": 0.009
   },
   "inputs": {
-   "wallSec": 0.011
+   "wallSec": 0.01
   },
   "engine": {
-   "wallSec": 0.061
+   "wallSec": 0.043
   },
   "components": {
-   "wallSec": 0.14
+   "wallSec": 0.118
   },
   "tideRot": {
-   "wallSec": 0.141
+   "wallSec": 0.119
   },
   "galWindow": {
-   "wallSec": 0.141
+   "wallSec": 0.119
   },
   "chain": {
-   "wallSec": 0.476
+   "wallSec": 0.466
   },
   "gyro": {
-   "wallSec": 0.476
+   "wallSec": 0.466
   },
   "wave": {
-   "wallSec": 0.481
+   "wallSec": 0.469
   }
  },
  "gates": {
@@ -4510,25 +4510,25 @@
   "waveRadii": true
  },
  "ok": true,
- "elapsedS": 2.383,
+ "elapsedS": 2.523,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第330便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:35.343Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:31:31.160Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/fixtures/ngc3198-rotmod-w329b.json",
     "bytes": 10020,
     "sha256": "8184df5268f5ef370e9150be42cf1f59756b96ab632b8bfb91b1fca048deeacc",
-    "mtime": "2026-11-07T21:35:38.913Z"
+    "mtime": "2026-11-19T16:19:54.565Z"
    }
   ],
   "code": [
@@ -4536,67 +4536,67 @@
     "file": "tests/exp-w330b-dragweight.mjs",
     "bytes": 33940,
     "sha256": "524cb4f1b25d0521aae7ddb397fc1ef3f58e97607239811268afe4374dbd2d2c",
-    "mtime": "2026-11-08T17:01:18.696Z"
+    "mtime": "2026-11-19T16:19:54.556Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-08T17:01:18.701Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-10-21T18:25:03.634Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-10-20T16:19:56.684Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w329b-galrot.mjs",
     "bytes": 26983,
     "sha256": "5a6ad742c267f48b9c02737e306e8d7349054d659e2f80c4226744576044ada3",
-    "mtime": "2026-11-07T21:35:38.919Z"
+    "mtime": "2026-11-19T16:19:54.588Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "b756a7ec00f5bad0cec918143ca896b024e80db858454d4c5d9123116ebf45cc",
@@ -4635,11 +4635,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1363,
-   "segments": 1194,
+   "names": 1364,
+   "segments": 1195,
    "closureShare": 0.2933
   },
-  "scopeSha256": "2a2ab8a20e789b910c3cabbbf69f6a9bb24fc5d98237fc4a932381a7e2603d5e",
+  "scopeSha256": "0cfa7af0cff8b2e8505073ea3781f7c585776adf231310e68fae3470c0c9b2ee",
   "scopeComplete": true,
   "inputsStable": [
    {

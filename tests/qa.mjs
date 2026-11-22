@@ -50512,8 +50512,22 @@ if (!FAST) {
       if (!(G.target && ['NaN', 'false', 'empty', 'null', 'Infinity'].every((k) => G.target[k] === 'rejected'))) bad.push('⑥ (g) 本便で NaN 等を受理');
       if (!(G.base && ['NaN', 'false', 'empty', 'null'].every((k) => /^accepted/.test(G.base[k])))) bad.push('⑥ (g) 基点の受理(修正前の記録)が無い');
       const H = C.h_core || {};
-      if (H.identical !== true) bad.push('⑥ (h) S._core の本文が基点と違う');
-      cases.push(`(g) 基点は NaN/false/空文字/null を 0 と読んで受理 → 本便は拒否・(h) S._core は基点と同一(${H.length} 字)`);
+      // 第346便(統括 —— 継ぎ目): 中心の関数の作りの移し替え(〔第346便a〕 —— ③ E6′ 反作用の対のループの本体を reactionPass へ同じ文字のまま)の世代では、
+      //   S._core の本文は第280便の基点と字が違う(本体の分だけ短い)。その世代では「違いが逐語の移し替えだけ」を lint.coreSplit346a と同じ lib で見る:
+      //   reactionPass の本体の正規化した hash が宣言(直す前の塊の hash)と同じ・S._core からの呼び出しが 1 回・塊が S._core に残っていない。
+      //   基点の S._core の hash は第345便までの正本(identical: true)と同じ値であること(基点が替わっていない)も見る。移し替えの無い世代は今までどおり「同一」を求める。
+      const CORE280_BASE_SHA_346 = '56b96a8fa15cd439dc443b01f0aece2fe26daf6616799822f7c1efc26645e2a5';
+      let hNote346 = `S._core は基点と同一(${H.length} 字)`;
+      if (H.identical !== true) {
+        const htmlNow346 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        const CS346 = await import('file://' + path.join(ROOT, 'tests', 'lib-w346a-coresplit.mjs'));
+        const moved346 = htmlNow346.indexOf(CS346.REACTION_FN_TOKEN) >= 0;
+        const as346 = moved346 ? CS346.assessCoreSplit(htmlNow346, JSON.parse(fs.readFileSync(path.join(ROOT, CS346.CORESPLIT_DECL_FILE_346A), 'utf8')), null) : null;
+        if (!(as346 && as346.ok === true && H.baseSha256 === CORE280_BASE_SHA_346 && Number(H.length) < Number(H.baseLength)))
+          bad.push('⑥ (h) S._core の本文が基点と違う' + (as346 && !as346.ok ? '(逐語の移し替えの検査: ' + as346.bad.join(' / ').slice(0, 160) + ')' : ''));
+        else hNote346 = `S._core は基点と字が違う(${H.baseLength} → ${H.length} 字)—— 違いは第346便の逐語の移し替えだけ(reactionPass の本体 ${as346.body.chars} 字の hash が直す前の塊と同じ・呼び出し ${as346.calls} 回 —— lint.coreSplit346a と同じ lib)`;
+      }
+      cases.push(`(g) 基点は NaN/false/空文字/null を 0 と読んで受理 → 本便は拒否・(h) ${hNote346}`);
       const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = Pm.indexOf('\n〔第280便c — ');   // 節の見出し(§6 の表の行にも「〔第280便c〕」が出るので行頭の見出しで探す)
       if (i0 < 0) bad.push('⑦ PHYSICS に〔第280便c〕節が無い');
@@ -114599,10 +114613,15 @@ function view343aOf344a(eq) {
   if (!(/env\.browserLaunch = \{ version: 'w345d-browser-launch-1', explicit: !!PERF_EXPLICIT_BROWSER,/.test(PF) && /jsVersion: v\.jsVersion/.test(PF) && /chromium: browser\.version\(\)/.test(PF))) bad.push('④ env.browserLaunch(explicit・chromium・jsVersion)が無い');
   const KEEP = ["const THRESH = +(process.env.PERF_THRESH || 1.10);", 'const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;',
     "const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];", 'const FRAMES_OVERRIDE = { echo: 720, starSeed: 60000, merger: 240, freebox: 480,',
-    'const ALLOW = {};', 'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
+    'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
     'if (!v.pass || forced) {', 'const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);'];
   for (const k of KEEP) if (PF.indexOf(k) < 0) bad.push('⑤ 基点の行が無い: ' + k.slice(0, 40));
-  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま');
+  // 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 許可の一覧の行は、基点の「空」か、第346便の期限つきの許可 2 本(galaxy・nebulaRotor —— 上限 1.25)の
+  //   どちらか(当時の基点の行 `const ALLOW = {};` は、昇格で許可を外した後の形でもある)。範囲と昇格の後の撤去は lint.coreSplit346a ⑥ が縛る —— 本鍵は「それ以外の形になっていない」ことだけを見る(root でも回る)
+  const ALLOW_LINES_346 = ['const ALLOW = {};', 'const ALLOW = { galaxy: 1.25, nebulaRotor: 1.25 };'];
+  const mAl346 = /\nconst ALLOW = [^\n]*\n/.exec(PF);
+  if (!(mAl346 && ALLOW_LINES_346.includes(mAl346[0].trim()))) bad.push('⑤ 許可の一覧の行が、空でも第346便の 2 本でもない: ' + (mAl346 ? mAl346[0].trim().slice(0, 60) : '無い'));
+  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま・許可の一覧は空か第346便の 2 本(' + (mAl346 && mAl346[0].trim() === ALLOW_LINES_346[0] ? '空' : '2 本') + ')');
   add('lint.perfExplicitBrowser345d', bad.length === 0,
     `**tests/perf.mjs の明示のブラウザ**(第345便d・第145報 AN921・R395 —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ・版が違えば測らずに止める・閾値は不変): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
@@ -114780,6 +114799,27 @@ function view343aOf344a(eq) {
       const p = CS.probeCoreSplit(H, D);
       if (!p.ok) bad.push('⑤ 変異で落ちない: ' + p.res.filter((x) => !x.ok).map((x) => x.nm).join(','));
       cases.push(`⑤ 変異 ${p.res.filter((x) => x.ok).length}/${p.res.length}`);
+      // ⑥ 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 性能の検査の**期限つきの許可**。
+      //   移し替えの後、ブラウザの翻訳の当たり方で galaxy・nebulaRotor の 1 步が長くなった(数は不変 —— PHYSICS〔第346便 — 統括〕⑤″)。許可は tests/perf.mjs の ALLOW に
+      //   **この 2 本・上限 1.25 だけ**。root(公開版)が同じ作り(reactionPass を持つ)になったら**外す**(昇格の後に残っていたら落とす)。
+      const allowOk346 = (al, rootHas, src) => {
+        const ks = Object.keys(al).sort().join(',');
+        if (rootHas) return ks === '' ? null : 'root が reactionPass を持つ(昇格の後)のに、性能の検査の許可が残っている(' + ks + ')—— 外す';
+        if (!(ks === 'galaxy,nebulaRotor' && al.galaxy === 1.25 && al.nebulaRotor === 1.25)) return '性能の検査の許可が宣言と違う(galaxy・nebulaRotor の 2 本・上限 1.25 だけ —— 今 ' + (ks || '無し') + ')';
+        if (!(src.indexOf('第145報の回答 7') >= 0 && src.indexOf('次の公開版の昇格で外す') >= 0 && src.indexOf('PHYSICS〔第346便 — 統括〕⑤″') >= 0)) return '性能の検査の許可の注(出どころ・昇格で外す・節の在り処)';
+        return null;
+      };
+      const parseAllow346 = (src) => { const m = /\nconst ALLOW = \{([^}]*)\};/.exec(src); if (!m) return null; const al = {}; for (const kv of m[1].split(',')) { const m2 = /^\s*([A-Za-z0-9_]+)\s*:\s*([0-9.]+)\s*$/.exec(kv); if (m2) al[m2[1]] = +m2[2]; else if (kv.trim() !== '') return null; } return al; };
+      const PF346 = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
+      const RH346 = (() => { try { return fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); } catch (e) { return ''; } })();
+      const al346 = parseAllow346(PF346), rootHas346 = RH346.indexOf(CS.REACTION_FN_TOKEN) >= 0;
+      const e6 = al346 === null ? 'tests/perf.mjs の ALLOW の行が読めない' : allowOk346(al346, rootHas346, PF346);
+      if (e6) bad.push('⑥ ' + e6);
+      // 変異: 本を足す・幅を広げる・昇格の後に残す・注を消す —— どれも落ちること。昇格の後に空なら通ること
+      const mut6 = [allowOk346({ galaxy: 1.25, nebulaRotor: 1.25, galaxyStd: 1.25 }, false, PF346), allowOk346({ galaxy: 1.3, nebulaRotor: 1.25 }, false, PF346), allowOk346({ galaxy: 1.25 }, false, PF346),
+        allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, true, PF346), allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, false, '')];
+      if (!(mut6.every((x) => typeof x === 'string') && allowOk346({}, true, PF346) === null && parseAllow346('\nconst ALLOW = {};') !== null && Object.keys(parseAllow346('\nconst ALLOW = {};')).length === 0)) bad.push('⑥ 許可の検査が変異で落ちない');
+      cases.push(`⑥ 性能の検査の期限つきの許可(第145報の回答 7): ${rootHas346 ? 'root が同じ作り —— 許可なし' : 'galaxy 1.25・nebulaRotor 1.25 の 2 本だけ(root は移し替えの前の作り —— 次の昇格で外す)'}・変異 ${mut6.filter((x) => typeof x === 'string').length}/${mut6.length}`);
     } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
     add('lint.coreSplit346a', bad.length === 0,
       `**中心の関数の直し C1 の戻り止め**(第346便a・第145報の回答 2・R397 —— ③ の本体を reactionPass へ逐語で移した記録): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
@@ -114800,12 +114840,15 @@ function view343aOf344a(eq) {
       cases.push(`① lib ${L.OPTTOUR_LIB_VERSION_346A}・純関数の場面 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(出力の行の読み・要約・157 の門・別の版・two は門にしない・走りの誤り)`);
       const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
       if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.OPTTOUR_LIB_VERSION_346A && js(J.decl) === js(L.DECL_346A) && J.all === false && J.target === 'beta/index.html')) bad.push('② 版(器・lib)か宣言が正本と違う・全本の走り');
-      if (!(J.meta && J.meta.targetSha256 === sha)) bad.push('② 正本が今の html で測ったものでない(鎖で作り直す)');
+      // 第346便(統括 —— 継ぎ目): 段 opttour-346a は html の物理の部分の宣言(コード・配置・7 本の物理の宣言)を持つ(再生成表)。計画は「版名・説明・状況の文だけの差」なら作り直さないので、
+      //   鍵も計画と同じ判定(html の sha の一致・領域 hash の一致・物理の部分の一致〔台帳〕)で見る(ほかの段の鍵と同じ targetOk325 —— html の sha の一致だけを求めると、文だけを直した便で落ちる)
+      const t325o = (await import('file://' + path.join(ROOT, 'tests', 'lib-w325a-htmlphys.mjs'))).targetOk325(ROOT, J.meta, sha, (await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'))).htmlPhysDeclOfOut('tests/out/opttour-346a.json'));
+      if (!t325o.ok) bad.push('② 正本が今の html で測ったものでない(鎖で作り直す)' + (t325o.why ? '(' + String(t325o.why).slice(0, 120) + ')' : ''));
       const want = L.DECL_346A.presets.flatMap((p) => L.DECL_346A.modes.map((m) => p + '/' + m));
       if (js((J.runs || []).map((r) => r.preset + '/' + r.mode)) !== js(want)) bad.push('② 走りの並び(7 本 × 2)が宣言と違う');
       if (!(J.engine && typeof J.engine.chromium === 'string' && typeof J.engine.v8 === 'string' && /^[0-9a-f]{16}$/.test(J.engine.mathFingerprint || '') && typeof J.engine.sameAsDeclared === 'boolean')) bad.push('② ブラウザの版・V8・指紋');
       if (!(J.runs || []).every((r) => r.error || (Number.isFinite(r.coreStatus) && r.traceSeen === true && r.steps === L.DECL_346A.steps))) bad.push('② 走りに状態の数か出力の行が無いか、步の数が宣言(300)に届いていない');
-      cases.push(`② 正本: ${J.engine && J.engine.chromium}(V8 ${J.engine && J.engine.v8}・指紋 ${J.engine && String(J.engine.mathFingerprint).slice(0, 12)})・走り ${(J.runs || []).length}・今の html で測った`);
+      cases.push(`② 正本: ${J.engine && J.engine.chromium}(V8 ${J.engine && J.engine.v8}・指紋 ${J.engine && String(J.engine.mathFingerprint).slice(0, 12)})・走り ${(J.runs || []).length}・${t325o.how === 'exact' ? '今の html で測った' : (t325o.how === 'scope' ? '領域 hash の一致(刻印の html と今の html)' : '今の html と物理の部分が同じ html で測った(版名・説明・状況の文だけの差)')}`);
       const S2 = L.summarize346a(J.runs), G2 = L.gate346a(S2, J.engine);
       if (js(S2) !== js(J.summary) || js(G2) !== js(J.gate) || J.ok !== G2.pass) bad.push('③ 要約か門を lib で引き直すと正本と違う');
       cases.push(`③ 引き直して同じ(A/B: S._core が止まる本 ${S2.ab.coreStoppedN} / 2 つの sim が両方進む形: ${S2.two.coreStoppedN} —— 記録だけ)`);

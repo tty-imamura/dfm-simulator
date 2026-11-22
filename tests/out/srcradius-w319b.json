@@ -3,7 +3,7 @@
  "libVersion": "w319b-srcradius-lib-1",
  "generator": "tests/exp-w319b-srcradius.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "reuseFrom": null,
  "ruling": "原仮定者の指示(第121報)「引きずり半径について」(今の R_d は K1 の引きずられる側で合わせた値 —— 引きずる側の半径を別の値に分ける案を検討する: 案1 上限 6.5e6 m の観測半径・案2 K2・上限なし・案3 計算式を探索する/銀河の引きずりは中心天体だけの影響ではない —— 手掛かりとして太陽系近傍の影響を算出する)・「検証時の天体別の役割の参考」(水星〜土星)・決断事項 AN445・AN446・AN449・統括の検証項目 R259。受け手の R_d = Y_k m・規則・在位の本・エンジンの式は変えない(器・lib・正本・文書だけ)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -5037,46 +5037,46 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.315
+   "wallSec": 0.41
   },
   "S": {
-   "wallSec": 0.542
+   "wallSec": 0.951
   },
   "G": {
-   "wallSec": 1.442
+   "wallSec": 1.759
   },
   "A": {
-   "wallSec": 0.115
+   "wallSec": 0.075
   },
   "R": {
-   "wallSec": 0.08
+   "wallSec": 0.069
   },
   "C": {
    "wallSec": 0
   },
   "F": {
-   "wallSec": 0.001
+   "wallSec": 0
   }
  },
- "elapsedS": 5.07,
+ "elapsedS": 5.764,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第319便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T20:57:37.953Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T01:42:20.561Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
     "bytes": 14135,
     "sha256": "9bc96f52ebb2c9824600fcea9b10ce4be22f1627a6dbe362704fcfc28d72484f",
-    "mtime": "2026-10-28T15:00:05.452Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -5084,55 +5084,55 @@
     "file": "tests/exp-w319b-srcradius.mjs",
     "bytes": 39335,
     "sha256": "29f96b752b9a3432140e060f6971a57a1e2620d234c639f5963b69a663395ec0",
-    "mtime": "2026-11-05T03:10:54.311Z"
+    "mtime": "2026-11-19T16:19:54.552Z"
    },
    {
     "file": "tests/lib-w319b-srcradius.mjs",
     "bytes": 30288,
     "sha256": "6bf633cc248c1c2ac02e1d29fa964058436b8d609577116cad38c271406842be",
-    "mtime": "2026-10-30T10:16:05.897Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    },
    {
     "file": "tests/lib-w318d-dragest.mjs",
     "bytes": 30422,
     "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
-    "mtime": "2026-10-28T16:33:38.628Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    },
    {
     "file": "tests/lib-w317c-satcut.mjs",
     "bytes": 16461,
     "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
-    "mtime": "2026-10-27T13:03:25.120Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    },
    {
     "file": "tests/lib-w315d-satk1.mjs",
     "bytes": 25049,
     "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
-    "mtime": "2026-10-25T15:04:20.705Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "6cb19bfbf788d870b3c84d1e70be300a00f1aeee8ca2b3e4319998f0ea468a43",
@@ -5194,11 +5194,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1364,
-   "segments": 1195,
+   "names": 1365,
+   "segments": 1196,
    "closureShare": 0.2938
   },
-  "scopeSha256": "f3f4eb05356adb74e63ee448ec55216d4eb4c40f001a528677f108e107f3812f",
+  "scopeSha256": "134fcac8e627de043413bf92d8d0d91c8fa10094f25bc8c82e64eb3649d96cce",
   "scopeComplete": true,
   "inputsStable": [
    {

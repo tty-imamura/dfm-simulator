@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-  "generatedAt": "2026-11-21T13:24:38.635Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-21T23:45:47.239Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-    "mtime": "2026-11-21T11:51:32.818Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734298,
-    "sha256": "405c04cea881cda0adde64c7cd5796d6deda1bf8d52172f14bcdaae1444bbbe1",
-    "mtime": "2026-11-21T13:17:05.086Z"
+    "bytes": 1732238,
+    "sha256": "0997f9e50553868f6333b633753c28046ee2a176383a2161855f806f47707f98",
+    "mtime": "2026-11-21T23:22:43.952Z"
    }
   ],
   "code": [
@@ -64,16 +64,16 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1342,
-   "segments": 1173,
+   "names": 1343,
+   "segments": 1174,
    "closureShare": 0.2897
   },
-  "scopeSha256": "18c6705061f5624bf1c9bf7464e4d32d166a451521b1b49f5f6e968a49550f95",
+  "scopeSha256": "9ec669bbf0573a693ba7a1674d48449d1c890b98170207d625596068b1559ef5",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d3129e54f07b05ef83eca2f120207069c98aa33542d395c7bd72823f0fc6a1ca",
+    "stableSha256": "10df44a655981b7ef766281274d8f55a05c8643d6642b971dc0b8782cb7b700e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -137,7 +137,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "de42bd042bbbda0daae6739b4dc3698291315ec00df2bf41b627e239ef00563c",
+    "stableSha256": "85b20a1a3cb4fe742e6363fe388b483259c4393094cf04a5663f360cb042fcd8",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2952,9 +2952,9 @@
      "kind": "period",
      "target": "B",
      "status": "合(3σ)",
-     "nSigma": 0.09561602617161595,
+     "nSigma": 0.09561602656845378,
      "residualPct": 0.00227793483600638,
-     "absResidual": 57330.833842754364,
+     "absResidual": 57330.834080696106,
      "unit": "s"
     },
     {
@@ -2970,7 +2970,7 @@
    "oldVerdict4": "量限定合",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 0.09561602617161595,
+    "nSigma": 0.09561602656845378,
     "residualPct": 0.00227793483600638
    }
   },
@@ -3024,9 +3024,9 @@
      "kind": "period",
      "target": "B",
      "status": "合(3σ)",
-     "nSigma": 0.2740909116196267,
+     "nSigma": 0.2740909105584087,
      "residualPct": 0.0023523146414256685,
-     "absResidual": 37193.50081586838,
+     "absResidual": 37193.500671863556,
      "unit": "s"
     },
     {
@@ -3042,7 +3042,7 @@
    "oldVerdict4": "量限定合",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 0.2740909116196267,
+    "nSigma": 0.2740909105584087,
     "residualPct": 0.0023523146414256685
    }
   },
@@ -4820,37 +4820,37 @@
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 13244,
+    "line": 13245,
     "text": "//   ② `sampleClass:\"calibration\"`(現実較正)で **0<kFrame<1 の分数**を書くときだけ、",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 13275,
+    "line": 13276,
     "text": "// (無ければ従来どおり 2 へ丸めて警告)。`sampleClass:\"calibration\"` では**拒否**する",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28150,
+    "line": 28153,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28340,
+    "line": 28343,
     "text": "//   `modeSaveWarnings` の \"kFrameFraction\" と同じ文)を出す。較正クラス(sampleClass:\"calibration\")でも同じ(受理して警告)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28349,
+    "line": 28352,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 28360,
+    "line": 28363,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 42873,
+    "line": 42926,
     "text": "//   calTarget … sampleClass:\"calibration\" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    }

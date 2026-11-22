@@ -21,7 +21,7 @@
   "shellPoints": 12
  },
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "原仮定者の予定(第123報)・統括の検証項目 R266",
  "parts": {
   "base": {
@@ -167,7 +167,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 128.298
+     "wallSec": 156.242
     },
     "h2": {
      "n": 381,
@@ -210,7 +210,7 @@
       0
      ],
      "nan": false,
-     "wallSec": 229.695
+     "wallSec": 276.235
     }
    },
    "frozen": {
@@ -263,7 +263,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.021
+     "wallSec": 0.024
     },
     {
      "key": "b3-D0zero",
@@ -344,7 +344,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.015
+     "wallSec": 0.011
     },
     {
      "key": "b5-generic",
@@ -371,7 +371,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.008
+     "wallSec": 0.007
     },
     {
      "key": "b5-q15",
@@ -398,7 +398,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.009
+     "wallSec": 0.005
     },
     {
      "key": "b5-double",
@@ -425,7 +425,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.009
+     "wallSec": 0.007
     },
     {
      "key": "b5-work",
@@ -452,7 +452,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.01
+     "wallSec": 0.007
     },
     {
      "key": "gal4",
@@ -479,7 +479,7 @@
      "zMax": 0,
      "LzRel": 0,
      "same": true,
-     "wallSec": 0.011
+     "wallSec": 0.009
     }
    ],
    "allSame": true,
@@ -1196,28 +1196,28 @@
  ],
  "timing": {
   "base": {
-   "wallSec": 230.145
+   "wallSec": 276.599
   },
   "degen": {
-   "wallSec": 0.093
+   "wallSec": 0.08
   },
   "d3": {
-   "wallSec": 0.009
+   "wallSec": 0.01
   },
   "cov": {
-   "wallSec": 0.059
+   "wallSec": 0.06
   },
   "field": {
-   "wallSec": 0.008
+   "wallSec": 0.004
   },
   "hist": {
-   "wallSec": 0.001
+   "wallSec": 0.003
   },
   "ledger": {
-   "wallSec": 0.05
+   "wallSec": 0.044
   }
  },
- "elapsedS": 230.368,
+ "elapsedS": 276.802,
  "gates": {
   "baseInWindow": true,
   "baseClampZero": true,
@@ -1240,14 +1240,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第321便a",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:36:53.592Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:30:32.989Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    }
   ],
   "code": [
@@ -1255,37 +1255,37 @@
     "file": "tests/exp-w321a-geo2v3.mjs",
     "bytes": 43029,
     "sha256": "64d11b5bb3d8344cba9fa6c3c1baa16cbde5ea61f69f56be971cf6be5fd62531",
-    "mtime": "2026-11-01T10:22:57.350Z"
+    "mtime": "2026-11-19T16:19:54.552Z"
    },
    {
     "file": "tests/lib-w321a-geo2v3.mjs",
     "bytes": 31219,
     "sha256": "d30b16a443af44c399b0714ab69eb22ae71ed9ada5c0f9f311c5631989a6617c",
-    "mtime": "2026-10-31T16:16:59.894Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "b7a0e861b91058676cbf3a64f9ca8adb30a92a357a058f97a6703f02ebf92419",
@@ -1337,11 +1337,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1355,
-   "segments": 1186,
+   "names": 1356,
+   "segments": 1187,
    "closureShare": 0.2907
   },
-  "scopeSha256": "8fc6d269f95a3f4c54815e09f996e306ebe7c7f5b62a5e2a8a35987f86d9b40a",
+  "scopeSha256": "09b0a6496a9e5d93c87db0ddc5b5ac9e6ed07119d7c086c68fe56362eebddd08",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
