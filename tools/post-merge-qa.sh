@@ -1311,6 +1311,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations347f docs.report144_344a lint.
 #   表 5a の鍵と退役の本の名・表 5b の節・PHYSICS〔第347便g〕・AI_SPEC §298)。照合を回答の後の状態に直した docs.paperPlan347a・docs.report145_347a は第347便a の塊のまま。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145ans5_347g"
 # ==== 第347便g の塊(ここまで)====
+# ==== 第347便h の塊(ここから)====
+# 第347便h(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R407 —— 診断だけ・html は変えない): 枝 h の新設 2 本(behavior.axisdiff347h —— 零試験 12・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・場の式を第321便a の lib と照合・呼ぶだけ / docs.axisdiff347h —— 原文の箇条・表と数の文が PHYSICS〔第347便h〕に逐語・文書)と、新しい段 axisdiff-347h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
+# ==== 第347便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
