@@ -50512,8 +50512,22 @@ if (!FAST) {
       if (!(G.target && ['NaN', 'false', 'empty', 'null', 'Infinity'].every((k) => G.target[k] === 'rejected'))) bad.push('⑥ (g) 本便で NaN 等を受理');
       if (!(G.base && ['NaN', 'false', 'empty', 'null'].every((k) => /^accepted/.test(G.base[k])))) bad.push('⑥ (g) 基点の受理(修正前の記録)が無い');
       const H = C.h_core || {};
-      if (H.identical !== true) bad.push('⑥ (h) S._core の本文が基点と違う');
-      cases.push(`(g) 基点は NaN/false/空文字/null を 0 と読んで受理 → 本便は拒否・(h) S._core は基点と同一(${H.length} 字)`);
+      // 第346便(統括 —— 継ぎ目): 中心の関数の作りの移し替え(〔第346便a〕 —— ③ E6′ 反作用の対のループの本体を reactionPass へ同じ文字のまま)の世代では、
+      //   S._core の本文は第280便の基点と字が違う(本体の分だけ短い)。その世代では「違いが逐語の移し替えだけ」を lint.coreSplit346a と同じ lib で見る:
+      //   reactionPass の本体の正規化した hash が宣言(直す前の塊の hash)と同じ・S._core からの呼び出しが 1 回・塊が S._core に残っていない。
+      //   基点の S._core の hash は第345便までの正本(identical: true)と同じ値であること(基点が替わっていない)も見る。移し替えの無い世代は今までどおり「同一」を求める。
+      const CORE280_BASE_SHA_346 = '56b96a8fa15cd439dc443b01f0aece2fe26daf6616799822f7c1efc26645e2a5';
+      let hNote346 = `S._core は基点と同一(${H.length} 字)`;
+      if (H.identical !== true) {
+        const htmlNow346 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        const CS346 = await import('file://' + path.join(ROOT, 'tests', 'lib-w346a-coresplit.mjs'));
+        const moved346 = htmlNow346.indexOf(CS346.REACTION_FN_TOKEN) >= 0;
+        const as346 = moved346 ? CS346.assessCoreSplit(htmlNow346, JSON.parse(fs.readFileSync(path.join(ROOT, CS346.CORESPLIT_DECL_FILE_346A), 'utf8')), null) : null;
+        if (!(as346 && as346.ok === true && H.baseSha256 === CORE280_BASE_SHA_346 && Number(H.length) < Number(H.baseLength)))
+          bad.push('⑥ (h) S._core の本文が基点と違う' + (as346 && !as346.ok ? '(逐語の移し替えの検査: ' + as346.bad.join(' / ').slice(0, 160) + ')' : ''));
+        else hNote346 = `S._core は基点と字が違う(${H.baseLength} → ${H.length} 字)—— 違いは第346便の逐語の移し替えだけ(reactionPass の本体 ${as346.body.chars} 字の hash が直す前の塊と同じ・呼び出し ${as346.calls} 回 —— lint.coreSplit346a と同じ lib)`;
+      }
+      cases.push(`(g) 基点は NaN/false/空文字/null を 0 と読んで受理 → 本便は拒否・(h) ${hNote346}`);
       const Pm = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = Pm.indexOf('\n〔第280便c — ');   // 節の見出し(§6 の表の行にも「〔第280便c〕」が出るので行頭の見出しで探す)
       if (i0 < 0) bad.push('⑦ PHYSICS に〔第280便c〕節が無い');
