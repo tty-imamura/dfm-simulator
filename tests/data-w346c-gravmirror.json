@@ -1,0 +1,20 @@
+{
+ "version": "w346c-gravmirror-1",
+ "note": "第346便c(原仮定者の回答(2026-11-21 —— 第145報の回答 3)・統括の検証項目 R399): 一様重力の本の y の鏡映の受け入れの記録。base = 鏡映の前(基点 4ef3df2b の beta/index.html —— chromium 157)の指紋・mirror346c = 鏡映の後の本の状態の y・vy・spin の符号を戻した指紋(同じ hash —— x・y・vx・vy・spin・R・m・Tint・t の FNV-1a 32 bit・−0 は 0 と同じに数える)。bitMirror = 600 步の後まで鏡映がビットで同じ本。maxAbs = ビットで同じにならない本の、同じページで符号を戻した写しとの差の上限(量ごと —— この本・この量に限る)",
+ "steps": 600,
+ "dt": 0.016,
+ "presets": {
+  "projectile": { "gy": [9.8, -9.8], "base": { "t0": "5e262019", "t600": "bdf75bb2" }, "mirror346c": { "t0": "5e262019", "t600": "bdf75bb2" }, "bitMirror": true },
+  "convection": { "gy": [0.031, -0.031], "base": { "t0": "c1052d86", "t600": "a49a7256" }, "mirror346c": { "t0": "c1052d86", "t600": "eb1a5159" }, "bitMirror": false,
+    "why": "y=+size と y=−size の 2 つの伝熱壁の熱を足す順(bottom → top)が鏡映で入れ替わる —— 加法の丸めの順が違う",
+    "maxAbs": { "x": 2e-3, "y": 2e-3, "vx": 5e-3, "vy": 5e-4, "spin": 2e-4, "Tint": 1e-2 } },
+  "buoyancy": { "gy": [0.031, -0.031], "base": { "t0": "783e455", "t600": "7b50970c" }, "mirror346c": { "t0": "783e455", "t600": "7b50970c" }, "bitMirror": true },
+  "cooling": { "gy": [0.031, -0.031], "base": { "t0": "157d5200", "t600": "ad8fbef8" }, "mirror346c": { "t0": "157d5200", "t600": "5523403f" }, "bitMirror": false,
+    "why": "4 面とも同じ伝熱壁 —— y=±size の 2 面の熱を足す順が鏡映で入れ替わる(加法の丸めの順)",
+    "maxAbs": { "x": 1e-4, "y": 1e-4, "vx": 2e-5, "vy": 2e-5, "spin": 1e-6, "Tint": 2e-4 } },
+  "emergent": { "gy": [0.03, -0.03], "base": { "t0": "b7c1a61", "t600": "9b31d24d" }, "mirror346c": { "t0": "b7c1a61", "t600": "9b31d24d" }, "bitMirror": true },
+  "emergent2": { "gy": [0.03, -0.03], "base": { "t0": "fac77531", "t600": "48c9fc07" }, "mirror346c": { "t0": "fac77531", "t600": "48c9fc07" }, "bitMirror": true },
+  "chain2": { "gy": [0.03, -0.03], "base": { "t0": "fac77531", "t600": "850ab2c8" }, "mirror346c": { "t0": "fac77531", "t600": "850ab2c8" }, "bitMirror": true },
+  "chaincycle": { "gy": [0.03, -0.03], "base": { "t0": "fac77531", "t600": "850ab2c8" }, "mirror346c": { "t0": "fac77531", "t600": "850ab2c8" }, "bitMirror": true }
+ }
+}

@@ -10,7 +10,7 @@
 //   ・`readUsage(u)`: 普通の使い方(1 ページに sim 1 つ)の 1 步の時間が版で変わるかの読み(DECL.usage の物差し)。
 //   ・`tablesOf(J)`: PHYSICS〔第345便d〕に逐語で載せる表(docs.perfengine345d が照合する)。
 // ■ 書かないこと: 「アプリが遅くなった」「版が悪い」と断定しない。時間は箱で揺れる —— 門は置かない(読みは「この箱・この回では」)。
-export const LIB_VERSION = 'w345d-perfengine-lib-1';
+export const LIB_VERSION = 'w345d-perfengine-lib-2';   // 第346便a: lib-1 → lib-2(OPT_BITS の名だけ —— 下の訂正の段)
 
 // 走行の前に決めた物差し(**門ではない** —— 読みの言葉を選ぶためだけ。perf.mjs の閾値の写しは記録で、perf.mjs の値は変えない)
 export const DECL = Object.freeze({
@@ -35,9 +35,22 @@ export const LABELS = Object.freeze({
   unknown: '分からない',
 });
 
-// %GetOptimizationStatus の数の読み(V8 の列挙の bit —— 版で意味が変わり得るので、生の数も必ず並べる)
-export const OPT_BITS = Object.freeze([[2, '最適化しない'], [8, 'deopt したかも'], [16, '最適化済み'], [32, 'Maglev'], [64, 'TurboFan'], [128, 'インタプリタ'], [256, '最適化の予約'], [1024, '並行に最適化中'], [16384, 'bit 14(deopt の印)'], [32768, 'Sparkplug']]);
-export const decodeOpt = (v) => (Number.isFinite(v) ? `${v}(${OPT_BITS.filter(([m]) => (v & m) === m).map(([, s]) => s).join('・') || '印なし'})` : '取れない');
+// %GetOptimizationStatus の数の読み(V8 の列挙の bit —— **版に依る**ので、生の数も必ず並べる)
+// 第346便a の訂正(原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」・統括の検証項目 R397・決断事項 AN936):
+//   lib-1 の名(16 = 最適化済み・32 = Maglev・16384 = deopt の印 ほか)は、この版のブラウザ(chromium 157 = V8 15.7・153 = V8 15.3)の意味と合っていなかった。
+//   同じブラウザで印の分かっている関数(インタプリタのまま・Sparkplug・Maglev・TurboFan に送った関数)の数から測った意味(157・153 とも同じ):
+//   41 = TurboFan・25 = Maglev・16385 = Sparkplug(基準の層)・65 = インタプリタ・131073 = まだ翻訳していない
+//   → bit 1 = 関数・8 = 最適化済み・16 = Maglev・32 = TurboFan・64 = インタプリタ・16384 = Sparkplug(基準の層)・131072 = まだ翻訳していない。
+//   名を付けるのは、この 7 つ(測った bit)だけ。ほかの bit は「bit <値>」と生のまま出す。別の版では並びが違い得る。
+//   lib-1 の名(当時 —— 記録の読み直しのために残す): [[2,'最適化しない'],[8,'deopt したかも'],[16,'最適化済み'],[32,'Maglev'],[64,'TurboFan'],[128,'インタプリタ'],[256,'最適化の予約'],[1024,'並行に最適化中'],[16384,'bit 14(deopt の印)'],[32768,'Sparkplug']]
+export const OPT_BITS = Object.freeze([[1, '関数'], [8, '最適化済み'], [16, 'Maglev'], [32, 'TurboFan'], [64, 'インタプリタ'], [16384, 'Sparkplug —— 基準の層'], [131072, 'まだ翻訳していない']]);
+export const OPT_BITS_V8_346A = 'V8 15.7.112.43・15.3.76.4(chromium 157.0.8103.78・153.0.8010.12)';   // 意味を測った版
+export const decodeOpt = (v) => {
+  if (!Number.isFinite(v)) return '取れない';
+  const named = OPT_BITS.filter(([m]) => (v & m) === m), known = named.reduce((a, [m]) => a | m, 0);
+  const rest = []; for (let b = 1; b <= (1 << 30); b *= 2) if ((v & b) && !(known & b)) rest.push('bit ' + b);
+  return `${v}(${named.map(([, s]) => s).concat(rest).join('・') || '印なし'})`;
+};
 
 export const median = (a) => { const s = [...a].filter((x) => Number.isFinite(x)).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null; };
 const r3 = (x) => (Number.isFinite(x) ? +x.toFixed(3) : null);

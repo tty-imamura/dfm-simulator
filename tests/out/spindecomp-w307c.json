@@ -3,7 +3,7 @@
  "libVersion": "w307c-spindecomp-lib-1",
  "generator": "tests/exp-w307c-spindecomp.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "原仮定者の裁定(第100報)(観測の自転 = 慣性軸回転 + 引きずり軸回転・軸引きずりは受け手の球面の近い側と遠い側の回転引きずりの差分・金星と太陽–木星を先に・木星–イオと太陽–木星–イオを対照・太陽の自転は分解しない・観測の自転が安定なら引きずり軸回転と潮汐のブレーキが釣り合う)・決断事項 AN345 ④(ω_obs = ω_I + ω_D・ω̇_obs = τ/I + ω̇_D)・統括の検証項目 R211",
  "quick": false,
  "ids": {
@@ -1575,40 +1575,40 @@
  "ok": true,
  "timing": {
   "checks": {
-   "wallSec": 0.112
+   "wallSec": 0.077
   },
   "decomp": {
-   "wallSec": 0.207
+   "wallSec": 0.189
   },
   "radius": {
-   "wallSec": 0.275
+   "wallSec": 0.179
   },
   "misc": {
-   "wallSec": 0.058
+   "wallSec": 0.037
   },
   "evolution": {
-   "wallSec": 4.152
+   "wallSec": 3.922
   }
  },
- "elapsedS": 6.849,
+ "elapsedS": 6.286,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便c",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:28:38.029Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:35:07.138Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -1616,43 +1616,43 @@
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 38232,
     "sha256": "e84b16a251259c233f7abd9cb9dbb106a1e234f471ef37d48deb3b0e3dd02919",
-    "mtime": "2026-11-05T03:10:54.282Z"
+    "mtime": "2026-11-19T16:19:54.544Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
     "bytes": 21642,
     "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "66fef02b3edcf20b7550586ae3f13b0294c8dade2f0d2f049d0d044723c409d5",
@@ -1687,11 +1687,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1339,
-   "segments": 1170,
-   "closureShare": 0.2877
+   "names": 1340,
+   "segments": 1171,
+   "closureShare": 0.2878
   },
-  "scopeSha256": "ee15ea767c31c117780b96f01bd8205b001c491ad697a198dd25bd994ce1333f",
+  "scopeSha256": "512867bffec095309dc7c7ffd9501a64736b7213cf7f98b815ea2c43350198bf",
   "scopeComplete": true,
   "inputsStable": [
    {

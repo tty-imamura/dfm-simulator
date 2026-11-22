@@ -2593,6 +2593,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/engine-345b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS'] },
     note: '第345便b: ブラウザの版・V8・playwright・node・数学関数の指紋(25 関数)と宣言との同じさ・Node と違う関数(事実の列)' }),
   // ==== 第345便b の塊(ここまで)====
+  // ==== 第346便a の塊(ここから)====
+  // ---- 第346便a(原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」・統括の検証項目 R397): **最適化が止まる本の記録**(段 opttour-346a —— 正本 tests/out/opttour-346a.json・
+  //   器 tests/exp-w346a-opttour.mjs・lib tests/lib-w346a-opttour.mjs)。代表の 7 本 × 使い方 2 つ(A/B〔kFrame 0〕・2 つの sim が同じ設定で両方進む形)を、1 回ごとにブラウザを
+  //   起こし直して走らせ、ブラウザの出力(--trace-opt --trace-deopt)から最適化が止まった関数を数える。**ブラウザで測る段**(実行系の宣言が入力に入る —— 〔第345便e〕)。
+  //   門(記録の V8 が 15.7 のとき、A/B で S._core が止まる本 = 0)を破ると rc 1。html 全体を読む(領域の宣言なし —— 最適化の出方は html のどこが変わっても動き得る)。
+  //   所要は第346便a の枝の実測(157・番号札の中 —— 正本の elapsedS)
+  S('opttour-346a', 'node tests/exp-w346a-opttour.mjs', ['tests/out/opttour-346a.json'], 138, { secSource: 'w346a-branch', after: ['obscompare', 'samplestatus'],   // html 全体を刻む段は html を書く段の後
+    quickVerify: false, quickVerifyWhy: '時間の量を含む記録(1 步の ms)と、ブラウザの出力の数 —— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/opttour-346a.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec'] },
+    note: '第346便a: 7 本 × 2 つの使い方の、最適化が止まった関数と理由・S._core の最適化の状態の数・ブラウザの版・V8・指紋・門(V8 15.7 の A/B で S._core が止まる本 0)' }),
+  // ==== 第346便a の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
@@ -3126,6 +3137,10 @@ export const HTMLPHYS_DECL_325A = Object.freeze({
     '器が 3 本(🎐 gw150914・🎻 gw150914DFM・⏰ gw150914Merge4s)を .find で引いて走らせ、本の emoji・notClaim(表示の欄)を出力の facts に写す —— 本は表示の欄を含む全体を読む(下限の本 galaxy も含める)'),
   galaxyprof: D325A(['code', 'markup', 'presetPhys:galaxyMeshSpiralGeoToy'], '本 1 本(既定 galaxyMeshSpiralGeoToy —— .find)の ms/步の比を基点 html と今の html で測る(page)—— 表示の欄・文の表を出力に写さない(基点 html は表の外の入力 —— 従来どおり刻まない)'),
   needmesh: D325A(['code', 'markup'], 'HP.dfmField を合成の源と選択肢で呼ぶ(page —— 内蔵の本を読まない)・基点 html と今の html の要求の並び・メッシュの契約 —— 表示の欄・文の表を出力に写さない'),
+  // 第346便a(統括の統合): 最適化が止まる本の記録 —— 代表の 7 本を page で A/B と「2 つの sim が両方進む形」で進め、ブラウザの出力から最適化が止まった関数を数える。
+  //   コードの全部が最適化の出方に効くので code は全部・本は 7 本の物理の欄だけ(表示の欄・文の表は出力に写さない)
+  'opttour-346a': D325A(['code', 'markup', 'presetPhys:galaxyGeo2', 'presetPhys:galaxy', 'presetPhys:cosmicweb', 'presetPhys:darkrotor', 'presetPhys:axisBarStill', 'presetPhys:binary', 'presetPhys:selfRotor'],
+    '代表の 7 本(.find で引く)を page で A/B と 2 つの sim の形で進め、ブラウザの出力(最適化が止まった関数)を数える —— 表示の欄・文の表を出力に写さない(コードの全部が最適化の出方に効く)'),
   // 本の全部を読む段
   galaxyprof2: D325A(PHYS_READS_325A, '銀河トイの準備済み経路の回数の会計と ms/步(page の HP 関数・内蔵の本の id の並び〔allPresets().map〕)—— 表示の欄・文の表を出力に写さない(停止関数 render を名で読むので領域 hash は当たらない)'),
   // 生の行を読む段(説明の欄・注釈・文の表の変更で走るのが正しい —— 版名だけの差では走らない)

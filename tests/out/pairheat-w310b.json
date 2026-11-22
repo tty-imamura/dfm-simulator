@@ -3,7 +3,7 @@
  "libVersion": "w310b-pairheat-lib-1",
  "generator": "tests/exp-w310b-pairheat.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "決断事項 AN370(対の熱 —— 相反の関係を測る・規則は裁定待ち)・AN373・AN365・AN371・原仮定者の裁定(第107報・第108報)・統括の検証項目 R223",
  "maintainVersion": "w309b-maintain-1",
  "ledgerVersion": "w310b-holdledger-1",
@@ -3829,46 +3829,46 @@
    "wallSec": 0.001
   },
   "R": {
-   "wallSec": 0.217
+   "wallSec": 0.161
   },
   "T": {
-   "wallSec": 0.073
+   "wallSec": 0.064
   },
   "F": {
-   "wallSec": 0.109
+   "wallSec": 0.117
   },
   "U": {
-   "wallSec": 0.321
+   "wallSec": 0.272
   },
   "H": {
-   "wallSec": 0.052
+   "wallSec": 0.028
   }
  },
- "elapsedS": 2.481,
+ "elapsedS": 2.239,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T00:09:04.016Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T03:46:44.917Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    },
    {
     "file": "tests/out/recheck-w309c.json",
     "bytes": 96684,
-    "sha256": "d511b650de440434b845c3ad1cb87fe146eda120df4cc277f8ff18a74c1d6c4b",
-    "mtime": "2026-11-18T21:01:55.421Z"
+    "sha256": "583ece1d3cbbc30821727c1157de6685ac28e78a121f36ee7be78aeed871bd2e",
+    "mtime": "2026-11-22T03:46:35.845Z"
    }
   ],
   "code": [
@@ -3876,49 +3876,49 @@
     "file": "tests/exp-w310b-pairheat.mjs",
     "bytes": 39232,
     "sha256": "c6ef93640c8e08bfe3ac2bfb1eb10514a092e9f248c6b14d839083cccfcd9975",
-    "mtime": "2026-11-05T03:10:54.286Z"
+    "mtime": "2026-11-19T16:19:54.548Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w310b-pairheat.mjs",
     "bytes": 9717,
     "sha256": "adc4998f51b994b8413d05e85a55c3af117eda2868bb349a77b90a2a44682c37",
-    "mtime": "2026-10-20T16:19:56.684Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/exp-w309c-recheck.mjs",
     "bytes": 40327,
     "sha256": "dbb1a391f5edd76d197b0c7a1fa9763ecb26392c974878303787ee5e95c63adf",
-    "mtime": "2026-11-05T03:10:54.286Z"
+    "mtime": "2026-11-19T16:19:54.544Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 38232,
     "sha256": "e84b16a251259c233f7abd9cb9dbb106a1e234f471ef37d48deb3b0e3dd02919",
-    "mtime": "2026-11-05T03:10:54.282Z"
+    "mtime": "2026-11-19T16:19:54.544Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "37faff064f4f8e08b5385fcab30f480f971f4f93e9417c8363e8133ee5a1784a",
@@ -3980,11 +3980,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1390,
-   "segments": 1221,
+   "names": 1391,
+   "segments": 1222,
    "closureShare": 0.2991
   },
-  "scopeSha256": "9c3f06f15e5109c66f691c96454a87756d27110701fde2f906353cd9e14d77c7",
+  "scopeSha256": "c5c8506eb87e8e710b5bb5603ffbb7dc3bbed5e8a336f207b15662548c7d9a5e",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -3995,7 +3995,7 @@
    },
    {
     "file": "tests/out/recheck-w309c.json",
-    "stableSha256": "a3147dae269114b19bc628276d6e73b71309fa00766a444d590bad5c73bc966c",
+    "stableSha256": "5e5e1280da23f0c37ff1d8f87e642040f48bab7e51c12ffeff9b37dfcba00293",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",

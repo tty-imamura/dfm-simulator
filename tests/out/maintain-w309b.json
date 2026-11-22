@@ -3,7 +3,7 @@
  "libVersion": "w309b-maintain-lib-1",
  "generator": "tests/exp-w309b-maintain.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "原仮定者の裁定(第103報)AN356・AN358・(第104報)AN362・統括の検証項目 R219",
  "maintainVersion": "w309b-maintain-1",
  "quick": false,
@@ -1132,52 +1132,52 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "A": {
-   "wallSec": 0.009
+   "wallSec": 0.005
   },
   "E": {
-   "wallSec": 0.023
+   "wallSec": 0.018
   },
   "L": {
-   "wallSec": 0.321
+   "wallSec": 0.176
   },
   "T": {
-   "wallSec": 0.218
+   "wallSec": 0.136
   },
   "K": {
-   "wallSec": 0.05
+   "wallSec": 0.039
   },
   "S": {
-   "wallSec": 0.113
+   "wallSec": 0.074
   },
   "D": {
-   "wallSec": 0.182
+   "wallSec": 0.154
   },
   "V": {
-   "wallSec": 0.82
+   "wallSec": 0.752
   }
  },
- "elapsedS": 3.489,
+ "elapsedS": 2.876,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第309便b",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:50.308Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:35:41.047Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -1185,43 +1185,43 @@
     "file": "tests/exp-w309b-maintain.mjs",
     "bytes": 41116,
     "sha256": "fab8ce876a5279c6d4bc20a05bce637308362fb8ae896bd78fbdc0a8e55e9f2a",
-    "mtime": "2026-11-05T03:10:54.286Z"
+    "mtime": "2026-11-19T16:19:54.544Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w309b-maintain.mjs",
     "bytes": 11770,
     "sha256": "d43669ef5d988faff2daf3a2e572bbdd0f20bfe4275952aa77d9d488be4f4223",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w308b-hold.mjs",
     "bytes": 14098,
     "sha256": "93cae1dfcec4f351108e8bfb476f7b207e6855ed3c0165d626564d9a959cfbbf",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "224321a40b986619d619cd06767ac0797f5254c42a27f61e149a671b19201281",
@@ -1271,11 +1271,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1384,
-   "segments": 1215,
+   "names": 1385,
+   "segments": 1216,
    "closureShare": 0.2965
   },
-  "scopeSha256": "c0f7381d3eeb80a91af369b196b8deba78078953e435b1875e88df1d54929452",
+  "scopeSha256": "0cd9a7426d9e7091dd3fc84ffce387f7b6884c1bf76ce574920b96406d96b618",
   "scopeComplete": true,
   "inputsStable": [
    {

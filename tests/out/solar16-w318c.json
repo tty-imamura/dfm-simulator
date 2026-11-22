@@ -3,7 +3,7 @@
  "libVersion": "w318c-solar16-lib-1",
  "generator": "tests/exp-w318c-solar16.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "quick": false,
  "ruling": "原仮定者の指示(第120報)「支障がなければ、太陽系の１６体サンプルを作成する」・統括の検証項目 R256 —— 内蔵の本 solarSystem16Inertial3d(診断の本 —— 較正の母集団に入れない・観測の 3σ を付けない)。入力は原仮定者から受け取った 16 体の本(第120報)の geoPN=3・K1 の側をそのまま(本便は一次資料に当たっていない —— 暦表との照合はしていない)",
  "input": {
@@ -5271,7 +5271,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.158
+   "wallSec": 0.102
   },
   {
    "key": "io-ctrl-2880",
@@ -5296,7 +5296,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.199
+   "wallSec": 0.134
   },
   {
    "key": "io-ctrl-360",
@@ -5321,7 +5321,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.075
+   "wallSec": 0.05
   },
   {
    "key": "io-ctrl-5760",
@@ -5346,7 +5346,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.22
+   "wallSec": 0.188
   },
   {
    "key": "io-ctrl-720",
@@ -5371,7 +5371,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 0.129
+   "wallSec": 0.089
   },
   {
    "key": "io-k1-1440",
@@ -5400,7 +5400,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 13.905
+   "wallSec": 11.957
   },
   {
    "key": "io-k1-2880",
@@ -5429,7 +5429,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 28.805
+   "wallSec": 24.127
   },
   {
    "key": "io-k1-360",
@@ -5458,7 +5458,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 4.116
+   "wallSec": 3.002
   },
   {
    "key": "io-k1-5760",
@@ -5487,7 +5487,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 53.841
+   "wallSec": 46.338
   },
   {
    "key": "io-k1-720",
@@ -5516,7 +5516,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 6.815
+   "wallSec": 6.236
   },
   {
    "key": "yr-ctrl-1440",
@@ -5541,7 +5541,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 7.135
+   "wallSec": 6.363
   },
   {
    "key": "yr-ctrl-360",
@@ -5566,7 +5566,7 @@
    "isq": null,
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2.098
+   "wallSec": 2.095
   },
   {
    "key": "yr-k1-1440",
@@ -5595,7 +5595,7 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 2609.292
+   "wallSec": 2522.836
   },
   {
    "key": "yr-k1-360",
@@ -5624,16 +5624,16 @@
    },
    "warnings": 0,
    "deny": 0,
-   "wallSec": 720.628
+   "wallSec": 631.895
   }
  ],
  "cost": {
   "rate": {
    "k1": {
-    "rateStepsPerSec": 103.83133920098248
+    "rateStepsPerSec": 121.7543094043203
    },
    "ctrl": {
-    "rateStepsPerSec": 14289.372599231754
+    "rateStepsPerSec": 19822.380106571938
    }
   }
  },
@@ -5660,43 +5660,43 @@
  ],
  "timing": {
   "check": {
-   "wallSec": 1.29
+   "wallSec": 1.332
   },
   "runs": {
-   "wallSec": 2609.787
+   "wallSec": 2523.224
   }
  },
- "elapsedS": 2613.162,
+ "elapsedS": 2526.145,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第318便c",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T22:14:39.134Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T04:57:58.473Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w318c-solar16-input.json",
     "bytes": 14135,
     "sha256": "9bc96f52ebb2c9824600fcea9b10ce4be22f1627a6dbe362704fcfc28d72484f",
-    "mtime": "2026-10-28T15:00:05.452Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    },
    {
     "file": "tests/data-w300c-solar16-schema.json",
     "bytes": 10149,
     "sha256": "c321f5d0199c4804922a34ab2ba6154eec43590315033a368733b5880b04b78d",
-    "mtime": "2026-10-25T15:04:20.685Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -5704,55 +5704,55 @@
     "file": "tests/exp-w318c-solar16.mjs",
     "bytes": 17327,
     "sha256": "eee44c4b8a3276b3568a509a54a40dc97cdb719428a9553b7ddf7be9cf290ad5",
-    "mtime": "2026-11-05T03:10:54.302Z"
+    "mtime": "2026-11-19T16:19:54.552Z"
    },
    {
     "file": "tests/lib-w318c-solar16.mjs",
     "bytes": 26844,
     "sha256": "d785a0f30d201ce5c0ef6bcdfbe1a9a5df8c246b815401b342910608c7a49294",
-    "mtime": "2026-10-28T18:28:18.403Z"
+    "mtime": "2026-11-19T16:19:54.584Z"
    },
    {
     "file": "tests/lib-w300c-solar16.mjs",
     "bytes": 35537,
     "sha256": "7ed0c2f1b34e66c13a8ed51be562b73623224a6ba092af5c341262e422214eae",
-    "mtime": "2026-10-25T15:04:20.693Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w315d-satk1.mjs",
     "bytes": 25049,
     "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
-    "mtime": "2026-10-25T15:04:20.705Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
     "bytes": 9488,
     "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "e4e7648c3fe84e41ce4106c9905ab559383dfa4706fba1ef12fb70b8d43be8d7",
@@ -5801,11 +5801,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1363,
-   "segments": 1194,
+   "names": 1364,
+   "segments": 1195,
    "closureShare": 0.2933
   },
-  "scopeSha256": "311839f7a8431be8ba29422cc332a468360e44b29e0da9741f613169dbd84032",
+  "scopeSha256": "5934adfa8309297622cc4d26e1c8c6c5f55a51eb68e25f337f71fdf42aca3802",
   "scopeComplete": true,
   "inputsStable": [
    {

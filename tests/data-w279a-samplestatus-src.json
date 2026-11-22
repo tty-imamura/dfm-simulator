@@ -138,19 +138,19 @@
    }
   },
   "chainDiskToy3d": {
-   "purpose": "🔗 を三次元で走らせ回転引きずりの連鎖と空間メッシュの渦を測る",
+   "purpose": "🔗 を三次元で走らせ円盤引きずりの連鎖と空間メッシュの渦を測る",
    "objective": "met",
    "state": "零試験で二次元の 🔗 とビット同一・帯の Δθ 2.169/0.577/0.196 rad・プローブの門 3.4e-11・循環 36.6",
    "evidence": [
     "tests/out/drag3d-w298c.json"
    ],
    "en": {
-    "purpose": "Run 🔗 in 3D; measure the rotational-drag chain and the mesh vortex",
+    "purpose": "Run 🔗 in 3D; measure the disk-drag chain and the mesh vortex",
     "state": "bit-identical to 2D 🔗; band dTheta 2.169/0.577/0.196 rad; probe gate 3.4e-11; circulation 36.6"
    }
   },
   "chainDiskToy3dTilt": {
-   "purpose": "中心の自転軸を 30° 傾け回転引きずりの面外成分と軸引きずりを測る",
+   "purpose": "中心の自転軸を 30° 傾け円盤引きずりの面外成分と軸引きずりを測る",
    "objective": "met",
    "state": "面外の変位 最大 6.86・帯の Δθ 2.223/0.470/0.157 rad・軸引きずりの |ω| 最大 0.0214(総和正規化後・姿勢のみ)",
    "evidence": [
@@ -1239,13 +1239,13 @@
   "convection": {
    "purpose": "壁からの加熱で対流を保つ",
    "objective": "met",
-   "state": "循環 17.9・熱流の収支差 0.5% が門内",
+   "state": "循環 20.9・熱流の収支差 0.2% が門内",
    "evidence": [
     "behavior.convection"
    ],
    "en": {
     "purpose": "Sustain convection by heating from the wall",
-    "state": "circulation 17.9 and a 0.5% heat-flow imbalance pass the gate"
+    "state": "circulation 20.9 and a 0.2% heat-flow imbalance pass the gate"
    }
   },
   "buoyancy": {
@@ -2462,14 +2462,14 @@
    }
   },
   "saturnRotVertExplore3d": {
-   "purpose": "回転引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる",
+   "purpose": "円盤引きずりの鉛直の型(探索用・未較正)を見える倍率で傾いた環の粒子に当てる",
    "objective": "met",
    "state": "3000 步の傾きの比が目安の 5% の内・鍵 OFF の写しは不変・lib との点の照合 8/8",
    "evidence": [
     "tests/out/rotvert-w339a.json"
    ],
    "en": {
-    "purpose": "Vertical rotational-drag form (exploratory, uncalibrated) on tilted ring particles",
+    "purpose": "Vertical disk-drag form (exploratory, uncalibrated) on tilted ring particles",
     "state": "tilt ratio near the guide at 3000 steps; key-off copy flat; lib match 8/8"
    }
   }

@@ -2,14 +2,14 @@
  "version": "w345e-browserstage-1",
  "note": "第345便e: 再生成表の段のうちブラウザで測る段(器と import・子プロセスの閉包が playwright を import する段)。node tools/regen-plan.mjs --browser-stages --write で作り直す(--check で今の表と照合)。sec は表の実測秒(tests/data-w311c-regensec.json の較正を含む)",
  "count": {
-  "all": 279,
-  "browser": 52,
+  "all": 280,
+  "browser": 53,
   "node": 227
  },
- "secSum": 11998,
+ "secSum": 12136,
  "secMax": 1583,
  "lanes": 4,
- "lowerBound": 3000,
+ "lowerBound": 3034,
  "makespan": 3777,
  "mismatch": {
   "browserButNode": [],
@@ -403,6 +403,13 @@
    "via": [
     "tests/exp-w285a-contact.mjs",
     "tests/exp-w249b-calaudit.mjs"
+   ]
+  },
+  {
+   "key": "opttour-346a",
+   "sec": 138,
+   "via": [
+    "tests/exp-w346a-opttour.mjs"
    ]
   },
   {
