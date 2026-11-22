@@ -1306,6 +1306,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spintorque347e docs.spintorque347e 
 #   世代の写しを足した第344便a・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations347f docs.report144_344a lint.equations344a docs.report145_345a lint.equations331d docs.equations331d"
 # ==== 第347便f の塊(ここまで)====
+# ==== 第347便g の塊(ここから)====
+# 第347便g(原仮定者の回答(2026-11-22 —— 第145報の回答 5)・統括の検証項目 R406 —— 文書と照合の鍵だけ・html と論文の本文は変えない): 枝 g の新設 1 本(docs.report145ans5_347g —— 構成案の回答 5 の所・
+#   表 5a の鍵と退役の本の名・表 5b の節・PHYSICS〔第347便g〕・AI_SPEC §298)。照合を回答の後の状態に直した docs.paperPlan347a・docs.report145_347a は第347便a の塊のまま。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report145ans5_347g"
+# ==== 第347便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
