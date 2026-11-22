@@ -2652,6 +2652,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spintorque-347e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第347便e: 零試験 7/T1 受け手と源 15 × 読み 2 × 引数 2(緯度・軸どうしの角)× 尺度 3 × (k, b) 4/T2 尺度の置き方 15 行と観測の自転の変化の率 2/窓 12 行/T4 極 2 × 銀河 2 × 太陽の項の読み 4' }),
   // ==== 第347便e の塊(ここまで)====
+  // ==== 第347便h の塊(ここから)====
+  // ---- 第347便h(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R407):
+  //   **軸引きずりの回転の候補 5 つ(2 点の差分・3 軸 6 点の差分・中心の ½ ∇×u・勾配の分け方・球の中の重みつきの平均)と比べる列(2 倍角の則)・慣性回転と引きずり回転の帳簿・
+  //   ジャイロトルクの向きの読み・エネルギーの行き先**(段 axisdiff-347h —— 正本 tests/out/axisdiff-347h.json・lib tests/lib-w347h-axisdiff.mjs —— 第347便e・第337便l・第337便c・第341便f・
+  //   第342便e の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に spintorque-347e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第347便h の枝の実測 7〜9 s
+  S('axisdiff-347h', 'node tests/exp-w347h-axisdiff.mjs', ['tests/out/axisdiff-347h.json'], 9, { secSource: 'w347h-branch', node: true,
+    after: ['spintorque-347e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisdiff-347h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便h: 零試験 12/(i) 自転する源 p 2 × q 2 × D₀ 3 × 距離 3 × 緯度 4 × 候補 5/(ii) 通過 p 2 × D₀ 3 × b 3 × v 2 × 質量 2/(iii) 公転 24/(iv) 天体 15 × q 2/帳簿・ジャイロの読み・エネルギー・熱' }),
+  // ==== 第347便h の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
