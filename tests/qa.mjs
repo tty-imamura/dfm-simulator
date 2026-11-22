@@ -114791,6 +114791,27 @@ function view343aOf344a(eq) {
       const p = CS.probeCoreSplit(H, D);
       if (!p.ok) bad.push('⑤ 変異で落ちない: ' + p.res.filter((x) => !x.ok).map((x) => x.nm).join(','));
       cases.push(`⑤ 変異 ${p.res.filter((x) => x.ok).length}/${p.res.length}`);
+      // ⑥ 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 性能の検査の**期限つきの許可**。
+      //   移し替えの後、ブラウザの翻訳の当たり方で galaxy・nebulaRotor の 1 步が長くなった(数は不変 —— PHYSICS〔第346便 — 統括〕⑤″)。許可は tests/perf.mjs の ALLOW に
+      //   **この 2 本・上限 1.25 だけ**。root(公開版)が同じ作り(reactionPass を持つ)になったら**外す**(昇格の後に残っていたら落とす)。
+      const allowOk346 = (al, rootHas, src) => {
+        const ks = Object.keys(al).sort().join(',');
+        if (rootHas) return ks === '' ? null : 'root が reactionPass を持つ(昇格の後)のに、性能の検査の許可が残っている(' + ks + ')—— 外す';
+        if (!(ks === 'galaxy,nebulaRotor' && al.galaxy === 1.25 && al.nebulaRotor === 1.25)) return '性能の検査の許可が宣言と違う(galaxy・nebulaRotor の 2 本・上限 1.25 だけ —— 今 ' + (ks || '無し') + ')';
+        if (!(src.indexOf('第145報の回答 7') >= 0 && src.indexOf('次の公開版の昇格で外す') >= 0 && src.indexOf('PHYSICS〔第346便 — 統括〕⑤″') >= 0)) return '性能の検査の許可の注(出どころ・昇格で外す・節の在り処)';
+        return null;
+      };
+      const parseAllow346 = (src) => { const m = /\nconst ALLOW = \{([^}]*)\};/.exec(src); if (!m) return null; const al = {}; for (const kv of m[1].split(',')) { const m2 = /^\s*([A-Za-z0-9_]+)\s*:\s*([0-9.]+)\s*$/.exec(kv); if (m2) al[m2[1]] = +m2[2]; else if (kv.trim() !== '') return null; } return al; };
+      const PF346 = fs.readFileSync(path.join(ROOT, 'tests', 'perf.mjs'), 'utf8');
+      const RH346 = (() => { try { return fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); } catch (e) { return ''; } })();
+      const al346 = parseAllow346(PF346), rootHas346 = RH346.indexOf(CS.REACTION_FN_TOKEN) >= 0;
+      const e6 = al346 === null ? 'tests/perf.mjs の ALLOW の行が読めない' : allowOk346(al346, rootHas346, PF346);
+      if (e6) bad.push('⑥ ' + e6);
+      // 変異: 本を足す・幅を広げる・昇格の後に残す・注を消す —— どれも落ちること。昇格の後に空なら通ること
+      const mut6 = [allowOk346({ galaxy: 1.25, nebulaRotor: 1.25, galaxyStd: 1.25 }, false, PF346), allowOk346({ galaxy: 1.3, nebulaRotor: 1.25 }, false, PF346), allowOk346({ galaxy: 1.25 }, false, PF346),
+        allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, true, PF346), allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, false, '')];
+      if (!(mut6.every((x) => typeof x === 'string') && allowOk346({}, true, PF346) === null && parseAllow346('\nconst ALLOW = {};') !== null && Object.keys(parseAllow346('\nconst ALLOW = {};')).length === 0)) bad.push('⑥ 許可の検査が変異で落ちない');
+      cases.push(`⑥ 性能の検査の期限つきの許可(第145報の回答 7): ${rootHas346 ? 'root が同じ作り —— 許可なし' : 'galaxy 1.25・nebulaRotor 1.25 の 2 本だけ(root は移し替えの前の作り —— 次の昇格で外す)'}・変異 ${mut6.filter((x) => typeof x === 'string').length}/${mut6.length}`);
     } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
     add('lint.coreSplit346a', bad.length === 0,
       `**中心の関数の直し C1 の戻り止め**(第346便a・第145報の回答 2・R397 —— ③ の本体を reactionPass へ逐語で移した記録): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
