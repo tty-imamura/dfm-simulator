@@ -114610,10 +114610,15 @@ function view343aOf344a(eq) {
   if (!(/env\.browserLaunch = \{ version: 'w345d-browser-launch-1', explicit: !!PERF_EXPLICIT_BROWSER,/.test(PF) && /jsVersion: v\.jsVersion/.test(PF) && /chromium: browser\.version\(\)/.test(PF))) bad.push('④ env.browserLaunch(explicit・chromium・jsVersion)が無い');
   const KEEP = ["const THRESH = +(process.env.PERF_THRESH || 1.10);", 'const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;',
     "const SAMPLES = ['galaxy', 'darkrotor', 'convection', 'counterring', 'saturnLayered'];", 'const FRAMES_OVERRIDE = { echo: 720, starSeed: 60000, merger: 240, freebox: 480,',
-    'const ALLOW = {};', 'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
+    'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
     'if (!v.pass || forced) {', 'const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);'];
   for (const k of KEEP) if (PF.indexOf(k) < 0) bad.push('⑤ 基点の行が無い: ' + k.slice(0, 40));
-  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま');
+  // 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 許可の一覧の行は、基点の「空」か、第346便の期限つきの許可 2 本(galaxy・nebulaRotor —— 上限 1.25)の
+  //   どちらか(当時の基点の行 `const ALLOW = {};` は、昇格で許可を外した後の形でもある)。範囲と昇格の後の撤去は lint.coreSplit346a ⑥ が縛る —— 本鍵は「それ以外の形になっていない」ことだけを見る(root でも回る)
+  const ALLOW_LINES_346 = ['const ALLOW = {};', 'const ALLOW = { galaxy: 1.25, nebulaRotor: 1.25 };'];
+  const mAl346 = /\nconst ALLOW = [^\n]*\n/.exec(PF);
+  if (!(mAl346 && ALLOW_LINES_346.includes(mAl346[0].trim()))) bad.push('⑤ 許可の一覧の行が、空でも第346便の 2 本でもない: ' + (mAl346 ? mAl346[0].trim().slice(0, 60) : '無い'));
+  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま・許可の一覧は空か第346便の 2 本(' + (mAl346 && mAl346[0].trim() === ALLOW_LINES_346[0] ? '空' : '2 本') + ')');
   add('lint.perfExplicitBrowser345d', bad.length === 0,
     `**tests/perf.mjs の明示のブラウザ**(第345便d・第145報 AN921・R395 —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ・版が違えば測らずに止める・閾値は不変): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
