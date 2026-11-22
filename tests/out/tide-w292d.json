@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T16:49:20.899Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T03:41:42.117Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w292d-tide.mjs",
     "bytes": 32619,
     "sha256": "be42e6580fae4d84fa2da107c53d19ba3729a3d0ecd2fea3842af114b6c784c5",
-    "mtime": "2026-11-05T03:10:54.254Z"
+    "mtime": "2026-11-19T16:19:54.536Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
     "bytes": 2409,
     "sha256": "b07ea5da5a2e4ac7bbe026388aac612d79ac571da2803c2be313fea7f19c20ea",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    }
   ],
   "codeSha256": "1f762f3670db3bb06f26fe7f892320fe68d57751c27cf60306dd02d857d7fee2",
@@ -98,11 +98,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1383,
-   "segments": 1214,
+   "names": 1384,
+   "segments": 1215,
    "closureShare": 0.2974
   },
-  "scopeSha256": "2c2daf22a4f5143e891d7e14abd8223c3bf3af0932e3cc60c773f72d807c8f19",
+  "scopeSha256": "e1b68836595c78a44f3ac2130927e7793db8399e068088699959f9f4f0dbaca4",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -373,7 +373,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 8.258,
+   "wallSec": 5.144,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -423,7 +423,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 18.156,
+   "wallSec": 10.525,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -502,7 +502,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 7.786,
+   "wallSec": 5.947,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -520,7 +520,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 11.963,
+   "wallSec": 7.252,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -744,71 +744,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 7.786
+    "wallSec": 5.947
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 11.963
+    "wallSec": 7.252
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 11.61
+    "wallSec": 6.395
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 11.061
+    "wallSec": 7.609
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 13.615
+    "wallSec": 8.015
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 10.124
+    "wallSec": 6.121
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 13.797
+    "wallSec": 7.683
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 12.527
+    "wallSec": 8.062
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 9.436
+    "wallSec": 6.547
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 12.272
+    "wallSec": 7.777
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 13.75
+    "wallSec": 8.332
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 158.019
+ "elapsedS": 97.871
 }

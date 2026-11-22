@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第277便d",
   "target": "beta/index.html",
-  "targetSha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-  "generatedAt": "2026-11-21T12:26:09.252Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T03:46:45.401Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "a5291ea765c8b7b8a964e2a3e7ea962a1f26f867be38f4fbd96a48a3c12810f6",
-    "mtime": "2026-11-21T11:51:32.818Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/lib-w277d-selfinertia.mjs",
@@ -485,19 +485,19 @@
     "what": "`S._core` の対ループ(j=i+1 —— **自己は対に現れない**)",
     "hits": [
      {
-      "line": 30862,
+      "line": 30967,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 30916,
+      "line": 31021,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 35052,
+      "line": 35162,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 60132,
+      "line": 60188,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      }
     ],
@@ -508,15 +508,15 @@
     "what": "重み和 W(i には相手の w_j だけ・j には w_i だけ を積む)",
     "hits": [
      {
-      "line": 30875,
+      "line": 30980,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 30929,
+      "line": 31034,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 35066,
+      "line": 35176,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      }
     ],
@@ -527,15 +527,15 @@
     "what": "フレーム分子 A(同上 —— **自己速度は積まれない**)",
     "hits": [
      {
-      "line": 30881,
+      "line": 30986,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 30975,
+      "line": 31080,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 35142,
+      "line": 35252,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      }
     ],
@@ -546,7 +546,7 @@
     "what": "E6′ 輸送項の宣言コメント(「自分自身は除外して評価」)",
     "hits": [
      {
-      "line": 35663,
+      "line": 35773,
       "text": "// E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)"
      }
     ],
@@ -557,19 +557,19 @@
     "what": "時計 ψ の宣言コメント(「外部の決定力のみ=自己場除外」)",
     "hits": [
      {
-      "line": 35521,
+      "line": 35631,
       "text": "//     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の"
      },
      {
-      "line": 36229,
+      "line": 36244,
       "text": "// ψ = W_ext·κ(外部の決定力のみ=自己場除外。第128便: κ 正準)。u は E3 と同じ自己除外フレーム。"
      },
      {
-      "line": 51792,
+      "line": 51848,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)"
      },
      {
-      "line": 51824,
+      "line": 51880,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // V28 と同じ(単独粒子・自己場除外で ψ=W_B/Kt)"
      }
     ],
@@ -580,11 +580,11 @@
     "what": "`dfmField` の `excludeBodyId` フィルタ(源集合から自己を外す)",
     "hits": [
      {
-      "line": 55895,
+      "line": 55951,
       "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
      },
      {
-      "line": 56247,
+      "line": 56303,
       "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
      }
     ],
@@ -595,19 +595,19 @@
     "what": "`dfmGeoToyStep` の 2 巡(`excludeBodyId:i`)",
     "hits": [
      {
-      "line": 56883,
+      "line": 56939,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
      },
      {
-      "line": 56955,
+      "line": 57011,
       "text": "const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:\"mesh\","
      },
      {
-      "line": 57036,
+      "line": 57092,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:0,"
      },
      {
-      "line": 57641,
+      "line": 57697,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
      }
     ],
@@ -618,7 +618,7 @@
     "what": "空間メッシュ T2 の源集合(頂点 a には b だけ・b には a だけ)",
     "hits": [
      {
-      "line": 33593,
+      "line": 33703,
       "text": "SRC=[SA,SB]; SRCa=[SB]; SRCb=[SA];"
      }
     ],
@@ -629,11 +629,11 @@
     "what": "`dfmMeshScalarField` の `OPT.exclude=i` と ∂ₜW の `j===i` 飛ばし",
     "hits": [
      {
-      "line": 33056,
+      "line": 33166,
       "text": "OPT.exclude=i;"
      },
      {
-      "line": 33618,
+      "line": 33728,
       "text": "OPT.exclude=i;"
      },
      {
@@ -641,147 +641,147 @@
       "text": "if(j===i) continue;"
      },
      {
-      "line": 12142,
+      "line": 12143,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 30529,
+      "line": 30534,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 31565,
+      "line": 31675,
       "text": "for(let j=0;j<P.length;j++){ if(j===i) continue; const dx=P[j].x-o.x, dy=P[j].y-o.y, d2=dx*dx+dy*dy;"
      },
      {
-      "line": 31579,
+      "line": 31689,
       "text": "for(const i of R.idx){ const o=P[i]; for(let j=0;j<P.length;j++){ if(j===i) continue;"
      },
      {
-      "line": 31583,
+      "line": 31693,
       "text": "let Win=0; for(const i of R.idx){ const o=P[i]; for(const j of R.idx){ if(j===i) continue;"
      },
      {
-      "line": 32764,
+      "line": 32874,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33062,
+      "line": 33172,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33086,
+      "line": 33196,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33622,
+      "line": 33732,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 56933,
+      "line": 56989,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 57539,
+      "line": 57595,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59381,
+      "line": 59437,
       "text": "if(S.coord3d===true && S.z){ for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i], S.z[j]-S.z[i]); if(z>far) far="
      },
      {
-      "line": 59382,
+      "line": 59438,
       "text": "else for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }"
      },
      {
-      "line": 59509,
+      "line": 59565,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59614,
+      "line": 59670,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx+=a*UX[j]; ry+=a*UY[j]; } }"
      },
      {
-      "line": 59638,
+      "line": 59694,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ qx-=a*PX[j]; qy-=a*PY[j]; } }"
      },
      {
-      "line": 59709,
+      "line": 59765,
       "text": "if(j===i) continue;                                   // 自己項を計算しない"
      },
      {
-      "line": 59814,
+      "line": 59870,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; } }"
      },
      {
-      "line": 59826,
+      "line": 59882,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; } }"
      },
      {
-      "line": 59879,
+      "line": 59935,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59898,
+      "line": 59954,
       "text": "if(j===i) continue;                                   // (iv) 自己項を計算しない"
      },
      {
-      "line": 60547,
+      "line": 60603,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 60642,
+      "line": 60698,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 60726,
+      "line": 60782,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; sz+=a*UZ[j]; } }"
      },
      {
-      "line": 60737,
+      "line": 60793,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; rz-=a*UZ[j]; } }"
      },
      {
-      "line": 60898,
+      "line": 60954,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 61016,
+      "line": 61072,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62045,
+      "line": 62101,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62186,
+      "line": 62242,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62578,
+      "line": 62634,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx-=a*WX[j]; sy-=a*WY[j]; } }"
      },
      {
-      "line": 62706,
+      "line": 62762,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a===0) continue; sA+=a; nx+=a*(V[0][j]-V[0][i]); ny+=a*(V[1][j]-V[1][i]); nz+=a*(V[2][j"
      },
      {
-      "line": 63537,
+      "line": 63593,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 63600,
+      "line": 63656,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 64040,
+      "line": 64096,
       "text": "for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;"
      },
      {
-      "line": 64165,
+      "line": 64221,
       "text": "for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;"
      },
      {
-      "line": 64451,
+      "line": 64507,
       "text": "if(j===i) continue;"
      }
     ],
@@ -792,7 +792,7 @@
     "what": "`dfmLocalMeshField` は **自己の概念を持たない**(渡された源をすべて足す)—— 除外は呼び出し側(`dfmField`)の責務である",
     "hits": [
      {
-      "line": 55656,
+      "line": 55712,
       "text": "function dfmLocalMeshField(sources,px,py,opts){"
      }
     ],
@@ -803,7 +803,7 @@
     "what": "`dfmFrameAt(px,py,S)` は **任意の点で評価する読み取り専用の診断器**で、自己除外を持たない(粒子位置で呼べば自己が入る)。**力学はこの関数を通らない**(呼び出しは表示・診断のみ)",
     "hits": [
      {
-      "line": 53081,
+      "line": 53137,
       "text": "function dfmFrameAt(px,py,S){"
      }
     ],
