@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第304便a",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-18T21:01:13.493Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:34:11.500Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -30,49 +30,49 @@
     "file": "tests/exp-w304a-shell.mjs",
     "bytes": 37536,
     "sha256": "a8f57db2c4601a70df662d820f430115604a856a71ca3da076d2d38211c330c6",
-    "mtime": "2026-11-05T03:10:54.280Z"
+    "mtime": "2026-11-19T16:19:54.540Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 52888,
     "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
-    "mtime": "2026-11-05T03:10:54.271Z"
+    "mtime": "2026-11-19T16:19:54.536Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16742,
     "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
-    "mtime": "2026-10-30T11:33:02.854Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    },
    {
     "file": "tests/lib-w306a-pre.mjs",
     "bytes": 5337,
     "sha256": "29de399a2c1d1df45a31a0f197ab366b5ac7d7a89540990b64abc8acba5ac1db",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    }
   ],
   "codeSha256": "25ab3284af95e7c120d6fec3564098c7eaaab6e4d29d2d496c122aed1d1c8a7b",
@@ -155,11 +155,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1397,
-   "segments": 1228,
+   "names": 1398,
+   "segments": 1229,
    "closureShare": 0.3001
   },
-  "scopeSha256": "d8515f0a443ef864410317aa1ef3f407bc2f9c13569ec8057721309302103872",
+  "scopeSha256": "32c0fee31a7a8b79fdaa5ebe7ca201ea9e9a07df68c54777778ffc784f1fa8db",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -848,11 +848,11 @@
  "ok": true,
  "timing": {
   "Z": {
-   "wallSec": 0.348
+   "wallSec": 0.28
   },
   "M": {
-   "wallSec": 40.596
+   "wallSec": 45.652
   }
  },
- "elapsedS": 42.938
+ "elapsedS": 47.521
 }

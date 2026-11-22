@@ -2,7 +2,7 @@
  "version": "w315a-symbols-2",
  "generator": "tests/exp-w315a-symbols.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "原仮定者の裁定(第117報)・決断事項 AN414(記号の体系: 時空係数 X_k・引きずり係数 Y_k・決定力定数 κ_D = 2G/c²・r_s = κ_D m・r_d = Y_k m・光速定数 c・重力定数 G・基準光速 c_0・基準重力 G_0・局所光速 c_loc・局所重力 G_loc・物理対応ロックの読込時の自動 ON)・統括の推奨 AN417・AN419・AN420・統括の検証項目 R242。保存形式の鍵とエンジンの式は変えない(表示の文とロックのフラグだけ)",
  "physLockAutoVersion": "w315a-physlock-auto-1",
  "quick": false,
@@ -3067,37 +3067,37 @@
  "ok": true,
  "timing": {
   "K": {
-   "wallSec": 0.044
+   "wallSec": 0.057
   },
   "F": {
-   "wallSec": 0
+   "wallSec": 0.001
   },
   "L": {
    "wallSec": 0
   },
   "P": {
-   "wallSec": 2.447
+   "wallSec": 2.45
   }
  },
- "elapsedS": 4.568,
+ "elapsedS": 4.448,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第315便a",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:33.322Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:35:24.246Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -3105,31 +3105,31 @@
     "file": "tests/exp-w315a-symbols.mjs",
     "bytes": 21807,
     "sha256": "07dc9a690366386902bd27574de2deaf38bb50c431334ce22b73e41c488aea45",
-    "mtime": "2026-11-05T03:10:54.298Z"
+    "mtime": "2026-11-19T16:19:54.548Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "1d54d2f9d8c332593789adc67d98e524067b55a23d88eedd10fda8ae3fea6280",
@@ -3178,11 +3178,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1359,
-   "segments": 1190,
+   "names": 1360,
+   "segments": 1191,
    "closureShare": 0.2909
   },
-  "scopeSha256": "a3f27e79c8157dbe8b74dfda468b57fda269fddc332974b2013033548baa8c02",
+  "scopeSha256": "3ae98342bd363014325394dcb886f51db60e01e9b83aeb87cdc2a021c7469bac",
   "scopeComplete": true,
   "inputsStable": [
    {

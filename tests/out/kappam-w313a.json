@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
+ "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,43 +2338,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.031
+   "wallSec": 0.041
   },
   "R": {
-   "wallSec": 0.982
+   "wallSec": 0.809
   },
   "B": {
-   "wallSec": 1.358
+   "wallSec": 1.052
   },
   "E": {
-   "wallSec": 0.977
+   "wallSec": 0.793
   }
  },
- "elapsedS": 4.966,
+ "elapsedS": 4.573,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-  "generatedAt": "2026-11-19T01:56:25.461Z",
+  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "generatedAt": "2026-11-22T06:35:21.081Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7698218,
-    "sha256": "23b4a8d2f73b34634da606963d02a76739fdc7ce718f8a647b34557e33293aba",
-    "mtime": "2026-11-18T16:04:54.525Z"
+    "bytes": 7708050,
+    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+    "mtime": "2026-11-21T23:40:53.976Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-10-25T16:42:07.778Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-10-20T16:19:56.589Z"
+    "mtime": "2026-11-19T16:19:54.501Z"
    }
   ],
   "code": [
@@ -2382,43 +2382,43 @@
     "file": "tests/exp-w313a-kappam.mjs",
     "bytes": 35496,
     "sha256": "7a7b94692c0586a56e2e189ff1333c93ec1c667a2b4b06262bf94c5661503adf",
-    "mtime": "2026-11-05T03:10:54.290Z"
+    "mtime": "2026-11-19T16:19:54.548Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-10-25T16:42:07.814Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-10-22T15:03:06.002Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-10-20T16:19:56.680Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-20T16:19:56.672Z"
+    "mtime": "2026-11-19T16:19:54.572Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-20T16:19:56.668Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-08T18:31:46.797Z"
+    "mtime": "2026-11-19T16:19:54.576Z"
    }
   ],
   "codeSha256": "b14b4283b094fd0dea8fb3369df68529801d59b8dfa2a7f35f378292555a25a6",
@@ -2463,11 +2463,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1364,
-   "segments": 1195,
+   "names": 1365,
+   "segments": 1196,
    "closureShare": 0.2936
   },
-  "scopeSha256": "871a917e412cd23f375bdb24aa5c42eef1a65d3bec86442de2e2e3a7e36f8dd6",
+  "scopeSha256": "bb7576cc03b31281d0f3eede8137908b933bd6720e0318959eb917d4dd46a0a8",
   "scopeComplete": true,
   "inputsStable": [
    {
