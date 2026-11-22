@@ -114616,12 +114616,12 @@ function view343aOf344a(eq) {
     'const ABJIT_SELF_FAIL = +(process.env.PERF_ABJIT_SELF_FAIL || 4);', 'const ABJIT = { warm: 100, chunk: 100, reps: 3, budgetMs: 30000 };',
     'if (!v.pass || forced) {', 'const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);'];
   for (const k of KEEP) if (PF.indexOf(k) < 0) bad.push('⑤ 基点の行が無い: ' + k.slice(0, 40));
-  // 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 許可の一覧の行は、基点の「空」か、第346便の期限つきの許可 2 本(galaxy・nebulaRotor —— 上限 1.25)の
+  // 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 許可の一覧の行は、基点の「空」か、第346便の期限つきの許可 3 本(galaxy・nebulaRotor・starSeed —— 上限 1.25)の
   //   どちらか(当時の基点の行 `const ALLOW = {};` は、昇格で許可を外した後の形でもある)。範囲と昇格の後の撤去は lint.coreSplit346a ⑥ が縛る —— 本鍵は「それ以外の形になっていない」ことだけを見る(root でも回る)
-  const ALLOW_LINES_346 = ['const ALLOW = {};', 'const ALLOW = { galaxy: 1.25, nebulaRotor: 1.25 };'];
+  const ALLOW_LINES_346 = ['const ALLOW = {};', 'const ALLOW = { galaxy: 1.25, nebulaRotor: 1.25, starSeed: 1.25 };'];
   const mAl346 = /\nconst ALLOW = [^\n]*\n/.exec(PF);
-  if (!(mAl346 && ALLOW_LINES_346.includes(mAl346[0].trim()))) bad.push('⑤ 許可の一覧の行が、空でも第346便の 2 本でもない: ' + (mAl346 ? mAl346[0].trim().slice(0, 60) : '無い'));
-  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま・許可の一覧は空か第346便の 2 本(' + (mAl346 && mAl346[0].trim() === ALLOW_LINES_346[0] ? '空' : '2 本') + ')');
+  if (!(mAl346 && ALLOW_LINES_346.includes(mAl346[0].trim()))) bad.push('⑤ 許可の一覧の行が、空でも第346便の 3 本でもない: ' + (mAl346 ? mAl346[0].trim().slice(0, 60) : '無い'));
+  cases.push('② 版が違えば例外 / ③ どちらかが無ければ今までの起動の順 / ④ env.browserLaunch / ⑤ 閾値・標本・再トスの行 ' + KEEP.length + ' が基点のまま・許可の一覧は空か第346便の 3 本(' + (mAl346 && mAl346[0].trim() === ALLOW_LINES_346[0] ? '空' : '3 本') + ')');
   add('lint.perfExplicitBrowser345d', bad.length === 0,
     `**tests/perf.mjs の明示のブラウザ**(第345便d・第145報 AN921・R395 —— CHROMIUM_PATH と DFM_EXPECT_CHROMIUM の両方が在るときだけ・版が違えば測らずに止める・閾値は不変): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
@@ -114801,11 +114801,11 @@ function view343aOf344a(eq) {
       cases.push(`⑤ 変異 ${p.res.filter((x) => x.ok).length}/${p.res.length}`);
       // ⑥ 第346便(原仮定者の回答(2026-11-22 —— 第145報の回答 7)「AN966: 推奨で進める」): 性能の検査の**期限つきの許可**。
       //   移し替えの後、ブラウザの翻訳の当たり方で galaxy・nebulaRotor の 1 步が長くなった(数は不変 —— PHYSICS〔第346便 — 統括〕⑤″)。許可は tests/perf.mjs の ALLOW に
-      //   **この 2 本・上限 1.25 だけ**。root(公開版)が同じ作り(reactionPass を持つ)になったら**外す**(昇格の後に残っていたら落とす)。
+      //   **この 3 本(galaxy・nebulaRotor・starSeed —— 3 本目は 原仮定者の回答(2026-11-22 —— 第145報の回答 9)「AN971: Aで進める」)・上限 1.25 だけ**。root(公開版)が同じ作り(reactionPass を持つ)になったら**外す**(昇格の後に残っていたら落とす)。
       const allowOk346 = (al, rootHas, src) => {
         const ks = Object.keys(al).sort().join(',');
         if (rootHas) return ks === '' ? null : 'root が reactionPass を持つ(昇格の後)のに、性能の検査の許可が残っている(' + ks + ')—— 外す';
-        if (!(ks === 'galaxy,nebulaRotor' && al.galaxy === 1.25 && al.nebulaRotor === 1.25)) return '性能の検査の許可が宣言と違う(galaxy・nebulaRotor の 2 本・上限 1.25 だけ —— 今 ' + (ks || '無し') + ')';
+        if (!(ks === 'galaxy,nebulaRotor,starSeed' && al.galaxy === 1.25 && al.nebulaRotor === 1.25 && al.starSeed === 1.25)) return '性能の検査の許可が宣言と違う(galaxy・nebulaRotor・starSeed の 3 本・上限 1.25 だけ —— 今 ' + (ks || '無し') + ')';
         if (!(src.indexOf('第145報の回答 7') >= 0 && src.indexOf('次の公開版の昇格で外す') >= 0 && src.indexOf('PHYSICS〔第346便 — 統括〕⑤″') >= 0)) return '性能の検査の許可の注(出どころ・昇格で外す・節の在り処)';
         return null;
       };
@@ -114816,10 +114816,12 @@ function view343aOf344a(eq) {
       const e6 = al346 === null ? 'tests/perf.mjs の ALLOW の行が読めない' : allowOk346(al346, rootHas346, PF346);
       if (e6) bad.push('⑥ ' + e6);
       // 変異: 本を足す・幅を広げる・昇格の後に残す・注を消す —— どれも落ちること。昇格の後に空なら通ること
-      const mut6 = [allowOk346({ galaxy: 1.25, nebulaRotor: 1.25, galaxyStd: 1.25 }, false, PF346), allowOk346({ galaxy: 1.3, nebulaRotor: 1.25 }, false, PF346), allowOk346({ galaxy: 1.25 }, false, PF346),
-        allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, true, PF346), allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, false, '')];
+      const A3_346 = { galaxy: 1.25, nebulaRotor: 1.25, starSeed: 1.25 };
+      const mut6 = [allowOk346({ ...A3_346, galaxyStd: 1.25 }, false, PF346), allowOk346({ ...A3_346, galaxy: 1.3 }, false, PF346), allowOk346({ galaxy: 1.25, nebulaRotor: 1.25 }, false, PF346),
+        allowOk346(A3_346, true, PF346), allowOk346(A3_346, false, '')];
+      if (allowOk346(A3_346, false, PF346) !== null && !e6) bad.push('⑥ 宣言の 3 本が通らない');
       if (!(mut6.every((x) => typeof x === 'string') && allowOk346({}, true, PF346) === null && parseAllow346('\nconst ALLOW = {};') !== null && Object.keys(parseAllow346('\nconst ALLOW = {};')).length === 0)) bad.push('⑥ 許可の検査が変異で落ちない');
-      cases.push(`⑥ 性能の検査の期限つきの許可(第145報の回答 7): ${rootHas346 ? 'root が同じ作り —— 許可なし' : 'galaxy 1.25・nebulaRotor 1.25 の 2 本だけ(root は移し替えの前の作り —— 次の昇格で外す)'}・変異 ${mut6.filter((x) => typeof x === 'string').length}/${mut6.length}`);
+      cases.push(`⑥ 性能の検査の期限つきの許可(第145報の回答 7): ${rootHas346 ? 'root が同じ作り —— 許可なし' : 'galaxy 1.25・nebulaRotor 1.25・starSeed 1.25 の 3 本だけ(root は移し替えの前の作り —— 次の昇格で外す)'}・変異 ${mut6.filter((x) => typeof x === 'string').length}/${mut6.length}`);
     } catch (e) { bad.push('例外: ' + String(e && e.message || e).slice(0, 160)); }
     add('lint.coreSplit346a', bad.length === 0,
       `**中心の関数の直し C1 の戻り止め**(第346便a・第145報の回答 2・R397 —— ③ の本体を reactionPass へ逐語で移した記録): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
