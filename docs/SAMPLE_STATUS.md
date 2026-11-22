@@ -232,133 +232,133 @@
 - **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・`skippedBy:"reuse-dt2"`)17 段(元の走行 416 s)・**h4**(同一契約の dt/4 の転記 —— `skippedBy:"reuse"`)3 段(元の走行 97.8 s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。
 - **再生成の段**: 下の「再生成の段の表」に段ごとの実測秒と対象の本を置いた(第318便 —— 本の表の段の列は外した)。段の所要は対象の本で共有する(本ごとに足し上げない)。
 - **宣言の無い段**(どの本に関与するかを宣言していない 75 段・実測 2386 s —— うち **html を読まない段** 67 段・実測 2178 s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** 7 段・実測 208 s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**html の全文を文字列で読むと宣言した段** 1 段・実測 0.00 s〔第327便c —— 物理は読まず全文の語を数える(理由を宣言)〕・**対象 html の全体に縛られる段** 0 段・実測 0.00 s)と**常時群**(14 段・実測 1035 s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「html の全文(宣言)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 286 段の実測秒の和 77560 s(21.54 h・逐次の上限。履歴の段は除く)。
-- **保存 QA の来歴**(第320便d): 保存物は版名 `v1.47-b346`・commit 33ff48d・2026-11-22T10:20:11.497Z・対象 html の sha 7aed2144dc9c —— 今の html(版名 `v1.47-b347`)に対して **前の便のゲートの保存物**(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)。
-- **保存 QA**: `tests/out/qa-results-full-beta.json`(1672 試験・全体 8958 s・commit 33ff48d)のうち、**その本の claims が挙げる testId と、原稿 `tests/data-w279a-samplestatus-src.json` の `qaTargets` がその本を挙げた試験**(帰属 w283e-1 —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(6 本)。内訳は所要の上位 3。
+- **保存 QA の来歴**(第320便d): 保存物は版名 `v1.47-b347`・commit 0673288・2026-11-22T20:21:38.996Z・対象 html の sha 68a11b07c880 —— 今の html(版名 `v1.47-b347`)に対して この html の QA の保存物。
+- **保存 QA**: `tests/out/qa-results-full-beta.json`(1688 試験・全体 7141 s・commit 0673288)のうち、**その本の claims が挙げる testId と、原稿 `tests/data-w279a-samplestatus-src.json` の `qaTargets` がその本を挙げた試験**(帰属 w283e-1 —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(6 本)。内訳は所要の上位 3。
 
 | 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |
 |---|---|---|---|---|
 | ⚾ `projectile` | — | — | 0.01・2 | `preset.projectile` 0.01・`projectile.layout` 0.00 |
-| ⏪ `echo` | — | — | 2.06・8 | `echo.leapfrog-return` 1.50・`echo.hud` 0.36・`shot.regress-echo` 0.14 |
-| 🪗 `compactForceToy` | — | — | 0.02・1 | `preset.compactForceToy` 0.02 |
-| 🐌 `inertialDragPair` | — | — | 3.13・3 | `preset.inertialDragPair` 2.62・`behavior.inertialDragGate` 0.49・`preset.inertialDragPair` 0.01 |
-| 🌐 `coord3dKeplerTilt` | — | — | 8.37・3 | `ui.selEdit299` 3.85・`ui.paramTab299` 2.94・`ui.axisGizmo307` 1.57 |
-| 🎲 `coord3dSpinPrecess` | — | — | 3.85・1 | `ui.selEdit299` 3.85 |
-| ♊ `binaryCheckEqualInertial3d` | — | — | 0.42・2 | `behavior.binBooks322b` 0.26・`docs.binBooks322b` 0.16 |
-| ⚖️ `binaryCheckRatio3Inertial3d` | — | — | 0.42・2 | `behavior.binBooks322b` 0.26・`docs.binBooks322b` 0.16 |
-| 🫂 `boxBinaryToy` | — | — | 0.03・1 | `preset.boxBinaryToy` 0.03 |
-| 🌌 `galaxy` | — | — | 123・3 | `shot.regress-galaxy` 64.4・`preset.galaxy` 58.2・`claim.galaxy-outerboost` 0.00 |
-| 🎡 `galaxyStd` | — | — | 56.5・2 | `preset.galaxyStd` 56.5・`claim.galaxystd-outerboost` 0.00 |
-| 💫 `galaxyGeo2` | — | — | 102・2 | `preset.galaxyGeo2` 102・`claim.galaxygeo2-outerboost` 0.00 |
-| 🫓 `galaxyGeo2Flat3d` | — | — | 6.36・2 | `behavior.geo2flat322a` 6.20・`docs.geo2flat322a` 0.15 |
-| 🥞 `galaxyGeo2Thick3d` | — | — | 60.6・2 | `behavior.geo2thick324a` 60.4・`docs.geo2thick324a` 0.19 |
-| 🧇 `galaxyGeo2ThickTilt3d` | — | — | 60.6・2 | `behavior.geo2thick324a` 60.4・`docs.geo2thick324a` 0.19 |
-| 🍳 `galaxyDB` | — | — | 28.0・2 | `preset.galaxyDB` 28.0・`claim.galaxydb-contrast` 0.00 |
-| 🌫️ `collapse` | — | — | 286・3 | `collapse.rotation` 266・`preset.collapse` 20.2・`behavior.collapse-cooling` 0.00 |
-| 🎠 `galaxyMeshSpiral` | — | — | 23.2・2 | `preset.galaxyMeshSpiral` 23.2・`behavior.galaxyMesh` 0.00 |
+| ⏪ `echo` | — | — | 1.84・8 | `echo.leapfrog-return` 1.25・`echo.hud` 0.38・`shot.regress-echo` 0.16 |
+| 🪗 `compactForceToy` | — | — | 0.03・1 | `preset.compactForceToy` 0.03 |
+| 🐌 `inertialDragPair` | — | — | 2.63・3 | `preset.inertialDragPair` 2.17・`behavior.inertialDragGate` 0.43・`preset.inertialDragPair` 0.03 |
+| 🌐 `coord3dKeplerTilt` | — | — | 6.58・3 | `ui.selEdit299` 3.05・`ui.paramTab299` 2.10・`ui.axisGizmo307` 1.42 |
+| 🎲 `coord3dSpinPrecess` | — | — | 3.05・1 | `ui.selEdit299` 3.05 |
+| ♊ `binaryCheckEqualInertial3d` | — | — | 0.37・2 | `behavior.binBooks322b` 0.22・`docs.binBooks322b` 0.14 |
+| ⚖️ `binaryCheckRatio3Inertial3d` | — | — | 0.37・2 | `behavior.binBooks322b` 0.22・`docs.binBooks322b` 0.14 |
+| 🫂 `boxBinaryToy` | — | — | 0.02・1 | `preset.boxBinaryToy` 0.02 |
+| 🌌 `galaxy` | — | — | 88.4・3 | `shot.regress-galaxy` 47.4・`preset.galaxy` 41.1・`claim.galaxy-outerboost` 0.00 |
+| 🎡 `galaxyStd` | — | — | 40.3・2 | `preset.galaxyStd` 40.3・`claim.galaxystd-outerboost` 0.00 |
+| 💫 `galaxyGeo2` | — | — | 68.0・2 | `preset.galaxyGeo2` 68.0・`claim.galaxygeo2-outerboost` 0.00 |
+| 🫓 `galaxyGeo2Flat3d` | — | — | 4.77・2 | `behavior.geo2flat322a` 4.63・`docs.geo2flat322a` 0.13 |
+| 🥞 `galaxyGeo2Thick3d` | — | — | 50.6・2 | `behavior.geo2thick324a` 50.4・`docs.geo2thick324a` 0.16 |
+| 🧇 `galaxyGeo2ThickTilt3d` | — | — | 50.6・2 | `behavior.geo2thick324a` 50.4・`docs.geo2thick324a` 0.16 |
+| 🍳 `galaxyDB` | — | — | 17.8・2 | `preset.galaxyDB` 17.8・`claim.galaxydb-contrast` 0.00 |
+| 🌫️ `collapse` | — | — | 207・3 | `collapse.rotation` 192・`preset.collapse` 14.8・`behavior.collapse-cooling` 0.00 |
+| 🎠 `galaxyMeshSpiral` | — | — | 17.7・2 | `preset.galaxyMeshSpiral` 17.7・`behavior.galaxyMesh` 0.00 |
 | 🌘 `earthMoonRealKF1` | — | — | 0.02・1 | `preset.earthMoonRealKF1` 0.02 |
-| ☿ `mercury` | — | — | 1.10・2 | `behavior.mercury-builtin` 1.09・`preset.mercury` 0.02 |
-| ⭐ `binary` | — | — | 33.2・4 | `preset.binary` 33.1・`ai.obs-binary` 0.12・`behavior.binary` 0.00 |
-| ♾️ `fig8` | — | — | 0.13・2 | `shot.regress-fig8` 0.11・`preset.fig8` 0.02 |
-| 💥 `counterring` | — | — | 7.26・2 | `preset.counterring` 7.26・`new.counterring` 0.00 |
-| 🌪️ `spinup` | — | — | 19.7・3 | `preset.spinup` 10.8・`shot.regress-spinup` 8.87・`behavior.spinup` 0.00 |
+| ☿ `mercury` | — | — | 0.90・2 | `behavior.mercury-builtin` 0.89・`preset.mercury` 0.02 |
+| ⭐ `binary` | — | — | 23.8・4 | `preset.binary` 23.6・`ai.obs-binary` 0.14・`behavior.binary` 0.00 |
+| ♾️ `fig8` | — | — | 0.12・2 | `shot.regress-fig8` 0.11・`preset.fig8` 0.01 |
+| 💥 `counterring` | — | — | 4.03・2 | `preset.counterring` 4.03・`new.counterring` 0.00 |
+| 🌪️ `spinup` | — | — | 13.6・3 | `preset.spinup` 7.21・`shot.regress-spinup` 6.36・`behavior.spinup` 0.00 |
 | 🏮 `pulsarSolo` | — | — | 0.02・1 | `preset.pulsarSolo` 0.02 |
 | 🎇 `supernovaCore` | — | — | 0.02・1 | `preset.supernovaCore` 0.02 |
 | ⚪ `whiteDwarfDFM` | — | — | 0.01・1 | `preset.whiteDwarfDFM` 0.01 |
 | 🔘 `whiteDwarfBareDFM` | — | — | 0.02・1 | `preset.whiteDwarfBareDFM` 0.02 |
-| 🎆 `envelopeShedDFM` | — | — | 0.05・1 | `preset.envelopeShedDFM` 0.05 |
-| 🐮 `lfbotTrap` | — | — | 0.21・2 | `preset.lfbotTrap` 0.11・`preset.lfbotTrap` 0.10 |
-| 🧅 `layeredCoreDFM` | — | — | 0.02・1 | `preset.layeredCoreDFM` 0.02 |
-| ⚙️ `spinDipoleBinary` | — | — | 0.03・1 | `preset.spinDipoleBinary` 0.03 |
-| 🌬️ `gasCohSurface` | — | — | 0.71・2 | `behavior.gasCohSurface` 0.67・`preset.gasCohSurface` 0.04 |
-| 🛟 `saturnRotVertExplore3d` | — | — | 10.0・2 | `behavior.rotvert339a` 9.81・`docs.rotvert339a` 0.22 |
-| ⏱️ `gclock` | — | — | 0.20・3 | `shot.regress-gclock` 0.17・`preset.gclock` 0.04・`new.gclock` 0.00 |
+| 🎆 `envelopeShedDFM` | — | — | 0.01・1 | `preset.envelopeShedDFM` 0.01 |
+| 🐮 `lfbotTrap` | — | — | 0.23・2 | `preset.lfbotTrap` 0.15・`preset.lfbotTrap` 0.08 |
+| 🧅 `layeredCoreDFM` | — | — | 0.01・1 | `preset.layeredCoreDFM` 0.01 |
+| ⚙️ `spinDipoleBinary` | — | — | 0.01・1 | `preset.spinDipoleBinary` 0.01 |
+| 🌬️ `gasCohSurface` | — | — | 0.64・2 | `behavior.gasCohSurface` 0.60・`preset.gasCohSurface` 0.04 |
+| 🛟 `saturnRotVertExplore3d` | — | — | 9.46・2 | `behavior.rotvert339a` 9.28・`docs.rotvert339a` 0.19 |
+| ⏱️ `gclock` | — | — | 0.21・3 | `shot.regress-gclock` 0.17・`preset.gclock` 0.04・`new.gclock` 0.00 |
 | 🛰️ `grcal` | — | — | 0.04・4 | `preset.grcal` 0.03・`grcal.clocks` 0.01・`grcal.calib-text` 0.00 |
-| 🕰️ `grcalGps` | — | — | 0.13・2 | `behavior.grcal3` 0.10・`preset.grcalGps` 0.03 |
-| 🌟 `grcalLight` | — | — | 0.12・2 | `behavior.grcal3` 0.10・`preset.grcalLight` 0.02 |
-| ⏲️ `grcalShapiro` | — | — | 0.12・2 | `behavior.grcal3` 0.10・`preset.grcalShapiro` 0.01 |
-| 💡 `lensing` | — | — | 0.18・2 | `shot.regress-lensing` 0.14・`preset.lensing` 0.04 |
-| 🌗 `spinlens` | — | — | 0.03・2 | `preset.spinlens` 0.03・`spinlens.kframe-control` 0.00 |
-| 🔭 `blens` | — | — | 0.05・2 | `preset.blens` 0.03・`behavior.blens` 0.01 |
-| 🌆 `reddening` | — | — | 0.34・2 | `preset.reddening` 0.31・`claim.reddening` 0.03 |
+| 🕰️ `grcalGps` | — | — | 0.11・2 | `behavior.grcal3` 0.08・`preset.grcalGps` 0.03 |
+| 🌟 `grcalLight` | — | — | 0.10・2 | `behavior.grcal3` 0.08・`preset.grcalLight` 0.02 |
+| ⏲️ `grcalShapiro` | — | — | 0.09・2 | `behavior.grcal3` 0.08・`preset.grcalShapiro` 0.01 |
+| 💡 `lensing` | — | — | 0.18・2 | `shot.regress-lensing` 0.14・`preset.lensing` 0.03 |
+| 🌗 `spinlens` | — | — | 0.02・2 | `preset.spinlens` 0.02・`spinlens.kframe-control` 0.00 |
+| 🔭 `blens` | — | — | 0.04・2 | `preset.blens` 0.03・`behavior.blens` 0.02 |
+| 🌆 `reddening` | — | — | 0.44・2 | `preset.reddening` 0.42・`claim.reddening` 0.03 |
 | 🪞 `mmPhaseToy` | — | — | 0.02・1 | `preset.mmPhaseToy` 0.02 |
 | 📦 `boxtrans` | — | — | 0.10・1 | `preset.boxtrans` 0.10 |
-| 🌀 `boxrot` | — | — | 0.42・1 | `preset.boxrot` 0.42 |
-| 📈 `boxexpand` | — | — | 0.81・1 | `preset.boxexpand` 0.81 |
-| 🫧 `boxcomoving` | — | — | 0.74・2 | `shot.regress-boxcomoving` 0.45・`preset.boxcomoving` 0.29 |
-| 🪢 `boxbound` | — | — | 3.01・2 | `behavior.boxbound` 2.83・`preset.boxbound` 0.18 |
-| 🫁 `boxbreath` | — | — | 0.13・1 | `preset.boxbreath` 0.13 |
-| 🔦 `boxredshift` | — | — | 0.17・3 | `shot.regress-boxredshift` 0.11・`box.photon-abc` 0.04・`preset.boxredshift` 0.01 |
-| 🧭 `probeH` | — | — | 0.89・2 | `behavior.probeH` 0.72・`preset.probeH` 0.17 |
-| 🕊️ `freebox` | — | — | 8.74・11 | `freebox.pressure-expand` 5.52・`freebox.graph-measured` 1.35・`shot.regress-freebox` 1.05 |
-| 🕸️ `cosmicweb` | — | — | 36.5・2 | `preset.cosmicweb` 36.5・`behavior.cosmicweb` 0.00 |
-| 🔥 `gas` | — | — | 32.0・3 | `preset.gas` 18.6・`shot.regress-gas` 13.5・`behavior.gas` 0.00 |
-| 🎈 `pressure` | — | — | 23.7・3 | `preset.pressure` 18.2・`freebox.pressure-expand` 5.52・`behavior.pressure` 0.00 |
-| 📏 `conduction` | — | — | 6.01・4 | `behavior.conduction` 5.55・`preset.conduction` 0.29・`conduction.pinned-zero-cost` 0.14 |
-| 🛷 `frictionHeat` | — | — | 8.31・1 | `preset.frictionHeat` 8.31 |
-| 🌈 `coolrace` | — | — | 0.03・2 | `preset.coolrace` 0.03・`new.coolrace` 0.00 |
-| ♨️ `convection` | — | — | 25.0・4 | `preset.convection` 13.8・`shot.regress-convection` 11.2・`perf.convection-timescale` 0.01 |
-| 🧪 `buoyancy` | — | — | 18.0・2 | `preset.buoyancy` 18.0・`behavior.buoyancy` 0.00 |
-| ☕ `cooling` | — | — | 17.4・2 | `preset.cooling` 17.4・`behavior.collapse-cooling` 0.00 |
-| 🧬 `emergent` | — | — | 5.18・3 | `preset.emergent` 5.18・`phasechange.emergent` 0.00・`behavior.phase-multiseed` 0.00 |
-| 🧊 `emergent2` | — | — | 10.1・3 | `preset.emergent2` 10.1・`phasechange.emergent2` 0.00・`behavior.phase-multiseed` 0.00 |
-| ⛓️ `chain2` | — | — | 9.07・3 | `preset.chain2` 9.07・`phasechange.chain2` 0.00・`behavior.phase-multiseed` 0.00 |
-| ♻️ `chaincycle` | — | — | 11.1・3 | `preset.chaincycle` 11.1・`claim.chaincycle` 0.00・`behavior.phase-multiseed` 0.00 |
-| 🥢 `axisBarStill` | — | — | 33.0・1 | `preset.axisBarStill` 33.0 |
-| 🎏 `axisBarArms` | — | — | 33.0・1 | `preset.axisBarArms` 33.0 |
-| 🎚️ `axisBarReach` | — | — | 31.4・1 | `preset.axisBarReach` 31.4 |
-| 🔮 `shapeToyCluster` | — | — | 0.32・1 | `preset.shapeToyCluster` 0.32 |
-| 🥏 `shapeToyDisk` | — | — | 0.44・1 | `preset.shapeToyDisk` 0.44 |
-| 🧵 `shapeToyArm` | — | — | 0.25・1 | `preset.shapeToyArm` 0.25 |
-| 🍭 `shapeToySpiral` | — | — | 5.48・4 | `behavior.spiralGeometry` 4.32・`preset.shapeToySpiral` 0.87・`docs.spiralRef` 0.16 |
-| 🎱 `shapeToyClusterCore` | — | — | 0.33・1 | `preset.shapeToyClusterCore` 0.33 |
-| 📀 `shapeToyDiskCore` | — | — | 0.42・1 | `preset.shapeToyDiskCore` 0.42 |
-| 🧹 `shapeToyArmCore` | — | — | 0.18・1 | `preset.shapeToyArmCore` 0.18 |
-| 🎢 `shapeToySpiralCore` | — | — | 5.48・4 | `behavior.spiralGeometry` 4.32・`preset.shapeToySpiral` 0.87・`docs.spiralRef` 0.16 |
+| 🌀 `boxrot` | — | — | 0.35・1 | `preset.boxrot` 0.35 |
+| 📈 `boxexpand` | — | — | 0.68・1 | `preset.boxexpand` 0.68 |
+| 🫧 `boxcomoving` | — | — | 0.62・2 | `shot.regress-boxcomoving` 0.36・`preset.boxcomoving` 0.26 |
+| 🪢 `boxbound` | — | — | 2.09・2 | `behavior.boxbound` 1.94・`preset.boxbound` 0.16 |
+| 🫁 `boxbreath` | — | — | 0.11・1 | `preset.boxbreath` 0.11 |
+| 🔦 `boxredshift` | — | — | 0.15・3 | `shot.regress-boxredshift` 0.11・`box.photon-abc` 0.03・`preset.boxredshift` 0.01 |
+| 🧭 `probeH` | — | — | 0.76・2 | `behavior.probeH` 0.64・`preset.probeH` 0.13 |
+| 🕊️ `freebox` | — | — | 6.38・11 | `freebox.pressure-expand` 3.92・`freebox.graph-measured` 1.04・`shot.regress-freebox` 0.80 |
+| 🕸️ `cosmicweb` | — | — | 31.8・2 | `preset.cosmicweb` 31.8・`behavior.cosmicweb` 0.00 |
+| 🔥 `gas` | — | — | 25.0・3 | `preset.gas` 13.6・`shot.regress-gas` 11.4・`behavior.gas` 0.00 |
+| 🎈 `pressure` | — | — | 17.7・3 | `preset.pressure` 13.8・`freebox.pressure-expand` 3.92・`behavior.pressure` 0.00 |
+| 📏 `conduction` | — | — | 4.42・4 | `behavior.conduction` 4.10・`preset.conduction` 0.24・`conduction.pinned-zero-cost` 0.07 |
+| 🛷 `frictionHeat` | — | — | 6.37・1 | `preset.frictionHeat` 6.37 |
+| 🌈 `coolrace` | — | — | 0.02・2 | `preset.coolrace` 0.02・`new.coolrace` 0.00 |
+| ♨️ `convection` | — | — | 21.4・4 | `shot.regress-convection` 11.1・`preset.convection` 10.3・`perf.convection-timescale` 0.01 |
+| 🧪 `buoyancy` | — | — | 14.5・2 | `preset.buoyancy` 14.5・`behavior.buoyancy` 0.00 |
+| ☕ `cooling` | — | — | 11.7・2 | `preset.cooling` 11.7・`behavior.collapse-cooling` 0.00 |
+| 🧬 `emergent` | — | — | 3.46・3 | `preset.emergent` 3.46・`phasechange.emergent` 0.00・`behavior.phase-multiseed` 0.00 |
+| 🧊 `emergent2` | — | — | 7.88・3 | `preset.emergent2` 7.88・`phasechange.emergent2` 0.00・`behavior.phase-multiseed` 0.00 |
+| ⛓️ `chain2` | — | — | 7.25・3 | `preset.chain2` 7.25・`phasechange.chain2` 0.00・`behavior.phase-multiseed` 0.00 |
+| ♻️ `chaincycle` | — | — | 7.86・3 | `preset.chaincycle` 7.86・`claim.chaincycle` 0.00・`behavior.phase-multiseed` 0.00 |
+| 🥢 `axisBarStill` | — | — | 24.3・1 | `preset.axisBarStill` 24.3 |
+| 🎏 `axisBarArms` | — | — | 25.4・1 | `preset.axisBarArms` 25.4 |
+| 🎚️ `axisBarReach` | — | — | 24.8・1 | `preset.axisBarReach` 24.8 |
+| 🔮 `shapeToyCluster` | — | — | 0.34・1 | `preset.shapeToyCluster` 0.34 |
+| 🥏 `shapeToyDisk` | — | — | 0.49・1 | `preset.shapeToyDisk` 0.49 |
+| 🧵 `shapeToyArm` | — | — | 0.19・1 | `preset.shapeToyArm` 0.19 |
+| 🍭 `shapeToySpiral` | — | — | 5.16・4 | `behavior.spiralGeometry` 4.15・`preset.shapeToySpiral` 0.78・`preset.shapeToySpiral` 0.12 |
+| 🎱 `shapeToyClusterCore` | — | — | 0.29・1 | `preset.shapeToyClusterCore` 0.29 |
+| 📀 `shapeToyDiskCore` | — | — | 0.38・1 | `preset.shapeToyDiskCore` 0.38 |
+| 🧹 `shapeToyArmCore` | — | — | 0.17・1 | `preset.shapeToyArmCore` 0.17 |
+| 🎢 `shapeToySpiralCore` | — | — | 5.16・4 | `behavior.spiralGeometry` 4.15・`preset.shapeToySpiral` 0.78・`preset.shapeToySpiral` 0.12 |
 | 🌙 `earthMoonReal` | 41.5 | dt 41.5・dt/2 再利用〔h2〕(元 82.8) | 0.01・1 | `preset.earthMoonReal` 0.01 |
-| 🔆 `emAuditSolar` | 1.86 | dt 1.86・dt/2 再利用〔h2〕(元 2.27) | 0.01・2 | `preset.emAuditSolar` 0.01・`behavior.emAudit` 0.00 |
-| 🌦️ `earthMoonSunInertial3d` | — | — | 38.2・10 | `behavior.gLocNull307` 29.5・`behavior.wbgDirect302` 2.12・`behavior.wbgEstimate302` 1.51 |
-| 🌔 `earthMoonOnly3d` | — | — | 2.63・3 | `behavior.wbgEstimate302` 1.51・`preset.earthReorg300` 0.95・`behavior.dragNorm301` 0.17 |
-| 📶 `qLockRadialAudit` | — | — | 1.60・2 | `behavior.qlockRadial` 1.56・`preset.qLockRadialAudit` 0.04 |
-| 📐 `qLockRadialAuditQ3` | — | — | 1.59・2 | `behavior.qlockRadial` 1.56・`preset.qLockRadialAuditQ3` 0.03 |
+| 🔆 `emAuditSolar` | 1.86 | dt 1.86・dt/2 再利用〔h2〕(元 2.27) | 0.02・2 | `preset.emAuditSolar` 0.02・`behavior.emAudit` 0.00 |
+| 🌦️ `earthMoonSunInertial3d` | — | — | 30.0・10 | `behavior.gLocNull307` 22.4・`behavior.wbgDirect302` 1.90・`behavior.wbgEstimate302` 1.37 |
+| 🌔 `earthMoonOnly3d` | — | — | 2.50・3 | `behavior.wbgEstimate302` 1.37・`preset.earthReorg300` 0.99・`behavior.dragNorm301` 0.14 |
+| 📶 `qLockRadialAudit` | — | — | 1.53・2 | `behavior.qlockRadial` 1.49・`preset.qLockRadialAudit` 0.04 |
+| 📐 `qLockRadialAuditQ3` | — | — | 1.52・2 | `behavior.qlockRadial` 1.49・`preset.qLockRadialAuditQ3` 0.03 |
 | ☄️ `mercuryReal` | 2.62 | dt 2.62・dt/2 再利用〔h2〕(元 7.30) | 0.02・1 | `preset.mercuryReal` 0.02 |
-| 🟫 `mercurySunInertialFit` | — | — | 134・8 | `ui.liveMeasure297` 124・`behavior.gLoc302` 6.04・`ui.wbgSlider302` 1.38 |
-| 🌡️ `mercurySunInertial3d` | — | — | 13.9・11 | `behavior.gLoc302` 6.04・`behavior.wbgEstimate302` 1.51・`behavior.shell304` 1.34 |
-| 🌋 `venusSunInertial3d` | — | — | 0.13・1 | `preset.planets306` 0.13 |
-| 🔴 `marsSunInertial3d` | — | — | 0.13・1 | `preset.planets306` 0.13 |
-| 🏀 `jupiterSunInertial3d` | — | — | 1.19・3 | `behavior.initObs309` 0.66・`behavior.invSq309` 0.40・`preset.planets306` 0.13 |
-| 🟡 `saturnSunInertial3d` | — | — | 0.13・1 | `preset.planets306` 0.13 |
-| 🍩 `saturnRingInertial3d` | — | — | 8.87・8 | `behavior.wbgDirect302` 2.12・`behavior.wbgEstimate302` 1.51・`ui.wbgSlider302` 1.38 |
-| 🔷 `uranusSunInertial3d` | — | — | 0.13・1 | `preset.planets306` 0.13 |
-| 💙 `neptuneSunInertial3d` | — | — | 0.13・1 | `preset.planets306` 0.13 |
-| 🗺️ `solarSystem16Inertial3d` | — | — | 7.47・3 | `behavior.solar16Builtin318c` 4.92・`preset.solarSystem16Inertial3d` 2.41・`docs.solar16Builtin318c` 0.15 |
-| 🟠 `jupiterGalilean` | 13.9 | dt 13.9・dt/2 再利用〔h2〕(元 30.4) | 1.03・2 | `behavior.jupiter` 1.01・`preset.jupiterGalilean` 0.02 |
-| 🌇 `venusReal` | 7.68 | dt 7.68・dt/2 再利用〔h2〕(元 17.1) | 11.2・2 | `behavior.venusReal` 11.2・`preset.venusReal` 0.01 |
-| 🥔 `marsMoonsReal` | 5.69 | dt 5.69・dt/2 再利用〔h2〕(元 12.1) | 0.02・2 | `preset.marsMoonsReal` 0.02・`behavior.marsMoonsReal` 0.00 |
-| 🥶 `plutoCharonDiagInput` | 76.3 | dt 76.3・dt/2 再利用〔h2〕(元 154) | 0.02・1 | `preset.plutoCharonDiagInput` 0.02 |
-| 🟪 `plutoCharonInertialFit` | — | — | 7.48・8 | `behavior.wbgDirect302` 2.12・`behavior.wbgEstimate302` 1.51・`behavior.shell304` 1.34 |
-| 💠 `uranusReal` | 56.2 | dt 56.2 | 0.11・2 | `preset.uranusReal` 0.11・`behavior.uranusReal` 0.00 |
+| 🟫 `mercurySunInertialFit` | — | — | 102・8 | `ui.liveMeasure297` 93.1・`behavior.gLoc302` 5.31・`ui.wbgSlider302` 1.28 |
+| 🌡️ `mercurySunInertial3d` | — | — | 11.9・11 | `behavior.gLoc302` 5.31・`behavior.wbgEstimate302` 1.37・`behavior.shell304` 1.15 |
+| 🌋 `venusSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
+| 🔴 `marsSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
+| 🏀 `jupiterSunInertial3d` | — | — | 0.96・3 | `behavior.initObs309` 0.54・`behavior.invSq309` 0.31・`preset.planets306` 0.11 |
+| 🟡 `saturnSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
+| 🍩 `saturnRingInertial3d` | — | — | 7.75・8 | `behavior.wbgDirect302` 1.90・`behavior.wbgEstimate302` 1.37・`ui.wbgSlider302` 1.28 |
+| 🔷 `uranusSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
+| 💙 `neptuneSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
+| 🗺️ `solarSystem16Inertial3d` | — | — | 5.89・3 | `behavior.solar16Builtin318c` 3.85・`preset.solarSystem16Inertial3d` 1.91・`docs.solar16Builtin318c` 0.13 |
+| 🟠 `jupiterGalilean` | 13.9 | dt 13.9・dt/2 再利用〔h2〕(元 30.4) | 1.27・2 | `behavior.jupiter` 1.25・`preset.jupiterGalilean` 0.02 |
+| 🌇 `venusReal` | 7.68 | dt 7.68・dt/2 再利用〔h2〕(元 17.1) | 10.6・2 | `behavior.venusReal` 10.6・`preset.venusReal` 0.02 |
+| 🥔 `marsMoonsReal` | 5.69 | dt 5.69・dt/2 再利用〔h2〕(元 12.1) | 0.02・2 | `preset.marsMoonsReal` 0.01・`behavior.marsMoonsReal` 0.00 |
+| 🥶 `plutoCharonDiagInput` | 76.3 | dt 76.3・dt/2 再利用〔h2〕(元 154) | 0.01・1 | `preset.plutoCharonDiagInput` 0.01 |
+| 🟪 `plutoCharonInertialFit` | — | — | 6.53・8 | `behavior.wbgDirect302` 1.90・`behavior.wbgEstimate302` 1.37・`behavior.shell304` 1.15 |
+| 💠 `uranusReal` | 56.2 | dt 56.2 | 0.12・2 | `preset.uranusReal` 0.12・`behavior.uranusReal` 0.00 |
 | 🌊 `neptuneReal` | 2.00 | dt 2.00・dt/2 再利用〔h2〕(元 5.58) | 0.01・2 | `preset.neptuneReal` 0.01・`behavior.neptuneReal` 0.00 |
-| ✨ `alphaCenAB` | 10.3 | dt 10.3・dt/2 再利用〔h2〕(元 23.1)・dt/4 再利用〔h4〕(元 47.0) | 6.92・2 | `behavior.alphaCenAB` 6.90・`preset.alphaCenAB` 0.02 |
-| 🌟 `siriusAB` | 6.02 | dt 6.02・dt/2 再利用〔h2〕(元 12.8)・dt/4 再利用〔h4〕(元 27.7) | 6.72・2 | `behavior.siriusAB` 6.71・`preset.siriusAB` 0.02 |
-| 🌠 `siriusABInertial3d` | — | — | 0.42・2 | `behavior.binBooks322b` 0.26・`docs.binBooks322b` 0.16 |
-| 🔶 `alphaCenABInertial3d` | — | — | 0.42・2 | `behavior.binBooks322b` 0.26・`docs.binBooks322b` 0.16 |
-| 🔸 `alphaCenABInertial3dJ` | — | — | 0.77・2 | `behavior.obsSpin324b` 0.60・`docs.obsSpin324b` 0.17 |
-| 📟 `psrDoubleABInertial3d` | — | — | 0.77・2 | `behavior.obsSpin324b` 0.60・`docs.obsSpin324b` 0.17 |
+| ✨ `alphaCenAB` | 10.3 | dt 10.3・dt/2 再利用〔h2〕(元 23.1)・dt/4 再利用〔h4〕(元 47.0) | 6.57・2 | `behavior.alphaCenAB` 6.55・`preset.alphaCenAB` 0.02 |
+| 🌟 `siriusAB` | 6.02 | dt 6.02・dt/2 再利用〔h2〕(元 12.8)・dt/4 再利用〔h4〕(元 27.7) | 4.92・2 | `behavior.siriusAB` 4.91・`preset.siriusAB` 0.02 |
+| 🌠 `siriusABInertial3d` | — | — | 0.37・2 | `behavior.binBooks322b` 0.22・`docs.binBooks322b` 0.14 |
+| 🔶 `alphaCenABInertial3d` | — | — | 0.37・2 | `behavior.binBooks322b` 0.22・`docs.binBooks322b` 0.14 |
+| 🔸 `alphaCenABInertial3dJ` | — | — | 0.71・2 | `behavior.obsSpin324b` 0.56・`docs.obsSpin324b` 0.15 |
+| 📟 `psrDoubleABInertial3d` | — | — | 0.71・2 | `behavior.obsSpin324b` 0.56・`docs.obsSpin324b` 0.15 |
 | 📻 `psrDoubleAB` | 3.42 | dt 3.42・dt/2 再利用〔h2〕(元 7.64) | 0.02・2 | `preset.psrDoubleAB` 0.02・`behavior.psrDoubleAB` 0.00 |
 | 🧮 `psrJ1757DFM` | 2.63 | dt 2.63・dt/2 再利用〔h2〕(元 4.93) | 0.02・1 | `preset.psrJ1757DFM` 0.02 |
-| 🩺 `psrJ1946DFM` | 1.25 | dt 1.25・dt/2 再利用〔h2〕(元 2.18) | 0.02・1 | `preset.psrJ1946DFM` 0.02 |
-| 📿 `psrB1534` | 21.4 | dt 21.4・dt/2 再利用〔h2〕(元 40.4) | 0.01・1 | `preset.psrB1534` 0.01 |
-| 🎐 `gw150914` | 0.57 | dt 0.57・dt/2 再利用〔h2〕(元 1.55) | 8.85・2 | `behavior.gw150914` 8.83・`preset.gw150914` 0.02 |
-| ⏰ `gw150914Merge4s` | 0.07 | dt 0.07・dt/2 再利用〔h2〕(元 0.09) | 0.02・1 | `preset.gw150914Merge4s` 0.02 |
-| ⚛️ `gw150914SpinDipole` | — | — | 0.02・1 | `preset.gw150914SpinDipole` 0.02 |
-| 📡 `saturnZonalD68` | 5.38 | dt 5.38・dt/2 再利用〔h2〕(元 11.2)・dt/4 再利用〔h4〕(元 23.1) | 17.9・4 | `zonal.d68-realunit` 17.9・`preset.saturnZonalD68` 0.04・`zonal.analytic-d68` 0.02 |
-| 🧷 `saturnD68Consistent` | — | — | 0.03・1 | `preset.saturnD68Consistent` 0.03 |
-| 📎 `saturnD68ObsOrbit` | — | — | 0.02・1 | `preset.saturnD68ObsOrbit` 0.02 |
-| 💍 `saturnRingReal` | 120 | dt 120 | 0.29・2 | `preset.saturnRingReal` 0.23・`wave121.ui` 0.06 |
-| 🍇 `tuc47` | — | — | 1.30・2 | `preset.tuc47` 1.30・`behavior.tuc47` 0.00 |
-| 🌃 `ngc3198` | — | — | 1.97・2 | `preset.ngc3198` 1.97・`behavior.ngc3198` 0.00 |
+| 🩺 `psrJ1946DFM` | 1.25 | dt 1.25・dt/2 再利用〔h2〕(元 2.18) | 0.07・1 | `preset.psrJ1946DFM` 0.07 |
+| 📿 `psrB1534` | 21.4 | dt 21.4・dt/2 再利用〔h2〕(元 40.4) | 0.03・1 | `preset.psrB1534` 0.03 |
+| 🎐 `gw150914` | 0.57 | dt 0.57・dt/2 再利用〔h2〕(元 1.55) | 8.34・2 | `behavior.gw150914` 8.33・`preset.gw150914` 0.01 |
+| ⏰ `gw150914Merge4s` | 0.07 | dt 0.07・dt/2 再利用〔h2〕(元 0.09) | 0.01・1 | `preset.gw150914Merge4s` 0.01 |
+| ⚛️ `gw150914SpinDipole` | — | — | 0.01・1 | `preset.gw150914SpinDipole` 0.01 |
+| 📡 `saturnZonalD68` | 5.38 | dt 5.38・dt/2 再利用〔h2〕(元 11.2)・dt/4 再利用〔h4〕(元 23.1) | 14.7・4 | `zonal.d68-realunit` 14.7・`preset.saturnZonalD68` 0.03・`zonal.analytic-d68` 0.02 |
+| 🧷 `saturnD68Consistent` | — | — | 0.01・1 | `preset.saturnD68Consistent` 0.01 |
+| 📎 `saturnD68ObsOrbit` | — | — | 0.01・1 | `preset.saturnD68ObsOrbit` 0.01 |
+| 💍 `saturnRingReal` | 120 | dt 120 | 0.17・2 | `preset.saturnRingReal` 0.14・`wave121.ui` 0.03 |
+| 🍇 `tuc47` | — | — | 1.02・2 | `preset.tuc47` 1.02・`behavior.tuc47` 0.00 |
+| 🌃 `ngc3198` | — | — | 1.58・2 | `preset.ngc3198` 1.58・`behavior.ngc3198` 0.00 |
 | 🥀 `supernovaProg` | — | — | 0.02・1 | `preset.supernovaProg` 0.02 |
-| 🦀 `crabRemnant` | — | — | 1.58・1 | `preset.crabRemnant` 1.58 |
+| 🦀 `crabRemnant` | — | — | 1.02・1 | `preset.crabRemnant` 1.02 |
 
 ### 再生成の段の表
 
