@@ -1369,6 +1369,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 #   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
+# ==== 第350便h の塊(ここから)====
+# 第350便h(統括の検証項目 R425 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 2 本(docs.equations350h —— 計算式の一覧の EQ-103〜EQ-108 と表 / lint.eqReader350h —— 項の読み手の共通の関数の試し)と、
+#   読み手を共通の関数へ替えた既存の照合(docs.equations348g・docs.equations347f・docs.report145_345a・lint.equations331d・docs.equations331d・docs.terms334f・docs.terms335g・docs.equations337g)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d docs.terms334f docs.terms335g docs.equations337g"
+# ==== 第350便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
