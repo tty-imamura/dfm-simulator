@@ -20,6 +20,7 @@ on:
       - "paper/**"
       - "tools/gen-figures3.mjs"
       - ".github/workflows/paper3.yml"
+  workflow_dispatch:
 
 jobs:
   paper3:

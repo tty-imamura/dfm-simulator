@@ -1412,6 +1412,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskcheck350g docs.diskcheck350g"
 #   読み手を共通の関数へ替えた既存の照合(docs.equations348g・docs.equations347f・docs.report145_345a・lint.equations331d・docs.equations331d・docs.terms334f・docs.terms335g・docs.equations337g)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d docs.terms334f docs.terms335g docs.equations337g"
 # ==== 第350便h の塊(ここまで)====
+# ==== 第350便i の塊(ここから)====
+# 第350便i(推奨で進める項 AN997・統括の検証項目 R426 —— 検査の設定だけ・html は変えない): 枝 i の新設 2 本(lint.paperDispatch350i —— 論文の検査 4 本の手で起こす口・
+#   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
+# ==== 第350便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

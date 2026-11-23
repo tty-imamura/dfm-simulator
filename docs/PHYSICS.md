@@ -67057,6 +67057,33 @@ T4 120° の三次元の残り —— 候補 2 つ((a) 第 3 の項・(b) 写像
 
 **④ 書かないこと。** 式を現実の宇宙の主張として書かない(候補の式・診断の式 —— ラベルは全部 診断)。步の形・行き先・重みの型・係数の入り方・候補の場の入れ口・窓の読み・geoPN=3 の場の組・源の回転の分の読みのどれにするかを、本節と計算式の一覧には書かない。文献の値は未照合のまま。
 
+〔第350便i — 論文の組版の検査 4 本(`.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml`)に、手で起こす口(`workflow_dispatch`)を 1 行ずつ足す(推奨で進める項 AN997・統括の検証項目 R426)(**検査の設定と戻り止めと文書だけ —— beta/index.html と root の index.html は 1 byte も変えていない・`paper/` の中は変えていない・`ci.yml` と `nightly.yml` は変えていない・`runs-on: ubuntu-24.04`〔第348便f〕は変えていない・エンジン・内蔵の本・受理器・physics の鍵は不変・器と段と正本は足していない**)〕
+
+**① 事実。** 論文の検査 4 本は、`paper/**`・図の生成器・自分の yml を変えた push と PR でだけ起動する。`paper/` を変えない便が続く間に実行環境(TeX の版)が変わっても、検査は起動せず気付けなかった(〔第347便 — 統括〕⑥ の (vii)・〔第348便f〕—— 実行環境は `ubuntu-24.04` に固定済み)。〔第348便f〕の ⑦ に「手で起こす口を足す案」を候補として書いた。
+
+**② 決定の出どころ。** 推奨で進める項 AN997(論文の検査を手で起こせるようにする —— 論文の検査 4 本に手で起こす口を各 1 行・`paper/` を変えない便でも検査の環境を見られる・昇格の後の便で)。本枝が持つのは検査の設定・戻り止め・文書だけ。
+
+**③ 足したもの。** 4 本の yml の `on:` の最後(`pull_request:` の `paths:` の後・`jobs:` の前)に `  workflow_dispatch:` の 1 行(入力は持たない)。ほかの行は変えていない —— `push` と `pull_request` の道の絞り(`paper/**`・図の生成器・照合器・自分の yml)は元のまま・job の `runs-on: ubuntu-24.04` は元のまま。手元で 4 本が YAML として読めて、`on:` の鍵が `push`・`pull_request`・`workflow_dispatch` の 3 つ・job の `runs-on` が `ubuntu-24.04` と読めることを見た(QA の鍵は Node の中で行の形で読む)。
+
+**表 1 論文の検査 4 本の起動の道(本枝の後)。**
+
+| 検査の設定 | job | push と PR の道(元のまま) | 手で起こす口 | runs-on(元のまま) |
+|---|---|---|---|---|
+| `paper1.yml` | paper1 | `paper/**`・`tools/gen-figures.mjs`・自分の yml | 在る(本枝) | ubuntu-24.04 |
+| `paper2.yml` | paper2 | `paper/**`・`tools/gen-figures2.mjs`・`tools/p2fig-compare.mjs`・自分の yml | 在る(本枝) | ubuntu-24.04 |
+| `paper3.yml` | paper3 | `paper/**`・`tools/gen-figures3.mjs`・自分の yml | 在る(本枝) | ubuntu-24.04 |
+| `paper45.yml` | paper45 | `paper/**`・自分の yml | 在る(本枝) | ubuntu-24.04 |
+
+**④ 起こし方。** GitHub の Actions の画面で、検査の名(paper1・paper2・paper3・paper45)を選び、「Run workflow」で枝を選んで手で起こす(`gh workflow run paper2.yml --ref main` でも同じ)。走るのは push と PR のときと同じ job(TeX のビルド・図の再生成と照合 —— 論文ごとに元のまま)。
+
+**⑤ 足していないもの。** 定期の起動(`schedule`)は足していない —— 手で起こすときだけ走る。`ci.yml`(QA)と `nightly.yml`(毎晩の照合 —— 既に手で起こす口を持つ)は変えていない。
+
+**⑥ 戻り止め。** `lint.paperDispatch350i`(beta・root の両方で走る): ① 4 本とも `on:` の直下に `workflow_dispatch` の行が 1 つ ② `on:` の鍵が `push`・`pull_request`・`workflow_dispatch` の 3 つだけ(定期の起動が無い)・`push` と `pull_request` の `paths` が宣言の一覧(元のまま)と同じ ③ job の `runs-on` が `ubuntu-24.04` のまま ④ 変異の自己試験(口を消す・字下げを替えて `push` の下に入れる・定期の起動を足す・道を 1 本消す・`runs-on` を戻す)で、それぞれ期待の違反で落ちる。`docs.paperDispatch350i`(root は SKIP): 本節の位置と必須の語・AI_SPEC §318・post-merge の塊・書かない語。既存の workflow を読む鍵(`lint.paperRunner348f`・`lint.nightlyPaper2`・`lint.frozenBaseline`・`docs.w310c`・`lint.qaOrder`・`lint.qaHeapDefault329c`・`lint.ciEngine345e`)は変えていない。
+
+**⑦ 効き目の見方。** CI は手元で回せない(手元の箱に TeX は無い)。yml を変える push は、論文の検査 4 本を起動する(自分の yml が道に入っているため)—— 枝は push しない。手で起こす口の効き目は、統合の後に main で 1 回手で起こして見る(〔第350便 — 統括〕の節に書く)。
+
+**⑧ 言わないこと。** 論文の組版が新しい TeX で通るとは書かない。実行環境は `ubuntu-24.04` に固定したままで、論文の tex は変えていない。本枝は起こし方を足しただけ。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

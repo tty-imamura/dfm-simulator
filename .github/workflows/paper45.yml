@@ -17,6 +17,7 @@ on:
     paths:
       - "paper/**"
       - ".github/workflows/paper45.yml"
+  workflow_dispatch:
 
 jobs:
   paper45:

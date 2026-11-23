@@ -5521,3 +5521,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。`docs/EQUATIONS.md` に EQ-103〜EQ-108(トルクの式の自転速度の步の形と引きずり回転のリセット/軸引きずりの重みつきの合成の向きと歳差の率と係数 c_R の入り方/候補の回転を円盤引きずりの器の入口に入れる式と通過の輪/月の型の長い窓の率の読み/geoPN=3 の場の軸引きずりの側/同じく円盤引きずりの側)を足した。ラベルは全部 診断。一覧の項の読み手を `tests/lib-w350h-eqreader.mjs` の 1 つの関数にまとめた(番号の桁の上限を引数 —— 既存の鍵は前と同じ桁で呼ぶ・結果は同じ)。PHYSICS〔第350便h〕に表 1・表 2。
 - **AI が本を作るときの説明**: EQ-103〜EQ-108 は tests の lib の候補の式で、アプリの時間発展には入っていない。原仮定者の回答と指示で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。本節は **SYSTEM_PROMPT には載せない**(現実の宇宙の主張ではない)。
 - QA `docs.equations350h`(root は SKIP)・`lint.eqReader350h`(beta・root の両方)。
+## 318. 第350便i —— 論文の組版の検査 4 本に、手で起こす口(`workflow_dispatch`)を 1 行ずつ足す(推奨で進める項 AN997・統括の検証項目 R426・**検査の設定だけ** —— html・`paper/` の中・`ci.yml`・`nightly.yml`・`runs-on: ubuntu-24.04`・エンジン・内蔵の本・受理器・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: `.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml` の `on:` の最後に `workflow_dispatch:` を 1 行ずつ足した(入力は持たない)。push と pull_request の道の絞りと job の `runs-on` は元のまま。定期の起動(`schedule`)は足していない。起こし方は Actions の画面から手で(`gh workflow run <yml> --ref <枝>` でも同じ)。CI は手元で回せないので、効き目は統合の後に main で手で起こして見る。
+- **AI が読むときの要点**: 起こし方を足しただけ。論文の組版が新しい TeX で通るようになったのではない(実行環境の固定〔第348便f〕のまま・論文の tex は不変)。
+- QA `lint.paperDispatch350i`(4 本の手で起こす口・道の絞り・runs-on・変異の自己試験 —— beta・root の両方で走る)・`docs.paperDispatch350i`(本節と PHYSICS〔第350便i〕・post-merge の塊 —— root は SKIP)。
