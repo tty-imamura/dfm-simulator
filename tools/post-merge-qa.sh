@@ -1321,6 +1321,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便h〕表 15 の (R1) を QA の中で別に照合・呼ぶだけ / docs.axisenergy347i —— 原文と表と数の文が PHYSICS〔第347便i〕に逐語・文書)と、新しい段 axisenergy-347i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisenergy347i docs.axisenergy347i"
 # ==== 第347便i の塊(ここまで)====
+# ==== 第348便e の塊(ここから)====
+# 第348便e(原仮定者の回答(2026-11-21 —— 第145報)AN902・推奨で進める項 AN954 → AN980・統括の検証項目 R413 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.moonwindow348e —— 純関数の場面・
+#   短い部分を走らせ直して第338便c の recheckRun で正本と照合・〔第347便b〕の正本の行と照合・零試験のノブと変異・固定の比べる列の候補の行・呼ぶだけ / docs.moonwindow348e —— 表が PHYSICS〔第348便e〕に逐語・文書)と、新しい段 moonwindow-348e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.moonwindow348e docs.moonwindow348e"
+# ==== 第348便e の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
