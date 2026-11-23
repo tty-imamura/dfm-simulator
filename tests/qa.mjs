@@ -100294,32 +100294,15 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
   }
   const fc331d = new Map(), rd331d = (f) => { if (!fc331d.has(f)) { let t = ''; try { t = fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { t = ''; } fc331d.set(f, t); } return fc331d.get(f); };   // 読んだファイルは 1 回だけ
   const SC331d = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+  const ER331d = await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'));   // 第350便h(R425): 計算式の一覧の読み手の共通の関数(2 桁の読みのまま)
   const EQ331d = rd331d('docs/EQUATIONS.md');
   const LABELS331d = ['実装〔既定〕', '実装〔opt-in〕', '実装〔読み口〕', '診断', '宣言〔未接続〕'];
   const norm331d = (t) => t.replace(/\s+/g, ' ').trim();
   const esc331d = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   // 項の切り出し(### EQ-NN の見出しから次の「### 」か「## 」まで)
-  const items331d = (doc) => {
-    const out = [], re = /\n### (EQ-\d\d) ([^\n]*)/g;
-    let m;
-    while ((m = re.exec(doc))) {
-      const end = secUntilNext329c(doc, m.index, ['\n### ', '\n## ']);
-      out.push({ id: m[1], title: m[2], text: end });
-    }
-    return out;
-  };
+  const items331d = (doc) => ER331d.eqItems350h(doc, { maxDigits: 2 }).map((z) => ({ id: z.id, title: z.title, text: '\n' + z.text }));   // 第350便h: 共通の読み手(本文は見出しの前の改行から —— 前の切り出しと同じ字)
   // 抜粋のブロック(見出しの行・ファイル・名・断片)
-  const blocks331d = (text) => {
-    const out = [], re = /- \*\*プログラム版 (\d+)\*\*\(`([^`]+)` · `([^`]+)`\)\n\n```js\n([\s\S]*?)\n```/g;
-    let m;
-    while ((m = re.exec(text))) {
-      const frags = [], cur = [];
-      for (const ln of m[4].split('\n')) { if (ln.trim() === '// …') { frags.push(cur.splice(0)); } else cur.push(ln); }
-      frags.push(cur.splice(0));
-      out.push({ k: Number(m[1]), file: m[2], name: m[3], frags: frags.map((ls) => ls.join('\n')) });
-    }
-    return out;
-  };
+  const blocks331d = (text) => ER331d.eqBlocks350h(text);   // 第350便h: 共通の読み手(番号・ファイル・名・「// …」で分けた断片 —— 同じ形)
   // 名の本体の範囲(function・=function は括弧と波括弧の対応 —— scanJs の code で文字列とコメントを潰す / const は宣言の行)
   const bodyCache331d = new Map();
   const bodyOf331d = (file, src, name) => {
@@ -100431,7 +100414,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ① 項の形
       const its = items331d(EQ331d), cnt = Object.fromEntries(LABELS331d.map((l) => [l, 0]));
       for (const it of its) {
-        const lab = (/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+        const lab = ER331d.eqLabelRaw350h(it.text);   // 第350便h: 共通の読み手(trim しない字 —— 前と同じ)
         const L = LABELS331d.find((l) => lab.trim() === l);
         if (!L) bad.push(`① ${it.id} のラベル「${lab.slice(0, 20)}」が 5 種のどれでもない`); else cnt[L]++;
         for (const part of ['\n- **数式版**', '\n- **解説**', '\n- **プログラム版 1**', '\n- **PHYSICS の節**: ']) if (it.text.indexOf(part) < 0) bad.push(`① ${it.id} に「${part.replace(/[\n*-]/g, '').trim()}」が無い`);
@@ -118022,27 +118005,6 @@ function view347fOf348g(eq) {
   return s.slice(0, i) + s.slice(i, j).replace(/EQ-(\d{2,3})/g, (m, n) => (Number(n) >= 97 ? '' : m)) + s.slice(j);
 }
 function view345aOf348g(eq) { return view347fOf348g(eq); }
-/** 3 桁の番号も読む項の読み手(lib-w334f-terms.mjs の eqItems334f と同じ欄の切り出し —— 番号の正規表現だけが 2〜3 桁) */
-function eqItems348g(eq) {
-  const s = String(eq || ''), out = [], re = /\n### (EQ-\d{2,3}) ([^\n]*)/g;
-  let m;
-  while ((m = re.exec(s))) {
-    const a = m.index + 1, n1 = s.indexOf('\n### ', a + 1), n2 = s.indexOf('\n## ', a + 1);
-    const ends = [n1, n2].filter((x) => x >= 0), text = s.slice(a, ends.length ? Math.min(...ends) : s.length);
-    const label = ((/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(text) || [])[1] || '').trim();
-    const physLine = (/\n- \*\*PHYSICS の節\*\*: ([^\n]+)/.exec(text) || [])[1] || '';
-    const physRefs = [...physLine.matchAll(/〔第(\d+)便([a-z]*)〕/g)].map((z) => ({ ref: z[0], head: '〔第' + z[1] + '便' + z[2] + ' — ', wave: Number(z[1]) }));
-    const blocks = [];
-    for (const b of text.matchAll(/- \*\*プログラム版 (\d+)\*\*\(`([^`]+)` · `([^`]+)`\)\n\n```js\n([\s\S]*?)\n```/g)) {
-      const frags = [], cur = [];
-      for (const ln of b[4].split('\n')) { if (ln.trim() === '// …') frags.push(cur.splice(0).join('\n')); else cur.push(ln); }
-      frags.push(cur.splice(0).join('\n'));
-      blocks.push({ k: Number(b[1]), file: b[2], name: b[3], frags });
-    }
-    out.push({ id: m[1], num: Number(m[1].slice(3)), title: m[2], text, label, physRefs, blocks });
-  }
-  return out;
-}
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む
   const rd348g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
@@ -118053,6 +118015,8 @@ function eqItems348g(eq) {
   }
   const T34 = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
   const T37 = await import('file://' + path.join(ROOT, 'tests', 'lib-w337g-equations.mjs'));
+  const ER348g = await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'));   // 第350便h(R425): 3 桁を読む項の読み手を共通の関数へ(前の eqItems348g と同じ切り出し —— 桁の上限 3)
+  const eqItems348g = (eq) => ER348g.eqItems350h(eq, { maxDigits: 3 });
   const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/『[^』]*』/g, '');
   const stripCode = (t) => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
   const norm = (t) => String(t || '').replace(/\s+/g, ' ').trim();
@@ -118155,7 +118119,7 @@ function eqItems348g(eq) {
       for (const w of [SRC145, 'R415', 'AN902', 'AN904', 'AN909', 'AN910', 'AN911', '主の候補', '決めていない', SRCS1, SRC9]) if (ln.indexOf(w) < 0) bad.push('③ §2a の第348便g の行に「' + w.slice(0, 24) + '」が無い');
       if (n2a.indexOf('\n- **第348便で探索中**(') < 0) bad.push('③ §2a に「第348便で探索中」の 1 行が無い');
     }
-    const refs = [...new Set([...s2a.matchAll(/EQ-\d{2,3}/g)].map((m) => m[0]))], ids = new Set(all.map((z) => z.id));
+    const refs = [...new Set(ER348g.eqRefs350h(s2a, { maxDigits: 3 }))], ids = new Set(all.map((z) => z.id));   // 第350便h: 共通の読み手(桁の上限 3)
     for (const id of refs) if (!ids.has(id)) bad.push('③ §2a が無い項 ' + id + ' を指す');
     cases.push(`③ §2a の第348便g の行(位置・EQ-97〜EQ-102・回答の語)・第348便で探索中の 1 行・項の参照 ${refs.length}(3 桁を含む)`);
     // ④ 冒頭・§3・§6・§7
