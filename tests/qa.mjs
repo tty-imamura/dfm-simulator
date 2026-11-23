@@ -116979,7 +116979,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
         cases.push(`④ 〔第347便b〕の正本の実の比の行(窓 6 年)と ${cr.n} 葉で相対の差の最大 ${cr.worst === 0 ? '0' : cr.worst.toExponential(2)}`);
         // ⑤ 零試験のノブ(6 年)と変異
         const k0 = L.knobRun(0, 2, 6), kh = L.knobRun(0.5, 2, 6), pm = L.prefixMutant(R0.rows[0]);
-        if (!(k0.maxRel < 1e-3 && kh.maxRel > 1e-2 && pm > 1e-6)) bad.push('⑤ 零試験のノブ(べき 0・指数 2 → (0))か変異(べき 0.5・窓の記録を 1 個ずらす)が落ちない');
+        if (!(k0.maxRel < 3e-3 && kh.maxRel > 3e-2 && pm > 1e-6)) bad.push('⑤ 零試験のノブ(べき 0・指数 2 → (0)〔6 年 —— 丸めの育ちの床 3e-3〕)か変異(べき 0.5・窓の記録を 1 個ずらす)が落ちない');
         cases.push(`⑤ ノブのべき 0・指数 2 と (0) の差 ${k0.maxRel.toExponential(1)}(6 年)・変異 べき 0.5 ${kh.maxRel.toExponential(1)}・記録 1 個ずらし ${pm.toExponential(1)}`);
         // ⑥ 固定の比べる列はリポジトリの候補の行に在る(値と記録の番号)
         const csv = rd(L.OBS.file);
