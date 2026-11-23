@@ -116991,7 +116991,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
         // (c) 候補の場 = 第347便h の lib の makeField と rotOf を直に呼んだ値(q 2・D₀ 0.1・x 3 点)
         { let m = 0; for (const c of DL.cands) { const F = H347.makeField({ sources: [{ m: 1, R: 1, spin: [0, 0, 1], r: [0, 0, 0], v: [0, 0, 0] }], D0: 0.1, p: 1, q: 2 }), fL = L.candField(c, { q: 2, D0: 0.1 });
             for (const x of [[3, 0, 0.03], [10, 0, -1], [0.3, 2, 0.5]]) { const n = nrm(x), a = fL(x), b = H347.rotOf(c, F, x, { e: x.map((v) => v / n), Rb: 0.1 }).Om; m = Math.max(m, nrm(a.map((v, k) => v - b[k])) / nrm(b)); } }
-          if (!(m === 0)) bad.push('③ 候補の場が第347便h の rotOf と違う(' + m + ')'); }
+          if (!(m <= 1e-12)) bad.push('③ 候補の場が第347便h の rotOf と違う(' + m + ')'); }   // ê の作り方(逆数を掛けるか割るか)の丸めの差の内
         // (d) 土星の単位(時間の単位 √(R³/GM)・源の自転)
         { const S = B338.srcOf('saturn'), tU = Math.sqrt(S.Robs ** 3 / (B338.G * S.m)), U = J.C.units;
           if (!(Math.abs(U.tU / tU - 1) < 1e-12 && Math.abs(U.sDim / (S.s * tU) - 1) < 1e-12 && U.R === S.Robs && Math.abs(U.hBandM - B338.hBand(S)) < 1e-9)) bad.push('③ 土星の単位'); }
