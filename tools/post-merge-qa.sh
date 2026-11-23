@@ -1321,6 +1321,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便h〕表 15 の (R1) を QA の中で別に照合・呼ぶだけ / docs.axisenergy347i —— 原文と表と数の文が PHYSICS〔第347便i〕に逐語・文書)と、新しい段 axisenergy-347i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisenergy347i docs.axisenergy347i"
 # ==== 第347便i の塊(ここまで)====
+# ==== 第348便a の塊(ここから)====
+# 第348便a(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN977・統括の検証項目 R409 —— 説明の文だけ・計算は変えない): 枝 a の新設 2 本(lint.dragApproxName348a —— 
+#   q と kFrame の説明の文に「引きずり近似」・回答 4 の頃の句が今の文に無い・ほかの「引きずり近似」は基点と同じ数・変異 / docs.report145ans10_348a —— 回答 10 の 7 項の原文と
+#   訂正の鎖と用語が PHYSICS〔第348便a〕に逐語・AI_SPEC §301)。変異の元の文を世代で選ぶ形にした lint.diskDragName346b は第346便b の塊で走る。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragApproxName348a docs.report145ans10_348a"
+# ==== 第348便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

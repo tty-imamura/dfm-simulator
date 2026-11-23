@@ -116924,6 +116924,210 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
 }
 // ==== 第347便i の塊(ここまで)====
 
+// ==== 第348便a の塊(ここから —— lint.dragApproxName348a・docs.report145ans10_348a の 2 ブロック。root は SKIP)====
+// ---- 第348便a(原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN977: 実装は変えず、kFrameとqの引きずりは、「引きずり近似」として扱う。並進引きずりだけでなく、
+// ----   近距離での効きの違いも含んでいる」・統括の検証項目 R409): **説明の文だけ**(beta の html の i18n の説明の文 4 行 —— 計算・設定の鍵・画面の名・PARAM_DEFS の並び・
+// ----   SYSTEM_PROMPT・root は変えない)。html は字で読む(headless の写しを作らない)。
+// ----   lint.dragApproxName348a: ① q の説明(日本語・英語)に「引きずり近似」② kFrame の説明(日本語・英語)に「引きずり近似」の 1 句 ③ 回答 4 の頃の句が今の html の文に無い
+// ----     (JavaScript の注記は除く)④ ほかの「引きずり近似」は基点 c997d6a4 と同じ 59 行・61 か所 ⑤ q の説明に円盤引きずりが無い ⑥ SYSTEM_PROMPT に回答 4 の頃の句が無い ⑦ 変異
+// ----   docs.report145ans10_348a: PHYSICS〔第348便a〕(位置・表 1 の 7 項の原文の字・表 2 の訂正の鎖・用語・決まったこと)・〔第346便b〕に当時の文・AI_SPEC §301・post-merge・
+// ----     書かない語と禁句・変異
+{
+  const rd348a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const OLD_JA348A = '並進引きずりのうち、源の自転による回転の分', OLD_EN348A = 'of the translational drag (E3';
+  const BASE_LINES348A = 59, BASE_OCC348A = 61;   // 基点 c997d6a4 の beta/index.html の「引きずり近似」の行と出現の数(基点の q と kFrame の説明の行には 0)
+  const inCmt348a = (line, pos) => { const pre = line.slice(0, pos); for (let k = pre.indexOf('//'); k >= 0; k = pre.indexOf('//', k + 1)) if (k === 0 || pre[k - 1] !== ':') return true; return false; };
+  // 説明の行: which = 0(日本語の paramDescs)・1(英語の paramDescs)→ { line, idx }(idx は 0 始まりの行番号)
+  const descOf348a = (H, which, key) => {
+    let i = -1;
+    for (let n = 0; n <= which; n++) { i = H.indexOf('\n  paramDescs:{', i + 1); if (i < 0) return null; }
+    const nx = H.indexOf('\n  paramDescs:{', i + 1), j = H.indexOf('\n    ' + key + ':"', i);
+    if (j < 0 || (nx >= 0 && j > nx) || j - i > 40000) return null;
+    let idx = 0; for (let p = H.indexOf('\n'); p >= 0 && p <= j; p = H.indexOf('\n', p + 1)) idx++;
+    return { line: H.slice(j + 1, H.indexOf('\n', j + 1)), idx };
+  };
+  const lintCheck348a = (H) => {
+    const bad = [], cases = [];
+    const jq = descOf348a(H, 0, 'q'), eq = descOf348a(H, 1, 'q'), jk = descOf348a(H, 0, 'kFrame'), ek = descOf348a(H, 1, 'kFrame');
+    if (!(jq && eq && jk && ek)) { bad.push('① 説明の行(paramDescs の q・kFrame の日本語と英語)が見つからない'); return { bad, cases }; }
+    if (!(jq.line.indexOf('引きずり近似(kFrame と q)の、源の自転による回転の分') >= 0 && jq.line.indexOf('並進引きずりだけでなく、近距離での効きの違いも含む近似') >= 0 && jq.line.indexOf('E3: (R/(R+d))^q') >= 0)) bad.push('① q の日本語の説明に「引きずり近似」の文が無い');
+    if (!(eq.line.indexOf('drag approximation (kFrame and q)') >= 0 && eq.line.indexOf('not only the translational drag but also the difference in effect at short range') >= 0 && eq.line.indexOf('E3: (R/(R+d))^q') >= 0)) bad.push('① q の英語の説明に drag approximation の文が無い');
+    cases.push('① q の説明(日本語・英語)に「引きずり近似」・E3 の式');
+    if (jk.line.indexOf('kFrame と q の引きずりは「引きずり近似」(並進引きずりだけでなく、近距離での効きの違いも含む近似)') < 0) bad.push('② kFrame の日本語の説明に「引きずり近似」の 1 句が無い');
+    if (ek.line.indexOf("The drag of kFrame and q is the 'drag approximation'") < 0) bad.push('② kFrame の英語の説明に drag approximation の 1 句が無い');
+    cases.push('② kFrame の説明(日本語・英語)に「引きずり近似」の 1 句');
+    const L = H.split('\n');
+    let nOld = 0;
+    for (const l of L) for (const t of [OLD_JA348A, OLD_EN348A]) for (let p = l.indexOf(t); p >= 0; p = l.indexOf(t, p + 1)) if (!inCmt348a(l, p)) nOld++;
+    if (nOld) bad.push('③ 回答 4 の頃の句が今の html の文に ' + nOld + ' 件');
+    cases.push('③ 回答 4 の頃の句(日本語「' + OLD_JA348A + '」・英語 "' + OLD_EN348A + '")が文に 0 件(注記は除く)');
+    const skip = new Set([jq.idx, jk.idx]);
+    let nl = 0, no = 0;
+    L.forEach((l, k) => { if (skip.has(k)) return; const c = l.split('引きずり近似').length - 1; if (c) { nl++; no += c; } });
+    if (!(nl === BASE_LINES348A && no === BASE_OCC348A)) bad.push(`④ ほかの「引きずり近似」が ${nl} 行・${no} か所(基点 ${BASE_LINES348A} 行・${BASE_OCC348A} か所)`);
+    cases.push(`④ ほかの「引きずり近似」${nl} 行・${no} か所(基点と同じ)`);
+    if (/円盤引きずり/.test(jq.line) || /[Dd]isk[ -]drag/.test(eq.line)) bad.push('⑤ q の説明に円盤引きずり');
+    cases.push('⑤ q の説明に円盤引きずりが無い');
+    const s0 = H.indexOf('const SYSTEM_PROMPT = `'), sp = s0 >= 0 ? H.slice(s0, H.indexOf('`;', s0)) : '';
+    if (!sp || sp.indexOf(OLD_JA348A) >= 0) bad.push('⑥ SYSTEM_PROMPT が無いか回答 4 の頃の句が在る');
+    cases.push('⑥ SYSTEM_PROMPT に回答 4 の頃の句が無い');
+    return { bad, cases };
+  };
+  if (!TARGET.startsWith('beta/')) console.log('SKIP lint.dragApproxName348a(root 対象 — 説明の文の戻り止めは beta 対象の走行で 1 回見る)');
+  else {
+    let bad = [], cases = [];
+    try {
+      const H0 = rd348a(TARGET) || '';
+      const R = lintCheck348a(H0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const NQJ = '引きずり近似(kFrame と q)の、源の自転による回転の分が距離とともに', NQE = "of the drag approximation (kFrame and q) (E3";
+      const NKJ = 'kFrame と q の引きずりは「引きずり近似」(並進引きずりだけでなく、近距離での効きの違いも含む近似)。';
+      const G2 = 'ppGeo2:"2: 引きずり近似"', LQ = 'q:"引きずり減衰 q"', SPH = 'const SYSTEM_PROMPT = `';
+      const one = (t, a) => t.split(a).length === 2;
+      for (const sd of [NQJ, NQE, NKJ, G2, LQ, SPH]) if (!one(H0, sd)) bad.push('⑦ 変異の種「' + sd.slice(0, 20) + '」が html で 1 回でない');
+      const iC = H0.indexOf('\n// ');
+      const MUT = [
+        ['q の日本語の説明を回答 4 の頃の文に戻す', H0.replace(NQJ, '並進引きずりのうち、源の自転による回転の分が距離とともに'), /^③ /],
+        ['q の英語の説明を回答 4 の頃の文に戻す', H0.replace(NQE, 'of the translational drag (E3'), /^③ /],
+        ['q の日本語の説明から「引きずり近似」を消す', H0.replace(NQJ, '源の自転による回転の分が距離とともに'), /^① q の日本語/],
+        ['kFrame の日本語の説明の 1 句を消す', H0.replace(NKJ, ''), /^② kFrame の日本語/],
+        ['ほかの行に「引きずり近似」を 1 か所足す', H0.replace(G2, 'ppGeo2:"2: 引きずり近似・引きずり近似"'), /^④ /],
+        ['画面の名を「引きずり近似 q」にする', H0.replace(LQ, 'q:"引きずり近似 q"'), /^④ /],
+        ['q の説明に円盤引きずりを書く', H0.replace(NQJ, NQJ.replace('源の自転による', '源の自転による円盤引きずりの')), /^⑤ /],
+        ['SYSTEM_PROMPT に回答 4 の頃の句を書く', H0.replace(SPH, SPH + OLD_JA348A), /^⑥ /],
+        ['回答 4 の頃の句を JavaScript の注記に書く(落ちない)', iC >= 0 ? H0.slice(0, iC) + '\n// 第348便a の試し: ' + OLD_JA348A + H0.slice(iC) : H0, null],
+      ];
+      const sc = [];
+      for (const [nm, h, re] of MUT) {
+        const r = lintCheck348a(h);
+        if (re === null) { if (r.bad.length) bad.push('⑦ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑦ 変異 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.dragApproxName348a', bad.length === 0,
+      `**用語「引きずり近似」の説明の文の戻り止め**(第348便a・原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN977・R409 —— 説明の文だけ・計算は変えない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+{
+  const rd348a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const PH0 = rd348a('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && PH0 !== null && PH0.indexOf('\n〔第348便a — ') >= 0)) {
+    console.log('SKIP docs.report145ans10_348a(第348便a の回答 10 の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+  } else {
+    const SRC10 = '原仮定者の回答(2026-11-23 —— 第145報の回答 10)', SRC4 = '原仮定者の回答(2026-11-21 —— 第145報の回答 4)';
+    const A10 = [['AN972', 'AN972: Aで進める'], ['AN973', 'AN973: Bで進める'], ['AN974', 'AN974: 推奨で進める'],
+      ['AN975', 'AN975: トルクの式の自転速度は、前回ステップの慣性回転と引きずり回転の合成。ただし、引きずり回転は、毎回リセットする。これは、並進引きずりの式での、「前回ステップの慣性と引きずりの合成として、その前のステップとの差分を使用し、引きずりは毎回リセットする」と同様'],
+      ['AN976', 'AN976: 安定している運行は、結果として釣り合っている。釣り合う向きは、銀河由来と太陽由来の軸引きずりを重みで合成した方向。その方向と観測の向きが違う場合は、ジャイロトルクで釣り合いつつ歳差運動をしている。天体の構造別に軸引きずりの利き方に差異が予想され、観測半径に対する引きずられ半径の係数がノブの候補'],
+      ['AN977', 'AN977: 実装は変えず、kFrameとqの引きずりは、「引きずり近似」として扱う。並進引きずりだけでなく、近距離での効きの違いも含んでいる'],
+      ['AN981', 'AN981: 推奨で進める']];
+    const Q4 = '「「引きずり減衰 q」は、現状の並進引きずりに相当するので、実装を確認する」';
+    const OLDQ = '並進引きずりのうち、源の自転による回転の分が距離とともに弱まる速さの指数(E3: (R/(R+d))^q)';
+    const NEWQ = '引きずり近似(kFrame と q)の、源の自転による回転の分が距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。並進引きずりだけでなく、近距離での効きの違いも含む近似';
+    const cells = (l) => l.split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''));
+    const tabIn = (text, h) => { const L = String(text || '').split('\n'), k = L.findIndex((x) => x.startsWith(h)); if (k < 0) return []; const out = []; for (let n = k + 1; n < L.length; n++) { if (L[n].startsWith('|')) out.push(L[n]); else if (out.length) break; } return out.slice(2); };
+    const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+    const para = (sec, head) => { const i = sec.indexOf(head); if (i < 0) return ''; const z = sec.indexOf('\n\n', i); return sec.slice(i, z < 0 ? sec.length : z); };
+    const rv = (x) => x.split('').reverse().join('');
+    const NG = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_541TROPER'].map(rv);
+    const PAST = ['確認した', '確かめた', '示した', '説明した', '解決した', '同定した', '再現した', '収束した', 'フィットした', '較正した', '完全に一致', '普遍定数'];
+    const NOT10 = [/引きずり近似の中身が変わった/, /中身が変わった/, /並進引きずりの定義が変わった/, /q の物理が決まった/, /q の物理を決めた/];
+    const strip = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/[^。\n]*とは書かない[^。\n]*。/g, '');
+    const H = rd348a(TARGET) || '';
+    const HL = H.split('\n'), nLc = HL.filter((l) => l.indexOf('引きずり近似') >= 0).length, nOc = H.split('引きずり近似').length - 1;
+    const check = (ph, as, pm) => {
+      const bad = [], cases = [];
+      // ① 位置と見出しと必須の語
+      const sec = physSecOf(ph, '〔第348便a — '), iA = ph.indexOf('\n〔第348便a — '), iI = ph.indexOf('\n〔第347便i — '), iT = ph.indexOf('\n〔第328便 — 統括');
+      if (!(iA >= 0 && iI >= 0 && iI < iA && iT > iA && ph.slice(iI + 1, iA).indexOf('\n〔第') < 0)) bad.push('① PHYSICS〔第348便a〕の位置(〔第347便i〕の直後・〔第328便 — 統括〕の前)');
+      const h1 = sec.split('\n')[0];
+      for (const w of [SRC10, 'R409', '説明の文だけ', '4 行', 'root の index.html は不変']) if (h1.indexOf(w) < 0) bad.push('① 見出しに「' + w + '」が無い');
+      for (const w of ['**① 原文と統括の読み。**', '**表 1 回答 10 の 7 項(', '**表 2 訂正の鎖(', '**② 用語「引きずり近似」', '**③ アプリの説明の文', '**④ 決まったこととして', '**⑤ 検査。**', '**⑦ 言わないこと。**', 'lint.dragApproxName348a', 'docs.report145ans10_348a', '187/187', '59 行(61 か所)']) if (sec.indexOf(w) < 0) bad.push('① PHYSICS〔第348便a〕に「' + w + '」が無い');
+      cases.push('① PHYSICS〔第348便a〕の位置・見出し・必須の語');
+      // ② 表 1
+      { const T = tabIn(sec, '**表 1 ');
+        if (T.map((l) => cells(l)[0]).join('|') !== A10.map((z) => z[0]).join('|')) bad.push('② 表 1 の項の並び: ' + T.map((l) => cells(l)[0]).join('・'));
+        for (const [k, q] of A10) { const l = T.find((x) => x.startsWith('| ' + k + ' |')), c = l ? cells(l) : null;
+          if (!c || c.length !== 5) { bad.push('② 表 1 に ' + k + ' の 5 欄の行が無い'); continue; }
+          if (c[1] !== SRC10) bad.push('② 表 1 の ' + k + ' の出どころ');
+          if (c[2] !== '「' + q + '」') bad.push('② 表 1 の ' + k + ' の原文の字が原文と違う');
+          if (!c[3] || !c[4] || c[3] === c[2] || c[3].indexOf(q) >= 0) bad.push('② 表 1 の ' + k + ' の読みか当たり所が空か原文と同じ'); }
+        const c77 = (T.find((x) => x.startsWith('| AN977 |')) || '').split(' | '); if (!(c77[4] && c77[4].indexOf('本節') >= 0)) bad.push('② 表 1 の AN977 の当たり所が本節でない'); }
+      cases.push(`② 表 1 の回答 10 の ${A10.length} 項(原文の字・出どころ・読みは原文と別の欄)`);
+      // ③ 表 2 の訂正の鎖・〔第346便b〕に当時の文
+      { const T = tabIn(sec, '**表 2 '), row = (k) => { const l = T.find((x) => x.startsWith('| ' + k + ' |')); return l ? cells(l) : null; };
+        const r1 = row('1'), r2 = row('2');
+        if (T.length !== 2 || !r1 || !r2 || r1.length !== 5 || r2.length !== 5) bad.push('③ 表 2 が 2 行 5 欄でない');
+        else {
+          if (!(r1[1] === SRC4 && r1[2] === Q4 && r1[3].indexOf(OLDQ) >= 0 && r1[4].indexOf('第346便b') >= 0 && r1[4].indexOf('に残す') >= 0)) bad.push('③ 表 2 の 1(回答 4 と当時の文)');
+          if (!(r2[1] === SRC10 && r2[2] === '「' + A10[5][1] + '」' && r2[3].indexOf(NEWQ) >= 0 && r2[4] === '今の読み')) bad.push('③ 表 2 の 2(回答 10 と今の文)');
+        }
+        const s346 = physSecOf(ph, '〔第346便b — ');
+        if (!(s346.indexOf(OLDQ) >= 0 && s346.indexOf(Q4) >= 0 && s346.indexOf('引きずり近似') < 0)) bad.push('③ 〔第346便b〕の当時の文が残っていないか書き換わった');
+        if (H.indexOf(NEWQ) < 0) bad.push('③ 表 2 の今の文が html の q の説明と同じでない'); }
+      cases.push('③ 表 2 の訂正の鎖(回答 4 → 回答 10)・〔第346便b〕に当時の文・今の文は html と同じ');
+      // ④ 用語と決まったこと
+      { const p = para(sec, '**② 用語「引きずり近似」');
+        for (const w of ['**引きずり近似** = アプリの kFrame と q の引きずり', 'ω_j(d) = s_j (R_j/(R_j + d))^q', '並進引きずり(定義: 源の移動と回転を使った座標変換 —— 半径を見ない)だけでなく、近距離での効きの違いも含む近似', '実装は変えていない', '半径を見ない', 'geoPN=2 の呼び名「引きずり近似」', `今の html は ${nLc} 行・${nOc} か所`, 'drag approximation']) if (p.indexOf(w) < 0) bad.push('④ 用語の段に「' + w + '」が無い');
+        const p4 = para(sec, '**④ 決まったこととして');
+        if (!(p4.indexOf('\n- AN974: 朔望月の関数と受理は両方残す') >= 0 && p4.indexOf('\n- AN973: 計算の 1 步の時間の変化は昇格の前に直さない') >= 0)) bad.push('④ AN974・AN973 の 1 行'); }
+      cases.push(`④ 用語の段(定義・式・同じ語の数 —— 今の html の ${nLc} 行・${nOc} か所)・AN974 と AN973 の 1 行`);
+      // ⑤ AI_SPEC §301・post-merge
+      const a301 = as.search(/\n## 301\. 第348便a/), a300 = as.search(/\n## 300\. 第347便i/), ai = a301 >= 0 ? secUntilNext329c(as, a301 + 1, '\n## ') : '';
+      if (!(a301 >= 0 && a300 >= 0 && a300 < a301 && [SRC10, 'R409', 'SYSTEM_PROMPT は変えていない', '引きずり近似', 'lint.dragApproxName348a', 'docs.report145ans10_348a'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑤ AI_SPEC §301(§300 の後・必須の語)');
+      if (!(pm.indexOf('# ==== 第348便a の塊(ここから)====') > pm.indexOf('# ==== 第347便i の塊(ここまで)====') && pm.indexOf('# ==== 第347便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.dragApproxName348a docs\.report145ans10_348a"/.test(pm))) bad.push('⑤ post-merge に第348便a の塊(第347便i の塊の後)');
+      cases.push('⑤ AI_SPEC §301(§300 の後)・post-merge の塊');
+      // ⑥ 禁句と書かない語
+      for (const [nm, tx] of [['PHYSICS〔第348便a〕', sec], ['AI_SPEC §301', ai]]) {
+        for (const w of NG) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+        for (const w of PAST) if (tx.indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に書かない語「' + w + '」');
+        const s = strip(tx); for (const re of NOT10) if (re.test(s)) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+        if (s.indexOf('回転引きずり') >= 0) bad.push('⑥ ' + nm + ' に旧称(引用の外)');
+      }
+      cases.push(`⑥ 禁句 ${NG.length}(引用も含めて)・書かない語 ${PAST.length + NOT10.length}(「言わないこと」の文の外)・旧称`);
+      return { bad, cases };
+    };
+    const AS0 = rd348a('docs/AI_SPEC.md') || '', PM0 = rd348a('tools/post-merge-qa.sh') || '';
+    let bad = [], cases = [];
+    try {
+      const R = check(PH0, AS0, PM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const iS = PH0.indexOf('\n〔第348便a — '), inSec = (a, z) => PH0.slice(0, iS) + PH0.slice(iS).replace(a, z);
+      const s0 = physSecOf(PH0, '〔第348便a — '), one = (t, a) => t.split(a).length === 2;
+      const SD = ['毎回リセットする。これは、', '| AN981 | ', '、実装を確認する」 | 〔第346便b〕', `今の html は ${nLc} 行・${nOc} か所`, '**⑥ 決断事項の候補。** ', '実装は変えていない。geoPN=2'];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑦ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const i346 = PH0.indexOf('\n〔第346便b — ');
+      const MUT = [
+        ['表 1 の AN975 の原文を 1 字変える', [inSec('毎回リセットする。これは、', '毎回リセットする。それは、'), AS0, PM0], /^② 表 1 の AN975 の原文の字/],
+        ['表 1 から AN981 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace(/\n\| AN981 \|[^\n]*/, ''), AS0, PM0], /^② 表 1 の項の並び/],
+        ['表 2 の回答 4 の原文を 1 字変える', [inSec('、実装を確認する」 | 〔第346便b〕', '、実装を確かめる」 | 〔第346便b〕'), AS0, PM0], /^③ 表 2 の 1/],
+        ['〔第346便b〕の当時の文を書き換える', [PH0.slice(0, i346) + PH0.slice(i346).replace('「並進引きずりのうち、源の自転による回転の分が距離とともに', '「引きずり近似のうち、源の自転による回転の分が距離とともに'), AS0, PM0], /^③ 〔第346便b〕/],
+        ['用語の段の数を変える', [inSec(`今の html は ${nLc} 行・${nOc} か所`, `今の html は ${nLc - 1} 行・${nOc} か所`), AS0, PM0], /^④ 用語の段/],
+        ['用語の段から「実装は変えていない」を消す', [inSec('実装は変えていない。geoPN=2', 'geoPN=2'), AS0, PM0], /^④ 用語の段に「実装は変えていない」/],
+        ['地の文に「並進引きずりの定義が変わった」を書く', [inSec('**⑥ 決断事項の候補。** ', '**⑥ 決断事項の候補。** 並進引きずりの定義が変わった。'), AS0, PM0], /^⑥ PHYSICS〔第348便a〕 に書かない語/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec('**⑥ 決断事項の候補。** ', '**⑥ 決断事項の候補。** 「q の物理が決まった」の文は無い。'), AS0, PM0], null],
+        ['節に外の照合の名を書く', [inSec('**⑥ 決断事項の候補。** ', '**⑥ 決断事項の候補。** 「' + rv('korG') + '」。'), AS0, PM0], /^⑥ PHYSICS〔第348便a〕 に禁句/],
+        ['AI_SPEC の §301 を消す', [PH0, AS0.replace(/\n## 301\. 第348便a/, '\n## 3010. 第348便a'), PM0], /^⑤ AI_SPEC §301/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第348便a の塊(ここから)====', '# ==== 第348便a の塊====')], /^⑤ post-merge/],
+      ];
+      const sc = [];
+      for (const [nm, args, re] of MUT) {
+        const r = check(...args);
+        if (re === null) { if (r.bad.length) bad.push('⑦ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report145ans10_348a', bad.length === 0,
+      `**第145報の回答 10 の文書と用語「引きずり近似」**(第348便a・原仮定者の回答(2026-11-23 —— 第145報の回答 10)・R409 —— 原文は言葉を変えずに引く・当時の文は消さずに並べる・呼び名と扱いの取り決めで中身は変えていない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+// ==== 第348便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
