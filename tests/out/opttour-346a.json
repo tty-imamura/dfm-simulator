@@ -47,8 +47,8 @@
    "preset": "galaxyGeo2",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 4.778,
-   "rateStepsPerSec": 125.6,
+   "wallSec": 4.586,
+   "rateStepsPerSec": 130.8,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -59,8 +59,8 @@
    "preset": "galaxyGeo2",
    "mode": "two",
    "steps": 300,
-   "wallSec": 26.454,
-   "rateStepsPerSec": 22.7,
+   "wallSec": 27.021,
+   "rateStepsPerSec": 22.2,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -75,8 +75,8 @@
    "preset": "galaxy",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 3.834,
-   "rateStepsPerSec": 156.5,
+   "wallSec": 3.8,
+   "rateStepsPerSec": 157.9,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -87,8 +87,8 @@
    "preset": "galaxy",
    "mode": "two",
    "steps": 300,
-   "wallSec": 17.962,
-   "rateStepsPerSec": 33.4,
+   "wallSec": 18.803,
+   "rateStepsPerSec": 31.9,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -103,8 +103,8 @@
    "preset": "cosmicweb",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 5.982,
-   "rateStepsPerSec": 100.3,
+   "wallSec": 5.3,
+   "rateStepsPerSec": 113.2,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -115,8 +115,8 @@
    "preset": "cosmicweb",
    "mode": "two",
    "steps": 300,
-   "wallSec": 25.271,
-   "rateStepsPerSec": 23.7,
+   "wallSec": 24.282,
+   "rateStepsPerSec": 24.7,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -131,8 +131,8 @@
    "preset": "darkrotor",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 3.849,
-   "rateStepsPerSec": 155.9,
+   "wallSec": 3.886,
+   "rateStepsPerSec": 154.4,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -143,7 +143,7 @@
    "preset": "darkrotor",
    "mode": "two",
    "steps": 300,
-   "wallSec": 27.83,
+   "wallSec": 27.743,
    "rateStepsPerSec": 21.6,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
@@ -159,8 +159,8 @@
    "preset": "axisBarStill",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 4.154,
-   "rateStepsPerSec": 144.5,
+   "wallSec": 3.594,
+   "rateStepsPerSec": 166.9,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -173,15 +173,16 @@
    "preset": "axisBarStill",
    "mode": "two",
    "steps": 300,
-   "wallSec": 8.18,
-   "rateStepsPerSec": 73.3,
+   "wallSec": 9.605,
+   "rateStepsPerSec": 62.5,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
     "S._core": "Function is too big to be optimized"
    },
    "abortedFns": [
-    "S._core"
+    "S._core",
+    "pairChannelOm"
    ],
    "traceSeen": true
   },
@@ -189,24 +190,20 @@
    "preset": "binary",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 2.188,
-   "rateStepsPerSec": 274.2,
+   "wallSec": 2.081,
+   "rateStepsPerSec": 288.3,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
-   "disabled": {
-    "dfmPN1EIHKick": "Function is too big to be optimized"
-   },
-   "abortedFns": [
-    "dfmPN1EIHKick"
-   ],
+   "disabled": {},
+   "abortedFns": [],
    "traceSeen": true
   },
   {
    "preset": "binary",
    "mode": "two",
    "steps": 300,
-   "wallSec": 2.251,
-   "rateStepsPerSec": 266.5,
+   "wallSec": 2.698,
+   "rateStepsPerSec": 222.4,
    "coreStatus": 25,
    "coreDecoded": "25(関数・最適化済み・Maglev)",
    "disabled": {
@@ -221,8 +218,8 @@
    "preset": "selfRotor",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 1.248,
-   "rateStepsPerSec": 480.9,
+   "wallSec": 1.107,
+   "rateStepsPerSec": 542.3,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {
@@ -237,13 +234,13 @@
    "preset": "selfRotor",
    "mode": "two",
    "steps": 300,
-   "wallSec": 1.774,
-   "rateStepsPerSec": 338.3,
+   "wallSec": 1.913,
+   "rateStepsPerSec": 313.6,
    "coreStatus": 25,
    "coreDecoded": "25(関数・最適化済み・Maglev)",
    "disabled": {
-    "reactionPass": "Function is too big to be optimized",
-    "S._core": "Function is too big to be optimized"
+    "S._core": "Function is too big to be optimized",
+    "reactionPass": "Function is too big to be optimized"
    },
    "abortedFns": [
     "S._core",
@@ -264,9 +261,6 @@
    "fnStopped": {
     "S._fuse": [
      "selfRotor"
-    ],
-    "dfmPN1EIHKick": [
-     "binary"
     ]
    },
    "errors": []
@@ -327,13 +321,13 @@
  },
  "ok": true,
  "notClaim": "「新しい版で速くなった」「止まる件を解決した」とは言わない —— この版・この箱・この本・この使い方での、最適化が止まった関数の記録。1 步の ms は記録だけ(門にしない)",
- "elapsedS": 152.093,
+ "elapsedS": 153.07,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第346便a",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:30:58.444Z",
+  "targetSha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
+  "generatedAt": "2026-11-23T16:20:55.536Z",
   "inputs": [
    {
     "file": "tests/data-w345-engine.json",
