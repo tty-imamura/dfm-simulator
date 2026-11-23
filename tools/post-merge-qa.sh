@@ -1358,6 +1358,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperRunner348f lint.nightlyPaper2"
 #   世代の写しを足した第347便f・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d"
 # ==== 第348便g の塊(ここまで)====
+# ==== 第348便i の塊(ここから)====
+# 第348便i(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R417 —— 診断だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.diskgeo3_348i —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・〔第348便d〕の列と第347便h の場への極限と第309便a の閉じた式を QA の中で別に照合・呼ぶだけ /
+#   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
+# ==== 第348便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
