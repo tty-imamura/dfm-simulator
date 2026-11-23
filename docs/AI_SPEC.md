@@ -5466,3 +5466,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: `.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml` の job の `runs-on` を `ubuntu-latest` から `ubuntu-24.04`(TeX Live 2023)に 1 行ずつ替え、頭の注に理由(2026-11-22 に `ubuntu-latest` の TeX が TeX Live 2025 になり、論文 2・3 の pdflatex が最初の tabular で止まった・見直す時は「ubuntu 24.04 の提供が終わる前」)を 2 行。ほかの段は不変。yml の構文は手元で YAML として読めることと行の形を見た(QA の鍵は Node の中で行の形で読む)—— CI は手元で回せないので、効き目は PR の走行で見る。図のデータ 4 本の再同期は統括の節。
 - **AI が読むときの要点**: 検査の実行環境を前の版に固定しただけ。論文の組版が新しい TeX で通るようになったのではない(論文の tex は変えていない)。`ci.yml` と `nightly.yml`(TeX を使わない)は `ubuntu-latest` のまま。
 - QA `lint.paperRunner348f`(4 本の runs-on と注・ci.yml と nightly.yml の宣言の一覧・TeX を使う/使わないの一覧と yml の中身・本節と PHYSICS〔第348便f〕—— beta・root の両方で走る)。
+## 307. 第348便g —— 文書: 計算式の一覧の EQ-97〜EQ-102(第347便 b・c・d・e・h・i の候補の型の式)(統括の検証項目 R415・**html は変えない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。`docs/EQUATIONS.md` に EQ-97〜EQ-102(当事者時間の換算の多体と月の相対の速さを測る枠/自分自身の決定力で進む時計の候補と「時間が進む半径」の定義 3 つ/引きずりの 3 体の宣言 D0〜D3 と 2 体の帳簿/2 倍角の則の緯度の引数の 1 公転の平均と尺度の置き方 3 列/軸引きずりの回転の候補 5 つ/軸引きずりのエネルギーの 2 つのケース)を足した。ラベルは全部 診断。項の番号は EQ-100 から 3 桁。PHYSICS〔第348便g〕に表 1。
+- **AI が本を作るときの説明**: EQ-97〜EQ-102 は tests の lib の候補の式で、アプリの時間発展には入っていない。原仮定者の回答と指示で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。本節は **SYSTEM_PROMPT には載せない**(現実の宇宙の主張ではない)。
+- QA `docs.equations348g`(root は SKIP)。

@@ -1353,6 +1353,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.moonwindow348e docs.moonwindow348e"
 #   論文の検査 4 本の runs-on と頭の注・ci.yml と nightly.yml の宣言の一覧・TeX を使う/使わないの一覧と yml の中身)と、paper2.yml と nightly.yml を読む既存の lint.nightlyPaper2。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperRunner348f lint.nightlyPaper2"
 # ==== 第348便f の塊(ここまで)====
+# ==== 第348便g の塊(ここから)====
+# 第348便g(統括の検証項目 R415 —— 文書と照合の鍵だけ・html は変えない): 枝 g の新設 1 本(docs.equations348g —— 計算式の一覧の EQ-97〜EQ-102 の欄・式の字・抜粋と lib の照合・番号の連続〔3 桁〕)と、
+#   世代の写しを足した第347便f・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d"
+# ==== 第348便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

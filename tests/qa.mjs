@@ -113996,6 +113996,7 @@ function view343aOf344a(eq) {
   const s2aNewOf = (eq) => { const s2a = T34.termSection334f(eq), i = s2a.indexOf('- **第145報の用語**(第345便a'); return i >= 0 ? s2a.slice(i) : ''; };
   const ngIn = (nm, tx, bad, tag) => { for (const w of NG345) if (String(tx || '').indexOf(w) >= 0) bad.push(tag + ' ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)'); };
   const check = (ph, eq, as, cl, pm, sv, rm) => {
+    eq = view345aOf348g(eq);   // 第348便g(世代の注記 —— R415): EQ-97 以降の項(3 桁を含む)と §2a の EQ-97 以降の参照を外した写しで読む(照合の中身は外していない)
     eq = view345aOf347f(eq);   // 第347便f(世代の注記 —— R405): EQ-92 以降の項と §2a の EQ-92 以降の参照を外した写しで読む(照合の中身は外していない)
     const bad = [], cases = [];
     // ① 節の位置と必須の語
@@ -116192,6 +116193,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
   const ledgerOf = (ph) => T37.parseKnobLedger337g(T37.policySection337g(ph));
   const s2aNewOf = (eq) => { const s2a = T34.termSection334f(eq), i = s2a.indexOf('- **第344便の式**(第347便f'); return i >= 0 ? s2a.slice(i) : ''; };
   const check = (eq, ph, as, pm) => {
+    eq = view347fOf348g(eq);   // 第348便g(世代の注記 —— R415): EQ-97 以降の項(3 桁を含む)と §2a の EQ-97 以降の参照を外した写しで読む(照合の中身は外していない)
     const bad = [], cases = [], fc = new Map(), rd = (f) => { if (!fc.has(f)) fc.set(f, rd347f(f)); return fc.get(f); };
     const all = T34.eqItems334f(eq), nums = all.map((z) => z.num), nw = all.filter((z) => z.num >= 92);
     // ① 番号の連続
@@ -117997,6 +117999,256 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
   })();
 }
 // ==== 第348便f の塊(ここまで)====
+
+// ==== 第348便g の塊(ここから —— docs.equations348g の 1 ブロック。root は SKIP)====
+// ---- 第348便g(第347便の枝 b・c・d・e・h・i の候補の型の式を計算式の一覧の EQ-97 から・統括の検証項目 R415): **文書と照合の鍵だけ**
+// ----   (docs/EQUATIONS.md の EQ-97〜EQ-102〔第347便 b・c・d・e・h・i の候補の型の式〕・§2a の 2 行・§3・§6・§7 の規則 18・冒頭の 1 行・PHYSICS〔第348便g〕・AI_SPEC §307・post-merge ——
+// ----   html・エンジン・内蔵の本・受理器・既存の lib の本文・physics の鍵は変えない・器と段と lib と正本は足さない)。世代切替 = beta 対象 ∧ 計算式の一覧に「### EQ-97 」がある。
+// ----   項の番号は EQ-100 から 3 桁 —— 既存の項の読み手(lib-w334f-terms.mjs の eqItems334f と各便の世代の写し)は 2 桁の番号だけを読むので、本塊は 3 桁を読む読み手 eqItems348g(下の関数)で数える。
+// ----   docs.equations348g: ① 番号の連続(EQ-01〜EQ-102・EQ-97 以降は EQ-97〜EQ-102 だけ)② EQ-97〜EQ-102 の欄(ラベル 診断・実装の印なし・時間の単位・実装か診断か・正本を作る関数の名の実在)・
+// ----     出どころの節と同じ字の式・出どころの経路の実在・抜粋が lib の名指しの定義の範囲に在る・ノブの台帳の状態・回答の列の語 ③ §2a の 2 行(第347便の式・第348便で探索中)と項の参照(3 桁を含む)
+// ----     ④ 冒頭の 1 行・§3 の 6 行・§6 の件数の文(項 102)・§7 の規則 18 ⑤ PHYSICS〔第348便g〕(位置・必須の語・表 1 と項の照合)・AI_SPEC §307・post-merge の塊
+// ----     ⑥ 書かない語(第348便の禁句・第337便までの禁句・裸の係数記号・主の型を決めた語・式を指す「法則」の語・旧称)⑦ 変異の自己試験 ⑧ 世代の写しと 2 桁の読み手の事実。
+// ----   view347fOf348g(下の関数 —— 宣言は hoist される): 第347便f の照合(docs.equations347f)は EQ-92 以降の項を EQ-92〜EQ-96 の 5 つで固定しているので、EQ-97 以降の項(3 桁を含む)と
+// ----   §2a(見出し「## 2a. 」から次の「## 」まで)の EQ-97 以降の参照の字を外した写しを渡す(第347便f の塊の check の先頭に 1 行 —— 照合の中身は外していない)。
+// ----   view345aOf348g: 第345便a の照合(docs.report145_345a)は §2a の第145報の用語から §2a の末までに項の参照が無いことを見る —— 3 桁の参照(EQ-100〜)は第347便f の写しの
+// ----   2 桁の正規表現では外れないので、同じ写しを第345便a の塊の check の先頭(view345aOf347f の前)に 1 行。
+function view347fOf348g(eq) {
+  let s = String(eq || '');
+  if (s.indexOf('\n### EQ-97 ') < 0) return s;
+  s = s.replace(/\n### EQ-(\d{2,3}) [^\n]*[\s\S]*?(?=\n### |\n## )/g, (m, n) => (Number(n) >= 97 ? '' : m));
+  const i = s.indexOf('\n## 2a. '), j = i >= 0 ? s.indexOf('\n## ', i + 1) : -1;
+  if (i < 0 || j < 0) return s;
+  return s.slice(0, i) + s.slice(i, j).replace(/EQ-(\d{2,3})/g, (m, n) => (Number(n) >= 97 ? '' : m)) + s.slice(j);
+}
+function view345aOf348g(eq) { return view347fOf348g(eq); }
+/** 3 桁の番号も読む項の読み手(lib-w334f-terms.mjs の eqItems334f と同じ欄の切り出し —— 番号の正規表現だけが 2〜3 桁) */
+function eqItems348g(eq) {
+  const s = String(eq || ''), out = [], re = /\n### (EQ-\d{2,3}) ([^\n]*)/g;
+  let m;
+  while ((m = re.exec(s))) {
+    const a = m.index + 1, n1 = s.indexOf('\n### ', a + 1), n2 = s.indexOf('\n## ', a + 1);
+    const ends = [n1, n2].filter((x) => x >= 0), text = s.slice(a, ends.length ? Math.min(...ends) : s.length);
+    const label = ((/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(text) || [])[1] || '').trim();
+    const physLine = (/\n- \*\*PHYSICS の節\*\*: ([^\n]+)/.exec(text) || [])[1] || '';
+    const physRefs = [...physLine.matchAll(/〔第(\d+)便([a-z]*)〕/g)].map((z) => ({ ref: z[0], head: '〔第' + z[1] + '便' + z[2] + ' — ', wave: Number(z[1]) }));
+    const blocks = [];
+    for (const b of text.matchAll(/- \*\*プログラム版 (\d+)\*\*\(`([^`]+)` · `([^`]+)`\)\n\n```js\n([\s\S]*?)\n```/g)) {
+      const frags = [], cur = [];
+      for (const ln of b[4].split('\n')) { if (ln.trim() === '// …') frags.push(cur.splice(0).join('\n')); else cur.push(ln); }
+      frags.push(cur.splice(0).join('\n'));
+      blocks.push({ k: Number(b[1]), file: b[2], name: b[3], frags });
+    }
+    out.push({ id: m[1], num: Number(m[1].slice(3)), title: m[2], text, label, physRefs, blocks });
+  }
+  return out;
+}
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd348g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const EQ0 = rd348g('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-97 ') >= 0)) {
+    console.log('SKIP docs.equations348g(第348便g の EQ-97 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const T34 = await import('file://' + path.join(ROOT, 'tests', 'lib-w334f-terms.mjs'));
+  const T37 = await import('file://' + path.join(ROOT, 'tests', 'lib-w337g-equations.mjs'));
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '').replace(/『[^』]*』/g, '');
+  const stripCode = (t) => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+  const norm = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  const cells = (l) => l.split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''));
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  const IDS = ['EQ-97', 'EQ-98', 'EQ-99', 'EQ-100', 'EQ-101', 'EQ-102'];
+  // 出どころの節と同じ字の式(節に字の無い lib の注の式・EQ-94 の多体への読みは入れない)・器と lib と正本の経路・正本を作る関数(器の runAll と lib の表の関数)
+  const ANCHOR = {
+    'EQ-97': { head: '〔第347便b — ', paths: ['tests/exp-w347b-convbody.mjs', 'tests/lib-w347b-convbody.mjs', 'tests/out/convbody-347b.json'], fns: ['pureScenes', 't1Rows', 't2Rows', 't3Rows', 't4Rows', 't5Rows', 't5Moon'],
+      eqs: ['(0) dv/dt = a・(α) dv/dt = q a・(β) dp/dt = q U・dU/dt = q a(U = dp/dτ)', 'q = N g・N = e^(−ψ)・g = √(1 − x²)', 'x = 大きさ(v − u) ÷ c_loc', 'ψ_i = ε Σ_j m_j ÷ r_ij(ε = 1 ÷ c₀²)', 'u = Σ_j W_j v_j ÷(D₀ + Σ_j W_j)・W_j = m_j ÷ r_ij',
+        'ψ₀ = X_k D₀', '−(2 n_G + 1 + e^(m ψ₀))/6', '−(e^(3ψ₀) − 1)/(6ψ₀)', 'P_f = Σ m v(0) − Σ m v(t)', 'Π = Σ m v ÷ q', 'P₀ ÷ P_α − 1', 'ψ/4'] },
+    'EQ-98': { head: '〔第347便c — ', paths: ['tests/exp-w347c-selfclock.mjs', 'tests/lib-w347c-selfclock.mjs', 'tests/out/selfclock-347c.json'], fns: ['t1Rows', 'ionRanges', 't2Rows', 't3Rows', 'zeroTests'],
+      eqs: ['ψ = X_k × W(X_k = G₀/c₀²)', 'N = e^(−ψ_ext)', 'c_loc = c₀ e^(−2ψ_ext)', 'ψ_self = G₀m ÷(r c₀²)', 'r_s = 2G₀m/c₀²', 'g = e^(−ψ_self) √(max(0, 1 − e^(4ψ_self) x²))', 'w = ψ_w ÷(ψ_w + ψ_ext)',
+        'g = √((1 − x²) + w(2 − w) x²)', 'g = ((G^n + φ^n) ÷(1 + φ^n))^(1/n)', 'φ = √(w(2 − w))', 'g = φ + (1 − φ) G', 'φ = min(1, a₁ ψ_self)', 'φ = min(1, a₂ ψ_self²)', 'g² = G² + φ² x²', 'g ÷ √(1 − x²) − 1',
+        'ψ_self(r) = (r_s ÷ r) ÷ 2', 'r ÷ r_s = 1 ÷(2ψ_ext)', 'r ÷ r_s = (1 − w*) ÷(2ψ_ext w*)・w* = 1 − √(1 − θ²)', 'φ* = θ ÷(1 − θ⁴)^(1/4)', 'r ÷ r_s = a₁ ÷(2θ)', 'r ÷ r_s = √(a₂ ÷ θ) ÷ 2', 'r ÷ r_s = a₁ ÷ 2', 'r ÷ r_s = √a₂ ÷ 2',
+        'Δτ ÷(N g)', 'Δτ (1 ∓ x) ÷(N g)× N_obs', '(1 − x)÷ g', '(1 + x)÷(e^(−ψ_c) g)'] },
+    'EQ-99': { head: '〔第347便d — ', paths: ['tests/exp-w347d-draglong.mjs', 'tests/lib-w347d-draglong.mjs', 'tests/out/draglong-347d.json'], fns: ['pureScenes', 't1Rows', 't2Short', 't2Long', 't2Summary', 't3Rows'],
+      eqs: ['q = N g(x)', 'x_i = 大きさ(v_i − v_cm − u_i) ÷ 局所光速', 'dp_i/dt = v_i + U_i', 'Σ m U = 0', 'Σ m U × v = 0', 'M(I + L)⁻¹L = M − M(M + S)⁻¹M', 'S = ML', 'dp₂/dt − dp₁/dt = (v₂ − v₁)/(1 + β)', 'β = K/r・K = 10 (m₁ + m₂)',
+        'dE/dt = −m₁m₂K (dr/dt)/r³', 'E_mod = E − m₁m₂K/(2r²)', '大きさ(Σ m p − Σ m p₀ − P t)÷(Σ m 大きさ(v₀) × 外の長半径)', 'ϖ = Ω + ω', 'dv/dt = q a_G・局所の重力 e^(−2 n_G ψ)', '重力 −2/3 + K1 の +5/3'] },
+    'EQ-100': { head: '〔第347便e — ', paths: ['tests/exp-w347e-spintorque.mjs', 'tests/lib-w347e-spintorque.mjs', 'tests/out/spintorque-347e.json'], fns: ['pureScenes', 't1Table', 't2Scale', 'windowTable', 't4Table'],
+      eqs: ['â = 2(ŝ·r̂) r̂ − ŝ', 'r̂ = cos u x̂ + sin u ŷ′', 'ŝ·r̂ = sin i sin u', '⟨2(ŝ·r̂) r̂⟩ = sin i ŷ′', 'ŝ = cos i n̂ + sin i ŷ′', '⟨â⟩ = −cos i n̂', 'â = 2 sin i ŷ′ − ŝ', 'â = cos 2θ ω̂ + sin 2θ ê', 'Ω_m1 = C_b β abs(1 − α) abs(ω_src)',
+        'T = c (k ẑ × ΔΩ + b ΔΩ)', '−k c abs(ΔΩ) sin φ + b c abs(ΔΩ) cos φ', '熱の率 = c b abs(ΔΩ)²', 'ln 100 × I ÷ (b c)', '(S0) c = a_j ÷ abs(ΔΩ)', 'a_j = s I β abs(1 − α) abs(ω_src)', '(S1) c = I Ω_m1', 'ln 100 ÷ (b Ω_m1)',
+        '(S2) c = C_s a_j ÷ abs(ω)', '−cos i P', 'min(sep, 180° − sep)', 'abs(sin sep)'] },
+    'EQ-101': { head: '〔第347便h — ', paths: ['tests/exp-w347h-axisdiff.mjs', 'tests/lib-w347h-axisdiff.mjs', 'tests/out/axisdiff-347h.json'], fns: ['pureScenes', 'spinRows', 'flyRows', 'orbRows', 'bodyRows', 'gyroPhrases', 'energyRows', 'heatWindow'],
+      eqs: ['u(r) = Σ w_j c_j ÷ (D₀ + Σ w_j)', 'c_j = v_j + ω_j(d) × (r − r_j)', 'ω_j(d) = s_j (R_j/(R_j + d))^q', 'w_j = m_j (d² + ε²)^(−p/2)', 'Ω = ê × (u(r_c + R_b ê) − u(r_c − R_b ê)) ÷ 2R_b', 'Ω₀ − ê(ê·Ω₀)',
+        'Ω = ½ Σ_k ê_k × (u(r_c + R_b ê_k) − u(r_c − R_b ê_k)) ÷ 2R_b', '中心での ½ ∇×u', 'Ω = ∫ρ r′ × u dV ÷ ((2/3) ∫ρ r′² dV)', 'ρ = (1 − (r′/λR_b)²)^n', 'J_ab = (∂P_a/∂x_b − u_a ∂W/∂x_b) ÷ W',
+        '½∇×(f(d) ŝ × r) = f ŝ + ½ f′ d (ŝ − r̂(r̂·ŝ))', 'f = s (R/(R + d))^q・f′ = −q f/(R + d)', '(W) = f (1 − q d/(2(R + d))) ŝ', 'f (1 − q d/(R + d)) ŝ', 'u = h(d) v(h = w/(D₀ + w))', '½∇×u = ½ h′(d) r̂ × v', '∫ ½ h′(d) b/d ds',
+        '(g1) dŝ/dt = Ω × ŝ', '(g2±) τ = ±Ω⊥ × L', '(g3) τ = I ω (k_g Ω⊥ × ŝ + k_d Ω⊥)', 'tan(θ/2) = tan(θ₀/2) e^(−k_d abs(Ω) t)', 'P = (1 − f) I ω Ω⊥²', '(R1) dω/dt = (1 − h)(1 − f) Ω⊥²', 'I = I₀ (1 + ε (ω/ω₀)²)',
+        'dω/dt = (1 − h)(1 − f) Ω⊥² (1 + ε x²)/(1 + 2ε x²)'] },
+    'EQ-102': { head: '〔第347便i — ', paths: ['tests/exp-w347i-axisenergy.mjs', 'tests/lib-w347i-axisenergy.mjs', 'tests/out/axisenergy-347i.json'], fns: ['pureScenes', 'case1Rows', 'case1VsH', 'case2Rows', 'tdRows', 'comboRows', 'bodyRows', 'heatRows'],
+      eqs: ['ω = ω_慣性 + ω_引きずり', 'Ω∥ = abs(Ω) cos θ・Ω⊥ = abs(Ω) sin θ', 'P = (1 − f) I ω_T Ω⊥²', 'h + a_in + a_dr = 1', '½ I ω²', 'I ω (ω_引きずり − Ω∥) ÷ τ', 'Ω∥ + a_dr (1 − f) Ω⊥² τ', 'f = f₀ (ω₀/ω)', '1 − f = (1 − f₀)(ω₀/ω)',
+        '1 − f = (1 − f₀) max(0, (ω_c − ω)/(ω_c − ω₀))', 'dθ/dt = −k_d abs(Ω) sin θ', 'S − ρ G', 'A = (1 − h)(1 − f)', '(Tc) ω∞ = ω₀ + A abs(Ω)(1 − cos θ₀) ÷ k_d', 'ω∞ = ω₀ exp(A abs(Ω)(1 − cos θ₀) ÷ (k_d ω₀))', '(Tbc) ω∞ = ω_c',
+        'ω² = ω₀² + 2 (1 − h)(1 − f₀) ω₀ Ω⊥² t'] },
+  };
+  const FIELDS = ['時間の単位', '実装か診断か', '正本を作る関数'];
+  // 回答の列の並べ方と訂正の鎖(原仮定者の回答と指示)—— 各項の解説に在る語と出どころの書き方
+  const SRC145 = '原仮定者の回答(2026-11-21 —— 第145報)', SRCS1 = '原仮定者の指示(2026-11-22 —— 第145報の補足 1)', SRC8 = '原仮定者の回答(2026-11-22 —— 第145報の回答 8)', SRC9 = '原仮定者の回答(2026-11-22 —— 第145報の回答 9)';
+  const ANSWERS = { 'EQ-97': { src: SRC145, w: ['AN902', '主の候補', '比べる列', '現行の近似'] }, 'EQ-98': { src: SRC145, w: ['AN904', 'AN840', 'AN866'] }, 'EQ-99': { src: SRC145, w: ['AN909', '主の候補', '比べる列'] },
+    'EQ-100': { src: SRC145, w: ['AN910', 'AN911', '主の候補', '受け手の位置の緯度', 'EQ-95'] }, 'EQ-101': { src: SRCS1, w: [SRC8, 'AN969', '(R1) が主', '対照の列'] }, 'EQ-102': { src: SRC9, w: [SRC8, '訂正の鎖'] } };
+  const NOT348 = [/換算の型が決まった/, /時計の形が決まった/, /時計の型が決まった/, /時間が進む半径が決まった/, /引きずりの換算が決まった/, /合成の型が決まった/, /軸引きずりの型が決まった/, /回転の候補が決まった/,
+    /釣り合いの形が決まった/, /式が正しいと分かった/, /式を採った/, /候補を採った/, /定義が決まった/, /導けた/, /説明できた/];
+  const SEC_MUST = ['R415', 'EQ-97〜EQ-102', '**表 1 足した項(EQ-97〜EQ-102)**', '**② 世代の注記。**', '**③ 鍵。**', '**④ 書かないこと。**', 'view347fOf348g', 'view345aOf348g', 'docs.equations348g', 'eqItems334f', '3 桁',
+    'beta/index.html と root の index.html は 1 byte も変えていない', '第347便 a・f・g(文書)は式ではないので項にしていない', '原仮定者の回答(2026-11-23 —— 第145報の回答 10)', '第348便で探索中'];
+  const ledgerOf = (ph) => T37.parseKnobLedger337g(T37.policySection337g(ph));
+  const s2aNewOf = (eq) => { const s2a = T34.termSection334f(eq), i = s2a.indexOf('- **第347便の式**(第348便g'); return i >= 0 ? s2a.slice(i) : ''; };
+  const check = (eq, ph, as, pm) => {
+    const bad = [], cases = [], fc = new Map(), rd = (f) => { if (!fc.has(f)) fc.set(f, rd348g(f)); return fc.get(f); };
+    const all = eqItems348g(eq), nums = all.map((z) => z.num), nw = all.filter((z) => z.num >= 97);
+    // ① 番号の連続(3 桁を読む)
+    const gap = nums.filter((n, k) => n !== k + 1);
+    if (gap.length) bad.push('① 項の番号が EQ-01 から連続でない(最初の外れ EQ-' + String(gap[0]).padStart(2, '0') + '・項 ' + all.length + ')');
+    if (nw.map((z) => z.id).join('|') !== IDS.join('|')) bad.push('① EQ-97 以降の項の番号: ' + (nw.map((z) => z.id).join('・') || '無い'));
+    cases.push(`① 項の番号 EQ-01〜EQ-${String(nums[nums.length - 1] || 0).padStart(2, '0')} の連続(${all.length} 項 —— 3 桁を読む)・EQ-97 以降は ${IDS.length} 項`);
+    // ② EQ-97〜EQ-102 の欄・同じ字の式・経路・抜粋・台帳・回答の語
+    const tb = ledgerOf(ph), st = new Map(tb.rows.map((r) => [r[0], r[6]]));
+    let nA = 0, nB = 0, nG = 0, nK = 0, nF = 0;
+    for (const id of IDS) {
+      const A = ANCHOR[id], it = all.find((z) => z.id === id), ps = physSecOf(ph, A.head);
+      if (!it) { bad.push('② ' + id + ' が無い'); continue; }
+      if (it.label !== '診断') bad.push('② ' + id + ' のラベル「' + it.label + '」が 診断 でない');
+      if (T37.IMPL_MARK_337G.test(stripCode(it.text).replace(/\n- \*\*ラベル\*\*: [^\n]*/, ''))) bad.push('② ' + id + ' に実装の印');
+      if (!(it.physRefs.length >= 1 && it.physRefs[0].head === A.head)) bad.push('② ' + id + ' の PHYSICS の節の行の先頭が ' + A.head.replace(' — ', '〕') + ' でない');
+      if (!ps) bad.push('② ' + id + ' の出どころの節 ' + A.head.replace(' — ', '〕') + ' が PHYSICS に無い');
+      for (const w of A.eqs) { nA++; if (stripCode(it.text).indexOf(w) < 0) bad.push('② ' + id + ' に式「' + w.slice(0, 24) + '」が無い'); else if (ps.indexOf(w) < 0) bad.push('② ' + id + ' の式「' + w.slice(0, 24) + '」が出どころの節に同じ字で無い'); }
+      for (const f of FIELDS) { nF++; if (!new RegExp('\\n- \\*\\*' + f + '\\*\\*: [^\\n]+').test(it.text)) bad.push('② ' + id + ' に欄「' + f + '」が無い'); }
+      const tu = (/\n- \*\*時間の単位\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      if (tu && !/絶対時間|当事者時間|時間を含まない|暦の時刻/.test(tu)) bad.push('② ' + id + ' の時間の単位の欄に単位の語が無い');
+      const kd = (/\n- \*\*実装か診断か\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      if (kd && kd.indexOf('診断') !== 0) bad.push('② ' + id + ' の実装か診断かの欄が「診断」で始まらない');
+      const mk = (/\n- \*\*正本を作る関数\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      if (mk.indexOf('器 `' + A.paths[0] + '` の `runAll`') < 0 || !T34.defSpan334f(rd(A.paths[0]), 'runAll')) bad.push('② ' + id + ' の正本を作る関数に器の runAll が無いか、器に runAll の定義が無い');
+      for (const fn of A.fns) { if (mk.indexOf('`' + fn + '`') < 0) bad.push('② ' + id + ' の正本を作る関数に ' + fn + ' が無い'); else if (!T34.defSpan334f(rd(A.paths[1]), fn)) bad.push('② ' + id + ' の正本を作る関数 ' + fn + ' が lib に無い'); }
+      const srcLine = (/\n- \*\*出どころ\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
+      for (const p of A.paths) { if (srcLine.indexOf('`' + p + '`') < 0) bad.push('② ' + id + ' の出どころに ' + p + ' が無い'); else if (!fs.existsSync(path.join(ROOT, p))) bad.push('② ' + id + ' の出どころの経路 ' + p + ' が実在しない'); }
+      if (!it.blocks.length) bad.push('② ' + id + ' にプログラム版が無い');
+      for (const b of it.blocks) { nB++;
+        const wh = id + ' の抜粋 ' + b.k + '(' + b.file + ' · ' + b.name + ')';
+        if (b.file !== A.paths[1]) { bad.push('② ' + wh + ' が出どころの lib でない'); continue; }
+        const span = T34.defSpan334f(rd(b.file), b.name);
+        if (!span) { bad.push('② ' + wh + ': 名の定義が無い'); continue; }
+        const ns = norm(span);
+        b.frags.forEach((f, mi) => { nG++; const nf = norm(f); if (!nf || ns.indexOf(nf) < 0) bad.push('② ' + wh + ' の断片 ' + (mi + 1) + ' が定義の範囲に無い: «' + nf.slice(0, 50) + '»');
+          const ln = f.split('\n').length; if (ln > 6 || nf.length > 320) bad.push('② ' + wh + ' の断片 ' + (mi + 1) + ': 長い(' + ln + ' 行・' + nf.length + ' 字 —— 6 行・320 字まで —— 第331便d の照合と同じ上限)'); }); }
+      const kl = (/\n- \*\*ノブの台帳\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '', pairs = [...kl.matchAll(/「([^」]+)」\(([^)]+)\)/g)];
+      if (!pairs.length) bad.push('② ' + id + ' のノブの台帳の欄に行が無い');
+      for (const m of pairs) { nK++; if (!st.has(m[1])) bad.push('② ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」が表 2 に無い'); else if (st.get(m[1]) !== m[2]) bad.push('② ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」の状態「' + m[2] + '」が表 2 の「' + st.get(m[1]) + '」と違う'); }
+      const ex = (/\n- \*\*解説\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '', AN = ANSWERS[id];
+      for (const w of AN.w) if (ex.indexOf(w) < 0) bad.push('② ' + id + ' の解説に回答の列の語「' + w.slice(0, 24) + '」が無い');
+      if (ex.indexOf(AN.src) < 0) bad.push('② ' + id + ' の解説に回答・指示の出どころ(' + AN.src + ')が無い');
+    }
+    cases.push(`② EQ-97〜EQ-102(診断)—— 出どころの節と同じ字の式 ${nA}・欄 ${nF}(時間の単位・実装か診断か・正本を作る関数の名の実在)・出どころの経路・抜粋 ${nB}・断片 ${nG}(lib の名指しの定義の範囲・6 行・320 字まで)・台帳の欄 ${nK} 行・回答の列の語と出どころ`);
+    // ③ §2a の 2 行と項の参照(3 桁を含む)
+    const s2a = T34.termSection334f(eq), n2a = s2aNewOf(eq);
+    if (!n2a) bad.push('③ §2a に第348便g の行(「第347便の式」)が無い');
+    else {
+      const iEx = s2a.indexOf('- **第347便で探索中**('), iMe = s2a.indexOf('- **第347便の式**(第348便g');
+      if (!(iEx >= 0 && iMe > iEx)) bad.push('③ §2a の第348便g の行の位置(第347便で探索中の後ろ)');
+      const ln = n2a.split('\n')[0];
+      for (const id of IDS) if (ln.indexOf(id) < 0) bad.push('③ §2a の第348便g の行に ' + id + ' が無い');
+      for (const w of [SRC145, 'R415', 'AN902', 'AN904', 'AN909', 'AN910', 'AN911', '主の候補', '決めていない', SRCS1, SRC9]) if (ln.indexOf(w) < 0) bad.push('③ §2a の第348便g の行に「' + w.slice(0, 24) + '」が無い');
+      if (n2a.indexOf('\n- **第348便で探索中**(') < 0) bad.push('③ §2a に「第348便で探索中」の 1 行が無い');
+    }
+    const refs = [...new Set([...s2a.matchAll(/EQ-\d{2,3}/g)].map((m) => m[0]))], ids = new Set(all.map((z) => z.id));
+    for (const id of refs) if (!ids.has(id)) bad.push('③ §2a が無い項 ' + id + ' を指す');
+    cases.push(`③ §2a の第348便g の行(位置・EQ-97〜EQ-102・回答の語)・第348便で探索中の 1 行・項の参照 ${refs.length}(3 桁を含む)`);
+    // ④ 冒頭・§3・§6・§7
+    if (eq.indexOf('- **第347便の式(第348便g)**: ') < 0) bad.push('④ 冒頭の第348便g の 1 行');
+    const s3i = eq.indexOf('\n## 3. '), s3 = s3i >= 0 ? eq.slice(s3i, eq.indexOf('\n## ', s3i + 1)) : '';
+    for (const id of IDS) { const it = all.find((z) => z.id === id); if (!s3.split('\n').some((l) => it && l === '| ' + id + ' | ' + it.title + ' | ' + it.label + ' |')) bad.push('④ §3 の一覧に ' + id + ' の行が無い'); }
+    const s6i = eq.indexOf('\n## 6. '), s6 = s6i >= 0 ? eq.slice(s6i, eq.indexOf('\n## ', s6i + 1)) : '';
+    if (s6.indexOf('は EQ-97〜EQ-102 が拾う(第348便g —— 項は ' + Math.min(all.length, 102) + ')') < 0 || all.length < 102) bad.push('④ §6 の件数の文(EQ-97〜EQ-102・項は 102)');
+    const s7i = eq.indexOf('\n## 7. '), s7 = s7i >= 0 ? eq.slice(s7i) : '';
+    if (!/\n18\. \*\*第347便の式\*\*\(第348便g —— `docs\.equations348g`\)/.test(s7) || s7.indexOf('view347fOf348g') < 0 || s7.indexOf('view345aOf348g') < 0 || s7.indexOf('項の番号の 3 桁') < 0 || s7.indexOf('eqItems334f') < 0) bad.push('④ §7 の規則 18');
+    cases.push(`④ 冒頭の 1 行・§3 の ${IDS.length} 行・§6 の件数の文(項 ${all.length})・§7 の規則 18(3 桁の注記)`);
+    // ⑤ PHYSICS〔第348便g〕(位置・必須の語・表 1)・AI_SPEC §307・post-merge
+    const sec = physSecOf(ph, '〔第348便g — '), iG = ph.indexOf('\n〔第348便g — '), iI = ph.indexOf('\n〔第347便i — '), iT = ph.indexOf('\n〔第328便 — 統括'), i7 = ph.indexOf('\n## 7. 論文');
+    if (!(iG >= 0 && iI >= 0 && iI < iG && (iT < 0 || iG < iT) && (i7 < 0 || iG < i7))) bad.push('⑤ PHYSICS〔第348便g〕の位置(第347便i の節の後・第328便の統括の節と「## 7.」の前)');
+    for (const w of SEC_MUST) if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第348便g〕に「' + w.slice(0, 30) + '」が無い');
+    { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith('**表 1 ')), T = [];
+      if (k >= 0) for (let n = k + 1; n < L.length; n++) { if (L[n].startsWith('|')) T.push(L[n]); else if (T.length) break; }
+      const rows = T.slice(2);
+      if (rows.length !== IDS.length) bad.push('⑤ 表 1 の行の数 ' + rows.length + '(項は ' + IDS.length + ')');
+      for (const id of IDS) { const l = rows.find((x) => x.startsWith('| ' + id + ' |')), it = all.find((z) => z.id === id);
+        if (!l || !it) { bad.push('⑤ 表 1 に ' + id + ' の行が無い'); continue; } const c = cells(l);
+        if (c.length !== 5 || c[2] !== it.label || c[3] !== ANCHOR[id].head.replace(' — ', '〕')) { bad.push('⑤ 表 1 の ' + id + ' のラベルか出どころの節が項と違う'); continue; }
+        const nm = it.blocks.map((b) => b.name).join('・');
+        if (c[4] !== nm) bad.push('⑤ 表 1 の ' + id + ' の lib の関数が項の抜粋の名と違う(' + c[4].slice(0, 30) + ' / ' + nm.slice(0, 30) + ')'); } }
+    const a307 = as.search(/\n## 307\. 第348便g/), a300 = as.search(/\n## 300\. 第347便i/), ai = a307 >= 0 ? secUntilNext329c(as, a307 + 1, '\n## ') : '';
+    if (!(a307 >= 0 && a300 >= 0 && a300 < a307 && ['EQ-97〜EQ-102', '診断', 'docs.equations348g', 'SYSTEM_PROMPT には載せない', '現実の宇宙の主張ではない', '主の候補', '3 桁'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑤ AI_SPEC §307(§300 の後・必須の語)');
+    if (!(pm.indexOf('# ==== 第348便g の塊(ここから)====') > pm.indexOf('# ==== 第347便i の塊(ここまで)====') && pm.indexOf('# ==== 第347便i の塊(ここまで)====') >= 0
+      && /docs\.equations348g docs\.equations347f docs\.report145_345a lint\.equations331d docs\.equations331d/.test(pm))) bad.push('⑤ post-merge に第348便g の塊(第347便i の塊の後)');
+    cases.push(`⑤ PHYSICS〔第348便g〕(第347便i の節の後・必須の語 ${SEC_MUST.length}・表 1 の ${IDS.length} 行と項の照合)・AI_SPEC §307・post-merge の塊`);
+    // ⑥ 書かない語
+    let nW = 0;
+    for (const [nm, tx] of [['PHYSICS〔第348便g〕', sec], ['§2a の第348便g の行', n2a], ['AI_SPEC §307', ai]].concat(nw.map((z) => [z.id, z.text]))) {
+      const s = stripQ(tx);
+      for (const re of NOT348) if (re.test(s)) bad.push('⑥ ' + nm + ' に書かない語 ' + re.source);
+      for (const b of T37.wordAudit337g(nm, tx)) bad.push('⑥ ' + b);
+      for (const w of T34.DECIDE_WORDS_334F) if (stripCode(s).indexOf(w) >= 0) bad.push('⑥ ' + nm + ' に主の型を決めた語(' + w.length + ' 字)');
+      if (stripCode(s).indexOf('法則') >= 0) bad.push('⑥ ' + nm + ' に式を指す「法則」の語(候補の式・診断の式と書く)');
+      if (stripCode(s).indexOf('回転' + '引きずり') >= 0) bad.push('⑥ ' + nm + ' に旧称(円盤引きずりと書く)');
+      nW++;
+    }
+    cases.push(`⑥ 書かない語(第348便の禁句 ${NOT348.length}・第337便までの禁句・裸の係数記号・主の型を決めた語・「法則」・旧称)—— ${nW} 本`);
+    return { bad, cases };
+  };
+  const PH = rd348g('docs/PHYSICS.md') || '', AS = rd348g('docs/AI_SPEC.md') || '', PM = rd348g('tools/post-merge-qa.sh') || '';
+  {
+    let bad = [], cases = [];
+    try {
+      const R = check(EQ0, PH, AS, PM); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const MUT = [
+        ['EQ-99 の番号を EQ-103 に', EQ0.replace('\n### EQ-99 ', '\n### EQ-103 '), PH, /^① 項の番号が EQ-01 から連続でない/],
+        ['3 桁の EQ-102 の番号を EQ-112 に', EQ0.replace('\n### EQ-102 ', '\n### EQ-112 '), PH, /^① 項の番号が EQ-01 から連続でない/],
+        ['EQ-98 の S3 の形の字を節と違える', EQ0.replace('**g = φ + (1 − φ) G**', '**g = φ + (1 + φ) G**'), PH, /^② EQ-98 に式「g = φ \+ \(1 − φ\) G」が無い/],
+        ['EQ-101 のラベルを実装〔opt-in〕に', EQ0.replace(/(### EQ-101 [^\n]*\n\n- \*\*ラベル\*\*: )診断/, '$1実装〔opt-in〕'), PH, /^② EQ-101 のラベル/],
+        ['EQ-100 の時間の単位の欄を消す', EQ0.replace(/\n- \*\*時間の単位\*\*: \(C2\) のトルクと積分は[^\n]*/, ''), PH, /^② EQ-100 に欄「時間の単位」が無い/],
+        ['EQ-102 の正本を作る関数の名を 1 字変える', EQ0.replace('・`tdRows`(2 つの源)', '・`tdRow`(2 つの源)'), PH, /^② EQ-102 の正本を作る関数に tdRows が無い/],
+        ['EQ-102 の抜粋の断片の 1 字違い(閉じた形)', EQ0.replace('return { Tc: 1 + A * c / kd,', 'return { Tc: 1 - A * c / kd,'), PH, /^② EQ-102 の抜粋 2\(tests\/lib-w347i-axisenergy\.mjs · closedForms\) の断片 1/],
+        ['EQ-102 の抜粋の断片を 2 つつなげて長くする(320 字を超える)', EQ0.replace("backE = I * w * back;\n// …\nconst dth =", "backE = I * w * back;\nconst dth =").replace("scaleTa(w) : 0;\n// …\nreturn [aIn", "scaleTa(w) : 0;\nreturn [aIn"), PH, /^② EQ-102 の抜粋 1\(tests\/lib-w347i-axisenergy\.mjs · runCase\) の断片 \d: 長い/],
+        ['EQ-97 の抜粋の関数の名を 1 字変える', EQ0.replace('(`tests/lib-w347b-convbody.mjs` · `qBeta`)', '(`tests/lib-w347b-convbody.mjs` · `qBETA`)'), PH, /^② EQ-97 の抜粋 2\(tests\/lib-w347b-convbody\.mjs · qBETA\): 名の定義が無い/],
+        ['EQ-101 の台帳の欄の状態を候補に(台帳は対照)', EQ0.replace('「重みのべき p(第347便h)」(対照)', '「重みのべき p(第347便h)」(候補)'), PH, /^② EQ-101 の台帳の行「重みのべき p/],
+        ['EQ-100 の解説から AN911 を消す', EQ0.replace('「AN911: 推奨で進める」(2 倍角', '「推奨で進める」(2 倍角'), PH, /^② EQ-100 の解説に回答の列の語「AN911」/],
+        ['§6 の件数の文を消す', EQ0.replace(/\n\n第347便の候補の型の式\([^\n]*\(第348便g —— 項は 102\)。/, ''), PH, /^④ §6 の件数の文/],
+        ['項に「法則」の語を書く', EQ0.replace('表の列の並べ方で、型の答えではない', '表の列の並べ方で、型の法則ではない'), PH, /^⑥ EQ-97 に式を指す「法則」の語/],
+        ['項に第348便の書かない語', EQ0.replace('表の列の並べ方で、型の答えではない', '表の列の並べ方で、換算の型が決まった'), PH, /^⑥ EQ-97 に書かない語 換算の型が決まった/],
+        ['書かない語を「」の中に置く(数えない)', EQ0.replace('表の列の並べ方で、型の答えではない', '表の列の並べ方で、「換算の型が決まった」とは書かない'), PH, null],
+        ['PHYSICS〔第348便g〕の表 1 の EQ-99 の出どころの節を変える', EQ0, PH.replace('| 診断 | 〔第347便d〕 | makeSys', '| 診断 | 〔第347便e〕 | makeSys'), /^⑤ 表 1 の EQ-99 のラベルか出どころの節/],
+      ];
+      const sc = [];
+      for (const [nm, e, p, re] of MUT) {
+        if (e === EQ0 && p === PH) { bad.push('⑦ 変異「' + nm + '」が文書を変えていない(置き換えの字が見つからない)'); continue; }
+        const r = check(e, p, AS, PM);
+        if (re === null) { if (r.bad.length) bad.push('⑦ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+      // ⑧ 世代の写し(第347便f の照合へ渡す)と、2 桁の読み手の事実(規則 18 の注記の確かめ)
+      const V = view347fOf348g(EQ0);
+      if (eqItems348g(V).some((z) => z.num >= 97)) bad.push('⑧ 世代の写しに EQ-97 以降の項が残る(3 桁を含む)');
+      if (/EQ-(9[7-9]|1\d\d)/.test(T34.termSection334f(V))) bad.push('⑧ 世代の写しの §2a に EQ-97 以降の参照が残る');
+      if (!(/\n### EQ-96 /).test(V) || eqItems348g(V).length !== 96 || T34.eqItems334f(V).length !== 96) bad.push('⑧ 世代の写しの項が EQ-01〜EQ-96 の 96 でない');
+      if (view345aOf348g(EQ0) !== V) bad.push('⑧ 第345便a の写しが第347便f の写しと違う');
+      const n334 = T34.eqItems334f(EQ0).length, n348 = eqItems348g(EQ0).length;
+      if (!(n334 === 99 && n348 === 102)) bad.push('⑧ 2 桁の読み手 eqItems334f の項の数 ' + n334 + '・3 桁の読み手の項の数 ' + n348 + '(規則 18 の注記は 99 と 102 の前提)');
+      cases.push(`⑧ 第347便f・第345便a の照合の世代の写し(view347fOf348g・view345aOf348g —— EQ-97 以降の項と §2a の参照を外す・EQ-01〜EQ-96 の 96 項は残る)・2 桁の読み手 eqItems334f は ${n334} 項(EQ-100〜EQ-102 を読まない —— 3 桁の読み手は ${n348} 項)`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.equations348g', bad.length === 0,
+      `**計算式の一覧の EQ-97〜EQ-102(第347便 b・c・d・e・h・i の候補の型の式 —— 出どころの節と同じ字の式・時間の単位・実装か診断か・正本を作る関数の欄・抜粋は lib の定義の範囲・番号の連続〔3 桁〕)**(第348便g・R415 —— 既存の項の本文は書き換えない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第348便g の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
