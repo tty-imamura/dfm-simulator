@@ -1380,6 +1380,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report146_350a lint.bgAxialTerm350a"
 #   第338便c の recheckRun で正本と照合・共通の点検の数と〔第348便h〕の正本の天体の行を QA の中で別に照合・呼ぶだけ / docs.sphereconv350b —— 原文と読みの表と表と数の文が PHYSICS〔第350便b〕に逐語・文書)と、新しい段 sphereconv-350b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sphereconv350b docs.sphereconv350b"
 # ==== 第350便b の塊(ここまで)====
+# ==== 第350便c の塊(ここから)====
+# 第350便c(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R420 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.gyrostep350c —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・共通の点検の数と閉じた形と〔第348便h〕の正本の地球の行を QA の中で別に照合・呼ぶだけ /
+#   docs.gyrostep350c —— 原文と表と数の文が PHYSICS〔第350便c〕に逐語・文書)と、新しい段 gyrostep-350c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrostep350c docs.gyrostep350c"
+# ==== 第350便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
