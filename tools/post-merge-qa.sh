@@ -1358,6 +1358,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperRunner348f lint.nightlyPaper2"
 #   世代の写しを足した第347便f・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d"
 # ==== 第348便g の塊(ここまで)====
+# ==== 第348便h の塊(ここから)====
+# 第348便h(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・統括の検証項目 R416 —— 診断だけ・html は変えない): 枝 h の新設 2 本(behavior.axisgeo3_348h —— 零試験 10・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第347便h〕〔第348便b〕〔第348便c〕の正本と照合・呼ぶだけ / docs.axisgeo3_348h —— 原文と表と数の文が PHYSICS〔第348便h〕に逐語・文書)と、新しい段 axisgeo3-348h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
+# ==== 第348便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
