@@ -1337,6 +1337,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinreset348b docs.spinreset348b"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・〔第347便h〕の正本と 120° の例と歳差の率の式を QA の中で別に照合・呼ぶだけ / docs.axisbalance348c —— 原文と表と数の文が PHYSICS〔第348便c〕に逐語・文書)と、新しい段 axisbalance-348c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisbalance348c docs.axisbalance348c"
 # ==== 第348便c の塊(ここまで)====
+# ==== 第348便d の塊(ここから)====
+# 第348便d(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・原仮定者の回答(2026-11-23 —— 第145報の回答 10)・統括の検証項目 R412 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.diskaxis348d —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・今の式の列を第340便d の正本と照合・呼ぶだけ / docs.diskaxis348d —— 原文と表と数の文が
+#   PHYSICS〔第348便d〕に逐語・文書)と、新しい段 diskaxis-348d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskaxis348d docs.diskaxis348d"
+# ==== 第348便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
