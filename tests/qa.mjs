@@ -108287,7 +108287,7 @@ function view338aOf340a(eq) {
     if (!(ai && ['R358', 'AN770', 'provenancePaths', '--estimate', 'lint.provenanceExclude340c', 'SYSTEM_PROMPT には載せない'].every((w) => ai.indexOf(w) >= 0))) bad.push('AI_SPEC §250(R358・AN770・provenancePaths・--estimate・鍵・SYSTEM_PROMPT)');
     const i247 = AS.indexOf('\n## 247. '), i250 = m ? m.index : -1;
     if (!(i247 >= 0 && i250 > i247)) bad.push('AI_SPEC §250 の位置(§247 の後)');
-    const CL = rd340c('CHANGELOG.md'), cb = CL.search(/^## v1\.47-b\d+[((]/m), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
+    const CL = rd340c('CHANGELOG.md'), cb = CL.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), ce = cb < 0 ? -1 : CL.indexOf('\n## ', cb + 5), clb = cb < 0 ? '' : CL.slice(cb, ce < 0 ? undefined : ce);
     const cl = clb.split('\n').find((l) => l.indexOf('**第340便c**') >= 0) || '';
     if (!(cl && ['R358', 'AN770', 'lint.provenanceExclude340c', 'docs.chainTools340c', 'w340c-vcal-4'].every((w) => cl.indexOf(w) >= 0))) bad.push('CHANGELOG の v1.47 の開発中の節に第340便c の行(R358・AN770・鍵・版)');   // 第341便(統括 —— 継ぎ目): 見出しの版名を数字に依らずに探す(便の開始で b340 → b341 に動いて落ちていた)
     cases.push('AI_SPEC §250・CHANGELOG の行');
@@ -110771,7 +110771,7 @@ function view340aOf341a(eq) {
     cases.push('訂正の文 ' + fixes.reduce((s, f) => s + f[2].length, 0) + '(〔第340便d〕・〔第341便d〕・〔第341便 — 統括〕—— 当時の文が残る)');
     const a0 = AS.indexOf('\n## 267. 第342便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 >= 0 && ai.indexOf('tests/lib-w342d-gyropathfix.mjs') >= 0 && ai.indexOf('tests/out/gyropath-340d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R375') >= 0)) bad.push('AI_SPEC §267(lib・正本・SYSTEM_PROMPT・R375)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第342便d**') >= 0) || '';
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl = clg.split('\n').find((l) => l.indexOf('**第342便d**') >= 0) || '';
     if (!(cl.indexOf('tests/lib-w342d-gyropathfix.mjs') >= 0 && cl.indexOf('tests/out/gyropath-340d.json') >= 0 && cl.indexOf('第142報') >= 0 && cl.indexOf('R375') >= 0)) bad.push('CHANGELOG の第342便d の行');
     if (!(PM.indexOf('# ==== 第342便d の塊(ここから)====') >= 0 && /behavior\.gyropathfix342d/.test(PM) && /docs\.gyropathfix342d/.test(PM))) bad.push('post-merge の ③′ に第342便d の塊');
     cases.push('AI_SPEC §267・CHANGELOG・post-merge の ③′');
@@ -110925,7 +110925,7 @@ function view340aOf341a(eq) {
     const a0 = AS.indexOf('\n## 268. 第342便e'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/powerball-342e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R376') >= 0))
       bad.push('③ AI_SPEC §268(正本・SYSTEM_PROMPT・候補・R376)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl342e = clg.split('\n').find((l) => l.indexOf('**第342便e**') >= 0) || '';
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cl342e = clg.split('\n').find((l) => l.indexOf('**第342便e**') >= 0) || '';
     if (!(cl342e.indexOf('tests/exp-w342e-powerball.mjs') >= 0 && cl342e.indexOf('powerball-342e') >= 0 && cl342e.indexOf('第141報の回答') >= 0 && cl342e.indexOf('R376') >= 0)) bad.push('③ CHANGELOG の第342便e の行');
     if (!(/S\('powerball-342e', 'node tests\/exp-w342e-powerball\.mjs', \['tests\/out\/powerball-342e\.json'\]/.test(RT) && RT.indexOf("quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁") >= 0
       && RT.indexOf('// ==== 第342便e の塊(ここから)====') >= 0)) bad.push('③ 段の行 powerball-342e(quickVerify と理由・塊)');
@@ -111420,7 +111420,7 @@ function view341aOf342f(eq) {
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('PHYSICS〔第342便g〕に「' + w + '」が無い');
     const a0 = AS.indexOf('\n## 264. 第342便g'), a3 = AS.indexOf('\n## 263. 第342便a'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 > a3 && a3 >= 0 && ai.indexOf('tauSurf') >= 0 && ai.indexOf('R372') >= 0 && ai.indexOf('積んだ平均') >= 0 && ai.indexOf('clockAdvanced:false') >= 0)) bad.push('AI_SPEC §264(§263 の後・tauSurf・R372・積んだ平均・clockAdvanced:false)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cll = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cll = clg.split('\n');
     const ka = cll.findIndex((l) => l.indexOf('- **第342便a**') === 0), k2 = cll.findIndex((l) => l.indexOf('- **第342便g**') === 0), cl = k2 >= 0 ? cll[k2] : '';
     if (!(ka >= 0 && k2 === ka + 1 && cl.indexOf('R372') >= 0 && cl.indexOf('tauSurf') >= 0 && cl.indexOf('behavior.surfclockAccept342g') >= 0)) bad.push('CHANGELOG の第342便g の行(第342便a の行の直後・R372・tauSurf・鍵)');
     if (!(PM.indexOf('# ==== 第342便g の塊(ここから)====') > PM.indexOf('# ==== 第342便a の塊(ここまで)====') && /behavior\.surfclockAccept342g lint\.tauSurfPairs342g docs\.surfclockAccept342g/.test(PM))) bad.push('post-merge の第342便g の塊');
@@ -112377,7 +112377,7 @@ function view342fOf343a(eq) {
     const a0 = AS.indexOf('\n## 274. 第343便e'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/spintransfer-343e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R382') >= 0))
       bad.push('③ AI_SPEC §274(正本・SYSTEM_PROMPT・候補・R382)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k343e = cls.findIndex((l) => l.indexOf('**第343便e**') >= 0), k342 = cls.findIndex((l) => l.indexOf('**第342便(統括') >= 0), cl343e = k343e >= 0 ? cls[k343e] : '';
     if (!(k343e > 0 && (k342 < 0 || k343e < k342) && cl343e.indexOf('tests/exp-w343e-spintransfer.mjs') >= 0 && cl343e.indexOf('spintransfer-343e') >= 0 && cl343e.indexOf('第142報の回答 2') >= 0 && cl343e.indexOf('R382') >= 0))
       bad.push('③ CHANGELOG の第343便e の行(見出しより後・第342便(統括)の行より前)');
@@ -112688,7 +112688,7 @@ function view342fOf343a(eq) {
     const a0 = AS.indexOf('\n## 276. 第343便g'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/plutostate-343g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN807') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R384') >= 0))
       bad.push('③ AI_SPEC §276(正本・SYSTEM_PROMPT・AN807・候補・R384)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
     const i343g = clLines.findIndex((l) => l.indexOf('**第343便g**') >= 0), i342t = clLines.findIndex((l) => /^- \*\*第342便[((]統括/.test(l)), cl343g = i343g >= 0 ? clLines[i343g] : '';
     if (!(i343g > 0 && (i342t < 0 || i343g < i342t) && cl343g.indexOf('tests/exp-w343g-plutostate.mjs') >= 0 && cl343g.indexOf('plutostate-343g') >= 0 && cl343g.indexOf('第141報') >= 0 && cl343g.indexOf('R384') >= 0))
       bad.push('③ CHANGELOG の第343便g の行(見出しより後・第342便(統括)の行より前・器・段・第141報・R384)');
@@ -113612,7 +113612,7 @@ function view343aOf344a(eq) {
     const a0 = AS.indexOf('\n## 281. 第344便e'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/spincompose-344e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R389') >= 0))
       bad.push('③ AI_SPEC §281(正本・SYSTEM_PROMPT・候補・R389)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k344e = cls.findIndex((l) => l.indexOf('**第344便e**') >= 0), k343 = cls.findIndex((l) => l.indexOf('**第343便(統括') >= 0), cl344e = k344e >= 0 ? cls[k344e] : '';
     if (!(k344e > 0 && (k343 < 0 || k344e < k343) && cl344e.indexOf('tests/exp-w344e-spincompose.mjs') >= 0 && cl344e.indexOf('spincompose-344e') >= 0 && cl344e.indexOf('第143報の回答 3') >= 0 && cl344e.indexOf('R389') >= 0))
       bad.push('③ CHANGELOG の第344便e の行(見出しより後・第343便(統括)の行より前)');
@@ -113889,7 +113889,7 @@ function view343aOf344a(eq) {
     const a0 = AS.indexOf('\n## 283. 第344便g'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/plutogm-344g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN807') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R391') >= 0 && ai.indexOf('文献の値・未照合') >= 0))
       bad.push('③ AI_SPEC §283(正本・SYSTEM_PROMPT・AN807・候補・R391・文献の値・未照合)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
     const i344g = clLines.findIndex((l) => l.indexOf('**第344便g**') >= 0), i343t = clLines.findIndex((l) => /^- \*\*第343便[((]統括/.test(l)), cl344g = i344g >= 0 ? clLines[i344g] : '';
     if (!(i344g > 0 && (i343t < 0 || i344g < i343t) && cl344g.indexOf('tests/exp-w344g-plutogm.mjs') >= 0 && cl344g.indexOf('plutogm-344g') >= 0 && cl344g.indexOf('第144報') >= 0 && cl344g.indexOf('R391') >= 0 && cl344g.indexOf('未照合') >= 0))
       bad.push('③ CHANGELOG の第344便g の行(見出しより後・第343便(統括)の行より前・器・段・第144報・R391・未照合)');
@@ -114323,7 +114323,7 @@ function view343aOf344a(eq) {
   const a0 = AS.indexOf('\n## 285. 第345便b'), ai = secUntilNext329c(AS, a0, '\n## ');
   if (!(a0 >= 0 && ai.indexOf('tests/data-w345-engine.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN921') >= 0 && ai.indexOf('R393') >= 0 && ai.indexOf('指紋') >= 0))
     bad.push('③ AI_SPEC §285(宣言・SYSTEM_PROMPT・AN921・R393・指紋)');
-  const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+  const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
   const i345b = clLines.findIndex((l) => l.indexOf('**第345便b**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl345b = i345b >= 0 ? clLines[i345b] : '';
   if (!(i345b > 0 && (i344t < 0 || i345b < i344t) && cl345b.indexOf('tests/lib-w345-engine.mjs') >= 0 && cl345b.indexOf('engine-345b') >= 0 && cl345b.indexOf('第145報') >= 0 && cl345b.indexOf('R393') >= 0))
     bad.push('③ CHANGELOG の第345便b の行(見出しより後・第344便(統括)の行より前・lib・段・第145報・R393)');
@@ -114439,7 +114439,7 @@ function view343aOf344a(eq) {
   const a0 = AS.indexOf('\n## 286. 第345便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
   if (!(a0 >= 0 && ai.indexOf('tests/lib-w345c-crossengine.mjs') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('AN921') >= 0 && ai.indexOf('R394') >= 0 && ai.indexOf('許容') >= 0))
     bad.push('③ AI_SPEC §286(lib・SYSTEM_PROMPT・AN921・R394・許容)');
-  const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+  const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
   const i345c = clLines.findIndex((l) => l.indexOf('**第345便c**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl345c = i345c >= 0 ? clLines[i345c] : '';
   if (!(i345c > 0 && (i344t < 0 || i345c < i344t) && cl345c.indexOf('tests/lib-w345c-crossengine.mjs') >= 0 && cl345c.indexOf('第145報') >= 0 && cl345c.indexOf('R394') >= 0))
     bad.push('③ CHANGELOG の第345便c の行(見出しより後・第344便(統括)の行より前・lib・第145報・R394)');
@@ -114546,7 +114546,7 @@ function view343aOf344a(eq) {
     const a0 = AS.indexOf('\n## 287. 第345便d'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('tests/out/perfengine-w345d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R395') >= 0 && ai.indexOf('CHROMIUM_PATH') >= 0))
       bad.push('② AI_SPEC §287(記録・SYSTEM_PROMPT・R395・明示のブラウザ)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
     const i345d = clLines.findIndex((l) => l.indexOf('**第345便d**') >= 0), i344t = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), cl = i345d >= 0 ? clLines[i345d] : '';
     if (!(i345d > 0 && (i344t < 0 || i345d < i344t) && cl.indexOf('tests/perf.mjs') >= 0 && cl.indexOf('tests/exp-w345d-perfengine.mjs') >= 0 && cl.indexOf('第145報') >= 0 && cl.indexOf('R395') >= 0))
       bad.push('② CHANGELOG の第345便d の行(見出しより後・第344便(統括)の行より前・perf.mjs・器・第145報・R395)');
@@ -114735,7 +114735,7 @@ function view343aOf344a(eq) {
     cases.push('① 節の位置・必須の語 ' + want.length + '・数が一覧の正本と同じ');
     const a0 = AS.indexOf('\n## 288. 第345便e'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && ai.indexOf('1.63.0') >= 0 && ai.indexOf('180') >= 0 && ai.indexOf('engine-345b') >= 0 && ai.indexOf('R396') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0)) bad.push('② AI_SPEC §288(1.63.0・180・engine-345b・R396・SYSTEM_PROMPT)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', clLines = clg.split('\n');
     const iMe = clLines.findIndex((l) => l.indexOf('**第345便e**') >= 0), iT = clLines.findIndex((l) => /^- \*\*第344便[((]統括/.test(l)), clMe = iMe >= 0 ? clLines[iMe] : '';
     if (!(iMe > 0 && (iT < 0 || iMe < iT) && clMe.indexOf('1.63.0') >= 0 && clMe.indexOf('180') >= 0 && clMe.indexOf('第145報') >= 0 && clMe.indexOf('R396') >= 0)) bad.push('② CHANGELOG の第345便e の行(見出しより後・第344便(統括)の行より前・1.63.0・180・第145報・R396)');
     if (!(PM.indexOf('# ==== 第345便e の塊(ここから)====') >= 0 && /lint\.ciEngine345e lint\.regenEngineInput345e docs\.ciEngine345e/.test(PM))) bad.push('② post-merge に第345便e の塊');
@@ -115190,7 +115190,7 @@ function view343aOf344a(eq) {
       const a0 = AS.indexOf('\n## 291. 第346便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
       if (!(a0 >= 0 && ai.indexOf('R399') >= 0 && ai.indexOf('mirrorY') >= 0 && ai.indexOf('gravityY') >= 0 && ai.indexOf('+90') >= 0)) bad.push('② AI_SPEC §291(R399・mirrorY・gravityY・+90)');
       if (!(PM.indexOf('# ==== 第346便c の塊(ここから)====') >= 0 && /ui\.viewTiltDefault346c behavior\.gravityMirror346c ui\.spinMarkerAxis346c docs\.viewTilt346c/.test(PM))) bad.push('② post-merge に第346便c の塊');
-      const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
+      const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
       const clMe = (clg.split('\n').find((l) => l.indexOf('**第346便c**') >= 0)) || '';
       if (clMe && !(clMe.indexOf('R399') >= 0 && clMe.indexOf('第145報の回答 3') >= 0)) bad.push('② CHANGELOG の第346便c の行(R399・第145報の回答 3)');
       cases.push('② AI_SPEC §291・post-merge' + (clMe ? '・CHANGELOG の行' : '(CHANGELOG の行は統合で足す —— 在れば照らす)'));
@@ -115740,7 +115740,7 @@ function view343aOf344a(eq) {
     const a0 = AS.indexOf('\n## 294. 第347便c'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
     if (!(a0 >= 0 && ai.indexOf('tests/out/selfclock-347c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R402') >= 0 && ai.indexOf('AN904') >= 0))
       bad.push('③ AI_SPEC §294(正本・SYSTEM_PROMPT・候補・R402・AN904)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '';
     const clMe = (clg.split('\n').find((l) => l.indexOf('**第347便c**') >= 0)) || '';
     if (clMe && !(clMe.indexOf('R402') >= 0 && clMe.indexOf('AN904') >= 0 && clMe.indexOf('selfclock-347c') >= 0)) bad.push('③ CHANGELOG の第347便c の行(R402・AN904・段の名)');
     if (!(/S\('selfclock-347c', 'node tests\/exp-w347c-selfclock\.mjs', \['tests\/out\/selfclock-347c\.json'\]/.test(RT) && RT.indexOf('// ==== 第347便c の塊(ここから)====') >= 0)) bad.push('③ 段の行 selfclock-347c(塊)');
@@ -116075,7 +116075,7 @@ function view343aOf344a(eq) {
     if (!(a0 >= 0 && ai.indexOf('tests/out/spintorque-347e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R404') >= 0))
       bad.push('③ AI_SPEC §296(正本・SYSTEM_PROMPT・候補・R404)');
     // CHANGELOG の行は統合で統括が書く(枝は報告に下書き)—— 在れば見出しより後・正本と段の名・R404
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k347e = cls.findIndex((l) => l.indexOf('**第347便e**') >= 0), cl347e = k347e >= 0 ? cls[k347e] : '';
     if (k347e >= 0 && !(k347e > 0 && cl347e.indexOf('tests/exp-w347e-spintorque.mjs') >= 0 && cl347e.indexOf('spintorque-347e') >= 0 && cl347e.indexOf('R404') >= 0))
       bad.push('③ CHANGELOG の第347便e の行(見出しより後・器と段の名・R404)');
@@ -116692,7 +116692,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     const a0 = AS.indexOf('\n## 299. 第347便h'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 298. 第347便g') >= 0 && AS.indexOf('\n## 298. 第347便g') < a0 && ai.indexOf('tests/out/axisdiff-347h.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R407') >= 0))
       bad.push('③ AI_SPEC §299(§298 の後・正本・SYSTEM_PROMPT・候補・R407)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k347h = cls.findIndex((l) => l.indexOf('**第347便h**') >= 0), cl347h = k347h >= 0 ? cls[k347h] : '';
     if (k347h >= 0 && !(k347h > 0 && cl347h.indexOf('tests/exp-w347h-axisdiff.mjs') >= 0 && cl347h.indexOf('axisdiff-347h') >= 0 && cl347h.indexOf('R407') >= 0))
       bad.push('③ CHANGELOG の第347便h の行(見出しより後・器と段の名・R407)');
@@ -116873,7 +116873,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     const a0 = AS.indexOf('\n## 300. 第347便i'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 299. 第347便h') >= 0 && AS.indexOf('\n## 299. 第347便h') < a0 && ai.indexOf('tests/out/axisenergy-347i.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R408') >= 0))
       bad.push('③ AI_SPEC §300(§299 の後・正本・SYSTEM_PROMPT・候補・R408)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k347i = cls.findIndex((l) => l.indexOf('**第347便i**') >= 0), cl347i = k347i >= 0 ? cls[k347i] : '';
     if (k347i >= 0 && !(k347i > 0 && cl347i.indexOf('tests/exp-w347i-axisenergy.mjs') >= 0 && cl347i.indexOf('axisenergy-347i') >= 0 && cl347i.indexOf('R408') >= 0))
       bad.push('③ CHANGELOG の第347便i の行(見出しより後・器と段の名・R408)');
@@ -117278,7 +117278,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     const a0 = AS.indexOf('\n## 302. 第348便b'), ai = secUntilNext329c(AS, a0, '\n## '), a300 = AS.indexOf('\n## 300. 第347便i');
     if (!(a0 >= 0 && a300 >= 0 && a300 < a0 && ai.indexOf('tests/out/spinreset-348b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R410') >= 0))
       bad.push('③ AI_SPEC §302(§300 の後・正本・SYSTEM_PROMPT・候補・R410)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k348b = cls.findIndex((l) => l.indexOf('**第348便b**') >= 0), cl348b = k348b >= 0 ? cls[k348b] : '';
     if (k348b >= 0 && !(k348b > 0 && cl348b.indexOf('tests/exp-w348b-spinreset.mjs') >= 0 && cl348b.indexOf('spinreset-348b') >= 0 && cl348b.indexOf('R410') >= 0))
       bad.push('③ CHANGELOG の第348便b の行(見出しより後・器と段の名・R410)');
@@ -117465,7 +117465,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     const a0 = AS.indexOf('\n## 303. 第348便c'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 300. 第347便i') >= 0 && AS.indexOf('\n## 300. 第347便i') < a0 && ai.indexOf('tests/out/axisbalance-348c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R411') >= 0))
       bad.push('③ AI_SPEC §303(§300 の後・正本・SYSTEM_PROMPT・候補・R411)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k348c = cls.findIndex((l) => l.indexOf('**第348便c**') >= 0), cl348c = k348c >= 0 ? cls[k348c] : '';
     if (k348c >= 0 && !(k348c > 0 && cl348c.indexOf('tests/exp-w348c-axisbalance.mjs') >= 0 && cl348c.indexOf('axisbalance-348c') >= 0 && cl348c.indexOf('R411') >= 0))
       bad.push('③ CHANGELOG の第348便c の行(見出しより後・器と段の名・R411)');
@@ -117655,7 +117655,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     const a0 = AS.indexOf('\n## 304. 第348便d'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 300. 第347便i') >= 0 && AS.indexOf('\n## 300. 第347便i') < a0 && ai.indexOf('tests/out/diskaxis-348d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R412') >= 0))
       bad.push('③ AI_SPEC §304(§300 の後・正本・SYSTEM_PROMPT・候補・R412)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k348d = cls.findIndex((l) => l.indexOf('**第348便d**') >= 0), cl348d = k348d >= 0 ? cls[k348d] : '';
     if (k348d >= 0 && !(k348d > 0 && cl348d.indexOf('tests/exp-w348d-diskaxis.mjs') >= 0 && cl348d.indexOf('diskaxis-348d') >= 0 && cl348d.indexOf('R412') >= 0))
       bad.push('③ CHANGELOG の第348便d の行(見出しより後・器と段の名・R412)');
@@ -118367,7 +118367,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 308. 第348便h'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 307. 第348便g') >= 0 && AS.indexOf('\n## 307. 第348便g') < a0 && ai.indexOf('tests/out/axisgeo3-348h.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R416') >= 0))
       bad.push('③ AI_SPEC §308(§307 の後・正本・SYSTEM_PROMPT・候補・R416)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k348h = cls.findIndex((l) => l.indexOf('**第348便h**') >= 0), cl348h = k348h >= 0 ? cls[k348h] : '';
     if (k348h >= 0 && !(k348h > 0 && cl348h.indexOf('tests/exp-w348h-axisgeo3.mjs') >= 0 && cl348h.indexOf('axisgeo3-348h') >= 0 && cl348h.indexOf('R416') >= 0))
       bad.push('③ CHANGELOG の第348便h の行(見出しより後・器と段の名・R416)');
@@ -118578,7 +118578,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 309. 第348便i'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 304. 第348便d') >= 0 && AS.indexOf('\n## 304. 第348便d') < a0 && ai.indexOf('tests/out/diskgeo3-348i.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R417') >= 0))
       bad.push('③ AI_SPEC §309(§304 の後・正本・SYSTEM_PROMPT・候補・R417)');
-    const cb = CLx.search(/^## v1\.47-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k348i = cls.findIndex((l) => l.indexOf('**第348便i**') >= 0), cl348i = k348i >= 0 ? cls[k348i] : '';
     if (k348i >= 0 && !(k348i > 0 && cl348i.indexOf('tests/exp-w348i-diskgeo3.mjs') >= 0 && cl348i.indexOf('diskgeo3-348i') >= 0 && cl348i.indexOf('R417') >= 0))
       bad.push('③ CHANGELOG の第348便i の行(見出しより後・器と段の名・R417)');
