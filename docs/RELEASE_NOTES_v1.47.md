@@ -31,7 +31,7 @@
 - **呼び名と記号**(第335・346・348便): アプリの説明文の `W_bg` を `W₀` に(第335便a —— 文字列の中だけ)/3 つ目の引きずりの呼び名「回転引きずり」→**「円盤引きずり」**(第346便b —— 呼び名だけ・保存と設定の鍵は不変)/アプリの kFrame と q の引きずりの説明の文を**「引きずり近似」**に(第348便a —— 4 行)。
 - **opt-in の physics の鍵**(第319〜324・339便 —— どれも宣言した本だけ・省略で以前とビット同一・在位の本は宣言しない): 軸を保つトルクの熱の経路 `spinDrag.axisHold` の `compose:"source"`・`balance:"background"`(第319便a・第320便a)/源のモーメント J の経路(第320便a)と `sourceMoment:{kind:"obsSpin"}`(第324便b)/円盤の有限厚 `thickness`(第324便a)/天体ごとの観測の自転 `bodies[i].obsSpin` と自転軸の傾きの形(第324便b・e)/既定 OFF の `physics.rotDragVert`(第339便 —— 三次元の本だけ・較正の本は拒否・AI の追加の口には載せていない)/受理の拒否の条件 1 つ(第321便d —— `sourceMoment.f` の添字の守り)。
 - **本の宣言の個別の直し**(第325・336・346便): 🛞 の恒星の円盤を観測の転写(倍率 1)へ(第325便e)/📟 の J0737 A の自転軸の傾きをノブへ(第325便c —— 既定 0°)/🌘 `earthMoonRealKF1` を第297便a の記録へ戻し、🌘・🌔 の本と近似の原則の文から朔望月の換算を外した(第336便 —— 受理と朔望月の時計の関数は残す)/一様重力の本 8 本 ⚾♨️🧪☕🧬🧊⛓️♻️ の配置の y と g_y を鏡映(第346便c —— 視点の傾きの既定の反転で画面の見え方を保つ・受理器に任意の鍵 `mirrorY`)。
-- **中心の関数の移し替えと 1 步の時間**(第346便a —— 原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」): 反作用の対のループの本体を `reactionPass` へ同じ文字のまま移した(数は不変)。普通の再生の 1 步の時間が本によって変わった分(渦巻銀河で約 15% 長い)は、そのまま公開版に移る(原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN973: Bで進める」)。性能の検査の期限つきの許可 3 本(galaxy・nebulaRotor・starSeed —— 上限 1.25)は昇格で外した(`tests/perf.mjs` の `ALLOW = {}`)。
+- **中心の関数の移し替えと 1 步の時間**(第346便a —— 原仮定者の回答(2026-11-21 —— 第145報の回答 2)「AN931: Bで進める」): 反作用の対のループの本体を `reactionPass` へ同じ文字のまま移した(数は不変)。普通の再生の 1 步の時間が本によって変わった分(§4′ の表 —— 最小値の比で galaxy 1.098・nebulaRotor 1.145・starSeed 1.128)は、そのまま公開版に移る(原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN973: Bで進める」)。性能の検査の期限つきの許可 3 本(galaxy・nebulaRotor・starSeed —— 上限 1.25)は昇格で外した(`tests/perf.mjs` の `ALLOW = {}`)。
 
 **診断と文書だけの便**(アプリの計算は変えていない —— beta は版名の表示だけの便を含む)
 
@@ -49,16 +49,16 @@
 |---|---|
 | `release-promote --check` | **7/7 PASS**(version-sync・root-equals-beta・sw-root・sw-beta・citation・lock-sync・changelog-heading) |
 | 性能の検査の許可の解除 | `tests/perf.mjs` の `ALLOW = {}`(galaxy・nebulaRotor・starSeed の 3 本を外した) |
-| 統合直後の部分 QA(`tools/post-merge-qa.sh --base` = a536cfd の beta) | __GATE_PM__ |
-| 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = a536cfd の beta) | __GATE_CHAIN__ |
-| 転記照合(`tools/pregate-transcript.mjs --base-rev a536cfd`) | __GATE_TRANSCRIPT__ |
-| フルゲート(手元 —— CI の qa ジョブと同じ設定) | 順序の検査 __GATE_ORDER__・指紋/署名 __GATE_FP__(基点 = a536cfd の beta)・root と beta が byte 同一(`--check` 7/7)・**beta __GATE_BETA__**・**root __GATE_ROOT__**・**perf __GATE_PERF__** |
+| 統合直後の部分 QA(`tools/post-merge-qa.sh --base` = a536cfd の beta) | Node 22 の事前検査 664/683 —— 落ちた 19 = 全体の hash を持つ正本の来歴・sync の型(鎖で作り直す型)・生成文書 FAMILIES の見出しの版名・**CHANGELOG の節を「開発中の節」の見出しだけで探す docs の鍵 12 本**(第340便c〜第345便e —— `^## v1\.47-b\d+[((]`)。後の 12 本は検査の側を直した: 22 か所を `^## v1\.47(?:-b\d+\|\.0)[((]` の形に(照合の中身は不変 —— 直した後に 12 鍵と版・公開の鍵が通ることを見た)。過去の便の新設の鍵を全部回す段は、一覧が約 2,300 語あって終わらないので途中で止めた(止めた時点で 336 PASS・FAIL 5 は刻印の型 —— 刻印の型は鎖の後の刻印の鍵 5/5 とゲートの全 QA で見た) |
+| 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = a536cfd の beta) | 計画 always 14 / regen 14 / reuse 231 / recheck 33 / history 41 → **済み 221 段(run 28・gate 193)・段の失敗 0**(19 min —— 実際に走った段 29)。鎖の後の html は鎖の前と byte 同一(ルートへの写し直しは要らなかった) |
+| 転記照合(`tools/pregate-transcript.mjs --base-rev a536cfd`) | **50/50 PASS**(名前の型 39・転記の型 9・来歴 2) |
+| フルゲート(手元 —— CI の qa ジョブと同じ設定) | 順序の検査 ok・指紋/署名 187/187・187/187 同一(基点 = a536cfd の beta)・root と beta が byte 同一(`--check` 7/7)・**beta 1704/1704**(127 min)・**root 962/962** ALL PASS(69 min)・**perf 21/21 PASS**(2 回目 —— 開き直し 3 件: convection 1.169 → 1.039・nebulaShell 1.156 → 0.951・bhCore 1.103 → 1.072。1 回目は 20/21〔bhCore 1.164 → 開き直して 1.161〕—— root と beta は byte 同一の html なので比の差は箱の揺れ。やり直しは 1 回だけ。判定は CI の perf に委ねる。性能の検査の期限つきの許可は無い。既定のブラウザ〔Chromium 157〕では、同じページに 2 つの sim の自己対照が通過〔比 0.68・0.88〕・性能の検査の全部は記録だけ〔19/21 —— 門にしていない〕) |
 
 ## 3. root で SKIP する試験(昇格の後の root の QA の範囲)
 
-昇格の後の root のフル QA は **__GATE_ROOT__ 件 PASS・SKIP __SKIP_ROWS__ 行**(1 行に複数の試験を並べる SKIP があるので、試験の数で **__SKIP_TESTS__**)。
-**SKIP __SKIP_TESTS__ のうち __SKIP_BETAONLY__ は beta だけの門(`TARGET.startsWith('beta/')` ほか)や「適用の前の世代」を見る門の試験**で、同じ html(root と beta は byte 同一)の beta のフル走行(__GATE_BETA__ 件)で **__SKIP_BETAONLY__/__SKIP_BETAONLY__ PASS** している。
-残り __SKIP_LEGACY__ 件(__SKIP_LEGACY_LIST__)は**廃止した本・属性を読む旧い試験**で、beta でも走らない。
+昇格の後の root のフル QA は **962 件 PASS・SKIP 528 行**(1 行に複数の試験を並べる SKIP があるので、試験の数で **752**)。
+**SKIP 752 のうち 746 は beta だけの門(`TARGET.startsWith('beta/')` ほか)や「適用の前の世代」を見る門の試験**で、同じ html(root と beta は byte 同一)の beta のフル走行(1704 件)で **746/746 PASS** している。
+残り 6 件(`behavior.phase`・`merger.bulk-velocity`・`obs.attrs`・`behavior.agnjet`・`behavior.starcore`・`ui.strongfield-badge` —— v1.46 の §3 の 5 件に最後の 1 件が加わった: 条件にする宣言と関数が今の html に揃わない試験で、第348便のゲートでも beta で SKIP)は**廃止した本・属性を読む旧い試験**で、beta でも走らない。
 **root のフル QA の件数だけで第348便までの新機能をすべて試したとは言わない** —— 新機能の試験は beta の走行で数える(v1.45・v1.46 の §3 と同じ読み —— 門を「機能の世代」で開く作り替えはまだ行っていない)。
 
 ## 4. ルートで動きが変わる本(v1.46.0 のルート → v1.47.0 のルート)
@@ -78,7 +78,35 @@
 
 昇格の後は root と beta が同じ html になり、性能の検査(`tests/perf.mjs` —— beta ÷ root)の比は 1 付近になる。そのため、v1.46.0 のルートとの比は別に測った(第346便a の中心の関数の移し替えの分 —— 原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN973: Bで進める」で、昇格の前には直さない)。
 
-__STEPTIME_TABLE__
+測り方: 性能の検査と同じ(`S.step` だけ・新しいページ・起動の本 saturn)で、v1.46.0 のルートの html(A)と v1.47.0 のルートの html(B)を交互に 8 対(1 対に 2 回 —— 各 16 回)。ブラウザは CI と同じ Chromium 153.0.8010.12。比は B ÷ A(1 より大きい = v1.47.0 の方が長い)。**箱の揺れに強いのは最小値の比**で、下の四分位と中央値は揺れを含む(測ったのは 1 回 —— 作業の箱が静かな時)。
+
+| 本(性能の検査の名) | 最小値の比 | 下の四分位の比 | 中央値の比 |
+|---|---|---|---|
+| galaxy | **1.098** | 1.113 | 1.119 |
+| darkrotor | **0.873** | 0.832 | 0.889 |
+| convection | 1.023 | 1.043 | 1.208 |
+| counterring | 1.005 | 0.981 | 1.057 |
+| saturnLayered | 1.036 | 1.022 | 1.031 |
+| echo | 1.060 | 1.031 | 1.031 |
+| freebox | 1.017 | 1.022 | 1.003 |
+| emergent | 1.017 | 1.034 | 1.009 |
+| emergent2 | 0.989 | 0.980 | 0.956 |
+| chain2 | 1.001 | 0.979 | 0.845 |
+| galaxyStd | 0.964 | 0.974 | 0.983 |
+| galaxyGeo2 | 1.017 | 1.033 | 1.004 |
+| chaincycle | 1.003 | 1.001 | 1.028 |
+| galaxyDB | 1.012 | 1.020 | 1.028 |
+| nebulaRotor | **1.145** | 1.155 | 1.147 |
+| nebulaShell | 1.006 | 1.023 | 0.995 |
+| nebulaBipolar | 1.018 | 1.016 | 1.015 |
+| starSeed | **1.128** | 1.132 | 1.087 |
+| bhCore | 1.003 | 0.989 | 0.968 |
+| frictionHeat | 0.984 | 0.969 | 0.970 |
+| cooling | 1.009 | 0.995 | 0.994 |
+
+- 最小値の比が 1 から 0.08 以上離れた本(太字): galaxy 1.098・nebulaRotor 1.145・starSeed 1.128(長い)・darkrotor 0.873(短い)。ほかの 17 本は 0.964〜1.060。
+- 長くなった 3 本は、第346便で期限つきの許可(上限 1.25)を置いていた 3 本と同じ。許可はこの昇格で外した(昇格の後は root と beta が同じ html なので、性能の検査の比は 1 付近になる)。
+- **言わないこと**: 「計算が前の版より軽い」「1 步の時間を直した」。この表は 1 台の箱での 1 回の測りで、別の機械での比を約束しない。
 
 ## 5. 継ぐもの
 
