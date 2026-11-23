@@ -64883,6 +64883,35 @@ T4 120° の三次元の残り —— 候補 2 つ((a) 第 3 の項・(b) 写像
 
 **⑫ 書かないこと。** 月の近点回転を得たとする文・換算の形を選んだとする文・現行の近似の正誤の文は書かない。数は宣言した系の比(観測の値へ合わせていない)。光速を候補の採否に使っていない。原仮定者の過去の文は消していない。QA `behavior.moonwindow348e`・`docs.moonwindow348e`(root は SKIP)。
 
+〔第348便f — 論文の組版の検査の実行環境の固定: 論文の検査 4 本(`.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml`)の `runs-on` を `ubuntu-latest` から `ubuntu-24.04` に(原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・統括の検証項目 R414)(**検査の設定と戻り止めと文書だけ —— beta/index.html と root の index.html は 1 byte も変えていない・`paper/` の中(論文の tex・図のデータ・paper/README.md)は変えていない・`ci.yml` と `nightly.yml` は変えていない・エンジン・内蔵の本・受理器・physics の鍵は不変・器と段と正本は足していない**)〕
+
+**① 事実。** (i) 論文の検査 4 本は `runs-on: ubuntu-latest` だった(paper1 41 行・paper2 26 行・paper3 24 行・paper45 21 行 —— 基点の行番号)。どれも `paper/**` か図の生成器か自分の yml を変えた push と PR でだけ走る。(ii) 2026-11-22 の走行で、`ubuntu-latest` に入る TeX が TeX Live 2025(LaTeX2e 2025-11-01)になっていた。論文 2・論文 3 の pdflatex が、最初の `tabular`(列の指定 `{@{}lp{0.74\columnwidth}@{}}` —— dfm-paper3.tex 311 行・dfm-paper2.tex 161 行)で `! Extra \or.`(`\@testpach`)で止まる。revtex4-2(2022/06/05 4.2f)の後に `array` を読む組み合わせ。`array` を読まない論文 1・論文 4/5 は通過。(iii) 論文の tex は 2026-11-10 から不変・論文 3 の前回の通過は 2026-11-13。(iv) `ci.yml`(QA)と `nightly.yml`(毎晩の照合 —— TeX を使わない)は `ubuntu-latest` のまま通っている。(v) 経緯は〔第347便 — 統括〕⑥ の (vi)。
+
+**② 決定の出どころ。** 原文: 原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」。問いの推奨(統括の推奨 A): 論文の検査 4 本の実行環境を、前と同じ版(ubuntu 24.04 —— TeX Live 2023)に固定し、同じ便で図のデータ 4 本を再同期する。論文の tex は変えない。読み(統括): 第345便でブラウザの版を固定したのと同じ考え方 —— 検査の環境は、決めた版に固定する。本枝が持つのは検査の設定・戻り止め・文書だけ。
+
+**表 1 検査の実行環境(本枝の後 —— TeX の欄は yml の中の `texlive` の語の有無)。**
+
+| 検査の設定 | job | runs-on(基点) | runs-on(本枝の後) | TeX | 走る時 |
+|---|---|---|---|---|---|
+| `paper1.yml` | paper1 | ubuntu-latest | ubuntu-24.04 | 使う | `paper/**`・`tools/gen-figures.mjs`・自分の yml を変えた push と PR |
+| `paper2.yml` | paper2 | ubuntu-latest | ubuntu-24.04 | 使う | `paper/**`・`tools/gen-figures2.mjs`・`tools/p2fig-compare.mjs`・自分の yml を変えた push と PR |
+| `paper3.yml` | paper3 | ubuntu-latest | ubuntu-24.04 | 使う | `paper/**`・`tools/gen-figures3.mjs`・自分の yml を変えた push と PR |
+| `paper45.yml` | paper45 | ubuntu-latest | ubuntu-24.04 | 使う | `paper/**`・自分の yml を変えた push と PR |
+| `ci.yml` | qa・perf | ubuntu-latest | ubuntu-latest(変えていない) | 使わない | 毎 push と PR |
+| `nightly.yml` | pages-collate・frozen-baseline・paper2-figures | ubuntu-latest | ubuntu-latest(変えていない) | 使わない | 毎晩と手で起こす時 |
+
+**③ 固定した版と見直す時。** 固定したのは実行環境の名 `ubuntu-24.04`(apt で入る TeX は TeX Live 2023 —— 前の版)。TeX の apt の入れ方・Playwright の入れ方・pdflatex と lualatex の回数・timeout は変えていない。各 yml の頭の注に、いつ・何が起きたか・固定した版・見直す時(「ubuntu 24.04 の提供が終わる前」)を 2 行で書いた。
+
+**④ 戻り止め `lint.paperRunner348f`(beta・root の両方で走る)。** ① 論文の検査 4 本の job の `runs-on` が `ubuntu-24.04`(job の名と数も宣言どおり)② 4 本の頭の注に理由が在る(第348便f の行・`ubuntu-24.04`・TeX Live 2023・TeX Live 2025・2026-11-22・見直す時)③ `ci.yml`・`nightly.yml` の job と `runs-on` が宣言の一覧(今の値 —— ubuntu-latest)と同じ ④「TeX を使う検査」(4 本)と「使わない検査」(2 本)の一覧が、`.github/workflows` の yml の全部と、中身の `texlive` の語の有無と合う(宣言に無い yml が在れば落ちる)⑤ 本節と AI_SPEC §306 と post-merge の塊。変異の自己試験(1 本を ubuntu-latest に戻す・注を消す・注から見直す時を消す・ci.yml の 1 job を替える・nightly.yml に TeX を足す・宣言に無い yml を足す・本節を消す)で、それぞれ期待の違反で落ちる。既存の `lint.nightlyPaper2`(paper2.yml と nightly.yml の照合器の呼び出し)は変えていない。
+
+**⑤ 図のデータの再同期。** 図のデータ 4 本(`paper/figures/p2fig2.json`・`p2fig3.json`・`p2fig5.json`・`p2fig6.json`)の置き換えは本枝に入れていない —— 統括が統合の後に入れ、〔第348便 — 統括〕の節に書く。
+
+**⑥ 効き目の見方。** CI は手元で回せない(手元の箱に TeX は無い)。固定の効き目は、`paper/` を変える PR の走行(論文の検査 4 本)で見る。手元で見たのは、4 本が YAML として読めて job の `runs-on` が `ubuntu-24.04` と読めること・行の形・戻り止めの鍵だけ。
+
+**⑦ 決断事項の候補。** 論文の検査 4 本に `workflow_dispatch`(手で起こす口)を足す案 —— `paper/` を触らなくても実行環境を見られる。本枝では入れていない(候補だけ)。
+
+**⑧ 言わないこと。** 「論文の組版が直った」「新しい TeX に対応した」とは書かない。検査の実行環境を前の版に固定しただけで、論文の tex は変えていない。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

@@ -117870,6 +117870,134 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
 }
 // ==== 第348便e の塊(ここまで)====
 
+// ==== 第348便f の塊(ここから —— lint.paperRunner348f の 1 ブロック。beta・root の両方で走る)====
+// ---- 第348便f(原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・統括の検証項目 R414): **論文の組版の検査の実行環境の固定の戻り止め**
+// ----   (検査の設定 4 本の runs-on を ubuntu-24.04 に —— html・paper/ の中・ci.yml・nightly.yml は変えない)。yml は行の形で読む(YAML の読み手を持たない)。
+// ----   ① 論文の検査 4 本の job の runs-on が ubuntu-24.04(job の名と数も宣言どおり)② 4 本の頭の注に理由(第348便f の行・版・いつ・見直す時)
+// ----   ③ ci.yml・nightly.yml の job と runs-on が宣言の一覧(今の値)と同じ ④「TeX を使う検査」「使わない検査」の一覧が workflows の yml の全部と、
+// ----   中身の `texlive` の語の有無と合う ⑤ PHYSICS〔第348便f〕・AI_SPEC §306・post-merge の塊 ⑥ 変異の自己試験。
+{
+  await (async () => {
+  const rd348f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const RUNNER348F = 'ubuntu-24.04';
+  // 宣言の一覧(TeX を使う検査 = 論文の 4 本 —— 固定の版 / 使わない検査 = 今の値のまま)
+  const DECL348F = {
+    'paper1.yml': { tex: true, jobs: { paper1: RUNNER348F } },
+    'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F } },
+    'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F } },
+    'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F } },
+    'ci.yml': { tex: false, jobs: { qa: 'ubuntu-latest', perf: 'ubuntu-latest' } },
+    'nightly.yml': { tex: false, jobs: { 'pages-collate': 'ubuntu-latest', 'frozen-baseline': 'ubuntu-latest', 'paper2-figures': 'ubuntu-latest' } },
+  };
+  const NOTE348F = ['AN981', 'R414', 'ubuntu-24.04', 'TeX Live 2023', '2026-11-22', 'TeX Live 2025', '見直す時: ubuntu 24.04 の提供が終わる前'];
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+  const rv = (x) => x.split('').reverse().join('');
+  const NG = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_541TROPER'].map(rv);
+  const NOT348F = [/組版が直った/, /新しい TeX に対応した/, /新しい TeX で通る(ようになった)?$/];
+  // job の名 → runs-on の値の並び(2 字下げの job 名・4 字下げの runs-on)。runs-on の行の総数も返す(別の字下げを見落とさない)
+  const jobsOf = (t) => {
+    const L = String(t).split('\n'), k = L.findIndex((x) => /^jobs:\s*$/.test(x));
+    const all = L.filter((x) => /^\s*runs-on:/.test(x)).length;
+    if (k < 0) return { jobs: null, all };
+    const jobs = {}; let cur = null;
+    for (let n = k + 1; n < L.length; n++) {
+      const x = L[n]; if (/^\S/.test(x)) break;
+      const m = /^ {2}([A-Za-z0-9_-]+):\s*(#.*)?$/.exec(x); if (m) { cur = m[1]; jobs[cur] = []; continue; }
+      const r = /^ {4}runs-on:\s*([^\s#]+)\s*(#.*)?$/.exec(x); if (r && cur) jobs[cur].push(r[1]);
+    }
+    return { jobs, all };
+  };
+  const headOf = (t) => { const L = String(t).split('\n'), out = []; for (const x of L) { if (!x.startsWith('#')) break; out.push(x); } return out.join('\n'); };
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  const check = (W, ph, as, pm) => {
+    const bad = [], cases = [];
+    const sameJobs = (f, got, want, tag) => {
+      if (!got.jobs) { bad.push(tag + ' ' + f + ' に jobs: が無い'); return; }
+      const gk = Object.keys(got.jobs), wk = Object.keys(want);
+      if (gk.join('|') !== wk.join('|')) bad.push(tag + ' ' + f + ' の job の並び ' + gk.join('・') + ' ≠ 宣言 ' + wk.join('・'));
+      for (const j of wk) { const v = got.jobs[j] || []; if (v.length !== 1 || v[0] !== want[j]) bad.push(tag + ' ' + f + ' の job ' + j + ' の runs-on ' + (v.join('・') || 'なし') + ' ≠ ' + want[j]); }
+      const n = Object.values(got.jobs).reduce((s, v) => s + v.length, 0); if (got.all !== n) bad.push(tag + ' ' + f + ' に job の外か別の字下げの runs-on の行(' + got.all + ' 行 ≠ ' + n + ')');
+    };
+    // ① ② 論文の検査 4 本
+    const TEX = Object.keys(DECL348F).filter((f) => DECL348F[f].tex), NOTEX = Object.keys(DECL348F).filter((f) => !DECL348F[f].tex);
+    for (const f of TEX) {
+      if (W[f] == null) { bad.push('① ' + f + ' が無い'); continue; }
+      sameJobs(f, jobsOf(W[f]), DECL348F[f].jobs, '①');
+      const hd = headOf(W[f]), ln = hd.split('\n').findIndex((x) => x.startsWith('# 第348便f('));
+      if (ln < 0) bad.push('② ' + f + ' の頭の注に第348便f の理由の行が無い');
+      else { const nt = hd.split('\n').slice(ln, ln + 2).join('\n'); for (const w of NOTE348F) if (nt.indexOf(w) < 0) bad.push('② ' + f + ' の頭の注に「' + w + '」が無い'); }
+    }
+    cases.push(`① 論文の検査 ${TEX.length} 本(${TEX.join('・')})の job の runs-on = ${RUNNER348F} / ② 頭の注(${NOTE348F.length} 語 —— 決定・項目・版・いつ・見直す時)`);
+    // ③ TeX を使わない検査は今の値のまま
+    for (const f of NOTEX) { if (W[f] == null) { bad.push('③ ' + f + ' が無い'); continue; } sameJobs(f, jobsOf(W[f]), DECL348F[f].jobs, '③'); }
+    cases.push('③ ' + NOTEX.map((f) => f + '(' + Object.entries(DECL348F[f].jobs).map(([j, v]) => j + ' ' + v).join('・') + ')').join(' / '));
+    // ④ 一覧と yml の全部・texlive の語
+    const files = Object.keys(W).sort(), decl = Object.keys(DECL348F).sort();
+    for (const f of files) if (!DECL348F[f]) bad.push('④ 宣言に無い yml ' + f + '(TeX ' + (/texlive/.test(W[f]) ? '使う' : '使わない') + ')');
+    for (const f of decl) if (W[f] != null && /texlive/.test(W[f]) !== DECL348F[f].tex) bad.push('④ ' + f + ' の texlive の語の有無が宣言(' + (DECL348F[f].tex ? '使う' : '使わない') + ')と違う');
+    cases.push(`④ workflows の yml ${files.length} 本 = 宣言 ${decl.length} 本・TeX を使う ${TEX.length}・使わない ${NOTEX.length}(texlive の語の有無で照合)`);
+    // ⑤ 文書と post-merge
+    const sec = physSecOf(ph, '〔第348便f — '), iF = ph.indexOf('\n〔第348便f — '), iI = ph.indexOf('\n〔第347便i — '), iT = ph.indexOf('\n〔第328便 — 統括');
+    if (!(iF >= 0 && iI >= 0 && iI < iF && iT >= 0 && iF < iT)) bad.push('⑤ PHYSICS〔第348便f〕の位置(〔第347便i〕の後・〔第328便 — 統括〕の前)');
+    const h1 = sec.split('\n')[0];
+    for (const w of ['原仮定者の回答(2026-11-23 —— 第145報の回答 10)', '「AN981: 推奨で進める」', 'R414', '1 byte も変えていない', '`paper/` の中']) if (h1.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第348便f〕の見出しに「' + w + '」が無い');
+    for (const w of ['**① 事実。**', '**② 決定の出どころ。**', '**表 1 検査の実行環境', '**③ 固定した版と見直す時。**', 'ubuntu 24.04 の提供が終わる前', 'TeX Live 2023', '`lint.paperRunner348f`', '〔第348便 — 統括〕の節に書く', 'CI は手元で回せない', '**⑧ 言わないこと。**']) if (sec.indexOf(w) < 0) bad.push('⑤ PHYSICS〔第348便f〕に「' + w.slice(0, 24) + '」が無い');
+    { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith('**表 1 ')), T = []; if (k >= 0) for (let n = k + 4; n < L.length && L[n].startsWith('|'); n++) T.push(L[n].split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, '')));
+      const want = Object.keys(DECL348F);
+      if (T.map((c) => c[0]).join('|') !== want.map((f) => '`' + f + '`').join('|')) bad.push('⑤ 表 1 の行の並び ' + T.map((c) => c[0]).join('・'));
+      for (const c of T) { const f = c[0].replace(/`/g, ''), d = DECL348F[f]; if (!d) continue;
+        if (c[1] !== Object.keys(d.jobs).join('・')) bad.push('⑤ 表 1 の ' + f + ' の job');
+        if (c[3].split('(')[0] !== Object.values(d.jobs)[0]) bad.push('⑤ 表 1 の ' + f + ' の runs-on(本枝の後)' + c[3]);
+        if (c[4] !== (d.tex ? '使う' : '使わない')) bad.push('⑤ 表 1 の ' + f + ' の TeX の欄'); } }
+    const a306 = as.search(/\n## 306\. 第348便f/), a300 = as.search(/\n## 300\. 第347便i/);
+    const ai = a306 >= 0 ? (() => { const r = as.slice(a306 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(a306 >= 0 && a300 >= 0 && a300 < a306 && ['AN981', 'R414', 'ubuntu-24.04', 'SYSTEM_PROMPT には載せない', 'lint.paperRunner348f', 'PR の走行で見る'].every((w) => ai.indexOf(w) >= 0))) bad.push('⑤ AI_SPEC §306(§300 の後・必須の語)');
+    if (!(pm.indexOf('# ==== 第348便f の塊(ここから)====') > pm.indexOf('# ==== 第347便i の塊(ここまで)====') && pm.indexOf('# ==== 第347便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.paperRunner348f lint\.nightlyPaper2"/.test(pm))) bad.push('⑤ post-merge に第348便f の塊(第347便i の塊の後)');
+    for (const [nm, tx] of [['PHYSICS〔第348便f〕', sec], ['AI_SPEC §306', ai], ...TEX.map((f) => [f + ' の頭の注', headOf(W[f] || '')])]) {
+      for (const w of NG) if (String(tx).indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+      for (const re of NOT348F) if (re.test(stripQ(tx))) bad.push('⑤ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('⑤ PHYSICS〔第348便f〕(〔第347便i〕の後・〔第328便 — 統括〕の前・見出し・表 1 と宣言の照合)・AI_SPEC §306・post-merge の塊・禁句と書かない語(「組版が直った」「新しい TeX に対応した」)');
+    return { bad, cases };
+  };
+  const WFD = path.join(ROOT, '.github', 'workflows');
+  const W0 = {}; for (const f of fs.readdirSync(WFD).filter((x) => /\.ya?ml$/.test(x))) W0[f] = fs.readFileSync(path.join(WFD, f), 'utf8');
+  const PH0 = rd348f('docs/PHYSICS.md') || '', AS0 = rd348f('docs/AI_SPEC.md') || '', PM0 = rd348f('tools/post-merge-qa.sh') || '';
+  let bad = [], cases = [];
+  try {
+    const R = check(W0, PH0, AS0, PM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const w = (f, a, z) => Object.assign({}, W0, { [f]: String(W0[f] || '').replace(a, z) });
+    const iS = PH0.indexOf('\n〔第348便f — ');
+    const MUT = [
+      ['paper3.yml を ubuntu-latest に戻す', [w('paper3.yml', '    runs-on: ubuntu-24.04\n', '    runs-on: ubuntu-latest\n'), PH0, AS0, PM0], /^① paper3\.yml の job paper3 の runs-on ubuntu-latest/],
+      ['paper2.yml の頭の注を消す', [w('paper2.yml', /\n# 第348便f\([^\n]*\n#[^\n]*/, ''), PH0, AS0, PM0], /^② paper2\.yml の頭の注に第348便f の理由の行が無い/],
+      ['paper1.yml の注から見直す時を消す', [w('paper1.yml', '見直す時: ubuntu 24.04 の提供が終わる前', ''), PH0, AS0, PM0], /^② paper1\.yml の頭の注に「見直す時/],
+      ['paper45.yml に runs-on の違う job を足す', [w('paper45.yml', '\njobs:\n', '\njobs:\n  extra:\n    runs-on: ubuntu-latest\n'), PH0, AS0, PM0], /^① paper45\.yml の job の並び/],
+      ['ci.yml の perf を ubuntu-24.04 に替える', [w('ci.yml', /(\n {2}perf:\s*\n {4}runs-on: )ubuntu-latest/, '$1ubuntu-24.04'), PH0, AS0, PM0], /^③ ci\.yml の job perf の runs-on ubuntu-24\.04/],
+      ['nightly.yml に TeX の apt を足す', [w('nightly.yml', '\njobs:\n', '\n# sudo apt-get install -y texlive-latex-base\njobs:\n'), PH0, AS0, PM0], /^④ nightly\.yml の texlive の語の有無/],
+      ['宣言に無い yml(TeX を使う)を足す', [Object.assign({}, W0, { 'paper6.yml': 'name: paper6\njobs:\n  paper6:\n    runs-on: ubuntu-latest\n    steps:\n      - run: sudo apt-get install -y texlive-latex-base\n' }), PH0, AS0, PM0], /^④ 宣言に無い yml paper6\.yml/],
+      ['本節を消す', [W0, PH0.slice(0, iS) + PH0.slice(iS).replace('\n〔第348便f — ', '\n〔第348便x — '), AS0, PM0], /^⑤ PHYSICS〔第348便f〕の位置/],
+      ['本節に「組版が直った」を地の文で書く', [W0, PH0.slice(0, iS) + PH0.slice(iS).replace('**⑧ 言わないこと。** ', '**⑧ 言わないこと。** 論文の組版が直った。'), AS0, PM0], /^⑤ PHYSICS〔第348便f〕 に書かない語 組版が直った/],
+      ['書かない語を「」の中に置く(数えない)', [W0, PH0.slice(0, iS) + PH0.slice(iS).replace('**⑧ 言わないこと。** ', '**⑧ 言わないこと。** 「組版が直った」。'), AS0, PM0], null],
+    ];
+    const sc = [];
+    for (const [nm, args, re] of MUT) {
+      if (args[0] !== W0 && JSON.stringify(args[0]) === JSON.stringify(W0) && args[1] === PH0) { bad.push('⑥ 変異「' + nm + '」の種が無い(空振り)'); continue; }
+      const r = check(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑥ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑥ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`⑥ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('lint.paperRunner348f', bad.length === 0,
+    `**論文の組版の検査の実行環境の固定**(第348便f・原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・R414 —— 論文の検査 4 本を ${RUNNER348F}〔TeX Live 2023〕に固定・ci.yml と nightly.yml は今の値のまま・論文の tex は変えていない・効き目は PR の走行で見る): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();
+}
+// ==== 第348便f の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
