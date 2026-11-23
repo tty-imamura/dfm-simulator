@@ -1375,6 +1375,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 #   lint.bgAxialTerm350a —— 用語「背景軸引きずり」の定義の文・公開の文書に private の文書の名と第350便の文に外の検討の名が無い・変異)。段は無い
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report146_350a lint.bgAxialTerm350a"
 # ==== 第350便a の塊(ここまで)====
+# ==== 第350便b の塊(ここから)====
+# 第350便b(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R419 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.sphereconv350b —— 零試験 8・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・共通の点検の数と〔第348便h〕の正本の天体の行を QA の中で別に照合・呼ぶだけ / docs.sphereconv350b —— 原文と読みの表と表と数の文が PHYSICS〔第350便b〕に逐語・文書)と、新しい段 sphereconv-350b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sphereconv350b docs.sphereconv350b"
+# ==== 第350便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
