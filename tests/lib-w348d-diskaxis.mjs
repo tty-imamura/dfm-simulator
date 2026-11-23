@@ -44,7 +44,7 @@ export const DECL = Object.freeze({
     vD: Object.freeze([10]), vZ: Object.freeze([0.001, 0.01, 0.1, 0.3]), zRef: 0.01 }),
   /** (B) 経路の比(第340便d の T4 の格子の一部 —— 部位 960 点・受け手の立方の格子 k 2)。寄せる力の比は (P2)・(W) だけ・軸の傾きは (P2)・(P6)・(W)・(G)・(V 1 行) */
   B: Object.freeze({ f: Object.freeze([0.098, 0.3]), fPath: Object.freeze([0.098]), rOverReq: Object.freeze([1.5, 2, 5]), z: Object.freeze([0.01, 0.1]),
-    actions: Object.freeze(['corV', 'corS', 'drag90']), pathCands: Object.freeze(['P2', 'W']), tiltCands: Object.freeze(['P2', 'P6', 'W', 'G']), partR: 1, recvCubeK: 2,
+    actions: Object.freeze(['corV', 'corS', 'drag90']), pathCands: Object.freeze(['P2', 'W']), cancel: 1e-8, tiltCands: Object.freeze(['P2', 'P6', 'W', 'G']), partR: 1, recvCubeK: 2,
     vRow: Object.freeze({ f: 0.098, rOverReq: 2, z: 0.1, q: 2, D0: 0.1 }) }),
   /** (C) 土星の環(点の受け手・corV・区分の中心 5・高さ z/r = 10^(−8)〜10^(−0.5) の 16 点・向きが変わる高さは log z の二分 40 回) */
   C: Object.freeze({ centers: Object.freeze(['ringD', 'ringC', 'ringB', 'ringA', 'ringF']), zExp: Object.freeze([-8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5]),
@@ -124,14 +124,17 @@ export function tableB() {
   for (const f of B.f) srcs[f] = GP.spheroidParts(f);
   const tilt = (om) => GP.angleAtan2(om, [0, 0, -1]);
   const pos = (src, rr, z) => { const r = rr * src.Req, ce = Math.sqrt(1 - z * z); return { r, x: [r * ce, 0, r * z] }; };
-  const pathOf = (field, r, z, action) => GP.gyroRow({ action, q: 1, p: DECL.curP, body: 'sphere', zOverR: z, r, field, cubeK: B.recvCubeK }).pull;
+  const pathOf = (field, r, z, action) => GP.gyroRow({ action, q: 1, p: DECL.curP, body: 'sphere', zOverR: z, r, field, cubeK: B.recvCubeK });
   const one = (col, q, D0, mk) => {
     const F = {}; for (const f of [0, ...B.f]) F[f] = mk(srcs[f]);
     for (const f of B.f) for (const rr of B.rOverReq) for (const z of B.z) {
       const { r, x } = pos(srcs[f], rr, z), a = F[f](x), b = F[0](x), ta = tilt(a), tb = tilt(b);
       const row = { col, q, D0, f, rOverReq: rr, zOverR: z, axisTilt: ta, axisTiltSphere: tb, axisTiltRatio: tb > 0 ? ta / tb : null, magRatio: nrm(b) > 0 ? nrm(a) / nrm(b) : null, path: null };
       if ((DECL.cur.includes(col) || B.pathCands.includes(col)) && B.fPath.includes(f)) { row.path = {};
-        for (const ac of B.actions) { const pa = pathOf(F[f], r, z, ac), pb = pathOf(F[0], r, z, ac); row.path[ac] = { pull: pa, pullSphere: pb, ratio: pb ? pa / pb : null }; } }
+        for (const ac of B.actions) { const ga = pathOf(F[f], r, z, ac), gb = pathOf(F[0], r, z, ac), pa = ga.pull, pb = gb.pull;
+          // 候補の列: 寄せる力が部位の力の大きさの和の B.cancel 倍以下なら打ち消しの桁(実行系の数学関数の違いで比が動く)—— 比は書かない(今の式の列は第340便d の正本のまま)
+          const thin = !DECL.cur.includes(col) && (Math.abs(pa) <= B.cancel * ga.Fscale || Math.abs(pb) <= B.cancel * gb.Fscale);
+          row.path[ac] = { pull: pa, pullSphere: pb, ratio: thin ? null : pb ? pa / pb : null, thin }; } }
       out.push(row);
     }
   };
@@ -212,7 +215,7 @@ export function flyRing({ D0, Rr, inc, cands = DECL.cands, mut = null }) {
   const fl = DECL.floor * scale, fa = fl / Rr, sv = (x, t) => (Math.abs(x) <= t ? 0 : x), svv = (v, t) => (nrm(v) <= t ? [0, 0, 0] : v);
   const tiltS = svv(tiltVec, fa), JLs = svv(JLp, fa);
   const C = {}; for (const c of cands) { const W = svv(intOm[c], fa), pred = crs(L, W);   // 剛体の回転 ∫Ω dt が言う傾き: δ = L̂·(Ω × ξ) = (L̂ × Ω)·ξ
-    C[c] = { tilt: sv(nrm(pred), fa), inPlane: sv(dot(W, L), fa), vsRing: nrm(tiltS) > 0 ? sv(nrm(pred), fa) / nrm(tiltS) : null, angDeg: nrm(tiltS) > 0 && nrm(pred) > fa ? GP.angleAtan2(pred, tiltS) / D2R : null }; }
+    C[c] = { tilt: sv(nrm(pred), fa), inPlane: sv(dot(W, L), fa), vsRing: nrm(tiltS) > 0 ? sv(nrm(pred), fa) / nrm(tiltS) : null, angDeg: nrm(tiltS) > 0 && nrm(pred) > fa ? sv(GP.angleAtan2(pred, tiltS) / D2R, 1e-6) : null }; }   // 角は 1e-6° より小さければ 0 と書く(実行系の数学関数の違いの桁)
   return { D0, Rr, inc, mean: sv(a0, fl), tilt: nrm(tiltS), tiltVec: tiltS, rest: sv(rest, fl), restOverRr: sv(rest, fl) / Rr, inPlane: sv(rot / Rr, fa), firstOrderTilt: nrm(JLs), firstOrderDiff: nrm(sub(tiltS, JLs)), cand: C, scale, floorLen: fl };
 }
 export function tableD() {
