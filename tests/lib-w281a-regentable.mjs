@@ -2749,6 +2749,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/diskgeo3-348i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第348便i: 零試験 9/(A) 輪の寄せる向き 源の回転の分 3 × (W₀, W_ii) 4 × 受け手の速度 2 × 候補 2 × 距離 2 × 作用 3/(B) 経路の比 (W₀, W_ii) 3 × 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 60' }),
   // ==== 第348便i の塊(ここまで)====
+  // ==== 第350便f の塊(ここから)====
+  // ---- 第350便f(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R423):
+  //   **構造別の参考値と、個別の当てはめの診断 —— 係数 c_R の入り方 2 つと規則の半径の対照・比べる数の一覧・当てはめの診断 3 段(全体 → 構造の組 → 天体)・構造の組の参考値・予測の列**
+  //   (段 structfit-350f —— 正本 tests/out/structfit-350f.json・lib tests/lib-w350f-structfit.mjs —— 第348便h・第348便c・第347便h・第347便e・第341便f・第312便a・第342便e・第337便c の lib を
+  //   import して呼ぶ。入力のファイルは無い〔順序だけ after に axisgeo3-348h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第350便f の枝の実測 5 s(混まない時)
+  S('structfit-350f', 'node tests/exp-w350f-structfit.mjs', ['tests/out/structfit-350f.json'], 5, { secSource: 'w350f-branch', node: true,
+    after: ['axisgeo3-348h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/structfit-350f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第350便f: 零試験 8/入り方 11 天体 × 候補 2/比べる数 11/当てはめ 入り方 2 × 候補 2 × 背景 2 × (全 1 + 組 4 + 天体 11)/参考値 32/予測 44' }),
+  // ==== 第350便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
