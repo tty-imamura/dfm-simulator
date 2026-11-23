@@ -118697,7 +118697,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         ['README に private の文書の名を足す', [PH0, AS0, CL0, pubWith('README.md', '\n' + W.PRIVATE_NAMES[0] + '\n')], /^③ 公開の文書に private の文書の名/],
         ['paper の tex に報の原文の名の形を足す', [PH0, AS0, CL0, pubWith('paper/dfm-paper.tex', '\n% REPORT146_' + 'original\n')], /^③ 公開の文書に private の文書の名/],
         ['〔第350便a〕に外部の名を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** ' + W.EXT_NAMES[0] + 'の文。'), AS0, CL0, pub], /^④ 第350便の文に外部の名/],
-        ['CHANGELOG の第350便の行に外部の名を書く', [PH0, AS0, CL0.replace('\n## v1.48-b349(開発中 — beta)\n', '\n## v1.48-b349(開発中 — beta)\n\n- **第350便z**: ' + W.EXT_NAMES[6] + '\n'), pub], /^④ 第350便の文に外部の名/],
+        ['CHANGELOG の第350便の行に外部の名を書く', [PH0, AS0, CL0.replace(/\n(## v1\.48(?:-b\d+|\.0)[((][^\n]*\n)/, (m0, h1) => '\n' + h1 + '\n- **第350便z**: ' + W.EXT_NAMES[6] + '\n'), pub], /^④ 第350便の文に外部の名/],
         ['過去の節(〔第341便a〕)の外の名は数えない(落ちない)', [PH0.slice(0, i341a + 1) + PH0.slice(i341a + 1).replace('\n\n', '\n\n' + W.EXT_NAMES[5] + '\n\n'), AS0, CL0, pub], null],
       ];
       const sc = runMut(bad, MUT, W.checkBgAxialTerm);
@@ -118853,7 +118853,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 311. 第350便b'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/sphereconv-350b.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R419') >= 0))
       bad.push('③ AI_SPEC §311(§309 の後・正本・SYSTEM_PROMPT・候補・R419)');
-    const cb = CLx.search(/^## v1\.48-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350b = cls.findIndex((l) => l.indexOf('**第350便b**') >= 0), cl350b = k350b >= 0 ? cls[k350b] : '';
     if (k350b >= 0 && !(k350b > 0 && cl350b.indexOf('tests/exp-w350b-sphereconv.mjs') >= 0 && cl350b.indexOf('sphereconv-350b') >= 0 && cl350b.indexOf('R419') >= 0))
       bad.push('③ CHANGELOG の第350便b の行(見出しより後・器と段の名・R419)');
@@ -119040,7 +119040,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 312. 第350便c'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/gyrostep-350c.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R420') >= 0))
       bad.push('③ AI_SPEC §312(§309 の後・正本・SYSTEM_PROMPT・候補・R420)');
-    const cb = CLx.search(/^## v1\.48-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350c = cls.findIndex((l) => l.indexOf('**第350便c**') >= 0), cl350c = k350c >= 0 ? cls[k350c] : '';
     if (k350c >= 0 && !(k350c > 0 && cl350c.indexOf('tests/exp-w350c-gyrostep.mjs') >= 0 && cl350c.indexOf('gyrostep-350c') >= 0 && cl350c.indexOf('R420') >= 0))
       bad.push('③ CHANGELOG の第350便c の行(見出しより後・器と段の名・R420)');
@@ -119233,7 +119233,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 313. 第350便d'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/axisheat-350d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R421') >= 0))
       bad.push('③ AI_SPEC §313(§309 の後・正本・SYSTEM_PROMPT・候補・R421)');
-    const cb = CLx.search(/^## v1\.48-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350d = cls.findIndex((l) => l.indexOf('**第350便d**') >= 0), cl350d = k350d >= 0 ? cls[k350d] : '';
     if (k350d >= 0 && !(k350d > 0 && cl350d.indexOf('tests/exp-w350d-axisheat.mjs') >= 0 && cl350d.indexOf('axisheat-350d') >= 0 && cl350d.indexOf('R421') >= 0))
       bad.push('③ CHANGELOG の第350便d の行(見出しより後・器と段の名・R421)');
@@ -119619,7 +119619,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 315. 第350便f'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/structfit-350f.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R423') >= 0))
       bad.push('③ AI_SPEC §315(§309 の後・正本・SYSTEM_PROMPT・候補・R423)');
-    const cb = CLx.search(/^## v1\.48-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350f = cls.findIndex((l) => l.indexOf('**第350便f**') >= 0), cl350f = k350f >= 0 ? cls[k350f] : '';
     if (k350f >= 0 && !(k350f > 0 && cl350f.indexOf('tests/exp-w350f-structfit.mjs') >= 0 && cl350f.indexOf('structfit-350f') >= 0 && cl350f.indexOf('R423') >= 0))
       bad.push('③ CHANGELOG の第350便f の行(見出しより後・器と段の名・R423)');
