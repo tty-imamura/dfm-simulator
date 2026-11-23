@@ -19041,341 +19041,341 @@
  "ok": true,
  "timing": {
   "base": {
-   "wallSec": 0.134
+   "wallSec": 0.169
   },
   "pure": {
-   "wallSec": 0.17
+   "wallSec": 0.211
   },
   "balance": {
-   "wallSec": 0.18
+   "wallSec": 0.219
   },
   "prec": {
-   "wallSec": 0.18
+   "wallSec": 0.219
   },
   "cR": {
-   "wallSec": 0.219
+   "wallSec": 0.262
   },
   "heat": {
-   "wallSec": 0.219
+   "wallSec": 0.263
   }
  },
- "elapsedS": 0.664,
+ "elapsedS": 0.691,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第348便c",
   "target": "tests/lib-w348c-axisbalance.mjs",
-  "targetSha256": "bd2b02dfc8a2907580e008e853b651d0c49f313a111be4360de3e49ae9320df4",
-  "generatedAt": "2026-11-23T01:05:08.812Z",
+  "targetSha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+  "generatedAt": "2026-11-23T02:18:47.781Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w348c-axisbalance.mjs",
     "bytes": 7191,
     "sha256": "897658c0c62621e47790f0a959cbcdfa6850074ab510b6d4be37239438773c92",
-    "mtime": "2026-11-23T01:02:12.643Z"
+    "mtime": "2026-11-23T01:56:16.176Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-23T00:53:21.983Z"
+    "mtime": "2026-11-19T16:19:54.568Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16742,
     "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
-    "mtime": "2026-11-23T00:53:21.995Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w302a-wbg.mjs",
     "bytes": 9488,
     "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
-    "mtime": "2026-11-23T00:53:21.995Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-23T00:53:21.995Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-23T00:53:21.999Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-23T00:53:21.999Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-23T00:53:21.999Z"
+    "mtime": "2026-11-19T16:19:54.580Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-23T00:53:22.003Z"
+    "mtime": "2026-11-19T16:19:54.588Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-23T00:53:22.007Z"
+    "mtime": "2026-11-19T16:19:54.588Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-23T00:53:22.007Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-23T00:53:22.007Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-23T00:53:22.007Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w333c-mercury3d.mjs",
     "bytes": 35892,
     "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w334a-heightlaw.mjs",
     "bytes": 40171,
     "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w334c-mercurynode.mjs",
     "bytes": 35987,
     "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w334d-binarylaw.mjs",
     "bytes": 34686,
     "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w335b-carryledger.mjs",
     "bytes": 32539,
     "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
-    "mtime": "2026-11-23T00:53:22.011Z"
+    "mtime": "2026-11-19T16:19:54.592Z"
    },
    {
     "file": "tests/lib-w335c-mercurycombo.mjs",
     "bytes": 23928,
     "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w335d-binarytilt.mjs",
     "bytes": 37252,
     "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w335e-moonapsis.mjs",
     "bytes": 32724,
     "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337a-supply.mjs",
     "bytes": 40434,
     "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337b-mercuryband.mjs",
     "bytes": 28361,
     "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337c-tidelock.mjs",
     "bytes": 58274,
     "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337d-accelloss.mjs",
     "bytes": 28896,
     "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337i-rotring.mjs",
     "bytes": 38680,
     "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337j-spinorbit.mjs",
     "bytes": 41130,
     "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
-    "mtime": "2026-11-23T00:53:22.015Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w337l-bevel.mjs",
     "bytes": 37324,
     "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w338b-bevelknob.mjs",
     "bytes": 22798,
     "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w338c-recheck.mjs",
     "bytes": 13023,
     "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.596Z"
    },
    {
     "file": "tests/lib-w338e-spinfield.mjs",
     "bytes": 35580,
     "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w338f-heatlock.mjs",
     "bytes": 24261,
     "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w340b-axialsplit.mjs",
     "bytes": 33647,
     "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w340e-lightweight.mjs",
     "bytes": 31437,
     "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w340f-heatsource.mjs",
     "bytes": 19089,
     "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w340h-thin.mjs",
     "bytes": 7760,
     "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w341b-bodycoef.mjs",
     "bytes": 26176,
     "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w341f-gyroheat.mjs",
     "bytes": 34791,
     "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
-    "mtime": "2026-11-23T00:53:22.019Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w341g-plutocontrol.mjs",
     "bytes": 34762,
     "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
-    "mtime": "2026-11-23T00:53:22.023Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w342e-powerball.mjs",
     "bytes": 27289,
     "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
-    "mtime": "2026-11-23T00:53:22.023Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w343e-spintransfer.mjs",
     "bytes": 24045,
     "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
-    "mtime": "2026-11-23T00:53:22.023Z"
+    "mtime": "2026-11-19T16:19:54.600Z"
    },
    {
     "file": "tests/lib-w344e-spincompose.mjs",
     "bytes": 23238,
     "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
-    "mtime": "2026-11-23T00:53:22.023Z"
+    "mtime": "2026-11-19T16:20:30.448Z"
    },
    {
     "file": "tests/lib-w347e-spintorque.mjs",
     "bytes": 26071,
     "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
-    "mtime": "2026-11-23T00:53:22.027Z"
+    "mtime": "2026-11-22T22:31:40.202Z"
    },
    {
     "file": "tests/lib-w347h-axisdiff.mjs",
     "bytes": 38932,
     "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
-    "mtime": "2026-11-23T00:53:22.027Z"
+    "mtime": "2026-11-22T22:31:40.202Z"
    },
    {
     "file": "tests/lib-w348c-axisbalance.mjs",
-    "bytes": 28242,
-    "sha256": "bd2b02dfc8a2907580e008e853b651d0c49f313a111be4360de3e49ae9320df4",
-    "mtime": "2026-11-23T01:05:02.458Z"
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-23T01:56:16.184Z"
    }
   ],
-  "codeSha256": "70e9c68c4627ba7229684589adc8d171c73c16e148585365479b218272ddfe53",
+  "codeSha256": "1353946edd651f60df2ec777a373817b3b457f1619cfe18b3d490c3fcce78c35",
   "harnessVersion": "w348c-axisbalance-1",
   "stage": "axisbalance",
   "engine": "Node(html を読まない —— 純関数の lib・枝 h の場の式を呼ぶ)・1 プロセス",
