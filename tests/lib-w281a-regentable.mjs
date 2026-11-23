@@ -2676,6 +2676,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axisenergy-347i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第347便i: 零試験 10/ケース 1 行き先の型 3 × 割合 5 × f 2(D3 は τ 2 × 戻る先 2)/(R1) の照合 9/ケース 2 釣り合いの型 9 × 行き先 2/Td 16/組合せ 18/天体 4 組 × q 2/熱の窓' }),
   // ==== 第347便i の塊(ここまで)====
+  // ==== 第348便b の塊(ここから)====
+  // ---- 第348便b(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN975・統括の検証項目 R410):
+  //   **トルクの式の自転速度 = 前のステップの「慣性回転 + 引きずり回転」・引きずり回転は毎ステップリセット —— 步の形の型 S1・S2・S2′(対照 S2″)とリセットの後の行き先 E1・E2・E3**
+  //   (段 spinreset-348b —— 正本 tests/out/spinreset-348b.json・lib tests/lib-w348b-spinreset.mjs —— 第347便i・第347便h・第347便e・第344便e・第343便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisenergy-347i〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便b の枝の実測 15 s(nice 15)
+  S('spinreset-348b', 'node tests/exp-w348b-spinreset.mjs', ['tests/out/spinreset-348b.json'], 16, { secSource: 'w348b-branch', node: true,
+    after: ['axisenergy-347i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 20 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spinreset-348b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便b: 零試験 10/ケース 1 種 7 × 割合 5 × f 2/(D1)(D2)(D3) と同じ入力 10/ケース 2 種 4 × 行き先 2 × 釣り合いの型 9/Td 32/刻み 8 × 3/天体 4 組 × q 2' }),
+  // ==== 第348便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
