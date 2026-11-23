@@ -1,0 +1,2020 @@
+{
+ "version": "w350d-axisheat-1",
+ "libVersion": "w350d-axisheat-lib-1",
+ "generator": "tests/exp-w350d-axisheat.mjs",
+ "target": "tests/lib-w350d-axisheat.mjs",
+ "ruling": "原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R421",
+ "decl": {
+  "rules": [
+   "P1",
+   "P0"
+  ],
+  "cols": [
+   "E1",
+   "E2",
+   "E3"
+  ],
+  "bals": [
+   "none",
+   "K1",
+   "K2"
+  ],
+  "base": {
+   "Om": 1,
+   "w0in": 1,
+   "theta0Deg": 40,
+   "T": 50,
+   "steps": 10000
+  },
+  "hGrid": [
+   0,
+   0.25,
+   0.5,
+   0.75,
+   1
+  ],
+  "bal": {
+   "mGrid": [
+    0,
+    0.25,
+    0.5,
+    1
+   ],
+   "hGrid": [
+    0,
+    0.5,
+    1
+   ],
+   "kd": 1,
+   "T": 200,
+   "steps": 20000,
+   "theta0Deg": 40
+  },
+  "bodies": [
+   [
+    "Earth",
+    "Sun"
+   ],
+   [
+    "Venus",
+    "Sun"
+   ],
+   [
+    "Io",
+    "Jupiter"
+   ],
+   [
+    "Pluto",
+    "Charon"
+   ]
+  ],
+  "cands": [
+   "W",
+   "P2"
+  ],
+  "flatTol": 0.001,
+  "ref348h": {
+   "inertial": 22.422214981379305,
+   "drag": 1.766044443118978
+  },
+  "judge": "丸めの床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "lit": {
+  "note": "文献の値・未照合(この環境から一次資料に当たっていない)",
+  "heat": {
+   "Io": 100000000000000,
+   "Earth": 47000000000000,
+   "Jupiter": 335000000000000000,
+   "Saturn": 86000000000000000,
+   "Moon": 682781905788.8483,
+   "Enceladus": 15800000000,
+   "Venus": 38305000000000
+  },
+  "heatSrc": {
+   "Io": "第330便a の lib の観測の熱流(全球の放射の桁)—— 確かさ 中",
+   "Earth": "第330便a の lib(表面の熱流)—— 確かさ 中",
+   "Jupiter": "第330便a の lib(内部の熱の放射の超過)—— 確かさ 中",
+   "Saturn": "第330便a の lib(内部の熱の放射の超過)—— 確かさ 中",
+   "Moon": "第338便f の lib(2 点の熱流の外挿・放射性の熱を含む総量)—— 確かさ 低",
+   "Enceladus": "第338便f の lib(南極域の放射)—— 確かさ 中",
+   "Venus": "金星の熱流は測られていない —— 地球の熱流を質量の比 0.815 で割り付けた桁を「上限の目安」に置いた(観測ではない・確かさ 低)"
+  }
+ },
+ "plan": {
+  "pure": "零試験 11",
+  "supply": "供給の則 5 行(既存の lib 3・本節 1・対照 1)",
+  "dest": "則 2 × (主の格子 5 + 比べる列 3)",
+  "bal": "釣り合い方 3 × m 4 × h 3",
+  "body": "4 組 × 候補 2 × 行き先の列 7"
+ },
+ "amend": [],
+ "notClaim": [
+  "供給の則 (P1) は既存の診断の仮定(軸が動かなかった分の率 = トルクの大きさ × abs(Ω⊥))—— 理想の直交トルクは自転に仕事をしない((P0))。熱の出どころの答えではない",
+  "行き先(内部熱・慣性回転・引きずり回転 × (E1)(E2)(E3))は並べて比べる列 —— 行き先は決めていない",
+  "釣り合い方 (K1)・(K2) はどちらも読みの候補 —— どちらが原文の意味かは決めていない",
+  "天体 4 組の熱の率と自転の変化の率は、この供給の則の仮定・この行き先・在位の形の場の (W)・(P2) の下の桁(天体の内部熱の答えではない)",
+  "比べる列(熱の物差し・観測の自転の変化の率)は第341便f・第347便e の lib の値(文献の値・未照合)の固定の列(合わせない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "z1": 0,
+   "z2": 0,
+   "r3": {
+    "inertial": 22.422214981379305,
+    "dragE1": 1.766044443118978,
+    "dragE3": 1.766044443118978,
+    "dragE2": 22.422214981379305
+   },
+   "b4": 0,
+   "led": 0,
+   "mledD": 0.9102971841898077,
+   "mledM": 0.45514859209490477,
+   "mledF": 0.23612938106030523,
+   "mir": 0,
+   "cf": 0.000004223787458125326,
+   "k8": 0.0000025125611608617387,
+   "t9": [
+    1,
+    3,
+    0.375
+   ],
+   "cc": {
+    "dxZ": -0.03061311434667674,
+    "sixZ": -0.01530655717333837,
+    "wZ": -0.015306122448979593,
+    "dx": [
+     0,
+     0,
+     -0.03061311434667674
+    ],
+    "six": [
+     0,
+     0,
+     -0.01530655717333837
+    ],
+    "w": [
+     0,
+     0,
+     -0.015306122448979593
+    ],
+    "rev": [
+     0,
+     0,
+     0.03061311434667674
+    ],
+    "center": 0,
+    "rest": 0,
+    "noSelf": 0,
+    "galil": 0,
+    "rigid6": [
+     1.0000000000000009,
+     2.0000000000000018,
+     3.0000000000000027
+    ],
+    "rigidX": [
+     0,
+     2.0000000000000018,
+     3.0000000000000027
+    ],
+    "shearX": [
+     0,
+     0,
+     0.9999999999999996
+    ],
+    "shear6": [
+     0,
+     0,
+     -6.661338147750939e-16
+    ]
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "perpZero": true,
+   "p0Zero": true,
+   "ref348h": true,
+   "vs348b": true,
+   "ledger": true,
+   "mirror": true,
+   "closedFixed": true,
+   "closedK1": true,
+   "torque": true,
+   "common": true,
+   "rejects": true
+  }
+ },
+ "supply": {
+  "want": 0.7296870219462791,
+  "torque": 1.135191486192643,
+  "rows": [
+   {
+    "rule": "P1",
+    "where": "〔第347便i〕runCase(der の Pw)",
+    "formula": "Pw = (1 − f) I ω_T Ω⊥²",
+    "rate": 0.7296870219462857,
+    "ratio": 1.0000000000000089
+   },
+   {
+    "rule": "P1",
+    "where": "〔第348便b〕stepRun(②)",
+    "formula": "P = (1 − f) I ω_T Ω⊥²",
+    "rate": 0.7296870219462857,
+    "ratio": 1.0000000000000089
+   },
+   {
+    "rule": "P1",
+    "where": "〔第348便h〕bodyEnergy(heatW)",
+    "formula": "I ω Ω⊥²(f 0)",
+    "rate": 0.7296870219462791,
+    "ratio": 1
+   },
+   {
+    "rule": "P1",
+    "where": "本節 heatRun",
+    "formula": "(1 − m) × torqueMag × abs(Ω⊥)",
+    "rate": 0.7296870219462857,
+    "ratio": 1.0000000000000089
+   },
+   {
+    "rule": "P0",
+    "where": "本節 heatRun(対照)",
+    "formula": "0(理想の直交トルク —— 歳差だけ)",
+    "rate": 0,
+    "ratio": 0
+   }
+  ]
+ },
+ "dest": [
+  {
+   "rule": "P1",
+   "group": "main",
+   "h": 0,
+   "aIn": 1,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 22.422214981379305,
+   "wiRatio": 21.656170538260326,
+   "wdEnd": 0.766044443118978,
+   "work": 249.81840584805957,
+   "heat": 0,
+   "given": 0,
+   "dE": 249.81840584805957,
+   "heatOverWork": 0,
+   "torqueRatio": 12.695121736233308,
+   "judge": "grow",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0.0001170585862035859
+  },
+  {
+   "rule": "P1",
+   "group": "main",
+   "h": 0.25,
+   "aIn": 0.75,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 17.258375129400914,
+   "wiRatio": 16.492330686281935,
+   "wdEnd": 0.766044443118978,
+   "work": 196.48839942136715,
+   "heat": 49.12209985534179,
+   "given": 0,
+   "dE": 147.3662995660263,
+   "heatOverWork": 0.25,
+   "torqueRatio": 9.771456124177691,
+   "judge": "grow",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0.0001023156445634221
+  },
+  {
+   "rule": "P1",
+   "group": "main",
+   "h": 0.5,
+   "aIn": 0.5,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 12.094448532012384,
+   "wiRatio": 11.328404088893405,
+   "wdEnd": 0.766044443118978,
+   "work": 143.15677231842585,
+   "heat": 71.57838615921293,
+   "given": 0,
+   "dE": 71.57838615921254,
+   "heatOverWork": 0.5,
+   "torqueRatio": 6.8477413937478255,
+   "judge": "grow",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0.00008215410827498506
+  },
+  {
+   "rule": "P1",
+   "group": "main",
+   "h": 0.75,
+   "aIn": 0.25,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 6.930390280635259,
+   "wiRatio": 6.164345837516281,
+   "wdEnd": 0.766044443118978,
+   "work": 89.82279293370559,
+   "heat": 67.36709470027932,
+   "given": 0,
+   "dE": 22.45569823342612,
+   "heatOverWork": 0.7500000000000016,
+   "torqueRatio": 3.923952116262652,
+   "judge": "grow",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0.00005094000000510421
+  },
+  {
+   "rule": "P1",
+   "group": "main",
+   "h": 1,
+   "aIn": 0,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 36.48435109731449,
+   "heat": 36.48435109731449,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": 1,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P1",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 36.48435109731449,
+   "heat": 0,
+   "given": 36.48435109731449,
+   "dE": 0,
+   "heatOverWork": 0,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P1",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E2",
+   "wRatio": 22.422214981379305,
+   "wiRatio": 21.656170538260326,
+   "wdEnd": 0.766044443118978,
+   "work": 249.81840584805957,
+   "heat": 0,
+   "given": 0,
+   "dE": 249.81840584805957,
+   "heatOverWork": 0,
+   "torqueRatio": 12.695121736233308,
+   "judge": "grow",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0.0001170585862035859
+  },
+  {
+   "rule": "P1",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E3",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 36.48435109731449,
+   "heat": 36.48435109731449,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": 1,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "main",
+   "h": 0,
+   "aIn": 1,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "main",
+   "h": 0.25,
+   "aIn": 0.75,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "main",
+   "h": 0.5,
+   "aIn": 0.5,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "main",
+   "h": 0.75,
+   "aIn": 0.25,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "main",
+   "h": 1,
+   "aIn": 0,
+   "aDr": 0,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E1",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E2",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  },
+  {
+   "rule": "P0",
+   "group": "drag",
+   "h": 0,
+   "aIn": 0,
+   "aDr": 1,
+   "col": "E3",
+   "wRatio": 1.766044443118978,
+   "wiRatio": 1,
+   "wdEnd": 0.766044443118978,
+   "work": 0,
+   "heat": 0,
+   "given": 0,
+   "dE": 0,
+   "heatOverWork": null,
+   "torqueRatio": 1,
+   "judge": "none",
+   "ledgerResid": 0,
+   "stepResid": 0,
+   "closedDiff": 0
+  }
+ ],
+ "bal": [
+  {
+   "bal": "none",
+   "m": 0,
+   "h": 0,
+   "wRatio": 84.39323844741743,
+   "wTotRatio": 47.78658814405153,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 3559.5498913337715,
+   "torqueRatio": 47.78424864575319,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 167.02701037033705,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0,
+   "h": 0.5,
+   "wRatio": 43.080336015110774,
+   "wTotRatio": 24.393687363284812,
+   "thEndDeg": 40,
+   "heat": 926.3982190998985,
+   "work": 1852.796438199797,
+   "torqueRatio": 24.392517613548236,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 84.39723251285979,
+   "heat2T": 3559.8869714273433,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 145.93740438922308,
+   "work": 145.93740438922308,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 291.87480877833667,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.25,
+   "h": 0,
+   "wRatio": 63.73687490267751,
+   "wTotRatio": 36.090187396480815,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 2029.635154692239,
+   "torqueRatio": 36.08843277245923,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 125.71220916909087,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.25,
+   "h": 0.5,
+   "wRatio": 32.751975471301044,
+   "wTotRatio": 18.54538576246609,
+   "thEndDeg": 40,
+   "heat": 534.7864921488167,
+   "work": 1069.5729842976334,
+   "torqueRatio": 18.54450844987995,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 63.73965297654772,
+   "heat2T": 2029.8122242978357,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.25,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 109.45305329189326,
+   "work": 109.45305329189326,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 218.90610658376576,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.5,
+   "h": 0,
+   "wRatio": 43.080336015110774,
+   "wTotRatio": 24.393687363284812,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 926.3982190998985,
+   "torqueRatio": 24.392517613548236,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 84.39723251285979,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.5,
+   "h": 0.5,
+   "wRatio": 22.423527461160013,
+   "wTotRatio": 12.697034634959833,
+   "thEndDeg": 40,
+   "heat": 249.84783541316253,
+   "work": 499.69567082632506,
+   "torqueRatio": 12.696449759539085,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 43.08198576764232,
+   "heat2T": 926.4692923541187,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 0.5,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 72.96870219461154,
+   "work": 72.96870219461154,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 145.93740438916834,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 1,
+   "h": 0,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 1,
+   "h": 0.5,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "none",
+   "m": 1,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0,
+   "h": 0,
+   "wRatio": 84.39323844741743,
+   "wTotRatio": 47.78658814405153,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 3559.5498913337715,
+   "torqueRatio": 47.78424864575319,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 167.02701037033705,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0,
+   "h": 0.5,
+   "wRatio": 43.080336015110774,
+   "wTotRatio": 24.393687363284812,
+   "thEndDeg": 40,
+   "heat": 926.3982190998985,
+   "work": 1852.796438199797,
+   "torqueRatio": 24.392517613548236,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 84.39723251285979,
+   "heat2T": 3559.8869714273433,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 145.93740438922308,
+   "work": 145.93740438922308,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 291.87480877833667,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.25,
+   "h": 0,
+   "wRatio": 2.574003329953671,
+   "wTotRatio": 1.457496350096248,
+   "thEndDeg": 9.89487219324087e-31,
+   "heat": 0,
+   "work": 1.2412378457035584,
+   "torqueRatio": 3.930183991467001e-32,
+   "judge": "flat",
+   "tau": 1.8,
+   "wRatio2T": 2.574003329953671,
+   "heat2T": 0,
+   "thEnd2TDeg": 1.9430233058896465e-62,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.25,
+   "h": 0.5,
+   "wRatio": 2.30564052534819,
+   "wTotRatio": 1.3055393562328714,
+   "thEndDeg": 1.9241665684284777e-27,
+   "heat": 0.6205603778207609,
+   "work": 1.2411207556415218,
+   "torqueRatio": 6.843248226705224e-29,
+   "judge": "flat",
+   "tau": 1.9000000000000001,
+   "wRatio2T": 2.30564052534819,
+   "heat2T": 0.6205603778207609,
+   "thEnd2TDeg": 7.7348290545708175e-56,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.25,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 1.054227502752952e-23,
+   "heat": 1.2409919090241515,
+   "work": 1.2409919090241515,
+   "torqueRatio": 3.2509021081348387e-25,
+   "judge": "flat",
+   "tau": 2.1,
+   "wRatio2T": 2,
+   "heat2T": 1.2409919090241515,
+   "thEnd2TDeg": 2.4928117291497934e-48,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.5,
+   "h": 0,
+   "wRatio": 2.2089295989371385,
+   "wTotRatio": 1.2507780353681188,
+   "thEndDeg": 1.5140221955355305e-53,
+   "heat": 0,
+   "work": 0.4142112951841112,
+   "torqueRatio": 5.1742441501107965e-55,
+   "judge": "flat",
+   "tau": 1,
+   "wRatio2T": 2.2089295989371385,
+   "heat2T": 0,
+   "thEnd2TDeg": 4.8861107402717675e-108,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.5,
+   "h": 0.5,
+   "wRatio": 2.1071579491124997,
+   "wTotRatio": 1.1931511448211845,
+   "thEndDeg": 4.874732961367189e-51,
+   "heat": 0.20709133119359868,
+   "work": 0.41418266238719736,
+   "torqueRatio": 1.5887472691845252e-52,
+   "judge": "flat",
+   "tau": 1,
+   "wRatio2T": 2.1071579491124997,
+   "heat2T": 0.20709133119359868,
+   "thEnd2TDeg": 5.186460176137513e-103,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 0.5,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 2.1225894804187047e-48,
+   "heat": 0.4141529546163252,
+   "work": 0.4141529546163252,
+   "torqueRatio": 6.56402718339913e-50,
+   "judge": "flat",
+   "tau": 1.1,
+   "wRatio2T": 2,
+   "heat2T": 0.4141529546163252,
+   "thEnd2TDeg": 1.0100836896679585e-97,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 1,
+   "h": 0,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 5.285371485862535e-98,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.6438420665917344e-99,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 6.257226792952528e-197,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 1,
+   "h": 0.5,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 5.285371485862535e-98,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.6438420665917344e-99,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 6.257226792952528e-197,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K1",
+   "m": 1,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 5.285371485862535e-98,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.6438420665917344e-99,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 6.257226792952528e-197,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0,
+   "h": 0,
+   "wRatio": 84.39323844741743,
+   "wTotRatio": 47.78658814405153,
+   "thEndDeg": 40,
+   "heat": 0,
+   "work": 3559.5498913337715,
+   "torqueRatio": 47.78424864575319,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 167.02701037033705,
+   "heat2T": 0,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0,
+   "h": 0.5,
+   "wRatio": 43.080336015110774,
+   "wTotRatio": 24.393687363284812,
+   "thEndDeg": 40,
+   "heat": 926.3982190998985,
+   "work": 1852.796438199797,
+   "torqueRatio": 24.392517613548236,
+   "judge": "grow",
+   "tau": null,
+   "wRatio2T": 84.39723251285979,
+   "heat2T": 3559.8869714273433,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0,
+   "h": 1,
+   "wRatio": 1.766044443118978,
+   "wTotRatio": 1,
+   "thEndDeg": 40,
+   "heat": 145.93740438922308,
+   "work": 145.93740438922308,
+   "torqueRatio": 1,
+   "judge": "none",
+   "tau": null,
+   "wRatio2T": 1.766044443118978,
+   "heat2T": 291.87480877833667,
+   "thEnd2TDeg": 40,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.25,
+   "h": 0,
+   "wRatio": 2.915099337891222,
+   "wTotRatio": 1.650637586867814,
+   "thEndDeg": 2.2625892248539234e-12,
+   "heat": 0,
+   "work": 2.150578010451965,
+   "torqueRatio": 1.0156067579173472e-13,
+   "judge": "flat",
+   "tau": 3,
+   "wRatio2T": 2.915099337891222,
+   "heat2T": 0,
+   "thEnd2TDeg": 1.546243593702088e-25,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.25,
+   "h": 0.5,
+   "wRatio": 2.4132816276957847,
+   "wTotRatio": 1.366489748940708,
+   "thEndDeg": 4.463329137725527e-15,
+   "heat": 0.8660403916940774,
+   "work": 1.7320807833881549,
+   "torqueRatio": 1.6590918679826705e-16,
+   "judge": "flat",
+   "tau": 2.6,
+   "wRatio2T": 2.4132816276957847,
+   "heat2T": 0.8660403916940774,
+   "thEnd2TDeg": 5.549135411536902e-31,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.25,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 2.4968636439367755e-18,
+   "heat": 1.4120693986714785,
+   "work": 1.4120693986714785,
+   "torqueRatio": 7.694720560067682e-20,
+   "judge": "flat",
+   "tau": 2.3000000000000003,
+   "wRatio2T": 2,
+   "heat2T": 1.4120693986714785,
+   "thEnd2TDeg": 1.5907987300057946e-37,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.5,
+   "h": 0,
+   "wRatio": 2.2666868272413696,
+   "wTotRatio": 1.2834823246227125,
+   "thEndDeg": 4.6136273286791626e-33,
+   "heat": 0,
+   "work": 0.5389148753138351,
+   "torqueRatio": 1.6141260182748302e-34,
+   "judge": "flat",
+   "tau": 1.3,
+   "wRatio2T": 2.2666868272413696,
+   "heat2T": 0,
+   "thEnd2TDeg": 5.764502162488195e-67,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.5,
+   "h": 0.5,
+   "wRatio": 2.1290555924792454,
+   "wTotRatio": 1.205550404337028,
+   "thEndDeg": 3.023871213088526e-35,
+   "heat": 0.2517516546100337,
+   "work": 0.5035033092200674,
+   "torqueRatio": 9.939476452397088e-37,
+   "judge": "flat",
+   "tau": 1.2,
+   "wRatio2T": 2.1290555924792454,
+   "heat2T": 0.2517516546100337,
+   "thEnd2TDeg": 2.4047471256803838e-71,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 0.5,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 1.4423431914601116e-37,
+   "heat": 0.47105199002286463,
+   "work": 0.47105199002286463,
+   "torqueRatio": 4.4548034830189035e-39,
+   "judge": "flat",
+   "tau": 1.2,
+   "wRatio2T": 2,
+   "heat2T": 0.47105199002286463,
+   "thEnd2TDeg": 5.3087571322926225e-76,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 1,
+   "h": 0,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 3.5818689389812044e-76,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.1112195605156503e-77,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 3.274429279656785e-153,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 1,
+   "h": 0.5,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 3.5818689389812044e-76,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.1112195605156503e-77,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 3.274429279656785e-153,
+   "ledgerResid": 0
+  },
+  {
+   "bal": "K2",
+   "m": 1,
+   "h": 1,
+   "wRatio": 2,
+   "wTotRatio": 1.1324743314317942,
+   "thEndDeg": 3.5818689389812044e-76,
+   "heat": 0,
+   "work": 0,
+   "torqueRatio": 1.1112195605156503e-77,
+   "judge": "flat",
+   "tau": 0.6,
+   "wRatio2T": 2,
+   "heat2T": 0,
+   "thEnd2TDeg": 3.274429279656785e-153,
+   "ledgerResid": 0
+  }
+ ],
+ "body": [
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "cand": "W",
+   "omega": 0.0000729211505392569,
+   "I": 8.016480643125214e+37,
+   "Wpar": 7.128767974255628e-15,
+   "Wperp": 3.0906991701297436e-15,
+   "thetaDeg": 23.43929109450648,
+   "dragOverW": 9.775994922649877e-11,
+   "torque": 18067330791527934000,
+   "supplyW": 55840.68428383495,
+   "cols": {
+    "heat": {
+     "heatW": 55840.68428383495,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 4.133937685961851e-18
+    },
+    "half": {
+     "heatW": 27920.342141917474,
+     "rateYr": 2.0669688429809253e-18
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 55840.68428383495
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 4.133937685961851e-18
+    },
+    "dragE3": {
+     "heatW": 55840.68428383495,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 47000000000000,
+   "obsRateYr": -2.065825558440232e-10
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "cand": "P2",
+   "omega": 0.0000729211505392569,
+   "I": 8.016480643125214e+37,
+   "Wpar": 2.1386252367738915e-14,
+   "Wperp": 9.272075158549045e-15,
+   "thetaDeg": 23.439291094506377,
+   "dragOverW": 2.932791406825882e-10,
+   "torque": 54201861712209945000,
+   "supplyW": 502563.73552889243,
+   "cols": {
+    "heat": {
+     "heatW": 502563.73552889243,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 3.720525979482093e-17
+    },
+    "half": {
+     "heatW": 251281.86776444622,
+     "rateYr": 1.8602629897410464e-17
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 502563.73552889243
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 3.720525979482093e-17
+    },
+    "dragE3": {
+     "heatW": 502563.73552889243,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 47000000000000,
+   "obsRateYr": -2.065825558440232e-10
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "cand": "W",
+   "omega": 2.9923691869737844e-7,
+   "I": 5.8793680687500005e+37,
+   "Wpar": -1.7443640321598198e-14,
+   "Wperp": 8.035829030687805e-16,
+   "thetaDeg": 177.36239802654964,
+   "dragOverW": -5.829374395891017e-8,
+   "torque": 14137626751284544,
+   "supplyW": 11.360755147300086,
+   "cols": {
+    "heat": {
+     "heatW": 11.360755147300086,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 6.810047942870322e-17
+    },
+    "half": {
+     "heatW": 5.680377573650043,
+     "rateYr": 3.405023971435161e-17
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 11.360755147300086
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 6.810047942870322e-17
+    },
+    "dragE3": {
+     "heatW": 11.360755147300086,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 38305000000000,
+   "obsRateYr": null
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "cand": "P2",
+   "omega": 2.9923691869737844e-7,
+   "I": 5.8793680687500005e+37,
+   "Wpar": -5.233079325052948e-14,
+   "Wperp": 2.410742825732786e-15,
+   "thetaDeg": 177.36239802656195,
+   "dragOverW": -1.7488080507690357e-7,
+   "torque": 42412776744492240,
+   "supplyW": 102.24629725619101,
+   "cols": {
+    "heat": {
+     "heatW": 102.24629725619101,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 6.129013232550032e-16
+    },
+    "half": {
+     "heatW": 51.12314862809551,
+     "rateYr": 3.064506616275016e-16
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 102.24629725619101
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 6.129013232550032e-16
+    },
+    "dragE3": {
+     "heatW": 102.24629725619101,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 38305000000000,
+   "obsRateYr": null
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "cand": "W",
+   "omega": 0.00004125530833185668,
+   "I": 1.1203189632657792e+35,
+   "Wpar": 5.432419390847562e-13,
+   "Wperp": 6.7427360030832664e-18,
+   "thetaDeg": 0.000711157014089567,
+   "dragOverW": 1.3167807030187036e-8,
+   "torque": 31164321832116.562,
+   "supplyW": 0.0002101327948290862,
+   "cols": {
+    "heat": {
+     "heatW": 0.0002101327948290862,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 3.4777346479715443e-23
+    },
+    "half": {
+     "heatW": 0.0001050663974145431,
+     "rateYr": 1.7388673239857722e-23
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 0.0002101327948290862
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 3.4777346479715443e-23
+    },
+    "dragE3": {
+     "heatW": 0.0002101327948290862,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 100000000000000,
+   "obsRateYr": null
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "cand": "P2",
+   "omega": 0.00004125530833185668,
+   "I": 1.1203189632657792e+35,
+   "Wpar": 1.629721960455905e-12,
+   "Wperp": 2.0228160245531582e-17,
+   "thetaDeg": 0.0007111570178507857,
+   "dragOverW": 3.950332760444939e-8,
+   "torque": 93492744736722.47,
+   "supplyW": 0.0018911862223290016,
+   "cols": {
+    "heat": {
+     "heatW": 0.0018911862223290016,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 3.1299464019928428e-22
+    },
+    "half": {
+     "heatW": 0.0009455931111645008,
+     "rateYr": 1.5649732009964214e-22
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 0.0018911862223290016
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 3.1299464019928428e-22
+    },
+    "dragE3": {
+     "heatW": 0.0018911862223290016,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": 100000000000000,
+   "obsRateYr": null
+  },
+  {
+   "id": "Pluto",
+   "src": "Charon",
+   "cand": "W",
+   "omega": 0.000011385591834674098,
+   "I": 7.355924928e+33,
+   "Wpar": 4.983619843950602e-19,
+   "Wperp": 6.886156776797197e-19,
+   "thetaDeg": 54.10614985137431,
+   "dragOverW": 4.3771284939034123e-14,
+   "torque": 57672636417.53104,
+   "supplyW": 3.9714281610234214e-8,
+   "cols": {
+    "heat": {
+     "heatW": 3.9714281610234214e-8,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 1.3143231835787872e-24
+    },
+    "half": {
+     "heatW": 1.9857140805117107e-8,
+     "rateYr": 6.571615917893936e-25
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 3.9714281610234214e-8
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 1.3143231835787872e-24
+    },
+    "dragE3": {
+     "heatW": 3.9714281610234214e-8,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": null,
+   "obsRateYr": null
+  },
+  {
+   "id": "Pluto",
+   "src": "Charon",
+   "cand": "P2",
+   "omega": 0.000011385591834674098,
+   "I": 7.355924928e+33,
+   "Wpar": 1.4950824712867485e-18,
+   "Wperp": 2.065842217459163e-18,
+   "thetaDeg": 54.10614979290254,
+   "dragOverW": 1.3131354900090214e-13,
+   "torque": 173017505940.2619,
+   "supplyW": 3.5742686813088455e-7,
+   "cols": {
+    "heat": {
+     "heatW": 3.5742686813088455e-7,
+     "rateYr": 0
+    },
+    "inertial": {
+     "heatW": 0,
+     "rateYr": 1.1828853504864117e-23
+    },
+    "half": {
+     "heatW": 1.7871343406544227e-7,
+     "rateYr": 5.9144267524320586e-24
+    },
+    "dragE1": {
+     "heatW": 0,
+     "rateYr": 0,
+     "givenW": 3.5742686813088455e-7
+    },
+    "dragE2": {
+     "heatW": 0,
+     "rateYr": 1.1828853504864117e-23
+    },
+    "dragE3": {
+     "heatW": 3.5742686813088455e-7,
+     "rateYr": 0
+    },
+    "P0": {
+     "heatW": 0,
+     "rateYr": 0
+    }
+   },
+   "heatRuler": null,
+   "obsRateYr": null
+  }
+ ],
+ "gates": {
+  "pure": true,
+  "supply": true,
+  "dest": true,
+  "bal": true,
+  "body": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.426
+  },
+  "supply": {
+   "wallSec": 0.435
+  },
+  "dest": {
+   "wallSec": 0.519
+  },
+  "bal": {
+   "wallSec": 0.615
+  },
+  "body": {
+   "wallSec": 0.757
+  }
+ },
+ "elapsedS": 2.667,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第350便d",
+  "target": "tests/lib-w350d-axisheat.mjs",
+  "targetSha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+  "generatedAt": "2026-11-23T14:59:03.133Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w350d-axisheat.mjs",
+    "bytes": 7121,
+    "sha256": "14bed4c063f9af734eb52c6f9208105e8198e45c42e4fa2806c717e87cd43652",
+    "mtime": "2026-11-23T14:57:51.278Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-23T14:47:47.896Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-23T14:47:47.912Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-23T14:47:47.912Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-23T14:47:47.912Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-23T14:47:47.916Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-23T14:47:47.916Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-23T14:47:47.916Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-23T14:47:47.924Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-23T14:47:47.928Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-23T14:47:47.928Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-23T14:47:47.928Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-23T14:47:47.928Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-23T14:47:47.928Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-23T14:47:47.932Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-23T14:47:47.936Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-23T14:47:47.940Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-23T14:47:47.944Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-23T14:47:47.948Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-23T14:47:47.952Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-23T14:58:58.652Z"
+   }
+  ],
+  "codeSha256": "aa1356c34946e05e93f26cfd6a22d9cff6b7accbc5548558f8f10c5217e565ef",
+  "harnessVersion": "w350d-axisheat-1",
+  "stage": "axisheat",
+  "engine": "Node(html を読まない —— 純関数の lib・第348便h・第348便b・第347便i・第347便e・第341便f の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "供給の則 (P1) は既存の診断の仮定(軸が動かなかった分の率 = トルクの大きさ × abs(Ω⊥))—— 理想の直交トルクは自転に仕事をしない((P0))。熱の出どころの答えではない",
+   "行き先(内部熱・慣性回転・引きずり回転 × (E1)(E2)(E3))は並べて比べる列 —— 行き先は決めていない",
+   "釣り合い方 (K1)・(K2) はどちらも読みの候補 —— どちらが原文の意味かは決めていない",
+   "天体 4 組の熱の率と自転の変化の率は、この供給の則の仮定・この行き先・在位の形の場の (W)・(P2) の下の桁(天体の内部熱の答えではない)",
+   "比べる列(熱の物差し・観測の自転の変化の率)は第341便f・第347便e の lib の値(文献の値・未照合)の固定の列(合わせない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 28,
+   "kept": 627,
+   "zeroPathsHead": [
+    "/pure/scenes/led",
+    "/pure/scenes/mir",
+    "/dest/0/stepResid",
+    "/dest/1/ledgerResid",
+    "/dest/1/stepResid",
+    "/dest/2/ledgerResid",
+    "/dest/2/stepResid",
+    "/dest/3/ledgerResid",
+    "/dest/3/stepResid",
+    "/dest/6/stepResid",
+    "/bal/0/ledgerResid",
+    "/bal/1/ledgerResid",
+    "/bal/3/ledgerResid",
+    "/bal/4/ledgerResid",
+    "/bal/6/ledgerResid",
+    "/bal/7/ledgerResid",
+    "/bal/12/ledgerResid",
+    "/bal/13/ledgerResid",
+    "/bal/15/ledgerResid",
+    "/bal/16/ledgerResid"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
