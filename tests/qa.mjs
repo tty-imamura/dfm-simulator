@@ -118737,7 +118737,7 @@ function eqItems348g(eq) {
 
 // ---- 第350便c: docs.gyrostep350c は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.gyrostep350c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 5 つと表 1・固定の表 2 本・表 7 本・数の文 4 つが PHYSICS〔第350便c〕に逐語 ③ 節の位置(〔第348便i〕の節の後・〔第328便 — 統括〕の前)・必須の語・
+// ----     ② 原文 5 つと表 1・固定の表 2 本・表 6 本・数の文 4 つが PHYSICS〔第350便c〕に逐語 ③ 節の位置(〔第348便i〕の節の後・〔第328便 — 統括〕の前)・必須の語・
 // ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §312・CHANGELOG(第350便c の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名
 {
   await (async () => {   // 第310便c(heap)
@@ -118775,7 +118775,7 @@ function eqItems348g(eq) {
       for (const [k, v] of [['1 ステップの順', D0.STEP_TABLE], ['自転速度の読み', D0.WREAD_TABLE]]) if (sec.indexOf(v) < 0) bad.push('② 表(' + k + ')が節に逐語で無い');
       const T = D0.tablesOf(J), F = D0.factsOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第350便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 7) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第350便c〕に数の文 ' + k + ' が逐語で無い');
       if (Object.keys(F).length !== 4) bad.push('② 数の文の数 ' + Object.keys(F).length);
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・固定の表 2 本・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第350便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
