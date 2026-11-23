@@ -11,7 +11,7 @@
 //        比べる形: 直交 3 直径の 6 点の平均(各直径の 2 点の差分の和の ½)/中心の渦度の半分 (W)(一次の場では (C2) と同じ数)。
 //        天体の表(腕 ≪ 距離)では、場の一次の展開の下で (C2) = ⟨½ ∇×u(自分の重みを半径 ρ の値に置いた形)⟩(重み 5ρ⁴ ÷ R⁵ の半径の平均)—— 「(C2) の球」の列。
 //   (C3) 係数 k × (C1)(k = 1・2/5〔一様な球の慣性モーメントの係数〕・1/2 —— ノブ。構造の係数 c_R とは別のノブ)。
-// ■ 言わないこと: 「球体に換算」の読みが決まった・2 点の差分が球の自転を表す、とは書かない(この場・この配置・この読みでは、の表)。観測の値は固定の比べる列(合わせない)。
+// ■ 言わないこと: 「球体に換算」の読みの答え・2 点の差分が球の自転を表す、とは書かない(この場・この配置・この読みでは、の表)。観測の値は固定の比べる列(合わせない)。
 import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as H from './lib-w347h-axisdiff.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
@@ -57,7 +57,7 @@ const unit = (a) => { const m = nrm(a); return m > 0 ? scl(a, 1 / m) : [0, 0, 0]
 const isVec = (a) => Array.isArray(a) && a.length === 3 && a.every(fin);
 const rel = (a, b) => nrm(sub(a, b)) / Math.max(nrm(b), 1e-300);
 const angDeg = (a, b) => Math.atan2(nrm(crs(a, b)), dot(a, b)) / D2R;
-const curl = (J) => [J[7] - J[5], J[2] - J[6], J[3] - J[1]];
+const curlV = (J) => [J[7] - J[5], J[2] - J[6], J[3] - J[1]];
 const tiny = (v, s) => (Math.abs(v) <= 1e-12 * s ? 0 : v);
 const tinyV = (v, s) => v.map((x) => tiny(x, s));
 /** ê に直交する単位ベクトル 2 つ(ê が座標軸なら残りの座標軸 —— 共通の点検の「直交 3 直径」) */
@@ -105,7 +105,7 @@ export function c2Quad(field, p, a, { mut = null } = {}) {
 export function c2Ball(field, p, R) {
   if (!(isVec(p) && fin(R) && R > 0)) throw new RangeError('c2Ball: 点・半径 R > 0');
   let s = [0, 0, 0];
-  for (let i = 0; i < GLQ.ball.x.length; i++) { const rho = 0.5 * R * (GLQ.ball.x[i] + 1), w = 0.5 * R * GLQ.ball.w[i] * 5 * Math.pow(rho, 4) / Math.pow(R, 5); s = add(s, scl(curl(field.J(p, { selfR: rho })), 0.5 * w)); }
+  for (let i = 0; i < GLQ.ball.x.length; i++) { const rho = 0.5 * R * (GLQ.ball.x[i] + 1), w = 0.5 * R * GLQ.ball.w[i] * 5 * Math.pow(rho, 4) / Math.pow(R, 5); s = add(s, scl(curlV(field.J(p, { selfR: rho })), 0.5 * w)); }
   return s;
 }
 /** (C3) k × (C1) */

@@ -4510,28 +4510,28 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.105
+   "wallSec": 0.135
   },
   "order": {
-   "wallSec": 0.136
+   "wallSec": 0.172
   },
   "trial": {
-   "wallSec": 0.155
+   "wallSec": 0.222
   },
   "spinSrc": {
-   "wallSec": 0.27
+   "wallSec": 0.305
   },
   "body": {
-   "wallSec": 0.636
+   "wallSec": 0.516
   }
  },
- "elapsedS": 1.572,
+ "elapsedS": 1.072,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第350便b",
   "target": "tests/lib-w350b-sphereconv.mjs",
-  "targetSha256": "3f096280e42afe3cf0c3a169cc6c76c5bc4236d5e8290f999a1c52e6ed5c5833",
-  "generatedAt": "2026-11-23T14:58:41.252Z",
+  "targetSha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+  "generatedAt": "2026-11-23T15:16:51.682Z",
   "inputs": [],
   "code": [
    {
@@ -4860,12 +4860,12 @@
    },
    {
     "file": "tests/lib-w350b-sphereconv.mjs",
-    "bytes": 23187,
-    "sha256": "3f096280e42afe3cf0c3a169cc6c76c5bc4236d5e8290f999a1c52e6ed5c5833",
-    "mtime": "2026-11-23T14:58:39.422Z"
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-23T15:16:50.157Z"
    }
   ],
-  "codeSha256": "8799de7ce588a882ee4ecedfd43088d6c884ff6e067b193e642989abc6d6c2f1",
+  "codeSha256": "2c23249dcec9209deb3feb48af1e847bbd6b4c0b6c4cb3a956d7640fd13eaf7c",
   "harnessVersion": "w350b-sphereconv-1",
   "stage": "sphereconv",
   "engine": "Node(html を読まない —— 純関数の lib・第348便h・第347便h・第348便c・第347便e の lib を呼ぶ)・1 プロセス",
