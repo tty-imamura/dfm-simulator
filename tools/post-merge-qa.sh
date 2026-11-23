@@ -1369,6 +1369,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 #   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
+# ==== 第350便i の塊(ここから)====
+# 第350便i(推奨で進める項 AN997・統括の検証項目 R426 —— 検査の設定だけ・html は変えない): 枝 i の新設 2 本(lint.paperDispatch350i —— 論文の検査 4 本の手で起こす口・
+#   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
+# ==== 第350便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

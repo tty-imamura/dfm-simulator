@@ -118649,6 +118649,166 @@ function eqItems348g(eq) {
 }
 // ==== 第348便i の塊(ここまで)====
 
+// ==== 第350便i の塊(ここから —— lint.paperDispatch350i・docs.paperDispatch350i の 2 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第350便i(推奨で進める項 AN997・統括の検証項目 R426): **論文の組版の検査 4 本に手で起こす口(workflow_dispatch)を 1 行ずつ足した戻り止め**
+// ----   (検査の設定 4 本の on: に 1 行ずつ —— html・paper/ の中・ci.yml・nightly.yml・runs-on は変えない)。yml は行の形で読む(YAML の読み手を持たない —— 〔第348便f〕と同じ)。
+// ----   lint.paperDispatch350i: ① 4 本とも on: の直下(2 字下げ)に workflow_dispatch の行が 1 つ・入力を持たない・ファイルの中に workflow_dispatch の行はそれ 1 つ
+// ----     ② on: の鍵が push・pull_request・workflow_dispatch の 3 つだけ(定期の起動が無い)・push と pull_request は paths だけを持ち、その並びが宣言(元のまま)と同じ
+// ----     ③ job の名と数が宣言どおり・runs-on が ubuntu-24.04 のまま ④ 変異の自己試験。
+// ----   docs.paperDispatch350i: PHYSICS〔第350便i〕(〔第348便i〕の後・〔第328便 — 統括〕の前・必須の語・表 1 と宣言の照合)・AI_SPEC §318(§309 の後)・post-merge の塊(第348便i の塊の後)・禁句と書かない語。
+{
+  await (async () => {
+  const rd350i = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const RUN350I = 'ubuntu-24.04';
+  // 宣言の一覧(論文の検査 4 本 —— job の名・push と pull_request の道〔第350便i の前と同じ〕)
+  const DECL350I = {
+    'paper1.yml': { job: 'paper1', paths: ['paper/**', 'tools/gen-figures.mjs', '.github/workflows/paper1.yml'] },
+    'paper2.yml': { job: 'paper2', paths: ['paper/**', 'tools/gen-figures2.mjs', 'tools/p2fig-compare.mjs', '.github/workflows/paper2.yml'] },
+    'paper3.yml': { job: 'paper3', paths: ['paper/**', 'tools/gen-figures3.mjs', '.github/workflows/paper3.yml'] },
+    'paper45.yml': { job: 'paper45', paths: ['paper/**', '.github/workflows/paper45.yml'] },
+  };
+  const KEYS350I = ['push', 'pull_request', 'workflow_dispatch'];
+  // on: の塊(2 字下げの鍵 → 値・中の行・paths の並び)
+  const onOf = (t) => {
+    const L = String(t).split('\n'), k = L.findIndex((x) => /^on:\s*$/.test(x));
+    if (k < 0) return null;
+    const keys = [], body = {}, stray = []; let cur = null, sub = null;
+    for (let n = k + 1; n < L.length; n++) {
+      const x = L[n]; if (/^\S/.test(x)) break; if (/^\s*(#.*)?$/.test(x)) continue;
+      let m = /^ {2}([A-Za-z_]+):\s*([^#]*?)\s*(#.*)?$/.exec(x);
+      if (m) { cur = m[1]; keys.push(cur); body[cur] = { val: m[2], lines: [], paths: null, other: [] }; sub = null; continue; }
+      if (!cur) { stray.push(x); continue; }
+      body[cur].lines.push(x);
+      m = /^ {4}([A-Za-z_-]+):\s*$/.exec(x);
+      if (m) { sub = m[1]; if (sub === 'paths' && body[cur].paths === null) body[cur].paths = []; else body[cur].other.push(x.trim()); continue; }
+      m = /^ {6}- "([^"]*)"\s*$/.exec(x);
+      if (m && sub === 'paths') body[cur].paths.push(m[1]); else body[cur].other.push(x.trim());
+    }
+    return { keys, body, stray };
+  };
+  const jobsOf = (t) => {
+    const L = String(t).split('\n'), k = L.findIndex((x) => /^jobs:\s*$/.test(x));
+    const all = L.filter((x) => /^\s*runs-on:/.test(x)).length;
+    if (k < 0) return { jobs: null, all };
+    const jobs = {}; let cur = null;
+    for (let n = k + 1; n < L.length; n++) {
+      const x = L[n]; if (/^\S/.test(x)) break;
+      const m = /^ {2}([A-Za-z0-9_-]+):\s*(#.*)?$/.exec(x); if (m) { cur = m[1]; jobs[cur] = []; continue; }
+      const r = /^ {4}runs-on:\s*([^\s#]+)\s*(#.*)?$/.exec(x); if (r && cur) jobs[cur].push(r[1]);
+    }
+    return { jobs, all };
+  };
+  const check = (W) => {
+    const bad = [], cases = [];
+    for (const [f, d] of Object.entries(DECL350I)) {
+      const t = W[f]; if (t == null) { bad.push('① ' + f + ' が無い'); continue; }
+      const o = onOf(t); if (!o) { bad.push('① ' + f + ' に on: が無い'); continue; }
+      // ① 手で起こす口
+      const nWd = String(t).split('\n').filter((x) => /^\s*workflow_dispatch:/.test(x)).length;
+      if (!o.body.workflow_dispatch) bad.push('① ' + f + ' の on: の直下に workflow_dispatch の行が無い');
+      else {
+        if (o.body.workflow_dispatch.val !== '' || o.body.workflow_dispatch.lines.length) bad.push('① ' + f + ' の workflow_dispatch に入力か値がある(入力は持たない)');
+        if (nWd !== 1) bad.push('① ' + f + ' に workflow_dispatch の行が ' + nWd + ' 行');
+      }
+      // ② 道の絞り
+      if (o.keys.join('|') !== KEYS350I.join('|')) bad.push('② ' + f + ' の on: の鍵 ' + o.keys.join('・') + ' ≠ ' + KEYS350I.join('・'));
+      if (o.stray.length) bad.push('② ' + f + ' の on: に鍵の外の行');
+      for (const ev of ['push', 'pull_request']) {
+        const b = o.body[ev]; if (!b) { bad.push('② ' + f + ' に ' + ev + ' が無い'); continue; }
+        if (b.val !== '') bad.push('② ' + f + ' の ' + ev + ' に値 ' + b.val);
+        if (b.other.length) bad.push('② ' + f + ' の ' + ev + ' に paths 以外の行(' + b.other[0] + ')');
+        if ((b.paths || []).join('|') !== d.paths.join('|')) bad.push('② ' + f + ' の ' + ev + ' の paths ' + (b.paths || []).join('・') + ' ≠ 宣言 ' + d.paths.join('・'));
+      }
+      // ③ runs-on
+      const j = jobsOf(t);
+      if (!j.jobs) bad.push('③ ' + f + ' に jobs: が無い');
+      else {
+        const gk = Object.keys(j.jobs);
+        if (gk.join('|') !== d.job) bad.push('③ ' + f + ' の job の並び ' + gk.join('・') + ' ≠ ' + d.job);
+        const v = j.jobs[d.job] || []; if (v.length !== 1 || v[0] !== RUN350I) bad.push('③ ' + f + ' の job ' + d.job + ' の runs-on ' + (v.join('・') || 'なし') + ' ≠ ' + RUN350I);
+        if (j.all !== 1) bad.push('③ ' + f + ' の runs-on の行が ' + j.all + ' 行');
+      }
+    }
+    const F = Object.keys(DECL350I);
+    cases.push(`① ${F.length} 本(${F.join('・')})の on: の直下に workflow_dispatch(入力なし・1 行)/ ② on: の鍵 = ${KEYS350I.join('・')}(定期の起動なし)・push と pull_request の paths = 宣言(元のまま)/ ③ runs-on = ${RUN350I}`);
+    return { bad, cases };
+  };
+  const WFD = path.join(ROOT, '.github', 'workflows');
+  const W0 = {}; for (const f of fs.readdirSync(WFD).filter((x) => /\.ya?ml$/.test(x))) W0[f] = fs.readFileSync(path.join(WFD, f), 'utf8');
+  let bad = [], cases = [];
+  try {
+    const R = check(W0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const w = (f, fn) => Object.assign({}, W0, { [f]: fn(String(W0[f] || '')) });
+    const rep = (a, z) => (s) => s.replace(a, z);
+    const repLast = (a, z) => (s) => { const i = s.lastIndexOf(a); return i < 0 ? s : s.slice(0, i) + z + s.slice(i + a.length); };
+    const MUT = [
+      ['paper3.yml の口を消す', w('paper3.yml', rep('\n  workflow_dispatch:\n', '\n')), /^① paper3\.yml の on: の直下に workflow_dispatch の行が無い/],
+      ['paper1.yml の口を push の下へ(字下げ 4)', w('paper1.yml', (s) => s.replace('\n  workflow_dispatch:\n', '\n').replace('\n  push:\n', '\n  push:\n    workflow_dispatch:\n')), /^① paper1\.yml の on: の直下に workflow_dispatch の行が無い/],
+      ['paper1.yml の口に入力を持たせる', w('paper1.yml', rep('\n  workflow_dispatch:\n', '\n  workflow_dispatch:\n    inputs:\n      x:\n        required: false\n')), /^① paper1\.yml の workflow_dispatch に入力/],
+      ['paper2.yml に定期の起動を足す', w('paper2.yml', rep('\n  workflow_dispatch:\n', "\n  workflow_dispatch:\n  schedule:\n    - cron: '0 18 * * *'\n")), /^② paper2\.yml の on: の鍵/],
+      ['paper2.yml の push に branches を足す', w('paper2.yml', rep('\n  push:\n', '\n  push:\n    branches: ["main"]\n')), /^② paper2\.yml の push に paths 以外の行/],
+      ['paper45.yml の pull_request の道を 1 本消す', w('paper45.yml', repLast('      - ".github/workflows/paper45.yml"\n', '')), /^② paper45\.yml の pull_request の paths/],
+      ['paper3.yml の runs-on を戻す', w('paper3.yml', rep('    runs-on: ubuntu-24.04\n', '    runs-on: ubuntu-latest\n')), /^③ paper3\.yml の job paper3 の runs-on ubuntu-latest/],
+    ];
+    const sc = [];
+    for (const [nm, W, re] of MUT) {
+      if (JSON.stringify(W) === JSON.stringify(W0)) { bad.push('④ 変異「' + nm + '」の種が無い(空振り)'); continue; }
+      const r = check(W), hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('④ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`④ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('lint.paperDispatch350i', bad.length === 0,
+    `**論文の組版の検査 4 本の手で起こす口**(第350便i・推奨で進める項 AN997・R426 —— 4 本の on: に workflow_dispatch を 1 行ずつ・道の絞りと runs-on は元のまま・定期の起動は足していない・効き目は統合の後に main で手で起こして見る): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+
+  // ---- docs.paperDispatch350i(root は SKIP)
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.paperDispatch350i(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const PH = rd350i('docs/PHYSICS.md') || '', AS = rd350i('docs/AI_SPEC.md') || '', PM = rd350i('tools/post-merge-qa.sh') || '';
+    const iS = PH.indexOf('\n〔第350便i — '), iP = PH.indexOf('\n〔第348便i — '), iT = PH.indexOf('\n〔第328便 — 統括');
+    if (!(iS >= 0 && iP >= 0 && iP < iS && iT >= 0 && iS < iT)) bad.push('① PHYSICS〔第350便i〕の位置(〔第348便i〕の後・〔第328便 — 統括〕の前)');
+    let sec = '';
+    if (iS >= 0) { const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = iS + 2; const z = m.exec(PH); sec = PH.slice(iS + 1, z ? z.index : PH.length); }
+    const h1 = sec.split('\n')[0];
+    for (const x of ['推奨で進める項 AN997', 'R426', '1 byte も変えていない', '`paper/` の中は変えていない', '`ci.yml` と `nightly.yml` は変えていない', 'workflow_dispatch']) if (h1.indexOf(x) < 0) bad.push('① PHYSICS〔第350便i〕の見出しに「' + x + '」が無い');
+    for (const x of ['**① 事実。**', '**② 決定の出どころ。**', '**③ 足したもの。**', '**表 1 論文の検査 4 本の起動の道', '**④ 起こし方。**', 'Run workflow', 'gh workflow run', '**⑤ 足していないもの。**', '`schedule`',
+      '**⑥ 戻り止め。**', '`lint.paperDispatch350i`', '`docs.paperDispatch350i`', '`lint.paperRunner348f`', '`lint.nightlyPaper2`', '`lint.frozenBaseline`', '`docs.w310c`', '`lint.qaOrder`', 'CI は手元で回せない', '枝は push しない', '〔第350便 — 統括〕の節に書く', '**⑧ 言わないこと。**', 'ubuntu-24.04'])
+      if (sec.indexOf(x) < 0) bad.push('① PHYSICS〔第350便i〕に「' + x.slice(0, 28) + '」が無い');
+    { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith('**表 1 ')), T = []; if (k >= 0) for (let n = k + 4; n < L.length && L[n].startsWith('|'); n++) T.push(L[n].split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, '')));
+      const want = Object.keys(DECL350I);
+      if (T.map((c) => c[0]).join('|') !== want.map((f) => '`' + f + '`').join('|')) bad.push('② 表 1 の行の並び ' + T.map((c) => c[0]).join('・'));
+      for (const c of T) { const f = c[0].replace(/`/g, ''), d = DECL350I[f]; if (!d) continue;
+        if (c[1] !== d.job) bad.push('② 表 1 の ' + f + ' の job');
+        const pw = d.paths.filter((p) => p !== '.github/workflows/' + f).map((p) => '`' + p + '`').concat(['自分の yml']).join('・');
+        if (c[2] !== pw) bad.push('② 表 1 の ' + f + ' の道 ' + c[2] + ' ≠ ' + pw);
+        if (c[3] !== '在る(本枝)') bad.push('② 表 1 の ' + f + ' の手で起こす口');
+        if (c[4] !== RUN350I) bad.push('② 表 1 の ' + f + ' の runs-on'); }
+      cases.push('② 表 1 の ' + T.length + ' 行 = 宣言(job・道・口・runs-on)'); }
+    const a318 = AS.search(/\n## 318\. 第350便i/), a309 = AS.search(/\n## 309\. 第348便i/);
+    const ai = a318 >= 0 ? (() => { const r = AS.slice(a318 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(a318 >= 0 && a309 >= 0 && a309 < a318 && ['AN997', 'R426', 'workflow_dispatch', 'SYSTEM_PROMPT には載せない', 'lint.paperDispatch350i', 'docs.paperDispatch350i', '`schedule`'].every((x) => ai.indexOf(x) >= 0))) bad.push('③ AI_SPEC §318(§309 の後・必須の語)');
+    if (!(PM.indexOf('# ==== 第350便i の塊(ここから)====') > PM.indexOf('# ==== 第348便i の塊(ここまで)====') && PM.indexOf('# ==== 第348便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.paperDispatch350i docs\.paperDispatch350i"/.test(PM))) bad.push('③ post-merge に第350便i の塊(第348便i の塊の後)');
+    cases.push('① PHYSICS〔第350便i〕(〔第348便i〕の後・〔第328便 — 統括〕の前・見出し・必須の語)/ ③ AI_SPEC §318(§309 の後)・post-merge の塊');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const rv = (x) => x.split('').reverse().join('');
+    const NG = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_641TROPER'].map(rv);
+    const NOT = [/組版が直った/, /新しい TeX に対応した/];
+    for (const [nm, tx] of [['PHYSICS〔第350便i〕', sec], ['AI_SPEC §318', ai]]) {
+      for (const x of NG) if (String(tx).indexOf(x) >= 0) bad.push('④ ' + nm + ' に禁句(引用も含めて —— ' + x.length + ' 字)');
+      for (const re of NOT) if (re.test(stripQ(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ 禁句と書かない語(「組版が直った」「新しい TeX に対応した」)');
+    add('docs.paperDispatch350i', bad.length === 0,
+      `**論文の組版の検査の手で起こす口の文書**(第350便i・推奨で進める項 AN997・R426 —— 起こし方を足しただけ・論文の tex と実行環境は変えていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第350便i の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
