@@ -1386,6 +1386,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sphereconv350b docs.sphereconv350b"
 #   docs.gyrostep350c —— 原文と表と数の文が PHYSICS〔第350便c〕に逐語・文書)と、新しい段 gyrostep-350c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrostep350c docs.gyrostep350c"
 # ==== 第350便c の塊(ここまで)====
+# ==== 第350便d の塊(ここから)====
+# 第350便d(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R421 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.axisheat350d —— 零試験 11・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕〔第348便b〕の正本と照合・呼ぶだけ / docs.axisheat350d —— 原文と表と数の文が PHYSICS〔第350便d〕に逐語・文書)と、新しい段 axisheat-350d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisheat350d docs.axisheat350d"
+# ==== 第350便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
