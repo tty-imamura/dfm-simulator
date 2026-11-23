@@ -118649,6 +118649,103 @@ function eqItems348g(eq) {
 }
 // ==== 第348便i の塊(ここまで)====
 
+// ==== 第350便a の塊(ここから —— docs.report146_350a・lint.bgAxialTerm350a の 2 ブロック。root は SKIP)====
+// ---- 第350便a(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-23 —— 第146報)・統括の検証項目 R418 —— 文書だけ・html は変えない):
+// ----   **第146報の文書(文の当たり所・新しい句 6 つ・訂正の鎖・用語「背景軸引きずり」「球体に換算」)の戻り止め**(新設 —— 文書の表の lib tests/lib-w350a-report146.mjs
+// ----   〔純関数 —— ファイルを読まない。原文と表と照合の関数を持つ〕。器・段・正本は無い)。世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第350便a〕が在る。
+// ----   docs.report146_350a: PHYSICS〔第350便a〕(位置・見出し・表 1 の 17 行の原文の字・表 2 の 6 句とこれまでの文が過去の節に在る・表 3 の訂正の鎖 4 文と
+// ----     当時の文が〔第347便h〕〔第347便i〕〔第348便h〕に残る)・AI_SPEC §310・post-merge の塊・禁句と書かない語・旧称・変異の自己試験
+// ----   lint.bgAxialTerm350a: 用語の段の定義の文 4 つ・背景軸引きずりの 2 つの読み・当時の定義(第138報の補足 3)が〔第337便a〕と計算式の一覧に残る・公開の文書の全部に private の文書の名が無い・
+// ----     第350便の文(PHYSICS の節・AI_SPEC の節・CHANGELOG の行)に外部の名と書かない語が無い・変異の自己試験
+{
+  await (async () => {
+  const rd350a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w350a-report146.mjs');
+  const PH0 = rd350a('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第350便a — ') >= 0)) {
+    console.log('SKIP docs.report146_350a・lint.bgAxialTerm350a(第350便a の第146報の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, err0 = null;
+  try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const AS0 = rd350a('docs/AI_SPEC.md') || '', PM0 = rd350a('tools/post-merge-qa.sh') || '', CL0 = rd350a('CHANGELOG.md') || '';
+  const iS = PH0.indexOf('\n〔第350便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
+  const runMut = (bad, MUT, fn) => { const sc = [];
+    for (const [nm, args, re] of MUT) {
+      const r = fn(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑦ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    return sc; };
+  // ---- docs.report146_350a
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const R = W.checkReport146(PH0, AS0, PM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
+      const SD = ['| 12 | 軸引きずりの補足 | ', '| 決 2 | ', '| 句 4 | 「太陽系サンプルでは」', '| 2 | ' + W.SRC.ans8, '**⑤ 決断事項の候補。** '];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑦ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const i347 = PH0.indexOf('\n〔第347便h — '), s347 = W.physSecOf(PH0, '〔第347便h — ');
+      const r12 = (s0.split('\n').find((l) => l.startsWith('| 12 | ')) || '');
+      const MUT = [
+        ['表 1 の 12 の原文を 1 字変える', [inSec(PH0, r12, r12.replace('差分由来なので毎回', '差分由来なので毎度')), AS0, PM0], /^② 表 1 の 12 の原文の字/],
+        ['表 1 から決 2 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace(/\n\| 決 2 \|[^\n]*/, ''), AS0, PM0], /^② 表 1 の行の並び/],
+        ['表 2 の句 4 の新しい語を変える', [inSec(PH0, '| 句 4 | 「太陽系サンプルでは」', '| 句 4 | 「太陽系の本では」'), AS0, PM0], /^③ 表 2 の 句 4 の新しい語/],
+        ['〔第347便h〕の当時の文を書き換える', [PH0.slice(0, i347 + 1) + s347.split('慣性モーメントが増して、トルクが増す').join('角運動量が増して、トルクが増す') + PH0.slice(i347 + 1 + s347.length), AS0, PM0], /^④ 表 3 の 1 の当時の文/],
+        ['表 3 の 2 の今の扱いを変える', [inSec(PH0, /(\| 2 \| 原仮定者の回答\(2026-11-22 —— 第145報の回答 8\)[^\n]*)当時の文として残す\(過去の節の文は変えていない\) \|/, '$1今の文 |'), AS0, PM0], /^④ 表 3 の 2 の今の扱い/],
+        ['地の文に書かない語「決まった」を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 軸を起こす向きが決まった。'), AS0, PM0], /^⑥ PHYSICS〔第350便a〕 に書かない語「決まった」/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「型が決まった」の文は無い。'), AS0, PM0], null],
+        ['節に外部の名を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「' + W.EXT_NAMES[5] + '」。'), AS0, PM0], /^⑥ PHYSICS〔第350便a〕 に禁句/],
+        ['節に private の文書の名の形を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** REPORT146_' + 'original。'), AS0, PM0], /^⑥ PHYSICS〔第350便a〕 に private の文書の名の形/],
+        ['地の文に旧称を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 回転引' + 'きずりの側。'), AS0, PM0], /^⑥ PHYSICS〔第350便a〕 に旧称/],
+        ['Release の説明文の行を引く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「v1.47.0のRelease' + 'の説明文を提案する」。'), AS0, PM0], /^② 「v1\.47\.0/],
+        ['AI_SPEC の §310 を消す', [PH0, AS0.replace(/\n## 310\. 第350便a/, '\n## 3100. 第350便a'), PM0], /^⑤ AI_SPEC §310/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第350便a の塊(ここから)====', '# ==== 第350便a の塊====')], /^⑤ post-merge/],
+      ];
+      const sc = runMut(bad, MUT, W.checkReport146);
+      cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report146_350a', bad.length === 0,
+      `**第146報の文書(文の当たり所・新しい句 6 つ・訂正の鎖)**(第350便a・原仮定者の整理(2026-11-23 —— 第146報)・R418 —— 原文は言葉を変えずに引く・当時の文は消さずに並べる・読みは決めない・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ---- lint.bgAxialTerm350a
+  {
+    let bad = [], cases = [];
+    const pub = [];
+    const walk = (d, re) => { let L = []; try { L = fs.readdirSync(path.join(ROOT, d)); } catch (e) { return; } for (const f of L.sort()) { const rel = d + '/' + f; if (re.test(f) && fs.statSync(path.join(ROOT, rel)).isFile()) pub.push([rel, rd350a(rel) || '']); } };
+    walk('docs', /\.md$/); walk('docs/dev', /\.md$/); walk('paper', /\.(?:md|tex)$/);
+    for (const f of ['README.md', 'CHANGELOG.md', 'tests/README.md', 'tools/README.md', 'beta/index.html', 'index.html']) { const t = rd350a(f); if (t !== null) pub.push([f, t]); }
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const R = W.checkBgAxialTerm(PH0, AS0, CL0, pub); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const i337a = PH0.indexOf('\n〔第337便a — '), i341a = PH0.indexOf('\n〔第341便a — ');
+      const pubWith = (nm, add1) => pub.map(([n, t]) => (n === nm ? [n, t + add1] : [n, t]));
+      const MUT = [
+        ['定義の文の「太陽系に対する」を消す', [inSec(PH0, '**背景軸引きずり** = 太陽系に対する銀河の', '**背景軸引きずり** = 銀河の'), AS0, CL0, pub], /^① .*「背景軸引きずり」の定義の文/],
+        ['2 つの読みから (B2) を消す', [inSec(PH0, '/(B2) 並進の背景の重み W₀ とは別の量として、回転の向きと率を与える(第350便の統括の読み)', ''), AS0, CL0, pub], /^② 〔第350便a〕の用語の段に背景軸引きずりの 2 つの読み/],
+        ['〔第337便a〕の当時の文を書き換える', [PH0.slice(0, i337a + 1) + PH0.slice(i337a + 1).replace('『背景慣性決定力』に含まれる」', '『背景慣性決定力』とは別」'), AS0, CL0, pub], /^② 〔第337便a〕に第138報の補足 3 の当時の文/],
+        ['計算式の一覧の用語の当時の文を書き換える', [PH0, AS0, CL0, pub.map(([n, t]) => (n === 'docs/EQUATIONS.md' ? [n, t.replace('軸引きずり —— 背景慣性決定力に含まれる', '軸引きずり —— 背景慣性決定力とは別')] : [n, t]))], /^② 計算式の一覧の用語/],
+        ['README に private の文書の名を足す', [PH0, AS0, CL0, pubWith('README.md', '\n' + W.PRIVATE_NAMES[0] + '\n')], /^③ 公開の文書に private の文書の名/],
+        ['paper の tex に報の原文の名の形を足す', [PH0, AS0, CL0, pubWith('paper/dfm-paper.tex', '\n% REPORT146_' + 'original\n')], /^③ 公開の文書に private の文書の名/],
+        ['〔第350便a〕に外部の名を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** ' + W.EXT_NAMES[0] + 'の文。'), AS0, CL0, pub], /^④ 第350便の文に外部の名/],
+        ['CHANGELOG の第350便の行に外部の名を書く', [PH0, AS0, CL0.replace('\n## v1.48-b349(開発中 — beta)\n', '\n## v1.48-b349(開発中 — beta)\n\n- **第350便z**: ' + W.EXT_NAMES[6] + '\n'), pub], /^④ 第350便の文に外部の名/],
+        ['過去の節(〔第341便a〕)の外の名は数えない(落ちない)', [PH0.slice(0, i341a + 1) + PH0.slice(i341a + 1).replace('\n\n', '\n\n' + W.EXT_NAMES[5] + '\n\n'), AS0, CL0, pub], null],
+      ];
+      const sc = runMut(bad, MUT, W.checkBgAxialTerm);
+      cases.push(`⑤ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.bgAxialTerm350a', bad.length === 0,
+      `**用語「背景軸引きずり」と第350便の文の書かない名**(第350便a・原仮定者の整理(2026-11-23 —— 第146報)・R418 —— 太陽系に対する銀河の軸引きずり〔第138報の補足 3 の語〕を太陽系の本で背景の量として扱う・並進の背景の重みとの関係は 2 つの読みを並べる・private の文書の名と外部の名は公開の文書に書かない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第350便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・

@@ -1369,6 +1369,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 #   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
+# ==== 第350便a の塊(ここから)====
+# 第350便a(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-23 —— 第146報)・統括の検証項目 R418 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report146_350a —— 第146報の文の当たり所の表・新しい句 6 つ・訂正の鎖が PHYSICS〔第350便a〕に逐語・当時の文が過去の節に残る・変異 /
+#   lint.bgAxialTerm350a —— 用語「背景軸引きずり」の定義の文・公開の文書に private の文書の名と第350便の文に外の検討の名が無い・変異)。段は無い
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report146_350a lint.bgAxialTerm350a"
+# ==== 第350便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
