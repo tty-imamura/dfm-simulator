@@ -2676,6 +2676,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axisenergy-347i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第347便i: 零試験 10/ケース 1 行き先の型 3 × 割合 5 × f 2(D3 は τ 2 × 戻る先 2)/(R1) の照合 9/ケース 2 釣り合いの型 9 × 行き先 2/Td 16/組合せ 18/天体 4 組 × q 2/熱の窓' }),
   // ==== 第347便i の塊(ここまで)====
+  // ==== 第348便c の塊(ここから)====
+  // ---- 第348便c(原仮定者の回答(2026-11-23 —— 第145報の回答 10)の AN976・統括の検証項目 R411):
+  //   **釣り合う向き = 銀河由来と太陽由来の軸引きずりの重みつきの合成(重みの型 3)・観測の自転軸とのなす角と歳差の率・「引きずられ半径 ÷ 観測半径」の係数 c_R のノブ・熱の窓**
+  //   (段 axisbalance-348c —— 正本 tests/out/axisbalance-348c.json・lib tests/lib-w348c-axisbalance.mjs —— 第347便h・第347便e・第344便e・第343便e・第342便e・第341便f・第337便c・第330便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisenergy-347i〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便c の枝の実測 1 s(nice 15)
+  S('axisbalance-348c', 'node tests/exp-w348c-axisbalance.mjs', ['tests/out/axisbalance-348c.json'], 2, { secSource: 'w348c-branch', node: true,
+    after: ['axisenergy-347i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisbalance-348c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便c: 零試験 10/釣り合う向き 15 組 × 候補 2 × q 3 × D₀ 2 × 重みの型 3/120° の例 16/歳差 90/c_R(kP2 12・代表 33・組 48)/R_d 11/熱の窓 12' }),
+  // ==== 第348便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
