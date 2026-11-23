@@ -6,6 +6,8 @@
 # ②再生成 JSON がコミット済み JSON とデータ一致
 # (揮発キー generated/commit を除く)③英(pdflatex)・日(lualatex)を各2回ビルドし
 # エラー・未定義参照ゼロを assert。
+# 第348便f(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN981・統括の検証項目 R414): 実行環境を ubuntu-24.04(TeX Live 2023)に固定した。2026-11-22 の走行で
+#   ubuntu-latest の TeX が TeX Live 2025 になり、論文2・3 の pdflatex が最初の tabular で止まった(論文の tex は不変)。4 本をそろえて固定。見直す時: ubuntu 24.04 の提供が終わる前。
 name: paper3
 on:
   push:
@@ -21,7 +23,7 @@ on:
 
 jobs:
   paper3:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45  # 第317便(決断事項 AN443): TeX の apt のダウンロードがミラーの遅さで 30 分に届いた(2 便続いた)
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0

@@ -219,6 +219,11 @@ export function probe346b(root, decl = DECL_346B) {
   const iSec5 = A.indexOf('## 5. The preset specification'), i61 = A.indexOf('## 6.1 ');
   const iA5 = A.indexOf('\n', A.indexOf('```', iSec5) + 3);
   const iHtmlCmt = H.indexOf('\n// ');
+  // 第348便a(原仮定者の回答(2026-11-23 —— 第145報の回答 10)・統括の検証項目 R409): q の説明の文は世代で分ける —— 第346便b の世代の文が在ればそれを、
+  //   無ければ第348便a の世代(「引きずり近似」の文)を、円盤引きずりに戻す変異の元にする(当時の 2 種の変異は消さず、元の文だけを世代で選ぶ)
+  const qJa346 = '並進引きずりのうち、源の自転による回転の分が距離とともに', qJa348 = '引きずり近似(kFrame と q)の、源の自転による回転の分が距離とともに';
+  const qEn346 = "of the rotation part (from the source's spin) of the translational drag (E3", qEn348 = "of the rotation part (from the source's spin) of the drag approximation (kFrame and q) (E3";
+  const qJaNow = H.indexOf(qJa346) >= 0 ? qJa346 : qJa348, qEnNow = H.indexOf(qEn346) >= 0 ? qEn346 : qEn348;
   const mut = [
     // [名, 写しの上書き, 落ちるべきか]
     ['html の画面の語に旧称', { 'beta/index.html': H.replace(decl.newJa, decl.oldJa) }, true],
@@ -230,8 +235,8 @@ export function probe346b(root, decl = DECL_346B) {
     ['html の注記に旧称(落ちない)', { 'beta/index.html': iHtmlCmt >= 0 ? H.slice(0, iHtmlCmt) + '\n// 第346便b の試し: ' + decl.oldJa + H.slice(iHtmlCmt) : H }, false],
     ['原仮定者の文の引用に旧称(落ちない)', { 'docs/EQUATIONS.md': E + '\n原仮定者の整理(2026-11-11)「' + decl.oldJa + 'は試し」\n' }, false],
     ['PHYSICS の過去の節に旧称(落ちない)', { 'docs/PHYSICS.md': iPast >= 0 ? P.slice(0, iPast) + '\n' + decl.oldJa + P.slice(iPast) : P }, false],
-    ['E3 の q の説明を円盤引きずりに戻す', { 'beta/index.html': H.replace('並進引きずりのうち、源の自転による回転の分が距離とともに', 'スピン(自転)による円盤引きずりが距離とともに') }, true],
-    ['E3 の q の英語の説明を disk drag に戻す', { 'beta/index.html': H.replace("of the rotation part (from the source's spin) of the translational drag (E3", 'of the disk drag (E3') }, true],
+    ['E3 の q の説明を円盤引きずりに戻す', { 'beta/index.html': H.replace(qJaNow, 'スピン(自転)による円盤引きずりが距離とともに') }, true],
+    ['E3 の q の英語の説明を disk drag に戻す', { 'beta/index.html': H.replace(qEnNow, 'of the disk drag (E3') }, true],
     ['保留の旧称(落ちない)', { 'docs/PHENOMENA_STATUS.md': base['docs/PHENOMENA_STATUS.md'] }, false],
     ['EQUATIONS の便の記録の箇条に旧称(落ちない)', { 'docs/EQUATIONS.md': E + '\n- **第346便の試し**: ' + decl.oldJa + '\n' }, false],
   ];

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-  "generatedAt": "2026-11-21T23:26:55.174Z",
+  "targetSha256": "be08a7e79bafbcdf49e6585d05efc113b587d47da1f5c252be7f568386b6fedf",
+  "generatedAt": "2026-11-23T02:08:59.082Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708049,
-    "sha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-    "mtime": "2026-11-21T21:46:31.740Z"
+    "bytes": 7708556,
+    "sha256": "be08a7e79bafbcdf49e6585d05efc113b587d47da1f5c252be7f568386b6fedf",
+    "mtime": "2026-11-23T01:56:16.104Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732238,
-    "sha256": "0997f9e50553868f6333b633753c28046ee2a176383a2161855f806f47707f98",
-    "mtime": "2026-11-21T23:22:43.952Z"
+    "bytes": 1734311,
+    "sha256": "7a143d49105e16530f41f6f3df06152ee67f0a97d5a22ff63c3a7ed19b65d196",
+    "mtime": "2026-11-23T02:05:34.816Z"
    }
   ],
   "code": [
@@ -96,14 +96,14 @@
    ],
    "names": 1340,
    "segments": 1171,
-   "closureShare": 0.2878
+   "closureShare": 0.2877
   },
   "scopeSha256": "80484f341b06c1cad712fd7086be28618e0df71db28bfa02baa54dfe58755159",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "10df44a655981b7ef766281274d8f55a05c8643d6642b971dc0b8782cb7b700e",
+    "stableSha256": "d6f8a3bd73616297d49f5c02132ced2fe804abb3cff07c1e47a0ce2289e85a82",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -211,15 +211,15 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-  "when": "2026-11-21T23:22:43.721Z",
+  "targetSha256": "be08a7e79bafbcdf49e6585d05efc113b587d47da1f5c252be7f568386b6fedf",
+  "when": "2026-11-23T02:05:34.589Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
    "保留": 16
   },
-  "wallSec": 0.024
+  "wallSec": 0.009
  },
  "signed": {
   "solarInner": {
@@ -592,7 +592,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 55.864,
+      "wallSec": 48.719,
       "tags": [
        "dt"
       ],
@@ -807,7 +807,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 125.864,
+      "wallSec": 112.381,
       "tags": [
        "dt"
       ],
@@ -975,5 +975,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.357
+ "elapsedS": 0.126
 }

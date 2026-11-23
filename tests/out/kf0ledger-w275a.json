@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "68a11b07c880dfe5af384a05f82d5e18741f4c32f33b7bf96d8353b76a790306",
-  "generatedAt": "2026-11-22T17:41:23.725Z",
+  "targetSha256": "be08a7e79bafbcdf49e6585d05efc113b587d47da1f5c252be7f568386b6fedf",
+  "generatedAt": "2026-11-23T03:22:43.152Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
@@ -14,15 +14,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1749426,
-    "sha256": "50c69acd26d17d9c52d5da48b1ad3529a6941894ac2f4d822b60f3ff8a3409af",
-    "mtime": "2026-11-22T17:34:47.793Z"
+    "bytes": 1749423,
+    "sha256": "2febb830b4821ad27da14efee3150ca5b37584efa12af15473ba32e75ea16f63",
+    "mtime": "2026-11-23T03:16:35.972Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
     "bytes": 178916,
-    "sha256": "a268266f95022de965692413a664656cf77ce8cff969f8abf440d6ebdc78f7d7",
-    "mtime": "2026-11-22T05:57:19.117Z"
+    "sha256": "4b769dba9b4eaf97d91e39d178872c7092f54000ac90ae5dbd441abf997f9b15",
+    "mtime": "2026-11-23T02:47:09.976Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -45,8 +45,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 145827,
-    "sha256": "2d7dce2309e45af5bbea7ca29868ffa29c60a9741efdfc51c7b67cca670a0068",
-    "mtime": "2026-11-21T23:45:49.936Z"
+    "sha256": "e25412305eb41ae03d2f458a97cce4b24fa4c3fdb4d551c963feabfac1d184e9",
+    "mtime": "2026-11-23T02:09:08.540Z"
    }
   ],
   "code": [
@@ -2567,7 +2567,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "a268266f95022de965692413a664656cf77ce8cff969f8abf440d6ebdc78f7d7",
+   "fileSha256": "4b769dba9b4eaf97d91e39d178872c7092f54000ac90ae5dbd441abf997f9b15",
    "citedValue": 551864.0613634596,
    "citedCfg": {
     "kFrame": 0,
@@ -2575,7 +2575,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+   "citedTargetSha256": "be08a7e79bafbcdf49e6585d05efc113b587d47da1f5c252be7f568386b6fedf",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

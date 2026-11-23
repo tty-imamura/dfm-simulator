@@ -1321,6 +1321,54 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便h〕表 15 の (R1) を QA の中で別に照合・呼ぶだけ / docs.axisenergy347i —— 原文と表と数の文が PHYSICS〔第347便i〕に逐語・文書)と、新しい段 axisenergy-347i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisenergy347i docs.axisenergy347i"
 # ==== 第347便i の塊(ここまで)====
+# ==== 第348便a の塊(ここから)====
+# 第348便a(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN977・統括の検証項目 R409 —— 説明の文だけ・計算は変えない): 枝 a の新設 2 本(lint.dragApproxName348a —— 
+#   q と kFrame の説明の文に「引きずり近似」・回答 4 の頃の句が今の文に無い・ほかの「引きずり近似」は基点と同じ数・変異 / docs.report145ans10_348a —— 回答 10 の 7 項の原文と
+#   訂正の鎖と用語が PHYSICS〔第348便a〕に逐語・AI_SPEC §301)。変異の元の文を世代で選ぶ形にした lint.diskDragName346b は第346便b の塊で走る。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.dragApproxName348a docs.report145ans10_348a"
+# ==== 第348便a の塊(ここまで)====
+# ==== 第348便b の塊(ここから)====
+# 第348便b(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN975・統括の検証項目 R410 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.spinreset348b —— 零試験 10・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便i〕の正本を QA の中で別に照合・呼ぶだけ / docs.spinreset348b —— 原文と表と数の文が PHYSICS〔第348便b〕に逐語・アプリの行の引用が html に在る・文書)と、新しい段 spinreset-348b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinreset348b docs.spinreset348b"
+# ==== 第348便b の塊(ここまで)====
+# ==== 第348便c の塊(ここから)====
+# 第348便c(原仮定者の回答(2026-11-23 —— 第145報の回答 10)の AN976・統括の検証項目 R411 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.axisbalance348c —— 零試験 10・
+#   器を走らせ直して第338便c の recheckRun で正本と照合・〔第347便h〕の正本と 120° の例と歳差の率の式を QA の中で別に照合・呼ぶだけ / docs.axisbalance348c —— 原文と表と数の文が PHYSICS〔第348便c〕に逐語・文書)と、新しい段 axisbalance-348c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisbalance348c docs.axisbalance348c"
+# ==== 第348便c の塊(ここまで)====
+# ==== 第348便d の塊(ここから)====
+# 第348便d(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・原仮定者の回答(2026-11-23 —— 第145報の回答 10)・統括の検証項目 R412 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.diskaxis348d —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・今の式の列を第340便d の正本と照合・呼ぶだけ / docs.diskaxis348d —— 原文と表と数の文が
+#   PHYSICS〔第348便d〕に逐語・文書)と、新しい段 diskaxis-348d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskaxis348d docs.diskaxis348d"
+# ==== 第348便d の塊(ここまで)====
+# ==== 第348便e の塊(ここから)====
+# 第348便e(原仮定者の回答(2026-11-21 —— 第145報)AN902・推奨で進める項 AN954 → AN980・統括の検証項目 R413 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.moonwindow348e —— 純関数の場面・
+#   短い部分を走らせ直して第338便c の recheckRun で正本と照合・〔第347便b〕の正本の行と照合・零試験のノブと変異・固定の比べる列の候補の行・呼ぶだけ / docs.moonwindow348e —— 表が PHYSICS〔第348便e〕に逐語・文書)と、新しい段 moonwindow-348e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.moonwindow348e docs.moonwindow348e"
+# ==== 第348便e の塊(ここまで)====
+# ==== 第348便f の塊(ここから)====
+# 第348便f(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN981・統括の検証項目 R414 —— 検査の設定と戻り止めと文書だけ・html と paper/ の中は変えない): 枝 f の新設 1 本(lint.paperRunner348f ——
+#   論文の検査 4 本の runs-on と頭の注・ci.yml と nightly.yml の宣言の一覧・TeX を使う/使わないの一覧と yml の中身)と、paper2.yml と nightly.yml を読む既存の lint.nightlyPaper2。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperRunner348f lint.nightlyPaper2"
+# ==== 第348便f の塊(ここまで)====
+# ==== 第348便g の塊(ここから)====
+# 第348便g(統括の検証項目 R415 —— 文書と照合の鍵だけ・html は変えない): 枝 g の新設 1 本(docs.equations348g —— 計算式の一覧の EQ-97〜EQ-102 の欄・式の字・抜粋と lib の照合・番号の連続〔3 桁〕)と、
+#   世代の写しを足した第347便f・第345便a の照合と、計算式の一覧の全部を読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d"
+# ==== 第348便g の塊(ここまで)====
+# ==== 第348便h の塊(ここから)====
+# 第348便h(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・統括の検証項目 R416 —— 診断だけ・html は変えない): 枝 h の新設 2 本(behavior.axisgeo3_348h —— 零試験 10・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第347便h〕〔第348便b〕〔第348便c〕の正本と照合・呼ぶだけ / docs.axisgeo3_348h —— 原文と表と数の文が PHYSICS〔第348便h〕に逐語・文書)と、新しい段 axisgeo3-348h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
+# ==== 第348便h の塊(ここまで)====
+# ==== 第348便i の塊(ここから)====
+# 第348便i(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R417 —— 診断だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.diskgeo3_348i —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・〔第348便d〕の列と第347便h の場への極限と第309便a の閉じた式を QA の中で別に照合・呼ぶだけ /
+#   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
+# ==== 第348便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

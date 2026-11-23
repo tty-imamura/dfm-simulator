@@ -2676,6 +2676,79 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/axisenergy-347i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第347便i: 零試験 10/ケース 1 行き先の型 3 × 割合 5 × f 2(D3 は τ 2 × 戻る先 2)/(R1) の照合 9/ケース 2 釣り合いの型 9 × 行き先 2/Td 16/組合せ 18/天体 4 組 × q 2/熱の窓' }),
   // ==== 第347便i の塊(ここまで)====
+  // ==== 第348便b の塊(ここから)====
+  // ---- 第348便b(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN975・統括の検証項目 R410):
+  //   **トルクの式の自転速度 = 前のステップの「慣性回転 + 引きずり回転」・引きずり回転は毎ステップリセット —— 步の形の型 S1・S2・S2′(対照 S2″)とリセットの後の行き先 E1・E2・E3**
+  //   (段 spinreset-348b —— 正本 tests/out/spinreset-348b.json・lib tests/lib-w348b-spinreset.mjs —— 第347便i・第347便h・第347便e・第344便e・第343便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisenergy-347i〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便b の枝の実測 15 s(nice 15)
+  S('spinreset-348b', 'node tests/exp-w348b-spinreset.mjs', ['tests/out/spinreset-348b.json'], 16, { secSource: 'w348b-branch', node: true,
+    after: ['axisenergy-347i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 20 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spinreset-348b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便b: 零試験 10/ケース 1 種 7 × 割合 5 × f 2/(D1)(D2)(D3) と同じ入力 10/ケース 2 種 4 × 行き先 2 × 釣り合いの型 9/Td 32/刻み 8 × 3/天体 4 組 × q 2' }),
+  // ==== 第348便b の塊(ここまで)====
+  // ==== 第348便c の塊(ここから)====
+  // ---- 第348便c(原仮定者の回答(2026-11-23 —— 第145報の回答 10)の AN976・統括の検証項目 R411):
+  //   **釣り合う向き = 銀河由来と太陽由来の軸引きずりの重みつきの合成(重みの型 3)・観測の自転軸とのなす角と歳差の率・「引きずられ半径 ÷ 観測半径」の係数 c_R のノブ・熱の窓**
+  //   (段 axisbalance-348c —— 正本 tests/out/axisbalance-348c.json・lib tests/lib-w348c-axisbalance.mjs —— 第347便h・第347便e・第344便e・第343便e・第342便e・第341便f・第337便c・第330便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisenergy-347i〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便c の枝の実測 1 s(nice 15)
+  S('axisbalance-348c', 'node tests/exp-w348c-axisbalance.mjs', ['tests/out/axisbalance-348c.json'], 2, { secSource: 'w348c-branch', node: true,
+    after: ['axisenergy-347i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisbalance-348c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便c: 零試験 10/釣り合う向き 15 組 × 候補 2 × q 3 × D₀ 2 × 重みの型 3/120° の例 16/歳差 90/c_R(kP2 12・代表 33・組 48)/R_d 11/熱の窓 12' }),
+  // ==== 第348便c の塊(ここまで)====
+  // ==== 第348便d の塊(ここから)====
+  // ---- 第348便d(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・原仮定者の回答(2026-11-23 —— 第145報の回答 10)・統括の検証項目 R412):
+  //   **軸引きずりの候補の、円盤引きずりの側の見え方 —— 候補の回転を第340便d の部位の力の場の口に入れた寄せる向き・向きが変わる高さ・経路の比・土星の環の物差し・通過の輪**
+  //   (段 diskaxis-348d —— 正本 tests/out/diskaxis-348d.json・lib tests/lib-w348d-diskaxis.mjs —— 第347便h・第340便d・第338便d の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisdiff-347h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便d の枝の実測 30 s(nice 15)
+  S('diskaxis-348d', 'node tests/exp-w348d-diskaxis.mjs', ['tests/out/diskaxis-348d.json'], 30, { secSource: 'w348d-branch', node: true,
+    after: ['axisdiff-347h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 30 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/diskaxis-348d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便d: 零試験 9/(A) 輪の寄せる向き 列 7 × q 3 × D₀ 2 × 距離 2 × 作用 3/(B) 経路の比 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 18' }),
+  // ==== 第348便d の塊(ここまで)====
+  // ==== 第348便e の塊(ここから)====
+  // ---- 第348便e(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・推奨で進める項 AN954 → AN980・統括の検証項目 R413):
+  //   **月の型の長い窓 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列の月の近地点の率・交点の率・恒星月・離心率の代理(窓 6〜186 年 × 刻み 200/月・400/月)・月の本の表・枠の依り方**
+  //   (段 moonwindow-348e —— 正本 tests/out/moonwindow-348e.json・lib tests/lib-w348e-moonwindow.mjs —— 第347便b・第341便e の lib を import して呼ぶ。入力のファイルは〔第347便b〕の正本〔照合だけ —— after に convbody-347b〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。純関数の場面と短い部分は第338便c の sigmaOf と settle・長い走りは 1 回。所要は第348便e の枝の実測 161〜167 s(nice 15・同じ箱で 7 枝が並行)
+  S('moonwindow-348e', 'node tests/exp-w348e-moonwindow.mjs', ['tests/out/moonwindow-348e.json'], 167, { secSource: 'w348e-branch', node: true,
+    after: ['convbody-347b'],   // 〔第347便b〕の正本を照合に読む(書き手の後)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 長い走り(186 年 × 型 8 × 刻み 2)は 1 本で、簡易一致の窓を持たない(QA は短い部分を走らせ直す)',
+    volatilePaths: { 'tests/out/moonwindow-348e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第348便e: 純関数の場面 6/短い部分(窓 6 年 × 型 7・刻みの次数 3)/長い走り 刻み 2 × 型 8 × 186 年(窓 6 × 読み A・窓 4 × 読み B・間引いた読み)/零試験のノブ 2・変異 4/'
+      + '表(窓 4 量・動き 4 量・月の本 6 列・枠 2 量)' }),
+  // ==== 第348便e の塊(ここまで)====
+  // ==== 第348便h の塊(ここから)====
+  // ---- 第348便h(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・統括の検証項目 R416):
+  //   **軸引きずりの候補の回転を geoPN=3(慣性決定力の引きずり)の場で数え直す —— 場の形の無次元の例・天体 15 組 × 場の組 4 × 候補 2 と〔第348便c〕の q 0・2・3 の列との並び・
+  //   係数 c_R の入り方・背景 W₀ の効き・エネルギーの行き先「慣性回転」と「引きずり回転」の 2 列(〔第348便b〕の步の形の上)**
+  //   (段 axisgeo3-348h —— 正本 tests/out/axisgeo3-348h.json・lib tests/lib-w348h-axisgeo3.mjs —— 第347便h・第348便b・第348便c・第347便i・第347便e・第312便a・第342便e・第341便f・第337便c の lib を
+  //   import して呼ぶ。入力のファイルは無い〔順序だけ after に axisbalance-348c〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便h の枝の実測 5 s(nice 15)
+  S('axisgeo3-348h', 'node tests/exp-w348h-axisgeo3.mjs', ['tests/out/axisgeo3-348h.json'], 5, { secSource: 'w348h-branch', node: true,
+    after: ['axisbalance-348c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisgeo3-348h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便h: 零試験 10/無次元の例 120/天体 15 組 × 場の組 4 × 候補 2/q の列との並び 60/c_R 8/W₀ 6/行き先の 2 列 24/天体 4 組' }),
+  // ==== 第348便h の塊(ここまで)====
+  // ==== 第348便i の塊(ここから)====
+  // ---- 第348便i(原仮定者の指示(2026-11-23 —— 第145報の補足 2)・原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R417):
+  //   **円盤引きずりの側を geoPN=3(慣性決定力の引きずり)の形の場で数え直す —— 輪の寄せる向き・経路の比・土星の環の物差し・通過の輪を〔第348便d〕の列と並べる**
+  //   (段 diskgeo3-348i —— 正本 tests/out/diskgeo3-348i.json・lib tests/lib-w348i-diskgeo3.mjs —— 第348便d・第347便h・第340便d・第338便d・第309便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に diskaxis-348d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便i の枝の実測 24 s(nice 15)
+  S('diskgeo3-348i', 'node tests/exp-w348i-diskgeo3.mjs', ['tests/out/diskgeo3-348i.json'], 24, { secSource: 'w348i-branch', node: true,
+    after: ['diskaxis-348d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/diskgeo3-348i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第348便i: 零試験 9/(A) 輪の寄せる向き 源の回転の分 3 × (W₀, W_ii) 4 × 受け手の速度 2 × 候補 2 × 距離 2 × 作用 3/(B) 経路の比 (W₀, W_ii) 3 × 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 60' }),
+  // ==== 第348便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
