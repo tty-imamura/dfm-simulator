@@ -1369,6 +1369,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 #   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
+# ==== 第350便g の塊(ここから)====
+# 第350便g(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R424 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.diskcheck350g —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・〔第348便i〕の正本と共通の点検の数を QA の中で別に照合・呼ぶだけ /
+#   docs.diskcheck350g —— 原文と表と数の文が PHYSICS〔第350便g〕に逐語・文書)と、新しい段 diskcheck-350g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskcheck350g docs.diskcheck350g"
+# ==== 第350便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

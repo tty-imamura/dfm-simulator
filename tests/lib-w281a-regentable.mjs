@@ -2749,6 +2749,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/diskgeo3-348i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第348便i: 零試験 9/(A) 輪の寄せる向き 源の回転の分 3 × (W₀, W_ii) 4 × 受け手の速度 2 × 候補 2 × 距離 2 × 作用 3/(B) 経路の比 (W₀, W_ii) 3 × 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 60' }),
   // ==== 第348便i の塊(ここまで)====
+  // ==== 第350便g の塊(ここから)====
+  // ---- 第350便g(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R424):
+  //   **円盤引きずりの側を geoPN=3 の在位の形の場で数える —— 通過の輪の傾きを 3 つの読みで・🛟 の傾きの比と並べる・受け手の速度で向きが入れ替わる行・粒子の輪・厚みの帳簿への口**
+  //   (段 diskcheck-350g —— 正本 tests/out/diskcheck-350g.json・lib tests/lib-w350g-diskcheck.mjs —— 第348便h・第348便i・第348便d・第347便h・第340便d・第338便d の lib を import して呼ぶ。
+  //   入力のファイルは 🛟 の正本 tests/out/rotvert-w339a.json〔読むだけ —— after に rotvert-339a〕・順序 after に diskgeo3-348i)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第350便g の枝の実測 6 s(nice 15)
+  S('diskcheck-350g', 'node tests/exp-w350g-diskcheck.mjs', ['tests/out/diskcheck-350g.json'], 6, { secSource: 'w350g-branch', node: true,
+    after: ['diskgeo3-348i', 'rotvert-339a'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は 🛟 の正本 1 本)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/diskcheck-350g.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第350便g: 零試験 8/通過の輪 24/🛟 の要点と区分 5/向きが入れ替わる行 60/粒子の輪 7/帳簿への口 30' }),
+  // ==== 第350便g の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
