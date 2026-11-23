@@ -2604,6 +2604,78 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/opttour-346a.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec'] },
     note: '第346便a: 7 本 × 2 つの使い方の、最適化が止まった関数と理由・S._core の最適化の状態の数・ブラウザの版・V8・指紋・門(V8 15.7 の A/B で S._core が止まる本 0)' }),
   // ==== 第346便a の塊(ここまで)====
+  // ==== 第347便b の塊(ここから)====
+  // ---- 第347便b(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・統括の検証項目 R401):
+  //   **当事者時間の換算の多体 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列(太陽–地球–月の型の 3 体・金星と水星の型・時計に入れる背景・場の側の運動量の帳簿・8 惑星と月の型の表)**
+  //   (段 convbody-347b —— 正本 tests/out/convbody-347b.json・lib tests/lib-w347b-convbody.mjs —— 第344便b・第343便b・第341便e・第299便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便b の段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。純関数の場面・T3・T5 は第338便c の settleRun。所要は第347便b の枝の実測 31 s
+  S('convbody-347b', 'node tests/exp-w347b-convbody.mjs', ['tests/out/convbody-347b.json'], 31, { secSource: 'w347b-branch', node: true,
+    after: ['partyconv-344b'],   // 順序だけ(第344便b の lib を呼ぶ —— 同じ lib の先が読む正本の書き手の後)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 31 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/convbody-347b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便b: 太陽–地球–月の型 2 系 × ε 2 点 + 刻みと窓の幅 × 型 (0)・(α) 枠 3・(β) 枠 3 の率の差/金星と水星の型の 2 体の照合 6 行と摂動の多体 10 行/'
+      + '水星の本の背景の値の (α) の一次/2 体・3 体 × n_G 2 × 型 3 の帳簿 12 行/8 惑星の (0) − (α) の近点の二次と周期の比 + 月の型 3 行' }),
+  // ==== 第347便b の塊(ここまで)====
+  // ==== 第347便c の塊(ここから)====
+  // ---- 第347便c(原仮定者の回答(2026-11-21 —— 第145報)AN904「探索のアプローチを変える」・統括の検証項目 R402):
+  //   **自分自身の決定力で局所光速でもわずかに進む時計の読みの候補(型 S1〜S3)と対照 S0・「時間が進む半径」とシュバルツシルト半径・ガンマ線バーストの放出の時刻の幅**
+  //   (段 selfclock-347c —— 正本 tests/out/selfclock-347c.json・lib tests/lib-w347c-selfclock.mjs —— 第344便c・第342便b の lib を import して呼ぶ。他の正本は読まない
+  //   —— 順序だけ after に第344便c の段)。**診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。所要は第347便c の枝の実測 1 s 未満
+  S('selfclock-347c', 'node tests/exp-w347c-selfclock.mjs', ['tests/out/selfclock-347c.json'], 2, { secSource: 'w347c-branch', node: true,
+    after: ['clockmid-344c'],   // 順序だけ(呼ぶ lib の段)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/selfclock-347c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便c: 零試験 8/局所光速の時計(型 6 × 物 11 × 外 3)・速さの表(物 4 × 型 6 × 速さ 5)/イオンの測定の内のノブの範囲(1σ・2σ)/'
+      + '「時間が進む半径」(定義 3 × 外 3 × しきい値 3)/ガンマ線バースト(噴き出す塊 5 × 10・落ち込む物質 9 × 8)' }),
+  // ==== 第347便c の塊(ここまで)====
+  // ==== 第347便d の塊(ここから)====
+  // ---- 第347便d(原仮定者の回答(2026-11-21 —— 第145報)「AN909: 推奨で進める」・統括の検証項目 R403): **引きずりの 3 体と長い走り —— 宣言 D0(主)〜D3 の 3 体の近点と交点の率・重心の漂い・
+  //   角運動量の残り/2 体を周期の 1e5 倍まで走らせた帳簿の残り/重力の換算 (α) と D0 の組**(段 draglong-347d —— 正本 tests/out/draglong-347d.json・lib tests/lib-w347d-draglong.mjs ——
+  //   第344便d・第344便b〔照合だけ〕・第343便b・第341便e・第331便c の lib を import して呼ぶ。他の正本は読まない —— 順序だけ after に第344便d の段と同じ 8 段)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数 —— 領域の宣言なし)・入力のファイルは無い。1 プロセス。正本は第338便c の settleRun で書く(長い走りは 1 回)。所要は第347便d の枝の実測 39 s
+  S('draglong-347d', 'node tests/exp-w347d-draglong.mjs', ['tests/out/draglong-347d.json'], 39, { secSource: 'w347d-branch', node: true,
+    after: ['inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // 順序だけ(第344便d の段と同じ —— 第341便e の lib の import の先が読む正本の書き手)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 39 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/draglong-347d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便d: 純関数の場面 6/3 体 2 系 × 引きずり 5 × 刻み 2 の近点と交点の率・重心の漂い・E と角運動量の残り・2 体の極限/'
+      + '2 体の帳簿 × 宣言 4 × 刻み 2 × 1e3・1e4 周 + D0・D1 × 刻み 2 × 1e5 周/近点 重力の換算 2 × 引きずり 3 × 刻み 2・二次の読み μ 3' }),
+  // ==== 第347便d の塊(ここまで)====
+  // ==== 第347便e の塊(ここから)====
+  // ---- 第347便e(原仮定者の回答(2026-11-21 —— 第145報)「AN910: 推奨で進める」「AN911: 推奨で進める」・推奨で進める項 AN912・AN913・統括の検証項目 R404):
+  //   **続けて足すトルク(C2)を主の候補にした天体の表(2 倍角の則の引数 2 つ —— 受け手の位置の緯度を主の候補・軸どうしの角を比べる列)・尺度の置き方 3 列・熱の窓・120° の三次元の残りの候補 2 つ**
+  //   (段 spintorque-347e —— 正本 tests/out/spintorque-347e.json・lib tests/lib-w347e-spintorque.mjs —— 第344便e・第343便e・第342便e・第341便f・第340便h・第337便j・第337便l・第337便c・第332便a・
+  //   第330便a・第299便c の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に spincompose-344e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第347便e の枝の実測 1 s 未満
+  S('spintorque-347e', 'node tests/exp-w347e-spintorque.mjs', ['tests/out/spintorque-347e.json'], 1, { secSource: 'w347e-branch', node: true,
+    after: ['spincompose-344e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spintorque-347e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便e: 零試験 7/T1 受け手と源 15 × 読み 2 × 引数 2(緯度・軸どうしの角)× 尺度 3 × (k, b) 4/T2 尺度の置き方 15 行と観測の自転の変化の率 2/窓 12 行/T4 極 2 × 銀河 2 × 太陽の項の読み 4' }),
+  // ==== 第347便e の塊(ここまで)====
+  // ==== 第347便h の塊(ここから)====
+  // ---- 第347便h(原仮定者の指示(2026-11-22 —— 第145報の補足 1)・統括の検証項目 R407):
+  //   **軸引きずりの回転の候補 5 つ(2 点の差分・3 軸 6 点の差分・中心の ½ ∇×u・勾配の分け方・球の中の重みつきの平均)と比べる列(2 倍角の則)・慣性回転と引きずり回転の帳簿・
+  //   ジャイロトルクの向きの読み・エネルギーの行き先**(段 axisdiff-347h —— 正本 tests/out/axisdiff-347h.json・lib tests/lib-w347h-axisdiff.mjs —— 第347便e・第337便l・第337便c・第341便f・
+  //   第342便e の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に spintorque-347e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第347便h の枝の実測 7〜9 s
+  S('axisdiff-347h', 'node tests/exp-w347h-axisdiff.mjs', ['tests/out/axisdiff-347h.json'], 9, { secSource: 'w347h-branch', node: true,
+    after: ['spintorque-347e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisdiff-347h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便h: 零試験 12/(i) 自転する源 p 2 × q 2 × D₀ 3 × 距離 3 × 緯度 4 × 候補 5/(ii) 通過 p 2 × D₀ 3 × b 3 × v 2 × 質量 2/(iii) 公転 24/(iv) 天体 15 × q 2/帳簿・ジャイロの読み・エネルギー・熱' }),
+  // ==== 第347便h の塊(ここまで)====
+  // ==== 第347便i の塊(ここから)====
+  // ---- 第347便i(原仮定者の回答(2026-11-22 —— 第145報の回答 8)・原仮定者の回答(2026-11-22 —— 第145報の回答 9)・統括の検証項目 R408):
+  //   **軸引きずりのエネルギーの 2 つのケース(行き先「引きずり回転」の扱いの型 D1〜D3・「傾きにくくなり釣り合う」の型 Ta〜Td)・組合せ・天体の桁・熱の窓**
+  //   (段 axisenergy-347i —— 正本 tests/out/axisenergy-347i.json・lib tests/lib-w347i-axisenergy.mjs —— 第347便h・第347便e・第344便e・第343便e・第342便e・第341便f の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に axisdiff-347h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第347便i の枝の実測 24 s(nice 15)
+  S('axisenergy-347i', 'node tests/exp-w347i-axisenergy.mjs', ['tests/out/axisenergy-347i.json'], 25, { secSource: 'w347i-branch', node: true,
+    after: ['axisdiff-347h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 30 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/axisenergy-347i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第347便i: 零試験 10/ケース 1 行き先の型 3 × 割合 5 × f 2(D3 は τ 2 × 戻る先 2)/(R1) の照合 9/ケース 2 釣り合いの型 9 × 行き先 2/Td 16/組合せ 18/天体 4 組 × q 2/熱の窓' }),
+  // ==== 第347便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
