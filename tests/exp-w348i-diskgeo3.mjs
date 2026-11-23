@@ -25,6 +25,7 @@ export const TARGET = 'tests/lib-w348i-diskgeo3.mjs';
 /** 版の履歴(結果を見て変えた所 —— 理由つき) */
 export const AMEND = Object.freeze([
   '統括の追加の依頼(第348便i の続き): 源の回転の分の読みに (Rk1)(在位の本が宣言している invSq の kernel:"k1"・rdRule:"kappaM" の形 —— 重み K1・源の回転の分 M1 = R²/(5d²)・自分の重みの K1 の球・W₀ 0 が主)を足した(A・C・D の列と零試験 ⑥′ —— 結果を見て変えたのではなく、列を足しただけ。(Rcv)・(Rm2) の行の値は不変)',
+  '同じ続き: 一番近い列の比の対数の差(logGap)を正本に書かない(丸めの桁の行で実行系により尺度の外 —— 選び方は不変)',
 ]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const NOT_CLAIM = Object.freeze([

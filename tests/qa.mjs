@@ -118283,7 +118283,7 @@ function eqItems348g(eq) {
       try {
         const js = (x) => JSON.stringify(x), nrm = (a) => Math.hypot(a[0], a[1], a[2]);
         // ① 版・格子・零試験
-        if (!(L.LIB_VERSION === 'w348i-diskgeo3-lib-1' && X.HARNESS_VERSION === 'w348i-diskgeo3-1' && D0.DOC_VERSION === 'w348i-diskgeo3doc-1' && X.AMEND.length === 1
+        if (!(L.LIB_VERSION === 'w348i-diskgeo3-lib-1' && X.HARNESS_VERSION === 'w348i-diskgeo3-1' && D0.DOC_VERSION === 'w348i-diskgeo3doc-1' && X.AMEND.length === 2
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         const DL = L.DECL;
         if (!(js(DL.cands) === js(['P2', 'W']) && DL.cands.every((c) => H347.DECL.cands.includes(c)) && js(DL.rots) === js(['cv', 'm2', 'k1']) && js(DL.k1.den) === js([[0, 0], [0, 0.1], [0, 10], [0.1, 0.1]]) && DL.k1.Rself === D348.DECL.Rb && DL.p === 2 && DL.Rb === D348.DECL.Rb

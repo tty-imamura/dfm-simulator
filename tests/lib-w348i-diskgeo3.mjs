@@ -143,7 +143,7 @@ export function tableA() {
       // 〔第348便d〕の列のうち、向きが同じで比(vsH1)の対数の差が一番小さい列(どこに来るか)
       let near = null, best = Infinity;
       for (const r of ref) if (r.cand === cand && r.d === d && r.action === action && r.dir === P.dir && v !== null && r.vsH1 !== null && v !== 0 && r.vsH1 !== 0 && sgn(v) === sgn(r.vsH1)) {
-        const g = Math.abs(Math.log(Math.abs(v / r.vsH1))); if (g < best) { best = g; near = { q: r.q, D0: r.D0, vsH1: r.vsH1, logGap: g }; } }
+        const g = Math.abs(Math.log(Math.abs(v / r.vsH1))); if (g < best) { best = g; near = { q: r.q, D0: r.D0, vsH1: r.vsH1 }; } }
       rows.push({ rot, Wbg: dn[0], Wself: dn[1], vRec: vr, cand, d, action, dir: P.dir, zPow: P.zPow, zStarPos: P.zStarPos, zStarNeg: P.zStarNeg, pullRef: P.pullRef, omRef: P.omRef, shapeRef: P.shapeRef,
         vsH1: v, near348d: near, sameDirAs348d: ref.filter((r) => r.cand === cand && r.d === d && r.action === action && r.dir === P.dir).map((r) => 'q' + r.q + '|' + r.D0) });
     }
