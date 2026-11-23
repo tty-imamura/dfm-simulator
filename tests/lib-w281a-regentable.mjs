@@ -2712,6 +2712,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/diskaxis-348d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第348便d: 零試験 9/(A) 輪の寄せる向き 列 7 × q 3 × D₀ 2 × 距離 2 × 作用 3/(B) 経路の比 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 18' }),
   // ==== 第348便d の塊(ここまで)====
+  // ==== 第348便e の塊(ここから)====
+  // ---- 第348便e(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・推奨で進める項 AN954 → AN980・統括の検証項目 R413):
+  //   **月の型の長い窓 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列の月の近地点の率・交点の率・恒星月・離心率の代理(窓 6〜186 年 × 刻み 200/月・400/月)・月の本の表・枠の依り方**
+  //   (段 moonwindow-348e —— 正本 tests/out/moonwindow-348e.json・lib tests/lib-w348e-moonwindow.mjs —— 第347便b・第341便e の lib を import して呼ぶ。入力のファイルは〔第347便b〕の正本〔照合だけ —— after に convbody-347b〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。純関数の場面と短い部分は第338便c の sigmaOf と settle・長い走りは 1 回。所要は第348便e の枝の実測 161〜167 s(nice 15・同じ箱で 7 枝が並行)
+  S('moonwindow-348e', 'node tests/exp-w348e-moonwindow.mjs', ['tests/out/moonwindow-348e.json'], 167, { secSource: 'w348e-branch', node: true,
+    after: ['convbody-347b'],   // 〔第347便b〕の正本を照合に読む(書き手の後)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 長い走り(186 年 × 型 8 × 刻み 2)は 1 本で、簡易一致の窓を持たない(QA は短い部分を走らせ直す)',
+    volatilePaths: { 'tests/out/moonwindow-348e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第348便e: 純関数の場面 6/短い部分(窓 6 年 × 型 7・刻みの次数 3)/長い走り 刻み 2 × 型 8 × 186 年(窓 6 × 読み A・窓 4 × 読み B・間引いた読み)/零試験のノブ 2・変異 4/'
+      + '表(窓 4 量・動き 4 量・月の本 6 列・枠 2 量)' }),
+  // ==== 第348便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

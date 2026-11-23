@@ -117706,6 +117706,170 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
 }
 // ==== 第348便d の塊(ここまで)====
 
+// ==== 第348便e の塊(ここから —— behavior.moonwindow348e・docs.moonwindow348e の 2 ブロック。root は SKIP)====
+// ---- 第348便e(原仮定者の回答(2026-11-21 —— 第145報)AN902「推奨で進める。現状も近似として比較可能にする」・推奨で進める項 AN954 → AN980・統括の検証項目 R413):
+// ----   **月の型の長い窓 —— (0)「現行の近似」・(α) 主の候補・(β) 比べる列**(新設 —— 器 tests/exp-w348e-moonwindow.mjs〔html を読まない〕・lib tests/lib-w348e-moonwindow.mjs・
+// ----   文書の lib tests/lib-w348e-moonwindowdoc.mjs・正本 tests/out/moonwindow-348e.json・入力のファイルは〔第347便b〕の正本〔照合だけ〕)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.moonwindow348e(QA の中で走らせ直すのは短い部分だけ —— 窓 6 年・刻み 200/月・刻みの次数・零試験のノブの 6 年の走り): ① 版・宣言・ビットで同じを見る場面
+// ----     ② 短い部分を走らせ直して第338便c の recheckRun で正本と照合 ③ 門・表の形 ④ 作り直した短い部分と〔第347便b〕の正本の実の比の行の照合 ⑤ 零試験のノブ(6 年)と変異 ⑥ 固定の比べる列が候補の行に在る ⑦ 呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w348e-moonwindow.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w348e-moonwindow.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w348e-moonwindowdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'moonwindow-348e.json'), wRef = path.join(ROOT, 'tests', 'out', 'convbody-347b.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.moonwindow348e(第348便e の月の型の長い窓の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, JR = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  try { JR = JSON.parse(fs.readFileSync(wRef, 'utf8')); } catch (e) { JR = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/moonwindow-348e.json が読めない');
+    else if (!JR) bad.push('〔第347便b〕の正本 tests/out/convbody-347b.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        const R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+        // ① 版・宣言・ビットで同じを見る場面
+        if (!(L.LIB_VERSION === 'w348e-moonwindow-lib-1' && X.HARNESS_VERSION === 'w348e-moonwindow-1' && D0.DOC_VERSION === 'w348e-moonwindowdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION && J.meta.recheck.unstable === 0)) bad.push('① 版(lib・器・文書の lib・照合の lib)か判定が反転する葉');
+        if (!(js(L.DECL.windows) === js([18.6, 37.2, 93, 186]) && js(L.DECL.steps) === js([200, 400]) && L.DECL.mainFrame === 'clock' && L.DECL.variants.length === 7
+          && js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN) && js(J.obs) === js(L.OBS))) bad.push('① 宣言(窓・刻み・主の枠・型・固定の比べる列)が lib・器・正本で同じでない');
+        const EX = L.exactScenes();
+        if (!(Object.values(EX.gates).every((v) => v === true) && js(EX) === js(J.exact))) bad.push('① ビットで同じを見る場面(ノブ 1 = (α)・長い走りの先頭 = 〔第347便b〕の lib の走り)');
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・窓 ${L.DECL.windows.join('・')} 年・刻み ${L.DECL.steps.join('・')}/月・ビットで同じの場面 ${Object.keys(EX.gates).length}`);
+        // ② 短い部分を走らせ直して正本と照合
+        const parts = ['pure', 'short'], RC = R338.recheckRun(() => X.settledPart(), J, parts), diffs = RC.diffs;
+        const badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        const PG = RC.base.pure.gates; if (!(Object.values(PG).every((v) => v === true) && Object.keys(PG).length === 4)) bad.push('② 純関数の場面の門');
+        cases.push(`② 短い部分(${parts.join('・')})を走らせ直して正本と同じ(第338便c の recheckRun —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ 門・表の形
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true && Object.keys(G2).length === 11)) bad.push('③ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const shape = J.long.length === 2 && J.long.every((c) => c.rows.length === 7 && c.rows.every((r) => r.A.length === 6 && r.B.length === 4)) && J.long[1].rows.every((r) => r.Aal && r.Aal.length === 6)
+          && ['dVarpi', 'dOm', 'dLon', 'dE'].every((q) => J.tables.window[q].length === 28 && J.tables.shrink[q].length === 7) && J.tables.book.cols.length === 6 && J.tables.frames.dVarpi.length === 16;
+        if (!shape) bad.push('③ 表の形(刻み 2 × 型 7 × 窓 6・読み B 4・窓の表 28 行 × 4 量・月の本 6 列・枠 16 行)');
+        cases.push(`③ 門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・表の形`);
+        // ④ 作り直した短い部分と〔第347便b〕の正本の実の比の行(窓 6 年・刻み 200/月・λ = 1)
+        const R0 = JR.t1.real[0], cr = X.crossShort(RC.base.short.rows, RC.sigma.short.rows, R0);
+        if (!(JR.version === 'w347b-convbody-1' && R0.stepsPerMoon === 200 && R0.years === 6 && R0.lam === 1 && cr.nBad === 0)) bad.push('④ 〔第347便b〕の正本の行との照合(葉 ' + cr.n + '・外れ ' + cr.nBad + '・最大 ' + cr.worst.toExponential(2) + ')');
+        cases.push(`④ 〔第347便b〕の正本の実の比の行(窓 6 年)と ${cr.n} 葉で相対の差の最大 ${cr.worst === 0 ? '0' : cr.worst.toExponential(2)}`);
+        // ⑤ 零試験のノブ(6 年)と変異
+        const k0 = L.knobRun(0, 2, 6), kh = L.knobRun(0.5, 2, 6), pm = L.prefixMutant(R0.rows[0]);
+        if (!(k0.maxRel < 3e-3 && kh.maxRel > 3e-2 && pm > 1e-6)) bad.push('⑤ 零試験のノブ(べき 0・指数 2 → (0)〔6 年 —— 丸めの育ちの床 3e-3〕)か変異(べき 0.5・窓の記録を 1 個ずらす)が落ちない');
+        cases.push(`⑤ ノブのべき 0・指数 2 と (0) の差 ${k0.maxRel.toExponential(1)}(6 年)・変異 べき 0.5 ${kh.maxRel.toExponential(1)}・記録 1 個ずらし ${pm.toExponential(1)}`);
+        // ⑥ 固定の比べる列はリポジトリの候補の行に在る(値と記録の番号)
+        const csv = rd(L.OBS.file);
+        for (const o of L.OBS.rows) if (!csv.split('\n').some((l) => l.indexOf(',' + o.value + ',') >= 0 && l.indexOf(o.record) >= 0)) bad.push('⑥ 固定の比べる列 ' + o.key + '(' + o.record + ')が ' + L.OBS.file + ' に無い');
+        cases.push(`⑥ 固定の比べる列 ${L.OBS.rows.length} 行が ${L.OBS.file} の候補の行に在る`);
+        // ⑦ 呼ぶだけ
+        const tl = rd('tests/lib-w348e-moonwindow.mjs'), th = rd('tests/exp-w348e-moonwindow.mjs'), td = rd('tests/lib-w348e-moonwindowdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((mm) => mm[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((mm) => mm[1]).sort();
+        if (!(js(imps) === js(['lib-w341e-lightmass.mjs', 'lib-w347b-convbody.mjs']) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w348e-moonwindow.mjs'])
+          && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th + tl + td) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/w348e/.test(rd('tests/lib-w347b-convbody.mjs') + rd('tests/lib-w341e-lightmass.mjs'))))
+          bad.push('⑦ 呼ぶだけ(lib の import は第347便b・第341便e の lib だけ・html を読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文に本便の名なし)');
+        cases.push('⑦ lib の import は第347便b・第341便e の lib だけ・html を読まない');
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.moonwindow348e', bad.length === 0,
+      `**月の型の長い窓の作り直し**(第348便e・原仮定者の回答(2026-11-21 —— 第145報)AN902・R413 —— html を読まない・アプリには入れない・長い走りは正本の門で・QA は短い部分だけ走らせ直す): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第348便e: docs.moonwindow348e は別の最上位のブロック(版名〔CHANGELOG〕を読む範囲を behavior と分ける)。世代切替は上と同じ
+// ----   docs.moonwindow348e(正本): ① 門・版・来歴(html を読まない —— target は lib・入力のファイルは〔第347便b〕の正本 1 本)② 表 19 本が PHYSICS〔第348便e〕に逐語
+// ----     ③ 節の位置(〔第347便i〕の節の後・〔第328便 — 統括〕と「## 7.」の前)・必須の語・ノブの表(6 列 3 行)・AI_SPEC §305(次の見出しまで)・CHANGELOG(第348便e の行が在れば)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・裸の係数記号(節・AI_SPEC・CHANGELOG の行・器・lib・文書の lib)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w348e-moonwindow.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w348e-moonwindow.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w348e-moonwindowdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'moonwindow-348e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.moonwindow348e(第348便e の月の型の長い窓の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第348便e — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第347便i — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第348便e〕が無いか〔第347便i〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/moonwindow-348e.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'moonwindow'
+        && J.target === 'tests/lib-w348e-moonwindow.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 1 && J.meta.inputs[0].file === 'tests/out/convbody-347b.json'
+        && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは〔第347便b〕の正本 1 本・照合の lib の meta・判定が反転する葉 0)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      const T = D0.tablesOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第348便e〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 19) bad.push('② 表の数 ' + Object.keys(T).length);
+      cases.push(`② 表 ${Object.keys(T).length} 本が PHYSICS〔第348便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-21 —— 第145報)', 'AN902: 推奨で進める。現状も近似として比較可能にする', 'AN954', 'AN980', 'AN869', 'R413', 'tests/exp-w348e-moonwindow.mjs', 'tests/out/moonwindow-348e.json',
+      'tests/lib-w348e-moonwindow.mjs', 'tests/lib-w347b-convbody.mjs', 'moonwindow-348e', '(0)「現行の近似」', '(α) 主の候補', '(β) 比べる列', '現行が正しい/誤り、とは書かない', '換算の型は決めない',
+      '今の点の時計の枠', '主星の枠', '絶対の枠', '読み A', '読み B', '差 ÷ 幅', '18.6 年・37.2 年・93 年・186 年', '固定の係数 —— 合わせない', '文献の値・未照合', 'OBS-34f53c94', 'OBS-b45eb3c8', 'OBS-56488774',
+      '🌘', '🌔', '本の設定そのものではない', '18.6 年の窓は持たない', '光速を候補の採否に使っていない', '原文の文', '読み', '候補', '対照', '推奨',
+      'ノブの表', 'ノブの名', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '第145報の AN902 への枝の答え', '決断事項の候補', '次の便へ', 'behavior.moonwindow348e', 'docs.moonwindow348e'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第348便e〕に「' + w + '」が無い');
+    if (/\\\|/.test(sec)) bad.push('③ PHYSICS〔第348便e〕の表の行に \\| がある');
+    const kh = '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |', ki = sec.indexOf(kh);
+    const krows = ki >= 0 ? sec.slice(ki).split('\n').slice(2).filter((l) => l.startsWith('| ')) : [];
+    if (!(ki >= 0 && krows.length === 3 && krows.every((l) => l.split(' | ').length === 6 && /\| (候補|対照) \|$/.test(l)))) bad.push('③ ノブの表(6 列・3 行・状態は候補か対照)');
+    const a0 = AS.indexOf('\n## 305. 第348便e'), ai = a0 >= 0 ? secUntilNext329c(AS, a0, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/moonwindow-348e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R413') >= 0 && ai.indexOf('AN902') >= 0))
+      bad.push('③ AI_SPEC §305(正本・SYSTEM_PROMPT・候補・R413・AN902)');
+    // CHANGELOG の行は統合で足す(枝は木に書かない —— 共通ブリーフ)。在れば、見出しより後で、器・段・AN902・R413 を含む
+    const cb = CLx.search(/^## v1\.47(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const ci = cls.findIndex((l) => l.indexOf('**第348便e**') >= 0), cl = ci >= 0 ? cls[ci] : '';
+    if (ci >= 0 && !(ci > 0 && cl.indexOf('tests/exp-w348e-moonwindow.mjs') >= 0 && cl.indexOf('moonwindow-348e') >= 0 && cl.indexOf('AN902') >= 0 && cl.indexOf('R413') >= 0)) bad.push('③ CHANGELOG の第348便e の行(見出しより後・器・段・AN902・R413)');
+    if (!(/S\('moonwindow-348e', 'node tests\/exp-w348e-moonwindow\.mjs', \['tests\/out\/moonwindow-348e\.json'\]/.test(RT) && RT.indexOf('// ==== 第348便e の塊(ここから)====') > RT.indexOf('// ==== 第347便i の塊(ここまで)====') && RT.indexOf('// ==== 第347便i の塊(ここまで)====') >= 0)) bad.push('③ 段の行 moonwindow-348e(第347便i の塊の後)');
+    if (GI.indexOf('!tests/out/moonwindow-348e.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第348便e の塊(ここから)====') > PM.indexOf('# ==== 第347便i の塊(ここまで)====') && PM.indexOf('# ==== 第347便i の塊(ここまで)====') >= 0 && /behavior\.moonwindow348e docs\.moonwindow348e/.test(PM))) bad.push('③ post-merge に第348便e の塊(第347便i の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表 6 列・AI_SPEC §305(次の見出しまで)・CHANGELOG の行(' + (ci >= 0 ? '在る' : '統合で足す') + ')・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT348 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bW_bg\b/, /\bWbg\b/, /\bm_d\b/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第348便e の書かない語(引用符の中でも書かない —— 逆さの字で持つ): 確かめた・示した・説明した・同定した・近点回転が出た・形が決まった・型が決まった・近似が正しい・近似は誤り・月が合った・月が合わない・十分・埋もれ
+    const W348 = ['ためか確', 'たし示', 'たし明説', 'たし定同', 'た出が転回点近', 'たっま決が形', 'たっま決が型', 'いし正が似近', 'り誤は似近', 'たっ合が月', 'いなわ合が月', '分十', 'れも埋'].map(rvC);
+    const OLDNAME = cpC([0x56de, 0x8ee2, 0x5f15, 0x304d, 0x305a, 0x308a]);   // 旧い呼び名(第346便b —— 文字で持たない)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第348便e〕', sec], ['AI_SPEC §305', ai], ['器', rd('tests/exp-w348e-moonwindow.mjs')], ['lib', rd('tests/lib-w348e-moonwindow.mjs')], ['文書の lib', rd('tests/lib-w348e-moonwindowdoc.mjs')]];
+    if (ci >= 0) texts.push(['CHANGELOG の第348便e の行', cl]);
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W348)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(OLDNAME) >= 0) bad.push('④ ' + nm + ' に旧い呼び名(第346便b)');
+      for (const re of NOT348) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    cases.push('④ 書かない語・禁句・旧い呼び名・裸の係数記号・km/s の数の字列・旧い記号(節・AI_SPEC・器・lib・文書の lib)');
+    add('docs.moonwindow348e', bad.length === 0,
+      `**月の型の長い窓の文書**(第348便e・原仮定者の回答(2026-11-21 —— 第145報)AN902・R413 —— この窓・この刻み・この枠では、の表・観測の数は固定の比べる列・原文の文と読みを分ける): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第348便e の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
