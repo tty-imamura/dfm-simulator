@@ -36,12 +36,18 @@ const crs = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0
 const unit = (a) => scl(a, 1 / nrm(a));
 const isVec = (a) => Array.isArray(a) && a.length === 3 && a.every(fin);
 const sgn = (x) => (x > 0 ? 1 : x < 0 ? -1 : 0);
+/** K1(r; R) —— 一様球の 1/r の体積平均(外部 1/r・内部 (3R² − r²)/(2R³) —— アプリの inertialDragIsqK1 の値の式) */
+export const K1 = (r, R) => (r >= R ? 1 / r : (3 * R * R - r * r) / (2 * R * R * R));
 
 /* ───────── 宣言(走らせたノブの格子と判定の物差しの記録 —— 式の形の宣言ではない)───────── */
 export const DECL = Object.freeze({
   cands: Object.freeze(['P2', 'W']),
   /** 源の回転の分の読み 2 つ(型を決めない) */
-  rots: Object.freeze(['cv', 'm2']),
+  rots: Object.freeze(['cv', 'm2', 'k1']),
+  /** (Rk1) 在位の本が宣言している形(invSq の kernel:"k1"・rdRule:"kappaM")の列: W₀ 0 が主・> 0 は比べる列。受け手の自分の重みは中心の値 W_ii の K1 の球(半径 R_self = R_b —— 輪の粒子の置き方の宣言)。
+   *  通過は自分の重みを定数(輪の粒子がそれぞれ持つ)に置く */
+  k1: Object.freeze({ den: Object.freeze([Object.freeze([0, 0]), Object.freeze([0, 0.1]), Object.freeze([0, 10]), Object.freeze([0.1, 0.1])]), Rself: D.DECL.Rb,
+    denD: Object.freeze([Object.freeze([0, 0]), Object.freeze([0, 0.01]), Object.freeze([0, 0.1]), Object.freeze([0.1, 0.1])]) }),
   /** 重みのべき(Rcv —— 重み = 質量 ÷ 距離²)・源の半径(Rm2 の球)・候補の受け手の半径 R_b(〔第348便d〕と同じ) */
   p: 2, Rs: 1, Rb: D.DECL.Rb,
   /** 分母の自分の側: [W₀, W_ii](無次元 —— 源の質量 1・長さ 1 の単位。和だけが効くことを並べて見せる) */
@@ -71,18 +77,23 @@ export const LIT = D.LIT;
  * 場を作る。sources: [{m, R, spin:[3](Ω_j —— 表面の角速度のベクトル), r:[3], v:[3]}]・rot('cv'|'m2')・p・Wbg(W₀)・Wself(W_ii)・vRec([3] —— 受け手の慣性速度)。
  * mut は変異の試験だけ('noSelfDen' —— W_ii を分母から落とす・'vRecSign' —— 受け手の速度を足す)。戻り値 { u(x), J(x), W(x) }(J は 5 点の差分)
  */
-export function geo3Field({ sources, rot, p = DECL.p, Wbg = 0, Wself = 0, vRec = [0, 0, 0], mut = null } = {}) {
+export function geo3Field({ sources, rot, p = DECL.p, Wbg = 0, Wself = 0, vRec = [0, 0, 0], selfBall = null, mut = null } = {}) {
   if (!DECL.rots.includes(rot)) throw new RangeError('geo3Field: 源の回転の分は ' + DECL.rots.join('・'));
   if (!(Array.isArray(sources) && sources.length > 0 && sources.every((s) => fin(s.m) && s.m >= 0 && fin(s.R) && s.R > 0 && isVec(s.spin) && isVec(s.r) && isVec(s.v))))
     throw new RangeError('geo3Field: 源の宣言(m ≥ 0・R > 0・spin・r・v)');
   if (!(fin(p) && p > 0 && fin(Wbg) && Wbg >= 0 && fin(Wself) && Wself >= 0 && isVec(vRec))) throw new RangeError('geo3Field: p > 0・W₀ ≥ 0・W_ii ≥ 0・v_r');
+  if (selfBall !== null && !(isVec(selfBall.p) && fin(selfBall.R) && selfBall.R > 0)) throw new RangeError('geo3Field: selfBall {p, R > 0}');
   const vr = mut === 'vRecSign' ? scl(vRec, -1) : vRec, self = mut === 'noSelfDen' ? 0 : Wself;
+  // 自分の重み: 定数 W_ii か、中心の値 W_ii の K1 の球(W_ii(x) = W_ii (2R/3) K1(abs(x − p); R) —— 中心 W_ii・表面 (2/3) W_ii)
+  const selfAt = (x) => (selfBall === null ? self : self * (2 * selfBall.R / 3) * K1(nrm(sub(x, selfBall.p)), selfBall.R));
   const at = (x) => {
-    let Wsum = Wbg + self, P = [0, 0, 0];
+    let Wsum = Wbg + selfAt(x), P = [0, 0, 0];
     for (const s of sources) {
       const dx = sub(x, s.r), d = nrm(dx);
       if (!(d > 0)) throw new RangeError('geo3Field: 源の中心');
       if (rot === 'cv') { const w = s.m * Math.pow(d, -p); Wsum += w; P = add(P, scl(add(sub(s.v, vr), crs(s.spin, dx)), w)); }
+      else if (rot === 'k1') { const w = s.m * K1(d, s.R); Wsum += w; P = add(P, scl(sub(s.v, vr), w));
+        if (nrm(s.spin) > 0) { if (!(d > s.R)) throw new RangeError('geo3Field: (Rk1) の源の回転の分は源の球の外だけ(M1 = R²/(5d²) は外部)'); P = add(P, scl(crs(s.spin, scl(dx, 1 / d)), s.m * s.R * s.R / (5 * d * d))); } }
       else { if (!(d > s.R)) throw new RangeError('geo3Field: (Rm2) は源の球の外だけ(M2 は外部)');
         const w = s.m * IQ.K2(d, s.R), mm = s.m * IQ.M2(d, s.R); Wsum += w; P = add(P, add(scl(sub(s.v, vr), w), scl(crs(s.spin, scl(dx, 1 / d)), mm))); }
     }
@@ -106,12 +117,16 @@ const memo = (f) => { const M = new Map(); return (x) => { const k = x[0] + ',' 
 export function geo3OmegaField(cand, { rot, Wbg = 0, Wself = 0, vRec = [0, 0, 0], s = 1, p = DECL.p, Rs = DECL.Rs, Rb = DECL.Rb, mut = null, rotMut = null } = {}) {
   if (!DECL.cands.includes(cand)) throw new RangeError('geo3OmegaField: 候補は ' + DECL.cands.join('・'));
   if (!(fin(Rb) && Rb > 0 && fin(s))) throw new RangeError('geo3OmegaField: R_b > 0・s');
-  const F = geo3Field({ sources: [{ m: 1, R: Rs, spin: [0, 0, s], r: [0, 0, 0], v: [0, 0, 0] }], rot, p, Wbg, Wself, vRec, mut });
+  const src = [{ m: 1, R: Rs, spin: [0, 0, s], r: [0, 0, 0], v: [0, 0, 0] }];
+  if (rot === 'k1') return memo((x) => H.rotOf(cand, geo3Field({ sources: src, rot, Wbg, Wself, vRec, selfBall: { p: x, R: DECL.k1.Rself }, mut }), x, { e: unit(x), Rb, mut: rotMut }).Om);   // 自分の重みの球の中心 = 受け手の中心
+  const F = geo3Field({ sources: src, rot, p, Wbg, Wself, vRec, mut });
   return memo((x) => H.rotOf(cand, F, x, { e: unit(x), Rb, mut: rotMut }).Om);
 }
 /** 受け手の中心の公転の速度(第340便d の recvOf の V —— G m 1 の単位で (0, √(1/d), 0)) */
 export const vOrbit = (d) => [0, Math.pow(d, -0.5), 0];
 const denKey = (dn) => dn[0] + '|' + dn[1];
+/** 源の回転の分ごとの (W₀, W_ii) の格子((Rk1) は W₀ 0 が主) */
+export const denOf = (rot) => (rot === 'k1' ? DECL.k1.den : DECL.den);
 
 /* ───────── (A) 輪の受け手の寄せる向き ───────── */
 export function tableA() {
@@ -121,7 +136,7 @@ export function tableA() {
   // 〔第348便d〕の場(geoPN=2 の形)の (P2)・(W) × q × D₀ —— 第348便d の lib を呼んで作る(比べる列)
   for (const cand of DECL.cands) for (const q of D.DECL.q) for (const D0 of D.DECL.D0) { const f = D.candField(cand, { q, D0 });
     for (const d of A.d) for (const action of A.actions) { const P = D.pullSummary(f, { action, d, zs: A.z }); ref.push({ cand, q, D0, d, action, dir: P.dir, vsH1: vs(P, d, action), zStarPos: P.zStarPos }); } }
-  for (const rot of DECL.rots) for (const dn of DECL.den) for (const vr of DECL.vRec) for (const cand of DECL.cands) for (const d of A.d) {
+  for (const rot of DECL.rots) for (const dn of denOf(rot)) for (const vr of DECL.vRec) for (const cand of DECL.cands) for (const d of A.d) {
     const f = geo3OmegaField(cand, { rot, Wbg: dn[0], Wself: dn[1], vRec: vr === 'on' ? vOrbit(d) : [0, 0, 0] });
     for (const action of A.actions) {
       const P = D.pullSummary(f, { action, d, zs: A.z }), v = vs(P, d, action);
@@ -167,7 +182,7 @@ export function tableB() {
 /* ───────── (C) 土星の環の物差し ───────── */
 export function tableC() {
   const U = D.saturnUnits(), C = DECL.C, rows = [], ring = [];
-  for (const rot of DECL.rots) for (const dn of DECL.den) for (const vr of DECL.vRec) for (const cand of DECL.cands) for (const key of C.centers) {
+  for (const rot of DECL.rots) for (const dn of denOf(rot)) for (const vr of DECL.vRec) for (const cand of DECL.cands) for (const key of C.centers) {
     const r = RB.centerKm(key) * 1e3 / U.R, f = geo3OmegaField(cand, { rot, Wbg: dn[0], Wself: dn[1], vRec: vr === 'on' ? vOrbit(r) : [0, 0, 0], s: U.sDim });
     rows.push(Object.assign({ rot, Wbg: dn[0], Wself: dn[1], vRec: vr, cand }, D.satRow(f, key, U)));
     for (const action of C.ringActions) { const P = D.pullSummary(f, { action, d: r, zs: C.ringZ, zRef: -1 }), b = P.zStarPos;
@@ -178,13 +193,13 @@ export function tableC() {
 
 /* ───────── (D) 自転しない源の通過と、環の粒子の輪 ───────── */
 /** 輪の点が枠に運ばれる量(法線の向き)を方位で分ける(〔第348便d〕の flyRing と同じ道・同じ時間の点・同じ分け方 —— 場だけ geoPN=3 の形) */
-export function flyRing3({ Wbg, Wself, Rr, inc, p = DECL.p, cands = DECL.cands }) {
+export function flyRing3({ Wbg, Wself, Rr, inc, p = DECL.p, rot = 'cv', cands = DECL.cands }) {
   const Dd = D.DECL.D, gl = H.gaussLegendre(Dd.nT), L = [Math.sin(inc * D2R), 0, Math.cos(inc * D2R)], e1 = [0, 1, 0], e2 = crs(L, e1);
   const pts = Array.from({ length: Dd.nK }, (_, k) => { const ph = 2 * Math.PI * k / Dd.nK; return { ph, xi: add(scl(e1, Rr * Math.cos(ph)), scl(e2, Rr * Math.sin(ph))) }; });
   const del = new Array(Dd.nK).fill(0), tan = new Array(Dd.nK).fill(0), intOm = Object.fromEntries(cands.map((c) => [c, [0, 0, 0]])); let scale = 0;
   for (let i = 0; i < gl.x.length; i++) {
     const th = 0.5 * Math.PI * gl.x[i], t = (Dd.b / Dd.v) * Math.tan(th), wq = 0.5 * Math.PI * gl.w[i] * (Dd.b / Dd.v) / (Math.cos(th) * Math.cos(th));
-    const rs = [Dd.v * t, Dd.b, 0], F = geo3Field({ sources: [{ m: 1, R: 1, spin: [0, 0, 0], r: rs, v: [Dd.v, 0, 0] }], rot: 'cv', p, Wbg, Wself }), u0 = F.u([0, 0, 0]);
+    const rs = [Dd.v * t, Dd.b, 0], F = geo3Field({ sources: [{ m: 1, R: 1, spin: [0, 0, 0], r: rs, v: [Dd.v, 0, 0] }], rot, p, Wbg, Wself }), u0 = F.u([0, 0, 0]);
     scale += wq * nrm(u0);
     for (let k = 0; k < Dd.nK; k++) { const du = sub(F.u(pts[k].xi), u0), tk = crs(L, unit(pts[k].xi)); del[k] += wq * dot(du, L); tan[k] += wq * dot(du, tk); }
     const e = unit(scl(rs, -1));
@@ -192,15 +207,16 @@ export function flyRing3({ Wbg, Wself, Rr, inc, p = DECL.p, cands = DECL.cands }
   }
   const N = Dd.nK, a0 = del.reduce((s, x) => s + x, 0) / N, a1 = 2 * del.reduce((s, x, k) => s + x * Math.cos(pts[k].ph), 0) / N, b1 = 2 * del.reduce((s, x, k) => s + x * Math.sin(pts[k].ph), 0) / N;
   const rest = Math.sqrt(del.reduce((s, x, k) => { const y = x - a0 - a1 * Math.cos(pts[k].ph) - b1 * Math.sin(pts[k].ph); return s + y * y; }, 0) / N);
-  const rot = tan.reduce((s, x) => s + x, 0) / N, tiltVec = add(scl(e1, a1 / Rr), scl(e2, b1 / Rr));
+  const rotIn = tan.reduce((s, x) => s + x, 0) / N, tiltVec = add(scl(e1, a1 / Rr), scl(e2, b1 / Rr));
   const fl = DECL.floor * scale, fa = fl / Rr, sv = (x, t) => (Math.abs(x) <= t ? 0 : x), svv = (v, t) => (nrm(v) <= t ? [0, 0, 0] : v), tiltS = svv(tiltVec, fa);
   const C = {}; for (const c of cands) { const W = svv(intOm[c], fa), pred = crs(L, W);
     C[c] = { tilt: sv(nrm(pred), fa), inPlane: sv(dot(W, L), fa), vsRing: nrm(tiltS) > 0 ? sv(nrm(pred), fa) / nrm(tiltS) : null }; }
-  return { Wbg, Wself, Rr, inc, p, mean: sv(a0, fl), tilt: nrm(tiltS), rest: sv(rest, fl), restOverRr: sv(rest, fl) / Rr, inPlane: sv(rot / Rr, fa), cand: C, scale };
+  return { rot, Wbg, Wself, Rr, inc, p, mean: sv(a0, fl), tilt: nrm(tiltS), rest: sv(rest, fl), restOverRr: sv(rest, fl) / Rr, inPlane: sv(rotIn / Rr, fa), cand: C, scale };
 }
 export function tableD() {
   const Dd = DECL.D, rows = [], ref = [];
   for (const dn of Dd.den) for (const Rr of Dd.Rr) for (const inc of Dd.inc) rows.push(flyRing3({ Wbg: dn[0], Wself: dn[1], Rr, inc }));
+  for (const dn of DECL.k1.denD) for (const Rr of Dd.Rr) for (const inc of Dd.inc) rows.push(flyRing3({ Wbg: dn[0], Wself: dn[1], Rr, inc, rot: 'k1' }));
   // 〔第348便d〕の通過(geoPN=2 の形 —— p_w 1)の輪の傾き(D₀ = 0・0.01・0.1・0.2 —— W₀ + W_ii の和の値に合わせて並べる)
   for (const D0 of Dd.ref348dD0) for (const Rr of Dd.Rr) for (const inc of Dd.inc) { const r = D.flyRing({ D0, Rr, inc, cands: ['P2', 'W'] });
     ref.push({ D0, Rr, inc, tilt: r.tilt, inPlane: r.inPlane, P2: r.cand.P2.vsRing, W: r.cand.W.vsRing }); }
@@ -223,7 +239,7 @@ export function pureScenes() {
     S.rigidW = w; S.rigidP2 = p2; S.rigidPull = pull; }
   // ③ 単一の受け手では W₀ と W_ii は和だけが効く((0.1, 0) と (0, 0.1) の相対の差 —— 同じ実行系では同じビット・丸めの揺らしの内)/変異(W_ii を分母から落とす)は離れる
   { let same = 0, mut = 0;
-    for (const rot of DECL.rots) for (const cand of DECL.cands) { const a = geo3OmegaField(cand, { rot, Wbg: 0.1, vRec: [0, 0.3, 0] }), b = geo3OmegaField(cand, { rot, Wself: 0.1, vRec: [0, 0.3, 0] }), c = geo3OmegaField(cand, { rot, Wself: 0.1, vRec: [0, 0.3, 0], mut: 'noSelfDen' });
+    for (const rot of ['cv', 'm2']) for (const cand of DECL.cands) { const a = geo3OmegaField(cand, { rot, Wbg: 0.1, vRec: [0, 0.3, 0] }), b = geo3OmegaField(cand, { rot, Wself: 0.1, vRec: [0, 0.3, 0] }), c = geo3OmegaField(cand, { rot, Wself: 0.1, vRec: [0, 0.3, 0], mut: 'noSelfDen' });
       for (const x of pts) { const A = a(x), B = b(x), Cc = c(x); same = Math.max(same, nrm(sub(A, B)) / nrm(B)); mut = Math.max(mut, nrm(sub(Cc, B)) / nrm(B)); } }
     S.sumOnly = same; S.sumOnlyMut = mut; }
   // ④ 〔第348便d〕の場への極限: (Rcv)・p 1・W₀ = D₀・W_ii 0・v_r 無し = 〔第348便d〕の candField(q 0・D₀)(P2 は u だけ —— 丸めの内・W は差分の勾配 —— 1e-8 の内)
@@ -240,6 +256,11 @@ export function pureScenes() {
   { const x = [2.5, 0.4, 0.9], d = nrm(x), n = scl(x, 1 / d), F = geo3Field({ sources: [{ m: 1, R: 1, spin: [0, 0, 0.7], r: [0, 0, 0], v: [0, 0, 0] }], rot: 'm2', Wbg: 0.03, Wself: 0.02 });
     const want = scl(crs([0, 0, 0.7], n), IQ.M2(d, 1) / (0.05 + IQ.K2(d, 1))); S.m2Point = nrm(sub(F.u(x), want)) / nrm(want);
     S.m2Far = Math.abs(IQ.M2(1000, 1) / IQ.K2(1000, 1) * 1000 - 0.4); }
+  // ⑥′ (Rk1) の場の点の式(重み K1・源の回転の分 M1 = R²/(5d²)・自分の重みの K1 の球)/K1 の内外の値(中心 3/(2R)・表面 1/R・遠方 1/d)/通過は〔第348便d〕の通過(D₀ = W₀ + W_ii)と同じ式
+  { const x = [2.5, 0.4, 0.9], d = nrm(x), n = scl(x, 1 / d), c = [2.45, 0.38, 0.93], F = geo3Field({ sources: [{ m: 1, R: 1, spin: [0, 0, 0.7], r: [0, 0, 0], v: [0, 0, 0] }], rot: 'k1', Wbg: 0.03, Wself: 0.02, vRec: [0, 0.2, 0], selfBall: { p: c, R: 0.1 } });
+    const ws = 0.02 * (2 * 0.1 / 3) * (3 * 0.01 - dot(sub(x, c), sub(x, c))) / (2 * 0.001), Wt = 0.03 + ws + 1 / d, want = scl(add(scl([0, -0.2, 0], 1 / d), scl(crs([0, 0, 0.7], n), 1 / (5 * d * d))), 1 / Wt);
+    S.k1Point = nrm(sub(F.u(x), want)) / nrm(want); S.k1Vals = Math.abs(K1(0, 2) - 0.75) + Math.abs(K1(2, 2) - 0.5) + Math.abs(K1(8, 2) - 0.125);
+    const a = flyRing3({ Wbg: 0, Wself: 0.1, Rr: 1, inc: 30, rot: 'k1', cands: ['W'] }), b = D.flyRing({ D0: 0.1, Rr: 1, inc: 30, cands: ['W'] }); S.k1Fly = Math.abs(a.tilt / b.tilt - 1); }
   // ⑦ 変異: 受け手の速度の符号を変えると離れる(W₀ > 0)/(W) の符号の変異で corV の寄せる力の符号が反転
   { const a = geo3OmegaField('W', { rot: 'cv', Wbg: 0.1, vRec: vOrbit(3) }), b = geo3OmegaField('W', { rot: 'cv', Wbg: 0.1, vRec: vOrbit(3), mut: 'vRecSign' });
     S.vRecMut = nrm(sub(a(pts[0]), b(pts[0]))) / nrm(a(pts[0]));
@@ -263,6 +284,7 @@ export function pureGates(S) {
     lim348d: S.lim348dP2 < 1e-12 && S.lim348dW < 1e-8,
     fly: S.flyLim < 1e-12 && S.flyLimW < 1e-9 && S.flyZero < 1e-12 && S.flySelf > 0,
     m2: S.m2Point < 1e-12 && S.m2Far < 1e-5,
+    k1: S.k1Point < 1e-12 && S.k1Vals < 1e-15 && S.k1Fly < 1e-12,
     mutants: S.vRecMut > 1e-3 && S.wsign.a !== 0 && S.wsign.flipDiff < 1e-9,
     jacobian: S.jDiff < 1e-8,
     rejects: S.rejects.length === 6 && S.rejects.every(Boolean),

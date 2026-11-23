@@ -2684,7 +2684,7 @@ export const REGEN_STEPS = [
   //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便b の枝の実測 15 s(nice 15)
   S('spinreset-348b', 'node tests/exp-w348b-spinreset.mjs', ['tests/out/spinreset-348b.json'], 16, { secSource: 'w348b-branch', node: true,
     after: ['axisenergy-347i'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 20 s の桁で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/spinreset-348b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第348便b: 零試験 10/ケース 1 種 7 × 割合 5 × f 2/(D1)(D2)(D3) と同じ入力 10/ケース 2 種 4 × 行き先 2 × 釣り合いの型 9/Td 32/刻み 8 × 3/天体 4 組 × q 2' }),
   // ==== 第348便b の塊(ここまで)====
@@ -2729,12 +2729,12 @@ export const REGEN_STEPS = [
   //   **円盤引きずりの側を geoPN=3(慣性決定力の引きずり)の形の場で数え直す —— 輪の寄せる向き・経路の比・土星の環の物差し・通過の輪を〔第348便d〕の列と並べる**
   //   (段 diskgeo3-348i —— 正本 tests/out/diskgeo3-348i.json・lib tests/lib-w348i-diskgeo3.mjs —— 第348便d・第347便h・第340便d・第338便d・第309便a の lib を import して呼ぶ。
   //   入力のファイルは無い〔順序だけ after に diskaxis-348d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
-  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便i の枝の実測 20 s(nice 15)
-  S('diskgeo3-348i', 'node tests/exp-w348i-diskgeo3.mjs', ['tests/out/diskgeo3-348i.json'], 20, { secSource: 'w348i-branch', node: true,
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便i の枝の実測 24 s(nice 15)
+  S('diskgeo3-348i', 'node tests/exp-w348i-diskgeo3.mjs', ['tests/out/diskgeo3-348i.json'], 24, { secSource: 'w348i-branch', node: true,
     after: ['diskaxis-348d'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 20 s の桁で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/diskgeo3-348i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
-    note: '第348便i: 零試験 9/(A) 輪の寄せる向き 源の回転の分 2 × (W₀, W_ii) 4 × 受け手の速度 2 × 候補 2 × 距離 2 × 作用 3/(B) 経路の比 (W₀, W_ii) 3 × 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 36' }),
+    note: '第348便i: 零試験 9/(A) 輪の寄せる向き 源の回転の分 3 × (W₀, W_ii) 4 × 受け手の速度 2 × 候補 2 × 距離 2 × 作用 3/(B) 経路の比 (W₀, W_ii) 3 × 扁平 2 × 距離 3 × 高さ 2/(C) 土星の環 区分 5/(D) 通過の輪 60' }),
   // ==== 第348便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと

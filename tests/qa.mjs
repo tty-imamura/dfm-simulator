@@ -118283,17 +118283,17 @@ function eqItems348g(eq) {
       try {
         const js = (x) => JSON.stringify(x), nrm = (a) => Math.hypot(a[0], a[1], a[2]);
         // ① 版・格子・零試験
-        if (!(L.LIB_VERSION === 'w348i-diskgeo3-lib-1' && X.HARNESS_VERSION === 'w348i-diskgeo3-1' && D0.DOC_VERSION === 'w348i-diskgeo3doc-1' && X.AMEND.length === 0
+        if (!(L.LIB_VERSION === 'w348i-diskgeo3-lib-1' && X.HARNESS_VERSION === 'w348i-diskgeo3-1' && D0.DOC_VERSION === 'w348i-diskgeo3doc-1' && X.AMEND.length === 1
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         const DL = L.DECL;
-        if (!(js(DL.cands) === js(['P2', 'W']) && DL.cands.every((c) => H347.DECL.cands.includes(c)) && js(DL.rots) === js(['cv', 'm2']) && DL.p === 2 && DL.Rb === D348.DECL.Rb
+        if (!(js(DL.cands) === js(['P2', 'W']) && DL.cands.every((c) => H347.DECL.cands.includes(c)) && js(DL.rots) === js(['cv', 'm2', 'k1']) && js(DL.k1.den) === js([[0, 0], [0, 0.1], [0, 10], [0.1, 0.1]]) && DL.k1.Rself === D348.DECL.Rb && DL.p === 2 && DL.Rb === D348.DECL.Rb
           && js(DL.A.d) === js(D348.DECL.A.d) && js(DL.A.z) === js(D348.DECL.A.z) && js(DL.A.actions) === js(D348.DECL.A.actions) && js(DL.C.centers) === js(D348.DECL.C.centers)
           && js(DL.D.Rr) === js(D348.DECL.D.Rr) && js(DL.D.inc) === js(D348.DECL.D.inc) && js(DL.den) === js([[0, 0], [0.1, 0], [0, 0.1], [0.1, 0.1]]) && js(DL.vRec) === js(['off', 'on']) && L.LIT === D348.LIT))
           bad.push('① 格子(候補・源の回転の分・重みのべき・R_b・距離・高さ・作用・区分の中心・通過の輪・(W₀, W_ii)・受け手の速度)と固定の比べる列が呼ぶ lib の宣言と同じ');
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
-        if (Object.keys(PG).length !== 9) bad.push('① 零試験の数 ' + Object.keys(PG).length);
-        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(回転 0 かつ背景 0・剛体の極限・和だけが効く・〔第348便d〕の場への極限・通過・(Rm2) の点の式・変異 2・勾配・拒否)`);
+        if (Object.keys(PG).length !== 10) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(回転 0 かつ背景 0・剛体の極限・和だけが効く・〔第348便d〕の場への極限・通過・(Rm2) の点の式・(Rk1) の点の式と通過・変異 2・勾配・拒否)`);
         // ② 器を走らせ直して正本と同じ
         const parts = ['pure', 'A', 'B', 'C', 'D'];
         const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
@@ -118323,6 +118323,20 @@ function eqItems348g(eq) {
         // (e) 通過の輪(W₀ + W_ii > 0・輪の傾き > 0): (P2) の言う傾き ÷ 輪の傾き ≈ 1・(W) ≈ ½(差は (R_r/b)² の桁 —— 2e-2 の内)
         const dp = J.D.rows.filter((r) => r.Wbg + r.Wself > 0 && r.inc > 0);
         for (const r of dp) if (!(Math.abs(r.cand.P2.vsRing - 1) < 2e-2 && Math.abs(r.cand.W.vsRing - 0.5) < 2e-2)) bad.push('③ 通過の輪の比 (' + r.Wbg + ', ' + r.Wself + ')・R_r ' + r.Rr + '・i ' + r.inc);
+        // (f) (Rk1) の場 = 枝 h の lib の makeField3(K1・M・自分の重みの K1 の球・受け手の速度を引く)—— 統合の後に両方の lib が同じ木に在るときだけ照合(正本には入れない)
+        let hTxt = '';
+        { let HH = null; const hPath = path.join(ROOT, 'tests', 'lib-w348h-axisgeo3.mjs');
+          if (fs.existsSync(hPath)) { try { HH = await import('file://' + hPath); } catch (e) { bad.push('③ 枝 h の lib が読めない: ' + String(e && e.message || e).slice(0, 120)); } }
+          if (!HH) hTxt = '枝 h の lib が無い —— (Rk1) と makeField3 の照合は統合の後';
+          else if (typeof HH.makeField3 !== 'function') bad.push('③ 枝 h の lib に makeField3 が無い');
+          else { let m = 0, n = 0;
+            for (const [Wb, Ws, rc, vr, sp] of [[0, 0.1, [3, 0.2, 0.05], [0, 0.4, 0], [0, 0, 1]], [0.05, 10, [10, -1, 0.3], [0.1, 0.3, 0], [0.2, 0, 0.9]], [0, 0.1, [1.6, 0.5, -0.2], [0, 0.7, 0.1], [0, 0, 2]]]) {
+              const Rs = DL.k1.Rself, Fh = HH.makeField3({ sources: [{ m: 1, R: 1, p: [0, 0, 0], v: [0, 0, 0], spin: sp }], recv: { p: rc, v: vr, m: Ws * 2 * Rs / 3, R: Rs }, W0: Wb, kernel: { kind: 'ball', al: 1 }, rot: { form: 'M' } });
+              const Fi = L.geo3Field({ sources: [{ m: 1, R: 1, spin: sp, r: [0, 0, 0], v: [0, 0, 0] }], rot: 'k1', Wbg: Wb, Wself: Ws, vRec: vr, selfBall: { p: rc, R: Rs } });
+              for (const dx of [[0, 0, 0], [0.05, 0, 0], [0, -0.07, 0.03]]) { const x = rc.map((v, k) => v + dx[k]), a = Fi.u(x), b = Fh.u(x); n++; m = Math.max(m, nrm(a.map((v, k) => v - b[k])) / Math.max(nrm(b), 1e-300)); } }
+            if (!(m <= 1e-12)) bad.push('③ (Rk1) の場と枝 h の makeField3 の相対の差 ' + m);
+            hTxt = `(Rk1) の場 = 枝 h の makeField3(${n} 点・相対の差の最大 ${m.toExponential(2)})`; } }
+        cases.push(`③ ${hTxt}`);
         cases.push(`③ 比べる列 = 第348便d の正本の (A)(${na} 行)と (D)(${nd} 行)・(Rcv)・p 1 の場 = 第347便h の q 0(候補 2 × D₀ 2 × 3 点)・(Rm2) の場 = 第309便a の閉じた式・通過の輪の (P2)・(W) の比 ${dp.length} 行`);
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
@@ -118386,11 +118400,11 @@ function eqItems348g(eq) {
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第348便i〕に表 ' + k + ' が逐語で無い');
       if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第348便i〕に数の文 ' + k + ' が逐語で無い');
-      if (Object.keys(F).length !== 8) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      if (Object.keys(F).length !== 10) bad.push('② 数の文の数 ' + Object.keys(F).length);
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・表 2・表 3・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第348便i〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の指示(2026-11-23 —— 第145報の補足 2)', '原仮定者の指示(2026-11-22 —— 第145報の補足 1)', 'R417', 'geoPN=3', 'geoPN=2', '引きずり近似', '慣性決定力',
-      'tests/exp-w348i-diskgeo3.mjs', 'tests/out/diskgeo3-348i.json', 'tests/lib-w348i-diskgeo3.mjs', 'diskgeo3-348i', '(P2)', '(W)', '(Rcv)', '(Rm2)', 'W₀', 'W_ii', '重み = 質量 ÷ 距離²',
+      'tests/exp-w348i-diskgeo3.mjs', 'tests/out/diskgeo3-348i.json', 'tests/lib-w348i-diskgeo3.mjs', 'diskgeo3-348i', '(P2)', '(W)', '(Rcv)', '(Rm2)', '(Rk1)', '在位の本が宣言している形', 'W₀', 'W_ii', '重み = 質量 ÷ 距離²',
       '円盤引きずり', '〔第348便d〕', '〔第347便h〕', '〔第340便d〕', '〔第301便a〕', '〔第302便a〕', '〔第302便d〕', '〔第303便b〕', '〔第309便a〕', '〔第330便b〕', 'gyroRow',
       'inertialDragPairApply', 'inertialDragShellApply', 'validateRelativeDragInertial', '向きが変わる高さ', '経路の比', '土星の環', '固定の比べる列', '文献の値・未照合',
       'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '題カードの恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '推奨', '次の便へ',
