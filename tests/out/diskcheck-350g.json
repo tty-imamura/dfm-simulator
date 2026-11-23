@@ -1,0 +1,4129 @@
+{
+ "version": "w350g-diskcheck-1",
+ "libVersion": "w350g-diskcheck-lib-1",
+ "generator": "tests/exp-w350g-diskcheck.mjs",
+ "target": "tests/lib-w350g-diskcheck.mjs",
+ "ruling": "原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R424",
+ "decl": {
+  "reads": [
+   "C1",
+   "C2",
+   "C2six",
+   "C3"
+  ],
+  "c3k": 0.4,
+  "common": {
+   "h": 0.01,
+   "x": -0.03061311,
+   "six": -0.01530656,
+   "w": -0.01530612,
+   "tol": 5e-9
+  },
+  "T1": {
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "Rr": [
+    0.1,
+    1
+   ],
+   "inc": [
+    0,
+    30,
+    90
+   ],
+   "ref": [
+    [
+     0,
+     0.01
+    ],
+    [
+     0,
+     0.1
+    ],
+    [
+     0.1,
+     0.1
+    ]
+   ]
+  },
+  "T2": {
+   "centers": [
+    "ringD",
+    "ringC",
+    "ringB",
+    "ringA",
+    "ringF"
+   ],
+   "zOverR": [
+    0.0001,
+    0.01
+   ]
+  },
+  "T3": {
+   "lams": [
+    0,
+    1,
+    -1
+   ],
+   "den": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0.1
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     0.1,
+     0.1
+    ]
+   ],
+   "Rself": 0.1,
+   "inPos": {
+    "m": 1,
+    "R": 1
+   },
+   "cands": [
+    "P2",
+    "W"
+   ]
+  },
+  "T4": {
+   "s": 0.4,
+   "r0": 3,
+   "i0": 10,
+   "h0": 0.03,
+   "N": 24,
+   "Nalt": 36,
+   "ph0": 0,
+   "ph0alt": 0.7,
+   "orbits": 3,
+   "perOrbit": 200,
+   "cfgs": [
+    "both",
+    "spin",
+    "trans",
+    "off",
+    "halfStep",
+    "altN",
+    "altPhase"
+   ]
+  },
+  "T5": {
+   "centers": [
+    "ringD",
+    "ringC",
+    "ringB",
+    "ringA",
+    "ringF"
+   ],
+   "cols": [
+    "rule",
+    "w01",
+    "noSelf"
+   ],
+   "reads": [
+    "C1",
+    "C2"
+   ],
+   "ringActions": [
+    "corS",
+    "drag90"
+   ],
+   "ringZ": [
+    0.000001,
+    0.00001,
+    0.0001,
+    0.001,
+    0.01,
+    0.03,
+    0.1,
+    0.3
+   ]
+  },
+  "floor": 1e-12
+ },
+ "lit": {
+  "note": "固定の比べる列(リポジトリの中の数 —— 文献の値・未照合・合わせない)",
+  "thick10m": 10,
+  "thickSrc": "第338便d の宣言の典型の厚み 10 m(文献の値・未照合 —— 同じ桁 = ⅓〜3 倍)",
+  "sameOrder": [
+   0.3333333333333333,
+   3
+  ],
+  "uniformPow": 0.1,
+  "uniformSrc": "第338便d の一様の物差し(局所のべき abs(d ln H/d ln r) ≤ 0.1)",
+  "tYardYr": 10000000,
+  "regionsSrc": "第338便d の LIT.regions(環の区分の縁 —— 文献の値・未照合)"
+ },
+ "plan": {
+  "pure": "零試験 8",
+  "T1": "輪の半径 2 × 輪の傾き 3 ×(在位の形 1 + 〔第348便i〕の (Rk1) の W_ii 定数 3)× 読み (C1)(C2)(C2six)(C3)",
+  "T2": "🛟 の正本の要点(600・3000 步の傾きの比)+ 区分の中心 5 × 読み (C1)(C2) の回転の大きさと z の偶奇(在位の形 —— 規則の半径の自分の重み)",
+  "T3": "((Rk1) の (W₀, W_ii) 4 + 在位の形 1)× 候補 2 × 距離 2 × 作用 3 × 受け手の速度の倍 3(0・1・−1)× 高さ ±6",
+  "T4": "粒子の輪 7 列(両方・源の回転だけ・並進だけ・両方 OFF・刻み半分・粒子数・初期位相)× 3 公転",
+  "T5": "自分の重みの列 3(規則・0.1・無し)× 読み 2 × 区分の中心 5(点・corV の向きが変わる高さ・K・帳簿の高さ + 輪の corS・drag90)"
+ },
+ "amend": [],
+ "notClaim": [
+  "geoPN=3 の在位の形の場(枝 h の makeField3 の既定の引数 —— 受け手 1 つ・源の側の連立は解かない)で円盤引きずりの側の量を数えた表(円盤引きずりの式・型の答えではない)",
+  "回転の読み (C1)・(C2)・(C3) はどれも候補 —— 主は決めていない。輪の直径の傾きが (C1) と同じでも、球全体の自転が (C1) だという確かめにはならない",
+  "🛟 saturnRotVertExplore3d の傾きの比の達は、軸引きずり・ジャイロトルクの型を採ることを意味しない(🛟 の型は円盤引きずりの鉛直の型 —— 強さと帯の半幅は見えるように大きくした値)",
+  "向きが変わる高さは格子の括りか二分の値で、環の厚みの答えではない。帳簿に入れた高さは口の試し(合わせていない)",
+  "粒子の輪は、輪の傾き・上下で符号が反転する復元の成分・厚みを分けて読む器(輪が傾く・傾きが減る・厚みを保つは別の結果)",
+  "土星の環の厚み 10 m ほかはリポジトリの中の数(文献の値・未照合)—— 固定の比べる列(合わせない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "cx": -0.03061311434667674,
+   "c6": -0.01530655717333837,
+   "cw": -0.015306122448979593,
+   "cFlip": 0,
+   "cLine": 0,
+   "cNoSelf": 0,
+   "cGal": 0,
+   "rigSix": 3.323259344844179e-15,
+   "rigX": 3.202372833989377e-15,
+   "shX": 1.0000000000000009,
+   "shSix": 6.661338147750939e-16,
+   "shRingTilt": 1,
+   "shRingC1": 1,
+   "shRingC2": 0,
+   "vs348iC1": 0,
+   "vs348iC2": 0.000044303623436598264,
+   "flyC1": 1.000044389263123,
+   "flyC2": 0.4984900874207029,
+   "flySix": 0.500022194631565,
+   "flyZero": 0,
+   "linear": 0,
+   "offTiltDeg": 0,
+   "mutRot": {
+    "mag": 0.00484848484848485,
+    "flip": 0
+   },
+   "L0z": 0.984807753012208,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "common": true,
+   "rigidShear": true,
+   "ringVsSphere": true,
+   "vs348i": true,
+   "fly": true,
+   "linear": true,
+   "ring": true,
+   "rejects": true
+  }
+ },
+ "T1": [
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 0.1,
+   "inc": 0,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0,
+    "C2six": 0,
+    "C3": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 0.1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 0.1,
+   "inc": 30,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0.06041711984592649,
+   "pred": {
+    "C1": 0.06041980171735647,
+    "C2": 0.03011733535370298,
+    "C2six": 0.030209900858678446,
+    "C3": 0.02416792068694259
+   },
+   "vsRing": {
+    "C1": 1.000044389263123,
+    "C2": 0.4984900874207029,
+    "C2six": 0.500022194631565,
+    "C3": 0.4000177557052493
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 0.1,
+   "inc": 30,
+   "tilt": 0.20285741456197467,
+   "pred": {
+    "C1": 0.20285892807270978,
+    "C2": 0.10142940150768037
+   },
+   "vsRing": {
+    "C1": 1.0000074609584193,
+    "C2": 0.5000034222396778,
+    "C2six": null,
+    "C3": 0.40000298438336773
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 30,
+   "tilt": 0.3333313689424317,
+   "pred": {
+    "C1": 0.33333904773449036,
+    "C2": 0.16666666666657964
+   },
+   "vsRing": {
+    "C1": 1.000023036511934,
+    "C2": 0.5000029466034562,
+    "C2six": null,
+    "C3": 0.4000092146047736
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 30,
+   "tilt": 0.2636000340002365,
+   "pred": {
+    "C1": 0.263608076423734,
+    "C2": 0.13180007064058855
+   },
+   "vsRing": {
+    "C1": 1.0000305099486348,
+    "C2": 0.5000002034918944,
+    "C2six": null,
+    "C3": 0.400012203979454
+   }
+  },
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 0.1,
+   "inc": 90,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0.1208320857561105,
+   "pred": {
+    "C1": 0.12083960343471295,
+    "C2": 0.060234670707405964,
+    "C2six": 0.0604198017173569,
+    "C3": 0.048335841373885184
+   },
+   "vsRing": {
+    "C1": 1.0000622159135582,
+    "C2": 0.49849897343479305,
+    "C2six": 0.5000311079567825,
+    "C3": 0.40002488636542327
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 0.1,
+   "inc": 90,
+   "tilt": 0.40571305047124484,
+   "pred": {
+    "C1": 0.4057178561454196,
+    "C2": 0.20285880301536083
+   },
+   "vsRing": {
+    "C1": 1.000011845007621,
+    "C2": 0.5000056142629273,
+    "C2six": null,
+    "C3": 0.4000047380030484
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 90,
+   "tilt": 0.6666552379220934,
+   "pred": {
+    "C1": 0.6666780954689807,
+    "C2": 0.33333333333315934
+   },
+   "vsRing": {
+    "C1": 1.0000342869081156,
+    "C2": 0.5000085717051147,
+    "C2six": null,
+    "C3": 0.40001371476324626
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 0.1,
+   "inc": 90,
+   "tilt": 0.5271927979513493,
+   "pred": {
+    "C1": 0.5272161528474681,
+    "C2": 0.26360014128117715
+   },
+   "vsRing": {
+    "C1": 1.0000443004840156,
+    "C2": 0.5000070985520232,
+    "C2six": null,
+    "C3": 0.40001772019360626
+   }
+  },
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 1,
+   "inc": 0,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0,
+    "C2six": 0,
+    "C3": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 0,
+   "tilt": 0,
+   "pred": {
+    "C1": 0,
+    "C2": 0
+   },
+   "vsRing": {
+    "C1": null,
+    "C2": null,
+    "C2six": null,
+    "C3": null
+   }
+  },
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 1,
+   "inc": 30,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0.08618782990410029,
+   "pred": {
+    "C1": 0.0865595532137964,
+    "C2": 0.03011733535370298,
+    "C2six": 0.04327977660689812,
+    "C3": 0.03462382128551856
+   },
+   "vsRing": {
+    "C1": 1.0043129442997893,
+    "C2": 0.3494383764762846,
+    "C2six": 0.5021564721498938,
+    "C3": 0.4017251777199158
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 1,
+   "inc": 30,
+   "tilt": 0.20271981765270955,
+   "pred": {
+    "C1": 0.20287130958211944,
+    "C2": 0.10142940150768039
+   },
+   "vsRing": {
+    "C1": 1.0007472970879907,
+    "C2": 0.5003428016171791,
+    "C2six": null,
+    "C3": 0.4002989188351963
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 30,
+   "tilt": 0.33313584903284266,
+   "pred": {
+    "C1": 0.3339059187978739,
+    "C2": 0.16666666666657964
+   },
+   "vsRing": {
+    "C1": 1.0023115787966588,
+    "C2": 0.5002964020547322,
+    "C2six": null,
+    "C3": 0.40092463151866353
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 30,
+   "tilt": 0.26358858682945996,
+   "pred": {
+    "C1": 0.2643964747226104,
+    "C2": 0.13180007064058855
+   },
+   "vsRing": {
+    "C1": 1.0030649577922475,
+    "C2": 0.5000219175872828,
+    "C2six": null,
+    "C3": 0.401225983116899
+   }
+  },
+  {
+   "col": "inPos",
+   "Wbg": 0,
+   "Wself": null,
+   "Rr": 1,
+   "inc": 90,
+   "W0": 0,
+   "recv": {
+    "m": 1,
+    "R": 1
+   },
+   "tilt": 0.1720751442788125,
+   "pred": {
+    "C1": 0.17311910642759282,
+    "C2": 0.060234670707405964,
+    "C2six": 0.08655955321379626,
+    "C3": 0.06924764257103713
+   },
+   "vsRing": {
+    "C1": 1.0060668968383302,
+    "C2": 0.35004864275928216,
+    "C2six": 0.5030334484191642,
+    "C3": 0.40242675873533207
+   },
+   "scale": 12.988597340958501
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.01,
+   "Rr": 1,
+   "inc": 90,
+   "tilt": 0.4052620295953562,
+   "pred": {
+    "C1": 0.405742619164239,
+    "C2": 0.2028588030153608
+   },
+   "vsRing": {
+    "C1": 1.0011858736663848,
+    "C2": 0.500562076387739,
+    "C2six": null,
+    "C3": 0.4004743494665539
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 90,
+   "tilt": 0.6655220748080034,
+   "pred": {
+    "C1": 0.6678118375957479,
+    "C2": 0.3333333333331593
+   },
+   "vsRing": {
+    "C1": 1.0034405512219937,
+    "C2": 0.5008599202803644,
+    "C2six": null,
+    "C3": 0.4013762204887975
+   }
+  },
+  {
+   "col": "k1const",
+   "Wbg": 0.1,
+   "Wself": 0.1,
+   "Rr": 1,
+   "inc": 90,
+   "tilt": 0.5264497909417811,
+   "pred": {
+    "C1": 0.5287929494452209,
+    "C2": 0.26360014128117715
+   },
+   "vsRing": {
+    "C1": 1.0044508679531396,
+    "C2": 0.5007127855623521,
+    "C2six": null,
+    "C3": 0.4017803471812559
+   }
+  }
+ ],
+ "T2": {
+  "rotvert": {
+   "version": "w339a-rotvert-1",
+   "ok": true,
+   "gates": {
+    "candidate": true,
+    "defaultOff": true,
+    "accept": true,
+    "match": true,
+    "step": true,
+    "run": true,
+    "visibility": true,
+    "self": true
+   },
+   "key": "rotDragVert",
+   "inDefault": false,
+   "book": "saturnRotVertExplore3d",
+   "form": "sliceFocus",
+   "lambdaBook": 0.0656,
+   "lambdaNeed": 6.56013429774167e-7,
+   "unitsT": 100,
+   "lambdaScale": 100000,
+   "rdScale": 2000000,
+   "satSpin": 0.00016378840578024865,
+   "ReqSat": 5.1807360976510655,
+   "ReqApp": 10.361472128537791,
+   "rateTol": 0.05,
+   "rows": [
+    {
+     "steps": 600,
+     "t": 347.99999999999994,
+     "guide": 0.8280703255349738,
+     "ratioOn": [
+      0.8199303088285048,
+      0.8513706545465115,
+      0.8073993237885188
+     ],
+     "ratioOff": [
+      0.9974050336711963,
+      1.0143024684211692,
+      0.9819288294627994
+     ],
+     "onGap": [
+      0.00983010313913879,
+      0.028138104087336524,
+      0.024962857753779044
+     ],
+     "offGap": [
+      0.0025949663288037383,
+      0.014302468421169223,
+      0.018071170537200643
+     ],
+     "judgeOk": null
+    },
+    {
+     "steps": 3000,
+     "t": 1739.9999999999418,
+     "guide": 0.38934635065752793,
+     "ratioOn": [
+      0.386953932104954,
+      0.39725498713501123,
+      0.38232457840425677
+     ],
+     "ratioOff": [
+      0.9894242829725693,
+      1.0283544711105228,
+      0.980175228922701
+     ],
+     "onGap": [
+      0.006144705218203872,
+      0.020312599473777615,
+      0.018034770947288448
+     ],
+     "offGap": [
+      0.010575717027430653,
+      0.028354471110522805,
+      0.019824771077298964
+     ],
+     "judgeOk": true
+    }
+   ]
+  },
+  "units": {
+   "R": 60268000,
+   "tU": 2402.33161537676,
+   "sDim": 0.39347406543804897,
+   "hBandM": 10.361472195302131
+  },
+  "Wrule": 18058920.313005865,
+  "rows": [
+   {
+    "key": "ringD",
+    "r": 1.1731764783964957,
+    "n": 0.7869642059556221,
+    "rateNeed": 5.4211837351322185e-11,
+    "rateBook": 0.000005421183735132218,
+    "C1": {
+     "mag0": 4.7909988032806803e-8,
+     "magPerS": 1.994312014467371e-11,
+     "par0": 4.7909988032806803e-8,
+     "vsRateNeed": 0.3678739020673925,
+     "vsRateBook": 0.0000036787390206739254,
+     "vsN": 6.087950083400427e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 4.790998783433291e-8,
+       "perp": 4.790998807388285e-12,
+       "parOdd": 0,
+       "perpOdd": -4.790998807388285e-12
+      },
+      {
+       "z": 0.01,
+       "par": 4.790800322441513e-8,
+       "perp": 4.791039880424633e-10,
+       "parOdd": 0,
+       "perpOdd": -4.791039880424633e-10
+      }
+     ]
+    },
+    "C2": {
+     "mag0": 1.722309642054567e-8,
+     "magPerS": 7.169325129929889e-12,
+     "par0": 1.722309642054567e-8,
+     "vsRateNeed": 0.13224648859378743,
+     "vsRateBook": 0.0000013224648859378745,
+     "vsN": 2.1885488933555004e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 1.72230963681647e-8,
+       "perp": 1.4524336437923245e-12,
+       "parOdd": 0,
+       "perpOdd": -1.4524336437923245e-12
+      },
+      {
+       "z": 0.01,
+       "par": 1.7222572587505077e-8,
+       "perp": 1.4524538829740006e-10,
+       "parOdd": 0,
+       "perpOdd": -1.4524538829740006e-10
+      }
+     ]
+    }
+   },
+   {
+    "key": "ringC",
+    "r": 1.3814130218358,
+    "n": 0.6159063499753347,
+    "rateNeed": 5.4211837351322185e-11,
+    "rateBook": 0.000005421183735132218,
+    "C1": {
+     "mag0": 3.221671878214445e-8,
+     "magPerS": 1.3410604337857774e-11,
+     "par0": 3.221671878214445e-8,
+     "vsRateNeed": 0.24737409748630665,
+     "vsRateBook": 0.0000024737409748630668,
+     "vsN": 5.2307820472113404e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 3.221671864611831e-8,
+       "perp": 3.221671880720191e-12,
+       "parOdd": 0,
+       "perpOdd": -3.221671880720191e-12
+      },
+      {
+       "z": 0.01,
+       "par": 3.221535847511263e-8,
+       "perp": 3.2216969363854045e-10,
+       "parOdd": 0,
+       "perpOdd": -3.2216969363854045e-10
+      }
+     ]
+    },
+    "C2": {
+     "mag0": 1.1517860630587057e-8,
+     "magPerS": 4.794450756450083e-12,
+     "par0": 1.1517860630587057e-8,
+     "vsRateNeed": 0.08843918580695642,
+     "vsRateBook": 8.843918580695642e-7,
+     "vsN": 1.8700668747851547e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 1.1517860593660769e-8,
+       "perp": 9.864819463722372e-13,
+       "parOdd": 0,
+       "perpOdd": -9.864819463722372e-13
+      },
+      {
+       "z": 0.01,
+       "par": 1.1517491352270038e-8,
+       "perp": 9.864943432510963e-11,
+       "parOdd": 0,
+       "perpOdd": -9.864943432510963e-11
+      }
+     ]
+    }
+   },
+   {
+    "key": "ringB",
+    "r": 1.7387336563350368,
+    "n": 0.4361645943819661,
+    "rateNeed": 5.4211837351322185e-11,
+    "rateBook": 0.000005421183735132218,
+    "C1": {
+     "mag0": 1.8401728270085893e-8,
+     "magPerS": 7.659945093467011e-12,
+     "par0": 1.8401728270085893e-8,
+     "vsRateNeed": 0.14129654089800356,
+     "vsRateBook": 0.0000014129654089800355,
+     "vsN": 4.218987168401567e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 1.8401728190594875e-8,
+       "perp": 1.8401728282603524e-12,
+       "parOdd": 0,
+       "perpOdd": -1.8401728282603524e-12
+      },
+      {
+       "z": 0.01,
+       "par": 1.8400933334446766e-8,
+       "perp": 1.840185345012274e-10,
+       "parOdd": 0,
+       "perpOdd": -1.840185345012274e-10
+      }
+     ]
+    },
+    "C2": {
+     "mag0": 6.530871940717969e-9,
+     "magPerS": 2.7185555478333603e-12,
+     "par0": 6.530871940717969e-9,
+     "vsRateNeed": 0.050146899287246846,
+     "vsRateBook": 5.014689928724684e-7,
+     "vsN": 1.4973411470896773e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 6.530871918426126e-9,
+       "perp": 5.701870801805129e-13,
+       "parOdd": 0,
+       "perpOdd": -5.701870801805129e-13
+      },
+      {
+       "z": 0.01,
+       "par": 6.530649013581266e-9,
+       "perp": 5.7019329722272986e-11,
+       "parOdd": 0,
+       "perpOdd": -5.7019329722272986e-11
+      }
+     ]
+    }
+   },
+   {
+    "key": "ringA",
+    "r": 2.1482793522267207,
+    "n": 0.31758784217208763,
+    "rateNeed": 5.4211837351322185e-11,
+    "rateBook": 0.000005421183735132218,
+    "C1": {
+     "mag0": 1.0981631646653076e-8,
+     "magPerS": 4.5712388649269875e-12,
+     "par0": 1.0981631646653076e-8,
+     "vsRateNeed": 0.08432178447121934,
+     "vsRateBook": 8.432178447121934e-7,
+     "vsN": 3.4578249505856676e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 1.0981631598366433e-8,
+       "perp": 1.0981631653274593e-12,
+       "parOdd": 0,
+       "perpOdd": -1.0981631653274593e-12
+      },
+      {
+       "z": 0.01,
+       "par": 1.0981148764841913e-8,
+       "perp": 1.0981697863462898e-10,
+       "parOdd": 0,
+       "perpOdd": -1.0981697863462898e-10
+      }
+     ]
+    },
+    "C2": {
+     "mag0": 3.873328471859235e-9,
+     "magPerS": 1.6123204835947586e-12,
+     "par0": 3.873328471859235e-9,
+     "vsRateNeed": 0.029741114899796608,
+     "vsRateBook": 2.974111489979661e-7,
+     "vsN": 1.2196085484155403e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 3.873328457986638e-9,
+       "perp": 3.4338050237987166e-13,
+       "parOdd": 0,
+       "perpOdd": -3.4338050237987166e-13
+      },
+      {
+       "z": 0.01,
+       "par": 3.8731897407501614e-9,
+       "perp": 3.433837985585006e-11,
+       "parOdd": 0,
+       "perpOdd": -3.433837985585006e-11
+      }
+     ]
+    }
+   },
+   {
+    "key": "ringF",
+    "r": 2.3259441162806134,
+    "n": 0.28190390114591396,
+    "rateNeed": 5.4211837351322185e-11,
+    "rateBook": 0.000005421183735132218,
+    "C1": {
+     "mag0": 9.042909223627049e-9,
+     "magPerS": 3.764221877506632e-12,
+     "par0": 9.042909223627049e-9,
+     "vsRateNeed": 0.06943542335804682,
+     "vsRateBook": 6.943542335804684e-7,
+     "vsN": 3.207798539455622e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 9.042909183626355e-9,
+       "perp": 9.042909228840903e-13,
+       "parOdd": 0,
+       "perpOdd": -9.042909228840903e-13
+      },
+      {
+       "z": 0.01,
+       "par": 9.042509203602821e-9,
+       "perp": 9.042961362975238e-11,
+       "parOdd": 0,
+       "perpOdd": -9.042961362975238e-11
+      }
+     ]
+    },
+    "C2": {
+     "mag0": 3.182524334104527e-9,
+     "magPerS": 1.3247647883972123e-12,
+     "par0": 3.182524334104527e-9,
+     "vsRateNeed": 0.024436817734326474,
+     "vsRateBook": 2.443681773432648e-7,
+     "vsN": 1.128939443962234e-8,
+     "z": [
+      {
+       "z": 0.0001,
+       "par": 3.1825243225206965e-9,
+       "perp": 2.836221149913466e-13,
+       "parOdd": 0,
+       "perpOdd": -2.836221149913466e-13
+      },
+      {
+       "z": 0.01,
+       "par": 3.182408491591161e-9,
+       "perp": 2.836247120704346e-11,
+       "parOdd": 0,
+       "perpOdd": -2.836247120704346e-11
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "T3": {
+  "rows": [
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "P2",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "mixed",
+    "dirOn": "mixed",
+    "dirRetro": "mixed",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0,
+    "cand": "W",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "mixed",
+    "dirOn": "mixed",
+    "dirRetro": "mixed",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": null,
+    "critMaxPos": null,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 4.1762076280292115,
+    "critMaxPos": 4.845692003472201,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.0001164370287087804,
+    "lamStarMax": 0.00016655650440582567,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 31197.535282356017,
+    "critMaxPos": 44626.288392352246,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 0.8518905166789333,
+    "critMaxPos": 1.044027682046909,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.23830506079917654,
+    "lamStarMax": 0.2741560825533602,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 115.34588730318946,
+    "critMaxPos": 132.69872026902866,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.00003611628684531327,
+    "lamStarMax": 0.00005086706852469049,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 621674.838335422,
+    "critMaxPos": 875582.164277428,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.6118439368252371,
+    "lamStarMax": 0.6168499673278998,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 51.2649400609825,
+    "critMaxPos": 51.68438338339914,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 0.00036189863856469037,
+    "critMaxPos": 0.00037936390211996935,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 2.327316440298366,
+    "critMaxPos": 2.4397899958006746,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "mixed",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": true,
+    "nHeights": 12,
+    "nFlipUnit": 10,
+    "nFlipRetro": 2,
+    "lamStarMin": 0.2725701095749451,
+    "lamStarMax": 0.36569193209024536,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 14.209097786232611,
+    "critMaxPos": 19.06354453468755,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 0.011921865873105949,
+    "critMaxPos": 0.012497181524463724,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.6033475299646769,
+    "lamStarMax": 0.6325034501306034,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 49.99621202881046,
+    "critMaxPos": 52.41220860477403,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.0014381481785846785,
+    "lamStarMax": 0.12650334534068608,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 249.97581302313003,
+    "critMaxPos": 21988.538505680717,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.2127646129337569,
+    "lamStarMax": 0.23917685248222972,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 21.725147600111903,
+    "critMaxPos": 24.42207071494744,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.00006407200504508694,
+    "lamStarMax": 0.0000853732809722412,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 60863.91858825411,
+    "critMaxPos": 81098.63924267927,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.34210142066922605,
+    "lamStarMax": 0.36461415414443654,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 14.251099041668724,
+    "critMaxPos": 15.188923835925056,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.11380805634569655,
+    "lamStarMax": 0.12779638210575694,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 247.44657149616802,
+    "critMaxPos": 277.8606156459463,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.000035499146526728766,
+    "lamStarMax": 0.00004717013347245903,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 670398.285392752,
+    "critMaxPos": 890803.8557454812,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "P2",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.18062657994116432,
+    "lamStarMax": 0.192644508571979,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 164.15093706067603,
+    "critMaxPos": 175.0726643442195,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 0.0030479749573889747,
+    "critMaxPos": 0.003195054625599918,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.6755564573504536,
+    "lamStarMax": 0.7081956522131686,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 7.337170747191452,
+    "critMaxPos": 7.691662726585502,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.10328989151112572,
+    "lamStarMax": 0.1751484177123897,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 29.66713882188309,
+    "critMaxPos": 50.306495114741566,
+    "linRel": 5.009297384978608e-11
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 0.03517652098012357,
+    "critMaxPos": 0.03687395837986466,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.36438477596897473,
+    "lamStarMax": 0.3819896728377696,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 82.78437573131444,
+    "critMaxPos": 86.78402251464065,
+    "linRel": 3.9391747832081134e-14
+   },
+   {
+    "col": "k1",
+    "Wbg": 0,
+    "Wself": 10,
+    "cand": "W",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.05725598331516611,
+    "lamStarMax": 0.09519485836367511,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 332.189964303267,
+    "critMaxPos": 552.3051875227767,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.5217097034098503,
+    "lamStarMax": 0.6018134202361799,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 8.634158441776552,
+    "critMaxPos": 9.959853897186541,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.00007228250110720041,
+    "lamStarMax": 0.00010233972963157065,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 50773.56019419928,
+    "critMaxPos": 71886.7269825147,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 3.3930521136604908,
+    "critMaxPos": 3.4538779022464037,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.15920615345779046,
+    "lamStarMax": 0.18136109951360158,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 174.36361318107345,
+    "critMaxPos": 198.6278539797005,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.0000323114203119033,
+    "lamStarMax": 0.00004451216110988946,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 710430.0445807388,
+    "critMaxPos": 978687.2968265708,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "P2",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.31119383315431987,
+    "lamStarMax": 0.32644354203327614,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 96.87058412832782,
+    "critMaxPos": 101.6176197360639,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 0.0007041437687801746,
+    "critMaxPos": 0.0007381245857597404,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "away",
+    "dirRetro": "away",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 3.552289246179852,
+    "critMaxPos": 3.723955573971853,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "mixed",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": true,
+    "nHeights": 12,
+    "nFlipUnit": 10,
+    "nFlipRetro": 2,
+    "lamStarMin": 0.23201943980386963,
+    "lamStarMax": 0.26945606076073286,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 19.283858036211054,
+    "critMaxPos": 22.395332163111146,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 0.018544861942912768,
+    "critMaxPos": 0.01943976320060747,
+    "linRel": 0
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.48266367826243584,
+    "lamStarMax": 0.5059863170817049,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 62.49729594284158,
+    "critMaxPos": 65.51720799775974,
+    "linRel": 3.54071396376496e-14
+   },
+   {
+    "col": "k1",
+    "Wbg": 0.1,
+    "Wself": 0.1,
+    "cand": "W",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.03668503600217176,
+    "lamStarMax": 0.11069074748565957,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 285.6858167461616,
+    "critMaxPos": 862.0075117225377,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.23629610820139654,
+    "lamStarMax": 0.26699864324120787,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 19.46134392155844,
+    "critMaxPos": 21.990004246188942,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.00006080467006181525,
+    "lamStarMax": 0.00008209215636035775,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 63296.57610523982,
+    "critMaxPos": 85456.46933737358,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.40517016393000593,
+    "lamStarMax": 0.4301391523515313,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 12.080166137631842,
+    "critMaxPos": 12.824617618202211,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "away",
+    "dirRetro": "toward",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.1175537518196536,
+    "lamStarMax": 0.13223207919131094,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 239.1460286723053,
+    "critMaxPos": 269.0069530932388,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.00003472326243115734,
+    "lamStarMax": 0.00004634634375783485,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 682314.3755830353,
+    "critMaxPos": 910708.6831019811,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "P2",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.1902973046177557,
+    "lamStarMax": 0.20276228471973723,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 155.95985538135722,
+    "critMaxPos": 166.17564113797346,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 3,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 0.00231436065673337,
+    "critMaxPos": 0.00242604083611824,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 3,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.7588038130653367,
+    "lamStarMax": 0.795467494037273,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 6.532199570260701,
+    "critMaxPos": 6.847820653029873,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 3,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.091241088890655,
+    "lamStarMax": 0.18605431415756385,
+    "sOverN": 5.196152422706632,
+    "critMinPos": 27.928148004706657,
+    "critMaxPos": 56.9496976185126,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 10,
+    "action": "corV",
+    "dirOff": "toward",
+    "dirOn": "toward",
+    "dirRetro": "toward",
+    "swap": false,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 0,
+    "nFlipRetro": 0,
+    "lamStarMin": null,
+    "lamStarMax": null,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 0.032132124654431195,
+    "critMaxPos": 0.03368265856078376,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 10,
+    "action": "corS",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.3780641714658501,
+    "lamStarMax": 0.39633041898874477,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 79.78892128030635,
+    "critMaxPos": 83.64393927907614,
+    "linRel": 0
+   },
+   {
+    "col": "inPos",
+    "Wbg": 0,
+    "Wself": 1.5,
+    "cand": "W",
+    "d": 10,
+    "action": "drag90",
+    "dirOff": "away",
+    "dirOn": "toward",
+    "dirRetro": "away",
+    "swap": true,
+    "swapRetro": false,
+    "nHeights": 12,
+    "nFlipUnit": 12,
+    "nFlipRetro": 0,
+    "lamStarMin": 0.05554974620414297,
+    "lamStarMax": 0.09698685975398395,
+    "sOverN": 31.622776601683793,
+    "critMinPos": 326.0521753348635,
+    "critMaxPos": 569.2695063893078,
+    "linRel": 0
+   }
+  ],
+  "summary": {
+   "k1Swap": 25,
+   "k1N": 48,
+   "byDen": [
+    {
+     "key": "k1|0|0",
+     "n": 12,
+     "swap": 0,
+     "retro": 0
+    },
+    {
+     "key": "k1|0|0.1",
+     "n": 12,
+     "swap": 7,
+     "retro": 1
+    },
+    {
+     "key": "k1|0|10",
+     "n": 12,
+     "swap": 10,
+     "retro": 0
+    },
+    {
+     "key": "k1|0.1|0.1",
+     "n": 12,
+     "swap": 8,
+     "retro": 1
+    },
+    {
+     "key": "inPos|0|1.5",
+     "n": 12,
+     "swap": 10,
+     "retro": 0
+    }
+   ],
+   "byD": [
+    {
+     "key": "k1|3",
+     "n": 24,
+     "swap": 10,
+     "retro": 2
+    },
+    {
+     "key": "k1|10",
+     "n": 24,
+     "swap": 15,
+     "retro": 0
+    },
+    {
+     "key": "inPos|3",
+     "n": 6,
+     "swap": 5,
+     "retro": 0
+    },
+    {
+     "key": "inPos|10",
+     "n": 6,
+     "swap": 5,
+     "retro": 0
+    }
+   ],
+   "byCand": [
+    {
+     "key": "k1|P2",
+     "n": 24,
+     "swap": 15,
+     "retro": 0
+    },
+    {
+     "key": "k1|W",
+     "n": 24,
+     "swap": 10,
+     "retro": 2
+    },
+    {
+     "key": "inPos|P2",
+     "n": 6,
+     "swap": 6,
+     "retro": 0
+    },
+    {
+     "key": "inPos|W",
+     "n": 6,
+     "swap": 4,
+     "retro": 0
+    }
+   ],
+   "byAction": [
+    {
+     "key": "k1|corV",
+     "n": 16,
+     "swap": 5,
+     "retro": 0
+    },
+    {
+     "key": "k1|corS",
+     "n": 16,
+     "swap": 10,
+     "retro": 0
+    },
+    {
+     "key": "k1|drag90",
+     "n": 16,
+     "swap": 10,
+     "retro": 2
+    },
+    {
+     "key": "inPos|corV",
+     "n": 4,
+     "swap": 2,
+     "retro": 0
+    },
+    {
+     "key": "inPos|corS",
+     "n": 4,
+     "swap": 4,
+     "retro": 0
+    },
+    {
+     "key": "inPos|drag90",
+     "n": 4,
+     "swap": 4,
+     "retro": 0
+    }
+   ],
+   "linMax": 0
+  }
+ },
+ "T4": [
+  {
+   "cfg": "both",
+   "N": 24,
+   "ph0": 0,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596437,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596437,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.018089836688666903,
+     "tilt": 9.999512009414962,
+     "rms": 0.020969624570482997,
+     "restore": 0.0000922449530419518
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.0180523690168685,
+     "tilt": 9.99785351664862,
+     "rms": 0.02029034860833145,
+     "restore": -0.0000966589037360768
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.017997763405795383,
+     "tilt": 9.99486400015138,
+     "rms": 0.019252715349420857,
+     "restore": -0.0003279985871147877
+    }
+   ],
+   "dTilt": -0.005135999848622674,
+   "rmsRatio": 0.9075817053219875,
+   "rmsMeanRatio": 0.9949102203377435,
+   "restoreMean": -0.00008310313445222818
+  },
+  {
+   "cfg": "spin",
+   "N": 24,
+   "ph0": 0,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596437,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596437,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.021373161367134158,
+     "tilt": 10.000000929367824,
+     "rms": 0.021213031802659172,
+     "restore": -3.354387664939655e-8
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.021373165033099162,
+     "tilt": 10.000003685971,
+     "rms": 0.02121252089252261,
+     "restore": -6.854935310178179e-8
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.02137317324824154,
+     "tilt": 10.000008176287333,
+     "rms": 0.02121168199033994,
+     "restore": -1.0440740087130972e-7
+    }
+   ],
+   "dTilt": 0.000008176287328964804,
+   "rmsRatio": 0.9999282783827952,
+   "rmsMeanRatio": 1.0000005558890974,
+   "restoreMean": 0
+  },
+  {
+   "cfg": "trans",
+   "N": 24,
+   "ph0": 0,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596437,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596437,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.01789617624290433,
+     "tilt": 10.000000000000002,
+     "rms": 0.02099849937563047,
+     "restore": -0.000023264805411114104
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.017869501267459113,
+     "tilt": 10,
+     "rms": 0.020363090033501643,
+     "restore": -0.00033295436112530354
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.017820007146157245,
+     "tilt": 10.000000000000004,
+     "rms": 0.01935001385367747,
+     "restore": -0.00009803199542974107
+    }
+   ],
+   "dTilt": 0,
+   "rmsRatio": 0.9121684007992648,
+   "rmsMeanRatio": 0.9957438340060334,
+   "restoreMean": -0.0001135627904915396
+  },
+  {
+   "cfg": "off",
+   "N": 24,
+   "ph0": 0,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596437,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596437,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.021214263986886032,
+     "tilt": 9.999999999999998,
+     "rms": 0.021213203324089068,
+     "restore": 0
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.0212142638736584,
+     "tilt": 10.000000000000004,
+     "rms": 0.02121320321611501,
+     "restore": 0
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.02121426376043016,
+     "tilt": 10.000000000000002,
+     "rms": 0.02121320311167374,
+     "restore": 0
+    }
+   ],
+   "dTilt": 0,
+   "rmsRatio": 0.9999999847301376,
+   "rmsMeanRatio": 0.9999999893253015,
+   "restoreMean": 0
+  },
+  {
+   "cfg": "halfStep",
+   "N": 24,
+   "ph0": 0,
+   "per": 400,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596437,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596437,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.01809015411003206,
+     "tilt": 9.99951201002602,
+     "rms": 0.020969625944745045,
+     "restore": 0.00009224556628324974
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.018053231035268444,
+     "tilt": 9.997853518859849,
+     "rms": 0.02029035137681164,
+     "restore": -0.00009665716799057312
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.017999072891960656,
+     "tilt": 9.994864008916077,
+     "rms": 0.019252720879097997,
+     "restore": -0.00032799514778688606
+    }
+   ],
+   "dTilt": -0.005135991083927038,
+   "rmsRatio": 0.9075819659934676,
+   "rmsMeanRatio": 0.9949651496876473,
+   "restoreMean": -0.00008310168737355237
+  },
+  {
+   "cfg": "altN",
+   "N": 36,
+   "ph0": 0,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596427,
+     "tilt": 9.999999999999998,
+     "rms": 0.021213203435596427,
+     "restore": 0
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.01808983668866659,
+     "tilt": 9.99951200941496,
+     "rms": 0.02096962457048571,
+     "restore": -0.0001788430058142432
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.018052369016870157,
+     "tilt": 9.99785351664861,
+     "rms": 0.020290348608337005,
+     "restore": -0.00019006847811151788
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.0179977634057917,
+     "tilt": 9.994864000151377,
+     "rms": 0.019252715349371372,
+     "restore": -0.0002226949056287566
+    }
+   ],
+   "dTilt": -0.005135999848620898,
+   "rmsRatio": 0.9075817053196551,
+   "rmsMeanRatio": 0.9949102203375569,
+   "restoreMean": -0.00014790159738862935
+  },
+  {
+   "cfg": "altPhase",
+   "N": 24,
+   "ph0": 0.7,
+   "per": 200,
+   "series": [
+    {
+     "orbit": 0,
+     "rmsOrbitMean": 0.021213203435596416,
+     "tilt": 10.000000000000004,
+     "rms": 0.021213203435596416,
+     "restore": -0.000035031969068184426
+    },
+    {
+     "orbit": 1,
+     "rmsOrbitMean": 0.018089848011712765,
+     "tilt": 9.999511188567253,
+     "rms": 0.020969648258491232,
+     "restore": -0.00021588845550827838
+    },
+    {
+     "orbit": 2,
+     "rmsOrbitMean": 0.018052403827278865,
+     "tilt": 9.997846968877255,
+     "rms": 0.020290419461867902,
+     "restore": 0.00015782357894427663
+    },
+    {
+     "orbit": 3,
+     "rmsOrbitMean": 0.017997817058846618,
+     "tilt": 9.994878169825336,
+     "rms": 0.019252757393266384,
+     "restore": -0.00005427821257335665
+    }
+   ],
+   "dTilt": -0.005121830174667608,
+   "rmsRatio": 0.9075836872878735,
+   "rmsMeanRatio": 0.9949125635103977,
+   "restoreMean": -0.00003684376455138571
+  }
+ ],
+ "T5": {
+  "units": {
+   "R": 60268000,
+   "tU": 2402.33161537676,
+   "sDim": 0.39347406543804897,
+   "hBandM": 10.361472195302131
+  },
+  "Wrule": 18058920.313005865,
+  "rows": [
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C1",
+    "key": "ringD",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C1",
+    "key": "ringC",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C1",
+    "key": "ringB",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C1",
+    "key": "ringA",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10.000000000000002,
+    "ledgerOver10m": 1.0000000000000002,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C1",
+    "key": "ringF",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999999999998,
+    "ledgerOver10m": 0.9999999999999998,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C2",
+    "key": "ringD",
+    "dir": "toward",
+    "K": 6.858660107891438e-9,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999965706701,
+    "ledgerOver10m": 0.9999999965706701,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C2",
+    "key": "ringC",
+    "dir": "toward",
+    "K": 5.367832883452791e-9,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999973160836,
+    "ledgerOver10m": 0.9999999973160836,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C2",
+    "key": "ringB",
+    "dir": "toward",
+    "K": 3.801322509017622e-9,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999980993389,
+    "ledgerOver10m": 0.9999999980993388,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C2",
+    "key": "ringA",
+    "dir": "toward",
+    "K": 2.767885875925873e-9,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999986160573,
+    "ledgerOver10m": 0.9999999986160573,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "rule",
+    "Wii": 18058920.313005865,
+    "read": "C2",
+    "key": "ringF",
+    "dir": "toward",
+    "K": 2.4568882188621466e-9,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.99999998771556,
+    "ledgerOver10m": 0.999999998771556,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "none",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C1",
+    "key": "ringD",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C1",
+    "key": "ringC",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C1",
+    "key": "ringB",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C1",
+    "key": "ringA",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10.000000000000002,
+    "ledgerOver10m": 1.0000000000000002,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C1",
+    "key": "ringF",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999999999998,
+    "ledgerOver10m": 0.9999999999999998,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C2",
+    "key": "ringD",
+    "dir": "toward",
+    "K": 0.13005222056843235,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.406991324208127,
+    "ledgerOver10m": 0.9406991324208127,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C2",
+    "key": "ringC",
+    "dir": "toward",
+    "K": 0.11765710204269993,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.459010529849646,
+    "ledgerOver10m": 0.9459010529849646,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C2",
+    "key": "ringB",
+    "dir": "toward",
+    "K": 0.10168065252308779,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.527350413334188,
+    "ledgerOver10m": 0.9527350413334188,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C2",
+    "key": "ringA",
+    "dir": "toward",
+    "K": 0.08839260979361269,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.585333060870003,
+    "ledgerOver10m": 0.9585333060870003,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "w01",
+    "Wii": 0.1,
+    "read": "C2",
+    "key": "ringF",
+    "dir": "toward",
+    "K": 0.08372521500078306,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.605951971640298,
+    "ledgerOver10m": 0.9605951971640299,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "toward",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C1",
+    "key": "ringD",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C1",
+    "key": "ringC",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C1",
+    "key": "ringB",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10,
+    "ledgerOver10m": 1,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C1",
+    "key": "ringA",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 10.000000000000002,
+    "ledgerOver10m": 1.0000000000000002,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C1",
+    "key": "ringF",
+    "dir": "none",
+    "K": 0,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.999999999999998,
+    "ledgerOver10m": 0.9999999999999998,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C2",
+    "key": "ringD",
+    "dir": "toward",
+    "K": 0.14530964118184397,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.344122894916822,
+    "ledgerOver10m": 0.9344122894916822,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C2",
+    "key": "ringC",
+    "dir": "toward",
+    "K": 0.13391040733002488,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.390973808727782,
+    "ledgerOver10m": 0.9390973808727783,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C2",
+    "key": "ringB",
+    "dir": "toward",
+    "K": 0.11936020979708795,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.45181184329454,
+    "ledgerOver10m": 0.945181184329454,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C2",
+    "key": "ringA",
+    "dir": "toward",
+    "K": 0.10738181164451777,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.502793828166878,
+    "ledgerOver10m": 0.9502793828166878,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   },
+   {
+    "col": "noSelf",
+    "Wii": 0,
+    "read": "C2",
+    "key": "ringF",
+    "dir": "toward",
+    "K": 0.10319923212232307,
+    "zStar": null,
+    "HstarM": null,
+    "HstarOver10m": null,
+    "ledgerHm": 9.520790844636256,
+    "ledgerOver10m": 0.9520790844636255,
+    "ring": [
+     {
+      "action": "corS",
+      "dir": "away",
+      "zStarPos": null,
+      "HstarM": null
+     },
+     {
+      "action": "drag90",
+      "dir": "mixed",
+      "zStarPos": null,
+      "HstarM": null
+     }
+    ]
+   }
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "T1": true,
+  "T2": true,
+  "T3": true,
+  "T4": true,
+  "T5": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.146
+  },
+  "T1": {
+   "wallSec": 0.315
+  },
+  "T2": {
+   "wallSec": 0.321
+  },
+  "T3": {
+   "wallSec": 0.709
+  },
+  "T4": {
+   "wallSec": 1.649
+  },
+  "T5": {
+   "wallSec": 1.822
+  }
+ },
+ "elapsedS": 6.026,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第350便g",
+  "target": "tests/lib-w350g-diskcheck.mjs",
+  "targetSha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+  "generatedAt": "2026-11-23T15:23:05.362Z",
+  "inputs": [
+   {
+    "file": "tests/out/rotvert-w339a.json",
+    "bytes": 14648,
+    "sha256": "a94b1adc49a22ff0867e81a3e8d4ba0b53d2337d8e0127374bead9726b03462d",
+    "mtime": "2026-11-23T14:47:51.004Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w350g-diskcheck.mjs",
+    "bytes": 9038,
+    "sha256": "af6dc880ffbe17f9dc2be6e5a9deb7b7e0dc83c66354f35f664a6d9dd2a6b029",
+    "mtime": "2026-11-23T15:01:09.172Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-23T14:47:50.584Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-23T14:47:50.604Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-23T14:47:50.608Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-23T14:47:50.608Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-23T14:47:50.608Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-23T14:47:50.612Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-23T14:47:50.612Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-23T14:47:50.612Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-23T14:47:50.624Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-23T14:47:50.632Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-23T14:47:50.636Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-23T14:47:50.640Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-23T14:47:50.640Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-23T14:47:50.640Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-23T14:47:50.640Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-23T14:47:50.640Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-23T14:47:50.644Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-23T14:47:50.644Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-23T14:47:50.644Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-23T14:47:50.644Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-23T14:47:50.648Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-23T14:47:50.652Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-23T14:47:50.656Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-23T14:47:50.656Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-23T14:47:50.656Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-23T14:47:50.656Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-23T14:47:50.660Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-23T14:47:50.664Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-23T14:47:50.668Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-23T14:47:50.668Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-23T15:22:59.090Z"
+   }
+  ],
+  "codeSha256": "a561acffacc949f371075265da935e0b4119b7e984ec9b0424c9745051b05a04",
+  "harnessVersion": "w350g-diskcheck-1",
+  "stage": "diskcheck",
+  "engine": "Node(html を読まない —— 純関数の lib: 枝 h の makeField3 の在位の形の場・第348便i/第348便d の器・第340便d の部位の力・第338便d の帳簿)・🛟 の正本は読むだけ・1 プロセス",
+  "notClaim": [
+   "geoPN=3 の在位の形の場(枝 h の makeField3 の既定の引数 —— 受け手 1 つ・源の側の連立は解かない)で円盤引きずりの側の量を数えた表(円盤引きずりの式・型の答えではない)",
+   "回転の読み (C1)・(C2)・(C3) はどれも候補 —— 主は決めていない。輪の直径の傾きが (C1) と同じでも、球全体の自転が (C1) だという確かめにはならない",
+   "🛟 saturnRotVertExplore3d の傾きの比の達は、軸引きずり・ジャイロトルクの型を採ることを意味しない(🛟 の型は円盤引きずりの鉛直の型 —— 強さと帯の半幅は見えるように大きくした値)",
+   "向きが変わる高さは格子の括りか二分の値で、環の厚みの答えではない。帳簿に入れた高さは口の試し(合わせていない)",
+   "粒子の輪は、輪の傾き・上下で符号が反転する復元の成分・厚みを分けて読む器(輪が傾く・傾きが減る・厚みを保つは別の結果)",
+   "土星の環の厚み 10 m ほかはリポジトリの中の数(文献の値・未照合)—— 固定の比べる列(合わせない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 65,
+   "kept": 1162,
+   "zeroPathsHead": [
+    "/pure/scenes/vs348iC1",
+    "/pure/scenes/linear",
+    "/pure/scenes/offTiltDeg",
+    "/T3/rows/0/linRel",
+    "/T3/rows/1/linRel",
+    "/T3/rows/2/linRel",
+    "/T3/rows/3/linRel",
+    "/T3/rows/4/linRel",
+    "/T3/rows/5/linRel",
+    "/T3/rows/6/linRel",
+    "/T3/rows/7/linRel",
+    "/T3/rows/9/linRel",
+    "/T3/rows/10/linRel",
+    "/T3/rows/12/linRel",
+    "/T3/rows/13/linRel",
+    "/T3/rows/14/linRel",
+    "/T3/rows/15/linRel",
+    "/T3/rows/16/linRel",
+    "/T3/rows/17/linRel",
+    "/T3/rows/18/linRel"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
