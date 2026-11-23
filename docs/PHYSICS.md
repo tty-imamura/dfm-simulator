@@ -64970,7 +64970,7 @@ T4 120° の三次元の残り —— 候補 2 つ((a) 第 3 の項・(b) 写像
 
 **表 2 geoPN=3 の形の場の式(本節の lib)と、アプリの行の読み・公開の節**
 
-| 項 | 本節の式(geoPN=3 の形 —— lib `tests/lib-w348i-diskgeo3.mjs`) | アプリの行の読み(beta/index.html —— 読むだけ) | 公開の節 |
+| 項 | 本節の式(geoPN=3 の形 —— lib `tests/lib-w348i-diskgeo3.mjs`) | アプリの行の読み(アプリの html —— 読むだけ) | 公開の節 |
 |---|---|---|---|
 | 場 | u(x) = [Σ_j W_j(x)(v_j − v_r) + Σ_j N_j(x)] ÷ (W₀ + W_ii + Σ_j W_j(x)) | 受け手 i の行 (1 + deg_i) u_i − Σ_j a_ij u_j = s_i(c = 1/W₀ を掛けた行 —— `inertialDragComposeBuild`・`inertialDragComposeSolve`)を、受け手 1 つ・源の u_j を 0(源は与えた動きのまま)に置いた点の式 | 〔第301便a〕〔第302便d〕〔第330便b〕 |
 | 重み | (Rcv) W_j = m_j ÷ d²(重み = 質量 ÷ 距離²)/(Rm2) W_j = m_j K2(d; R_j)(遠方 m_j/d²) | 旧則 a_ij = c m_j r/(r² + ε²)²(遠方 m/r³ —— `inertialDragComposeBuild`)/新則 invSq は引きずりの質量 × K2(源の一様球の逆二乗の体積平均) | 〔第309便a〕〔第330便b〕 |

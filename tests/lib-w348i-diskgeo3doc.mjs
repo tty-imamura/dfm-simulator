@@ -30,7 +30,7 @@ export function originalTable(readings = READINGS) {
     ...ORIGINAL.map(([src, o], k) => `| ${k + 1} | ${src} | 「${o}」 | ${readings[k][0]} | ${readings[k][1]} |`)].join('\n');
 }
 
-/** 表 2 geoPN=3 の形の場の式と、アプリの行の読み(beta/index.html の関数を読んだ —— 変えていない)と公開の節 */
+/** 表 2 geoPN=3 の形の場の式と、アプリの行の読み(アプリの html の関数を読んだ —— 変えていない)と公開の節 */
 export const FIELD_ROWS = Object.freeze([
   ['場', 'u(x) = [Σ_j W_j(x)(v_j − v_r) + Σ_j N_j(x)] ÷ (W₀ + W_ii + Σ_j W_j(x))', '受け手 i の行 (1 + deg_i) u_i − Σ_j a_ij u_j = s_i(c = 1/W₀ を掛けた行 —— `inertialDragComposeBuild`・`inertialDragComposeSolve`)を、受け手 1 つ・源の u_j を 0(源は与えた動きのまま)に置いた点の式', '〔第301便a〕〔第302便d〕〔第330便b〕'],
   ['重み', '(Rcv) W_j = m_j ÷ d²(重み = 質量 ÷ 距離²)/(Rm2) W_j = m_j K2(d; R_j)(遠方 m_j/d²)', '旧則 a_ij = c m_j r/(r² + ε²)²(遠方 m/r³ —— `inertialDragComposeBuild`)/新則 invSq は引きずりの質量 × K2(源の一様球の逆二乗の体積平均)', '〔第309便a〕〔第330便b〕'],
@@ -42,7 +42,7 @@ export const FIELD_ROWS = Object.freeze([
   ['本節で持たない所', '源の側の連立(源の u_j)・受け手の体積の比の平均・ε・inertialR2 の λ・対ごとの正規化・軸引きずりの ν', '—', '—'],
 ].map((r) => Object.freeze(r)));
 export function fieldTable() {
-  return ['| 項 | 本節の式(geoPN=3 の形 —— lib `tests/lib-w348i-diskgeo3.mjs`) | アプリの行の読み(beta/index.html —— 読むだけ) | 公開の節 |', '|---|---|---|---|',
+  return ['| 項 | 本節の式(geoPN=3 の形 —— lib `tests/lib-w348i-diskgeo3.mjs`) | アプリの行の読み(アプリの html —— 読むだけ) | 公開の節 |', '|---|---|---|---|',
     ...FIELD_ROWS.map((r) => `| ${r[0]} | ${r[1]} | ${r[2]} | ${r[3]} |`)].join('\n');
 }
 
