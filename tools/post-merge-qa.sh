@@ -1321,6 +1321,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisdiff347h docs.axisdiff347h"
 #   器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第347便h〕表 15 の (R1) を QA の中で別に照合・呼ぶだけ / docs.axisenergy347i —— 原文と表と数の文が PHYSICS〔第347便i〕に逐語・文書)と、新しい段 axisenergy-347i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisenergy347i docs.axisenergy347i"
 # ==== 第347便i の塊(ここまで)====
+# ==== 第348便f の塊(ここから)====
+# 第348便f(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN981・統括の検証項目 R414 —— 検査の設定と戻り止めと文書だけ・html と paper/ の中は変えない): 枝 f の新設 1 本(lint.paperRunner348f ——
+#   論文の検査 4 本の runs-on と頭の注・ci.yml と nightly.yml の宣言の一覧・TeX を使う/使わないの一覧と yml の中身)と、paper2.yml と nightly.yml を読む既存の lint.nightlyPaper2。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperRunner348f lint.nightlyPaper2"
+# ==== 第348便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
