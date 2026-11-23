@@ -3252,8 +3252,10 @@ for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) W[i * N + j] = i === j |
 if (drag === 'D0') { for (let k = 0; k < N3; k++) U[k] = u[k]; }
 // …
 const w = sqrt(wx * wx + wy * wy + wz * wz), N0 = Math.exp(-psi[i]), x = w / (N0 * N0); q[i] = N0 * sqrt(Math.max(0, 1 - x * x)); }
+// …
 if (drag === 'D1') { for (let i = 0; i < N; i++) for (let c = 0; c < 3; c++) U[3 * i + c] = q[i] * u[3 * i + c]; }
 else if (drag === 'D2') { rhsOf(W, q); solve(W, B, U); }
+// …
 else { for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) Wq[i * N + j] = q[i] * W[i * N + j]; rhsOf(Wq, null); solve(Wq, B, U); }
 ```
 
@@ -3333,6 +3335,7 @@ if (reading === 'latMean') return scl(Pp, -ci);
 
 ```js
 out.push({ pole: pn, gal: gd, sun: rd, sunPoleDeg: angDeg(Pp, S), sunTanFrac: tsZero ? 0 : ms / nrm(ds), galTanFrac: mg / nrm(dg), sepDeg: sep, phaseNeedDeg: sep === null ? null : Math.min(sep, 180 - sep),
+// …
 thirdOverSunTan: sep === null ? null : Math.abs(Math.sin(sep * D2R)), thirdOverSun: sep === null ? 0 : (ms / nrm(ds)) * Math.abs(Math.sin(sep * D2R)), sunTanZero: tsZero });
 ```
 
@@ -3416,8 +3419,11 @@ const fEff = (w) => (bal === 'Tbm' ? DECL.f0 * Math.pow(wRef / w, n) : bal === '
 const scaleTa = (w) => ((bal === 'Ta' || bal === 'TaTc') && mut !== 'TaNoScale' ? wRef / w : 1);
 // …
 const [wi, wd, th] = y, w = wi + wd, wT = dest === 'D2' && mut !== 'D2total' ? wi : w, Sp = Om * Math.sin(th), Spar = Om * Math.cos(th);
+// …
 const Pw = (1 - fEff(w)) * I * wT * Sp * Sp, back = dest === 'D3' ? (wd - Spar) / tau : 0, backE = I * w * back;
+// …
 const dth = bal === 'Tc' || bal === 'TaTc' ? -kd * Om * Math.sin(th) * scaleTa(w) : 0, dph = bal === 'Ta' ? kg * Om * scaleTa(w) : 0;
+// …
 return [aIn * Pw / (I * w), aDr * Pw / (I * w) - back, dth, dph, Pw, h * Pw + (ret === 'heat' ? backE : 0), ret === 'field' && mut !== 'noReturn' ? backE : 0, I * wT * Sp];
 ```
 
@@ -3513,4 +3519,4 @@ PHYSICS §5 の後の便の節で足した式(新則 invSq・R_d の規則・G_l
 15. **第343便の式と第143報の回答 2・3 の用語**(第344便a —— `docs.report144_344a`・`lint.equations344a`): EQ-87〜EQ-91 のラベルは 診断(候補の式に実装の印を付けない)・各項に「時間の単位」(絶対時間/当事者時間/時間を含まない/暦の時刻)・「実装か診断か」・「正本を作る関数」(器の `runAll` と lib の表の関数の名)・「出どころ」(器・lib・正本の実在の経路)・「ノブの台帳」(`docs/PHYSICS.md`〔第337便g〕の表 2 の行の名と今の状態)を持ち、各項は出どころの節(第343便の節)と同じ字の式を 1 つ以上含み、プログラム版は lib の名指しの定義の範囲に在る(`lint.equations344a` の照合の表)。EQ-84 には〔第343便c〕の訂正への「訂正の参照」の行を足した(本文は変えない)。§2a の用語は原文の文と今の読みを分けて書き、統括の読みの 2 通り(速度の増し分で数える/位置の 2 階の量で数える)は原文の語ではないと書く。本便(第344便)の枝の新しい式は、結果が出てから次の便で項を足す(§2a に「第344便で探索中」と 1 行)。第343便a の照合(`docs.report143_343a`・`lint.equations343a`)は EQ-86 までの写しで読む(世代の注記 —— `tests/qa.mjs` の第344便a の塊の `view343aOf344a`)。
 16. **第145報の用語**(第345便a —— `docs.report145_345a`・`docs.sourceVerify345a`): §2a の「第145報の用語」の 4 語(現行の近似・実行系・数学関数の指紋・照合済み/未照合)は原文の文と今の読みを分けて書く。「実行系」はブラウザと Node の JavaScript の実行系で、本書の「エンジン」(アプリの物理の式)と混ぜない。本便は項を足していない(次に項を足す便は EQ-92 から —— 第344便a の照合の写し `view343aOf344a` と同じ型の写しが要る)。文献の値を照合済みにする手順は `docs/SOURCE_VERIFICATION.md`。
 17. **第344便の式**(第347便f —— `docs.equations347f`): EQ-92〜EQ-96 のラベルは 診断(候補の式に実装の印を付けない)・各項に「時間の単位」「実装か診断か」「正本を作る関数」「出どころ」「ノブの台帳」の欄を持ち(EQ-87〜EQ-91 と同じ形)、各項は出どころの節(第344便の節)と同じ字の式を 1 つ以上含み、プログラム版は lib の名指しの定義の範囲に在る(`docs.equations347f` の照合の表 —— 番号の連続も見る)。原仮定者の回答(2026-11-21 —— 第145報)で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。第344便a の照合(`docs.report144_344a`・`lint.equations344a`)と第345便a の照合(`docs.report145_345a`)は EQ-91 までの写しで読む(世代の注記 —— `tests/qa.mjs` の第347便f の塊の `view344aOf347f`・`view345aOf347f`)。EQ-01〜EQ-86 へ欄を広げるのは別の便(足すだけの形で)。
-18. **第347便の式**(第348便g —— `docs.equations348g`): EQ-97〜EQ-102 のラベルは 診断(候補の式に実装の印を付けない)・各項に「時間の単位」「実装か診断か」「正本を作る関数」「出どころ」「ノブの台帳」の欄を持ち(EQ-92〜EQ-96 と同じ形)、各項は出どころの節(第347便の節)と同じ字の式を 1 つ以上含み、プログラム版は lib の名指しの定義の範囲に在る(`docs.equations348g` の照合の表 —— 番号の連続も見る)。原仮定者の回答と指示で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。**項の番号の 3 桁**: EQ-100 から番号は 3 桁。第331便d 以来の項の読み手(`tests/lib-w334f-terms.mjs` の `eqItems334f` と各便の世代の写し)は 2 桁の番号の項だけを読むので、EQ-100 以降の項の欄・同じ字の式・抜粋の照合は `docs.equations348g` の 3 桁を読む読み手が受け持つ。第347便f の照合(`docs.equations347f`)は EQ-96 までの写しで、第345便a の照合(`docs.report145_345a`)は §2a の 3 桁の参照も外した写しで読む(世代の注記 —— `tests/qa.mjs` の第348便g の塊の `view347fOf348g`・`view345aOf348g`)。
+18. **第347便の式**(第348便g —— `docs.equations348g`): EQ-97〜EQ-102 のラベルは 診断(候補の式に実装の印を付けない)・各項に「時間の単位」「実装か診断か」「正本を作る関数」「出どころ」「ノブの台帳」の欄を持ち(EQ-92〜EQ-96 と同じ形)、各項は出どころの節(第347便の節)と同じ字の式を 1 つ以上含み、プログラム版は lib の名指しの定義の範囲に在る(`docs.equations348g` の照合の表 —— 番号の連続も見る)。原仮定者の回答と指示で主の候補になった列は「主の候補」と書き、どの型にするかは書かない。**項の番号の 3 桁**: EQ-100 から番号は 3 桁。第331便d 以来の項の読み手(`tests/lib-w334f-terms.mjs` の `eqItems334f` と各便の世代の写し)は 2 桁の番号の項だけを読むので、EQ-100 以降の項の欄・同じ字の式・抜粋の照合(断片の長さの上限 6 行・320 字を含む —— `lint.equations331d` と同じ上限)は `docs.equations348g` の 3 桁を読む読み手が受け持つ。第347便f の照合(`docs.equations347f`)は EQ-96 までの写しで、第345便a の照合(`docs.report145_345a`)は §2a の 3 桁の参照も外した写しで読む(世代の注記 —— `tests/qa.mjs` の第348便g の塊の `view347fOf348g`・`view345aOf348g`)。

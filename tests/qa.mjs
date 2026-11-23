@@ -117060,7 +117060,8 @@ function eqItems348g(eq) {
         const span = T34.defSpan334f(rd(b.file), b.name);
         if (!span) { bad.push('② ' + wh + ': 名の定義が無い'); continue; }
         const ns = norm(span);
-        b.frags.forEach((f, mi) => { nG++; const nf = norm(f); if (!nf || ns.indexOf(nf) < 0) bad.push('② ' + wh + ' の断片 ' + (mi + 1) + ' が定義の範囲に無い: «' + nf.slice(0, 50) + '»'); }); }
+        b.frags.forEach((f, mi) => { nG++; const nf = norm(f); if (!nf || ns.indexOf(nf) < 0) bad.push('② ' + wh + ' の断片 ' + (mi + 1) + ' が定義の範囲に無い: «' + nf.slice(0, 50) + '»');
+          const ln = f.split('\n').length; if (ln > 6 || nf.length > 320) bad.push('② ' + wh + ' の断片 ' + (mi + 1) + ': 長い(' + ln + ' 行・' + nf.length + ' 字 —— 6 行・320 字まで —— 第331便d の照合と同じ上限)'); }); }
       const kl = (/\n- \*\*ノブの台帳\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '', pairs = [...kl.matchAll(/「([^」]+)」\(([^)]+)\)/g)];
       if (!pairs.length) bad.push('② ' + id + ' のノブの台帳の欄に行が無い');
       for (const m of pairs) { nK++; if (!st.has(m[1])) bad.push('② ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」が表 2 に無い'); else if (st.get(m[1]) !== m[2]) bad.push('② ' + id + ' の台帳の行「' + m[1].slice(0, 24) + '」の状態「' + m[2] + '」が表 2 の「' + st.get(m[1]) + '」と違う'); }
@@ -117068,7 +117069,7 @@ function eqItems348g(eq) {
       for (const w of AN.w) if (ex.indexOf(w) < 0) bad.push('② ' + id + ' の解説に回答の列の語「' + w.slice(0, 24) + '」が無い');
       if (ex.indexOf(AN.src) < 0) bad.push('② ' + id + ' の解説に回答・指示の出どころ(' + AN.src + ')が無い');
     }
-    cases.push(`② EQ-97〜EQ-102(診断)—— 出どころの節と同じ字の式 ${nA}・欄 ${nF}(時間の単位・実装か診断か・正本を作る関数の名の実在)・出どころの経路・抜粋 ${nB}・断片 ${nG}(lib の名指しの定義の範囲)・台帳の欄 ${nK} 行・回答の列の語と出どころ`);
+    cases.push(`② EQ-97〜EQ-102(診断)—— 出どころの節と同じ字の式 ${nA}・欄 ${nF}(時間の単位・実装か診断か・正本を作る関数の名の実在)・出どころの経路・抜粋 ${nB}・断片 ${nG}(lib の名指しの定義の範囲・6 行・320 字まで)・台帳の欄 ${nK} 行・回答の列の語と出どころ`);
     // ③ §2a の 2 行と項の参照(3 桁を含む)
     const s2a = T34.termSection334f(eq), n2a = s2aNewOf(eq);
     if (!n2a) bad.push('③ §2a に第348便g の行(「第347便の式」)が無い');
@@ -117137,6 +117138,7 @@ function eqItems348g(eq) {
         ['EQ-100 の時間の単位の欄を消す', EQ0.replace(/\n- \*\*時間の単位\*\*: \(C2\) のトルクと積分は[^\n]*/, ''), PH, /^② EQ-100 に欄「時間の単位」が無い/],
         ['EQ-102 の正本を作る関数の名を 1 字変える', EQ0.replace('・`tdRows`(2 つの源)', '・`tdRow`(2 つの源)'), PH, /^② EQ-102 の正本を作る関数に tdRows が無い/],
         ['EQ-102 の抜粋の断片の 1 字違い(閉じた形)', EQ0.replace('return { Tc: 1 + A * c / kd,', 'return { Tc: 1 - A * c / kd,'), PH, /^② EQ-102 の抜粋 2\(tests\/lib-w347i-axisenergy\.mjs · closedForms\) の断片 1/],
+        ['EQ-102 の抜粋の断片を 2 つつなげて長くする(320 字を超える)', EQ0.replace("backE = I * w * back;\n// …\nconst dth =", "backE = I * w * back;\nconst dth =").replace("scaleTa(w) : 0;\n// …\nreturn [aIn", "scaleTa(w) : 0;\nreturn [aIn"), PH, /^② EQ-102 の抜粋 1\(tests\/lib-w347i-axisenergy\.mjs · runCase\) の断片 \d: 長い/],
         ['EQ-97 の抜粋の関数の名を 1 字変える', EQ0.replace('(`tests/lib-w347b-convbody.mjs` · `qBeta`)', '(`tests/lib-w347b-convbody.mjs` · `qBETA`)'), PH, /^② EQ-97 の抜粋 2\(tests\/lib-w347b-convbody\.mjs · qBETA\): 名の定義が無い/],
         ['EQ-101 の台帳の欄の状態を候補に(台帳は対照)', EQ0.replace('「重みのべき p(第347便h)」(対照)', '「重みのべき p(第347便h)」(候補)'), PH, /^② EQ-101 の台帳の行「重みのべき p/],
         ['EQ-100 の解説から AN911 を消す', EQ0.replace('「AN911: 推奨で進める」(2 倍角', '「推奨で進める」(2 倍角'), PH, /^② EQ-100 の解説に回答の列の語「AN911」/],
