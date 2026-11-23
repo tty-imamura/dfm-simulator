@@ -1370,7 +1370,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
 # ==== 第350便e の塊(ここから)====
-# 第350便e(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R422 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.bgaxial350e —— 零試験 10〔共通の点検の数を含む〕・器を走らせ直して
+# 第350便e(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R422 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.bgaxial350e —— 零試験 12〔共通の点検の数・(U) の係数・(B1) の取り分を含む〕・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・〔第348便h〕の正本の地球の行と照合・呼ぶだけ / docs.bgaxial350e —— 原文と表と数の文が PHYSICS〔第350便e〕に逐語・文書)と、新しい段 bgaxial-350e
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgaxial350e docs.bgaxial350e"
 # ==== 第350便e の塊(ここまで)====

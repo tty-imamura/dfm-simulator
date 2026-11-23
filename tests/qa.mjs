@@ -118655,7 +118655,7 @@ function eqItems348g(eq) {
 // ----   (新設 —— 器 tests/exp-w350e-bgaxial.mjs〔html を読まない〕・lib tests/lib-w350e-bgaxial.mjs・文書の lib tests/lib-w350e-bgaxialdoc.mjs・正本 tests/out/bgaxial-350e.json・
 // ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
 // ----   behavior.bgaxial350e(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
-// ----     ① 版・格子・零試験 10(共通の点検の数を含む)を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ ③ QA の中で別に書いた式: 〔第348便h〕の正本 tests/out/axisgeo3-348h.json の
+// ----     ① 版・格子・零試験 12(共通の点検の数・(U) の係数・(B1) の取り分を含む)を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ ③ QA の中で別に書いた式: 〔第348便h〕の正本 tests/out/axisgeo3-348h.json の
 // ----     主の組 K1rM の (W1)・(W1) + 母天体の歳差の率と δ が k_bg 1・分母 in の行と同じ・歳差の率 = abs(Ω_釣)・共通の点検の数 3 つ・届く k_bg で率が比べる数に戻る ④ 作り直した門が全部真・呼ぶだけ
 {
   await (async () => {   // 第310便c(heap)
@@ -118680,7 +118680,7 @@ function eqItems348g(eq) {
       try {
         const js = (x) => JSON.stringify(x), AS = 180 * 3600 / Math.PI;
         // ① 版・格子・零試験
-        if (!(L.LIB_VERSION === 'w350e-bgaxial-lib-1' && X.HARNESS_VERSION === 'w350e-bgaxial-1' && D0.DOC_VERSION === 'w350e-bgaxialdoc-1' && X.AMEND.length === 0
+        if (!(L.LIB_VERSION === 'w350e-bgaxial-lib-2' && X.HARNESS_VERSION === 'w350e-bgaxial-2' && D0.DOC_VERSION === 'w350e-bgaxialdoc-2' && X.AMEND.length === 1 && X.AMEND[0].ver === 'w350e-bgaxial-2'
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         const DL = L.DECL;
         if (!(DL.combo === 'K1rM' && js(DL.cands) === js(['P2', 'W']) && DL.mainCand === 'P2' && js(DL.kbg) === js([0, 1, 10, 100, 1000, 10000]) && js(DL.dirs) === js(['gal', 'eclPole', 'sunSpin'])
@@ -118689,10 +118689,10 @@ function eqItems348g(eq) {
           bad.push('① 格子(場の組・読み 2・k_bg 6・向き 3・母天体 2・分母 2・4 組・ほぼ 0 の床)の宣言');
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
-        if (Object.keys(PG).length !== 10) bad.push('① 零試験の数 ' + Object.keys(PG).length);
-        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(共通の点検の数・対称・剛体回転とずれ・〔第348便c〕の合成・背景の 2 倍・母天体・重みを 2 度掛けない・ほぼ 0・分母の列・拒否)`);
+        if (Object.keys(PG).length !== 12) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(共通の点検の数・対称・剛体回転とずれ・〔第348便c〕の合成・背景の 2 倍・母天体・重みを 2 度掛けない・ほぼ 0・分母の列・拒否・(U) の係数・(B1) の取り分)`);
         // ② 器を走らせ直して正本と同じ
-        const parts = ['pure', 'bg', 'bal', 'grid', 'need', 'den', 'dirUnits'];
+        const parts = ['pure', 'bg', 'bal', 'grid', 'need', 'den', 'u', 'uNeed', 'incl', 'udecl', 'dirUnits'];
         const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
         if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
         if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
@@ -118719,7 +118719,12 @@ function eqItems348g(eq) {
         for (const r of J.need) { nN++;
           if (r.reach === 'reach' && !(r.atK && Math.abs(r.atK.precAsYr / r.obsAsYr - 1) <= 1e-9)) bad.push('③ 届く k_bg ' + r.id + '・' + r.cand + '・' + r.dir);
           if (r.reach === 'noObs' && !(r.obsAsYr === null && r.kNeed === null)) bad.push('③ 比べる数なし ' + r.id); }
-        cases.push(`③ 〔第348便h〕の主の組の行 ${nH}・地球の (C2) 5.06e-2″/年・歳差の率の式 ${nP} 行・共通の点検の数 3 つ・届く k_bg ${nN} 行`);
+        // (e) (U) の受け手の係数を QA の中で別に: rdPow 1 = Y_k m ÷ 6.5e6 m・rdPow 2 = その 2 乗・massPow −1 は天体に依らない・(B1) は在位の形で係数 0
+        { const C1 = 6 * ((Math.sqrt(3) / 2) * Math.log(2 + Math.sqrt(3)) - 1), Yk = 10 * 6.6743e-11 / (C1 * 299792458 * 299792458), fE = (form) => J.u.find((x) => x.id === 'Earth' && x.form === form).factor, mE = fE('rd1') * 6.5e6 / Yk;
+          const rdm = [...new Set(J.u.filter((x) => x.form === 'rdm').map((x) => x.factor))];
+          if (!(L.UDECL.refRadiusM === 6.5e6 && Math.abs(fE('rd2') / (fE('rd1') * fE('rd1')) - 1) < 1e-12 && fE('rd0') === 1 && mE > 5.9e24 && mE < 6.0e24 && rdm.every((v) => Math.abs(v / rdm[0] - 1) < 1e-12)
+            && J.incl.filter((x) => x.w0k === 0 && x.incl === 'B1').every((x) => x.coef === 0 && x.oneMinusF === 0) && J.uNeed.every((r) => r.reach === 'reach' && r.overGal > 1))) bad.push('③ (U) の係数(EQ-17 の式の組)・(B1) の取り分・届く ω_G'); }
+        cases.push(`③ (U) の係数と (B1) の取り分 / 〔第348便h〕の主の組の行 ${nH}・地球の (C2) 5.06e-2″/年・歳差の率の式 ${nP} 行・共通の点検の数 3 つ・届く k_bg ${nN} 行`);
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
         if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
@@ -118742,7 +118747,7 @@ function eqItems348g(eq) {
 
 // ---- 第350便e: docs.bgaxial350e は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.bgaxial350e(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 4 つと表 1・並進の背景との違いの表・表 6 本・数の文 9 つが PHYSICS〔第350便e〕に逐語 ③ 節の位置(〔第348便i〕の節の後・〔第328便 — 統括〕の前)・必須の語・
+// ----     ② 原文 5 つと表 1・列と定義の表・EQ-17 の対応の表・表 9 本・数の文 14 こが PHYSICS〔第350便e〕に逐語 ③ 節の位置(〔第348便i〕の節の後・〔第328便 — 統括〕の前)・必須の語・
 // ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §314・CHANGELOG(第350便e の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名
 {
   await (async () => {   // 第310便c(heap)
@@ -118772,21 +118777,22 @@ function eqItems348g(eq) {
         bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
       if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.lit) !== JSON.stringify(L.LIT)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
       cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
-      if (!(D0.ORIGINAL.length === 4 && D0.READINGS.length === 4)) bad.push('② 原文の数(4)・読みの数');
+      if (!(D0.ORIGINAL.length === 5 && D0.READINGS.length === 5)) bad.push('② 原文の数(5)・読みの数');
       for (const [, o] of D0.ORIGINAL) if (sec.indexOf('「' + o + '」') < 0) bad.push('② 原文が節に逐語で無い: ' + o.slice(0, 20));
-      if (!(D0.ORIGINAL[0][1] === '太陽系サンプルでは、銀河由来の軸引きずりは、背景軸引きずりとして扱う' && D0.ORIGINAL[1][1].indexOf('その方向を軸に歳差運動が現れる') >= 0 && D0.ORIGINAL[2][1].indexOf('慣性決定力のgeoPN=3') >= 0
-        && D0.ORIGINAL[3][1].indexOf('AN976: ') === 0 && D0.ORIGINAL[3][1].indexOf('ジャイロトルクで釣り合いつつ歳差運動をしている') >= 0)) bad.push('② 原文(第146報の 3 行・回答 10 の AN976)');
+      if (!(D0.ORIGINAL[0][1] === '太陽系に対する銀河の軸引きずりが、「背景軸引きずり」である。「背景慣性決定力」に含まれる' && D0.ORIGINAL[1][1] === '太陽系サンプルでは、銀河由来の軸引きずりは、背景軸引きずりとして扱う' && D0.ORIGINAL[2][1].indexOf('その方向を軸に歳差運動が現れる') >= 0 && D0.ORIGINAL[3][1].indexOf('慣性決定力のgeoPN=3') >= 0
+        && D0.ORIGINAL[4][1].indexOf('AN976: ') === 0 && D0.ORIGINAL[4][1].indexOf('ジャイロトルクで釣り合いつつ歳差運動をしている') >= 0)) bad.push('② 原文(第138報の補足 3・第146報の 3 行・回答 10 の AN976)');
       if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表 1(原文と読み)が節に逐語で無い');
-      if (sec.indexOf(D0.BG_TABLE) < 0) bad.push('② 並進の背景との違いの表が節に逐語で無い');
+      if (sec.indexOf(D0.BG_TABLE) < 0) bad.push('② 列と恒久の定義の関係の表が節に逐語で無い');
+      if (sec.indexOf(D0.U_TABLE) < 0) bad.push('② EQ-17 の式の組とアプリの関数の対応の表が節に逐語で無い');
       const T = D0.tablesOf(J), F = D0.factsOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第350便e〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第350便e〕に数の文 ' + k + ' が逐語で無い');
-      if (Object.keys(F).length !== 9) bad.push('② 数の文の数 ' + Object.keys(F).length);
-      cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・並進の背景との違いの表・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第350便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+      if (Object.keys(F).length !== 14) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・列と定義の表・EQ-17 の対応の表・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第350便e〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
-    const want = ['原仮定者の整理(2026-11-23 —— 第146報)', '原仮定者の回答(2026-11-23 —— 第145報の回答 10)', 'AN976', 'AN1001', 'R422', 'tests/exp-w350e-bgaxial.mjs', 'tests/out/bgaxial-350e.json', 'tests/lib-w350e-bgaxial.mjs', 'bgaxial-350e',
-      'geoPN=3', '背景軸引きずり', '並進の背景', '(B1)', '(B2)', '(B3)', '(C1)', '(C2)', '(P2)', '(W1)', 'k_bg', 'W₀', 'δ', '〔第348便h〕', '〔第348便c〕', '第330便a の lib', '文献の値・未照合', '固定の比べる列', '別の量',
+    const want = ['原仮定者の整理(2026-11-23 —— 第146報)', '原仮定者の補足(2026-11-14 —— 第138報の補足 3)', '背景慣性決定力', '〔第337便a〕', 'EQ-17', '(U)', '(G1)', '(G2)', '(G3)', 'ω_G', '`galaxyAxialRdFactor`', '`galaxyAxialRdmFactor`', '在位の本に宣言は無い', '訂正(第350便e の追い依頼)', '原仮定者の回答(2026-11-23 —— 第145報の回答 10)', 'AN976', 'AN1001', 'R422', 'tests/exp-w350e-bgaxial.mjs', 'tests/out/bgaxial-350e.json', 'tests/lib-w350e-bgaxial.mjs', 'bgaxial-350e',
+      'geoPN=3', '背景軸引きずり', '(B1)', '(B2)', '(C1)', '(C2)', '(P2)', '(W1)', 'k_bg', 'W₀', 'δ', '〔第348便h〕', '〔第348便c〕', '第330便a の lib', '文献の値・未照合', '固定の比べる列', '別の量',
       'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '決断事項の候補', '原文の文', '読み', '推奨', '次の便へ', 'behavior.bgaxial350e', 'docs.bgaxial350e', '書かないこと'];
     for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第350便e〕に「' + w + '」が無い');
     const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
@@ -118828,7 +118834,7 @@ function eqItems348g(eq) {
     }
     // 変異の自己試験(壊した写しで落ちる): 原文の 1 字・表の 1 字
     { const s2 = sec.split('背景軸引きずりとして扱う').join('背景軸引きずりとして扱う。'), T0 = J ? D0.tablesOf(J) : {}, k0 = Object.keys(T0)[0];
-      if (s2.indexOf('「' + D0.ORIGINAL[0][1] + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
+      if (s2.indexOf('「' + D0.ORIGINAL[1][1] + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
       if (k0 && sec.replace(T0[k0], T0[k0].replace('|', '¦')).indexOf(T0[k0]) >= 0) bad.push('④ 変異(表の 1 字)で落ちない'); }
     cases.push('④ 書かない語・禁句・旧い呼び名・旧い記号・コードの名前・裸の係数記号(節・AI_SPEC・器・lib・文書の lib)・変異 2 つで落ちる');
     add('docs.bgaxial350e', bad.length === 0,

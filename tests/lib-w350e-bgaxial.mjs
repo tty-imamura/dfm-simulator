@@ -1,6 +1,6 @@
 // 第350便e(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R422):
-//   **背景軸引きずり(太陽系の本で、銀河由来の軸引きずりを背景のベクトルとして与えるもの)と、釣り合う軸の向き・歳差 —— 置き方 3 列((B1) 銀河を geoPN=3 の場の源として
-//   数えた値・(B2) 大きさのノブ k_bg・(B3) 向きのノブ)・サンプルの中の源との合成(母天体あり/なし)・天体 15 組の合成の方向と δ と歳差の率・地球ほか 4 組の格子と
+//   **背景軸引きずり(太陽系の本で、銀河由来の軸引きずりを背景のベクトルとして与えるもの)と、釣り合う軸の向き・歳差 —— 置き方 3 列((G1) 銀河を geoPN=3 の場の源として
+//   数えた値・(G2) 大きさのノブ k_bg・(G3) 向きのノブ)・サンプルの中の源との合成(母天体あり/なし)・天体 15 組の合成の方向と δ と歳差の率・地球ほか 4 組の格子と
 //   比べる数に届く k_bg・零試験と変異の純関数 —— 診断だけ**
 //   (器 tests/exp-w350e-bgaxial.mjs と QA behavior.bgaxial350e・docs.bgaxial350e が読む —— html を読まない・ファイルを読まない・状態を持たない)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない(AN712 —— エンジンへ足す操作ではない)。背景軸引きずりの鍵はアプリに足さない。
@@ -10,8 +10,12 @@
 // ■ 場(共通): 在位の geoPN=3 の本が宣言している形 = 第348便h の makeField3 の既定(K1 の核・源の回転は球のモーメント・背景 W₀ 0・自分の重みを分母に・受け手の速度を引く)。
 //   天体の表の場の組は第348便h の主の組 K1rM(在位の形)だけ。
 // ■ 回転の読み: (C1) = (P2)(2 点の差分 —— 腕 → 0 の極限)を主・(C2) = 第348便h の rot3('W')(中心の渦度の半分 —— 一次の場の値)を比べる列。
-// ■ 背景軸引きずり Ω_bg: (B1) = 第348便h の galRot3 の値(銀河を円の道の中心の質量 1 つに置いた場の源として数えた回転 —— 向きは銀河の軸のまわり)。
-//   (B2) = k_bg × (B1)。(B3) = abs(B1) × 向きの単位ベクトル(銀河の軸・黄道の極・太陽の自転軸)。並進の背景(背景の決定力・重み W₀)は 0 のまま(別の量)。
+// ■ 背景軸引きずり(恒久の定義 —— 原仮定者の補足(2026-11-14 —— 第138報の補足 3)「太陽系に対する銀河の軸引きずりが、「背景軸引きずり」である。「背景慣性決定力」に含まれる」・
+//   計算式の一覧の用語の段と EQ-17): 主の列は (U) 一様な背景軸引きずり(位置に依らない一様な角速度 ω_G・向きは銀河の軸・値は宣言のノブ・天体ごとの効き方は EQ-17 の
+//   式の組 rdPow 0・1・2 と massPow −1 をアプリの関数と同じ式で)。「含まれる」の 2 つの読み: (B1) 〔第337便a〕⑤‴ の形 —— 各天体に (背景の取り分 1 − f) × ω_bg/
+//   (B2) 並進の背景の重み W₀ とは別に置く(ω_bg をそのまま)。
+// ■ 定義と違う置き方の比べる列(消さない): (G1) = 第348便h の galRot3 の値(銀河を円の道の中心の質量 1 つに置いた場の源として数えた回転 —— 向きは銀河の軸のまわり)。
+//   (G2) = k_bg × (G1)。(G3) = abs(G1) × 向きの単位ベクトル(銀河の軸・黄道の極・太陽の自転軸)。在位の geoPN=3 の形の W₀ は 0 のまま。
 //   分母の列: 'in' = 第348便h の形(太陽由来・母天体由来の項の分母に銀河の重みを含む)/'out' = 銀河を箱に入れない(銀河の重みは分母に入らない —— 背景軸引きずりは回転にだけ入る)。
 // ■ 合成((W1) —— 率の大きさを 1 回だけ掛けたベクトルの和): Ω_釣 = Ω_bg + Ω_S(+ Ω_P —— 母天体あり)。abs(Ω_釣) < 1e-6 × Σ abs(各項) なら「向きは決まらない」(0 で割らない)。
 // ■ 歳差: 観測の自転軸は Ω_釣 の向きのまわりを回る(円錐の半頂角 = δ = 自転軸と Ω_釣 のなす角・率 = abs(Ω_釣) —— 第348便c の precess)。
@@ -22,7 +26,7 @@ import * as E from './lib-w347e-spintorque.mjs';
 import * as P from './lib-w342e-powerball.mjs';
 import * as TL from './lib-w337c-tidelock.mjs';
 
-export const LIB_VERSION = 'w350e-bgaxial-lib-1';
+export const LIB_VERSION = 'w350e-bgaxial-lib-2';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const D2R = Math.PI / 180, YR = TL.YR, AS = 180 * 3600 / Math.PI;
 
@@ -71,8 +75,8 @@ export function dirUnits(GEO = E.geometry()) {
 
 /* ───────── 由来ごとの回転(分母の列つき)───────── */
 /**
- * 組 (id, src) の銀河由来 G(= (B1))・太陽由来 S・母天体由来 P(衛星と冥王星–カロンだけ)。den 'in' は第348便h の pairRot3 そのもの。
- * den 'out' は S・P の分母から銀河の重みを外す(G は銀河を源として数えた値のまま —— 背景軸引きずりの (B1))。
+ * 組 (id, src) の銀河由来 G(= (G1))・太陽由来 S・母天体由来 P(衛星と冥王星–カロンだけ)。den 'in' は第348便h の pairRot3 そのもの。
+ * den 'out' は S・P の分母から銀河の重みを外す(G は銀河を源として数えた値のまま —— 背景軸引きずりの (G1))。
  */
 export function termsOf(T1, GEO, id, src, den = 'in') {
   if (!DECL.dens.includes(den)) throw new RangeError('termsOf: 分母の列は in・out');
@@ -82,14 +86,14 @@ export function termsOf(T1, GEO, id, src, den = 'in') {
   const S = L.srcRot3(T1, GEO, sid, ssrc, combo, { extraW: R.wPar }), Pp = src === 'Sun' ? null : L.srcRot3(T1, GEO, id, src, combo, { extraW: R.wSun });
   return { G: R.G, S, P: Pp, wSun: R.wSun, wPar: R.wPar, wGal: R.wGal };
 }
-/** 背景軸引きずりのベクトル: (B1) k 1・gal / (B2) k × (B1) / (B3) abs(B1) × 向き(k を掛けると格子) */
-export function bgVec(B1, { k = 1, dir = 'gal', units = null } = {}) {
-  if (!isVec(B1)) throw new RangeError('bgVec: (B1)');
+/** 背景軸引きずりのベクトル: (G1) k 1・gal / (G2) k × (G1) / (G3) abs(G1) × 向き(k を掛けると格子) */
+export function bgVec(G1, { k = 1, dir = 'gal', units = null } = {}) {
+  if (!isVec(G1)) throw new RangeError('bgVec: (G1)');
   if (!(fin(k) && k >= 0)) throw new RangeError('bgVec: k_bg ≥ 0');
   if (!DECL.dirs.includes(dir)) throw new RangeError('bgVec: 向きは gal・eclPole・sunSpin');
-  if (dir === 'gal') return scl(B1, k);
+  if (dir === 'gal') return scl(G1, k);
   if (!(units && isVec(units[dir]))) throw new RangeError('bgVec: 向きの単位ベクトル');
-  return scl(units[dir], k * nrm(B1));
+  return scl(units[dir], k * nrm(G1));
 }
 /** 合成((W1) —— 各項の率の大きさを 1 回だけ掛けたベクトルの和)。mut 'twice' は重みを 2 度掛ける変異(abs(Ω) × Ω)。ほぼ 0 なら向きは決まらない */
 export function composeBal(terms, { mut = null } = {}) {
@@ -112,9 +116,9 @@ export function bgRows(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
   for (const [id, src] of E.DECL.pairs) {
     const R = cache ? cache[id + '|' + src].in : termsOf(T1, GEO, id, src, 'in'), wAx = unit(GEO[id + '|' + src].w), r2 = T1.find((r) => r.id === id && r.src === src && r.mag === 'm2');
     for (const cand of DECL.cands) {
-      const B1 = R.G[cand], S = R.S[cand];
-      out.push({ id, src, cand, b1MagYr: nrm(B1) * YR, b1ToGalDeg: snapA(angDeg(B1, U.gal)), b1ToSpinDeg: snapA(angDeg(B1, wAx)), b1ToEclDeg: snapA(angDeg(B1, U.eclPole)),
-        sMagYr: nrm(S) * YR, b1OverS: nrm(B1) / nrm(S), wGalOverSelf: R.wGal / R.S.A0, betaG: R.G.beta, betaS: R.S.beta, I: r2.I });
+      const G1 = R.G[cand], S = R.S[cand];
+      out.push({ id, src, cand, g1MagYr: nrm(G1) * YR, g1ToGalDeg: snapA(angDeg(G1, U.gal)), g1ToSpinDeg: snapA(angDeg(G1, wAx)), g1ToEclDeg: snapA(angDeg(G1, U.eclPole)),
+        sMagYr: nrm(S) * YR, g1OverS: nrm(G1) / nrm(S), wGalOverSelf: R.wGal / R.S.A0, betaG: R.G.beta, betaS: R.S.beta, I: r2.I });
     }
   }
   return out;
@@ -173,6 +177,83 @@ export function gridRows(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
   return { grid, need };
 }
 
+
+/* ───────── 主の列 (U): 一様な背景軸引きずり(恒久の定義・EQ-17 の型)───────── */
+/** (U) の宣言(値は宣言のノブ —— 銀河の場から決めた値ではない)。ω_G は銀河の公転の角速度(第337便c の GALAXY.omega)の倍で振る。R_ref はアプリの既定 6.5e6 m・m_ref は地球の質量(宣言のノブ) */
+export const UDECL = Object.freeze({
+  omegaGalRadS: TL.GALAXY.omega, kU: Object.freeze([0, 1, 10, 100, 1000, 10000, 100000]),
+  forms: Object.freeze(['rd0', 'rd1', 'rd2', 'rdm']), formNames: Object.freeze({ rd0: 'rdPow 0(因子 1)', rd1: 'rdPow 1(R_d/R_ref)', rd2: 'rdPow 2((R_d/R_ref)²)', rdm: 'rdPow 1・massPow −1((R_d/R_ref)(m_ref/m))' }),
+  refRadiusM: 6.5e6, refMassBody: 'Earth', rdRule: 'R_d = Y_k m(〔第313便a〕の規則 —— 在位の形の規則の半径)',
+  signs: Object.freeze([1, -1]), signNames: Object.freeze({ '1': '銀河の軸の向き', '-1': '180° の軸(〔第337便a〕⑤‴ の向き)' }),
+  same: Object.freeze([['Mercury', 'Sun'], ['Venus', 'Sun'], ['Mars', 'Sun'], ['Saturn', 'Sun'], ['Moon', 'EarthHi']]),
+  incl: Object.freeze(['B1', 'B2']), inclW0k: Object.freeze([0, 1]), inclBodies: Object.freeze([['Earth', 'Sun'], ['Mars', 'Sun'], ['Saturn', 'Sun'], ['Moon', 'EarthHi'], ['Io', 'Jupiter']]),
+  builtinDecl: '在位の本に宣言は無い(アプリの html の内蔵の本に physics.relativeDrag.galaxyAxial を宣言した本は無い —— grep で読んだだけ)',
+});
+/** アプリの galaxyAxialRdFactor と同じ式(読むだけで写した —— 演算の順も同じ) */
+export function galaxyAxialRdFactor(Rd, Rr, q) { const x = Rd / Rr; return (q === 1) ? x : x * x; }
+/** アプリの galaxyAxialRdmFactor と同じ式 */
+export function galaxyAxialRdmFactor(Rd, Rr, m, Mr) { const x = Rd / Rr; return x * (Mr / m); }
+/** 受け手の係数(EQ-17 の式の組 —— R_d は規則の半径 Y_k m) */
+export function uFactor(form, m) {
+  if (!(fin(m) && m > 0)) throw new RangeError('uFactor: m > 0');
+  const Rd = L.YK * m, Rr = UDECL.refRadiusM;
+  if (form === 'rd0') return 1;
+  if (form === 'rd1') return galaxyAxialRdFactor(Rd, Rr, 1);
+  if (form === 'rd2') return galaxyAxialRdFactor(Rd, Rr, 2);
+  if (form === 'rdm') return galaxyAxialRdmFactor(Rd, Rr, m, C.massOf(UDECL.refMassBody));
+  throw new RangeError('uFactor: 式の組は rd0・rd1・rd2・rdm');
+}
+/** (U) の項のベクトル(rad/s): 向き × ω_G × 係数 */
+export function uVec(omegaG, form, m, sign = 1) {
+  if (!(fin(omegaG) && omegaG >= 0) || !(sign === 1 || sign === -1)) throw new RangeError('uVec: ω_G ≥ 0・向き ±1');
+  return scl(P.galUnit(), sign * omegaG * uFactor(form, m));
+}
+/** (U) の表: 15 組 × 式の組 4 × 読み 2 × 向き 2 × ω_G 7(母天体あり・分母 in) */
+export function uRows(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
+  const out = [];
+  for (const [id, src] of E.DECL.pairs) {
+    const key = id + '|' + src, r2 = T1.find((r) => r.id === id && r.src === src && r.mag === 'm2'), wAx = unit(GEO[key].w), o = obsOf(id), R = cache ? cache[key].in : termsOf(T1, GEO, id, src, 'in'), m = C.massOf(id);
+    for (const form of UDECL.forms) for (const cand of DECL.cands) for (const sg of UDECL.signs) for (const k of UDECL.kU) {
+      const bal = composeBal([uVec(k * UDECL.omegaGalRadS, form, m, sg), R.S[cand]].concat(R.P ? [R.P[cand]] : [])), pr = precOf(bal, wAx, r2.I, r2.omega);
+      out.push({ id, src, form, cand, sign: sg, k, factor: uFactor(form, m), magYr: bal.mag * YR, deltaDeg: pr.deltaDeg, precAsYr: pr.precAsYr, ratio: o && pr.precAsYr ? pr.precAsYr / o.asYr : null });
+    }
+  }
+  return out;
+}
+/** 地球の比べる数に届く ω_G(式の組 × 読み × 向き)と、同じ ω_G での他の天体の率(1 つの ω_G で同時に届くか —— 事実の表) */
+export function uNeedRows(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
+  const out = [], get = (id, src) => (cache ? cache[id + '|' + src].in : termsOf(T1, GEO, id, src, 'in'));
+  const Re = get('Earth', 'Sun'), oE = obsOf('Earth'), mE = C.massOf('Earth');
+  for (const form of UDECL.forms) for (const cand of DECL.cands) for (const sg of UDECL.signs) {
+    const sE = [Re.S[cand]].concat(Re.P ? [Re.P[cand]] : []).reduce((t, x) => add(t, x), [0, 0, 0]), b = uVec(1, form, mE, sg), w = kNeed(b, sE, oE.asYr);
+    const others = UDECL.same.map(([id, src]) => {
+      const R = get(id, src), r2 = T1.find((r) => r.id === id && r.src === src && r.mag === 'm2'), wAx = unit(GEO[id + '|' + src].w), o = obsOf(id);
+      if (w === null) return { id, src, precAsYr: null, deltaDeg: null, ratio: null, obsRole: o ? o.role : null };
+      const bal = composeBal([uVec(w, form, C.massOf(id), sg), R.S[cand]].concat(R.P ? [R.P[cand]] : [])), pr = precOf(bal, wAx, r2.I, r2.omega);
+      return { id, src, precAsYr: pr.precAsYr, deltaDeg: pr.deltaDeg, ratio: o && pr.precAsYr ? pr.precAsYr / o.asYr : null, obsRole: o ? o.role : null };
+    });
+    let dE = null;
+    if (w !== null) { const r2 = T1.find((r) => r.id === 'Earth' && r.src === 'Sun' && r.mag === 'm2'), bal = composeBal([scl(b, w)].concat([Re.S[cand]])); dE = precOf(bal, unit(GEO['Earth|Sun'].w), r2.I, r2.omega).deltaDeg; }
+    out.push({ form, cand, sign: sg, omegaNeedRadS: w, omegaNeedRadYr: w === null ? null : w * YR, overGal: w === null ? null : w / UDECL.omegaGalRadS, earthDeltaDeg: dE, reach: w === null ? 'unreached' : 'reach', others });
+  }
+  return out;
+}
+/** 「背景慣性決定力に含まれる」の 2 つの読み: (B1) 〔第337便a〕⑤‴ の形 —— (背景の取り分 1 − f) × ω_bg(f = 箱の中の重みの取り分 =(自分 + 源)÷(W₀ + 自分 + 源))/
+ *  (B2) W₀ とは別に置く(ω_bg をそのまま)。ω_bg は地球に届く ω_G((U)・rdPow 0・(C1)・180° の軸)を置いて率を見る(大きさの例 —— 採る数ではない) */
+export function inclRows(T1 = E.t1Table(), GEO = E.geometry(), cache = null, need = null) {
+  const out = [], nd = (need || uNeedRows(T1, GEO, cache)).find((r) => r.form === 'rd0' && r.cand === 'P2' && r.sign === -1), wbg = nd ? nd.omegaNeedRadS : 0;
+  const combo = L.DECL.combos.find((c) => c.id === DECL.combo);
+  for (const [id, src] of UDECL.inclBodies) for (const w0k of UDECL.inclW0k) {
+    const key = id + '|' + src, R = w0k === 0 && cache ? cache[key].in : L.pairRot3(T1, GEO, id, src, combo, { w0k }), r2 = T1.find((r) => r.id === id && r.src === src && r.mag === 'm2'), wAx = unit(GEO[key].w), o = obsOf(id);
+    const A0 = R.S.A0, W0 = w0k * A0, box = A0 + R.wSun + R.wPar, f = box / (W0 + box), oneMinusF = 1 - f;
+    for (const incl of UDECL.incl) {
+      const coef = incl === 'B1' ? oneMinusF : 1, bal = composeBal([uVec(coef * wbg, 'rd0', C.massOf(id), -1), R.S.P2].concat(R.P ? [R.P.P2] : [])), pr = precOf(bal, wAx, r2.I, r2.omega);
+      out.push({ id, src, w0k, incl, oneMinusF, coef, omegaBgRadS: wbg, precAsYr: pr.precAsYr, deltaDeg: pr.deltaDeg, ratio: o && pr.precAsYr ? pr.precAsYr / o.asYr : null });
+    }
+  }
+  return out;
+}
+
 /* ───────── 走る順の入口(由来ごとの回転を 1 回だけ作る)───────── */
 export function makeCache(T1 = E.t1Table(), GEO = E.geometry()) {
   const cache = {};
@@ -218,7 +299,7 @@ export function commonChecks() {
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
   const CK = commonChecks(), U = dirUnits(GEO), ch = cache || {};
   const get = (id, src) => ch[id + '|' + src] || (ch[id + '|' + src] = { in: termsOf(T1, GEO, id, src, 'in'), out: termsOf(T1, GEO, id, src, 'out') });
-  // ② (B1) k 1 は第348便c の composeAll の W1(母天体なし)・W1P(母天体あり)と同じ/k 0 は源の項だけ
+  // ② (G1) k 1 は第348便c の composeAll の W1(母天体なし)・W1P(母天体あり)と同じ/k 0 は源の項だけ
   let vs348 = 0, k0 = 0;
   for (const [id, src] of [['Earth', 'Sun'], ['Moon', 'EarthHi'], ['Io', 'Jupiter'], ['Pluto', 'Charon'], ['Saturn', 'Sun']]) {
     const R = get(id, src).in;
@@ -251,7 +332,14 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
   // ⑨ 拒否
   const rej = [() => bgVec(Re.G.P2, { k: -1 }), () => bgVec(Re.G.P2, { dir: 'x' }), () => bgVec(Re.G.P2, { dir: 'eclPole' }), () => composeBal([]), () => termsOf(T1, GEO, 'Earth', 'Sun', 'x'), () => kNeed([1, 0, 0], [0, 0, 0], -1)]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { common: CK, vs348, k0, dbl, sumDiff, dirMag, togSun, togIo, togMoon, once, twiceMoves, degen, denE, knBack, knNone, rejects: rej };
+  // ⑪ (U) の係数: アプリの式の写し(rd1 = R_d/R_ref・rd2 = その 2 乗)・rdm は天体に依らない・ω_G 0 は源の項だけ・向きは銀河の軸
+  const uf = { rd1: Math.abs(uFactor('rd1', 1e24) - L.YK * 1e24 / UDECL.refRadiusM), rd2: Math.abs(uFactor('rd2', 1e24) / Math.pow(L.YK * 1e24 / UDECL.refRadiusM, 2) - 1),
+    rdmSpread: Math.max(...E.DECL.pairs.map(([id]) => Math.abs(uFactor('rdm', C.massOf(id)) / uFactor('rdm', C.massOf('Earth')) - 1))), rd0: uFactor('rd0', 7),
+    zero: rel(composeBal([uVec(0, 'rd1', C.massOf('Earth')), Re.S.P2]).vec, Re.S.P2), axis: angDeg(uVec(1, 'rd0', 1), P.galUnit()), flip: rel(uVec(2, 'rd2', 3, -1), scl(uVec(2, 'rd2', 3, 1), -1)) };
+  // ⑫ (B1) 在位の形(W₀ 0)では 1 − f が 0(背景の取り分が無い)・W₀ = 自分の重みの中心の値なら 0 と 1 の間
+  const Rw = L.pairRot3(T1, GEO, 'Earth', 'Sun', L.DECL.combos.find((c) => c.id === DECL.combo), { w0k: 1 }), boxE = Re.S.A0 + Re.wSun + Re.wPar, boxW = Rw.S.A0 + Rw.wSun + Rw.wPar;
+  const incl = { f0: 1 - boxE / (0 + boxE), f1: 1 - boxW / (Rw.S.A0 + boxW) };
+  return { common: CK, vs348, k0, dbl, sumDiff, dirMag, togSun, togIo, togMoon, once, twiceMoves, degen, denE, knBack, knNone, rejects: rej, uf, incl };
 }
 export function pureGates(S) {
   const c = S.common, W = COMMON_WANT, near = (a, b, t = 1e-12) => nrm(sub(a, b)) <= t;
@@ -266,5 +354,7 @@ export function pureGates(S) {
     degenerate: S.degen.und && S.degen.near && S.degen.ok,
     denCols: Math.abs(S.denE) > 0 && Math.abs(S.denE) < 1e-3 && S.knBack < 1e-9 && S.knNone,
     rejects: S.rejects.length === 6 && S.rejects.every(Boolean),
+    uniformU: S.uf.rd1 <= 1e-9 * L.YK * 1e24 / UDECL.refRadiusM && S.uf.rd2 < 1e-9 && S.uf.rdmSpread < 1e-9 && S.uf.rd0 === 1 && S.uf.zero < 1e-12 && S.uf.axis < 1e-6 && S.uf.flip < 1e-12,
+    inclB1: S.incl.f0 === 0 && S.incl.f1 > 0 && S.incl.f1 < 1,
   };
 }
