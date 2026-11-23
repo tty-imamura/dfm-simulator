@@ -2684,7 +2684,7 @@ export const REGEN_STEPS = [
   //   1 プロセス。正本は第338便c の settleRun で書く。所要は第348便b の枝の実測 15 s(nice 15)
   S('spinreset-348b', 'node tests/exp-w348b-spinreset.mjs', ['tests/out/spinreset-348b.json'], 16, { secSource: 'w348b-branch', node: true,
     after: ['axisenergy-347i'],
-    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 24 s の桁で、簡易一致の窓を持たない',
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 20 s の桁で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/spinreset-348b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第348便b: 零試験 10/ケース 1 種 7 × 割合 5 × f 2/(D1)(D2)(D3) と同じ入力 10/ケース 2 種 4 × 行き先 2 × 釣り合いの型 9/Td 32/刻み 8 × 3/天体 4 組 × q 2' }),
   // ==== 第348便b の塊(ここまで)====
