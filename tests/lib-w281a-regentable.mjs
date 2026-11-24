@@ -2976,6 +2976,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galdisk-352f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便f: 零試験 9/表 1 p 3/表 2 円盤の組 48 × 自分の重み 2 × 読み 2 + (S 型-体) 2/点の数 3/(C2) の求積 3/表 3 33 行 + (uV)/表 4 場 4' }),
   // ==== 第352便f の塊(ここまで)====
+  // ==== 第352便h の塊(ここから)====
+  // ---- 第352便h(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R445):
+  //   **金星 —— 太陽由来の (S) と背景の打ち消し (ア)(イ)・残りを決める角・釣り合いの点(距離の関数と 8 惑星)・金星の位置のほかの源・地球との共鳴の算術(仮・未照合)・「逆回転」への道**
+  //   (段 venusbal-352h —— 正本 tests/out/venusbal-352h.json・lib tests/lib-w352h-venusbal.mjs —— 第352便b・第352便c・第352便d・第352便e・第351便c・第351便e・第348便h・第350便b・第347便h・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f・provisional-352b・refaxis-352c・precsense-352d・sunrecv-352e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   仮の値を使うので正本の最上位に provisional: true と使った鍵の一覧。1 プロセス。正本は第338便c の settleRun で書く。所要は第352便h の枝の実測 2 s
+  S('venusbal-352h', 'node tests/exp-w352h-venusbal.mjs', ['tests/out/venusbal-352h.json'], 2, { secSource: 'w352h-branch', node: true,
+    after: ['galdisk-352f', 'provisional-352b', 'refaxis-352c', 'precsense-352d', 'sunrecv-352e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venusbal-352h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便h: 零試験 12/表 3 16 行/表 4 3 軸/表 5 33 行 + r* 3/表 6 8 惑星 × 4/表 7 源 3 × 成分 2/表 8 自転周期 5(仮・未照合)/表 9 3' }),
+  // ==== 第352便h の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
