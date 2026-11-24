@@ -1417,6 +1417,67 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.eq
 #   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
 # ==== 第350便i の塊(ここまで)====
+# ==== 第351便a の塊(ここから)====
+# 第351便a(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R427 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report147_351a —— 第147報の決断の 5 行の当たり所の表・新しい句 7 つ・伺った項と採った読みの鎖が PHYSICS〔第351便a〕に逐語・当時の文が過去の節に残る・変異 /
+#   lint.readNames351a —— 読みの名の書き分け〔(C2) と (W) ほか〕の定義の文と対応の表・公開の文書に private の文書の名と第351便の文に外の検討の名が無い・変異)。段は無い
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report147_351a lint.readNames351a"
+# ==== 第351便a の塊(ここまで)====
+# ==== 第351便b の塊(ここから)====
+# 第351便b(原仮定者の回答(2026-11-24 —— 第147報)AN1000・統括の検証項目 R428 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.c2main351b —— 零試験 10・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・第350便b の正本の天体の行と地球の数・k の掛け先を QA の中で別に照合・呼ぶだけ / docs.c2main351b —— 原文と読みの表と表と数の文が PHYSICS〔第351便b〕に逐語・文書)と、新しい段 c2main-351b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.c2main351b docs.c2main351b"
+# ==== 第351便b の塊(ここまで)====
+# ==== 第351便c の塊(ここから)====
+# 第351便c(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R429 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.srcparts351c —— 零試験 14・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕の srcRot3 と (M) の閉じた形を QA の中で別に照合・呼ぶだけ / docs.srcparts351c —— 原文と表と数の文が PHYSICS〔第351便c〕に逐語・文書)と、新しい段 srcparts-351c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcparts351c docs.srcparts351c"
+# ==== 第351便c の塊(ここまで)====
+# ==== 第351便d の塊(ここから)====
+# 第351便d(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R430 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.r3step351d —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と〔第350便c〕の步との同じ軌跡と共通の点検の数を QA の中で別に照合・呼ぶだけ /
+#   docs.r3step351d —— 原文と表と数の文が PHYSICS〔第351便d〕に逐語・文書)と、新しい段 r3step-351d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3step351d docs.r3step351d"
+# ==== 第351便d の塊(ここまで)====
+# ==== 第351便e の塊(ここから)====
+# 第351便e(原仮定者の回答(2026-11-24 —— 第147報)「AN1009: B2で進める」・統括の検証項目 R431 —— 診断だけ・html は変えない): 枝 e の新設 2 本
+#   (behavior.bgbalance351e —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・3 つの読みの式と向きの幾何を QA の中で別に照合・呼ぶだけ /
+#   docs.bgbalance351e —— 原文と表と数の文が PHYSICS〔第351便e〕に逐語・文書)と、新しい段 bgbalance-351e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgbalance351e docs.bgbalance351e"
+# ==== 第351便e の塊(ここまで)====
+# ==== 第351便f の塊(ここから)====
+# 第351便f(原仮定者の回答(2026-11-24 —— 第147報)AN1001・統括の検証項目 R432 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.satlock351f —— 零試験 14・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・剛体の打ち消しの閉じた形と潮汐の物差しと比を QA の中で別に照合・呼ぶだけ / docs.satlock351f —— 原文と表と数の文が PHYSICS〔第351便f〕に逐語・文書)と、新しい段 satlock-351f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satlock351f docs.satlock351f"
+# ==== 第351便f の塊(ここまで)====
+# ==== 第351便g の塊(ここから)====
+# 第351便g(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R433 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.r3energy351g —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・f 0 の熱の閉じた形と m の式と供給が止まる点を QA の中で別に照合・呼ぶだけ /
+#   docs.r3energy351g —— 原文と表と数の文が PHYSICS〔第351便g〕に逐語・文書)と、新しい段 r3energy-351g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3energy351g docs.r3energy351g"
+# ==== 第351便g の塊(ここまで)====
+# ==== 第351便h の塊(ここから)====
+# 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
+#   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations351h docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f"
+# ==== 第351便h の塊(ここまで)====
+# ==== 第351便i の塊(ここから)====
+# 第351便i(統括の検証項目 R435 —— 道具と戻り止めだけ・html は変えない): 枝 i の新設 2 本(lint.changelogHeadRe351i —— CHANGELOG の節を開発中の形だけで探す式の戻り止め・
+#   読み分けの包み tools/qapart-verdict.mjs の自己試験 / docs.tools351i —— PHYSICS〔第351便i〕・AI_SPEC §327・tools/README.md・本塊)と、節の式の見出しの受け方を直した docs.bgaxial350e・docs.diskcheck350g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.changelogHeadRe351i docs.tools351i docs.bgaxial350e docs.diskcheck350g"
+# ==== 第351便i の塊(ここまで)====
+# ==== 第351便j の塊(ここから)====
+# 第351便j(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R436 —— 診断だけ・html は変えない): 枝 j の新設 2 本
+#   (behavior.ringstep351j —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・止めた Ω の步と〔第351便d〕の r3Step の道・閉じた形・向きが入れ替わる行の旗を QA の中で別に照合・呼ぶだけ /
+#   docs.ringstep351j —— 原文と表と数の文が PHYSICS〔第351便j〕に逐語・文書)と、新しい段 ringstep-351j
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringstep351j docs.ringstep351j"
+# ==== 第351便j の塊(ここまで)====
+# ==== 第351便k の塊(ここから)====
+# 第351便k(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R437 —— 診断だけ・html は変えない): 枝 k の新設 2 本
+#   (behavior.knobrank351k —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・感度と縮退と当てはめの段の数を QA の中で別に照合・呼ぶだけ /
+#   docs.knobrank351k —— 原文と表と数の文が PHYSICS〔第351便k〕に逐語・文書)と、新しい段 knobrank-351k
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
+# ==== 第351便k の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
