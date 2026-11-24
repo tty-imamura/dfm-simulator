@@ -9,6 +9,7 @@
 //   **第335便g の照合の世代の写し**(view335gOf337g): lint.terms335g は EQ-34 以降の項を EQ-34〜EQ-43 に固定している(lib-w335g-terms.mjs の本文は変えない)ので、
 //   EQ-44 以降の項を除き、§2a の EQ-44 以降の参照の字を外した写しを渡す —— EQ-44 以降と参照の実在は本 lib が持つ。
 import { eqItems334f, defSpan334f, termSection334f, DECIDE_WORDS_334F, NOT_WORDS_334F, wordAudit334f } from './lib-w334f-terms.mjs';
+import { eqRefs350h } from './lib-w350h-eqreader.mjs';   // 第350便h(R425): §2a の項の参照の読みを共通の関数へ(2 桁のまま)
 import { NOT_WORDS_335G } from './lib-w335g-terms.mjs';
 import { parsePhenoDoc331e, physSection331e, NOT_WORDS_331E } from './lib-w331e-phenostatus.mjs';
 
@@ -211,7 +212,7 @@ export function checkEquations337g(inp) {
   // ④ §2a の追記
   const sec = termSection334f(eq);
   for (const w of SEC2A_MUST_337G.concat(TERMS_138_337G)) if (sec.indexOf(w) < 0) bad.push('④ §2a に「' + w + '」が無い');
-  const refs = [...new Set([...sec.matchAll(/EQ-\d\d/g)].map((m) => m[0]))];
+  const refs = [...new Set(eqRefs350h(sec, { maxDigits: 2 }))];   // 第350便h: 共通の読み手(2 桁)
   for (const id of refs) if (!ids.has(id)) bad.push('④ §2a が無い項 ' + id + ' を指す');
   for (const id of NEW_EQ_IDS_337G) if (refs.indexOf(id) < 0) bad.push('④ §2a が ' + id + ' を指さない');
   cases.push(`④ §2a の追記: 必須の語 ${SEC2A_MUST_337G.length}・第138報の用語 ${TERMS_138_337G.length} 語(未検証の候補)・項の参照 ${refs.length}(本書に在る・EQ-44〜EQ-52 を全部指す)`);

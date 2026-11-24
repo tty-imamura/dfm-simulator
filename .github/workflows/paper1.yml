@@ -37,6 +37,7 @@ on:
       - "paper/**"
       - "tools/gen-figures.mjs"
       - ".github/workflows/paper1.yml"
+  workflow_dispatch:
 
 jobs:
   paper1:

@@ -1369,6 +1369,54 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisgeo3_348h docs.axisgeo3_348h"
 #   docs.diskgeo3_348i —— 原文と場の式の表と棚卸しと表と数の文が PHYSICS〔第348便i〕に逐語・文書)と、新しい段 diskgeo3-348i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskgeo3_348i docs.diskgeo3_348i"
 # ==== 第348便i の塊(ここまで)====
+# ==== 第350便a の塊(ここから)====
+# 第350便a(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-23 —— 第146報)・統括の検証項目 R418 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report146_350a —— 第146報の文の当たり所の表・新しい句 6 つ・訂正の鎖が PHYSICS〔第350便a〕に逐語・当時の文が過去の節に残る・変異 /
+#   lint.bgAxialTerm350a —— 用語「背景軸引きずり」の定義の文・公開の文書に private の文書の名と第350便の文に外の検討の名が無い・変異)。段は無い
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report146_350a lint.bgAxialTerm350a"
+# ==== 第350便a の塊(ここまで)====
+# ==== 第350便b の塊(ここから)====
+# 第350便b(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R419 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.sphereconv350b —— 零試験 8・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・共通の点検の数と〔第348便h〕の正本の天体の行を QA の中で別に照合・呼ぶだけ / docs.sphereconv350b —— 原文と読みの表と表と数の文が PHYSICS〔第350便b〕に逐語・文書)と、新しい段 sphereconv-350b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sphereconv350b docs.sphereconv350b"
+# ==== 第350便b の塊(ここまで)====
+# ==== 第350便c の塊(ここから)====
+# 第350便c(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R420 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.gyrostep350c —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・共通の点検の数と閉じた形と〔第348便h〕の正本の地球の行を QA の中で別に照合・呼ぶだけ /
+#   docs.gyrostep350c —— 原文と表と数の文が PHYSICS〔第350便c〕に逐語・文書)と、新しい段 gyrostep-350c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.gyrostep350c docs.gyrostep350c"
+# ==== 第350便c の塊(ここまで)====
+# ==== 第350便d の塊(ここから)====
+# 第350便d(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R421 —— 診断だけ・html は変えない): 枝 d の新設 2 本(behavior.axisheat350d —— 零試験 11・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕〔第348便b〕の正本と照合・呼ぶだけ / docs.axisheat350d —— 原文と表と数の文が PHYSICS〔第350便d〕に逐語・文書)と、新しい段 axisheat-350d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.axisheat350d docs.axisheat350d"
+# ==== 第350便d の塊(ここまで)====
+# ==== 第350便e の塊(ここから)====
+# 第350便e(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R422 —— 診断だけ・html は変えない): 枝 e の新設 2 本(behavior.bgaxial350e —— 零試験 12〔共通の点検の数・(U) の係数・(B1) の取り分を含む〕・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕の正本の地球の行と照合・呼ぶだけ / docs.bgaxial350e —— 原文と表と数の文が PHYSICS〔第350便e〕に逐語・文書)と、新しい段 bgaxial-350e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgaxial350e docs.bgaxial350e"
+# ==== 第350便e の塊(ここまで)====
+# ==== 第350便f の塊(ここから)====
+# 第350便f(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R423 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.structfit350f —— 零試験 8・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕の正本の表と QA の中で別に照合・呼ぶだけ / docs.structfit350f —— 原文と表と数の文が PHYSICS〔第350便f〕に逐語・文書)と、新しい段 structfit-350f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.structfit350f docs.structfit350f"
+# ==== 第350便f の塊(ここまで)====
+# ==== 第350便g の塊(ここから)====
+# 第350便g(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R424 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.diskcheck350g —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・〔第348便i〕の正本と共通の点検の数を QA の中で別に照合・呼ぶだけ /
+#   docs.diskcheck350g —— 原文と表と数の文が PHYSICS〔第350便g〕に逐語・文書)と、新しい段 diskcheck-350g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.diskcheck350g docs.diskcheck350g"
+# ==== 第350便g の塊(ここまで)====
+# ==== 第350便h の塊(ここから)====
+# 第350便h(統括の検証項目 R425 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 2 本(docs.equations350h —— 計算式の一覧の EQ-103〜EQ-108 と表 / lint.eqReader350h —— 項の読み手の共通の関数の試し)と、
+#   読み手を共通の関数へ替えた既存の照合(docs.equations348g・docs.equations347f・docs.report145_345a・lint.equations331d・docs.equations331d・docs.terms334f・docs.terms335g・docs.equations337g)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f docs.report145_345a lint.equations331d docs.equations331d docs.terms334f docs.terms335g docs.equations337g"
+# ==== 第350便h の塊(ここまで)====
+# ==== 第350便i の塊(ここから)====
+# 第350便i(推奨で進める項 AN997・統括の検証項目 R426 —— 検査の設定だけ・html は変えない): 枝 i の新設 2 本(lint.paperDispatch350i —— 論文の検査 4 本の手で起こす口・
+#   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
+# ==== 第350便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
