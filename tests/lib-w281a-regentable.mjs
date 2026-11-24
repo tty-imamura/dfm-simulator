@@ -3130,6 +3130,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tidaldrag-352u.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便u: 零試験 10/歪み 33/歳差の率 30/そろい方 10 + 6/大きさ 5/背景 4' }),
   // ==== 第352便u の塊(ここまで)====
+  // ==== 第352便v の塊(ここから)====
+  // ---- 第352便v(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R459):
+  //   **打ち消しの点の一覧 —— 受け手と源の全部の組の x(局所の (S) と背景が同じ大きさの倍率 ÷ 金星の条件の値)と残り・x の閉じた形・背景 1 つで読む合成・打ち消しの近くの判定の量と潮汐のトルクの比(源の半径 2 列)**
+  //   (段 cancelmap-352v —— 正本 tests/out/cancelmap-352v.json・lib tests/lib-w352v-cancelmap.mjs —— 第352便k・d・c・e・i・第351便f・c・d・第347便e の lib を import して呼ぶ〔仮の値の lib に閉包で届かない〕。
+  //   入力のファイルは無い〔順序だけ after に satring-352s〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便v の枝の実測 2 s
+  S('cancelmap-352v', 'node tests/exp-w352v-cancelmap.mjs', ['tests/out/cancelmap-352v.json'], 2, { secSource: 'w352v-branch', node: true,
+    after: ['satring-352s'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/cancelmap-352v.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便v: 零試験 10/打ち消しの点 136/閉じた形 34/背景 1 つ 34 × 4/打ち消しの近く 32' }),
+  // ==== 第352便v の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
