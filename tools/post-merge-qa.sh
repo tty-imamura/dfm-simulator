@@ -1484,6 +1484,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
 #   lint.partExplicit352a —— 第352便の lib と器の中で第351便e の totalOm を呼ぶ所は part を明示している)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report148_352a lint.partExplicit352a"
 # ==== 第352便a の塊(ここまで)====
+# ==== 第352便c の塊(ここから)====
+# 第352便c(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R440 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.refaxis352c —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・統括の数え直しの数と円錐と方位の数を QA の中で別に照合・呼ぶだけ /
+#   docs.refaxis352c —— 原文と表と数の文が PHYSICS〔第352便c〕に逐語・文書)と、新しい段 refaxis-352c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.refaxis352c docs.refaxis352c"
+# ==== 第352便c の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
