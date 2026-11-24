@@ -178,7 +178,8 @@ export function sensOf(X, id, src, part, u, { norm = DECL.base.norm, h = DECL.ln
   const co = (f) => R3.r3Coeffs(f, norm), O = (Om, f = f0) => obsOf(P, Om, co(f));
   const L0 = X.local(id, src, part), base = O(totalOm(bgU(u), L0, 1));
   const lnq = (o) => DECL.obs.map((k) => (o[k] === null ? null : Math.log(Math.abs(o[k]))));
-  const dl = (oP, oM, step) => { const a = lnq(oP), b = lnq(oM); return a.map((x, i) => (x === null || b[i] === null ? null : (x - b[i]) / step)); };
+  // 差分の打ち消しの残り(丸めの桁 —— 床 sensFloor より小さい感度)は 0 と書く(実行系で末尾の bit が違っても同じ表になるように)
+  const dl = (oP, oM, step) => { const a = lnq(oP), b = lnq(oM); return a.map((x, i) => { if (x === null || b[i] === null) return null; const v = (x - b[i]) / step; return Math.abs(v) < DECL.sensFloor ? 0 : v; }); };
   const eh = Math.exp(h), cols = {};
   cols.k = dl(O(totalOm(bgU(u), L0, eh)), O(totalOm(bgU(u), L0, 1 / eh)), 2 * h);
   cols.cRii = dl(O(totalOm(bgU(u), X.local(id, src, part, 'ii', cR0 * eh), 1)), O(totalOm(bgU(u), X.local(id, src, part, 'ii', cR0 / eh), 1)), 2 * h);
@@ -190,7 +191,8 @@ export function sensOf(X, id, src, part, u, { norm = DECL.base.norm, h = DECL.ln
   const rowsOk = DECL.obs.map((_, i) => knobs.every((k) => cols[k][i] !== null));
   const M = DECL.obs.map((_, i) => knobs.map((k) => cols[k][i])).filter((_, i) => rowsOk[i]);
   // 観測量 1 つだけ: その行の感度が床(1e-9)より小さければ、どのノブも決まらない(ノブの数)・そうでなければノブの数 − 1
-  const sv = singularValues(M), single = DECL.obs.map((_, i) => (rowsOk[i] ? knobs.length - (Math.max(...knobs.map((k) => Math.abs(cols[k][i]))) < DECL.sensFloor ? 0 : 1) : null));
+  // 特異値は MᵀM の固有値から取る —— 最大の 1e-7 倍より小さい値は丸めの床(実行系で揺れる)なので 0 と書く
+  const sv0 = singularValues(M), sv = sv0.map((x) => (x < 1e-7 * sv0[0] ? 0 : x)), single = DECL.obs.map((_, i) => (rowsOk[i] ? knobs.length - (Math.max(...knobs.map((k) => Math.abs(cols[k][i]))) < DECL.sensFloor ? 0 : 1) : null));
   return { id, src, part, u, norm, knobs, base, cols, cRiDown, sv, svRel: sv.map((s) => s / sv[0]), rank: DECL.rankTol.map((t) => rankOf(sv, t)), undetermined: DECL.rankTol.map((t) => knobs.length - rankOf(sv, t)), singleUndetermined: single, nObs: M.length };
 }
 export function sensRows(X) {
