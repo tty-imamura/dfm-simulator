@@ -45,6 +45,14 @@ const RD = Object.freeze({ dirs: L.DECL.dirs, partsT2: Object.freeze(['S', 'MS']
   periodsYr: Object.freeze([1e6, 1e8, 'gal', 'age', 1e12]), angles: Object.freeze(['eq', 'lw', 'ecl']), resp: Object.freeze([[1, 1], [0.5, 1], [1, 0.5], [0.1, 1], [10, 1]]), nearDeg: 0.5 });
 export const ROWDECL = RD;
 const multOf = (m, uV) => (m === 'uV' ? uV : m);
+/** 背景の線に沿う軸 u(単位)と合成 Ω = s u + loc のなす角(°)—— 打ち消しで小さくなる角は大きい数の差で作らず、u × loc から直接に数える(u × Ω の背景の分は 0 と置く) */
+const parAng = (u, sMag, loc) => Math.atan2(nrm(crs(u, loc)), sMag + dot(u, loc)) * 180 / Math.PI;
+/** 合成と背景の角・合成と等重みの軸の角(背景の向きが N± なら等重みの軸も背景の線の上 —— 直接に数える) */
+function bgEqAng(dir, bg, loc, ax) {
+  const mag = nrm(bg);
+  if (dir === 'N+' || dir === 'N-') { const u = unit(ax.eq), sg = dir === 'N+' ? 1 : -1; return { bgDeg: parAng(scl(u, sg), mag, loc), eqDeg: parAng(u, sg * mag, loc) }; }
+  return { bgDeg: parAng(unit(bg), mag, loc), eqDeg: L.angDeg(ax.eq, add(bg, loc)) };
+}
 
 /* ───────── 表 1: 惑星由来の局所の項 ───────── */
 export function localRows(LOC, ax, uV) {
@@ -61,9 +69,9 @@ export function coneRows(T1, GEO, LOC, ax, uV) {
   const rows = [];
   for (const dir of RD.dirs) for (const part of RD.partsT2) for (const m of RD.magsT2) {
     const bg = L.bgVecOf({ dir, mult: multOf(m, uV), ref: ax.eq }), R = L.sunTotal(T1, GEO, { part, bg, loc: LOC, ref: ax.eq }), s = LOC.sHat, ds = crs(R.Om, s);
-    const pc = L.poleRatesLocal(R.Om, s, ds), pr = L.poleRatesLocal(ax.eq, s, ds);
-    rows.push({ dir, part, mag: m, mult: multOf(m, uV), coneDeg: R.coneDeg, eqDeg: R.refDeg, lwDeg: L.angDeg(ax.lw, R.Om), eclDeg: L.angDeg(ax.ecl, R.Om), bgDeg: L.angDeg(bg, R.Om), magAsYr: R.mag * AY,
-      locOverBg: nrm(LOC.sum[part]) / nrm(bg), near: R.refDeg <= RD.nearDeg, azComb: pc.az === null ? null : pc.az * AY, azRef: pr.az === null ? null : pr.az * AY, incRef: pr.inc === null ? null : pr.inc * AY });
+    const pc = L.poleRatesLocal(R.Om, s, ds), pr = L.poleRatesLocal(ax.eq, s, ds), A2 = bgEqAng(dir, bg, LOC.sum[part], ax);
+    rows.push({ dir, part, mag: m, mult: multOf(m, uV), coneDeg: R.coneDeg, eqDeg: A2.eqDeg, lwDeg: L.angDeg(ax.lw, R.Om), eclDeg: L.angDeg(ax.ecl, R.Om), bgDeg: A2.bgDeg, magAsYr: R.mag * AY,
+      locOverBg: nrm(LOC.sum[part]) / nrm(bg), near: A2.eqDeg <= RD.nearDeg, azComb: pc.az === null ? null : pc.az * AY, azRef: pr.az === null ? null : pr.az * AY, incRef: pr.inc === null ? null : pr.inc * AY });
   }
   return rows;
 }
@@ -102,13 +110,13 @@ export function respRows(T1, GEO, LOC, ax, uV) {
   const rows = [];
   for (const dir of RD.dirsT3) {
     const bg = L.bgVecOf({ dir, mult: uV, ref: ax.eq }), R = L.sunTotal(T1, GEO, { part: 'S', bg, loc: LOC, ref: ax.eq }), base = L.bgPeriod({ radS: R.mag });
-    for (const [ratio, kPrec] of RD.resp) { const P = L.bgPeriod({ radS: R.mag, ratio, kPrec }); rows.push({ dir, ratio, kPrec, coneDeg: R.coneDeg, eqDeg: R.refDeg, periodYr: P.periodYr, periodOverBase: P.periodYr / base.periodYr, rateAsYr: P.rateAsYr }); }
+    for (const [ratio, kPrec] of RD.resp) { const P = L.bgPeriod({ radS: R.mag, ratio, kPrec }); rows.push({ dir, ratio, kPrec, coneDeg: R.coneDeg, eqDeg: bgEqAng(dir, bg, LOC.sum.S, ax).eqDeg, periodYr: P.periodYr, periodOverBase: P.periodYr / base.periodYr, rateAsYr: P.rateAsYr }); }
   }
   // 診断の列: 局所 (S) の和を背景 (uV) の大きさに持ち上げる k と、そのときの円錐
   const kStar = nrm(L.bgVecOf({ dir: 'G-', mult: uV })) / nrm(LOC.sum.S), diag = [];
   for (const dir of RD.dirsT3) for (const k of [1, kStar]) {
     const bg = L.bgVecOf({ dir, mult: uV, ref: ax.eq }), Lk = { sum: { M: scl(LOC.sum.M, k), S: scl(LOC.sum.S, k), MS: scl(LOC.sum.MS, k) }, sHat: LOC.sHat }, R = L.sunTotal(T1, GEO, { part: 'S', bg, loc: Lk, ref: ax.eq });
-    diag.push({ dir, k, coneDeg: R.coneDeg, eqDeg: R.refDeg, magAsYr: R.mag * AY });
+    diag.push({ dir, k, coneDeg: R.coneDeg, eqDeg: bgEqAng(dir, bg, Lk.sum.S, ax).eqDeg, magAsYr: R.mag * AY });
   }
   return { rows, kStar, diag };
 }
