@@ -139,6 +139,8 @@ export function cellOf(T1, GEO, key, { bg, axis, sense, u, part = 'S', k = 1, mu
   const ds2 = D.precDs(s, Om, { sense }), c = R3.r3Coeffs(DECL.fRaise, DECL.norm), dsR = D.r3Ds(s, Om, { sense, kTilt: c.kTilt, kPrec: c.kPrec });
   const az = {}, inc = {};
   for (const p of DECL.poles) { const r = poles[p] === null ? null : D.poleRates(poles[p], s, ds2); az[p] = r === null ? null : r.az; inc[p] = r === null ? null : r.inc; }
+  // (N+) では背景は基準軸に平行 —— 基準軸に対する傾きの率 −(p·dŝ/dt) ÷ abs(p × ŝ) の分子は局所の分だけ(ax·(b × ŝ) = 0)。打ち消しを大きい数の差で作らず直接に数える
+  if (bg === 'Np' && inc.ref !== null) inc.ref = -(sense === 'g2p' ? 1 : -1) * dot(ax, crs(loc, s)) / nrm(crs(ax, s));
   let raise = null;
   if (n !== null) { const cc = Math.max(-1, Math.min(1, dot(s, n))); if (Math.sqrt(1 - cc * cc) >= DECL.sinTable) raise = -D.poleRates(n, s, dsR).inc; }
   const sg = (x) => (x > 0 ? 1 : x < 0 ? -1 : 0);
