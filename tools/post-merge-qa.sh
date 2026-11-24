@@ -1502,6 +1502,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.refaxis352c docs.refaxis352c"
 #   docs.precsense352d —— 原文と表と数の文が PHYSICS〔第352便d〕に逐語・文書)と、新しい段 precsense-352d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.precsense352d docs.precsense352d"
 # ==== 第352便d の塊(ここまで)====
+# ==== 第352便f の塊(ここから)====
+# 第352便f(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R443 —— 診断だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.galdisk352f —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形とトルクと表 3 の数を QA の中で別に照合・呼ぶだけ /
+#   docs.galdisk352f —— 原文と表と数の文が PHYSICS〔第352便f〕に逐語・文書)と、新しい段 galdisk-352f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galdisk352f docs.galdisk352f"
+# ==== 第352便f の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
