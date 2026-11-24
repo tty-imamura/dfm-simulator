@@ -1619,6 +1619,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.keepcone352w docs.keepcone352w"
 #   docs.sunorigin352x —— 原文と表と数の文が PHYSICS〔第352便x〕に逐語・文書)と、新しい段 sunorigin-352x
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sunorigin352x docs.sunorigin352x"
 # ==== 第352便x の塊(ここまで)====
+# ==== 第352便y の塊(ここから)====
+# 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R462 —— 診断だけ・html は変えない): 枝 y の新設 2 本
+#   (behavior.bgwindow352y —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.bgwindow352y —— 原文と表と数の文が PHYSICS〔第352便y〕に逐語・文書)と、新しい段 bgwindow-352y
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgwindow352y docs.bgwindow352y"
+# ==== 第352便y の塊(ここまで)====
 # ==== 第352便za の塊(ここから)====
 # 第352便za(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R463 —— 診断だけ・html は変えない): 枝 za の新設 2 本
 #   (behavior.sconseq352za —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・(P1) の式を QA の中で別に照合・呼ぶだけ /
