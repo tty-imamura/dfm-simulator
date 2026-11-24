@@ -124169,6 +124169,204 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第352便t の塊(ここまで)====
 
+// ==== 第352便u の塊(ここから —— behavior.tidaldrag352u・docs.tidaldrag352u の 2 ブロック。root は SKIP)====
+// ---- 第352便u(原仮定者の整理(2026-11-11)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R458):
+// ----   **「潮汐力の引きずり版」の項 —— 場の勾配のテンソルの対称の部分(歪みの率)・扁平な受け手の式の候補 (T-a)(T-b)・比べる列 (T-g)・要る係数のそろい方・一様な背景の歪み**
+// ----   (新設 —— 器 tests/exp-w352u-tidaldrag.mjs〔html を読まない〕・lib tests/lib-w352u-tidaldrag.mjs・文書の lib tests/lib-w352u-tidaldragdoc.mjs・正本 tests/out/tidaldrag-352u.json・
+// ----   入力のファイルなし。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.tidaldrag352u(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・宣言・零試験 10 を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ ③ QA の中で別に書いた式: (M) の歪みは 1 公転の平均で 0・位相ごとの歪み ÷ 回転 = √2(c ⊥ ∇w の階数 1 の形)・
+// ----     跡 0・(S) の歪み ÷ (回転 × sin) が太陽由来の組でそろう(1%)・(T-g) の閉じた形 (3/2)(n² ÷ ω) H cos ε・要る係数 × abs(方位の率) = 比べる数・そろう度合いの書き直し・一様な背景の歪み 0・仮の値の印 ④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w352u-tidaldrag.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w352u-tidaldrag.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w352u-tidaldragdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'tidaldrag-352u.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.tidaldrag352u(第352便u の「潮汐力の引きずり版」の項の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, R338 = null, PV = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc);
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); PV = await import('file://' + path.join(ROOT, 'tests', 'lib-w352b-provisional.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/tidaldrag-352u.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・宣言・零試験
+        if (!(L.LIB_VERSION === 'w352u-tidaldrag-lib-1' && X.HARNESS_VERSION === 'w352u-tidaldrag-1' && D0.DOC_VERSION === 'w352u-tidaldragdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        const DL = L.DECL;
+        if (!(js(DL.parts) === js(['M', 'S', 'MS']) && DL.nPhase === 72 && js(DL.cands) === js(['Ta', 'Tb', 'Tg']) && js(DL.unit) === js({ lamT: 1, kappa: 1 }) && DL.pairs.length === 11 && DL.rateRows.length === 6
+          && js(DL.senses) === js({ Ta: ['g2m', 'g2p'], Tb: ['nat', 'flip'], Tg: ['nat'] }))) bad.push('① 宣言(成分・位相・候補・単位の係数・組・向き)');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 10) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(反対称 = (W)・rot3・中心差分・一様な場の歪み 0・球で 0・(T-g) = precessionSolar・(ウ′) = candOf・同じ線・拒否・固有の分解)`);
+        // ② 器を走らせ直して正本と同じ
+        const parts = ['pure', 'strain', 'aligned', 'powers', 'rate', 'align', 'uJ', 'size', 'bg', 'venus'];
+        const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.length} 部分が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ QA の中で別に書いた式
+        for (const r of J.strain) {
+          if (Math.abs(r.trace) > 1e-9 * Math.max(r.ePhaseRmsAsYr, 1e-300)) bad.push('③ 跡 0(' + r.pair + '・' + r.part + ')');
+          if (r.part === 'M' && !(r.avgOverRms < 1e-12 && Math.abs(r.rmsEOverRmsW - Math.SQRT2) < 1e-9)) bad.push('③ (M) の平均の歪み 0・位相ごとの歪み ÷ 回転 = √2(' + r.pair + ')');
+        }
+        { const v = J.strain.filter((r) => r.part === 'S' && r.pair.endsWith('|Sun')).map((r) => r.eSOverSin); if (!(v.length === 9 && Math.max(...v) / Math.min(...v) < 1.01)) bad.push('③ (S) の歪み ÷ (回転 × sin) が太陽由来の 9 組でそろう(1%)'); }
+        if (!J.aligned.every((r) => r.ratio < 1e-9 && r.rmsAligned > 0)) bad.push('③ 源の自転軸をそろえた試しで平均 0・位相ごとは残る');
+        const T1 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w347e-spintorque.mjs'))).t1Table(), GEO = (await import('file://' + path.join(ROOT, 'tests', 'lib-w347e-spintorque.mjs'))).geometry();
+        const Qm = await import('file://' + path.join(ROOT, 'tests', 'lib-w352q-response.mjs'));
+        for (const id of ['Earth', 'Mars', 'Venus', 'Mercury']) {
+          const st = Qm.structOf(T1, GEO, id), sh = L.shapeOf(T1, GEO, id), ax = L.axesOf(T1, GEO, id), cosE = ax.sHat[0] * ax.nHat[0] + ax.sHat[1] * ax.nHat[1] + ax.sHat[2] * ax.nHat[2];
+          const want = -1.5 * st.n * st.n / st.omega * sh.H * cosE * L.ASYR, r = J.rate.find((x) => x.id === id && x.set === 'sun' && x.cand === 'Tg');
+          if (!(Math.abs(r.az.orb / want - 1) < 1e-9)) bad.push('③ (T-g) の閉じた形 (3/2)(n² ÷ ω) H cos ε(' + id + ')');
+        }
+        const rateOfP = { Earth: Math.abs(PV.toRH('earth.psiA.rate')), Mars: Math.abs(PV.toRH('mars.prec.rate')), Venus: Math.abs(PV.prov('venus.prec.rate').value) };
+        for (const r of J.rate) {
+          if (r.id === 'Moon') { if (r.need !== null) bad.push('③ 月の行は null(月の J2 は公開の lib に無い)'); continue; }
+          const az = r.az[r.pole];
+          if (!(Math.abs(r.need * Math.abs(az) / r.ref - 1) < 1e-12)) bad.push('③ 要る係数 × abs(方位の率) = 比べる数(' + r.id + '・' + r.cand + '・' + r.sense + '・' + r.part + ')');
+          if (rateOfP[r.id] !== undefined && !(r.ref === rateOfP[r.id] && r.provisional === true)) bad.push('③ 仮の値の比べる数と印(' + r.id + ')');
+          if (r.retro !== (az < 0)) bad.push('③ 回る向きの印(' + r.id + ')');
+        }
+        for (const a of J.align) { const sp = Math.max(...a.need.slice(0, 3)) / Math.min(...a.need.slice(0, 3)); if (!(Math.abs(sp / a.spread3 - 1) < 1e-12 && a.rel[0] === 1)) bad.push('③ そろう度合いの書き直し(' + a.cand + '・' + a.sense + ')'); }
+        for (const u of J.uJ) { const q = u.need.map((v, k) => v / u.X[k]), sp = Math.max(...q) / Math.min(...q); if (!(Math.abs(sp / u.spread3 - 1) < 1e-12)) bad.push('③ (ウ′) の比の書き直し(' + u.bg + '・' + u.uCol + '・' + u.earthSet + ')'); }
+        if (!J.bg.every((b) => b.eAsYr === 0 && Math.abs(b.wAsYr / b.omAsYr - 1) < 1e-12)) bad.push('③ 一様な背景の歪み 0・反対称の部分 = 角速度');
+        const pm = PV.outMarkProblems(J);
+        if (pm.length || J.provisional !== true) bad.push('③ 仮の値の印(' + pm.join('・') + ')');
+        cases.push(`③ 歪み ${J.strain.length} 行(跡 0・(M) の平均 0・√2・(S) の帯)・(T-g) の閉じた形 4 天体・要る係数 × 率 = 比べる数 ${J.rate.length} 行・そろう度合い ${J.align.length + J.uJ.length} 行・一様な背景 ${J.bg.length} 行・仮の値の印`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w352u-tidaldrag.mjs'), th = rd('tests/exp-w352u-tidaldrag.mjs'), td = rd('tests/lib-w352u-tidaldragdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const wantImps = ['lib-w312a-decay.mjs', 'lib-w330a-spinclass.mjs', 'lib-w337c-tidelock.mjs', 'lib-w347e-spintorque.mjs', 'lib-w348c-axisbalance.mjs', 'lib-w348h-axisgeo3.mjs', 'lib-w351c-srcparts.mjs',
+          'lib-w352b-provisional.mjs', 'lib-w352d-precsense.mjs', 'lib-w352q-response.mjs'];
+        if (!(js(imps) === js(wantImps) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w347e-spintorque.mjs', 'lib-w352b-provisional.mjs', 'lib-w352c-refaxis.mjs', 'lib-w352d-precsense.mjs', 'lib-w352q-response.mjs', 'lib-w352u-tidaldrag.mjs'])
+          && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/w352u/.test(wantImps.map((f) => rd('tests/' + f)).join(''))))
+          bad.push('④ 呼ぶだけ(lib の import は 10 本・器は 8 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 10 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.tidaldrag352u', bad.length === 0,
+      `**「潮汐力の引きずり版」の項の表の作り直し**(第352便u・原仮定者の整理(2026-11-11)・原仮定者の整理(2026-11-24 —— 第148報)・R458 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第352便u: docs.tidaldrag352u は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.tidaldrag352u(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルなし・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 原文の表・表 10 本・数の文 6 つが PHYSICS〔第352便u〕に逐語 ③ 節の位置(〔第352便s〕の節の後・第328便の統括の節の前)・必須の語・
+// ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §350・CHANGELOG(第352便u の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w352u-tidaldrag.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w352u-tidaldrag.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w352u-tidaldragdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'tidaldrag-352u.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.tidaldrag352u(第352便u の「潮汐力の引きずり版」の項の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第352便u — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第352便s — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第352便u〕が無いか〔第352便s〕の節の前か第328便の統括の節・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/tidaldrag-352u.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'tidaldrag'
+        && J.target === 'tests/lib-w352u-tidaldrag.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルなし・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      if (!(D0.ORIGINAL.length === 3 && D0.ORIGINAL[0][1] === '軸引きずり = 並進引きずりを受ける側の部位による差分で起きる回転 —— 潮汐力の引きずり版'
+        && D0.ORIGINAL[1][1] === '自転速度や、歳差運動の傾きは、天体の構造に左右されるので、先に銀河由来の背景軸引きずりを算出する'
+        && D0.ORIGINAL[2][1] === 'ジャイロトルクは、回転体の軸に対して、軸を傾ける回転の力が、直行する軸の回転の力として現れる。この直行を、物理現象と仮定する' && D0.READINGS.length === 3
+        && D0.ORIGINAL.every(([, o]) => sec.indexOf('「' + o + '」') >= 0 && PH.split(o).length >= 3))) bad.push('② 原文・出どころ・読み(3 つ —— 原文は本節の外の公開の節にも同じ字で在る)');
+      if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表(原文)が節に逐語で無い');
+      const T = D0.tablesOf(J), F = D0.factsOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第352便u〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 10) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第352便u〕に数の文 ' + k + ' が逐語で無い');
+      if (Object.keys(F).length !== 6) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      cases.push(`② 原文の表・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第352便u〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の整理(2026-11-11)', '原仮定者の整理(2026-11-24 —— 第148報)', 'R458', 'tests/exp-w352u-tidaldrag.mjs', 'tests/out/tidaldrag-352u.json', 'tests/lib-w352u-tidaldrag.mjs', 'makeField3', 'tidaldrag-352u',
+      '(M)', '(S)', '(MS)', '(W)', '(T-a)', '(T-b)', '(T-g)', '(g2−)', '(g2+)', '(ウ′)', 'J2', '勾配のテンソル', '歪みの率', '反対称の部分', '対称の部分', '要る係数', 'そろう度合い', '単位の係数', '比べる列', 'DFM の結果ではない', '仮・未照合',
+      '〔第330便a〕', '〔第348便h〕', '〔第351便c〕', '〔第352便b〕', '〔第352便d〕', '〔第352便q〕',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '題カードの恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '推奨', '次点', '次のラウンドへ',
+      'behavior.tidaldrag352u', 'docs.tidaldrag352u', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第352便u〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 4
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 350. 第352便u'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && AS.indexOf('\n## 348. 第352便s') >= 0 && AS.indexOf('\n## 348. 第352便s') < a0 && ai.indexOf('tests/out/tidaldrag-352u.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R458') >= 0))
+      bad.push('③ AI_SPEC §350(§348 の後・正本・SYSTEM_PROMPT・候補・R458)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const k352u = cls.findIndex((l) => l.indexOf('**第352便u**') >= 0), cl352u = k352u >= 0 ? cls[k352u] : '';
+    if (k352u >= 0 && !(k352u > 0 && cl352u.indexOf('tests/exp-w352u-tidaldrag.mjs') >= 0 && cl352u.indexOf('tidaldrag-352u') >= 0 && cl352u.indexOf('R458') >= 0))
+      bad.push('③ CHANGELOG の第352便u の行(見出しより後・器と段の名・R458)');
+    if (!(/S\('tidaldrag-352u', 'node tests\/exp-w352u-tidaldrag\.mjs', \['tests\/out\/tidaldrag-352u\.json'\]/.test(RT) && RT.indexOf('// ==== 第352便u の塊(ここから)====') > RT.indexOf('// ==== 第352便s の塊(ここまで)====') && RT.indexOf('// ==== 第352便s の塊(ここまで)====') >= 0)) bad.push('③ 段の行 tidaldrag-352u(第352便s の塊の後)');
+    if (!(GI.indexOf('!tests/out/tidaldrag-352u.json') >= 0 && GI.indexOf('# ==== 第352便u の塊(ここから)====') > GI.indexOf('# ==== 第352便s の塊(ここまで)====') && GI.indexOf('# ==== 第352便s の塊(ここまで)====') >= 0)) bad.push('③ .gitignore の例外(第352便s の塊の後)');
+    if (!(PM.indexOf('# ==== 第352便u の塊(ここから)====') > PM.indexOf('# ==== 第352便s の塊(ここまで)====') && PM.indexOf('# ==== 第352便s の塊(ここまで)====') >= 0 && /behavior\.tidaldrag352u docs\.tidaldrag352u/.test(PM))) bad.push('③ post-merge に第352便u の塊(第352便s の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §350(次の見出しまで)・CHANGELOG(' + (k352u >= 0 ? '行あり' : '統合の前 —— 行なし') + ')・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, ''), stripCode = (t) => t.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+    const dropOrig = (t) => (D0 ? D0.ORIGINAL.reduce((s, [, o]) => s.split(o).join(''), t) : t);
+    const NOT = [/フィットした/, /較正した/, /較正が済んだ/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bm_d\b/];
+    const CODEN = /W_bg|(?<![A-Za-z0-9_$])Wbg2?(?![A-Za-z0-9_$])|D_bg/;   // コードの名前はコードの書式の中だけ(lint.symbols333e の型)
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第344便・第347便の書かない語(原文の引用は外して見る —— 逆さの字で持つ)+ 書かない結論 + 本枝の書かない結論(歳差の率が読めた・重力の列が結果)
+    const W352 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'た出が果効ルーボーワパ', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'た出が熱部内', 'たっ合', 'たし決解', 'たっ合り釣',
+      'たい届', 'たっま決が数係', 'たっま決が式', 'たけ導が率の差歳'].map(rvC);
+    const OLDNAME = cpC([0x56de, 0x8ee2, 0x5f15, 0x304d, 0x305a, 0x308a]);   // 旧い呼び名(第346便b —— 文字で持たない)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第352便u〕', sec], ['AI_SPEC §350', ai], ['器', rd('tests/exp-w352u-tidaldrag.mjs')], ['lib', rd('tests/lib-w352u-tidaldrag.mjs')], ['文書の lib', rd('tests/lib-w352u-tidaldragdoc.mjs')]];
+    if (k352u >= 0) texts.push(['CHANGELOG の第352便u の行', cl352u]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropOrig(tx0);
+      for (const w of NGC) if (tx0.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      for (const w of W352) if (strip(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+      if (tx0.indexOf(OLDNAME) >= 0) bad.push('④ ' + nm + ' に旧い呼び名(第346便b)');
+      for (const re of NOT338) if (re.test(tx0)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (CODEN.test(stripCode(tx0))) bad.push('④ ' + nm + ' にコードの書式の外のコードの名前(背景の旧い名)');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx0))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx0)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx0.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+      if (/PHYSICS|AI_SPEC/.test(nm) && /earth\.|mars\.|venus\.|sun\.|gal\./.test(tx0)) bad.push('④ ' + nm + ' に仮の値の鍵の名');
+    }
+    // 変異の自己試験(壊した写しで落ちる): 原文の 1 字・表の 1 字
+    { const o = D0 ? D0.ORIGINAL[0][1] : '', s2 = sec.split(o).join(o.replace('軸引きずり = ', '軸引きずり= ')), T0 = J && D0 ? D0.tablesOf(J) : {}, k0 = Object.keys(T0)[0];
+      if (o && s2.indexOf('「' + o + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
+      if (k0 && sec.replace(T0[k0], T0[k0].replace('|', '¦')).indexOf(T0[k0]) >= 0) bad.push('④ 変異(表の 1 字)で落ちない'); }
+    cases.push('④ 書かない語・禁句・旧い呼び名・旧い記号・コードの名前・裸の係数記号・仮の値の鍵の名(節・AI_SPEC・器・lib・文書の lib)・変異 2 つで落ちる');
+    add('docs.tidaldrag352u', bad.length === 0,
+      `**PHYSICS〔第352便u〕(「潮汐力の引きずり版」の項 —— 原文と表と数の文)**(第352便u・原仮定者の整理(2026-11-11)・原仮定者の整理(2026-11-24 —— 第148報)・R458): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第352便u の塊(ここまで)====
+
 // ==== 第352便m の塊(ここから —— docs.equations352m の 1 ブロック。root は SKIP)====
 // ---- 第352便m(第351便の枝 b・c・d・e・f・g・j・k の候補の型の式を計算式の一覧の EQ-118 から・主の列の印・統括の検証項目 R450): **文書と照合の鍵だけ**
 // ----   (docs/EQUATIONS.md の EQ-118〜EQ-129・冒頭の 1 行・§2a の 2 行・§3・§6・§7 の規則 21・PHYSICS〔第352便m〕・AI_SPEC §342・post-merge —— html・エンジン・内蔵の本・受理器・
