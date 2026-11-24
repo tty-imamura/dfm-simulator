@@ -3165,6 +3165,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sunorigin-352x.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便x: 零試験 13/届く組の走査 280 行(f 11 点ずつ)/読み B の f の窓 24/係数の比の候補 9/公転面 36/まとめ 26/黄道の極 4(仮の値)' }),
   // ==== 第352便x の塊(ここまで)====
+  // ==== 第352便y の塊(ここから)====
+  // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R462): **背景軸引きずりの大きさの窓(条件の一覧・前提の組ごとの窓・重力の側の列の入力の感度・離心率のある軌道の (M) の歪みの平均 —— 仮の値の行は印つき)**
+  //   (段 bgwindow-352y —— 正本 tests/out/bgwindow-352y.json・lib tests/lib-w352y-bgwindow.mjs —— 第352便b・c・d・e・l・o・p・q・u・w・第351便d・第348便h・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sunorigin-352x〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便y の枝の実測 6 s
+  S('bgwindow-352y', 'node tests/exp-w352y-bgwindow.mjs', ['tests/out/bgwindow-352y.json'], 6, { secSource: 'w352y-branch', node: true,
+    after: ['sunorigin-352x'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bgwindow-352y.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便y: 零試験 13/条件 18/窓 48 + f の境 8/感度 3/離心率 8 × 5' }),
+  // ==== 第352便y の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

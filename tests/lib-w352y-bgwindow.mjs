@@ -251,7 +251,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
     .map((g) => { try { g(); return false; } catch (e) { return e instanceof RangeError; } });
   return { sunTurn: sunTurn.u, sunTurnE, sunTurnF1: sunTurnF1.u, ring1: ring1.u, ringWf: ringW.f, ringWu: ringW.uMin, tiltG: tiltG.u, tiltN: tiltN.u, tiltG3: tiltG3.u, keepF1: keepF1.u, keepAtU1: keepAtU1.fMax, keepCheck,
     res: Object.fromEntries(Object.entries(res).map(([k, v]) => [k, v.res])), uVrule: vR.uV, uVobs: vO.uV, band: [band.uLo, band.uHi], bgU1,
-    ecM: [ec0.eAvg, ecU.eAvg, ec0.ePhaseRms, ecU.ePhaseRms], ecS: [es0.Eavg, esU.Eavg], gp0, win, ld, rejects: rej };
+    ecM: [ec0.eAvg <= DECL.floor * ec0.ePhaseRms ? 0 : ec0.eAvg, ecU.eAvg <= DECL.floor * ecU.ePhaseRms ? 0 : ecU.eAvg, ec0.ePhaseRms, ecU.ePhaseRms], ecS: [es0.Eavg, esU.Eavg], gp0, win, ld, rejects: rej };
 }
 export function pureGates(S) {
   const rel = (a, b, t) => Math.abs(a / b - 1) <= t, p2 = (x) => Number(x).toPrecision(2);
@@ -264,7 +264,7 @@ export function pureGates(S) {
     venus: rel(S.uVrule, ANCHOR.uV, 5e-6) && Number(1 / S.uVrule).toPrecision(3) === ANCHOR.kRule && Number(1 / S.uVobs).toExponential(2) === ANCHOR.kObs,
     band: S.band[0].toFixed(1) === ANCHOR.band[0] && S.band[1].toFixed(1) === ANCHOR.band[1],
     bgUnit: rel(S.bgU1, 1, 1e-12),
-    eccZero: rel(S.ecM[0], S.ecM[1], 1e-6) && rel(S.ecM[2], S.ecM[3], 1e-12) && S.ecS[0].every((x, i) => Math.abs(x - S.ecS[1][i]) <= 1e-12 * U.fro(S.ecS[1])),
+    eccZero: S.ecM[0] <= DECL.floor * S.ecM[2] && S.ecM[1] <= DECL.floor * S.ecM[3] && rel(S.ecM[2], S.ecM[3], 1e-12) && S.ecS[0].every((x, i) => Math.abs(x - S.ecS[1][i]) <= 1e-12 * U.fro(S.ecS[1])),
     gravBase: Object.values(S.gp0).every(([a, b]) => rel(a, b, 1e-12)),
     window: S.win.a.open && S.win.a.lo === 1e-2 && S.win.a.loBy === 'L2' && S.win.a.hi === 0.5 && S.win.a.hiBy === 'U2' && !S.win.b.open && JSON.stringify(S.win.b.conflicts) === '[["L1","U1"]]'
       && !S.win.c.open && JSON.stringify(S.win.c.blocked) === '["L1"]',
