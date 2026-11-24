@@ -1439,6 +1439,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcparts351c docs.srcparts351c"
 #   docs.r3step351d —— 原文と表と数の文が PHYSICS〔第351便d〕に逐語・文書)と、新しい段 r3step-351d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3step351d docs.r3step351d"
 # ==== 第351便d の塊(ここまで)====
+# ==== 第351便f の塊(ここから)====
+# 第351便f(原仮定者の回答(2026-11-24 —— 第147報)AN1001・統括の検証項目 R432 —— 診断だけ・html は変えない): 枝 f の新設 2 本(behavior.satlock351f —— 零試験 14・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・剛体の打ち消しの閉じた形と潮汐の物差しと比を QA の中で別に照合・呼ぶだけ / docs.satlock351f —— 原文と表と数の文が PHYSICS〔第351便f〕に逐語・文書)と、新しい段 satlock-351f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satlock351f docs.satlock351f"
+# ==== 第351便f の塊(ここまで)====
 # ==== 第351便h の塊(ここから)====
 # 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
 #   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)

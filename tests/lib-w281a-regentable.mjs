@@ -2857,6 +2857,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/r3step-351d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第351便d: 零試験 13/原文の 4 句 2 点/90° の後の読み 15/比率のノブ 16/2 つの源 9 + 例 1/ω_T ÷ ω_L 8 + 地球の型/共通の点検の数' }),
   // ==== 第351便d の塊(ここまで)====
+  // ==== 第351便f の塊(ここから)====
+  // ---- 第351便f(原仮定者の回答(2026-11-24 —— 第147報)AN1001・統括の検証項目 R432):
+  //   **衛星 —— 衛星の組の由来(母天体由来・太陽由来の成分と一様な背景・列 A/B)・潮汐ロックの 3 列((ア)(イ)(ウ))・潮汐のトルクの桁と軸引きずりの直交成分のトルクの比・互いにロックした連星の (M)(S) を源の回転の形 2 つで**
+  //   (段 satlock-351f —— 正本 tests/out/satlock-351f.json・lib tests/lib-w351f-satlock.mjs —— 第351便c・第351便d・第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c・第343便g の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に srcparts-351c・r3step-351d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便f の枝の実測 1.3 s(nice 15)
+  S('satlock-351f', 'node tests/exp-w351f-satlock.mjs', ['tests/out/satlock-351f.json'], 2, { secSource: 'w351f-branch', node: true,
+    after: ['srcparts-351c', 'r3step-351d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/satlock-351f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便f: 零試験 14/衛星 5 組の由来(読み 2)+ 組の作り 2/3 列 15/トルクの比 16/互いにロックした連星 18/比べる数の印 5' }),
+  // ==== 第351便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
