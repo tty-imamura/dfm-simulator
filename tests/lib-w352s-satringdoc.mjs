@@ -43,8 +43,8 @@ export function tablesOf(J) {
     T.pure = '| 零試験・場面 | 値 | 門 |\n|---|---|---|\n' + [
       ['① 規則の半径で、成分 (S)・(MS) の母天体由来と太陽由来が〔第351便f〕の `satTerms` と同じ(衛星 5 組 —— 相対の差)', S.vsF === 0 ? '0' : '< 1e-12', G.sameAsF],
       ['② 成分 (MS) を明示すると〔第351便f〕の比に戻る(イオ・月の母天体由来 ÷ 太陽由来)', `${S.r351f.io}・${S.r351f.moon}`, G.msBack351f],
-      ['③〔第352便j〕の衛星の (S) の表と同じ数(イオ: 母天体 ÷ 太陽・÷ 背景・合成 ÷ 背景 —— (N+)・L・(uV))', `${f2(S.vsJ.io[0])}・${f3(S.vsJ.io[1])}・${f3(S.vsJ.io[2])}`, G.sameAsJ],
-      ['④〔第352便j〕の `cellOf` と同じ Ω(衛星 5 組 × 背景の向き 2 × 基準軸 2)', '< 1e-12', G.sameCell],
+      ['③〔第352便j〕の衛星の (S) の表の数(イオ: 母天体 ÷ 太陽・÷ 背景・合成 ÷ 背景 —— (N+)・L・(uV))を〔第351便f〕の `satTerms` と〔第352便d〕の `bgVec` から直接に作った値と照合', `${f2(S.vsJ.io[0])}・${f3(S.vsJ.io[1])}・${f3(S.vsJ.io[2])}`, G.sameAsJ],
+      ['④ Ω = 背景 + 太陽由来 (S) + 母天体由来 (S)(衛星 5 組 × 背景の向き 2 × 基準軸 2 —— 〔第352便j〕の `satRow`・`cellOf` との照合は QA の中で)', '< 1e-12', G.sameCell],
       ['⑤ (uV)(規則の半径)が 1.19282e-12・〔第352便d〕の `uVenus` と同じ', '1.19282e-12', G.uV],
       ['⑥ 打ち消しの行: 金星の uEq ÷ (uV) が 1・イオの uEq ÷ (uV) が 0.5〜1.5・uMin で合成が最小', `1・${f3(S.ioEq)}`, G.cancel],
       ['⑦ 輪の口 `ringRot` が地球の道の 72 位相で〔第352便k〕の `spinRot` の (S)・(M) と同じ', '< 1e-12', G.ringRot],
@@ -68,7 +68,7 @@ export function tablesOf(J) {
       + J.cancel.filter((r) => r.bg === 'Np' && r.axis === 'L' && ['Venus|Sun', 'Io|Jupiter', 'Moon|EarthHi'].includes(r.key))
         .map((r) => `| ${KN[r.key]} | ${TN[r.tSrc]} | ` + pickE.map((e) => fe(r.scan.find((s) => s.e === e).res)).join(' | ') + ' |').join('\n'); }
   T.mut = '| 組 | 源の回転の形 | 源の自転 | 相対の速さ | (S) ″/年 | (MS) ″/年 | (S) ÷ (MS) | (S) ÷ 背景 (uV) | (S) の自転軸に平行な成分 ″/年 | 中心の速度の残り |\n|---|---|---|---|---|---|---|---|---|---|\n'
-    + J.mut.map((r) => `| ${KN[r.key]} | ${r.rot === 'M' ? '球のモーメント(在位)' : '落ち方なし'} | ${{ decl: '宣言', sync: '平均運動', frame: '源に固定の座標系' }[r.spin]} | ${r.speed === 'src' ? '源の質量だけ' : '2 体の和'} | ${fe(r.SAsYr)} | ${fe(r.MSAsYr)} | ${fe(r.SoverMS)} | ${fe(r.SoverBg)} | ${fe(r.parS)} | ${fe(r.resid)} |`).join('\n');
+    + J.mut.map((r) => `| ${KN[r.key]} | ${r.rot === 'M' ? '球のモーメント(在位)' : '落ち方なし'} | ${{ decl: '宣言', sync: '平均運動', frame: '源に固定の座標系' }[r.spin]} | ${r.speed === 'src' ? '源の質量だけ' : '2 体の和'} | ${fe(r.SAsYr)} | ${fe(r.MSAsYr)} | ${fe(r.SoverMS)} | ${fe(r.SoverBg)} | ${fe(r.parS)} | ${r.resid < 1e-12 ? '< 1e-12' : fe(r.resid)} |`).join('\n');
   T.mutR = '| 組 | 源の半径 | 相手由来 (S) ″/年 | 太陽由来 (S) ″/年 | 相手 ÷ 太陽 | 相手 ÷ 背景 (uV)(その半径) | cos(ŝ, 相手由来) |\n|---|---|---|---|---|---|---|\n'
     + J.mutR.map((r) => `| ${KN[r.key]} | ${TN[r.tSrc]} | ${fe(r.parAsYr)} | ${fe(r.sunAsYr)} | ${fe(r.parOverSun)} | ${fe(r.parOverBg)} | ${f3(r.cosParS)} |`).join('\n');
   T.ring = '| 区分 | 源の半径 | r ÷ 土星の半径 | 土星由来 (S) ″/年 | cos(L̂, S) | (S) ÷ (M) | 土星由来 ÷ 太陽由来 (S) | 土星由来 ÷ 背景 (uV) | 傾き 1° の起こす率 ″/年(土星の (S) だけ) | 同 × 1e7 年 ÷ 傾き | 合成の軸と L̂ の角 (N+) L ° | (G−) L ° |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n'

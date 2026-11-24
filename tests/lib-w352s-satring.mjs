@@ -3,7 +3,7 @@
 //   潮汐ロックの 3 列 (ア)(イ)(ウ)、潮汐のトルク ÷ 軸引きずりの直交成分のトルク、イオの打ち消し(金星と同じ形)、互いにロックした冥王星–カロン、土星の環と太陽系の公転面の輪 —— 診断だけ**
 //   (器 tests/exp-w352s-satring.mjs と QA behavior.satring352s・docs.satring352s が読む —— html を読まない・ファイルを読まない・状態を持たない)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib と第 1・第 2 ラウンドの lib は呼ぶだけ(本文は変えない):
-//   第352便k(spinRot・srcRadius —— 源の半径の置き方 t: 0 規則の半径・1 観測の半径)・第352便j(cellOf・satRow・uForMag・uForMin・localRow)・第352便d(bgVec・poleRates・precDs・uVenus)・
+//   第352便k(spinRot・srcRadius —— 源の半径の置き方 t: 0 規則の半径・1 観測の半径)・第352便d(bgVec・poleRates・precDs・uVenus)・
 //   第352便c(refAxis)・第351便f(satInput・satTerms・lockCols・tideOf・torqueRatio・mutualRow)・第351便c(pairInput・partRot・pairParts・PARENT_ROWS・PAIRS16・perpOf)・
 //   第351便d(r3Rate)・第351便j(saturnRows —— 土星の環の比べる列)・第348便h(makeField3・rot3・YK)・第350便b(equivR)・第347便h(gaussLegendre)・第348便c(massOf・radiusOf)・
 //   第348便d(DECL.C.centers)・第338便d(centerKm)・第312便a(Kball)・第337便c(G_SI)・第347便e(t1Table・geometry)。
@@ -14,7 +14,6 @@
 // ■ 打ち消しで小さくなる量は、大きい数の差で作らない: (N+) で基準軸に平行な背景の直交成分は 0 —— 直交成分は局所の分から直接に数える。
 // ■ 言わないこと: 潮汐ロックの成り立ち・内部熱の出どころ・イオの状態の答えとは書かない(比と残りの数だけ)。この場・この成分・この半径では、の表。
 import * as K from './lib-w352k-spinform.mjs';
-import * as J from './lib-w352j-maintable.mjs';
 import * as PS from './lib-w352d-precsense.mjs';
 import * as CR from './lib-w352c-refaxis.mjs';
 import * as F from './lib-w351f-satlock.mjs';
@@ -111,6 +110,9 @@ export function satCell(T1, GEO, key, { tSrc = 0, bg, axis, u, part = 'S', k = 1
     torque: torque && { perpAsYr: torque.perp * ASYR, rTide: torque.rTide, rTideK: torque.rTideK, baNeed: torque.baNeed } };
 }
 
+/** 合成の大きさ abs(u b₁ + L) を最小にする u(≥ 0 —— 射影が負なら 0)。第352便j の uForMin と同じ式(第352便j の lib は仮の値の lib を import するので呼ばない —— 同じ入力で同じ数になることを QA behavior.satring352s が見る) */
+export function uForMin(b1, L) { const bb = dot(b1, b1); return bb > 0 ? Math.max(0, -dot(b1, L) / bb) : null; }
+
 /* ───────── 表 2: 打ち消し(金星と同じ形 —— 局所の (S) と背景)───────── */
 /**
  * 組 key(衛星 —— 局所 = 太陽由来 + 母天体由来/惑星 'Venus|Sun' —— 局所 = 太陽由来)× t × bg × axis。
@@ -120,7 +122,7 @@ export function cancelRow(T1, GEO, key, { tSrc = 0, bg, axis, part = 'S' }, cach
   let loc, s;
   if (key.endsWith('|Sun')) { const [id] = key.split('|'), R = K.spinRot(T1, GEO, id, 'Sun', { part, tSrc }); loc = R.Om; s = unit(R.sHat); }
   else { const P = satParts(T1, GEO, key, { tSrc, part }, cache); loc = add(P.sun, P.parent); s = P.sHat; }
-  const b1 = bgOf(T1, GEO, bg, axis, 1), uV = uVt(T1, GEO, tSrc, cache), uEq = nrm(loc) / nrm(b1), uMin = J.uForMin(b1, loc);
+  const b1 = bgOf(T1, GEO, bg, axis, 1), uV = uVt(T1, GEO, tSrc, cache), uEq = nrm(loc) / nrm(b1), uMin = uForMin(b1, loc);
   // 残り: 合成 ÷ 背景(倍率 u の背景)—— uEq では局所と背景の大きさが同じ。uMin の残りは合成 ÷ 局所(背景の大きさが局所より小さいときに 1 を越えないように)
   const res = (u) => (u > 0 ? nrm(add(scl(b1, u), loc)) / (u * nrm(b1)) : null);
   const cosLB = dot(unit(loc), unit(b1)), resMin = nrm(add(scl(b1, uMin), loc)) / nrm(loc);
@@ -245,14 +247,16 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ② 成分 MS を明示すると第351便f の数に戻る: イオの母天体 ÷ 太陽 4.32e3・月 1.56e-2
   const ioMS = satParts(T1, GEO, 'Io|Jupiter', { part: 'MS' }, cache), moMS = satParts(T1, GEO, 'Moon|EarthHi', { part: 'MS' }, cache);
   const r351f = { io: (nrm(ioMS.parent) / nrm(ioMS.sun)).toExponential(2), moon: (nrm(moMS.parent) / nrm(moMS.sun)).toExponential(2) };
-  // ③ 第352便j の衛星の (S) の表と同じ数(satRow —— (N+)・L・(uV)): 母天体 ÷ 太陽 333・÷ 背景 0.891・合成 ÷ 背景 0.120
-  const uV0 = uVt(T1, GEO, 0, cache), cIo = satCell(T1, GEO, 'Io|Jupiter', { bg: 'Np', axis: 'L', u: uV0 }, cache), jIo = J.satRow(T1, GEO, 'Io|Jupiter', {}, {});
-  const vsJ = { parSun: Math.abs(cIo.parOverSun / jIo.parOverSun - 1), parBg: Math.abs(cIo.parOverBg / jIo.parOverBg - 1), om: Math.abs(cIo.omAsYr / jIo.omAsYr - 1), io: [cIo.parOverSun, cIo.parOverBg, cIo.omOverBg] };
-  // ④ 第352便j の cellOf(局所の和)と同じ Ω(衛星 5 組 × (N+)(G−) × L・eq)
+  // ③ 第352便j の衛星の (S) の表の数(イオ —— (N+)・L・(uV)): 母天体 ÷ 太陽 333・÷ 背景 0.891・合成 ÷ 背景 0.120 を、第351便f の satTerms の (S) と第352便d の bgVec から直接に作った値と照合
+  //   (第352便j の lib は仮の値の lib を import するので呼ばない —— satRow・cellOf と同じ数になることは QA behavior.satring352s が別に見る)
+  const uV0 = uVt(T1, GEO, 0, cache), cIo = satCell(T1, GEO, 'Io|Jupiter', { bg: 'Np', axis: 'L', u: uV0 }, cache), tIo = F.satTerms(T1, GEO, 'Io', 'Jupiter');
+  const bIo = PS.bgVec('Np', { u: uV0, axis: CR.refAxis('L', T1, GEO) }), omIo = add(add(bIo, tIo.sun.S), tIo.parent.S);
+  const vsJ = { parSun: Math.abs(cIo.parOverSun / (nrm(tIo.parent.S) / nrm(tIo.sun.S)) - 1), parBg: Math.abs(cIo.parOverBg / (nrm(tIo.parent.S) / nrm(bIo)) - 1), om: Math.abs(cIo.omAsYr / (nrm(omIo) * ASYR) - 1), io: [cIo.parOverSun, cIo.parOverBg, cIo.omOverBg] };
+  // ④ Ω = 背景(第352便d の bgVec)+ 太陽由来 (S) + 母天体由来 (S)(第351便f の satTerms)—— 衛星 5 組 × (N+)(G−) × L・eq
   let vsCell = 0;
   for (const key of DECL.sats) for (const bg of DECL.bgs) for (const axis of DECL.axes) {
-    const a = satCell(T1, GEO, key, { bg, axis, u: uV0 }, cache), b = J.cellOf(T1, GEO, key, { bg, axis, sense: 'g2m', u: uV0, part: 'S' }, {});
-    vsCell = Math.max(vsCell, rel(a.Om, b.Om));
+    const [id, src] = key.split('|'), st = F.satTerms(T1, GEO, id, src), a = satCell(T1, GEO, key, { bg, axis, u: uV0 }, cache);
+    vsCell = Math.max(vsCell, rel(a.Om, add(add(PS.bgVec(bg, { u: uV0, axis: CR.refAxis(axis, T1, GEO) }), st.sun.S), st.parent.S)));
   }
   // ⑤ (uV)(t 0)= 1.19282e-12 と第352便d の uVenus
   const uVd = PS.uVenus(T1, GEO, { part: 'S' }), uVchk = Math.abs(uV0 / A.uV - 1), uVvsD = Math.abs(uV0 / uVd - 1);

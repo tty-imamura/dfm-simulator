@@ -113,7 +113,8 @@
   "plane": "表 4b: 公転面の輪(地球・土星の道)× 法線 3 × 源の半径 2 × 背景 4"
  },
  "amend": [
-  "lib: 打ち消しの行の uMin の残りを「合成 ÷ 局所」にした(背景の大きさが局所より小さい所で「合成 ÷ 背景」は 1 を越え、打ち消しの度合いに読めない —— 走らせて見た後の変更)"
+  "lib: 打ち消しの行の uMin の残りを「合成 ÷ 局所」にした(背景の大きさが局所より小さい所で「合成 ÷ 背景」は 1 を越え、打ち消しの度合いに読めない —— 走らせて見た後の変更)",
+  "lib: 第352便j の lib の import を外した(第352便j の lib が仮の値の lib を import し、本段の来歴の閉包に仮の値の lib が入る —— 本段は仮の値を使わない。uForMin を同じ式で lib に書き、零試験 ③④ は第351便f の satTerms と第352便d の bgVec から直接に照合 —— 第352便j の satRow・cellOf との照合は QA へ。表の数は不変)"
  ],
  "notClaim": [
   "潮汐ロックの成り立ち・内部熱の出どころ・イオの状態は決めていない(比と残りの数だけ)",
@@ -6859,7 +6860,7 @@
    "SoverBg": 3.356173551898802e-16,
    "SoverSun": 5.537703268618768e-11,
    "parS": -2.3687056168915626e-30,
-   "perpS": 0,
+   "perpS": 1.3960756117301205e-45,
    "resid": 0.000023882626400961726
   },
   {
@@ -7040,7 +7041,7 @@
    "SoverSun": 3.0708864014726406e-8,
    "parS": -1.313545619027941e-27,
    "perpS": 0,
-   "resid": 2.220446049250313e-16
+   "resid": 0
   },
   {
    "key": "Charon|Pluto",
@@ -7162,7 +7163,7 @@
    "parOverSun": 3.070813060639994e-8,
    "parOverBg": 1.861093142224073e-13,
    "cosParS": -1,
-   "perpParAsYr": 6.261017390609062e-43
+   "perpParAsYr": 0
   },
   {
    "key": "Charon|Pluto",
@@ -7206,8 +7207,8 @@
     },
     "satM": {
      "omAsYr": 66.5965881806377,
-     "perpAsYr": 2.6364377747402073e-14,
-     "angDeg": 2.2682356794577445e-14,
+     "perpAsYr": 0,
+     "angDeg": 0,
      "raiseAsYr": 0,
      "periodYr": 19460.456389818468,
      "yard": 0
@@ -7378,9 +7379,9 @@
      "omAsYr": 44.264085106687354,
      "perpAsYr": 0,
      "angDeg": 0,
-     "raiseAsYr": 0,
+     "raiseAsYr": -1.082753397536879e-12,
      "periodYr": 29278.81592664393,
-     "yard": 0
+     "yard": -3.0076483264913305e-9
     },
     "cosSL": -0.9999619172559533
    },
@@ -8569,41 +8570,41 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.316
+   "wallSec": 0.405
   },
   "sat": {
-   "wallSec": 0.364
+   "wallSec": 0.455
   },
   "torque": {
-   "wallSec": 0.398
+   "wallSec": 0.486
   },
   "cancel": {
-   "wallSec": 0.409
+   "wallSec": 0.499
   },
   "mut": {
-   "wallSec": 0.537
+   "wallSec": 0.585
   },
   "ring": {
-   "wallSec": 0.577
+   "wallSec": 0.615
   },
   "plane": {
-   "wallSec": 0.585
+   "wallSec": 0.624
   }
  },
- "elapsedS": 1.556,
+ "elapsedS": 1.726,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便s",
   "target": "tests/lib-w352s-satring.mjs",
-  "targetSha256": "b96361aa5d49f32015c65b77c419bc697f6b95a7a6d34efc6fd408c06f563df5",
-  "generatedAt": "2026-11-24T18:00:15.593Z",
+  "targetSha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+  "generatedAt": "2026-11-24T18:46:50.286Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w352s-satring.mjs",
-    "bytes": 10521,
-    "sha256": "029c8f7ed00ab7aefa9c1c392859b374b6cf4953efc8902ad4869f1efaf867da",
-    "mtime": "2026-11-24T18:00:08.518Z"
+    "bytes": 10939,
+    "sha256": "eb4e79e7a9860034bd1428683046c4b5b36936194367640c8bfde4e1540ef41c",
+    "mtime": "2026-11-24T18:46:34.522Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -9062,12 +9063,6 @@
     "mtime": "2026-11-24T17:52:18.058Z"
    },
    {
-    "file": "tests/lib-w352b-provisional.mjs",
-    "bytes": 38236,
-    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
-    "mtime": "2026-11-24T17:52:18.058Z"
-   },
-   {
     "file": "tests/lib-w352c-refaxis.mjs",
     "bytes": 22834,
     "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
@@ -9080,18 +9075,6 @@
     "mtime": "2026-11-24T17:52:18.058Z"
    },
    {
-    "file": "tests/lib-w352e-sunrecv.mjs",
-    "bytes": 24526,
-    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
-    "mtime": "2026-11-24T17:52:18.058Z"
-   },
-   {
-    "file": "tests/lib-w352j-maintable.mjs",
-    "bytes": 26538,
-    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
-    "mtime": "2026-11-24T17:52:18.062Z"
-   },
-   {
     "file": "tests/lib-w352k-spinform.mjs",
     "bytes": 24763,
     "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
@@ -9099,12 +9082,12 @@
    },
    {
     "file": "tests/lib-w352s-satring.mjs",
-    "bytes": 26148,
-    "sha256": "b96361aa5d49f32015c65b77c419bc697f6b95a7a6d34efc6fd408c06f563df5",
-    "mtime": "2026-11-24T17:58:59.002Z"
+    "bytes": 27009,
+    "sha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+    "mtime": "2026-11-24T18:46:34.522Z"
    }
   ],
-  "codeSha256": "b91c85ecdaab7ec6f547c9969abe253928aa6b75596b07a1cb48d40e12c658a7",
+  "codeSha256": "b0c98c06af4e072c85ac58e55600b0f46ede311915bdd058776eff569c2e532d",
   "harnessVersion": "w352s-satring-1",
   "stage": "satring",
   "engine": "Node(html を読まない —— 純関数の lib: 〔第352便k〕の spinRot・〔第352便j〕の cellOf・〔第351便f〕の衛星の口・〔第352便c〕の基準軸・〔第352便d〕の背景の向き)・入力のファイルなし・1 プロセス",
@@ -9151,14 +9134,14 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 82,
-   "kept": 4474,
+   "zeroed": 84,
+   "kept": 4473,
    "zeroPathsHead": [
     "/pure/scenes/vsJ/om",
+    "/pure/scenes/vsCell",
     "/pure/scenes/vsRing",
     "/pure/scenes/par0",
     "/pure/scenes/r2Io",
-    "/mut/1/perpS",
     "/mut/2/perpS",
     "/mut/3/perpS",
     "/mut/3/resid",
@@ -9170,10 +9153,10 @@
     "/mut/11/perpS",
     "/mut/12/perpS",
     "/mut/13/perpS",
+    "/mut/13/resid",
     "/mut/15/perpS",
     "/mut/16/perpS",
-    "/mut/17/perpS",
-    "/mut/18/perpS"
+    "/mut/17/perpS"
    ],
    "unstable": 0,
    "unstableHead": []

@@ -123825,7 +123825,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       try {
         const js = (x) => JSON.stringify(x);
         // ① 版・格子・零試験
-        if (!(L.LIB_VERSION === 'w352s-satring-lib-1' && X.HARNESS_VERSION === 'w352s-satring-1' && D0.DOC_VERSION === 'w352s-satringdoc-1' && X.AMEND.length === 1
+        if (!(L.LIB_VERSION === 'w352s-satring-lib-1' && X.HARNESS_VERSION === 'w352s-satring-1' && D0.DOC_VERSION === 'w352s-satringdoc-1' && X.AMEND.length === 2
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         const DL = L.DECL;
         if (!(js(DL.sats) === js(['Moon|EarthHi', 'Moon|EarthLo', 'Io|Jupiter', 'Pluto|Charon', 'Charon|Pluto']) && js(DL.tSrcs) === js([0, 1]) && js(DL.bgs) === js(['Np', 'Gm']) && js(DL.axes) === js(['L', 'eq'])
@@ -123853,6 +123853,15 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         const half = J.mut.filter((r) => r.rot === 'q0' && r.spin === 'sync');
         if (!(half.length === 4 && half.every((r) => Math.abs(r.SoverMS - 0.5) < 1e-9))) bad.push('③ 落ちない形・平均運動の (S) ÷ (MS) が ½');
         if (!J.torque.every((r) => Object.values(r.cells).every((c) => c.rTide > 1))) bad.push('③ トルクの比が 1 を越える');
+        // 第352便j の口と同じ数(lib は第352便j を import しない —— 仮の値の lib が来歴に入らないように。照合は QA の中で): satRow(イオ)・cellOf の Ω(衛星 5 組 × 背景 2 × 基準軸 2)・uForMin
+        const MJ = await import('file://' + path.join(ROOT, 'tests', 'lib-w352j-maintable.mjs')), EE = await import('file://' + path.join(ROOT, 'tests', 'lib-w347e-spintorque.mjs'));
+        const T1q = EE.t1Table(), GEOq = EE.geometry(), cq = {}, uV0 = L.uVt(T1q, GEOq, 0, cq), rel = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]) / Math.hypot(b[0], b[1], b[2]);
+        const jIo = MJ.satRow(T1q, GEOq, 'Io|Jupiter', {}, {}), cIo = L.satCell(T1q, GEOq, 'Io|Jupiter', { bg: 'Np', axis: 'L', u: uV0 }, cq);
+        let vsJ = Math.max(Math.abs(cIo.parOverSun / jIo.parOverSun - 1), Math.abs(cIo.parOverBg / jIo.parOverBg - 1), Math.abs(cIo.omAsYr / jIo.omAsYr - 1)), nJ = 0;
+        for (const key of L.DECL.sats) for (const bg of L.DECL.bgs) for (const axis of L.DECL.axes) { nJ++; vsJ = Math.max(vsJ, rel(L.satCell(T1q, GEOq, key, { bg, axis, u: uV0 }, cq).Om, MJ.cellOf(T1q, GEOq, key, { bg, axis, sense: 'g2m', u: uV0, part: 'S' }, {}).Om)); }
+        const b1q = [1e-15, -2e-16, 3e-16], Lq = [-2e-15, 1e-16, -5e-16], vsMin = Math.abs(L.uForMin(b1q, Lq) / MJ.uForMin(b1q, Lq) - 1);
+        if (!(vsJ < 1e-9 && vsMin < 1e-12)) bad.push('③ 第352便j の satRow・cellOf・uForMin と違う(' + vsJ + '・' + vsMin + ')');
+        cases.push(`③′ 第352便j の satRow(イオ)・cellOf の Ω ${nJ} セル・uForMin と同じ数(lib は第352便j を import しない)`);
         cases.push(`③ 衛星の比 ${nS} セル・打ち消しの倍率 ${nC} 行・環の物差しの比と向き ${nR} 行・(S) ÷ (MS) の ½ ${half.length} 行・トルクの比`);
         // ④ 門と呼ぶだけ
         const G2 = X.gatesOf(J);
@@ -123860,13 +123869,13 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         const tl = rd('tests/lib-w352s-satring.mjs'), th = rd('tests/exp-w352s-satring.mjs'), td = rd('tests/lib-w352s-satringdoc.mjs');
         const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
         const wantImps = ['lib-w312a-decay.mjs', 'lib-w337c-tidelock.mjs', 'lib-w338d-ringbook.mjs', 'lib-w347e-spintorque.mjs', 'lib-w347h-axisdiff.mjs', 'lib-w348c-axisbalance.mjs', 'lib-w348d-diskaxis.mjs', 'lib-w348h-axisgeo3.mjs',
-          'lib-w350b-sphereconv.mjs', 'lib-w351c-srcparts.mjs', 'lib-w351d-r3step.mjs', 'lib-w351f-satlock.mjs', 'lib-w351j-ringstep.mjs', 'lib-w352c-refaxis.mjs', 'lib-w352d-precsense.mjs', 'lib-w352j-maintable.mjs', 'lib-w352k-spinform.mjs'];
+          'lib-w350b-sphereconv.mjs', 'lib-w351c-srcparts.mjs', 'lib-w351d-r3step.mjs', 'lib-w351f-satlock.mjs', 'lib-w351j-ringstep.mjs', 'lib-w352c-refaxis.mjs', 'lib-w352d-precsense.mjs', 'lib-w352k-spinform.mjs'];
         const wantH = ['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w347e-spintorque.mjs', 'lib-w351f-satlock.mjs', 'lib-w352s-satring.mjs'];
         if (!(js(imps) === js(wantImps) && js(impsH) === js(wantH) && !/loadHtml|index\.html/.test(tl + td + th)
           && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
           && !/w352s/.test(wantImps.map((f) => rd('tests/' + f)).join(''))))
-          bad.push('④ 呼ぶだけ(lib の import は 17 本・器は 5 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
-        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 17 本の lib だけ・html を読まない`);
+          bad.push('④ 呼ぶだけ(lib の import は 16 本・器は 5 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 16 本の lib だけ(仮の値の lib に届かない)・html を読まない`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
     add('behavior.satring352s', bad.length === 0,

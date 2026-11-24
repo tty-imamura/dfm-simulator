@@ -24,7 +24,7 @@ export const OUT_MAIN = 'tests/out/satring-352s.json';
 export const TARGET = 'tests/lib-w352s-satring.mjs';
 /** 版の履歴(結果を見て変えた所 —— 理由つき) */
 export const AMEND = Object.freeze([
-  'lib: 打ち消しの行の uMin の残りを「合成 ÷ 局所」にした(背景の大きさが局所より小さい所で「合成 ÷ 背景」は 1 を越え、打ち消しの度合いに読めない —— 走らせて見た後の変更)',
+  'lib: 打ち消しの行の uMin の残りを「合成 ÷ 局所」にした(背景の大きさが局所より小さい所で「合成 ÷ 背景」は 1 を越え、打ち消しの度合いに読めない —— 走らせて見た後の変更)',  'lib: 第352便j の lib の import を外した(第352便j の lib が仮の値の lib を import し、本段の来歴の閉包に仮の値の lib が入る —— 本段は仮の値を使わない。uForMin を同じ式で lib に書き、零試験 ③④ は第351便f の satTerms と第352便d の bgVec から直接に照合 —— 第352便j の satRow・cellOf との照合は QA へ。表の数は不変)',
 ]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const NOT_CLAIM = Object.freeze([
