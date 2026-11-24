@@ -3142,6 +3142,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cancelmap-352v.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便v: 零試験 10/打ち消しの点 136/閉じた形 34/背景 1 つ 34 × 4/打ち消しの近く 32' }),
   // ==== 第352便v の塊(ここまで)====
+  // ==== 第352便w の塊(ここから)====
+  // ---- 第352便w(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R460):
+  //   **「初めの角が保たれている」の読みの制約 —— 傾きを保つ f の上限・公転面の側の f_輪 の下限・円錐の傾きの揺れ・位相ごとの步・金星の公転面が回るときの行き先**
+  //   (段 keepcone-352w —— 正本 tests/out/keepcone-352w.json・lib tests/lib-w352w-keepcone.mjs —— 第352便p・o・n・k・i・d・c・b・第351便c・d・第348便h・第350便b・第347便h・e・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に satring-352s〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便w の枝の実測 41 s
+  S('keepcone-352w', 'node tests/exp-w352w-keepcone.mjs', ['tests/out/keepcone-352w.json'], 41, { secSource: 'w352w-branch', node: true,
+    after: ['satring-352s'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/keepcone-352w.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便w: 零試験 10/f の上限と f_輪 の下限 264 + 倍率の走査 12/円錐 192/位相ごとの步 288/金星の公転面 2 + 20(仮の値の列は印つき)' }),
+  // ==== 第352便w の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
