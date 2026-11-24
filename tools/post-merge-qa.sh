@@ -1484,6 +1484,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
 #   lint.partExplicit352a —— 第352便の lib と器の中で第351便e の totalOm を呼ぶ所は part を明示している)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report148_352a lint.partExplicit352a"
 # ==== 第352便a の塊(ここまで)====
+# ==== 第352便b の塊(ここから)====
+# 第352便b(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R439 —— 診断だけ・html は変えない): 枝 b の新設 3 本
+#   (behavior.provisional352b —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・印と感度の式を QA の中で別に照合・呼ぶだけ /
+#   docs.provisional352b —— 原文と表と数の文が PHYSICS〔第352便b〕に逐語・文書 / lint.provisionalScope352b —— 仮の値を使ってよい所の門)と、新しい段 provisional-352b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.provisional352b docs.provisional352b lint.provisionalScope352b"
+# ==== 第352便b の塊(ここまで)====
 # ==== 第352便c の塊(ここから)====
 # 第352便c(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R440 —— 診断だけ・html は変えない): 枝 c の新設 2 本
 #   (behavior.refaxis352c —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・統括の数え直しの数と円錐と方位の数を QA の中で別に照合・呼ぶだけ /
