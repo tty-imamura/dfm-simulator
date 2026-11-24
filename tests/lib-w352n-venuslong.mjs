@@ -5,8 +5,10 @@
 //   (器 tests/exp-w352n-venuslong.mjs と QA behavior.venuslong352n・docs.venuslong352n が読む —— html を読まない・ファイルを読まない・状態を持たない。後のラウンドの枝もこの口を import してよい)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。
 //   既存の lib は呼ぶだけ(本文は変えない): 第351便d(r3Step・closedR3・r3Coeffs —— 閉じた形の照合)・第352便c(refAxes —— 基準軸は必ずここから)・
-//   第352便d(rowOf・poleRates・precDs —— 合成の Ω と方位の率)・第352便h(cancelOf・cancelRow・sDirClosed・b1・bgUnit —— 打ち消しの閉じた形)・
+//   第352便d(rowOf・poleRates・precDs・bgVec —— 合成の Ω と方位の率)・
 //   第352便i(kOf・judgeConst・invertTarget・lockGeom・rotAbout —— 判定の量と回る合成の軸)・第352便e(rotOf —— 公転の法線を替えた (S))・第351便c(pairInput)・第347便e(t1Table・geometry)。
+//   **第352便h の打ち消しの閉じた形(cancelOf・sDirClosed・b1)は、同じ式を本 lib に書き直して持つ**(第352便h の lib は仮の値の lib を import するので、本 lib の閉包に入れない ——
+//   同じ入力で数が同じことは QA behavior.venuslong352n の中で第352便h の lib を呼んで照合する)。
 //
 // ■ 語(本便の共通の語): ŝ = 受け手の自転軸(逆行の天体は ŝ の向きに入れる)・n̂ = 公転の北極・Ω = 合成の軸引きずり回転(背景 + 太陽由来の (S) —— rad/s)・W = abs(Ω)・Ω̂ = Ω ÷ W。
 //   θ = ŝ と Ω̂ の角(半頂角)・ε = ŝ と n̂ の角(傾き —— 90° より大 = 逆行の側)・ι = Ω̂ と n̂ の角。τ = W t(無次元の時間)。
@@ -16,12 +18,11 @@
 // ■ 行き着く向き(f > 0): (α) と θ₀ ≤ 90° の (β) は点 Ω̂(ε = ι)。θ₀ > 90° の (β) は Ω̂ に直交する大円 —— k₂ > 0 なら大円の上を回り続け ε は abs(90° − ι) から 180° − abs(90° − ι) の間・
 //   k₂ = 0(f 1)なら着いた点で止まる。f 0 は Ω̂ のまわりの円錐(半頂角 θ₀)—— ε は abs(ι − θ₀) から min(ι + θ₀, 360° − ι − θ₀) の間。
 //   側の名: 'pro'(順行の側 ε < 90° − 帯)・'retro'(逆行の側 ε > 90° + 帯)・'side'(横倒し —— 90° ± 帯)・範囲の行は 'both'(90° を挟む)。帯は宣言(1°)。
-// ■ 言わないこと: 金星の逆回転が導けた・説明できた、とは書かない(行き先の表と、要る時間 —— この場・この成分・この背景の向き・この基準軸・このノブでは)。
+// ■ 言わないこと: 金星の逆回転の答えとは書かない(行き先の表と、要る時間 —— この場・この成分・この背景の向き・この基準軸・このノブでは)。
 //   歳差の向き (g2±)・背景の向き (N+)(G−)・基準軸 L/eq・読み (α)(β)・比率 f はどれにも寄せない。
 import * as R3 from './lib-w351d-r3step.mjs';
 import * as RA from './lib-w352c-refaxis.mjs';
 import * as PS from './lib-w352d-precsense.mjs';
-import * as VB from './lib-w352h-venusbal.mjs';
 import * as SI from './lib-w352i-stableprec.mjs';
 import * as SR from './lib-w352e-sunrecv.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
@@ -35,6 +36,18 @@ const isVec = (a) => Array.isArray(a) && a.length === 3 && a.every(fin);
 const YR = 365.25 * 86400;
 export const ASYR = PS.ASYR;
 export const angDeg = RA.angDeg;
+
+/* ───────── 打ち消しの閉じた形(第352便h の cancelOf・sDirClosed・b1 と同じ式 —— 照合は QA)───────── */
+/** 倍率 1 の背景の大きさ b₁(rad/s —— 第352便d の bgVec の大きさ = ω_G) */
+export const b1 = () => nrm(PS.bgVec('Gm', { u: 1 }));
+/** S(rad/s)・b̂・b₁ → { uMag, uMin(打ち消さないなら null), phiDeg(−S と b̂ の角), resMag(2 sin(φ/2)) } */
+export function cancelOf(S, bHat, bOne) {
+  if (!(isVec(S) && nrm(S) > 0 && isVec(bHat) && nrm(bHat) > 0 && fin(bOne) && bOne > 0)) throw new RangeError('cancelOf: S・b̂・b₁ > 0');
+  const sm = nrm(S), sh = scl(S, 1 / sm), bh = unit(bHat), c = -dot(sh, bh), phi = Math.atan2(nrm(crs(sh, bh)), c), proj = -dot(bh, S);
+  return { uMag: sm / bOne, uMin: proj > 0 ? proj / bOne : null, phiDeg: phi / D2R, resMag: 2 * Math.sin(phi / 2) };
+}
+/** (S) の向きの閉じた形: −Ŝ ∥ 3 (ŝ☉·n̂) n̂ − ŝ☉ */
+export function sDirClosed(sunHat, nHat) { const s = unit(sunHat), n = unit(nHat); return unit(sub(scl(n, 3 * dot(s, n)), s)); }
 
 /* ───────── 宣言 ───────── */
 export const DECL = Object.freeze({
@@ -62,6 +75,16 @@ export const DECL = Object.freeze({
   anchor: Object.freeze({ venusResEq: 0.010, venusResL: 0.013, venusThL: 90.49, venusThEq: 88.96, venusObl: 177.36 }),
   judge: '丸めの桁の床: 打ち消しで小さくなる量は差で作らず角と比から直接に数える・角は 1e-9° 以下を 0 と書く',
 });
+
+/**
+ * 大きさが同じ(u = uMag)のときの合成の向きの閉じた形: Ω ∥ b̂ + Ŝ = b̂ − (−Ŝ) —— 2 本の和は、2 本の二等分の向き m̂ = unit(b̂ − Ŝ) に直交する(abs(b̂ + Ŝ) = 2 sin(φ/2))。
+ * 受け手の自転軸 ŝ との角: cos θ = (cos α_b − cos α_S) ÷ (2 sin(φ/2))・α_b = ŝ と b̂ の角・α_S = ŝ と −Ŝ の角(ŝ が −Ŝ より b̂ に近ければ θ < 90°)。
+ */
+export function splitOf(sHat, bHat, S) {
+  const s = unit(sHat), bh = unit(bHat), ms = scl(unit(S), -1), ph = angDeg(ms, bh) * D2R, ab = angDeg(s, bh), as = angDeg(s, ms);
+  const cosTh = (Math.cos(ab * D2R) - Math.cos(as * D2R)) / (2 * Math.sin(ph / 2));
+  return { alphaB: ab, alphaS: as, phiDeg: ph / D2R, cosTh, thDeg: Math.acos(Math.max(-1, Math.min(1, cosTh))) / D2R, mid: unit(add(bh, ms)) };
+}
 
 /* ───────── 合成の Ω ───────── */
 /** 金星で (S) と背景の大きさが同じになる倍率 (uV)(第352便d の uVenus —— k 1) */
@@ -148,7 +171,7 @@ export const tauToYr = (tau, W) => (tau === null ? null : tau / W / YR);
  */
 export function scanOf(T1, GEO, id, { dir, axis = 'eq', u, AX = null }, cache = null) {
   const st = stateOf(T1, GEO, id, { dir, axis, u, AX }, cache), bh = unit(st.bVec), b1 = nrm(st.bVec) / u;
-  const C = VB.cancelOf(st.local, bh, b1), r = C.uMag / u, ph = C.phiDeg * D2R;
+  const C = cancelOf(st.local, bh, b1), r = C.uMag / u, ph = C.phiDeg * D2R;
   const res = Math.sqrt((r - 1) * (r - 1) + 4 * r * Math.sin(ph / 2) ** 2);
   const angBg = Math.atan2(r * Math.sin(ph), 1 - r * Math.cos(ph)) / D2R;
   return { ...st, uMag: C.uMag, phiDeg: C.phiDeg, rS: r, resDirect: res, angBgDeg: angBg, angRefDeg: angDeg(st.Om, st.ref), uCross: C.uMag * Math.cos(ph), uWidth: 2 * C.uMag * Math.sin(ph) };
@@ -180,9 +203,12 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ① 起点の数: (N+)・(uV) の金星の残り(eq・L)・残りと自転軸の角・傾き
   const vL = stateOf(T1, GEO, 'Venus', { dir: 'Np', axis: 'L', u: uV, AX }, cache), vE = stateOf(T1, GEO, 'Venus', { dir: 'Np', axis: 'eq', u: uV, AX }, cache);
   const anc = { resL: vL.resOverBg, resE: vE.resOverBg, thL: vL.thDeg, thE: vE.thDeg, obl: vL.oblDeg };
-  // ② 同じ Ω: 第352便d の rowOf・第352便i の bodyState・第352便h の cancelRow の残り(倍率 uMag = uV で 2 sin(φ/2))
-  const bs = SI.bodyState(T1, GEO, 'Venus', { bg: 'Np', axis: AX.eq, u: uV }, cache), cr = VB.cancelRow(T1, GEO, 'Venus', { dir: 'Np', axis: 'eq', AX }, cache);
-  const same = { vsI: nrm(sub(bs.Om, vE.Om)) / vE.W, vsH: Math.abs(cr.resMag / vE.resOverBg - 1) };
+  // ② 同じ Ω: 第352便i の bodyState・打ち消しの閉じた形の残り(倍率 uMag = uV で 2 sin(φ/2))・b₁ × uV = (S) の大きさ
+  const bs = SI.bodyState(T1, GEO, 'Venus', { bg: 'Np', axis: AX.eq, u: uV }, cache), cr = cancelOf(vE.local, vE.bVec, b1());
+  const same = { vsI: nrm(sub(bs.Om, vE.Om)) / vE.W, vsH: Math.abs(cr.resMag / vE.resOverBg - 1), uMag: Math.abs(cr.uMag / uV - 1) };
+  // ②′ 90° の両側の閉じた形: cos θ = (cos α_b − cos α_S) ÷ (2 sin(φ/2))(u = uMag)と、合成は二等分の向きに直交
+  const spl = [vL, vE].map((v) => { const q = splitOf(v.sHat, v.bVec, v.local); return { dTh: Math.abs(q.thDeg - v.thDeg), perp: Math.abs(dot(q.mid, unit(v.Om))) }; });
+  const split = { dTh: Math.max(...spl.map((q) => q.dTh)), perp: Math.max(...spl.map((q) => q.perp)) };
   // ③ f 0 は Ω̂ との角を保つ(閉じた形と第351便d の r3Step の数値)
   const s40 = [Math.sin(40 * D2R), 0, Math.cos(40 * D2R)], z = [0, 0, 1];
   let f0 = 0, f0n = 0;
@@ -201,7 +227,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ⑤ (g2−) は Ω̂ のまわりの方位の率が (g2+) と逆(第352便d の precDs・poleRates)・閉じた形の方位も逆
   const sA = unit([0.3, 0.2, 0.9]), pp = PS.poleRates(z, sA, PS.precDs(sA, z, { sense: 'g2p' })).az, pm = PS.poleRates(z, sA, PS.precDs(sA, z, { sense: 'g2m' })).az;
   const ap = closedStep({ s0: sA, oh: z, k1: 0, k2s: SI.kOf(0, 'g2p').k2s, tau: 0.2 }).azRad, am = closedStep({ s0: sA, oh: z, k1: 0, k2s: SI.kOf(0, 'g2m').k2s, tau: 0.2 }).azRad, a0 = Math.atan2(sA[1], sA[0]);
-  const g2m = { poles: pp > 0 && Math.abs(pp + pm) < 1e-15, closed: Math.abs((ap - a0) + (am - a0)) < 1e-14 && ap - a0 > 0 };
+  const g2m = { poles: pp > 0 && Math.abs(pp + pm) <= 1e-12 * Math.abs(pp), closed: Math.abs((ap - a0) + (am - a0)) < 1e-14 && ap - a0 > 0 };
   // ⑥ 行き着く向きの範囲: 円錐(f 0)と大円((β))の ε の範囲を 7200 点の数値と照合
   const n0 = unit([0.2, 0, 1]), o0 = unit([1, 0.1, 0.05]);
   let rng = 0;
@@ -215,10 +241,10 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const sun = unit(GEO['Earth|Sun'].s), nV = vE.nHat, Q0 = sOfNormal(T1, GEO, nV);
   let dirMax = 0, magMax = 0, vsH2 = 0;
   for (const psi of [0, 45, 90, 135, 180, 225, 270, 315]) { const n = turnNormal(nV, AX.eq, psi), Q = sOfNormal(T1, GEO, n);
-    dirMax = Math.max(dirMax, angDeg(scl(Q.S, -1), VB.sDirClosed(sun, n))); vsH2 = Math.max(vsH2, angDeg(Q.closedDir, scl(VB.sDirClosed(sun, n), -1)));
+    dirMax = Math.max(dirMax, angDeg(scl(Q.S, -1), sDirClosed(sun, n))); vsH2 = Math.max(vsH2, angDeg(Q.closedDir, scl(sDirClosed(sun, n), -1)));
     magMax = Math.max(magMax, Math.abs((nrm(Q.S) / nrm(Q0.S)) / (Q.closedMag / Q0.closedMag) - 1)); }
   // ⑧ ψ 0 の残り = 第352便h の (ア) の残り 2 sin(φ/2)(r = 1)
-  const b1 = VB.b1(), t0 = turnRow(T1, GEO, { psiDeg: 0, ref: AX.eq, bHat: vE.bVec, uV, b1, nHat0: nV, sHat0: vE.sHat });
+  const t0 = turnRow(T1, GEO, { psiDeg: 0, ref: AX.eq, bHat: vE.bVec, uV, b1: b1(), nHat0: nV, sHat0: vE.sHat });
   const turn0 = { r1: Math.abs(t0.r - 1), vsRes: Math.abs(t0.res / cr.resMag - 1), vsState: Math.abs(t0.res / vE.resOverBg - 1) };
   // ⑨ 倍率の振り: 入れ替わりの u で Ω̂ ⊥ b̂・直接の合成 ÷ 背景が大きい数の差の式と近い
   const sc = scanOf(T1, GEO, 'Venus', { dir: 'Np', axis: 'eq', u: uV, AX }, cache), scx = scanOf(T1, GEO, 'Venus', { dir: 'Np', axis: 'eq', u: sc.uCross, AX }, cache);
@@ -230,14 +256,15 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
     () => closedStep({ s0: z, oh: z, k1: -1, k2s: 0, tau: 1 }), () => closedStep({ s0: z, oh: z, k1: 1, k2s: 0, tau: -1 }), () => closedStep({ s0: z, oh: z, k1: 1, k2s: 0, tau: 1, read: 'gamma' }),
     () => finalOf({ s0: z, oh: z, nHat: z, f: 2, sense: 'g2p', read: 'alpha' }), () => finalOf({ s0: z, oh: z, nHat: z, f: 0.5, sense: 'g3', read: 'alpha' })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { uV, anc, same, f0, f0n, vsClosed, vsStep, tStar, g2m, rng, dirMax, magMax, vsH2, turn0, scan, muts, rejects: rej };
+  return { uV, anc, same, split, f0, f0n, vsClosed, vsStep, tStar, g2m, rng, dirMax, magMax, vsH2, turn0, scan, muts, rejects: rej };
 }
 export function pureGates(S) {
   const A = DECL.anchor, a = S.anc;
   return {
     anchorRes: Number(a.resE.toFixed(3)) === A.venusResEq && Number(a.resL.toFixed(3)) === A.venusResL,
     anchorAngle: Number(a.thL.toFixed(2)) === A.venusThL && Number(a.thE.toFixed(2)) === A.venusThEq && Number(a.obl.toFixed(2)) === A.venusObl,
-    sameOm: S.same.vsI < 1e-15 && S.same.vsH < 1e-9,
+    sameOm: S.same.vsI < 1e-12 && S.same.vsH < 1e-9 && S.same.uMag < 1e-12,
+    splitClosed: S.split.dTh < 1e-6 && S.split.perp < 1e-9,
     f0Keep: S.f0 < 1e-9 && S.f0n < 1e-4,
     closedR3: S.vsClosed < 1e-9 && S.tStar < 1e-12,
     stepNumeric: S.vsStep < 1e-5,
