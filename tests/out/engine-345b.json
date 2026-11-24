@@ -6,12 +6,12 @@
  "target": "tests/lib-w345-engine.mjs",
  "ruling": "原仮定者の回答(2026-11-21 —— 第145報)「AN921: 推奨で進める」・統括の検証項目 R393",
  "engine": {
-  "chromium": "157.0.8103.78",
-  "v8": "15.7.112.43",
+  "chromium": "158.0.8127.36",
+  "v8": "15.8.62.31",
   "playwright": "1.63.0",
   "node": "v22.23.5",
   "mathFingerprint": "b8a976bf83f0fd7d",
-  "label": "chromium 157.0.8103.78・V8 15.7.112.43・playwright 1.63.0・node v22.23.5・指紋 b8a976bf83f0fd7d"
+  "label": "chromium 158.0.8127.36・V8 15.8.62.31・playwright 1.63.0・node v22.23.5・指紋 b8a976bf83f0fd7d"
  },
  "explicit": null,
  "declared": {
@@ -48,7 +48,7 @@
  },
  "sameAsDeclared": true,
  "diff": [],
- "knownVersion": true,
+ "knownVersion": false,
  "node": {
   "node": "v22.23.5",
   "v8": "12.4.254.21-node.57",
@@ -84,19 +84,19 @@
   "nodeFacts": true
  },
  "ok": true,
- "elapsedS": 0.627,
+ "elapsedS": 0.655,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第345便b",
   "target": "tests/lib-w345-engine.mjs",
   "targetSha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
-  "generatedAt": "2026-11-23T21:40:30.080Z",
+  "generatedAt": "2026-11-24T07:40:16.558Z",
   "inputs": [
    {
     "file": "tests/data-w345-engine.json",
     "bytes": 2649,
     "sha256": "11380d5f64e3b3aa18a9c859917eb25efee57c34b5cd4638a4820df0faa966a0",
-    "mtime": "2026-11-21T10:11:12.201Z"
+    "mtime": "2026-11-24T05:41:44.937Z"
    }
   ],
   "code": [
@@ -104,31 +104,31 @@
     "file": "tests/exp-w345b-engine.mjs",
     "bytes": 4692,
     "sha256": "fe457d2aab4b8e8f21e68ecfcb8fc179b7ca811c02516b5474664c679f11588a",
-    "mtime": "2026-11-21T10:11:12.201Z"
+    "mtime": "2026-11-24T05:41:45.029Z"
    },
    {
     "file": "tests/lib-w345-engine.mjs",
     "bytes": 22936,
     "sha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
-    "mtime": "2026-11-21T10:11:12.205Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    },
    {
     "file": "tools/engine-check.mjs",
     "bytes": 4861,
     "sha256": "09bd593c6fabf74949457264376352a35f72c5f1a7ca5396673d078bd5525ec6",
-    "mtime": "2026-11-21T10:11:12.269Z"
+    "mtime": "2026-11-24T05:41:45.477Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "07506380845e9574e932c4f5d73b877c07e3a45cb6054868992fa07004f8f561",
   "harnessVersion": "w345b-engine-1",
   "stage": "engine",
-  "engine": "chromium 157.0.8103.78・V8 15.7.112.43・playwright 1.63.0・node v22.23.5・指紋 b8a976bf83f0fd7d",
+  "engine": "chromium 158.0.8127.36・V8 15.8.62.31・playwright 1.63.0・node v22.23.5・指紋 b8a976bf83f0fd7d",
   "notClaim": "どの版の値が正しいか・アプリの物理が変わった、とは言わない(ブラウザの数学関数の実装の差 —— 最後の 1 ビット)。指紋が同じなら同じ数値の実行系として扱う"
  }
 }
