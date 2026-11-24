@@ -119429,7 +119429,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 314. 第350便e'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/bgaxial-350e.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R422') >= 0))
       bad.push('③ AI_SPEC §314(§309 の後・正本・SYSTEM_PROMPT・候補・R422)');
-    const cb = CLx.search(/^## v1\.4\d-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.4\d(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350e = cls.findIndex((l) => l.indexOf('**第350便e**') >= 0), cl350e = k350e >= 0 ? cls[k350e] : '';
     if (k350e >= 0 && !(k350e > 0 && cl350e.indexOf('tests/exp-w350e-bgaxial.mjs') >= 0 && cl350e.indexOf('bgaxial-350e') >= 0 && cl350e.indexOf('R422') >= 0))
       bad.push('③ CHANGELOG の第350便e の行(見出しより後・器と段の名・R422)');
@@ -119804,7 +119804,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a0 = AS.indexOf('\n## 316. 第350便g'), ai = secUntilNext329c(AS, a0, '\n## ');
     if (!(a0 >= 0 && AS.indexOf('\n## 309. 第348便i') >= 0 && AS.indexOf('\n## 309. 第348便i') < a0 && ai.indexOf('tests/out/diskcheck-350g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R424') >= 0))
       bad.push('③ AI_SPEC §316(§309 の後・正本・SYSTEM_PROMPT・候補・R424)');
-    const cb = CLx.search(/^## v1\.4\d-b\d+[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const cb = CLx.search(/^## v1\.4\d(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
     const k350g = cls.findIndex((l) => l.indexOf('**第350便g**') >= 0), cl350g = k350g >= 0 ? cls[k350g] : '';
     if (k350g >= 0 && !(k350g > 0 && cl350g.indexOf('tests/exp-w350g-diskcheck.mjs') >= 0 && cl350g.indexOf('diskcheck-350g') >= 0 && cl350g.indexOf('R424') >= 0))
       bad.push('③ CHANGELOG の第350便g の行(見出しより後・器と段の名・R424)');
@@ -120724,6 +120724,136 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第351便h の塊(ここまで)====
+
+// ==== 第351便i の塊(ここから —— lint.changelogHeadRe351i・docs.tools351i の 2 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第351便i(統括の検証項目 R435): **道具の戻り止め 2 つ**(html・器 tests/exp-w258c-qapart.mjs・既存の lib・検査の中身と閾値と判定式は変えない)。
+// ----   lint.changelogHeadRe351i: ① tests/qa.mjs の本文を字句で読み、CHANGELOG の節の見出し(「## v<数>.<数>」)を探す式のうち、開発中の節の形(-b と数の類)だけを受けて
+// ----     公開版の節の形(.0)を受けないもの(正規表現のリテラルと、new RegExp に渡す文字列の両方)が 0 件 ② 受ける式の数(両方の形を 1 つの組で受ける)を数えるだけ
+// ----     ③ 変異の自己試験(片方だけの式を足すと落ちる・両方を受ける式は通る・版の数字が変わっても効く・文字列の形も・作りものの CHANGELOG の本文は数えない・組の中の順を問わない)
+// ----     ④ 本ブロックの本文は自分の式に当たらない(見出しの字を分けて組み立てる)
+// ----     ⑤ 部分 QA の読み分けの包み tools/qapart-verdict.mjs の自己試験(作りものの器の出力 11 通り —— 全部 PASS・範囲の例外・FAIL・未実行・同じ範囲の他の鍵の FAIL・要約の行なし・SKIP だけ・
+// ----       --strict-skip・--batch の範囲の例外・--batch の欠けた束・空)と、器の印字の型(要約の行・束の終わりの行・--batch の頭の行)が器の本文に在ること(読むだけ)。
+// ----   docs.tools351i: PHYSICS〔第351便i〕(〔第350便i〕の後・第328便の統括の節の前・必須の語)・AI_SPEC §327(§318 の後)・tools/README.md の 2 行・post-merge の塊(第350便i の塊の後)・禁句と書かない語。
+{
+  await (async () => {
+  const rd351i = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  // CHANGELOG の節の見出しを探す式の読み手(字句 —— 版の部分は「## v」+ 数 + 点 + 数か数の類。点と数の類は正規表現のリテラル〔\. \d〕と文字列〔\\. \\d〕の両方)
+  const VER_RE351I = /## v\d+\\{0,2}\.(?:\d|\\{1,2}d|\[\d-\d\])+\+?/g;
+  const BCLS_RE351I = /-b(?:\\{1,2}d|\[0-9\]|\(\\{1,2}d)/;   // -b の後が数の類(作りものの CHANGELOG の本文の -b329 のような字の数は数えない)
+  const ZERO_RE351I = /(?:\||\(\?:)\\{1,2}\.0/;              // 組の中の .0 の選択肢
+  const groupAt = (s, i) => { let d = 0; for (let k = i; k < s.length && k < i + 200; k++) { const c = s[k]; if (c === '\\') { k++; continue; } if (c === '(') d++; else if (c === ')') { d--; if (d === 0) return s.slice(i, k + 1); } else if (c === '\n') break; } return null; };
+  const scan351i = (src) => {
+    const L = String(src).split('\n'), ng = [], ok = [];
+    L.forEach((ln, n) => {
+      VER_RE351I.lastIndex = 0; let m;
+      while ((m = VER_RE351I.exec(ln))) {
+        const rest = ln.slice(m.index + m[0].length);
+        if (BCLS_RE351I.test(rest.slice(0, 8)) && rest.startsWith('-b')) { ng.push({ line: n + 1, text: (m[0] + rest).slice(0, 48), why: '-b の形だけ' }); continue; }
+        if (rest.startsWith('(')) {
+          const g = groupAt(rest, 0); if (!g) continue;
+          const hasB = BCLS_RE351I.test(g), hasZ = ZERO_RE351I.test(g);
+          if (hasB && !hasZ) ng.push({ line: n + 1, text: (m[0] + g).slice(0, 48), why: '組の中に .0 の選択肢が無い' });
+          else if (hasB && hasZ) ok.push(n + 1);
+        }
+      }
+    });
+    return { ng, ok };
+  };
+  const bad = [], cases = [];
+  try {
+    const QA = rd351i('tests/qa.mjs') || '';
+    // ① ② 今の tests/qa.mjs
+    const R = scan351i(QA);
+    for (const z of R.ng) bad.push('① 行 ' + z.line + ' の節の式が公開版の節を受けない(' + z.why + ' —— ' + z.text + ')');
+    if (R.ok.length < 100) bad.push('② 両方の形を受ける式が ' + R.ok.length + ' か所(読み手が式を拾えていない)');
+    cases.push(`①② 今の tests/qa.mjs: 公開版の節を受けない節の式 ${R.ng.length}・両方の形を 1 つの組で受ける式 ${R.ok.length} か所`);
+    // ③ 変異の自己試験(見出しの字は分けて組み立てる —— ④ 本ブロックの本文が自分の式に当たらない)
+    const HV = '## v', BS = '\\';
+    const lit = (ver, tail) => 'const cb = CL.search(/^' + HV + ver.replace(/\./g, BS + '.') + tail + '/m);';
+    const str = (ver, tail) => "const re = new RegExp('^" + HV + ver.replace(/\./g, BS + BS + '.') + tail.replace(/\\/g, BS + BS) + "', 'm');";
+    const MUT = [
+      ['開発中の形だけ(1.48)', lit('1.48', '-b' + BS + 'd+[((]'), 1],
+      ['両方を受ける形(1.48)', lit('1.48', '(?:-b' + BS + 'd+|' + BS + '.0)[((]'), 0],
+      ['版の数字が変わる(2.3・開発中の形だけ)', lit('2.3', '-b' + BS + 'd+' + BS + '('), 1],
+      ['版の数字が変わる(2.3・両方)', lit('2.3', '(?:-b' + BS + 'd+|' + BS + '.0)' + BS + '('), 0],
+      ['版の 2 つ目を数の類で(4\\d・開発中の形だけ —— 第350便の 2 か所の形)', 'const cb = CL.search(/^' + HV + '1' + BS + '.4' + BS + 'd-b' + BS + 'd+[((]/m);', 1],
+      ['文字列の形(new RegExp・開発中の形だけ)', str('1.49', '-b\\d+[((]'), 1],
+      ['文字列の形(new RegExp・両方)', str('1.49', '(?:-b\\d+|\\.0)[((]'), 0],
+      ['捕まえる組の中(両方 —— 第310便の形)', 'const mB = /' + BS + 'n' + HV + '1' + BS + '.45(?:-b(' + BS + 'd+)|' + BS + '.0' + BS + '()/g;', 0],
+      ['組だが .0 の選択肢が無い', lit('1.48', '(?:-b' + BS + 'd+)[((]'), 1],
+      ['組の中の順が逆(.0 が先)', lit('1.48', '(?:' + BS + '.0|-b' + BS + 'd+)[((]'), 0],
+      ['作りものの CHANGELOG の本文(字の数 —— 数えない)', "const CL9 = '" + HV + "1.47-b329(開発中)" + BS + "n- a';", 0],
+    ];
+    const sc = [];
+    for (const [nm, src, want] of MUT) {
+      const r = scan351i(src), got = r.ng.length;
+      if (got !== want) bad.push('③ 変異「' + nm + '」: 違反 ' + got + '(期待 ' + want + ' —— ' + src.slice(0, 60) + ')');
+      sc.push(nm + ' → ' + (want ? (got ? '落ちる' : '落ちない') : (got ? '誤って落ちる' : '通る')));
+    }
+    // 足して落ちる(今の本文 + 開発中の形だけの式 1 行)
+    const plus = scan351i(QA + '\n' + MUT[0][1]);
+    if (plus.ng.length !== R.ng.length + 1) bad.push('③ 今の本文に開発中の形だけの式を 1 行足しても違反が 1 増えない');
+    cases.push(`③ 変異の自己試験 ${MUT.length} 種 + 今の本文に 1 行足す: ` + sc.join(' / '));
+    // ④ 本ブロックの本文
+    const b0 = QA.indexOf('// ==== 第351便i の塊(ここから'), b1 = QA.indexOf('// ==== 第351便i の塊(ここまで)====');
+    if (!(b0 >= 0 && b1 > b0)) bad.push('④ 本ブロックの境の行が無い');
+    else { const own = scan351i(QA.slice(b0, b1)); if (own.ng.length) bad.push('④ 本ブロックの本文が自分の式に当たる ' + own.ng.length); cases.push('④ 本ブロックの本文は自分の式に当たらない(違反 ' + own.ng.length + ')'); }
+    // ⑤ 部分 QA の読み分けの包み
+    const VT = await import('file://' + path.join(ROOT, 'tools', 'qapart-verdict.mjs'));
+    const st = VT.selfTest351i();
+    if (VT.QAPART_VERDICT_VERSION !== 'w351i-qapart-verdict-1') bad.push('⑤ 包みの版 ' + VT.QAPART_VERDICT_VERSION);
+    if (!st.ok) bad.push('⑤ 包みの自己試験: ' + st.rows.filter((z) => !z.ok).map((z) => z.name + ' rc ' + z.rc + '/' + z.want + '・器の rc ' + z.toolRc + '/' + z.wantToolRc).join(' , '));
+    const need = ['全部 PASS・範囲の例外なし', '要求した鍵は全部 PASS・範囲の例外 1(器の rc 1)', '要求した鍵に FAIL 1', '要求した鍵に未実行 1(範囲の例外で止まった)'];
+    for (const nm of need) if (!st.rows.some((z) => z.name === nm)) bad.push('⑤ 包みの自己試験に「' + nm + '」が無い');
+    const ex = st.rows.find((z) => z.name === need[1]);
+    if (!(ex && ex.rc === 0 && ex.toolRc === 1)) bad.push('⑤ 範囲の例外だけの出力が rc 0(器の rc 1)と読めない');
+    const QX = rd351i('tests/exp-w258c-qapart.mjs') || '';
+    for (const w of ["console.log('# qapart-summary ' + JSON.stringify({ version: __qc.version, counts: __qc.counts, extra: __qc.extra, errors: __qc.errors, rc: __qc.rc,",
+      '# 束 ${k + 1}/${batches.length} の終わり: PASS ${cs.pass}・FAIL ${cs.fail}・SKIP ${cs.skip}・未実行 ${cs.notRun}(add の行 PASS ${r.np}・FAIL ${r.nf})・rc ${',
+      '# --batch ${BATCH}: 鍵 ${IDS.length} 本を ${batches.length} 束に']) if (QX.indexOf(w) < 0) bad.push('⑤ 器の本文に印字の型「' + w.slice(0, 40) + '」が無い(包みの読み手を合わせる)');
+    cases.push(`⑤ 包み tools/qapart-verdict.mjs(${VT.QAPART_VERDICT_VERSION})の自己試験 ${st.rows.length} 通り ${st.ok ? '全部期待どおり' : 'NG'}(範囲の例外だけ → 器の rc 1・読み分けの rc 0 / FAIL・未実行・要約の行なし・欠けた束・空 → rc 1)・器の印字の型 3 つ(読むだけ —— 器の本文は変えていない)`);
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('lint.changelogHeadRe351i', bad.length === 0,
+    `**CHANGELOG の節を探す式の戻り止めと、部分 QA の読み分けの包みの試し**(第351便i・統括の検証項目 R435 —— 開発中の節の形だけを受ける式は公開版への昇格で節を見失う。検査の中身・閾値・判定式は変えていない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+
+  // ---- docs.tools351i(root は SKIP)
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.tools351i(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const PH = rd351i('docs/PHYSICS.md') || '', AS = rd351i('docs/AI_SPEC.md') || '', PM = rd351i('tools/post-merge-qa.sh') || '', TR = rd351i('tools/README.md') || '';
+    const iS = PH.indexOf('\n〔第351便i — '), iP = PH.indexOf('\n〔第350便i — '), iT = PH.indexOf('\n〔第328便 — 統括');
+    if (!(iS >= 0 && iP >= 0 && iP < iS && iT >= 0 && iS < iT)) bad.push('① PHYSICS〔第351便i〕の位置(〔第350便i〕の後・第328便の統括の節の前)');
+    let sec = '';
+    if (iS >= 0) { const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = iS + 2; const z = m.exec(PH); sec = PH.slice(iS + 1, z ? z.index : PH.length); }
+    const h1 = sec.split('\n')[0];
+    for (const x of ['R435', '1 byte も変えていない', '`tests/exp-w258c-qapart.mjs` の本文は変えていない', '既存の lib']) if (h1.indexOf(x) < 0) bad.push('① PHYSICS〔第351便i〕の見出しに「' + x + '」が無い');
+    for (const x of ['**① 事実。**', '**② 縛ったもの', '**③ 読み分けの包み', '**④ 直した既存の行', '**⑤ 縛らないもの', '**⑥ 戻り止め。**', '**⑦ 言わないこと。**',
+      '`lint.changelogHeadRe351i`', '`docs.tools351i`', '`tools/qapart-verdict.mjs`', '`lint.qapartRequested323`', '`docs.w322d`', '`docs.bgaxial350e`', '`docs.diskcheck350g`', '範囲の例外', '`--strict-skip`', '`(?:-b\\d+|\\.0)`'])
+      if (sec.indexOf(x) < 0) bad.push('① PHYSICS〔第351便i〕に「' + x.slice(0, 28) + '」が無い');
+    if (/〔第\d+便 — 統括〕/.test(sec)) bad.push('① PHYSICS〔第351便i〕の本文に統括の節の見出しの字がある(位置の検査が最初の出現を読む)');
+    const a327 = AS.search(/\n## 327\. 第351便i/), a318 = AS.search(/\n## 318\. 第350便i/);
+    const ai = a327 >= 0 ? (() => { const r = AS.slice(a327 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(a327 >= 0 && a318 >= 0 && a318 < a327 && ['R435', 'SYSTEM_PROMPT には載せない', 'lint.changelogHeadRe351i', 'docs.tools351i', 'tools/qapart-verdict.mjs', '範囲の例外'].every((x) => ai.indexOf(x) >= 0))) bad.push('③ AI_SPEC §327(§318 の後・必須の語)');
+    if (!(TR.indexOf('`node tools/qapart-verdict.mjs') >= 0 && TR.indexOf('lint.changelogHeadRe351i') >= 0)) bad.push('③ tools/README.md に包みの使い方と戻り止めの行が無い');
+    if (!(PM.indexOf('# ==== 第351便i の塊(ここから)====') > PM.indexOf('# ==== 第350便i の塊(ここまで)====') && PM.indexOf('# ==== 第350便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.changelogHeadRe351i docs\.tools351i docs\.bgaxial350e docs\.diskcheck350g"/.test(PM))) bad.push('③ post-merge に第351便i の塊(第350便i の塊の後)');
+    cases.push('① PHYSICS〔第351便i〕(〔第350便i〕の後・第328便の統括の節の前・見出し・必須の語・統括の節の見出しの字なし)/ ③ AI_SPEC §327(§318 の後)・tools/README.md の 2 行・post-merge の塊');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const rv = (x) => x.split('').reverse().join('');
+    const NG = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_741TROPER'].map(rv);
+    const NOT = [/(?:検査|部分 QA|QA)が通るようになった/, /通るようにした/];
+    for (const [nm, tx] of [['PHYSICS〔第351便i〕', sec], ['AI_SPEC §327', ai]]) {
+      for (const x of NG) if (String(tx).indexOf(x) >= 0) bad.push('④ ' + nm + ' に禁句(引用も含めて —— ' + x.length + ' 字)');
+      for (const re of NOT) if (re.test(stripQ(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ 禁句と書かない語(「検査が通るようになった」の類)');
+    add('docs.tools351i', bad.length === 0,
+      `**道具の戻り止めの文書**(第351便i・統括の検証項目 R435 —— 戻り止めを置いた・読み分けの包みを置いた、の事実だけ): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第351便i の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。

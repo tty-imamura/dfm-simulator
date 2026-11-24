@@ -446,3 +446,8 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **正本の値の比べ**: `node tools/jsonpaths337f.mjs --compare <rev>` は来歴の欄(mergeKey・wallSec・carried.fromGeneratedAt・carried.fromTargetSha256)を除いて比べ、除いた欄の数を出す。`--compare-self-test` で自己試験。
 - **鎖の後に足した段**: 鎖のシェルが timeline に `# chain-steps <段…>` を書く。`node tools/regen-chain.mjs --check-order <timeline> [--chain-steps <段,…|ファイル|鎖の --json>] [--base-rev <鎖を作った rev>]` —— 計画に無かった段の下流の欠落を `addedAfterChain` に分けて違反に数えない(ほかの rc の意味は不変)。
 - **既存の QA の鍵の書き換え**: `node tools/qa-touched338c.mjs --touched <基点の rev> [--json f]`(書き換えた既存の鍵・消えた行と足した行の数・新設・消えた鍵 —— rc 1 = 書き換えあり)/ `--self-test`。統合のたびに回す。
+
+## 第351便i — 道具: 部分 QA の終わり方の読み分け・CHANGELOG の節を探す式の戻り止め
+
+- **読み分けの包み**: `node tools/qapart-verdict.mjs <器の出力のファイル | ->` / `--run [--strict-skip] <器の引数…>`(器を子で走らせてから読む)/ `--self-test` —— 要求した鍵の PASS・FAIL・SKIP・未実行・範囲の例外・同じ範囲の他の鍵の FAIL を 1 行で出し、要求した鍵に FAIL も未実行も無ければ終了コード 0(器 `tests/exp-w258c-qapart.mjs` の本文と終了コードは元のまま)。
+- **節の式の戻り止め**: QA `lint.changelogHeadRe351i` —— `tests/qa.mjs` で CHANGELOG の節を開発中の形だけで探す式(公開版の `.0` を受けない式)を落とす。新しく書く式は `^## v1\.48(?:-b\d+|\.0)[((]` の形。
