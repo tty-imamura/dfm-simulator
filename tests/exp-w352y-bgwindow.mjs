@@ -8,7 +8,7 @@
 //   1 プロセス。正本は第338便c の settleRun で書く。仮の値は第352便b の器の数だけ(正本の最上位に provisional: true と鍵の一覧)。
 //
 // ■ 探索の方針: 式の形は走行の前に決め打ちしない —— 正本の先頭(decl・plan)は、走らせた格子と判定の物差しの記録。
-// ■ 言わないこと: 背景の大きさが決まったとは書かない(条件の一覧と窓)。重力の側の列を DFM の結果と書かない。仮の値を使う行は合否にしない。
+// ■ 言わないこと: 背景の大きさを 1 つの値としては書かない(条件の一覧と窓)。重力の側の列を DFM の結果と書かない。仮の値を使う行は合否にしない。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,7 +27,7 @@ export const AMEND = Object.freeze([]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const PROV_KEYS = Object.freeze(Y.DECL.provKeys.slice());
 export const NOT_CLAIM = Object.freeze([
-  '条件の一覧と窓 —— 背景の大きさが決まったとは書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数',
+  '条件の一覧と窓 —— 背景の大きさを 1 つの値としては書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数',
   '条件はどれも読み((i) 年齢の内に 1 周・(ii) 散らばりが寄る・(iii) 係数の差で作る・(iv) 傾きを保つ・(v) 残りの上限・(vi) 金星の条件)—— どれも採否の判定ではない',
   '重力の側の列(第352便u の (T-g))は比べる列 —— DFM の結果ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)',
   '背景の向き (N+)・(G−)・基準軸の L・eq・(S) の源の半径の規則・観測はどれにも寄せていない(両方の列を同じ重さで)',

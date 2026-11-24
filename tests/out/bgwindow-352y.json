@@ -150,7 +150,7 @@
  },
  "amend": [],
  "notClaim": [
-  "条件の一覧と窓 —— 背景の大きさが決まったとは書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数",
+  "条件の一覧と窓 —— 背景の大きさを 1 つの値としては書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数",
   "条件はどれも読み((i) 年齢の内に 1 周・(ii) 散らばりが寄る・(iii) 係数の差で作る・(iv) 傾きを保つ・(v) 残りの上限・(vi) 金星の条件)—— どれも採否の判定ではない",
   "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の結果ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
   "背景の向き (N+)・(G−)・基準軸の L・eq・(S) の源の半径の規則・観測はどれにも寄せていない(両方の列を同じ重さで)",
@@ -3335,38 +3335,38 @@
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.078
+   "wallSec": 0.101
   },
   "pure": {
-   "wallSec": 0.123
+   "wallSec": 0.171
   },
   "t1": {
-   "wallSec": 0.173
+   "wallSec": 0.252
   },
   "t2": {
-   "wallSec": 1.177
+   "wallSec": 1.45
   },
   "t3": {
-   "wallSec": 1.178
+   "wallSec": 1.451
   },
   "t4": {
-   "wallSec": 1.213
+   "wallSec": 1.485
   }
  },
- "elapsedS": 5.257,
+ "elapsedS": 6.175,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便y",
   "target": "tests/lib-w352y-bgwindow.mjs",
-  "targetSha256": "c0ab30218d34470e22d30de6d461223da2dc4bd086c6870cbadc10cd635a2938",
-  "generatedAt": "2026-11-24T19:34:51.832Z",
+  "targetSha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+  "generatedAt": "2026-11-24T19:46:12.205Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w352y-bgwindow.mjs",
-    "bytes": 16941,
-    "sha256": "a0d4d0ef71c90c9664a66cdf425e4f45b34bb8afd820bc808267c9eccd978dc8",
-    "mtime": "2026-11-24T19:34:46.425Z"
+    "bytes": 16953,
+    "sha256": "41419c9d26a10b0dc3354eec397adc494c60fff9aca3fd113ad7a9e4b1fc6150",
+    "mtime": "2026-11-24T19:46:05.849Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -3958,17 +3958,17 @@
    },
    {
     "file": "tests/lib-w352y-bgwindow.mjs",
-    "bytes": 24627,
-    "sha256": "c0ab30218d34470e22d30de6d461223da2dc4bd086c6870cbadc10cd635a2938",
-    "mtime": "2026-11-24T19:32:01.883Z"
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-24T19:46:05.850Z"
    }
   ],
-  "codeSha256": "595da2baed51c643efa78bdb709fe00a2fbbb9857582c9b9206b66b65659a867",
+  "codeSha256": "659026cab09d81d52f838fbf38adada3664760448483714ad18970552b699515",
   "harnessVersion": "w352y-bgwindow-1",
   "stage": "bgwindow",
   "engine": "Node(html を読まない —— 純関数の lib・第352便b・c・d・e・l・o・p・q・u・w の lib を呼ぶ)・1 プロセス",
   "notClaim": [
-   "条件の一覧と窓 —— 背景の大きさが決まったとは書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数",
+   "条件の一覧と窓 —— 背景の大きさを 1 つの値としては書かない。窓が開く・閉じるは、この前提の組・この読みでは、の数",
    "条件はどれも読み((i) 年齢の内に 1 周・(ii) 散らばりが寄る・(iii) 係数の差で作る・(iv) 傾きを保つ・(v) 残りの上限・(vi) 金星の条件)—— どれも採否の判定ではない",
    "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の結果ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
    "背景の向き (N+)・(G−)・基準軸の L・eq・(S) の源の半径の規則・観測はどれにも寄せていない(両方の列を同じ重さで)",
