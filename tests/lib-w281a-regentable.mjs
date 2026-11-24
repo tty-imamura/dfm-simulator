@@ -2916,6 +2916,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/knobrank-351k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第351便k: 零試験 10/感度 3 天体 × 成分 3 × 基準 2/(あ) 12/(い) 24 + 月 6/(う) 36/ノブの組 30/当てはめの段 112/順位の相関 16' }),
   // ==== 第351便k の塊(ここまで)====
+  // ==== 第352便e の塊(ここから)====
+  // ---- 第352便e(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R442):
+  //   **太陽を受け手に置いた診断 —— 惑星由来の局所の項 (M)(S)(MS)・背景の向き 4 × 成分 2 × 大きさ 2 の太陽の合成と円錐の半頂角・歳差の周期と時間の物差し・逆算の器・太陽の応答の係数**
+  //   (段 sunrecv-352e —— 正本 tests/out/sunrecv-352e.json・lib tests/lib-w352e-sunrecv.mjs —— 第351便c・第351便e・第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に knobrank-351k・srcparts-351c・bgbalance-351e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便e の枝の実測 2 s
+  S('sunrecv-352e', 'node tests/exp-w352e-sunrecv.mjs', ['tests/out/sunrecv-352e.json'], 2, { secSource: 'w352e-branch', node: true,
+    after: ['knobrank-351k', 'srcparts-351c', 'bgbalance-351e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/sunrecv-352e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便e: 零試験 13/局所の項 8 惑星 + 和/円錐 16/周期 20/逆算 5 + 要る率 15 + 步 3/応答の係数 10 + 診断 4' }),
+  // ==== 第352便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
