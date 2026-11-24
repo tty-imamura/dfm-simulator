@@ -1439,6 +1439,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcparts351c docs.srcparts351c"
 #   docs.r3step351d —— 原文と表と数の文が PHYSICS〔第351便d〕に逐語・文書)と、新しい段 r3step-351d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3step351d docs.r3step351d"
 # ==== 第351便d の塊(ここまで)====
+# ==== 第351便e の塊(ここから)====
+# 第351便e(原仮定者の回答(2026-11-24 —— 第147報)「AN1009: B2で進める」・統括の検証項目 R431 —— 診断だけ・html は変えない): 枝 e の新設 2 本
+#   (behavior.bgbalance351e —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・3 つの読みの式と向きの幾何を QA の中で別に照合・呼ぶだけ /
+#   docs.bgbalance351e —— 原文と表と数の文が PHYSICS〔第351便e〕に逐語・文書)と、新しい段 bgbalance-351e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgbalance351e docs.bgbalance351e"
+# ==== 第351便e の塊(ここまで)====
 # ==== 第351便h の塊(ここから)====
 # 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
 #   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)
