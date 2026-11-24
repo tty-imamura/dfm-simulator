@@ -27,7 +27,7 @@ export const NOT_CLAIM = Object.freeze([
   '仮の値との並べは「仮・未照合」の印つき —— 符号と比の表で、合否・較正・サンプルの状況・ノブの採否に入れない',
   '背景の大きさの列は宣言の列((uV)・(uMin)・倍率 1・(仮))—— 比べる数から既定の値を決めていない',
   '場は geoPN=3 の在位の形(〔第348便h〕の makeField3 の既定の引数)・主の読み (C2)・局所の分母は自分 + 太陽 + 母天体・k 1',
-  '潮汐ロックは観測の事実として置いた列(第351便f の 3 列)—— 軸引きずりで説明したとは書かない',
+  '潮汐ロックは観測の事実として置いた列(第351便f の 3 列)—— 軸引きずりの結果とは書かない',
   'アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない']);
 export const BGAX = Object.freeze([['Np', 'L'], ['Np', 'eq'], ['Gm', 'L'], ['Gm', 'eq']]);
 export const PROV_BODIES = Object.freeze(['Earth', 'Mars', 'Venus']);
@@ -54,7 +54,7 @@ export function gatesOf(J) {
     pure: Object.values(J.pure.gates).every(Boolean) && Object.keys(J.pure.gates).length === 12,
     grid: J.grid.length === nG && J.grid.every((r) => r.omAsYr > 0 && r.coneDeg !== null && r.az.om !== null && Math.abs(Math.abs(r.az.om) - r.omAsYr) <= 1e-9 * r.omAsYr) && flipOk,
     rec: J.rec.length === L.DECL.rows.length && J.swap.length === L.DECL.swaps.length && J.swap.every((s) => s.rows.length === L.DECL.rows.length)
-      && J.diff.length === L.DECL.rows.length && J.diff.every((d) => L.DECL.swaps.every(([k]) => d[k] && typeof d[k].marked === 'boolean')),
+      && J.diff.length === L.DECL.rows.length && J.diff.every((d) => L.DECL.swaps.every(([k]) => d[k] && typeof d[k].marked === 'boolean')) && J.diffG.length === L.DECL.rows.length,
     uCols: J.uTab.length === BGAX.length * L.DECL.parts.length && J.uTab.every((r) => r.uV > 0 && r.uP > 0 && r.uMin >= 0),
     prov: J.prov.length === PROV_BODIES.length * BGAX.length * L.DECL.senses.length * L.DECL.uCols.length * L.DECL.parts.length && J.prov.every((r) => r.provisional === true)
       && J.spread.length === BGAX.length * L.DECL.senses.length * L.DECL.uCols.length * L.DECL.parts.length && J.tilt.provisional === true,
@@ -85,6 +85,8 @@ export function runAll() {
   const swap = L.DECL.swaps.map(([k, v]) => ({ item: k, to: v, rows: L.DECL.rows.map((key) => pick(key, { ...R, [k]: v })) }));
   const diff = L.DECL.rows.map((key, j) => Object.assign({ key }, Object.fromEntries(swap.map((s) => [s.item, L.diffOf(rec[j], s.rows[j])]))));
   const marks = Object.fromEntries(swap.map((s) => [s.item, diff.filter((d) => d[s.item].marked).map((d) => d.key)]));
+  // 金星の条件の 2 つの読みは (N+) ではほぼ同じ倍率 —— (G−) の側でも同じ差を数える(比べる表)
+  const gBase = { ...R, bg: 'Gm' }, diffG = L.DECL.rows.map((key) => ({ key, ...L.diffOf(pick(key, gBase), pick(key, { ...gBase, u: 'uMin' })) }));
   mark('rec');
   // 仮の比べる数との並べ(印つき)
   const refs = L.provRefs(), prov = [], spread = [];
@@ -108,7 +110,7 @@ export function runAll() {
   for (const key of L.DECL.sats) for (const [bg, axis] of [['Np', 'L'], ['Gm', 'L']]) for (const part of L.DECL.parts) sat.push(L.satRow(T1, GEO, key, { bg, axis, uCol: 'uV', part }, cache));
   mark('sat');
   const provKeys = [...new Set(prov.flatMap((r) => r.provKeys).concat(spread.flatMap((r) => r.provKeys), tilt.provKeys))].sort();
-  const J = B.tagProv({ pure, uTab, grid, rec, swap, diff, marks, prov, spread, tilt, tilt5, sat, timing: tm }, provKeys);
+  const J = B.tagProv({ pure, uTab, grid, rec, swap, diff, marks, diffG, prov, spread, tilt, tilt5, sat, timing: tm }, provKeys);
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

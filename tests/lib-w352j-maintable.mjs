@@ -12,7 +12,7 @@
 //   背景の大きさの列: 'uV' = 金星で太陽由来の part と背景の大きさが同じ(÷ k)/'uMin' = 金星で合成の大きさが最小(金星の条件の次点の読み —— 負なら 0)/
 //   'u1' = 銀河の公転の角速度 × 1/'uP' = (仮) 地球の合成の大きさが仮の値の地球の歳差の率に単位の応答(比 1・k₂ 1)で届く倍率(「仮・未照合」)。
 //   起こす率 = 公転の北極を基準に傾きが減る率(第351便の共通の定義 = −(極 n̂ に対する傾きの率))。f 0.5・(N1) の経路 ①+② の dŝ/dt で数える。
-// ■ 言わないこと: どの組が観測に合った・主が決まった、とは書かない(この組・このノブでは、の表)。仮の値との並べは「仮・未照合」の印つきで合否にしない。
+// ■ 言わないこと: どの組が観測に近い・主を選んだ、とは書かない(この組・このノブでは、の表)。仮の値との並べは「仮・未照合」の印つきで合否にしない。
 import * as D from './lib-w352d-precsense.mjs';
 import * as CR from './lib-w352c-refaxis.mjs';
 import * as SR from './lib-w352e-sunrecv.mjs';
@@ -189,7 +189,7 @@ export function spreadOf(needs) { const v = needs.filter((x) => fin(x) && x > 0)
 /** 傾きの率 ÷ 歳差の率 と f(第352便b の ratioOf —— 印つき) */
 export function tiltRatios(T1, GEO, refs = provRefs()) {
   const e = refs.Earth, m = refs.Mars, thE = angDeg(unit(GEO['Earth|Sun'].w), unit(GEO['Earth|Sun'].n));
-  return B.tagProv({ earthTiltDeg: thE,
+  return B.tagProv({ earthTiltDeg: thE, marsTiltDeg: m.obliquity,
     earthOmegaA: B.ratioOf(e.tiltRates.omegaA, thE, e.rate), earthEpsA: B.ratioOf(e.tiltRates.epsA, thE, e.rate), mars: B.ratioOf(m.tiltRates.eps, m.obliquity, m.rate) },
   ['earth.omegaA.rate', 'earth.epsA.rate', 'earth.psiA.rate', 'mars.eps.rate', 'mars.obliquity', 'mars.prec.rate']);
 }
