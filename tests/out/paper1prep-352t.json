@@ -57,7 +57,7 @@
  },
  "amend": [],
  "notClaim": [
-  "geoPN=1 で観測に合ったとは書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
+  "geoPN=1 で観測の値に届いたという結論は書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
   "論文の主張が確かめられたとは書かない —— 照合の表は、模型の値・換算の規約・文献の値(未照合)を 1 つの表に並べただけ",
   "観測の値は足していない —— リポジトリに既に在る字句(論文1 の日本語版の照合の表・🛰️ の説明文)から拾った数だけ。シャピロ遅延の観測の遅延の値はリポジトリに無い",
   "水星の近点の表は第344便b の正本の写し(誇張した場 μ = 1e-5 の比)—— 水星の観測の値へ合わせたものではない・どの列を採るかを決めない",
@@ -481,11 +481,230 @@
   "nSame": 29,
   "nChanged": 4
  },
+ "t2": {
+  "rows": [
+   {
+    "q": "gpsNet",
+    "label": "GPS の正味の時計の進み(衛星 − 地上)",
+    "unit": "μs/日",
+    "model": 38.503425280531125,
+    "canon": 38.5,
+    "modelVsCanon": 0.00008896832548388467,
+    "runRatio0": 0.9971214038594723,
+    "runRatio1": 1.0041561716332739,
+    "conv": "X_k = G/c² の 1 本(本は X_k = G_0/c_0²)",
+    "obs": [
+     38.6
+    ],
+    "obsDesc": [
+     38.6
+    ],
+    "obsText": "+38.6 μs/日(論文1 の表)・+38.6(🛰️ の説明文の「観測≈」)",
+    "source": "Ashby (2003) Living Rev. Relativity 6, 1(論文1 の日本語版の照合の表の「実験的制約」の欄)",
+    "status": "文献の値・未照合",
+    "runNote": "GPS の走行の比は、🕰️ の画面の重力項 ÷ 運動項 を SI の式の比で割った値"
+   },
+   {
+    "q": "gpsGravity",
+    "label": "GPS の重力項",
+    "unit": "μs/日",
+    "model": 45.71595424064002,
+    "canon": 45.7,
+    "modelVsCanon": 0.0003491081102848792,
+    "runRatio0": null,
+    "runRatio1": null,
+    "conv": "X_k = G/c² の 1 本(本は X_k = G_0/c_0²)",
+    "obs": null,
+    "obsDesc": null,
+    "obsText": "——",
+    "source": "——",
+    "status": "観測の列なし"
+   },
+   {
+    "q": "gpsMotion",
+    "label": "GPS の運動項",
+    "unit": "μs/日",
+    "model": -7.2125289601089,
+    "canon": -7.2,
+    "modelVsCanon": 0.0017401333484583503,
+    "runRatio0": null,
+    "runRatio1": null,
+    "conv": "X_k = G/c² の 1 本(本は X_k = G_0/c_0²)",
+    "obs": null,
+    "obsDesc": null,
+    "obsText": "——",
+    "source": "——",
+    "status": "観測の列なし"
+   },
+   {
+    "q": "deflectionArcsec",
+    "label": "太陽縁の光の偏向",
+    "unit": "″",
+    "model": 1.7508763014726416,
+    "canon": 1.7512,
+    "modelVsCanon": -0.0001848438370023464,
+    "runRatio0": 1.0155939721391822,
+    "runRatio1": 1.0155939721391822,
+    "conv": "X_k = G/c² の 1 本(本は X_k = G_0/c_0²)",
+    "obs": [
+     1.75
+    ],
+    "obsDesc": [
+     1.75
+    ],
+    "obsText": "1.75 ″(論文1 の表)・1.75(🛰️ の説明文の「観測≈」)",
+    "source": "光偏向 VLBI(論文1 の日本語版の照合の表の「実験的制約」の欄 —— 出典の文献の名は表に無い)",
+    "status": "文献の値・未照合"
+   },
+   {
+    "q": "shapiroMicros",
+    "label": "シャピロ遅延(往復・カッシーニの上合の幾何の理想化)",
+    "unit": "μs",
+    "model": 280.9977454260266,
+    "canon": 281,
+    "modelVsCanon": -0.000008023394923117877,
+    "runRatio0": 1.0788947728338154,
+    "runRatio1": 1.0788947728338154,
+    "conv": "X_k = G/c² の 1 本(本は X_k = G_0/c_0²)",
+    "obs": [
+     2.1,
+     2.3,
+     5
+    ],
+    "obsDesc": null,
+    "obsText": "遅延の値は無い(γ − 1 = (2.1 ± 2.3) × 10^−5)",
+    "source": "Bertotti, Iess & Tortora (2003) Nature 425, 374(論文1 の日本語版の照合の表 —— カッシーニの電波のリンクが式の PPN の係数を制約する値。遅延の観測の値はリポジトリに無い)",
+    "status": "文献の値・未照合"
+   }
+  ],
+  "conv": [
+   {
+    "id": "grcal",
+    "G": 0.25,
+    "c": 30,
+    "kappaT": 0.0002777777777777778,
+    "derived": 0.0002777777777777778,
+    "rel": 0
+   },
+   {
+    "id": "grcalGps",
+    "G": 0.25,
+    "c": 30,
+    "kappaT": 0.0002777777777777778,
+    "derived": 0.0002777777777777778,
+    "rel": 0
+   },
+   {
+    "id": "grcalLight",
+    "G": 0.25,
+    "c": 30,
+    "kappaT": 0.0002777777777777778,
+    "derived": 0.0002777777777777778,
+    "rel": 0
+   },
+   {
+    "id": "grcalShapiro",
+    "G": 0.25,
+    "c": 30,
+    "kappaT": 0.0002777777777777778,
+    "derived": 0.0002777777777777778,
+    "rel": 0
+   }
+  ],
+  "xkSI": 7.425826474101849e-28,
+  "inputs": {
+   "G": 6.674e-11,
+   "c": 299792458,
+   "Mearth": 5.972e+24,
+   "Rearth": 6371000,
+   "rGPS": 26562000,
+   "vGround": 465,
+   "Msun": 1.989e+30,
+   "Rsun": 696000000,
+   "au": 149600000000,
+   "r2au": 8.43,
+   "secPerDay": 86400
+  },
+  "calib": {
+   "ja": [
+    true,
+    true,
+    true
+   ],
+   "en": [
+    true,
+    true,
+    true
+   ]
+  },
+  "siRatio": 6.338408413121959
+ },
+ "t3": {
+  "e": 0.20563593,
+  "pair": "receiver",
+  "pnArcsecCy": 42.97986530093769,
+  "k1Over1PN": 1.6666666666666667,
+  "mu": 0.00001,
+  "cols": [
+   {
+    "col": "現行の近似",
+    "kind": "0",
+    "nG": 2,
+    "name": "(0) 現行(絶対時間)・G_loc の指数 2",
+    "overPN": -0.6666179400295735,
+    "closed": -0.6666666666666666,
+    "halfDiff": 5.6263008807455606e-8,
+    "gLocArcsecCy": -28.65114926965963,
+    "withK1": 1.0000487266370932,
+    "withK1ArcsecCy": 42.98195956523652
+   },
+   {
+    "col": "主の候補",
+    "kind": "alpha",
+    "nG": 1,
+    "name": "(α) 速度の増し分(× q)・G_loc の指数 1",
+    "overPN": -0.6666275468895365,
+    "closed": -0.6666666666666666,
+    "halfDiff": 5.6343108956191656e-8,
+    "gLocArcsecCy": -28.651562171206802,
+    "withK1": 1.0000391197771301,
+    "withK1ArcsecCy": 42.98154666368934
+   },
+   {
+    "col": "比べる列",
+    "kind": "beta",
+    "nG": 1,
+    "name": "(β) 位置の 2 階(状態 U)・G_loc の指数 1",
+    "overPN": -0.33330769764056645,
+    "closed": -0.3333333333333333,
+    "halfDiff": 5.616147341624966e-8,
+    "gLocArcsecCy": -14.325519948357213,
+    "withK1": 1.3333589690261003,
+    "withK1ArcsecCy": 57.30758888653894
+   },
+   {
+    "col": "比べる列",
+    "kind": "beta",
+    "nG": 2,
+    "name": "(β) 位置の 2 階(状態 U)・G_loc の指数 2",
+    "overPN": -0.6665910406344009,
+    "closed": -0.6666666666666666,
+    "halfDiff": 5.623029186718753e-8,
+    "gLocArcsecCy": -28.649993137278432,
+    "withK1": 1.0000756260322659,
+    "withK1ArcsecCy": 42.98311569761772
+   }
+  ]
+ },
  "gates": {
   "pure": true,
   "t1Books": true,
   "t1Rows": true,
-  "t1Base": true
+  "t1Base": true,
+  "t2Rows": true,
+  "t2Obs": true,
+  "t3": true,
+  "t2Conv": true
  },
  "ok": true,
  "pageErrors": [],
@@ -494,36 +713,54 @@
    "wallSec": 0.001
   },
   "t1": {
-   "wallSec": 0.381
+   "wallSec": 0.452
+  },
+  "t2": {
+   "wallSec": 0.453
+  },
+  "t3": {
+   "wallSec": 0.453
   }
  },
- "elapsedS": 2.409,
+ "elapsedS": 2.157,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便t",
   "target": "beta/index.html",
   "targetSha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
-  "generatedAt": "2026-11-24T18:04:33.914Z",
+  "generatedAt": "2026-11-24T18:38:11.632Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7708556,
     "sha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
     "mtime": "2026-11-24T17:55:54.034Z"
+   },
+   {
+    "file": "paper/dfm-paper-ja.tex",
+    "bytes": 107622,
+    "sha256": "f992fd288125f94c7f6f38ad44924d114015f3fd6c0726e2743218f10e89f625",
+    "mtime": "2026-11-24T17:55:54.186Z"
+   },
+   {
+    "file": "tests/out/partyconv-344b.json",
+    "bytes": 74572,
+    "sha256": "9917f793c775f2e37bd80058480ea2674daa4da7e14958ba9f1c4b634f8e5f6c",
+    "mtime": "2026-11-24T17:55:54.542Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w352t-paper1prep.mjs",
-    "bytes": 15992,
-    "sha256": "e6e59352ea1a3a928fdd6c3918234eca1472c2a0c20ea958d4172ab8f3a97700",
-    "mtime": "2026-11-24T18:03:32.722Z"
+    "bytes": 20883,
+    "sha256": "fa366e3774dd6ddcb914c8b6feac7c47f5ba828841093e35fbc4ccba35057858",
+    "mtime": "2026-11-24T18:38:02.990Z"
    },
    {
     "file": "tests/lib-w352t-paper1prep.mjs",
-    "bytes": 12968,
-    "sha256": "901a5c64b856440b35fa2c34a10cb5b759ca1887369f42b3c8f7ff79a7092e9c",
-    "mtime": "2026-11-24T18:01:50.870Z"
+    "bytes": 16628,
+    "sha256": "584b436167e22ea2bdd169653ebff3d4766dbdf63f51a3fb4f6d6bc9403c2e2c",
+    "mtime": "2026-11-24T18:38:02.991Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -544,12 +781,12 @@
     "mtime": "2026-11-24T17:55:54.314Z"
    }
   ],
-  "codeSha256": "a010342a797507f40e2bffb7ff6d4aaf200c35b16d0796664577370330eba768",
+  "codeSha256": "3ea45750deb28ddaf253d6c4fd8b4ce72466df16f3380b9bfe8894a96e03d886",
   "harnessVersion": "w352t-paper1prep-1",
   "stage": "paper1prep-352t",
   "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・本の宣言の写し(geoPN だけを 1)を走らせる・1 プロセス",
   "notClaim": [
-   "geoPN=1 で観測に合ったとは書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
+   "geoPN=1 で観測の値に届いたという結論は書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
    "論文の主張が確かめられたとは書かない —— 照合の表は、模型の値・換算の規約・文献の値(未照合)を 1 つの表に並べただけ",
    "観測の値は足していない —— リポジトリに既に在る字句(論文1 の日本語版の照合の表・🛰️ の説明文)から拾った数だけ。シャピロ遅延の観測の遅延の値はリポジトリに無い",
    "水星の近点の表は第344便b の正本の写し(誇張した場 μ = 1e-5 の比)—— 水星の観測の値へ合わせたものではない・どの列を採るかを決めない",
@@ -566,8 +803,10 @@
    ],
    "roots": [
     "$",
+    "HP.GR_SI_INPUTS",
     "HP.allPresets",
     "HP.geoLawOfSim",
+    "HP.grSI",
     "HP.sim",
     "HP.validatePreset",
     "T",
@@ -577,13 +816,25 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1341,
-   "segments": 1172,
-   "closureShare": 0.2879
+   "names": 1343,
+   "segments": 1174,
+   "closureShare": 0.2882
   },
-  "scopeSha256": "0f3f6017e163a9e6b83113b42eb6a14aa3eefbd5c22e3c539a6113c1e349168b",
+  "scopeSha256": "aa6d0d04cc2265ad0e90d4030e49f010af5e2e74de8d814e557bfa90b6efd4f3",
   "scopeComplete": true,
-  "inputsStable": [],
+  "inputsStable": [
+   {
+    "file": "tests/out/partyconv-344b.json",
+    "stableSha256": "b191b7dce32f2cfe466cb7bf7babc4555e3ee5a69fd39ea6d6034bd9c5a1f91a",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
   "stableHashVersion": "w282e-stable-1"
  }
 }

@@ -8,7 +8,7 @@
 //   OBS_REFS   照合の表の観測の値の列(**リポジトリに既に在る数だけ** —— ファイルの名と、その字句を拾う式。数は器がファイルから拾う。足さない)
 //   T3_COLS    水星の近点の一次の項の表の列(第344便b の正本の型の名と n_G)
 //   表を作る関数(t1Table・t2Table・t3Table)—— PHYSICS〔第352便t〕に逐語で写す
-// ■ 言わないこと: geoPN=1 で観測に合った・論文の主張が確かめられた、とは書かない(模型の値と、文献の値・未照合の列を並べるだけ)。
+// ■ 言わないこと: geoPN=1 で観測の値に届いた・論文の主張が確かめられた、という結論は書かない(模型の値と、文献の値・未照合の列を並べるだけ)。
 export const LIB_VERSION = 'w352t-paper1prep-lib-1';
 
 /** 宣言(走行の前に置く —— 結果を見て変えない) */
@@ -108,7 +108,7 @@ export function t1Books(t1) {
 export function t2Table(t2) {
   const head = ['| 観測量 | 模型の値(式の出力 HP.grSI) | 🛰️ の説明文の正典 | 式 ÷ 正典 − 1 | 走行の比(本の画面の値 ÷ 弱場一次の式・geoPN=0 / 1) | 換算の規約 | 観測の値(リポジトリに在る数) | 出典 | 状態 |',
     '|---|---|---|---|---|---|---|---|---|'];
-  return head.concat(t2.rows.map((r) => `| ${r.label} | ${r.model.toPrecision(6)} ${r.unit} | ${r.canon} ${r.unit} | ${fe(r.modelVsCanon)} | ${r.runRatio0 === null ? '——' : r.runRatio0.toFixed(4) + ' / ' + r.runRatio1.toFixed(4)} | ${r.conv} | ${r.obsText} | ${r.source} | 文献の値・未照合 |`)).join('\n');
+  return head.concat(t2.rows.map((r) => `| ${r.label} | ${r.model.toPrecision(6)} ${r.unit} | ${r.canon} ${r.unit} | ${fe(r.modelVsCanon)} | ${r.runRatio0 === null ? '——' : r.runRatio0.toFixed(4) + ' / ' + r.runRatio1.toFixed(4)} | ${r.conv} | ${r.obsText} | ${r.source} | ${r.status} |`)).join('\n');
 }
 export function t2Conv(t2) {
   const head = ['| 本 | G_0 | c_0 | X_k(本の宣言) | G_0 ÷ c_0² | X_k ÷ (G_0 ÷ c_0²) − 1 |', '|---|---|---|---|---|---|'];
@@ -155,3 +155,31 @@ export function pureGates(S = pureScenes()) {
   for (const k of ['relSame', 'relSmall', 'relZeroBase', 'relNaN', 'floor', 'pick', 'canon', 't3Copy', 't3Missing', 'cols']) G[k] = S[k] === true;
   return G;
 }
+
+/* ───────── 文書(PHYSICS〔第352便t〕に逐語 —— docs.paper1prep352t が見る) ───────── */
+/** 表の一式(名 → 本文) */
+export function tablesOf(J) {
+  return { books: t1Books(J.t1), t1: t1Table(J.t1), t2: t2Table(J.t2), conv: t2Conv(J.t2), t3: t3Table(J.t3) };
+}
+/** 数の文(正本から作る) */
+export function factsOf(J) {
+  const t1 = J.t1, ch = t1.rows.filter((r) => r.same === false);
+  const t1s = `本 ${t1.books.length} つ・量 ${t1.nRows} 行のうち、geoPN を 0 → 1 にして同じ値は ${t1.nSame} 行・変わるのは ${t1.nChanged} 行(`
+    + ch.map((r) => `${r.book} の${r.q}(相対 ${r.rel.toExponential(2)})`).join('・')
+    + `)。geoPN=1 の写しは ${t1.books.filter((b) => b.ok1 && b.warn1 === 'なし').length} 本とも受理の警告なしで受理され、走る法則は ${[...new Set(t1.books.map((b) => b.law0 + ' → ' + b.law1))].join('・')}(kFrame ${[...new Set(t1.books.map((b) => b.kFrame1))].join('・')})。`;
+  const mx = J.t2.rows.reduce((a, r) => (Math.abs(r.modelVsCanon) > Math.abs(a.modelVsCanon) ? r : a));
+  const t2s = `式の出力と 🛰️ の説明文の正典の差は ${J.t2.rows.length} 行とも 0.2% の内(最大の |式 ÷ 正典 − 1| は ${Math.abs(mx.modelVsCanon).toExponential(2)} —— ${mx.label})。本 ${J.t2.conv.length} つの X_k は G_0 ÷ c_0² と同じ値(差 ${Math.max(...J.t2.conv.map((c) => c.rel))})。SI の X_k = G/c² は ${J.t2.xkSI.toExponential(3)} m/kg。grcal.calib-text の字句 ${CALIB_TEXT.length} つ(${CALIB_TEXT.join('・')})は 🛰️ の説明文の日本語・英語の両方に在る。`;
+  const c = J.t3.cols;
+  const t3s = `第344便b の正本の水星の型(e = ${J.t3.e}・受け手・μ = ${J.t3.mu})から写した(1PN は ${J.t3.pnArcsecCy.toFixed(2)}″/世紀)。一次の項 ÷ 1PN は、現行の近似 ${c[0].overPN.toFixed(6)}・主の候補 ${c[1].overPN.toFixed(6)}・比べる列 ${c[2].overPN.toFixed(6)}(指数 1)・${c[3].overPN.toFixed(6)}(指数 2)。`;
+  return { t1: t1s, t2: t2s, t3: t3s };
+}
+/** 構成案 docs/PAPER_PLAN.md §2 ⑧ の欄の末尾に足す字句(行の頭 → [[欄の今の字句, 足す字句]])。
+ *  「足りるか」の欄は 3 値の 1 語(docs.paperPlan347a が見る)なので触らない —— 「足りなければ何を作るか」の欄の末尾に足す */
+export const PLAN_CELLS = Object.freeze({
+  '| V1-1 |': [['器(Node だけで走る —— 本の宣言の geoPN だけを 1 にした写しで同じ量を数える)と段',
+    ' → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t1・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`(html を読む段)・鍵 `behavior.paper1prep352t`(表は PHYSICS〔第352便t〕の表 1・表 2 —— 同じ値の量と変わる量の数だけ)']],
+  '| V1-4 |': [['照合の表の正本(本の宣言から引く器 —— 観測の値は出典と「文献の値・未照合」の列)',
+    ' → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t2・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`・`docs.paper1prep352t`(照合の表は PHYSICS〔第352便t〕③ —— 観測の列は文献の値・未照合)']],
+  '| V1-3 |': [['論文の表の形の写しの器(本便の枝 b の正本から引く)',
+    ' → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t3・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`(第344便b の正本 `tests/out/partyconv-344b.json` の写し —— 表は PHYSICS〔第352便t〕④)']],
+});
