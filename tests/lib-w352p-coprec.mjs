@@ -6,7 +6,7 @@
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。
 //   既存の lib は呼ぶだけ(本文は変えない): 第352便i(lockPoints・aOf・flowRot・kOf・judgeConst・thAfter・lockGeom)・第352便l(twoAxisStep・closedAxis・dphiFor・axisCoef)・
 //   第352便d(rowOf・bgVec・uVenus)・第352便c(refAxes)・第352便e(fixedOffset)・第351便d(r3Coeffs・vec・angDeg)・第347便e(t1Table・geometry)・第337便c(BODY_SRC・GALAXY・G_SI)・
-//   第348便c(massOf・radiusOf)。
+//   第348便c(massOf・radiusOf)・第330便a(DECL.lit.orbitDays —— 公転の日数)。
 //
 // ■ 語: Ω_bg = 背景の回転(一様 —— 輪の平均は背景そのもの〔第352便l の ringAvg の一様な背景の零試験〕)・W_bg = abs(Ω_bg)・Ω = 受け手の合成(背景 + 局所の (S))・W = abs(Ω)。
 //   輪の法線 n̂ と自転軸 ŝ は、どちらも第351便d の (R3) の 2 経路で応える(係数: 比率 f〔(N1)〕・歳差の向きの読み σ〔(g2+) +1・(g2−) −1〕・応答の比 c〔輪 c_n・自転軸 c_s〕)。
@@ -36,8 +36,12 @@ import * as SR from './lib-w352e-sunrecv.mjs';
 import * as R3 from './lib-w351d-r3step.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
 import * as TL from './lib-w337c-tidelock.mjs';
+import * as SC from './lib-w330a-spinclass.mjs';
+import * as CB from './lib-w348c-axisbalance.mjs';
 
 export const LIB_VERSION = 'w352p-coprec-lib-1';
+/** 呼ぶ lib の名前空間(器が同じ口を使う) */
+export { I, LL };
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const D2R = Math.PI / 180;
 const { dot, crs, nrm, scl, add, sub, unit } = R3.vec;
@@ -72,21 +76,18 @@ export const DECL = Object.freeze({
 });
 
 /* ───────── 天体の量(公開の lib の数だけ)───────── */
-/** 受け手の自転の率 ω(rad/s)・公転の率 n_orb(rad/s)・慣性の係数 C。太陽の公転の率は輪(木星の距離)の粒子の率 */
+/** 受け手の自転の率 ω(rad/s —— 第347便e の t1Table・太陽は第337便c の BODY_SRC)・公転の率 n_orb(rad/s —— 第330便a の公転の日数・太陽は輪〔木星の距離〕の粒子の率)・
+ *  慣性の係数 C(第337便c の BODY_SRC の C —— 無い天体は t1Table の I ÷ (m R²)・m と R は第348便c の massOf・radiusOf)と、その出どころ */
 export function bodyNums(id) {
   const B = TL.BODY_SRC[id];
-  const T1 = E.t1Table(), r = T1.find((x) => x.id === id && x.src === 'Sun' && x.mag === 'm2');
-  let w = null, C = null, nOrb = null;
   if (id === 'Sun') {
-    w = 2 * Math.PI / B.spin[0]; C = B.C[0];
-    const a = DECL.sunRingAU * DECL.au; nOrb = Math.sqrt(TL.G_SI * B.M[0] / (a * a * a));
-  } else {
-    w = Math.abs(r.omega); C = B && B.C ? B.C[0] : null;
-    const porb = B && B.porb ? B.porb[0] : null;
-    if (porb) nOrb = 2 * Math.PI / porb;
-    else { const a = B && B.aHel ? B.aHel[0] : null; nOrb = a ? Math.sqrt(TL.G_SI * TL.BODY_SRC.Sun.M[0] / (a * a * a)) : null; }
+    const a = DECL.sunRingAU * DECL.au;
+    return { id, w: 2 * Math.PI / B.spin[0], C: B.C[0], cSrc: 'BODY_SRC', nOrb: Math.sqrt(TL.G_SI * B.M[0] / (a * a * a)) };
   }
-  return { id, w, C, nOrb };
+  const r = E.t1Table().find((x) => x.id === id && x.src === 'Sun' && x.mag === 'm2'), days = SC.DECL.lit.orbitDays[id.toLowerCase()];
+  if (!r || !fin(days)) throw new RangeError('bodyNums: 天体 ' + id);
+  const hasC = !!(B && B.C), C = hasC ? B.C[0] : r.I / (CB.massOf(id) * CB.radiusOf(id) ** 2);
+  return { id, w: Math.abs(r.omega), C, cSrc: hasC ? 'BODY_SRC' : 'I/(mR²)', nOrb: 2 * Math.PI / (days * 86400) };
 }
 /** √(1 + x²) − 1 を差で作らずに */
 export const s2Excess = (x) => (x * x) / (Math.sqrt(1 + x * x) + 1);
@@ -154,6 +155,70 @@ export function rhoScan({ Om, nRot, nRing, f, sense, cs = 1, targetDeg = null, p
     }
   }
   return { roots, maxDeg: mx, minDeg: mn, rhoAtMax: rMx, rhoAtMin: rMn };
+}
+
+/* ───────── 読み A を打ち消しなしで(a を局所の分と係数の差から直接に)───────── */
+/**
+ * 第352便i の lockPoints と同じ閉じた形を、a・b・Ω̂ を直接に受けて解く(読み A の a = σ k₂ c_s (局所 − δ Ω_bg) は大きい数の差で作らない)。
+ * 返す { pts: [{ s, lam, branch }], neutral }(lockPoints と同じ形 —— 零試験で照合)
+ */
+export function lockFromA(a, b, oh) {
+  if (!(isVec(a) && isVec(oh) && nrm(oh) > 0 && fin(b) && b >= 0)) throw new RangeError('lockFromA: a・b ≥ 0・Ω̂');
+  const o = unit(oh), aa = dot(a, a), ao = dot(a, o);
+  if (b === 0) {
+    if (!(aa > 0)) return { pts: [], neutral: true };
+    const ah = unit(a), sg = dot(ah, o) >= 0 ? 1 : -1;
+    return { pts: [{ s: scl(ah, sg), lam: 0, branch: 'n+' }, { s: scl(ah, -sg), lam: 0, branch: 'n-' }], neutral: true };
+  }
+  const B = aa - b * b, Cc = b * b * ao * ao, q = Math.sqrt(B * B + 4 * Cc);
+  const x = B >= 0 ? (q + B > 0 ? 2 * Cc / (B + q) : 0) : (-B + q) / 2, pts = [];
+  for (const sg of [1, -1]) {
+    const lam = sg * Math.sqrt(x);
+    if (!(Math.abs(lam) > 0)) continue;
+    const v = add(add(scl(o, lam * lam), scl(crs(a, o), lam)), scl(a, ao));
+    pts.push({ s: unit(scl(v, b / (lam * (lam * lam + aa)))), lam, branch: sg > 0 ? '+' : '-' });
+  }
+  return { pts, neutral: false };
+}
+/** 一緒に回る枠の流れ(a・b・Ω̂ を直接に) */
+export const flowA = (s, a, b, oh) => { const u = unit(s), o = unit(oh); return add(scl(sub(o, scl(u, dot(u, o))), b), crs(a, u)); };
+/**
+ * 読み A(回る軸 = Ω̂_bg)の止まる向き —— δ = c_n ÷ c_s − 1(輪の係数の比の差)。a = σ k₂ c_s (局所 − δ Ω_bg)・b = k₁ c_s W・Ω̂ = (Ω_bg + 局所) の向き。
+ * f > 0: 引き込む点の傾き。f 0: 中立 —— 自転軸は â のまわりの円錐を保つ: 円錐の半頂角 κ = ŝ と â の角・傾きの範囲 [abs(κ − α), min(κ + α, 360° − κ − α)](α = â と n̂ の角)・
+ * 枠の中の歳差の率 abs(a)(rad/s)。
+ */
+export function lockA({ bg, loc, sHat, nRing, delta = 0, f, sense, cs = 1 }) {
+  if (!(isVec(bg) && nrm(bg) > 0 && isVec(loc) && isVec(sHat) && isVec(nRing) && fin(delta) && fin(cs) && cs > 0)) throw new RangeError('lockA: 背景・局所・ŝ・n̂・δ・c_s');
+  const k = I.kOf(f, sense), Om = add(bg, loc), W = nrm(Om);
+  const a = scl(sub(loc, scl(bg, delta)), k.k2s * cs), b = k.k1 * cs * W, L = lockFromA(a, b, Om), p = L.pts[0];
+  const out = { f, sense, delta, aRate: nrm(a), b, neutral: L.neutral, ok: !!p };
+  if (!p) return out;
+  out.s = p.s; out.lam = p.lam; out.oblDeg = angDeg(p.s, nRing); out.resid = nrm(flowA(p.s, a, b, Om)) / Math.max(1e-300, nrm(a) + b);
+  if (L.neutral) {
+    const kap = angDeg(sHat, p.s), al = angDeg(p.s, nRing);
+    out.coneDeg = kap; out.alphaDeg = al; out.oblMinDeg = Math.abs(kap - al); out.oblMaxDeg = Math.min(kap + al, 360 - kap - al);
+  }
+  return out;
+}
+/** 読み A で δ を走らせて(f > 0)引き込む点の傾きが目標になる根(δ の両方の符号・abs(δ) 1e-16〜1e3・1 桁 10 点) */
+export function deltaScan({ bg, loc, sHat, nRing, f, sense, targetDeg, perDecade = 10 }) {
+  const roots = []; let mx = -Infinity, mn = Infinity;
+  const F = (d) => { const r = lockA({ bg, loc, sHat, nRing, delta: d, f, sense }); return r.ok ? r.oblDeg : NaN; };
+  const pts = [0];
+  for (const sg of [-1, 1]) for (let i = 0; i <= 19 * perDecade; i++) pts.push(sg * 10 ** (-16 + i / perDecade));
+  pts.sort((x, y) => x - y);
+  let pd = pts[0], pv = F(pd);
+  for (let i = 0; i < pts.length; i++) {
+    const d = pts[i], v = i === 0 ? pv : F(d);
+    if (fin(v)) { mx = Math.max(mx, v); mn = Math.min(mn, v); }
+    if (i > 0 && fin(pv) && fin(v) && (pv - targetDeg) * (v - targetDeg) < 0) {
+      let lo = pd, hi = d, flo = pv - targetDeg;
+      for (let it = 0; it < 80; it++) { const m = (lo + hi) / 2, fm = F(m) - targetDeg; if (flo * fm <= 0) hi = m; else { lo = m; flo = fm; } }
+      roots.push({ delta: (lo + hi) / 2, oblDeg: F((lo + hi) / 2) });
+    }
+    pd = d; pv = v;
+  }
+  return { roots, maxDeg: mx, minDeg: mn };
 }
 
 /* ───────── 天体の状態(合成・輪の法線・背景)───────── */
@@ -278,11 +343,20 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const rf = fRingFor({ targetDeg: 7, W: 1e-14 }), ra = ringAfter({ W: 1e-14, fRing: rf.f });
   // ⑧ 第352便i の地球の根(I 30°・f 0.5・(g2+)・目標 23.44 —— 読み B の rhoScan で同じ根)
   const sc = rhoScan({ Om: [Math.sin(Ib), 0, Math.cos(Ib)], nRot: [0, 0, 1], nRing: [0, 0, 1], f: 0.5, sense: 'g2p', targetDeg: 23.4392911 });
+  // ⑨ lockFromA は第352便i の lockPoints と同じ(打ち消しの無い一般の入力 —— 向きの読み 2 × f 3 × ρ 3)・読み A の lockA は ρ を経た lockObl と同じ(局所が大きい入力)
+  let fromErr = 0, aErr = 0;
+  for (const sense of DECL.senses) for (const f of [0, 0.4, 0.9]) {
+    for (const rho of [-2, 0.3, 4]) { const k = I.kOf(f, sense), P = { Om: [0.3, 0.1, 0.9], W: 1.3, n: [0.2, -0.5, 0.8], g: rho * (k.k2 > 0 ? k.k2 : 1), k1: k.k1, k2s: k.k2s }, Q = I.aOf(P);
+      const p1 = I.lockPoints(P).pts, p2 = lockFromA(Q.a, Q.b, P.Om).pts; fromErr = Math.max(fromErr, ...p1.map((p, i) => nrm(sub(p.s, p2[i].s)) + Math.abs(p.lam - p2[i].lam))); }
+    if (f > 0) { const bg = [0, 0, 1], lc = [0.3, -0.2, 0.1], dl = 0.25, st = { bg, Wbg: 1, W: nrm(add(bg, lc)), nRing: th(20) }, rf = rhoFormula(st, { read: 'A', f, sense, ratio: 1 + dl });
+      const o1 = lockObl({ Om: add(bg, lc), nRot: rf.nRot, nRing: st.nRing, rho: rf.rho, f, sense }), o2 = lockA({ bg, loc: lc, sHat: th(30), nRing: st.nRing, delta: dl, f, sense });
+      aErr = Math.max(aErr, nrm(sub(o1.s, o2.s)), Math.abs(o1.oblDeg - o2.oblDeg)); }
+  }
   // 拒否
   const rej = [() => coefCand('P4', {}), () => coefCand('P3', { C: 0 }), () => gRing({ Wbg: -1, sense: 'g2p' }), () => lockObl({ Om: [0, 0, 0], nRot: [0, 0, 1], nRing: [0, 0, 1], rho: 1, f: 0.5, sense: 'g2p' }),
     () => rhoFormula(stA, { read: 'C', f: 0, sense: 'g2p' }), () => uOf('uX'), () => fMax({ thDeg: 0, W: 1 }), () => fRingFor({ targetDeg: 40, W: 1 })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { corot, fA, neuL, g0, sameI, lRe, wBack, p2, fm: { fMax: fm.fMax, drop: ta.dropDeg / 23.44 }, fInv, kaErr, ring: { f: rf.f, th: ra.thDeg }, scRoots: sc.roots.map((r) => r.rho), rejects: rej };
+  return { corot, fA, neuL, g0, sameI, lRe, wBack, p2, fm: { fMax: fm.fMax, drop: ta.dropDeg / 23.44 }, fInv, kaErr, ring: { f: rf.f, th: ra.thDeg }, scRoots: sc.roots.map((r) => r.rho), fromErr, aErr, rejects: rej };
 }
 export function pureGates(S) {
   const near = (a, b, t) => Math.abs(a / b - 1) <= t;
@@ -298,6 +372,7 @@ export function pureGates(S) {
     keepFixed: S.kaErr < 1e-9,
     ringFor: Math.abs(S.ring.th - 7) < 1e-9,
     iRoots: S.scRoots.length >= 2 && ANCHOR.iEarthI30.every((r) => S.scRoots.some((x) => near(x, r, 5e-3))),
+    lockFromA: S.fromErr < 1e-12 && S.aErr < 1e-9,
     rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
   };
 }
