@@ -2976,6 +2976,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galdisk-352f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便f: 零試験 9/表 1 p 3/表 2 円盤の組 48 × 自分の重み 2 × 読み 2 + (S 型-体) 2/点の数 3/(C2) の求積 3/表 3 33 行 + (uV)/表 4 場 4' }),
   // ==== 第352便f の塊(ここまで)====
+  // ==== 第352便k の塊(ここから)====
+  // ---- 第352便k(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R448):
+  //   **太陽の自転の分 (S) の強さと符号のノブ —— 源の回転の形 × 源の半径の置き方の (S)・金星の条件が決める「背景の倍率 ÷ k」・そのときの率と時間・受け手の半径の置き方 c_R との入り方**
+  //   (段 spinform-352k —— 正本 tests/out/spinform-352k.json・lib tests/lib-w352k-spinform.mjs —— 第348便h・第350便b・第350便e・第351便c・第352便b・第352便c・第352便d ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。仮の値(第352便b)を使う —— 正本の最上位に provisional と鍵の一覧。所要は第352便k の枝の実測 4 s
+  S('spinform-352k', 'node tests/exp-w352k-spinform.mjs', ['tests/out/spinform-352k.json'], 4, { secSource: 'w352k-branch', node: true,
+    after: ['galdisk-352f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 4 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/spinform-352k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便k: 零試験 10/表 1 8 惑星 × 形 9 × 源の半径 5/距離のべき 45/q の走査 5 × 45/表 2 45/表 3 135/表 4 20' }),
+  // ==== 第352便k の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

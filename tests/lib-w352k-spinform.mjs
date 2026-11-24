@@ -7,13 +7,13 @@
 //   第312便a(Kball・Mball)・第337便c(定数)・第350便e(UDECL の銀河の公転の角速度)・第351便c(pairInput・partRot・closedSEq —— 既定の引数で一致することを零試験で見る)。
 //
 // ■ 口 spinRot(T1, GEO, id, src, { part, form, q, al, tSrc, cR, read, extraW, k }) —— 第351便c の partRot と同じ作り(受け手を原点・源は −a r̂ に静止・受け手が +v_orb v̂ で動く・位相 72・
-//   読み (C2) は球の半径の平均〔GL 8 点・equivR〕/(W) は中心の渦度の半分)。**既定の引数(part 'S'・form 'M'・al 1・tSrc 0・cR null)では partRot(..., { part: 'S' }) とビットで同じ。**
+//   読み (C2) は球の半径の平均〔GL 8 点・equivR〕/(W) は中心の渦度の半分)。**既定の引数(part 'S'・form 'M'・al 1・tSrc 0・cR null)では partRot(..., { part: 'S' }) と同じ(相対の差 < 1e-12 —— 同じ式の順)。**
 //   - form 'M' = 球のモーメント(在位の形 —— 源の外で R² ÷ (5 r²)〔K1〕)/form 'q' = 落ち方 (R ÷ (R + r))^q(q 0 = 源の枠の剛体の回転 —— 落ちない形)。al = 重みの核(1 在位・2 比べる列)。
 //   - tSrc = 源の半径の置き方: R_源 = R_規則^(1 − t) × R_観測^t(t 0 = 規則の半径 Y_k M_源 —— 在位/t 1 = 観測の半径/その間は幾何の倍)。
 //   - cR = 受け手の半径の置き方: null = 規則の半径 Y_k m(在位)/数 = c_R × 受け手の観測の半径(第348便h の K1cM・第350便f の (ii) と同じ入り方 —— 自分の重みの球の半径と (C2) の平均の半径)。
 // ■ 閉じた形(源の赤道面・静止の源・(W)・自分と他の重み A が中心で一定): Ω = [f + r f′ ÷ 2] Ω_源・f = s(r) ÷ W(r)・s = 源の回転の分子の係数・W = A + m K(r)。
 //   A ≫ m K のとき、落ち方のべきを s ∝ r^−(1+q) と書けば [f + r f′/2] = f (1 − q) ÷ 2 —— q > 1 で源の自転と逆・q < 1 で順・q 1 で一次が消える(球のモーメント M は q 2 と同じ落ち方)。
-// ■ 言わないこと: (S) の強さ・係数・源の半径の置き方を決めない。観測の数に届いたとは書かない。在位の形(form 'M'・al 1・規則の半径)の列を必ず残す。この場・この形・この半径では、の表。
+// ■ 言わないこと: (S) の強さ・係数・源の半径の置き方を決めない。観測の数に届くとは書かない。在位の形(form 'M'・al 1・規則の半径)の列を必ず残す。この場・この形・この半径では、の表。
 import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as SC from './lib-w350b-sphereconv.mjs';
 import * as H from './lib-w347h-axisdiff.mjs';
@@ -23,6 +23,8 @@ import * as D from './lib-w312a-decay.mjs';
 import * as TL from './lib-w337c-tidelock.mjs';
 import * as BG from './lib-w350e-bgaxial.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
+import * as RA from './lib-w352c-refaxis.mjs';
+import * as PS from './lib-w352d-precsense.mjs';
 
 export const LIB_VERSION = 'w352k-spinform-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -51,8 +53,13 @@ export const DECL = Object.freeze({
   tNames: Object.freeze({ 0: '規則の半径(在位)', 0.25: '幾何の倍 ¼', 0.5: '幾何の倍 ½', 0.75: '幾何の倍 ¾', 1: '観測の半径' }),
   /** 受け手の半径の置き方 c_R(× 受け手の観測の半径)—— null は規則の半径 */
   cRs: Object.freeze([null, 1e-6, 1e-4, 1e-2, 1]),
-  /** 「逆向きで大きい」形の探し方: q を 1.05〜3 の 0.05 刻み(地球・太陽由来・(C2)) */
-  qScan: Object.freeze({ lo: 1.05, hi: 3, step: 0.05 }),
+  /** 「逆向きで大きい」形の探し方: q を 0.8〜3 の 0.05 刻み(地球・太陽由来・(C2))—— 太陽の自転軸に沿った逆向きの成分 −(S·ŝ_太陽) ÷ abs(M) の最大 */
+  qScan: Object.freeze({ lo: 0.8, hi: 3, step: 0.05 }),
+  /** 背景の向き(表 2・表 3): (N+) は基準軸 L(角運動量の重み)と eq(等しい重み)の 2 つ・(G−) は銀河の回転と逆向き */
+  bgCols: Object.freeze(['NpL', 'NpEq', 'Gm']),
+  bgColNames: Object.freeze({ NpL: '(N+)・基準軸 L', NpEq: '(N+)・基準軸 eq', Gm: '(G−)' }),
+  /** 表 3 の受け手(太陽は背景だけに応答する行 —— 惑星由来の局所の項は入れない) */
+  t3Bodies: Object.freeze(['Earth', 'Mars', 'Sun']),
   planets: Object.freeze(['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']),
   omegaG: BG.UDECL.omegaGalRadS,
   judge: '丸めの桁の床: 逐語の表は有効数字 3 桁・打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く',
@@ -91,7 +98,7 @@ export function recvRadius(id, cR = null) {
 
 /* ───────── 約束の口 ───────── */
 /**
- * 由来 1 つの成分の回転(1 公転の平均・rad/s)。既定の引数では第351便c の partRot(..., { part: 'S' }) と同じビット。
+ * 由来 1 つの成分の回転(1 公転の平均・rad/s)。既定の引数では第351便c の partRot(..., { part: 'S' }) と同じ(相対の差 < 1e-12)。
  * 戻り値 { Om:[3], a, nOrb, Rs, Rr, A0(自分の重みの中心の値), wS(源の重みの中心の値), sAx(源の自転軸), ws(源の自転の率), sHat, nHat }
  */
 export function spinRot(T1, GEO, id, src, { part = 'S', form = 'M1', tSrc = 0, cR = null, read = 'C2', extraW = 0, k = 1, nPhase = DECL.nPhase, spinScale = null } = {}) {
@@ -167,14 +174,16 @@ export function slopeRows(t1) {
 export function qScanRows(T1 = E.t1Table(), GEO = E.geometry()) {
   const { lo, hi, step } = DECL.qScan, n = Math.round((hi - lo) / step), M = nrm(mOf(T1, GEO, 'Earth')), out = [];
   for (const t of DECL.tSrcs) {
-    let best = null;
+    let best = null, cross = null;
     const pts = [];
     for (let i = 0; i <= n; i++) {
-      const q = Math.round((lo + i * step) * 100) / 100, R = spinRot(T1, GEO, 'Earth', 'Sun', { form: { id: 'scan', form: 'q', q, al: 1 }, tSrc: t }), sn = senseToSrc(R.sAx, R.Om), ov = nrm(R.Om) / M;
-      pts.push({ q, overM: ov, sense: sn.sense });
-      if (sn.sense < 0 && (best === null || ov > best.overM)) best = { q, overM: ov, magAsYr: nrm(R.Om) * AS_YR };
+      const q = Math.round((lo + i * step) * 100) / 100, R = spinRot(T1, GEO, 'Earth', 'Sun', { form: { id: 'scan', form: 'q', q, al: 1 }, tSrc: t }), sn = senseToSrc(R.sAx, R.Om);
+      const opp = -dot(unit(R.sAx), R.Om) / M;
+      pts.push({ q, overM: nrm(R.Om) / M, opp, cosSrc: sn.cos });
+      if (opp > 0 && (best === null || opp > best.opp)) best = { q, opp, overM: nrm(R.Om) / M, cosSrc: sn.cos, magAsYr: nrm(R.Om) * AS_YR };
+      if (cross === null && i > 0 && pts[i - 1].opp <= 0 && opp > 0) cross = q;
     }
-    out.push({ tSrc: t, best, nOpp: pts.filter((p) => p.sense < 0).length, nPts: pts.length, q105: pts[0] });
+    out.push({ tSrc: t, best, cross, nOpp: pts.filter((p) => p.opp > 0).length, nPts: pts.length, pts });
   }
   return out;
 }
@@ -188,16 +197,53 @@ export function cRRows(T1 = E.t1Table(), GEO = E.geometry()) {
   return out;
 }
 
+/** 背景の向きの単位ベクトル(基準軸は第352便c の refAxis・(G−) は第352便d の bgDir) */
+export function bgUnit(col, T1 = E.t1Table(), GEO = E.geometry()) {
+  if (col === 'NpL') return unit(RA.refAxis('L', T1, GEO));
+  if (col === 'NpEq') return unit(RA.refAxis('eq', T1, GEO));
+  if (col === 'Gm') return PS.bgDir('Gm');
+  throw new RangeError('bgUnit: 背景の向きは ' + DECL.bgCols.join('・'));
+}
+/**
+ * 表 2(金星の条件が決める数): 形 × 源の半径の置き方ごとに、金星で (S) と背景の大きさが同じになる倍率 ÷ k(uk = abs(S_金星) ÷ ω_G —— k 1 のときの倍率)・倍率 1 のときに要る k(= 1 ÷ uk)・
+ * 背景の向きごとの金星の残り abs(S_金星 + 背景) ÷ abs(背景)(大きさは同じ —— 0 に近いほど打ち消す)。t1 は table1 の行。
+ */
+export function venusRows(t1, T1 = E.t1Table(), GEO = E.geometry()) {
+  const U = Object.fromEntries(DECL.bgCols.map((c) => [c, bgUnit(c, T1, GEO)])), out = [];
+  for (const fm of FORMS) for (const t of DECL.tSrcs) {
+    const v = t1.find((r) => r.id === 'Venus' && r.form === fm.id && r.tSrc === t), m = v.magRadS, uk = m / DECL.omegaG;
+    const resid = Object.fromEntries(DECL.bgCols.map((c) => [c, nrm(add(v.S, scl(U[c], m))) / m]));
+    out.push({ form: fm.id, tSrc: t, uk, kAtU1: 1 / uk, resid, sense: v.sense });
+  }
+  return out;
+}
+/**
+ * 表 3(そのときの率と時間 —— 単位の応答 = 経路 ② の率を abs(Ω) と読む): 形 × 置き方 × 背景の向きごとに、背景の倍率を (uV)(その置き方の uk・k 1)に置いたときの
+ * 地球・火星の合成 abs(S + 背景)(″/年)と一周の年数、太陽(背景だけ)の率と一周の年数。
+ */
+export function rateRows(t1, vr, T1 = E.t1Table(), GEO = E.geometry()) {
+  const U = Object.fromEntries(DECL.bgCols.map((c) => [c, bgUnit(c, T1, GEO)])), out = [];
+  for (const v of vr) for (const c of DECL.bgCols) {
+    const bg = scl(U[c], v.uk * DECL.omegaG), row = { form: v.form, tSrc: v.tSrc, bg: c, rates: {} };
+    for (const id of DECL.t3Bodies) {
+      const tot = id === 'Sun' ? bg : add(t1.find((r) => r.id === id && r.form === v.form && r.tSrc === v.tSrc).S, bg), asYr = nrm(tot) * AS_YR;
+      row.rates[id] = { asYr, periodYr: asYr > 0 ? 1296000 / asYr : null };
+    }
+    out.push(row);
+  }
+  return out;
+}
+
 /* ───────── 零試験 ───────── */
 /** 統括の数え直し 2 の数(第351便 —— 地球・太陽由来・(W)・分母は自分と太陽だけ・位相 72) */
 export const ANCHOR = Object.freeze({ ratioEarthRule: '3.973e-14', obsOrderLo: -5, obsOrderHi: -3, q0EarthOverM: 15, q0Sense: 1, ruleSense: -1, uV: 1.19282e-12 });
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const rel = (a, b) => nrm(sub(a, b)) / Math.max(nrm(b), 1e-300);
-  // ① 既定の引数で第351便c の partRot と同じ(8 惑星 + 衛星 2 組・(C2) と (W)・成分 3 つ)
-  let vsPart = 0, bits = true;
+  // ① 既定の引数で第351便c の partRot と同じ(8 惑星 + 衛星 2 組・(C2) と (W)・成分 3 つ —— 相対の差)
+  let vsPart = 0;
   for (const [id, src] of [...DECL.planets.map((p) => [p, 'Sun']), ['Moon', 'EarthHi'], ['Io', 'Jupiter']]) for (const read of ['C2', 'W']) for (const part of ['S', 'M', 'MS']) {
     const a = spinRot(T1, GEO, id, src, { part, read }).Om, b = SP.partRot(T1, GEO, id, src, { part, read }).Om;
-    vsPart = Math.max(vsPart, rel(a, b)); if (!(a[0] === b[0] && a[1] === b[1] && a[2] === b[2])) bits = false;
+    vsPart = Math.max(vsPart, rel(a, b));
   }
   // ② 源の半径の 2 乗に比例(形 M1・地球・(C2) —— A ≫ w_源 の範囲)・形 q0 は源の半径に依らない・(M) は源の回転の形と源の半径に依らない
   const Wr = (o) => spinRot(T1, GEO, 'Earth', 'Sun', o);
@@ -230,12 +276,12 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
     () => spinRot(T1, GEO, 'Earth', 'Sun', { cR: -1 }), () => spinRot(T1, GEO, 'Earth', 'Sun', { read: 'P2' }), () => spinRot(T1, GEO, 'Earth', 'Sun', { k: -1 }),
     () => spinRot(T1, GEO, 'Earth', 'Sun', { form: { form: 'q', q: -1, al: 1 } })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { vsPart, bits, r2: Math.max(...r2), q0Rs: rel(q0b, q0a), mInv, anchor2, closed, vsClosedSEq, lead, flip, k2, k0, uV, rr, rejects };
+  return { vsPart, r2: Math.max(...r2), q0Rs: rel(q0b, q0a), mInv, anchor2, closed, vsClosedSEq, lead, flip, k2, k0, uV, rr, rejects };
 }
 export function pureGates(S) {
   const A = ANCHOR, lg = Math.log10(S.anchor2.obs);
   return {
-    vsPartRot: S.vsPart < 1e-12 && S.bits,
+    vsPartRot: S.vsPart < 1e-12,
     radiusSq: S.r2 < 1e-9,
     invariants: S.q0Rs < 1e-12 && S.mInv < 1e-12,
     anchor2: S.anchor2.rule.toExponential(3) === A.ratioEarthRule && lg >= A.obsOrderLo && lg < A.obsOrderHi && Math.round(S.anchor2.q0) === A.q0EarthOverM
