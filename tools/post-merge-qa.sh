@@ -1428,6 +1428,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report147_351a lint.readNames351a"
 #   第338便c の recheckRun で正本と照合・第350便b の正本の天体の行と地球の数・k の掛け先を QA の中で別に照合・呼ぶだけ / docs.c2main351b —— 原文と読みの表と表と数の文が PHYSICS〔第351便b〕に逐語・文書)と、新しい段 c2main-351b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.c2main351b docs.c2main351b"
 # ==== 第351便b の塊(ここまで)====
+# ==== 第351便c の塊(ここから)====
+# 第351便c(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R429 —— 診断だけ・html は変えない): 枝 c の新設 2 本(behavior.srcparts351c —— 零試験 14・器を走らせ直して
+#   第338便c の recheckRun で正本と照合・〔第348便h〕の srcRot3 と (M) の閉じた形を QA の中で別に照合・呼ぶだけ / docs.srcparts351c —— 原文と表と数の文が PHYSICS〔第351便c〕に逐語・文書)と、新しい段 srcparts-351c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcparts351c docs.srcparts351c"
+# ==== 第351便c の塊(ここまで)====
 # ==== 第351便h の塊(ここから)====
 # 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
 #   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)

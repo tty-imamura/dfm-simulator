@@ -2834,6 +2834,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/c2main-351b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第351便b: 零試験 10/主の列の切り替え 15 組 × 読み 4/k の掛け先 3 組 × 背景 2 × k 5/縮退 3 組 × q 8 × 列 3/自分の重みの置き方 15 組 × 3' }),
   // ==== 第351便b の塊(ここまで)====
+  // ==== 第351便c の塊(ここから)====
+  // ---- 第351便c(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R429):
+  //   **源の成分の切り分け —— 源の由来の軸引きずりの回転を (M) 相対の公転の分・(S) 源の自転の分・(MS) 両方 に分けた符号・大きさ・起こす率の表(天体 16 組・読み (C2)(W)・一様な背景の向き 2)**
+  //   (段 srcparts-351c —— 正本 tests/out/srcparts-351c.json・lib tests/lib-w351c-srcparts.mjs —— 第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に bgaxial-350e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便c の枝の実測 1 s(nice 15)
+  S('srcparts-351c', 'node tests/exp-w351c-srcparts.mjs', ['tests/out/srcparts-351c.json'], 1, { secSource: 'w351c-branch', node: true,
+    after: ['bgaxial-350e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcparts-351c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便c: 零試験 14/無次元の例 6 + べき 3 + 8 惑星の比の閉じた形/16 組 × 由来 × 読み 2 × 成分 3 + 背景 2 向き/当たる行の数 24/起こす率の比 32/(M) の正体 8' }),
+  // ==== 第351便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
