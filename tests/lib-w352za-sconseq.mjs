@@ -17,7 +17,7 @@
 //   太陽の傾き(惑星由来 + 背景の abs(Ω⊥) × 年齢 ÷ 基準軸からの角)・金星の打ち消し(局所 ÷ 背景)・金星の逆回転(自転の率の変わり得る割合 × 年齢 ÷ 2)・
 //   イオの内部熱((P1) ÷ 熱の物差し)・潮汐ロック(イオ —— 軸引きずりの直交成分のトルク ÷ 潮汐のトルク)・土星の環(1° 傾いた環の起こす率 ÷ 物差しの率)・
 //   公転面の集まり(地球の道の輪の abs(Ω⊥) × 年齢 ÷ 23°)。**どの物差しも比べる列(合わせない)**。文献の値は「文献の値・未照合」。
-// ■ 言わないこと: 内部熱の出どころ・(S) で説明できる/できない・軸引きずりの内か外かを決めない。この場・この成分・この背景・この係数では、の桁の表。
+// ■ 言わないこと: 内部熱の出どころ・(S) で足りる/足りないの判定・軸引きずりの内か外かを決めない。この場・この成分・この背景・この係数では、の桁の表。
 import * as K from './lib-w352k-spinform.mjs';
 import * as SS from './lib-w352s-satring.mjs';
 import * as PS from './lib-w352d-precsense.mjs';
@@ -189,13 +189,15 @@ const ringBase = (T1, GEO, colId, cache) => {
   const c = colOf(colId), sp = SS.saturnSpin(T1, GEO), Ms = C.massOf('Saturn'), Rs = K.srcRadius('Saturn', c.tSrc), r = RB.centerKm(DECL.ringKey) * 1e3;
   const sunW = K.spinRot(T1, GEO, 'Saturn', 'Sun', { part: 'M', read: 'W', tSrc: c.tSrc, nPhase: 1 }).wS, wSat = Ms * DK.Kball(1, r, Rs);
   const L0 = sp.ax, L1 = SS.tiltedNormal(sp.ax, DECL.ringTiltDeg);
-  const own = SS.ringRot({ Ms, Rs, spinVec: sp.vec, L: L1, r, extraW: sunW, part: c.part }).Om, sunP = K.spinRot(T1, GEO, 'Saturn', 'Sun', { part: c.part, tSrc: c.tSrc, extraW: wSat }).Om;
-  const v = { L0, L1, loc: add(own, sunP) }; if (cache) cache[ck] = v; return v;
+  // 輪の相対の公転の分 (M) は輪の法線に沿う(対称 —— 零試験で直交成分 ÷ 大きさ < 1e-12)。直交成分は (S) の輪だけから作る(大きい (M) との差で作らない)
+  const ownS = SS.ringRot({ Ms, Rs, spinVec: sp.vec, L: L1, r, extraW: sunW, part: 'S' }).Om, sunP = K.spinRot(T1, GEO, 'Saturn', 'Sun', { part: c.part, tSrc: c.tSrc, extraW: wSat }).Om;
+  const v = { L0, L1, loc: add(ownS, sunP) }; if (cache) cache[ck] = v; return v;
 };
 const planeBase = (T1, GEO, colId, axis, cache) => {
   const ck = 'plane|' + colId + '|' + axis; if (cache && cache[ck]) return cache[ck];
   const c = colOf(colId), P = SP.pairInput(T1, GEO, 'Earth', 'Sun'), Lh = unit(CR.refAxis(axis, T1, GEO)), Rs = K.srcRadius('Sun', c.tSrc);
-  const v = { L: Lh, loc: SS.ringRot({ Ms: P.Ms, Rs, spinVec: scl(P.sAx, P.ws), L: Lh, r: P.a, part: c.part }).Om }; if (cache) cache[ck] = v; return v;
+  // (M) の輪は法線に沿う(上と同じ —— 直交成分は (S) の輪だけから)
+  const v = { L: Lh, loc: SS.ringRot({ Ms: P.Ms, Rs, spinVec: scl(P.sAx, P.ws), L: Lh, r: P.a, part: 'S' }).Om }; if (cache) cache[ck] = v; return v;
 };
 /** 題 topic・列 colId・背景 bgId・倍率 u・局所の係数 k の 1 欄: { v(大きさ ÷ 物差し), raw, ruler } */
 export function topicCell(T1, GEO, topic, colId, bgId, u, { k = 1 } = {}, cache = {}) {
@@ -234,7 +236,8 @@ export function kRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
     const kV = 1 / uVofCol(T1, GEO, colId, cache);
     for (const topic of DECL.topics) for (const bgId of DECL.bgs) {
       const c = topicCell(T1, GEO, topic, colId, bgId, 1, { k: kV }, cache), c1 = topicCell(T1, GEO, topic, colId, bgId, 1, {}, cache);
-      out.push({ topic, col: colId, bg: bgId, k: kV, ...c, k1v: c1.v, over: c.v > 1, band: inBand(c.v) });
+      const vLoc = topic === 'vCancel' ? null : topicCell(T1, GEO, topic, colId, bgId, 0, { k: kV }, cache).v;   // 局所の項だけ(背景 0)—— k が作る分
+      out.push({ topic, col: colId, bg: bgId, k: kV, ...c, k1v: c1.v, vLoc, over: c.v > 1 + 1e-6, locOver: vLoc !== null && vLoc > 1 + 1e-6, band: inBand(c.v) });
     }
   }
   return out;
@@ -267,6 +270,11 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   S.perpLin = rel(combine(LE, bG).perp, nrm(SP.perpOf(LE.sHat, add(LE.loc, bG))));
   S.p0 = heatOf(Lio, 1).P0;
   S.k2 = rel(heatOf(Lio, combine(localOf(T1, GEO, 'Io|Jupiter', 'MS', { k: 2 }, cache), [0, 0, 0]).perp).P1, 4 * rLoc.supplyW);
+  // 輪の (M) は法線に沿う(土星の 1° の環・地球の道の輪 —— 直交成分 ÷ 大きさ)
+  { const sp = SS.saturnSpin(T1, GEO), Ms = C.massOf('Saturn'), r = RB.centerKm(DECL.ringKey) * 1e3, L1 = SS.tiltedNormal(sp.ax, DECL.ringTiltDeg);
+    const M1 = SS.ringRot({ Ms, Rs: K.srcRadius('Saturn', 0), spinVec: sp.vec, L: L1, r, part: 'M' }).Om;
+    const P = SP.pairInput(T1, GEO, 'Earth', 'Sun'), Lh = unit(CR.refAxis('L', T1, GEO)), M2 = SS.ringRot({ Ms: P.Ms, Rs: K.srcRadius('Sun', 0), spinVec: scl(P.sAx, P.ws), L: Lh, r: P.a, part: 'M' }).Om;
+    S.ringMperp = Math.max(nrm(SP.perpOf(L1, M1)) / nrm(M1), nrm(SP.perpOf(Lh, M2)) / nrm(M2)); }
   // 拒否
   const thr = (f) => { try { f(); return false; } catch (e) { return e instanceof RangeError; } };
   S.reject = [thr(() => colOf('X')), thr(() => bgOfId('X')), thr(() => uOf(T1, GEO, 'MS', 'u2')), thr(() => topicCell(T1, GEO, 'none', 'MS', 'Gm', 1))];
@@ -279,6 +287,6 @@ export function pureGates(S) {
     ioHeatLoc: S.ioHeatLoc < t, ioHeatBg: S.ioHeatBg < t && S.ioHeatBgW > 2.7 && S.ioHeatBgW < 2.9, ioHeatS: S.ioHeatS < t,
     sunRotS: S.sunRotS < t, sunSumMS: S.sunSumMS < t,
     uV: Math.abs(S.uVrule / DECL.anchor.uVrule - 1) < 5e-6 && Math.abs(S.uVms / DECL.anchor.uVms - 1) < 5e-6 && Math.abs(1 / S.uVobs / 531 - 1) < 5e-3,
-    perpLin: S.perpLin < t, p0: S.p0 === 0, k2: S.k2 < t, reject: S.reject.every((x) => x === true),
+    perpLin: S.perpLin < t, p0: S.p0 === 0, k2: S.k2 < t, ringM: S.ringMperp < 1e-12, reject: S.reject.every((x) => x === true),
   };
 }
