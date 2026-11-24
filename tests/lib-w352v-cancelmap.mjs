@@ -5,7 +5,7 @@
 //   (器 tests/exp-w352v-cancelmap.mjs と QA behavior.cancelmap352v・docs.cancelmap352v が読む —— html を読まない・ファイルを読まない・状態を持たない)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib と第 1〜第 3 ラウンドの lib は呼ぶだけ(本文は変えない):
 //   第352便k(spinRot・srcRadius)・第352便d(bgVec)・第352便c(refAxis)・第352便e(sunInput・rotOf)・第352便i(judgeConst)・第351便f(satInput・tideOf・torqueRatio)・
-//   第351便c(pairInput・perpOf・PARENT_ROWS・PAIRS16)・第351便d(vec)・第348便c(massOf・radiusOf)・第348便h(YK)・第347便e(t1Table・geometry)。
+//   第351便c(pairInput・perpOf・PARENT_ROWS・PAIRS16)・第351便d(vec)・第347便e(t1Table・geometry)。
 //   **第352便s の satParts・cancelRow・uVt と第352便j の uForMin は、ここに同じ式で書き直す**(第352便s・j の lib は仮の値の lib に import の閉包で届く ——
 //   本 lib は仮の値を使わないので、閉包に入れない。同じ入力で同じ数になることは QA behavior.cancelmap352v が第352便s の lib を呼んで照合する)。
 //
@@ -13,7 +13,7 @@
 //   背景の大きさが同じ倍率。残り = abs(合成) ÷ abs(背景)(倍率 uEq)。打ち消す = cos(局所, 背景) < 0・足し合う = cos > 0。
 //   源の半径の置き方 t は全部の源に同じ t(t 0 = 規則の半径 Y_k M_源 —— 在位/t 1 = 観測の半径)。受け手の半径は規則の半径(自分の重み A0 = 1.5 ÷ Y_k は受け手の質量に依らない)。
 // ■ 打ち消しで小さくなる量は、大きい数の差で作らない: 直交成分は局所と背景の直交成分を分けて足す(第352便s と同じ)。
-// ■ 言わないこと: 金星とイオが釣り合っている・同じ背景で説明できた、とは書かない(x の一覧と式と残りの数だけ)。x が 1 に近い組が偶然かどうかは決めない。
+// ■ 言わないこと: 金星とイオが釣り合いの状態にある・同じ背景で説明がつく、とは書かない(x の一覧と式と残りの数だけ)。x が 1 に近い組が偶然かどうかは決めない。
 import * as K from './lib-w352k-spinform.mjs';
 import * as PS from './lib-w352d-precsense.mjs';
 import * as CR from './lib-w352c-refaxis.mjs';
@@ -22,8 +22,6 @@ import * as ST from './lib-w352i-stableprec.mjs';
 import * as F from './lib-w351f-satlock.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
 import * as R3 from './lib-w351d-r3step.mjs';
-import * as C from './lib-w348c-axisbalance.mjs';
-import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
 
 export const LIB_VERSION = 'w352v-cancelmap-lib-1';
