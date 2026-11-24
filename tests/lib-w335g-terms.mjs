@@ -11,6 +11,7 @@
 //   **第334便f の照合の世代の写し**(view334fOf335g): lint.terms334f は EQ-29 以降の項を EQ-29〜EQ-33 に固定している(lib-w334f-terms.mjs の本文は変えない)ので、
 //   EQ-34 以降の項を除き、§2a の表の EQ-34 以降の参照を外した写しを渡す —— EQ-34 以降と参照の実在は本 lib が持つ。
 import { eqItems334f, defSpan334f, termSection334f, parseTermTable334f, DECIDE_WORDS_334F, NOT_WORDS_334F, wordAudit334f } from './lib-w334f-terms.mjs';
+import { eqRefs350h } from './lib-w350h-eqreader.mjs';   // 第350便h(R425): §2a の項の参照の読みを共通の関数へ(2 桁のまま)
 import { parsePhenoDoc331e, NOT_WORDS_331E } from './lib-w331e-phenostatus.mjs';
 
 export const TERMS_VERSION_335G = 'w335g-terms-1';
@@ -147,7 +148,7 @@ export function checkTerms335g(inp) {
   }
   const below = (() => { const L = sec.split('\n'); let i = L.findIndex((l) => /^\|/.test(l)); while (i >= 0 && i < L.length && /^\|/.test(L[i])) i++; return i >= 0 ? L.slice(i).join('\n') : ''; })();
   for (const w of SEC_ADD_335G) if (below.indexOf(w) < 0) bad.push('② §2a の表の下に「' + w + '」が無い');
-  const refs = [...new Set([...sec.matchAll(/EQ-\d\d/g)].map((m) => m[0]))];
+  const refs = [...new Set(eqRefs350h(sec, { maxDigits: 2 }))];   // 第350便h: 共通の読み手(2 桁)
   for (const id of refs) if (!ids.has(id)) bad.push('② §2a が無い項 ' + id + ' を指す');
   const refNew = refs.filter(isNew);
   for (const id of NEW_EQ_IDS_335G) if (refNew.indexOf(id) < 0) bad.push('② §2a が ' + id + ' を指さない');

@@ -22,6 +22,7 @@ on:
       - "tools/gen-figures2.mjs"
       - "tools/p2fig-compare.mjs"
       - ".github/workflows/paper2.yml"
+  workflow_dispatch:
 
 jobs:
   paper2:

@@ -1,0 +1,4855 @@
+{
+ "version": "w350f-structfit-1",
+ "libVersion": "w350f-structfit-lib-1",
+ "generator": "tests/exp-w350f-structfit.mjs",
+ "target": "tests/lib-w350f-structfit.mjs",
+ "ruling": "原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R423",
+ "decl": {
+  "modes": [
+   "arm",
+   "self"
+  ],
+  "bgs": [
+   "none",
+   "B1"
+  ],
+  "cands": [
+   "W",
+   "P2"
+  ],
+  "reps": [
+   [
+    "Mercury",
+    "Sun"
+   ],
+   [
+    "Venus",
+    "Sun"
+   ],
+   [
+    "Earth",
+    "Sun"
+   ],
+   [
+    "Mars",
+    "Sun"
+   ],
+   [
+    "Jupiter",
+    "Sun"
+   ],
+   [
+    "Saturn",
+    "Sun"
+   ],
+   [
+    "Uranus",
+    "Sun"
+   ],
+   [
+    "Neptune",
+    "Sun"
+   ],
+   [
+    "Moon",
+    "EarthHi"
+   ],
+   [
+    "Io",
+    "Jupiter"
+   ],
+   [
+    "Pluto",
+    "Charon"
+   ]
+  ],
+  "groups": {
+   "rock": [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "gas": [
+    "Jupiter",
+    "Saturn"
+   ],
+   "ice": [
+    "Uranus",
+    "Neptune",
+    "Pluto"
+   ],
+   "moon": [
+    "Moon",
+    "Io"
+   ]
+  },
+  "gridSelf": {
+   "lo": -12,
+   "hi": 3,
+   "step": 0.25
+  },
+  "gridArm": [
+   0.1,
+   1,
+   10
+  ],
+  "big": 1000,
+  "small": 0.001,
+  "flatRel": 0.01,
+  "fitRole": "lit",
+  "resid": "ln",
+  "nBisect": 64,
+  "nGolden": 80,
+  "judge": "丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "lit": {
+  "note": "文献の値・未照合(この環境から一次資料に当たっていない)",
+  "precArcsecPerYr": {
+   "earth": 50.28792,
+   "mars": 7.594,
+   "venus": 44.58,
+   "moon": 69628.75409659915,
+   "mercury": 4.32
+  },
+  "precRole": {
+   "earth": "lit",
+   "mars": "lit",
+   "venus": "lit",
+   "moon": "lit",
+   "mercury": "order"
+  },
+  "precSrc": "第330便a の lib の「実際の自転軸の歳差の角速度」(地球 50.28792″/年・火星 7.594″/年・金星 44.58″/年・月 = 節の 18.613 年・水星は桁)—— 文献の値・未照合",
+  "heat": {
+   "Io": 100000000000000,
+   "Earth": 47000000000000,
+   "Jupiter": 335000000000000000,
+   "Saturn": 86000000000000000,
+   "Moon": 682781905788.8483,
+   "Enceladus": 15800000000,
+   "Venus": 38305000000000
+  }
+ },
+ "where": {
+  "prec": "tests/lib-w330a-spinclass.mjs の DECL.lit.precessionArcsecPerYear(第348便c の LIT.precArcsecPerYr が引く)",
+  "spin": "tests/lib-w347e-spintorque.mjs の observedRates()(地球は一日の長さの変化・火星は自転の角加速度から)",
+  "heat": "tests/lib-w341f-gyroheat.mjs の LIT.heat(第330便a の lib の熱流)"
+ },
+ "plan": {
+  "pure": "零試験 8",
+  "entry": "代表の 11 天体 × 候補 2(規則の半径・(i) 腕だけ 3 点・(ii) 61 点)",
+  "obs": "代表の 11 天体 × 比べる数 3 種(歳差の率・自転の変化の率・熱)",
+  "fit": "入り方 2 × 候補 2 × 背景 2 × (全体 1 + 組 4 + 天体 11)",
+  "ref": "入り方 2 × 候補 2 × 背景 2 × 組 4",
+  "pred": "候補 2 × 背景 2 × 代表の 11 天体((ii) の当てはめの c —— 天体 → 組 → 全体の順に在るもの)"
+ },
+ "amend": [],
+ "notClaim": [
+  "係数 c_R の入り方 2 つ・背景軸引きずりの 2 列・候補 (W)・(P2) ごとの当てはめの診断の表(係数の値や天体の構造の答えではない)",
+  "個別の当てはめは構造を見るための診断 —— 較正の合格ではない・比べる数が増えるまで判定しない",
+  "比べる数は第330便a の lib の値(文献の値・未照合)の固定の比べる列(合わせない)",
+  "解が無い・桁違い・平ら・範囲の端は、その事実の表(最適化で任意の 1 点を選ばない)",
+  "当てはめに使っていない量の列は予測の列(合わせない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "common": {
+    "p2x": -0.03061311434667674,
+    "p6": -0.01530655717333837,
+    "w": -0.015306122448979593
+   },
+   "inv": {
+    "flip": 0.03061311434667674,
+    "center": 0,
+    "rest": 0,
+    "noSelf": 0,
+    "boost": 0
+   },
+   "rs": {
+    "rig6": [
+     1.0000000000000009,
+     1.9999999999999991,
+     3.0000000000000027
+    ],
+    "rigX": [
+     0,
+     2.0000000000000018,
+     3.0000000000000027
+    ],
+    "shX": [
+     0,
+     0,
+     1
+    ],
+    "sh6": [
+     0,
+     0,
+     0
+    ]
+   },
+   "h4": 0,
+   "a4": 3.1234203623498047e-7,
+   "earth": {
+    "W": 0.050576183795067585,
+    "P2": 0.1517281856197694,
+    "armW1": 0.050576183795067585,
+    "armP21": 0.15172818589475315,
+    "selfW1": 10469.341580267657
+   },
+   "t5": {
+    "flat": {
+     "status": "flat",
+     "c": null,
+     "crossings": 0,
+     "fMin": 1,
+     "fMax": 1,
+     "above": true,
+     "below": false,
+     "flatAll": true,
+     "flatAt": null,
+     "big": null,
+     "small": null,
+     "slope": null
+    },
+    "many": {
+     "status": "many",
+     "c": null,
+     "crossings": 2,
+     "fMin": 1,
+     "fMax": 10,
+     "above": false,
+     "below": false,
+     "flatAll": false,
+     "flatAt": null,
+     "big": null,
+     "small": null,
+     "slope": null
+    },
+    "above": {
+     "status": "none",
+     "c": null,
+     "crossings": 0,
+     "fMin": 0.0010000000000000009,
+     "fMax": 99.99999999999994,
+     "above": true,
+     "below": false,
+     "flatAll": false,
+     "flatAt": null,
+     "big": null,
+     "small": null,
+     "slope": null
+    },
+    "pow": {
+     "status": "one",
+     "c": 2,
+     "crossings": 1,
+     "fMin": 0.0000010000000000000004,
+     "fMax": 9999.999999999998,
+     "above": false,
+     "below": false,
+     "flatAll": false,
+     "flatAt": false,
+     "big": false,
+     "small": false,
+     "slope": 2
+    },
+    "edge": {
+     "status": "edge",
+     "c": 100,
+     "edge": "hi",
+     "sse": 259.7930074134415,
+     "flatAll": false,
+     "resid": [
+      -16.11809565095832
+     ],
+     "flatAt": null,
+     "big": null,
+     "small": null
+    }
+   },
+   "mut": {
+    "moved": true,
+    "noData": true,
+    "mercuryRole": "order"
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "common": true,
+   "invariances": true,
+   "rigidShear": true,
+   "vs348h": true,
+   "earth348h": true,
+   "solver": true,
+   "mutants": true,
+   "rejects": true
+  }
+ },
+ "entry": [
+  {
+   "id": "Mercury",
+   "src": "Sun",
+   "cand": "W",
+   "group": "rock",
+   "ruleRatio": 1.1917915132057566e-9,
+   "rule": 0.5425125256500138,
+   "ruleB1": 0.5425125199303015,
+   "arm1": 0.5425125256500138,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 106827.57407028782,
+   "self1B": 106827.57402133364,
+   "selfMax": 106852.57811987167,
+   "slopeRule": 0.9999926877332478,
+   "slopeTo05": 0.6139757936104223,
+   "slope1": 0.00025343730652131817,
+   "cStar": 0.0002448779168137054
+  },
+  {
+   "id": "Mercury",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "rock",
+   "ruleRatio": 1.1917915132057566e-9,
+   "rule": 1.6275334523814982,
+   "ruleB1": 1.627533435222443,
+   "arm1": 1.6275334552726752,
+   "armSpread": 1.774810498567092e-7,
+   "armVsRule": 1.7764163473543704e-9,
+   "self1": 213671.83159632934,
+   "self1B": 213671.83149859676,
+   "selfMax": 213705.1729296804,
+   "slopeRule": 0.9999890316414349,
+   "slopeTo05": 0.5935621265958402,
+   "slope1": 0.00016897462705252664,
+   "cStar": 0.00016325194454247028
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "cand": "W",
+   "group": "rock",
+   "ruleRatio": 7.086448244441261e-9,
+   "rule": 0.11366495633099502,
+   "ruleB1": 0.11366495017150437,
+   "arm1": 0.11366495633099502,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 23241.441806183222,
+   "self1B": 23241.441775185776,
+   "selfMax": 23275.11530530612,
+   "slopeRule": 0.9999929581692704,
+   "slopeTo05": 0.6765598500417324,
+   "slope1": 0.001566427176322116,
+   "cStar": 0.0014846472086414634
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "rock",
+   "ruleRatio": 7.086448244441261e-9,
+   "rule": 0.34099403679071005,
+   "ruleB1": 0.34099401831232523,
+   "arm1": 0.3409940378569586,
+   "armSpread": 3.125743470722142e-7,
+   "armVsRule": 3.1268831968134236e-9,
+   "self1": 46505.33342188249,
+   "self1B": 46505.33336110101,
+   "selfMax": 46550.253114631385,
+   "slopeRule": 0.9999894372925364,
+   "slopeTo05": 0.654177181083001,
+   "slope1": 0.0010449141474088315,
+   "cStar": 0.0009897648057609757
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "cand": "W",
+   "group": "rock",
+   "ruleRatio": 8.256667052595722e-9,
+   "rule": 0.050576183795067585,
+   "ruleB1": 0.050576176933580165,
+   "arm1": 0.050576183795067585,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 10469.341580267657,
+   "self1B": 10469.341554037388,
+   "selfMax": 10487.242751077556,
+   "slopeRule": 0.9999930443154783,
+   "slopeTo05": 0.6830016745964435,
+   "slope1": 0.0018480150879327357,
+   "cStar": 0.0017407022653760003
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "rock",
+   "ruleRatio": 8.256667052595722e-9,
+   "rule": 0.1517281856197694,
+   "ruleB1": 0.15172816503540398,
+   "arm1": 0.15172818589475315,
+   "armSpread": 1.8135835500032726e-7,
+   "armVsRule": 1.81234449669887e-9,
+   "self1": 20950.61562925846,
+   "self1B": 20950.61557841192,
+   "selfMax": 20974.49746864128,
+   "slopeRule": 0.9999895665109229,
+   "slopeTo05": 0.6604377656367356,
+   "slope1": 0.0012328865463315606,
+   "cStar": 0.0011604681769173334
+  },
+  {
+   "id": "Mars",
+   "src": "Sun",
+   "cand": "W",
+   "group": "rock",
+   "ruleRatio": 1.6675589780785099e-9,
+   "rule": 0.01764914633527288,
+   "ruleB1": 0.017649139771444822,
+   "arm1": 0.01764914633527288,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 3700.104709559776,
+   "self1B": 3700.1046939633807,
+   "selfMax": 3701.3972623324285,
+   "slopeRule": 0.9999931217156929,
+   "slopeTo05": 0.6277466475258379,
+   "slope1": 0.0003781943055041341,
+   "cStar": 0.00035356071773795365
+  },
+  {
+   "id": "Mars",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "rock",
+   "ruleRatio": 1.6675589780785099e-9,
+   "rule": 0.052947312788034114,
+   "ruleB1": 0.05294729309664231,
+   "arm1": 0.05294731280001261,
+   "armSpread": 2.210589133966323e-8,
+   "armVsRule": 2.262341425307568e-10,
+   "self1": 7401.07178282516,
+   "self1B": 7401.071751952897,
+   "selfMax": 7402.795387530418,
+   "slopeRule": 0.9999896826104221,
+   "slopeTo05": 0.6069856059980071,
+   "slope1": 0.00025216624916710444,
+   "cStar": 0.00023570714515863577
+  },
+  {
+   "id": "Jupiter",
+   "src": "Sun",
+   "cand": "W",
+   "group": "gas",
+   "ruleRatio": 2.3383891943098313e-7,
+   "rule": 0.0008185230838987001,
+   "ruleB1": 0.0008185164923613281,
+   "arm1": 0.0008185230838987001,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 166.05928643381498,
+   "self1B": 166.05921850948036,
+   "selfMax": 174.3207559963019,
+   "slopeRule": 0.9999932262484579,
+   "slopeTo05": 0.8352383427885227,
+   "slope1": 0.05075016850952874,
+   "cStar": 0.04996299225112779
+  },
+  {
+   "id": "Jupiter",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "gas",
+   "ruleRatio": 2.3383891943098313e-7,
+   "rule": 0.002455563486993351,
+   "ruleB1": 0.0024555437124736366,
+   "arm1": 0.002455563507698479,
+   "armSpread": 8.431002904707441e-7,
+   "armVsRule": 8.431925380136818e-9,
+   "self1": 337.4548362646414,
+   "self1B": 337.45473993804796,
+   "selfMax": 348.64729952570445,
+   "slopeRule": 0.9999898394084669,
+   "slopeTo05": 0.8095237029421927,
+   "slope1": 0.03449988305451544,
+   "cStar": 0.03330866150075186
+  },
+  {
+   "id": "Saturn",
+   "src": "Sun",
+   "cand": "W",
+   "group": "gas",
+   "ruleRatio": 8.596557069540503e-8,
+   "rule": 0.0001779316356261477,
+   "ruleB1": 0.0001779252568591493,
+   "arm1": 0.0001779316356261477,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 37.32184657182268,
+   "self1B": 37.32182006778726,
+   "selfMax": 38.00647391032042,
+   "slopeRule": 0.9999932460192262,
+   "slopeTo05": 0.7855472668491033,
+   "slope1": 0.01942405523929524,
+   "cStar": 0.018394690760900282
+  },
+  {
+   "id": "Saturn",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "gas",
+   "ruleRatio": 8.596557069540503e-8,
+   "rule": 0.000533793657397279,
+   "ruleB1": 0.0005337745211856337,
+   "arm1": 0.0005337936582786766,
+   "armSpread": 1.6499236843436904e-7,
+   "armVsRule": 1.6511954026299236e-9,
+   "self1": 75.09505125217535,
+   "self1B": 75.09501393618211,
+   "selfMax": 76.01341307942305,
+   "slopeRule": 0.9999898690644066,
+   "slopeTo05": 0.7602788993511579,
+   "slope1": 0.013046520279685477,
+   "cStar": 0.01226312717393352
+  },
+  {
+   "id": "Uranus",
+   "src": "Sun",
+   "cand": "W",
+   "group": "ice",
+   "ruleRatio": 2.991637270420999e-8,
+   "rule": 0.000031347332369463084,
+   "ruleB1": 0.00003134062904793861,
+   "arm1": 0.000031347332369463084,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 6.664997823906214,
+   "self1B": 6.6649875044278755,
+   "selfMax": 6.7076204267824355,
+   "slopeRule": 0.9999932577861333,
+   "slopeTo05": 0.7372007098963934,
+   "slope1": 0.006871555095447436,
+   "cStar": 0.006407019132876054
+  },
+  {
+   "id": "Uranus",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "ice",
+   "ruleRatio": 2.991637270420999e-8,
+   "rule": 0.00009404177736296793,
+   "ruleB1": 0.00009402166749223653,
+   "arm1": 0.0000940417773696938,
+   "armSpread": 7.943000257526478e-9,
+   "armVsRule": 7.152012315714273e-11,
+   "self1": 13.358318470964068,
+   "self1B": 13.35830382621591,
+   "selfMax": 13.415269479033784,
+   "slopeRule": 0.9999898867146418,
+   "slopeTo05": 0.713075702465081,
+   "slope1": 0.0045931714961796166,
+   "cStar": 0.0042713460885840365
+  },
+  {
+   "id": "Neptune",
+   "src": "Sun",
+   "cand": "W",
+   "group": "ice",
+   "ruleRatio": 3.642464804894856e-8,
+   "rule": 0.000010201501864763215,
+   "ruleB1": 0.00001019492678222413,
+   "arm1": 0.000010201501864763215,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 2.1673777180493294,
+   "self1B": 2.1673661119537266,
+   "selfMax": 2.184264010702273,
+   "slopeRule": 0.9999932620313404,
+   "slopeTo05": 0.7459007933995033,
+   "slope1": 0.008357280067503232,
+   "cStar": 0.007803318212943965
+  },
+  {
+   "id": "Neptune",
+   "src": "Sun",
+   "cand": "P2",
+   "group": "ice",
+   "ruleRatio": 3.642464804894856e-8,
+   "rule": 0.00003060443412658708,
+   "ruleB1": 0.00003058470897096748,
+   "arm1": 0.00003060443412775466,
+   "armSpread": 2.993179037957816e-9,
+   "armVsRule": 3.8150593795194254e-11,
+   "self1": 4.345966033776359,
+   "self1B": 4.345949961359869,
+   "selfMax": 4.368539378027764,
+   "slopeRule": 0.999989893082413,
+   "slopeTo05": 0.7215422139389652,
+   "slope1": 0.005589473635749042,
+   "cStar": 0.005202212141962643
+  },
+  {
+   "id": "Moon",
+   "src": "EarthHi",
+   "cand": "W",
+   "group": "moon",
+   "ruleRatio": 3.722139082540799e-10,
+   "rule": 0.05135961932651543,
+   "ruleB1": 0.05135961246502779,
+   "arm1": 0.05135961932651543,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 10651.401810807145,
+   "self1B": 10651.401786866883,
+   "selfMax": 10652.223038125614,
+   "slopeRule": 0.9999930458995947,
+   "slopeTo05": 0.5824548780070973,
+   "slope1": 0.00008349973298460576,
+   "cStar": 0.00007847005671821392
+  },
+  {
+   "id": "Moon",
+   "src": "EarthHi",
+   "cand": "P2",
+   "group": "moon",
+   "ruleRatio": 3.722139082540799e-10,
+   "rule": 0.15407848663292212,
+   "ruleB1": 0.15407846604855605,
+   "arm1": 0.15407853467023414,
+   "armSpread": 0.000031237067735334634,
+   "armVsRule": 3.1177170201068805e-7,
+   "self1": 21303.3516263797,
+   "self1B": 21303.351578572336,
+   "selfMax": 21304.4466243255,
+   "slopeRule": 0.9999895688870808,
+   "slopeTo05": 0.5631664853546766,
+   "slope1": 0.000055668277588142606,
+   "cStar": 0.00005231337114547595
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "cand": "W",
+   "group": "moon",
+   "ruleRatio": 4.318857438421142e-10,
+   "rule": 3.5360825241189975,
+   "ruleB1": 3.536082517091419,
+   "arm1": 3.5360825241189975,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 747008.7076083311,
+   "self1B": 747008.7075950545,
+   "selfMax": 747076.798179575,
+   "slopeRule": 0.9999931716319149,
+   "slopeTo05": 0.5874887444898533,
+   "slope1": 0.00009871477048180976,
+   "cStar": 0.00009176033466114082
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "cand": "P2",
+   "group": "moon",
+   "ruleRatio": 4.318857438421142e-10,
+   "rule": 10.608222467599168,
+   "ruleB1": 10.608222446516534,
+   "arm1": 10.608420369116878,
+   "armSpread": 0.001868814078992198,
+   "armVsRule": 0.00001865548335877598,
+   "self1": 1494062.8516103984,
+   "self1B": 1494062.8515839353,
+   "selfMax": 1494153.6418024434,
+   "slopeRule": 0.9999897574842327,
+   "slopeTo05": 0.5680633731244328,
+   "slope1": 0.00006581234851233103,
+   "cStar": 0.00006117355644076054
+  },
+  {
+   "id": "Pluto",
+   "src": "Charon",
+   "cand": "W",
+   "group": "ice",
+   "ruleRatio": 9.660642459203769e-11,
+   "rule": 0.000005541775145637509,
+   "ruleB1": 0.0000055330541681120635,
+   "arm1": 0.000005541775145637509,
+   "armSpread": 0,
+   "armVsRule": 0,
+   "self1": 1.1871685497618578,
+   "self1B": 1.1871677184485803,
+   "selfMax": 1.1871930942698297,
+   "slopeRule": 0.9999932655664568,
+   "slopeTo05": 0.5487826079299013,
+   "slope1": 0.000022392420241598253,
+   "cStar": 0.000020698911157499383
+  },
+  {
+   "id": "Pluto",
+   "src": "Charon",
+   "cand": "P2",
+   "group": "ice",
+   "ruleRatio": 9.660642459203769e-11,
+   "rule": 0.000016625286633788442,
+   "ruleB1": 0.00001659912382322033,
+   "arm1": 0.000016663011735682626,
+   "armSpread": 0.443378950802765,
+   "armVsRule": 0.0022691399387673172,
+   "self1": 2.3743534786827643,
+   "self1B": 2.374351841848518,
+   "selfMax": 2.3743862049193747,
+   "slopeRule": 0.9999898983850514,
+   "slopeTo05": 0.5306556873703148,
+   "slope1": 0.000014928408887406213,
+   "cStar": 0.000013799274104999589
+  }
+ ],
+ "obs": [
+  {
+   "id": "Mercury",
+   "src": "Sun",
+   "group": "rock",
+   "prec": {
+    "asYr": 4.32,
+    "role": "order"
+   },
+   "spin": null,
+   "heat": null
+  },
+  {
+   "id": "Venus",
+   "src": "Sun",
+   "group": "rock",
+   "prec": {
+    "asYr": 44.58,
+    "role": "lit"
+   },
+   "spin": null,
+   "heat": 38305000000000
+  },
+  {
+   "id": "Earth",
+   "src": "Sun",
+   "group": "rock",
+   "prec": {
+    "asYr": 50.28792,
+    "role": "lit"
+   },
+   "spin": {
+    "rateYr": -2.065825558440232e-10,
+    "relUnc": 0.03
+   },
+   "heat": 47000000000000
+  },
+  {
+   "id": "Mars",
+   "src": "Sun",
+   "group": "rock",
+   "prec": {
+    "asYr": 7.594,
+    "role": "lit"
+   },
+   "spin": {
+    "rateYr": 8.669497469178053e-12,
+    "relUnc": 0.25
+   },
+   "heat": null
+  },
+  {
+   "id": "Jupiter",
+   "src": "Sun",
+   "group": "gas",
+   "prec": null,
+   "spin": null,
+   "heat": 335000000000000000
+  },
+  {
+   "id": "Saturn",
+   "src": "Sun",
+   "group": "gas",
+   "prec": null,
+   "spin": null,
+   "heat": 86000000000000000
+  },
+  {
+   "id": "Uranus",
+   "src": "Sun",
+   "group": "ice",
+   "prec": null,
+   "spin": null,
+   "heat": null
+  },
+  {
+   "id": "Neptune",
+   "src": "Sun",
+   "group": "ice",
+   "prec": null,
+   "spin": null,
+   "heat": null
+  },
+  {
+   "id": "Moon",
+   "src": "EarthHi",
+   "group": "moon",
+   "prec": {
+    "asYr": 69628.75409659915,
+    "role": "lit"
+   },
+   "spin": null,
+   "heat": 682781905788.8483
+  },
+  {
+   "id": "Io",
+   "src": "Jupiter",
+   "group": "moon",
+   "prec": null,
+   "spin": null,
+   "heat": 100000000000000
+  },
+  {
+   "id": "Pluto",
+   "src": "Charon",
+   "group": "ice",
+   "prec": null,
+   "spin": null,
+   "heat": null
+  }
+ ],
+ "fit": [
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.11366495633099506,
+   "fMax": 0.11366495633099506,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.050576183795067606,
+   "fMax": 0.050576183795067606,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.01764914633527288,
+   "fMax": 0.01764914633527288,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.05135961932651545,
+   "fMax": 0.05135961932651545,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.11366495017150437,
+   "fMax": 0.11366495017150437,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.05057617693358014,
+   "fMax": 0.05057617693358014,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.01764913977144482,
+   "fMax": 0.01764913977144482,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.05135961246502776,
+   "fMax": 0.05135961246502776,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.3409940368001879,
+   "fMax": 0.34099414338617656,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.1517281856206967,
+   "fMax": 0.15172821313787094,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.0529473127883361,
+   "fMax": 0.05294731395878365,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.15407848711369826,
+   "fMax": 0.1540833000738368,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "edge": null,
+   "sse": null,
+   "flatAll": true,
+   "resid": null,
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.34099401889758596,
+   "fMax": 0.34099412490993986,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.15172816441181586,
+   "fMax": 0.15172819255779998,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.052947292849627306,
+   "fMax": 0.05294729426322094,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "flat",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.15407846666750594,
+   "fMax": 0.15408327950958556,
+   "above": true,
+   "below": false,
+   "flatAll": true,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "one",
+   "c": 0.00000903592675881132,
+   "sse": 24.75581449466281,
+   "resid": [
+    1.1727943566213561,
+    0.09064569311340759,
+    2.5076748391978447,
+    -4.1332454743111935
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "one",
+   "c": 0.000002554289385222784,
+   "sse": 2.9678609912021834,
+   "resid": [
+    -0.0861933293137824,
+    -1.1690166476567077,
+    1.2624705060655723
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "edge",
+   "c": 1000,
+   "edge": "hi",
+   "sse": 3.524664588008095,
+   "flatAll": false,
+   "resid": [
+    -1.877409009248676
+   ],
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.000002784659970467158,
+   "crossings": 1,
+   "fMin": 0.000016039842123652143,
+   "fMax": 23275.115305306117,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9925810569153583,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.00000824911282709109,
+   "crossings": 1,
+   "fMin": 0.000006125525867609641,
+   "fMax": 10487.242751077552,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.981655245039489,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 7.189817298829581e-7,
+   "crossings": 1,
+   "fMin": 0.000010583871792612217,
+   "fMax": 3701.3972623324275,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9920548371812958,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "none",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.00013798481219712107,
+   "fMax": 10652.223038125618,
+   "above": true,
+   "below": false,
+   "flatAll": false,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "one",
+   "c": 0.000009035928719358786,
+   "sse": 24.7558135179381,
+   "resid": [
+    1.1727945183746673,
+    0.09064577395764482,
+    2.507674687867113,
+    -4.133245400300185
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "one",
+   "c": 0.0000025542898623011017,
+   "sse": 2.967860384816842,
+   "resid": [
+    -0.08619319696773288,
+    -1.16901659663429,
+    1.2624703221885674
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "edge",
+   "c": 1000,
+   "edge": "hi",
+   "sse": 3.524664596408186,
+   "flatAll": false,
+   "resid": [
+    -1.877409011485826
+   ],
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.000002784660121387425,
+   "crossings": 1,
+   "fMin": 0.000016039841254451015,
+   "fMax": 23275.115276130608,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9925810568892534,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.000008249113946484601,
+   "crossings": 1,
+   "fMin": 0.000006125525036577961,
+   "fMax": 10487.24272727152,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9816552449248727,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 7.18981997295793e-7,
+   "crossings": 1,
+   "fMin": 0.000010583867856385875,
+   "fMax": 3701.397247216569,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9920548370882522,
+   "resid": [
+    6.661338147750937e-16
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "none",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.0001379847937626891,
+   "fMax": 10652.223014294996,
+   "above": true,
+   "below": false,
+   "flatAll": false,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "one",
+   "c": 0.0000030879608704982795,
+   "sse": 24.382917372261986,
+   "resid": [
+    1.2007283296138105,
+    0.11812187102031807,
+    2.544939880945941,
+    -4.055921236498847
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "one",
+   "c": 8.489085748373109e-7,
+   "sse": 2.9751256586830617,
+   "resid": [
+    -0.08827775613112458,
+    -1.1712350590668101,
+    1.263147312417788
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "edge",
+   "c": 1000,
+   "edge": "hi",
+   "sse": 1.4024760179569733,
+   "flatAll": false,
+   "resid": [
+    -1.1842618029629146
+   ],
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 9.273306600301243e-7,
+   "crossings": 1,
+   "fMin": 0.00004811952635438207,
+   "fMax": 46550.25311463138,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9962747052818065,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.000002743097599362058,
+   "crossings": 1,
+   "fMin": 0.000018376577597462865,
+   "fMax": 20974.497468641275,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9907308281515206,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 2.394145025002826e-7,
+   "crossings": 1,
+   "fMin": 0.000031751615332445325,
+   "fMax": 7402.79538753042,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9960092548681156,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "none",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.00041395443391094766,
+   "fMax": 21304.4466243255,
+   "above": true,
+   "below": false,
+   "flatAll": false,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "all",
+   "set": "all",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars",
+    "Moon"
+   ],
+   "n": 4,
+   "dof": 3,
+   "status": "one",
+   "c": 0.0000030879610739219857,
+   "sse": 24.382916366767134,
+   "resid": [
+    1.2007283412514904,
+    0.11812180140021236,
+    2.5449395787587608,
+    -4.055921300738431
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "rock",
+   "ids": [
+    "Venus",
+    "Earth",
+    "Mars"
+   ],
+   "n": 3,
+   "dof": 2,
+   "status": "one",
+   "c": 8.489087029707154e-7,
+   "sse": 2.9751250495633883,
+   "resid": [
+    -0.08827765947020569,
+    -1.1712350438110741,
+    1.2631470922068901
+   ],
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "gas",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "ice",
+   "ids": [],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "group",
+   "set": "moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "edge",
+   "c": 1000,
+   "edge": "hi",
+   "sse": 1.4024760232557063,
+   "flatAll": false,
+   "resid": [
+    -1.1842618052000606
+   ],
+   "flatAt": null,
+   "big": null,
+   "small": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mercury",
+   "ids": [
+    "Mercury"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "role",
+   "role": "order",
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Venus",
+   "ids": [
+    "Venus"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 9.273307102854901e-7,
+   "crossings": 1,
+   "fMin": 0.00004811952374677868,
+   "fMax": 46550.25305628156,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.99627470526856,
+   "resid": [
+    3.330669073875464e-15
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Earth",
+   "ids": [
+    "Earth"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 0.0000027430979715532756,
+   "crossings": 1,
+   "fMin": 0.000018376575104367796,
+   "fMax": 20974.49742103082,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9907308280920687,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Mars",
+   "ids": [
+    "Mars"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "one",
+   "c": 2.3941459154342487e-7,
+   "crossings": 1,
+   "fMin": 0.00003175160352376626,
+   "fMax": 7402.795357299023,
+   "above": false,
+   "below": false,
+   "flatAll": false,
+   "flatAt": false,
+   "big": false,
+   "small": true,
+   "slope": 0.9960092548208347,
+   "resid": [
+    0
+   ]
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Jupiter",
+   "ids": [
+    "Jupiter"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Saturn",
+   "ids": [
+    "Saturn"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Uranus",
+   "ids": [
+    "Uranus"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Neptune",
+   "ids": [
+    "Neptune"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Moon",
+   "ids": [
+    "Moon"
+   ],
+   "n": 1,
+   "dof": 0,
+   "status": "none",
+   "c": null,
+   "crossings": 0,
+   "fMin": 0.00041395437860765213,
+   "fMax": 21304.44657666434,
+   "above": true,
+   "below": false,
+   "flatAll": false,
+   "flatAt": null,
+   "big": null,
+   "small": null,
+   "slope": null,
+   "resid": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Io",
+   "ids": [
+    "Io"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "level": "body",
+   "set": "Pluto",
+   "ids": [
+    "Pluto"
+   ],
+   "n": 0,
+   "dof": null,
+   "status": "nodata",
+   "role": null,
+   "c": null
+  }
+ ],
+ "ref": [
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "none",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "W",
+   "bg": "B1",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "none",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "arm",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 3,
+   "median": 0.000002784659970467158,
+   "min": 7.189817298829581e-7,
+   "max": 0.00000824911282709109,
+   "spread": 11.473327463319478,
+   "log10From1": -5.5552278281259655
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "none",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 3,
+   "median": 0.000002784660121387425,
+   "min": 7.18981997295793e-7,
+   "max": 0.000008249113946484601,
+   "spread": 11.473324752929623,
+   "log10From1": -5.5552278045885
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "W",
+   "bg": "B1",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 3,
+   "median": 9.273306600301243e-7,
+   "min": 2.394145025002826e-7,
+   "max": 0.000002743097599362058,
+   "spread": 11.457524797850622,
+   "log10From1": -6.0327653810433315
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "none",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "rock",
+   "members": 4,
+   "nData": 3,
+   "nSol": 3,
+   "median": 9.273307102854901e-7,
+   "min": 2.3941459154342487e-7,
+   "max": 0.0000027430979715532756,
+   "spread": 11.457522091153471,
+   "log10From1": -6.032765357507361
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "gas",
+   "members": 2,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "ice",
+   "members": 3,
+   "nData": 0,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  },
+  {
+   "mode": "self",
+   "cand": "P2",
+   "bg": "B1",
+   "group": "moon",
+   "members": 2,
+   "nData": 1,
+   "nSol": 0,
+   "median": null,
+   "min": null,
+   "max": null,
+   "spread": null,
+   "log10From1": null
+  }
+ ],
+ "pred": [
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Mercury",
+   "src": "Sun",
+   "from": "group",
+   "c": 0.000002554289385222784,
+   "spinRateYr": 2.976846501772721e-13,
+   "heatW": 9860.87910081074,
+   "ruleSpinRateYr": 6.622122282371727e-20,
+   "ruleHeatW": 0.0021935947042740077,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Venus",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.000002784659970467158,
+   "spinRateYr": 1.0475516004411317e-11,
+   "heatW": 1747561.4469401175,
+   "ruleSpinRateYr": 6.810021378053454e-17,
+   "ruleHeatW": 11.360710830963033,
+   "obsSpinRateYr": null,
+   "obsHeatW": 38305000000000,
+   "spinOverObs": null,
+   "heatOverObs": 4.5622280301269224e-8
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Earth",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.00000824911282709109,
+   "spinRateYr": 4.086949543107256e-12,
+   "heatW": 55205974655.981255,
+   "ruleSpinRateYr": 4.133938809463191e-18,
+   "ruleHeatW": 55840.69945994266,
+   "obsSpinRateYr": -2.065825558440232e-10,
+   "obsHeatW": 47000000000000,
+   "spinOverObs": 0.019783613995912802,
+   "heatOverObs": 0.0011745952054464097
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Mars",
+   "src": "Sun",
+   "from": "body",
+   "c": 7.189817298829581e-7,
+   "spinRateYr": 1.0978833360025967e-13,
+   "heatW": 47164727.43731818,
+   "ruleSpinRateYr": 5.930105444176368e-19,
+   "ruleHeatW": 254.75548974765883,
+   "obsSpinRateYr": 8.669497469178053e-12,
+   "obsHeatW": null,
+   "spinOverObs": 0.012663748272674517,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Jupiter",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 1.2546732291138834e-20,
+   "heatW": 30294597.510545474,
+   "ruleSpinRateYr": 8.405669607209771e-24,
+   "ruleHeatW": 20295.832544134988,
+   "obsSpinRateYr": null,
+   "obsHeatW": 335000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 9.043163435983723e-11
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Saturn",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 3.2148239132530456e-19,
+   "heatW": 110603906.14334375,
+   "ruleSpinRateYr": 2.9126220423813784e-23,
+   "ruleHeatW": 10020.68491771939,
+   "obsSpinRateYr": null,
+   "obsHeatW": 86000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 1.2860919318993458e-9
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Uranus",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 6.456567150230249e-19,
+   "heatW": 2675610.615632546,
+   "ruleSpinRateYr": 7.097334385138295e-24,
+   "ruleHeatW": 29.411454696777557,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Neptune",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 9.884906934240031e-21,
+   "heatW": 53105.5393710755,
+   "ruleSpinRateYr": 1.6099768076811753e-25,
+   "ruleHeatW": 0.8649417472072982,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Moon",
+   "src": "EarthHi",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 2.782331342905836e-10,
+   "heatW": 5454226.315113346,
+   "ruleSpinRateYr": 5.88973744274234e-19,
+   "ruleHeatW": 0.011545699268069112,
+   "obsSpinRateYr": null,
+   "obsHeatW": 682781905788.8483,
+   "spinOverObs": null,
+   "heatOverObs": 0.000007988240855345802
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Io",
+   "src": "Jupiter",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 1.260445085657593e-14,
+   "heatW": 76159.0159652641,
+   "ruleSpinRateYr": 3.476475531319919e-23,
+   "ruleHeatW": 0.0002100567160801868,
+   "obsSpinRateYr": null,
+   "obsHeatW": 100000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 7.615901596526411e-10
+  },
+  {
+   "cand": "W",
+   "bg": "none",
+   "id": "Pluto",
+   "src": "Charon",
+   "from": "all",
+   "c": 0.00000903592675881132,
+   "spinRateYr": 5.5874247483983255e-15,
+   "heatW": 168.8325692693538,
+   "ruleSpinRateYr": 1.3183241432059018e-24,
+   "ruleHeatW": 3.9835176713757947e-8,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Mercury",
+   "src": "Sun",
+   "from": "group",
+   "c": 0.0000025542898623011017,
+   "spinRateYr": 2.976737786582649e-13,
+   "heatW": 9860.518979002281,
+   "ruleSpinRateYr": 6.621875658951072e-20,
+   "ruleHeatW": 0.002193513009644034,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Venus",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.000002784660121387425,
+   "spinRateYr": 1.0475557928197804e-11,
+   "heatW": 1747568.4408097218,
+   "ruleSpinRateYr": 6.810047942870322e-17,
+   "ruleHeatW": 11.360755147300086,
+   "obsSpinRateYr": null,
+   "obsHeatW": 38305000000000,
+   "spinOverObs": null,
+   "heatOverObs": 4.56224628849947e-8
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Earth",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.000008249113946484601,
+   "spinRateYr": 4.086949541307817e-12,
+   "heatW": 55205974631.67468,
+   "ruleSpinRateYr": 4.1339376859618514e-18,
+   "ruleHeatW": 55840.68428383495,
+   "obsSpinRateYr": -2.065825558440232e-10,
+   "obsHeatW": 47000000000000,
+   "spinOverObs": 0.019783613987202298,
+   "heatOverObs": 0.0011745952049292486
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Mars",
+   "src": "Sun",
+   "from": "body",
+   "c": 7.18981997295793e-7,
+   "spinRateYr": 1.0978801402660968e-13,
+   "heatW": 47164590.149469785,
+   "ruleSpinRateYr": 5.930083737598017e-19,
+   "ruleHeatW": 254.75455723978854,
+   "obsSpinRateYr": 8.669497469178053e-12,
+   "obsHeatW": null,
+   "spinOverObs": 0.012663711410832048,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Jupiter",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 1.2551181346149685e-20,
+   "heatW": 30305339.93556328,
+   "ruleSpinRateYr": 8.40864711973477e-24,
+   "ruleHeatW": 20303.02186972466,
+   "obsSpinRateYr": null,
+   "obsHeatW": 335000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 9.04637013001889e-11
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Saturn",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 3.21448848082086e-19,
+   "heatW": 110592365.81073208,
+   "ruleSpinRateYr": 2.9123167303896215e-23,
+   "ruleHeatW": 10019.634511856055,
+   "obsSpinRateYr": null,
+   "obsHeatW": 86000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 1.2859577419852567e-9
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Uranus",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 6.453957660858897e-19,
+   "heatW": 2674529.2395233987,
+   "ruleSpinRateYr": 7.094458821223545e-24,
+   "ruleHeatW": 29.39953831899163,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Neptune",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 9.841532504235855e-21,
+   "heatW": 52872.515174124695,
+   "ruleSpinRateYr": 1.602903498608756e-25,
+   "ruleHeatW": 0.8611416922757946,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Moon",
+   "src": "EarthHi",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 2.7823317708183985e-10,
+   "heatW": 5454227.153953754,
+   "ruleSpinRateYr": 5.88973590653885e-19,
+   "ruleHeatW": 0.01154569625663716,
+   "obsSpinRateYr": null,
+   "obsHeatW": 682781905788.8483,
+   "spinOverObs": null,
+   "heatOverObs": 0.000007988242083908541
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Io",
+   "src": "Jupiter",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 1.2608616434719276e-14,
+   "heatW": 76184.18535470704,
+   "ruleSpinRateYr": 3.4777346479715443e-23,
+   "ruleHeatW": 0.0002101327948290862,
+   "obsSpinRateYr": null,
+   "obsHeatW": 100000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 7.618418535470703e-10
+  },
+  {
+   "cand": "W",
+   "bg": "B1",
+   "id": "Pluto",
+   "src": "Charon",
+   "from": "all",
+   "c": 0.000009035928719358786,
+   "spinRateYr": 5.575609078922936e-15,
+   "heatW": 168.47554077680192,
+   "ruleSpinRateYr": 1.3143231835787872e-24,
+   "ruleHeatW": 3.9714281610234214e-8,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Mercury",
+   "src": "Sun",
+   "from": "group",
+   "c": 8.489085748373109e-7,
+   "spinRateYr": 2.9913983026280167e-13,
+   "heatW": 9909.082308079805,
+   "ruleSpinRateYr": 5.959879846447218e-19,
+   "ruleHeatW": 0.019742252274740055,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Venus",
+   "src": "Sun",
+   "from": "body",
+   "c": 9.273306600301243e-7,
+   "spinRateYr": 1.0475516004409225e-11,
+   "heatW": 1747561.446939768,
+   "ruleSpinRateYr": 6.128989324386026e-16,
+   "ruleHeatW": 102.24589841201318,
+   "obsSpinRateYr": null,
+   "obsHeatW": 38305000000000,
+   "spinOverObs": null,
+   "heatOverObs": 4.56222803012601e-8
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Earth",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.000002743097599362058,
+   "spinRateYr": 4.086949543107219e-12,
+   "heatW": 55205974655.98077,
+   "ruleSpinRateYr": 3.7205269906261094e-17,
+   "ruleHeatW": 502563.8721128907,
+   "obsSpinRateYr": -2.065825558440232e-10,
+   "obsHeatW": 47000000000000,
+   "spinOverObs": 0.019783613995912625,
+   "heatOverObs": 0.0011745952054463993
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Mars",
+   "src": "Sun",
+   "from": "body",
+   "c": 2.394145025002826e-7,
+   "spinRateYr": 1.0978833360026107e-13,
+   "heatW": 47164727.43731877,
+   "ruleSpinRateYr": 5.33706945431695e-18,
+   "ruleHeatW": 2292.7884764460987,
+   "obsSpinRateYr": 8.669497469178053e-12,
+   "obsHeatW": null,
+   "spinOverObs": 0.012663748272674679,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Jupiter",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 1.3190100675237858e-20,
+   "heatW": 31848036.748350468,
+   "ruleSpinRateYr": 7.565067126808645e-23,
+   "ruleHeatW": 182661.63526003188,
+   "obsSpinRateYr": null,
+   "obsHeatW": 335000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 9.506876641298646e-11
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Saturn",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 3.380695936090115e-19,
+   "heatW": 116310624.19096263,
+   "ruleSpinRateYr": 2.621347566254288e-22,
+   "ruleHeatW": 90185.74205319182,
+   "obsSpinRateYr": null,
+   "obsHeatW": 86000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 1.3524491184995655e-9
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Uranus",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 6.795779487771235e-19,
+   "heatW": 2816180.6910550296,
+   "ruleSpinRateYr": 6.387571095186503e-23,
+   "ruleHeatW": 264.7018552231606,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Neptune",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 1.0401675926502682e-20,
+   "heatW": 55881.82206619074,
+   "ruleSpinRateYr": 1.4489723596030662e-24,
+   "ruleHeatW": 7.784439368261663,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Moon",
+   "src": "EarthHi",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 3.247426108813187e-10,
+   "heatW": 6365955.292936677,
+   "ruleSpinRateYr": 5.300738167453588e-18,
+   "ruleHeatW": 0.10391079292610882,
+   "obsSpinRateYr": null,
+   "obsHeatW": 682781905788.8483,
+   "spinOverObs": null,
+   "heatOverObs": 0.000009323555939259706
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Io",
+   "src": "Jupiter",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 1.4490525322034324e-14,
+   "heatW": 87555.11540354964,
+   "ruleSpinRateYr": 3.128813204994224e-22,
+   "ruleHeatW": 0.0018905015184153475,
+   "obsSpinRateYr": null,
+   "obsHeatW": 100000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 8.755511540354965e-10
+  },
+  {
+   "cand": "P2",
+   "bg": "none",
+   "id": "Pluto",
+   "src": "Charon",
+   "from": "all",
+   "c": 0.0000030879608704982795,
+   "spinRateYr": 8.093352219477743e-15,
+   "heatW": 244.55299368603553,
+   "ruleSpinRateYr": 1.1864861889640315e-23,
+   "ruleHeatW": 3.58514916452027e-7,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Mercury",
+   "src": "Sun",
+   "from": "group",
+   "c": 8.489087029707154e-7,
+   "spinRateYr": 2.991288322213457e-13,
+   "heatW": 9908.717995183326,
+   "ruleSpinRateYr": 5.959657886989423e-19,
+   "ruleHeatW": 0.01974151702843922,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Venus",
+   "src": "Sun",
+   "from": "body",
+   "c": 9.273307102854901e-7,
+   "spinRateYr": 1.0475557965735053e-11,
+   "heatW": 1747568.4470718144,
+   "ruleSpinRateYr": 6.129013232550031e-16,
+   "ruleHeatW": 102.24629725619101,
+   "obsSpinRateYr": null,
+   "obsHeatW": 38305000000000,
+   "spinOverObs": null,
+   "heatOverObs": 4.5622463048474467e-8
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Earth",
+   "src": "Sun",
+   "from": "body",
+   "c": 0.0000027430979715532756,
+   "spinRateYr": 4.0869495413036586e-12,
+   "heatW": 55205974631.61851,
+   "ruleSpinRateYr": 3.720525979482093e-17,
+   "ruleHeatW": 502563.73552889243,
+   "obsSpinRateYr": -2.065825558440232e-10,
+   "obsHeatW": 47000000000000,
+   "spinOverObs": 0.019783613987182168,
+   "heatOverObs": 0.0011745952049280533
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Mars",
+   "src": "Sun",
+   "from": "body",
+   "c": 2.3941459154342487e-7,
+   "spinRateYr": 1.0978801370873626e-13,
+   "heatW": 47164590.01291235,
+   "ruleSpinRateYr": 5.337049918534647e-18,
+   "ruleHeatW": 2292.7800839346414,
+   "obsSpinRateYr": 8.669497469178053e-12,
+   "obsHeatW": null,
+   "spinOverObs": 0.012663711374166322,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Jupiter",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 1.3194774290534818e-20,
+   "heatW": 31859321.383349854,
+   "ruleSpinRateYr": 7.567746869267146e-23,
+   "ruleHeatW": 182726.33873606732,
+   "obsSpinRateYr": null,
+   "obsHeatW": 335000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 9.510245189059658e-11
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Saturn",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 3.380342091320732e-19,
+   "heatW": 116298450.39397769,
+   "ruleSpinRateYr": 2.621072787387771e-22,
+   "ruleHeatW": 90176.28846668676,
+   "obsSpinRateYr": null,
+   "obsHeatW": 86000000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 1.3523075627206708e-9
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Uranus",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 6.793028968455892e-19,
+   "heatW": 2815040.871936387,
+   "ruleSpinRateYr": 6.384983105786656e-23,
+   "ruleHeatW": 264.5946085741246,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Neptune",
+   "src": "Sun",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 1.0356005146443431e-20,
+   "heatW": 55636.46098948267,
+   "ruleSpinRateYr": 1.4426064259835533e-24,
+   "ruleHeatW": 7.75023911319465,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Moon",
+   "src": "EarthHi",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 3.247425711187909e-10,
+   "heatW": 6365954.513468675,
+   "ruleSpinRateYr": 5.3007367848802784e-18,
+   "ruleHeatW": 0.10391076582341399,
+   "obsSpinRateYr": null,
+   "obsHeatW": 682781905788.8483,
+   "spinOverObs": null,
+   "heatOverObs": 0.000009323554797653587
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Io",
+   "src": "Jupiter",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 1.4495526114316935e-14,
+   "heatW": 87585.33135056899,
+   "ruleSpinRateYr": 3.1299464019921756e-22,
+   "ruleHeatW": 0.0018911862223285987,
+   "obsSpinRateYr": null,
+   "obsHeatW": 100000000000000,
+   "spinOverObs": null,
+   "heatOverObs": 8.758533135056899e-10
+  },
+  {
+   "cand": "P2",
+   "bg": "B1",
+   "id": "Pluto",
+   "src": "Charon",
+   "from": "all",
+   "c": 0.0000030879610739219857,
+   "spinRateYr": 8.073268940529904e-15,
+   "heatW": 243.9461467508551,
+   "ruleSpinRateYr": 1.1828853504864117e-23,
+   "ruleHeatW": 3.5742686813088455e-7,
+   "obsSpinRateYr": null,
+   "obsHeatW": null,
+   "spinOverObs": null,
+   "heatOverObs": null
+  }
+ ],
+ "grid": 61,
+ "gates": {
+  "pure": true,
+  "entry": true,
+  "obs": true,
+  "fit": true,
+  "ref": true,
+  "pred": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.27
+  },
+  "entry": {
+   "wallSec": 0.548
+  },
+  "obs": {
+   "wallSec": 0.549
+  },
+  "fit": {
+   "wallSec": 1.153
+  },
+  "ref": {
+   "wallSec": 1.154
+  },
+  "pred": {
+   "wallSec": 1.162
+  }
+ },
+ "elapsedS": 4.645,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第350便f",
+  "target": "tests/lib-w350f-structfit.mjs",
+  "targetSha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+  "generatedAt": "2026-11-23T15:01:57.950Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w350f-structfit.mjs",
+    "bytes": 7130,
+    "sha256": "5ef8e1e1cce620a5524409823ef4c978dce4f563c6f92ea89b09d4d4236df5c7",
+    "mtime": "2026-11-23T14:58:47.678Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-23T14:47:49.544Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-23T14:47:49.556Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-23T14:47:49.556Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-23T14:47:49.556Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-23T14:47:49.556Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-23T14:47:49.560Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-23T14:47:49.560Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-23T14:47:49.564Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-23T14:47:49.568Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-23T14:47:49.568Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-23T14:47:49.568Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-23T14:47:49.568Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-23T14:47:49.572Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-23T14:47:49.576Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-23T14:47:49.580Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-23T14:47:49.584Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-23T14:47:49.584Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-23T14:47:49.584Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-23T14:47:49.584Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-23T14:47:49.588Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-23T14:47:49.592Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-23T15:01:53.015Z"
+   }
+  ],
+  "codeSha256": "a6ff23e51a26e57ad7c9433313eb1cb7bed5a92e13313cb535bb1f7735c5bddf",
+  "harnessVersion": "w350f-structfit-1",
+  "stage": "structfit",
+  "engine": "Node(html を読まない —— 純関数の lib・第348便h・第348便c・第347便h・第347便e の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "係数 c_R の入り方 2 つ・背景軸引きずりの 2 列・候補 (W)・(P2) ごとの当てはめの診断の表(係数の値や天体の構造の答えではない)",
+   "個別の当てはめは構造を見るための診断 —— 較正の合格ではない・比べる数が増えるまで判定しない",
+   "比べる数は第330便a の lib の値(文献の値・未照合)の固定の比べる列(合わせない)",
+   "解が無い・桁違い・平ら・範囲の端は、その事実の表(最適化で任意の 1 点を選ばない)",
+   "当てはめに使っていない量の列は予測の列(合わせない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 9,
+   "kept": 897,
+   "zeroPathsHead": [
+    "/fit/70/resid/0",
+    "/fit/71/resid/0",
+    "/fit/72/resid/0",
+    "/fit/86/resid/0",
+    "/fit/87/resid/0",
+    "/fit/103/resid/0",
+    "/fit/104/resid/0",
+    "/fit/119/resid/0",
+    "/fit/120/resid/0"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

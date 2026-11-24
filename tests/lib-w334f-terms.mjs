@@ -8,6 +8,7 @@
 //         (vi) 現象の状況一覧の更新した行(欄「第333便の調べ」を持つ行の集合・P33 の欄)。変異の自己試験(selfTest334f)は実物の写しを壊して期待の違反で落ちることを見る。
 //   壊れたときは「どの表のどの行・どの項のどの抜粋・どの語か」を違反の文に書く。
 import { NOT_WORDS_331E, wordAudit331e, parsePhenoDoc331e } from './lib-w331e-phenostatus.mjs';
+import { eqItems350h, eqSection350h, eqRefs350h } from './lib-w350h-eqreader.mjs';   // 第350便h(R425): 計算式の一覧の読み手を共通の関数へ(2 桁の読みのまま —— 結果は変えない)
 
 export const TERMS_VERSION_334F = 'w334f-terms-1';
 export const TERM_KINDS_334F = Object.freeze(['並進引きずり', '軸引きずり', '円盤引きずり']);   // 第346便b: 3 行目の呼び名を「円盤引きずり」に(旧称: 回転引きずり —— 定義の語と必須の語は同じ)
@@ -64,10 +65,7 @@ const cells = (l) => l.split('|').slice(1, -1).map((c) => c.trim());
 // ── 読み取り ──
 /** 見出し「## 2a. 」から次の「## 」まで */
 export function termSection334f(eq) {
-  const s = String(eq || ''), i = s.indexOf('\n## 2a. ');
-  if (i < 0) return '';
-  const j = s.indexOf('\n## ', i + 1);
-  return s.slice(i + 1, j < 0 ? s.length : j);
+  return eqSection350h(eq, '2a');   // 第350便h: 共通の読み手(見出し「## 2a. 」から次の「## 」まで —— 同じ切り出し)
 }
 /** §2a の表(頭と行) */
 export function parseTermTable334f(sec) {
@@ -82,24 +80,7 @@ export function parseTermTable334f(sec) {
 }
 /** 項(### EQ-NN の見出しから次の「### 」か「## 」まで)・ラベル・PHYSICS の節の参照・抜粋のブロック */
 export function eqItems334f(eq) {
-  const s = String(eq || ''), out = [], re = /\n### (EQ-\d\d) ([^\n]*)/g;
-  let m;
-  while ((m = re.exec(s))) {
-    const a = m.index + 1, n1 = s.indexOf('\n### ', a + 1), n2 = s.indexOf('\n## ', a + 1);
-    const ends = [n1, n2].filter((x) => x >= 0), text = s.slice(a, ends.length ? Math.min(...ends) : s.length);
-    const label = ((/\n- \*\*ラベル\*\*: ([^\n]+)/.exec(text) || [])[1] || '').trim();
-    const physLine = (/\n- \*\*PHYSICS の節\*\*: ([^\n]+)/.exec(text) || [])[1] || '';
-    const physRefs = [...physLine.matchAll(/〔第(\d+)便([a-z]*)〕/g)].map((z) => ({ ref: z[0], head: '〔第' + z[1] + '便' + z[2] + ' — ', wave: Number(z[1]) }));
-    const blocks = [];
-    for (const b of text.matchAll(/- \*\*プログラム版 (\d+)\*\*\(`([^`]+)` · `([^`]+)`\)\n\n```js\n([\s\S]*?)\n```/g)) {
-      const frags = [], cur = [];
-      for (const ln of b[4].split('\n')) { if (ln.trim() === '// …') frags.push(cur.splice(0).join('\n')); else cur.push(ln); }
-      frags.push(cur.splice(0).join('\n'));
-      blocks.push({ k: Number(b[1]), file: b[2], name: b[3], frags });
-    }
-    out.push({ id: m[1], num: Number(m[1].slice(3)), title: m[2], text, label, physRefs, blocks });
-  }
-  return out;
+  return eqItems350h(eq, { maxDigits: 2 });   // 第350便h: 共通の読み手(番号は 2 桁だけ —— 前の便の読みのまま)
 }
 /** 名指しの定義(function NAME( か const/let NAME =)から、次の列 0 の最上位の定義(export・function・const・let・class)の手前まで */
 export function defSpan334f(src, name) {
@@ -128,7 +109,7 @@ export function checkTerms334f(inp) {
     const k = r[0], row = r.join(' | ');
     if (r.length !== TERM_COLS_334F.length || r.some((c) => !c)) { bad.push('① ' + k + ' の行の欄が 5 つでないか空の欄'); continue; }
     for (const w of (TERM_MUST_334F[k] || [])) if (row.indexOf(w) < 0) bad.push('① ' + k + ' の行に「' + w + '」が無い');
-    for (const z of row.matchAll(/EQ-\d\d/g)) if (!ids.has(z[0])) bad.push('① ' + k + ' の行が無い項 ' + z[0] + ' を指す');
+    for (const z of eqRefs350h(row, { maxDigits: 2 })) if (!ids.has(z)) bad.push('① ' + k + ' の行が無い項 ' + z + ' を指す');   // 第350便h: 共通の読み手(2 桁)
     const labs = EQ_LABELS_334F.filter((l) => r[4].indexOf(l) >= 0);
     if (!labs.length) bad.push('① ' + k + ' の状態のラベルが 5 種のどれも含まない');
     const rest = EQ_LABELS_334F.reduce((t, l) => t.split(l).join(''), r[4]).replace(/[(（][^)）]*[)）]/g, '').replace(/[・\s]/g, '');
