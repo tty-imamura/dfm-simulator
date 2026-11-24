@@ -451,3 +451,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 
 - **読み分けの包み**: `node tools/qapart-verdict.mjs <器の出力のファイル | ->` / `--run [--strict-skip] <器の引数…>`(器を子で走らせてから読む)/ `--self-test` —— 要求した鍵の PASS・FAIL・SKIP・未実行・範囲の例外・同じ範囲の他の鍵の FAIL を 1 行で出し、要求した鍵に FAIL も未実行も無ければ終了コード 0(器 `tests/exp-w258c-qapart.mjs` の本文と終了コードは元のまま)。
 - **節の式の戻り止め**: QA `lint.changelogHeadRe351i` —— `tests/qa.mjs` で CHANGELOG の節を開発中の形だけで探す式(公開版の `.0` を受けない式)を落とす。新しく書く式は `^## v1\.48(?:-b\d+|\.0)[((]` の形。
+
+## 第352便g — 道具: 統合の直後の部分 QA の差の口・昇格の道具の許可の項・root の SKIP の突き合わせ・作業の箱の立て直し
+
+- **差の口**: `tools/post-merge-qa.sh --since <rev> --dry`(③′ の一覧を `<rev>` から増えた鍵だけにして、一覧を出して終わる —— `--dry` を外すと ⓪〜⑤ を走らせる)。名の差だけを見るときは `node tools/qa-keys-since.mjs <rev>`(`--json`・`--self-test`)。付けなければ従来どおり(便の塊と PHYSICS の走査の一式)。
+- **許可の項**: `node tests/release-promote.mjs --check --perf-allow`(8 項め —— `tests/perf.mjs` の `ALLOW` が空か。残っていれば本の名と外す手順を出す・道具は外さない)。単独では `node tools/perf-allow-check.mjs [--root <dir>]`。
+- **root の SKIP の突き合わせ**: `node tools/root-skip-check.mjs [--root-log <root の全 QA のログ>] [--json]`(保存の結果 2 本は既定の場所 —— 読むだけ)。
+- **箱の立て直し**: `tools/box-setup.sh [--check|--apply] [--node-modules <dir>] [--no-engine] [--no-stamps]`(`--check` が既定・`--apply` は symlink・exclude・unshallow だけ)。QA `lint.tools352g`・`docs.tools352g`。

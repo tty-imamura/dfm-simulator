@@ -122267,6 +122267,144 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第351便k の塊(ここまで)====
+// ==== 第352便g の塊(ここから —— lint.tools352g・docs.tools352g の 2 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第352便g(統括の検証項目 R444): **道具の前倒し 4 つ**(html・器・既存の lib・検査の中身と閾値と判定式は変えない —— 道具の既定の動きも変えない・口を足すだけ)。
+// ----   lint.tools352g:
+// ----     ① tools/qa-keys-since.mjs の自己試験 11 通り・tools/post-merge-qa.sh の口 --since <rev>・--dry(付けないときの ③′ の範囲の句が第324便c の既定の形のまま・
+// ----        POST_MERGE_WAVE_IDS を渡したときは渡した名 + PHYSICS の走査の一式のまま・--since HEAD は「基点 HEAD から」の句・引けない rev は終了コード 2)
+// ----     ② tools/perf-allow-check.mjs の自己試験 8 通り・tests/release-promote.mjs の --check は既定で 7 項のまま(QA version.promote-check と同じ数)・
+// ----        --perf-allow を付けると 8 項め promote.perf-allow-empty・許可を 1 本入れた写しで 8 項めが落ちて終了コード 1(写しの許可は書き換えない —— 道具は外さない)
+// ----     ③ tools/root-skip-check.mjs の自己試験 14 通り・保存の全 QA の結果 2 本で走って (A) の数が出る(読むだけ —— 結果のファイルの中身が変わらない)
+// ----     ④ tools/box-setup.sh: 構文・作りものの git の木で --check は何も書かない・--apply は symlink と exclude の末尾の 2 行だけ・2 回目は何もしない・
+// ----        既に在る node_modules(ディレクトリ)を置き換えない・既存の exclude の行を残す・浅い複製を浅いと読む(--check では取り寄せない)
+// ----   docs.tools352g: AI_SPEC §336(§329 の後・必須の語)・tools/README.md の第352便g の節(第351便i の節の後)・post-merge の塊(第351便k の塊の後)・書かない語。
+{
+  await (async () => {
+  const rd352g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const { execFileSync: xf352g, spawnSync: sp352g } = await import('node:child_process');
+  const os352g = (await import('node:os')).default;
+  const bad = [], cases = [];
+  const sh = (args, env, cwd) => { const r = sp352g('bash', args, { cwd: cwd || ROOT, encoding: 'utf8', env: Object.assign({}, process.env, env || {}), timeout: 120000 }); return { rc: r.status, out: String(r.stdout || ''), err: String(r.stderr || '') }; };
+  let tmp = null;
+  try {
+    tmp = fs.mkdtempSync(path.join(os352g.tmpdir(), 'w352g-'));
+    // ① --since と --dry
+    const QK = await import('file://' + path.join(ROOT, 'tools', 'qa-keys-since.mjs'));
+    const s1 = QK.selfTest352g();
+    if (QK.QA_KEYS_SINCE_VERSION !== 'w352g-qa-keys-since-1') bad.push('① qa-keys-since の版 ' + QK.QA_KEYS_SINCE_VERSION);
+    if (!(s1.ok && s1.rows.length >= 11)) bad.push('① qa-keys-since の自己試験: ' + s1.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+    const PM = rd352g('tools/post-merge-qa.sh') || '';
+    if (!(PM.indexOf('    --since) SINCE_REV="${2:-}"; shift 2 ;;') >= 0 && PM.indexOf('    --dry) PMDRY=1; shift ;;') >= 0)) bad.push('① post-merge の引数に --since・--dry が無い');
+    const env0 = { POST_MERGE_WAVE_IDS: undefined, POST_MERGE_WAVE: '', POST_MERGE_PHYS_SCAN_IDS: undefined };
+    const clean = (e) => { const o = Object.assign({}, process.env, e); for (const k of Object.keys(o)) if (o[k] === undefined) delete o[k]; return o; };
+    const shc = (args, e) => { const r = sp352g('bash', args, { cwd: ROOT, encoding: 'utf8', env: clean(e), timeout: 120000 }); return { rc: r.status, out: String(r.stdout || ''), err: String(r.stderr || '') }; };
+    const d0 = shc(['tools/post-merge-qa.sh', '--dry'], env0);
+    const h0 = d0.out.split('\n')[0] || '';
+    if (!(d0.rc === 0 && /^post-merge-qa --dry: ③′ 〔(第\d+便の塊と PHYSICS の走査の一式|全部の便の積み上げ)/.test(h0))) bad.push('① --dry(既定)の範囲の句が第324便c の既定の形でない: rc ' + d0.rc + ' ' + h0.slice(0, 90));
+    const d1 = shc(['tools/post-merge-qa.sh', '--dry'], Object.assign({}, env0, { POST_MERGE_WAVE_IDS: 'lint.x352g docs.y352g' }));
+    const n1 = d1.out.split('\n').slice(1).filter(Boolean);
+    if (!(d1.rc === 0 && /指定の一覧.POST_MERGE_WAVE_IDS./.test(d1.out) && n1[0] === 'lint.x352g' && n1[1] === 'docs.y352g' && n1.indexOf('behavior.calauditStages') >= 0)) bad.push('① --dry(POST_MERGE_WAVE_IDS)が渡した名 + PHYSICS の走査の一式でない');
+    const d2 = shc(['tools/post-merge-qa.sh', '--since', 'HEAD', '--dry'], env0);
+    if (!(d2.rc === 0 && d2.out.indexOf('〔基点 HEAD から tests/qa.mjs に増えた鍵 ') >= 0 && d2.out.indexOf('behavior.calauditStages') < 0)) bad.push('① --since HEAD --dry: rc ' + d2.rc + ' ' + (d2.out + d2.err).slice(0, 90));
+    const d3 = shc(['tools/post-merge-qa.sh', '--since', 'no-such-rev-352g', '--dry'], env0);
+    if (d3.rc !== 2) bad.push('① 引けない rev で終了コード 2 でない(' + d3.rc + ')');
+    cases.push(`① qa-keys-since 自己試験 ${s1.rows.filter((z) => z.ok).length}/${s1.rows.length}・post-merge --dry の既定「${h0.replace(/^post-merge-qa --dry: /, '').slice(0, 40)}…」(第324便c の形のまま)・POST_MERGE_WAVE_IDS は渡した名 + 走査の一式のまま・--since HEAD は ${(d2.out.split('\n')[0] || '').replace(/^.*〕 /, '')}・引けない rev は rc ${d3.rc}`);
+    // ② 昇格の道具の 8 項め
+    const PA = await import('file://' + path.join(ROOT, 'tools', 'perf-allow-check.mjs'));
+    const s2 = PA.selfTest352g();
+    if (!(s2.ok && s2.rows.length >= 8)) bad.push('② perf-allow-check の自己試験: ' + s2.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+    const rpJ = (args, cwdRoot) => { const r = sp352g(process.execPath, [path.join(ROOT, 'tests', 'release-promote.mjs'), ...args], { cwd: ROOT, encoding: 'utf8', timeout: 60000 }); const m = /\{"mode":"check".*\}/.exec(String(r.stdout || '')); let res = []; if (m) { try { res = JSON.parse(m[0]).res || []; } catch (e) { res = []; } } return { rc: r.status, res }; };
+    const c7 = rpJ(['--check', '--json']), c8 = rpJ(['--check', '--perf-allow', '--json']);
+    if (c7.res.length !== 7 || c7.res.some((z) => z.id === 'promote.perf-allow-empty')) bad.push('② 既定の --check が 7 項でない(' + c7.res.length + ')');
+    if (!(c8.res.length === 8 && c8.res[7].id === 'promote.perf-allow-empty')) bad.push('② --check --perf-allow の 8 項め(' + c8.res.length + ')');
+    const now8 = c8.res[7] || {};
+    const cp = path.join(tmp, 'rp');
+    for (const f of ['index.html', 'beta/index.html', 'beta/sw.js', 'sw.js', 'package.json', 'package-lock.json', 'CITATION.cff', 'CHANGELOG.md', 'tests/perf.mjs']) { fs.mkdirSync(path.dirname(path.join(cp, f)), { recursive: true }); fs.copyFileSync(path.join(ROOT, f), path.join(cp, f)); }
+    const pf = path.join(cp, 'tests', 'perf.mjs'), psrc = fs.readFileSync(pf, 'utf8');
+    const mut = psrc.replace(/^const ALLOW = \{/m, 'const ALLOW = { galaxy352g: 1.25, ');
+    if (mut === psrc) bad.push('② 写しに許可を 1 本足せない(行頭の宣言が無い)');
+    fs.writeFileSync(pf, mut);
+    const cm = rpJ(['--root', cp, '--check', '--perf-allow', '--json']);
+    const cm8 = cm.res.find((z) => z.id === 'promote.perf-allow-empty');
+    if (!(cm8 && cm8.pass === false && /galaxy352g 1\.25/.test(cm8.msg) && /外す手順/.test(cm8.msg) && cm.rc === 1)) bad.push('② 許可を 1 本入れた写しで 8 項めが落ちない(rc ' + cm.rc + ')');
+    if (fs.readFileSync(pf, 'utf8') !== mut) bad.push('② 道具が写しの許可を書き換えた');
+    const cm7 = rpJ(['--root', cp, '--check', '--json']);
+    if (cm7.res.length !== 7) bad.push('② 写しの既定の --check が 7 項でない');
+    cases.push(`② perf-allow-check 自己試験 ${s2.rows.filter((z) => z.ok).length}/${s2.rows.length}・既定の --check ${c7.res.length} 項(不変)・--perf-allow で ${c8.res.length} 項(今の木の 8 項め ${now8.pass ? '通る' : '落ちる'} —— 判定には入れない)・許可 1 本の写しで 8 項め落ちる(rc ${cm.rc}・写しは書き換えない)・写しの既定は ${cm7.res.length} 項`);
+    // ③ root の SKIP の突き合わせ
+    const RS = await import('file://' + path.join(ROOT, 'tools', 'root-skip-check.mjs'));
+    const s3 = RS.selfTest352g();
+    if (!(s3.ok && s3.rows.length >= 14)) bad.push('③ root-skip-check の自己試験: ' + s3.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+    const rf = path.join(ROOT, 'tests', 'out', 'qa-results-full.json'), bf = path.join(ROOT, 'tests', 'out', 'qa-results-full-beta.json');
+    let n3 = '';
+    if (fs.existsSync(rf) && fs.existsSync(bf)) {
+      const h1 = sha256(fs.readFileSync(rf)) + sha256(fs.readFileSync(bf));
+      const r = sp352g(process.execPath, [path.join(ROOT, 'tools', 'root-skip-check.mjs'), '--json'], { cwd: ROOT, encoding: 'utf8', timeout: 60000 });
+      let J = null; try { J = JSON.parse(r.stdout); } catch (e) { J = null; }
+      if (!(r.status === 0 && J && J.A && Number.isFinite(J.A.betaOnly) && J.B === null)) bad.push('③ 保存の結果 2 本で (A) が出ない(rc ' + r.status + ')');
+      if (sha256(fs.readFileSync(rf)) + sha256(fs.readFileSync(bf)) !== h1) bad.push('③ 道具が保存の結果を書き換えた');
+      if (J && J.A) n3 = `(A) beta に行が在って root に無い鍵 ${J.A.betaOnly}・root だけの鍵 ${J.A.rootOnly.length}`;
+    } else n3 = '保存の結果が無い(試さない)';
+    cases.push(`③ root-skip-check 自己試験 ${s3.rows.filter((z) => z.ok).length}/${s3.rows.length}・${n3}`);
+    // ④ 箱の立て直しの台本
+    const bsh = path.join(ROOT, 'tools', 'box-setup.sh');
+    const syn = sp352g('bash', ['-n', bsh], { encoding: 'utf8' });
+    if (syn.status !== 0) bad.push('④ box-setup.sh の構文');
+    const g = (cwd, ...a) => xf352g('git', ['-c', 'user.email=qa@example.invalid', '-c', 'user.name=qa', '-c', 'init.defaultBranch=main', ...a], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    const repo = path.join(tmp, 'r'), nm = path.join(tmp, 'nm');
+    fs.mkdirSync(repo); fs.mkdirSync(nm); g(repo, 'init', '-q');
+    fs.writeFileSync(path.join(repo, 'a.txt'), '1\n'); g(repo, 'add', 'a.txt'); g(repo, 'commit', '-q', '-m', 'c1');
+    fs.writeFileSync(path.join(repo, 'a.txt'), '2\n'); g(repo, 'commit', '-q', '-am', 'c2');
+    const exf = path.join(repo, '.git', 'info', 'exclude');
+    fs.mkdirSync(path.dirname(exf), { recursive: true }); fs.writeFileSync(exf, '# keep-352g\n');
+    const B = (...a) => sh([bsh, '--repo', repo, '--no-engine', '--no-stamps', ...a], { BOX_NODE_MODULES: '' });
+    const k1 = B('--node-modules', nm);
+    if (!(k1.rc === 1 && !fs.existsSync(path.join(repo, 'node_modules')) && fs.readFileSync(exf, 'utf8') === '# keep-352g\n')) bad.push('④ --check(既定)が書いた・か足りない所を読まない(rc ' + k1.rc + ')');
+    const a1 = B('--apply', '--node-modules', nm);
+    const ex1 = fs.readFileSync(exf, 'utf8');
+    if (!(a1.rc === 0 && fs.lstatSync(path.join(repo, 'node_modules')).isSymbolicLink() && fs.readlinkSync(path.join(repo, 'node_modules')) === nm && ex1 === '# keep-352g\nnode_modules\nbeta/_w*_base.html\n')) bad.push('④ --apply の symlink と exclude(rc ' + a1.rc + ' ' + JSON.stringify(ex1).slice(0, 80) + ')');
+    const a2 = B('--apply', '--node-modules', path.join(tmp, 'other'));
+    if (!(a2.rc === 0 && fs.readlinkSync(path.join(repo, 'node_modules')) === nm && fs.readFileSync(exf, 'utf8') === ex1 && /何もしない/.test(a2.out))) bad.push('④ 2 回目の --apply が何かを変えた(rc ' + a2.rc + ')');
+    const repo2 = path.join(tmp, 'r2'); fs.mkdirSync(repo2); g(repo2, 'init', '-q'); fs.mkdirSync(path.join(repo2, 'node_modules')); fs.writeFileSync(path.join(repo2, 'node_modules', 'x'), 'k');
+    const a3 = sh([bsh, '--apply', '--repo', repo2, '--node-modules', nm, '--no-engine', '--no-stamps']);
+    if (!(fs.lstatSync(path.join(repo2, 'node_modules')).isDirectory() && !fs.lstatSync(path.join(repo2, 'node_modules')).isSymbolicLink() && fs.readFileSync(path.join(repo2, 'node_modules', 'x'), 'utf8') === 'k')) bad.push('④ 既に在る node_modules(ディレクトリ)を置き換えた');
+    const shallow = path.join(tmp, 's');
+    g(tmp, 'clone', '-q', '--depth', '1', 'file://' + repo, shallow);
+    const k2 = sh([bsh, '--repo', shallow, '--node-modules', nm, '--no-engine', '--no-stamps']);
+    const isSh = String(g(shallow, 'rev-parse', '--is-shallow-repository')).trim();
+    if (!(k2.rc === 1 && /\(iii\) 浅い複製/.test(k2.out) && isSh === 'true')) bad.push('④ 浅い複製を浅いと読まない・か --check で取り寄せた(rc ' + k2.rc + '・浅い ' + isSh + ')');
+    cases.push(`④ box-setup.sh: 構文・--check は書かない(rc ${k1.rc})・--apply は symlink と exclude の末尾 2 行(既存の行は残る —— rc ${a1.rc})・2 回目は何もしない(rc ${a2.rc})・既に在る node_modules を置き換えない(rc ${a3.rc})・浅い複製を浅いと読む(--check —— 取り寄せない)`);
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+  finally { if (tmp) { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時の置き場 */ } } }
+  add('lint.tools352g', bad.length === 0,
+    `**道具の前倒し 4 つの試し**(第352便g・統括の検証項目 R444 —— 道具の既定の動きは変えていない・口を足しただけ。検査の中身・閾値・判定式は変えていない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+
+  // ---- docs.tools352g(root は SKIP)
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.tools352g(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const AS = rd352g('docs/AI_SPEC.md') || '', TR = rd352g('tools/README.md') || '', PM = rd352g('tools/post-merge-qa.sh') || '';
+    const a336 = AS.search(/\n## 336\. 第352便g/), a329 = AS.search(/\n## 329\. 第351便k/);
+    const ai = a336 >= 0 ? (() => { const r = AS.slice(a336 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    for (const x of ['R444', 'SYSTEM_PROMPT には載せない', 'lint.tools352g', 'docs.tools352g', '`tools/post-merge-qa.sh --since <rev>`', '`--dry`', '`tools/qa-keys-since.mjs`', '--perf-allow', '`tools/perf-allow-check.mjs`', '`tools/root-skip-check.mjs`', '`tools/box-setup.sh`', '既定の動きは変えない', '履歴を書き換えない'])
+      if (ai.indexOf(x) < 0) bad.push('① AI_SPEC §336 に「' + x + '」が無い');
+    if (!(a336 >= 0 && a329 >= 0 && a329 < a336)) bad.push('① AI_SPEC §336 の位置(§329 の後)');
+    const t0 = TR.indexOf('\n## 第352便g — '), t1 = TR.indexOf('\n## 第351便i — ');
+    const ts = t0 >= 0 ? (() => { const r = TR.slice(t0 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(t0 >= 0 && t1 >= 0 && t1 < t0)) bad.push('② tools/README.md の第352便g の節(第351便i の節の後)');
+    for (const x of ['`tools/post-merge-qa.sh --since <rev> --dry`', '`node tools/qa-keys-since.mjs <rev>`', '`node tests/release-promote.mjs --check --perf-allow`', '`node tools/perf-allow-check.mjs', '`node tools/root-skip-check.mjs', '--root-log', '`tools/box-setup.sh', '--apply', 'lint.tools352g'])
+      if (ts.indexOf(x) < 0) bad.push('② tools/README.md の第352便g の節に「' + x + '」が無い');
+    if (!(PM.indexOf('# ==== 第352便g の塊(ここから)====') > PM.indexOf('# ==== 第351便k の塊(ここまで)====') && PM.indexOf('# ==== 第351便k の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.tools352g docs\.tools352g"/.test(PM))) bad.push('③ post-merge に第352便g の塊(第351便k の塊の後)');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const NG = ['決まった', '確かめた', '示した', '説明できた', '導けた', 'BL-1', 'BACKLOG', 'OPERATIONS_DIGEST', 'w349-skipcheck'];
+    for (const w of NG) { if (stripQ(ai).indexOf(w) >= 0) bad.push('④ AI_SPEC §336 に書かない語「' + w + '」'); if (stripQ(ts).indexOf(w) >= 0) bad.push('④ tools/README.md の節に書かない語「' + w + '」'); }
+    cases.push('① AI_SPEC §336(§329 の後・必須の語)/ ② tools/README.md の第352便g の節(第351便i の節の後・使い方の行)/ ③ post-merge の塊(第351便k の塊の後)/ ④ 書かない語 ' + NG.length + ' 種');
+    add('docs.tools352g', bad.length === 0, `**第352便g の道具の文書**(統括の検証項目 R444): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第352便g の塊(ここまで)====
 
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
