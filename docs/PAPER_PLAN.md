@@ -152,10 +152,10 @@
 
 | 番号 | 何を確かめるか | 今ある器・正本・ゲート | 足りるか | 足りなければ何を作るか | 見積り |
 |---|---|---|---|---|---|
-| V1-1 | GPS・太陽縁の偏向・シャピロ遅延・時計・光の本を geoPN=1 で走らせて、数が geoPN=0 の宣言と同じか | `grcal.clocks`・`grcal.rays`(geoPN=0 の宣言のまま) | 足りない | 器(Node だけで走る —— 本の宣言の geoPN だけを 1 にした写しで同じ量を数える)と段 | 枝 1 本 |
+| V1-1 | GPS・太陽縁の偏向・シャピロ遅延・時計・光の本を geoPN=1 で走らせて、数が geoPN=0 の宣言と同じか | `grcal.clocks`・`grcal.rays`(geoPN=0 の宣言のまま) | 足りない | 器(Node だけで走る —— 本の宣言の geoPN だけを 1 にした写しで同じ量を数える)と段 → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t1・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`(html を読む段)・鍵 `behavior.paper1prep352t`(表は PHYSICS〔第352便t〕の表 1・表 2 —— 同じ値の量と変わる量の数だけ) | 枝 1 本 |
 | V1-2 | 局所光速で止まる標準の時計(点の時計)の数 | `verify.V12`・`verify.V13`・`verify.V16`・`new.gclock`・`paper/figures/fig4.json` | 足りる | —— | —— |
-| V1-3 | 水星の近点の一次の項を「現行の近似」の列と主の候補の列に並べる | 〔第344便b〕の器と正本・本便の枝 b | 一部 | 論文の表の形の写しの器(本便の枝 b の正本から引く) | 枝 1 本の一部 |
-| V1-4 | 照合の表(GPS・太陽縁の偏向・シャピロ遅延)の模型の値と換算の規約の列 | `grcal.calib-text`・`physlock.kt-derive` | 一部 | 照合の表の正本(本の宣言から引く器 —— 観測の値は出典と「文献の値・未照合」の列) | 枝 1 本 |
+| V1-3 | 水星の近点の一次の項を「現行の近似」の列と主の候補の列に並べる | 〔第344便b〕の器と正本・本便の枝 b | 一部 | 論文の表の形の写しの器(本便の枝 b の正本から引く) → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t3・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`(第344便b の正本 `tests/out/partyconv-344b.json` の写し —— 表は PHYSICS〔第352便t〕④) | 枝 1 本の一部 |
+| V1-4 | 照合の表(GPS・太陽縁の偏向・シャピロ遅延)の模型の値と換算の規約の列 | `grcal.calib-text`・`physlock.kt-derive` | 一部 | 照合の表の正本(本の宣言から引く器 —— 観測の値は出典と「文献の値・未照合」の列) → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t2・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`・`docs.paper1prep352t`(照合の表は PHYSICS〔第352便t〕③ —— 観測の列は文献の値・未照合) | 枝 1 本 |
 | V1-5 | 図データ(太陽縁の偏向・シャピロ遅延・時計の 2 成分)の再生成 | `tools/gen-figures.mjs`(図 1〜6) | 足りない | 図データの器と図のゲート(新しい図 3 枚) | 枝 1 本 |
 | V1-6 | 相対性理論との差異の表の項目(構造の違い —— 本文の主張の範囲) | PHYSICS の §対応関係・〔第345便a〕 | 一部 | 文書だけ(表の行の出どころを PHYSICS の節で指す) | 文書の枝の一部 |
 | V1-7 | 末尾の未解決の一覧の AN904 の項の状態(本便の枝 c の列 —— 本文には入れない) | 本便の枝 c | 一部 | 本便の枝 c の結果を一覧の 1 行に写す(結果は書かない —— 「探索中」と節の名) | 文書の枝の一部 |

@@ -3107,6 +3107,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/satring-352s.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便s: 零試験 11/衛星 10 × 背景 4/トルク 8/打ち消し 48/互いの項 20 + 4/土星の環 10/公転面の輪 12' }),
   // ==== 第352便s の塊(ここまで)====
+  // ==== 第352便t の塊(ここから)====
+  // ---- 第352便t(原仮定者の指示(2026-11-21 —— 第145報)「論文の改訂案」・原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R457):
+  //   **論文1 の本文の改訂の前に要る検証(docs/PAPER_PLAN.md §2 ⑧ の V1-1・V1-4・V1-3)—— geoPN だけを 1 にした写しの量・照合の表・水星の近点の一次の項の表の写し**
+  //   (段 paper1prep-352t —— 正本 tests/out/paper1prep-352t.json・lib tests/lib-w352t-paper1prep.mjs)。**診断だけ**。html を読む(loadHtmlHeadless —— 受理器・build・步をそのまま・
+  //   本 5 本の宣言の写し)。入力のファイルは第344便b の正本と論文1 の日本語版の本文(読むだけ —— after に partyconv-344b)。1 プロセス。所要は第352便t の枝の実測 2 s
+  S('paper1prep-352t', 'node tests/exp-w352t-paper1prep.mjs', ['tests/out/paper1prep-352t.json'], 2, { secSource: 'w352t-branch', node: true,
+    after: ['suntilt-352l', 'partyconv-344b'],
+    quickVerify: false, quickVerifyWhy: '本 5 本 × geoPN 2 の走行と表の写しを全部走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/paper1prep-352t.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第352便t: 零試験 10/t1 本 5 × geoPN 0・1(受理・走る法則・既存の鍵の量)/t2 照合の表(式の出力・正典・換算の規約・リポジトリに在る観測の字句)/t3 第344便b の水星の近点の 4 列 × 6 行の写し' }),
+  // ==== 第352便t の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
