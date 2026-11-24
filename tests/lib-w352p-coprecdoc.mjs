@@ -65,7 +65,7 @@ export function tablesOf(J) {
     `| ⑩ 輪の寄り: 7° になる f_輪 の下限で年齢の後の角 [°] | ${f2(S.ring.th)} | ${tf(G.ringFor)} |`,
     `| ⑪ 第352便i の地球の根(I 30°・f 0.5・(g2+))を読み B の走査で | ${S.scRoots.map(sg3).join('・')} | ${tf(G.iRoots)} |`,
     `| ⑫ lockFromA と第352便i の lockPoints(打ち消しの無い入力)・読み A の lockA と ρ を経た lockObl | ${fl9(S.fromErr)}・${fl9(S.aErr)} | ${tf(G.lockFromA)} |`,
-    `| ⑬ 入力の拒否(候補の名・C 0・負の W_bg・Ω 0・読みの名・大きさの名・θ 0・目標 > θ₀) | ${S.rejects.filter(Boolean).length}/${S.rejects.length} | ${tf(G.rejects)} |`].join('\n');
+    `| ⑬ 入力の拒否(候補の名・C 0・負の W_b・Ω 0・読みの名・大きさの名・θ 0・目標 > θ₀) | ${S.rejects.filter(Boolean).length}/${S.rejects.length} | ${tf(G.rejects)} |`].join('\n');
   T.coef = ['| 天体 | 大きさ | ω ÷ n_orb | C | (P2) の係数の差 | (P3) の係数の差 | 輪の回る率 g_輪 [″/年](f_輪 0・(g2+)) | 輪の法線と背景の角 [°] | いまの傾き [°] | 経路 ② で届くか | 年齢の間に開くのに要る倍率: (P3)・(P2) | 要る係数の差 |', '|---|---|---|---|---|---|---|---|---|---|---|---|',
     ...J.coef.map((r) => `| ${BN[r.id]} | ${MG[r.mag]} | ${fe(r.wOverN)} | ${r.C.toFixed(4)} | ${fe(r.relP2)} | ${fe(r.relP3)} | ${fe(r.gRingAsYr)} | ${f2(r.IbgDeg)} | ${f2(r.oblNowDeg)} | ${r.reach ? '届く' : '届かない'} | ${fe(r.uReqP3)}・${fe(r.uReqP2)} | ${fe(r.deltaReq)} |`)].join('\n');
   T.lockG = lockTable(J.lockG);

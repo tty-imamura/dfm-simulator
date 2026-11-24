@@ -11768,41 +11768,41 @@
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.079
+   "wallSec": 0.114
   },
   "pure": {
-   "wallSec": 0.091
+   "wallSec": 0.138
   },
   "t1": {
-   "wallSec": 0.649
+   "wallSec": 0.498
   },
   "t2": {
-   "wallSec": 1.084
+   "wallSec": 0.949
   },
   "t3": {
-   "wallSec": 1.523
+   "wallSec": 1.275
   },
   "t4": {
-   "wallSec": 1.526
+   "wallSec": 1.277
   },
   "t5": {
-   "wallSec": 1.527
+   "wallSec": 1.278
   }
  },
- "elapsedS": 4.92,
+ "elapsedS": 4.87,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便p",
   "target": "tests/lib-w352p-coprec.mjs",
-  "targetSha256": "6ff9627bca9874ca1073be57c2a4bd7466fd3b8c247a33024aba7909f76c164a",
-  "generatedAt": "2026-11-24T18:04:04.088Z",
+  "targetSha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+  "generatedAt": "2026-11-24T18:23:50.612Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w352p-coprec.mjs",
-    "bytes": 14102,
-    "sha256": "ffb3cfbd584327e98429fb6e1d1dbad5a636c2b4c87372a744eb6dc117ef5353",
-    "mtime": "2026-11-24T18:03:58.973Z"
+    "bytes": 14099,
+    "sha256": "c07489dff58b25e4e16a0fb23db65669fe1e9ae1d8f2a807926d078f79693a82",
+    "mtime": "2026-11-24T18:23:45.161Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -12310,12 +12310,12 @@
    },
    {
     "file": "tests/lib-w352p-coprec.mjs",
-    "bytes": 31769,
-    "sha256": "6ff9627bca9874ca1073be57c2a4bd7466fd3b8c247a33024aba7909f76c164a",
-    "mtime": "2026-11-24T18:03:00.802Z"
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-24T18:23:45.160Z"
    }
   ],
-  "codeSha256": "8ec4ee0c627613170ed50fa0240a40e2c2e75fd4633ef3f7036e692101ed183f",
+  "codeSha256": "2ea4a79c2b1e12e7b2349be8403900b7c077ea1f653928103c64b347518f353e",
   "harnessVersion": "w352p-coprec-1",
   "stage": "coprec",
   "engine": "Node(html を読まない —— 純関数の lib・第352便i・第352便l・第352便b〜e の lib を呼ぶ)・1 プロセス",

@@ -8,9 +8,9 @@
 //   第352便d(rowOf・bgVec・uVenus)・第352便c(refAxes)・第352便e(fixedOffset)・第351便d(r3Coeffs・vec・angDeg)・第347便e(t1Table・geometry)・第337便c(BODY_SRC・GALAXY・G_SI)・
 //   第348便c(massOf・radiusOf)・第330便a(DECL.lit.orbitDays —— 公転の日数)。
 //
-// ■ 語: Ω_bg = 背景の回転(一様 —— 輪の平均は背景そのもの〔第352便l の ringAvg の一様な背景の零試験〕)・W_bg = abs(Ω_bg)・Ω = 受け手の合成(背景 + 局所の (S))・W = abs(Ω)。
+// ■ 語: Ω_bg = 背景の回転(一様 —— 輪の平均は背景そのもの〔第352便l の ringAvg の一様な背景の零試験〕)・W_b = abs(Ω_bg)・Ω = 受け手の合成(背景 + 局所の (S))・W = abs(Ω)。
 //   輪の法線 n̂ と自転軸 ŝ は、どちらも第351便d の (R3) の 2 経路で応える(係数: 比率 f〔(N1)〕・歳差の向きの読み σ〔(g2+) +1・(g2−) −1〕・応答の比 c〔輪 c_n・自転軸 c_s〕)。
-// ■ g_輪(T1 の 1): 輪は一様な背景だけに応える(本 lib の置き方)—— dn̂/dt = σ k₂(f_n) c_n (Ω_bg × n̂) + 経路 ① —— 背景の軸 Ω̂_bg のまわりを率 g_輪 = σ k₂(f_n) c_n W_bg で回る。
+// ■ g_輪(T1 の 1): 輪は一様な背景だけに応える(本 lib の置き方)—— dn̂/dt = σ k₂(f_n) c_n (Ω_bg × n̂) + 経路 ① —— 背景の軸 Ω̂_bg のまわりを率 g_輪 = σ k₂(f_n) c_n W_b で回る。
 //   比 ρ = g ÷ (k₂ × c_s × W)(第352便i の lockGeom の ρ —— k₂ は f の値・符号は g の符号)。
 // ■ 一緒に回る枠の 2 つの読み(どちらにも寄せない —— 列で並べる):
 //   (A) 慣性の枠から写した読み: 一定の Ω_bg のまわりを輪が回るとき、輪と Ω_bg の両方が止まって見える枠は Ω̂_bg のまわりを g_輪 で回る枠。
@@ -111,10 +111,10 @@ export function coefCand(cand, { w, nOrb, C, perpS = 0, perpN = 0 }) {
 
 /* ───────── g_輪 と ρ(T1 の 1)───────── */
 /** 輪の回る率(右ねじで Ω̂_bg のまわりに正 —— rad/s) */
-export function gRing({ Wbg, fRing = 0, sense, cn = 1 }) {
-  if (!(fin(Wbg) && Wbg >= 0 && fin(cn) && cn >= 0)) throw new RangeError('gRing: W_bg ≥ 0・c_n ≥ 0');
+export function gRing({ Wb, fRing = 0, sense, cn = 1 }) {
+  if (!(fin(Wb) && Wb >= 0 && fin(cn) && cn >= 0)) throw new RangeError('gRing: W_b ≥ 0・c_n ≥ 0');
   const k = I.kOf(fRing, sense);
-  return k.k2s * cn * Wbg;
+  return k.k2s * cn * Wb;
 }
 /** 比 ρ = g ÷ (k₂ c_s W)(k₂ 0 なら g ÷ (c_s W)) */
 export function rhoOf({ g, W, f, sense, cs = 1 }) {
@@ -184,7 +184,7 @@ export function lockFromA(a, b, oh) {
 export const flowA = (s, a, b, oh) => { const u = unit(s), o = unit(oh); return add(scl(sub(o, scl(u, dot(u, o))), b), crs(a, u)); };
 /**
  * 読み A(回る軸 = Ω̂_bg)の止まる向き —— δ = c_n ÷ c_s − 1(輪の係数の比の差)。a = σ k₂ c_s (局所 − δ Ω_bg)・b = k₁ c_s W・Ω̂ = (Ω_bg + 局所) の向き。
- * f > 0: 引き込む点の傾き。f 0: 中立 —— 自転軸は â のまわりの円錐を保つ: 円錐の半頂角 κ = ŝ と â の角・傾きの範囲 [abs(κ − α), min(κ + α, 360° − κ − α)](α = â と n̂ の角)・
+ * f > 0: 引き込む点の傾き。f 0: 中立 —— 自転軸は â のまわりの円錐を保つ: 円錐の半頂角 χ = ŝ と â の角・傾きの範囲 [abs(χ − α), min(χ + α, 360° − χ − α)](α = â と n̂ の角)・
  * 枠の中の歳差の率 abs(a)(rad/s)。
  */
 export function lockA({ bg, loc, sHat, nRing, delta = 0, f, sense, cs = 1 }) {
@@ -238,13 +238,13 @@ export function stateOf(T1, GEO, id, { dir, axis, u }, cache = null) {
   if (!ax) throw new RangeError('stateOf: 基準軸は L・eq');
   const R = D.rowOf(T1, GEO, id, { bg: dir, sense: 'g2p', u, part: 'S', axis: ax }, cache);
   const nRing = id === 'Sun' ? unit(ax) : R.nHat, bg = R.bgVec, Om = R.Om;
-  return { id, dir, axis, u, sHat: R.sHat, nRing, bg, Wbg: nrm(bg), Om, W: nrm(Om), local: R.local, locOverBg: nrm(R.local) / nrm(bg),
+  return { id, dir, axis, u, sHat: R.sHat, nRing, bg, Wb: nrm(bg), Om, W: nrm(Om), local: R.local, locOverBg: nrm(R.local) / nrm(bg),
     oblNowDeg: angDeg(R.sHat, nRing), thNowDeg: angDeg(R.sHat, Om), Ibg: angDeg(nRing, bg), Iom: angDeg(Om, bg) };
 }
-/** 読み A・B の回る軸と、係数の比 c_n ÷ c_s のときの式の ρ(同じ f・同じ σ —— A: σ (c_n/c_s)(W_bg/W)・B: その符号を逆) */
+/** 読み A・B の回る軸と、係数の比 c_n ÷ c_s のときの式の ρ(同じ f・同じ σ —— A: σ (c_n/c_s)(W_b/W)・B: その符号を逆) */
 export function rhoFormula(st, { read, f, sense, ratio = 1 }) {
   if (!DECL.reads.includes(read)) throw new RangeError('rhoFormula: 読みは A・B');
-  const g = gRing({ Wbg: st.Wbg, fRing: f, sense, cn: ratio }), rho = rhoOf({ g, W: st.W, f, sense, cs: 1 });
+  const g = gRing({ Wb: st.Wb, fRing: f, sense, cn: ratio }), rho = rhoOf({ g, W: st.W, f, sense, cs: 1 });
   return { nRot: read === 'A' ? unit(st.bg) : st.nRing, rho: read === 'A' ? rho : -rho };
 }
 
@@ -311,12 +311,12 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const Om = [0.2, -0.3, 0.93], n0 = th(25), s0 = th(48, 1.1);
   const corot = D.DECL.senses.map((sense) => { const c = LL.axisCoef(0, { sense, ratio: 1.7 }), r = LL.twoAxisStep({ n0, s0, om: Om, T: 11, steps: 40, ring: c, spin: c, track: true });
     return Math.max(Math.abs(r.gammaMaxDeg - angDeg(n0, s0)), Math.abs(r.gammaMinDeg - angDeg(n0, s0))); });
-  // ①′ 同じ係数・読み A で局所 0: a = 0 の向き —— 止まる点は Ω̂(f > 0)・ρ の式は σ(W_bg/W = 1)
-  const stA = { bg: [0, 0, 2], Wbg: 2, W: 2, nRing: th(30) };
+  // ①′ 同じ係数・読み A で局所 0: a = 0 の向き —— 止まる点は Ω̂(f > 0)・ρ の式は σ(W_b/W = 1)
+  const stA = { bg: [0, 0, 2], Wb: 2, W: 2, nRing: th(30) };
   const fA = DECL.senses.map((sense) => { const rf = rhoFormula(stA, { read: 'A', f: 0.5, sense }), lo = lockObl({ Om: [0, 0, 2], nRot: rf.nRot, nRing: stA.nRing, rho: rf.rho, f: 0.5, sense });
     return { rho: rf.rho, ax: nrm(sub(lo.s, [0, 0, 1])), obl: Math.abs(lo.oblDeg - 30) }; });
   // ①″ 同じ係数・読み A・局所が在るとき a = σ k₂ (Ω − Ω_bg)(背景の歳差は枠で消える)—— f 0 の中立の点は ± 局所の向き
-  const loc = [0.05, 0.02, -0.01], OmL = add([0, 0, 2], loc), stL = { bg: [0, 0, 2], Wbg: 2, W: nrm(OmL), nRing: th(30) };
+  const loc = [0.05, 0.02, -0.01], OmL = add([0, 0, 2], loc), stL = { bg: [0, 0, 2], Wb: 2, W: nrm(OmL), nRing: th(30) };
   const neuL = DECL.senses.map((sense) => { const rf = rhoFormula(stL, { read: 'A', f: 0, sense }), lo = lockObl({ Om: OmL, nRot: rf.nRot, nRing: stL.nRing, rho: rf.rho, f: 0, sense });
     return Math.abs(Math.abs(dot(lo.s, unit(loc))) - 1); });
   // ② g 0 で第352便i の一定の軸の形に戻る: 止まる点 = Ω̂・戻りの率 = k₁ W(judgeConst の θ 0)
@@ -348,12 +348,12 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   for (const sense of DECL.senses) for (const f of [0, 0.4, 0.9]) {
     for (const rho of [-2, 0.3, 4]) { const k = I.kOf(f, sense), P = { Om: [0.3, 0.1, 0.9], W: 1.3, n: [0.2, -0.5, 0.8], g: rho * (k.k2 > 0 ? k.k2 : 1), k1: k.k1, k2s: k.k2s }, Q = I.aOf(P);
       const p1 = I.lockPoints(P).pts, p2 = lockFromA(Q.a, Q.b, P.Om).pts; fromErr = Math.max(fromErr, ...p1.map((p, i) => nrm(sub(p.s, p2[i].s)) + Math.abs(p.lam - p2[i].lam))); }
-    if (f > 0) { const bg = [0, 0, 1], lc = [0.3, -0.2, 0.1], dl = 0.25, st = { bg, Wbg: 1, W: nrm(add(bg, lc)), nRing: th(20) }, rf = rhoFormula(st, { read: 'A', f, sense, ratio: 1 + dl });
+    if (f > 0) { const bg = [0, 0, 1], lc = [0.3, -0.2, 0.1], dl = 0.25, st = { bg, Wb: 1, W: nrm(add(bg, lc)), nRing: th(20) }, rf = rhoFormula(st, { read: 'A', f, sense, ratio: 1 + dl });
       const o1 = lockObl({ Om: add(bg, lc), nRot: rf.nRot, nRing: st.nRing, rho: rf.rho, f, sense }), o2 = lockA({ bg, loc: lc, sHat: th(30), nRing: st.nRing, delta: dl, f, sense });
       aErr = Math.max(aErr, nrm(sub(o1.s, o2.s)), Math.abs(o1.oblDeg - o2.oblDeg)); }
   }
   // 拒否
-  const rej = [() => coefCand('P4', {}), () => coefCand('P3', { C: 0 }), () => gRing({ Wbg: -1, sense: 'g2p' }), () => lockObl({ Om: [0, 0, 0], nRot: [0, 0, 1], nRing: [0, 0, 1], rho: 1, f: 0.5, sense: 'g2p' }),
+  const rej = [() => coefCand('P4', {}), () => coefCand('P3', { C: 0 }), () => gRing({ Wb: -1, sense: 'g2p' }), () => lockObl({ Om: [0, 0, 0], nRot: [0, 0, 1], nRing: [0, 0, 1], rho: 1, f: 0.5, sense: 'g2p' }),
     () => rhoFormula(stA, { read: 'C', f: 0, sense: 'g2p' }), () => uOf('uX'), () => fMax({ thDeg: 0, W: 1 }), () => fRingFor({ targetDeg: 40, W: 1 })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
   return { corot, fA, neuL, g0, sameI, lRe, wBack, p2, fm: { fMax: fm.fMax, drop: ta.dropDeg / 23.44 }, fInv, kaErr, ring: { f: rf.f, th: ra.thDeg }, scRoots: sc.roots.map((r) => r.rho), fromErr, aErr, rejects: rej };

@@ -49,13 +49,13 @@ export function coefRows(T1, GEO, ctx) {
       const st = L.stateOf(T1, GEO, id, { dir: 'Gm', axis: 'L', u: ctx.u[mag] }, ctx.cache);
       const sS = Math.sin(L.angDeg(st.sHat, st.Om) * D2R), sN = Math.sin(L.angDeg(st.nRing, st.Om) * D2R);
       const c2 = L.coefCand('P2', { w: N.w, nOrb: N.nOrb, perpS: st.W * sS, perpN: st.W * sN }), c3 = L.coefCand('P3', { C: N.C });
-      const g = L.gRing({ Wbg: st.Wbg, fRing: 0, sense: 'g2p' });
+      const g = L.gRing({ Wb: st.Wb, fRing: 0, sense: 'g2p' });
       // 開く角(初めにそろった輪の法線と自転軸が、年齢の間にいまの傾きまで開く)に要る背景の大きさ(倍率 —— 経路 ② だけ・θ = 輪の法線と背景の角)
       const th = st.Ibg, tg = st.oblNowDeg;
       const w3 = L.wReqOpen({ thDeg: th, gammaDeg: tg, rel: c3.rel }), w2 = L.wReqP2({ thDeg: th, gammaDeg: tg, w: N.w, nOrb: N.nOrb, sS: Math.sin(th * D2R), sN: Math.sin(th * D2R) });
       rows.push({ id, mag, w: N.w, nOrb: N.nOrb, C: N.C, wOverN: N.w / N.nOrb, relP1: 0, relP2: c2.rel, relP3: c3.rel, gRingAsYr: g * AY, IbgDeg: th, oblNowDeg: tg,
         reach: L.LL.dphiFor({ thDeg: th, gammaDeg: tg }) !== null, uReqP3: w3 === null ? null : w3 / L.DECL.omegaG, uReqP2: w2 === null ? null : w2 / L.DECL.omegaG,
-        deltaReq: L.deltaReq({ thDeg: th, gammaDeg: tg, W: st.Wbg }) });
+        deltaReq: L.deltaReq({ thDeg: th, gammaDeg: tg, W: st.Wb }) });
     }
   }
   return rows;
