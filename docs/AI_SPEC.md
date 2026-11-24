@@ -5577,3 +5577,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: 第 1 段の lib(源の成分・(R3) の 2 経路・(C2) の球の口)と〔第350便f〕の当てはめの器を呼び、ノブを 1 つずつ振った対数の感度の行列(地球・火星・金星 × 成分 3 × 基準 u 0・1 × 観測量 5)と階数・2 つのノブの組ごとの縮退・当てはめの段 (全)(組)(個) の要る値(1 つのノブだけを振る —— 月は外す列が主)・構造の組の順位の相関を出した。器 `tests/exp-w351k-knobrank.mjs`・lib `tests/lib-w351k-knobrank.mjs`・正本 `tests/out/knobrank-351k.json`・段 `knobrank-351k`(Node だけ・html を読まない)。
 - **AI が読むときの要点**: どれも候補の表(この場・この読み・この基準の点では)。局所の大きさに掛かる k・c_R (ii)・c_R (i) は 1 天体の観測量では 1 つの組み合わせにしか効かない(u 0 で階数 2・u 1 で階数 3)。f は 2 つの率の比で、u は合成の向きで k と分かれる。要る値は並べただけで、ノブの値は選んでいない(同時に当てはめていない)。比べる数は文献の値・未照合の固定の比べる列で、合わせていない。
 - QA `behavior.knobrank351k`・`docs.knobrank351k`(本節と PHYSICS〔第351便k〕 —— root は SKIP)。
+
+## 331. 第352便b —— 仮の値の器: 原仮定者の回答(2026-11-24 —— 第148報)AN1026 を受けた仮の値の台帳(全部「仮・未照合」の印)・使ってよい所の門・リポジトリの数との照合の列・経路の比率の感度の仮計算(統括の検証項目 R439・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 統括が渡した仮の値 20 件(一次の資料に当たっていない)を、量の定義・元期・基準面・正の向き・原典の 1σ・grade・出どころの候補つきで台帳 `PROV` に置き、全部に印 `provisional: true`・`verified: false`・`useForVerdict: false` を付けた。口 `prov`・`provList`・`tagProv`・`assertNoVerdict`。リポジトリに在る文献の値は写さず鍵で指す。器 `tests/exp-w352b-provisional.mjs`・lib `tests/lib-w352b-provisional.mjs`・正本 `tests/out/provisional-352b.json`(最上位に `provisional: true` と `provKeys`)・段 `provisional-352b`(Node だけ・html を読まない)。
+- **AI が読むときの要点**: 仮の値は候補の数で、照合の前の値。較正の合否・サンプルの状況・ノブの採否・正式判定値に入れない(`lint.provisionalScope352b` が import の閉包と鍵の名で見る)。経路の比率の感度の表は、前提(観測の基準の極 = 合成の軸・一定の場・ほかのトルクなし)の下の数で、ノブの値ではない。
+- QA `behavior.provisional352b`・`docs.provisional352b`・`lint.provisionalScope352b`(本節と PHYSICS〔第352便b〕 —— root は SKIP)。

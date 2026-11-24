@@ -2916,6 +2916,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/knobrank-351k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第351便k: 零試験 10/感度 3 天体 × 成分 3 × 基準 2/(あ) 12/(い) 24 + 月 6/(う) 36/ノブの組 30/当てはめの段 112/順位の相関 16' }),
   // ==== 第351便k の塊(ここまで)====
+  // ==== 第352便b の塊(ここから)====
+  // ---- 第352便b(原仮定者の回答(2026-11-24 —— 第148報)AN1026・統括の検証項目 R439):
+  //   **仮の値の器 —— 台帳 PROV(全部「仮・未照合」の印)・リポジトリの数との照合の列・経路の比率の感度の仮計算と、極が動く速さと主の列の合成の率の比**
+  //   (段 provisional-352b —— 正本 tests/out/provisional-352b.json・lib tests/lib-w352b-provisional.mjs —— 第351便e・第350便e・第347便e・第337便c・第330便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に knobrank-351k〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便b の枝の実測 1 s
+  S('provisional-352b', 'node tests/exp-w352b-provisional.mjs', ['tests/out/provisional-352b.json'], 1, { secSource: 'w352b-branch', node: true,
+    after: ['knobrank-351k'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/provisional-352b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便b: 零試験 10/台帳 20 件/照合の列 11/感度の仮計算 5 列 × 背景の向き 4' }),
+  // ==== 第352便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

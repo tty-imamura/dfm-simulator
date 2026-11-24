@@ -10,7 +10,7 @@
 // ■ 使ってよい所: 本便より後(第352便から)の診断の lib・器だけ。較正の合否・サンプルの状況・ノブの採否・正式判定値に入れない(useForVerdict: false)。
 //   仮の値を使った出力は tagProv で印(provisional: true・使った鍵の一覧)を付ける。assertNoVerdict は印の付いた値を判定の側へ渡すと例外にする。
 // ■ リポジトリに既に在る「文献の値・未照合」の数(地球の一般歳差 ほか)は写さない —— REPO_REFS の鍵で指すだけ(二重に持たない)。
-// ■ 言わないこと: 仮の値で係数・比率・背景の大きさが決まったとは書かない。観測に合ったとは書かない。照合の済んだ値とは書かない。
+// ■ 言わないこと: 仮の値から係数・比率・背景の大きさの答えを出したとは書かない。観測との照合の判定を書かない。照合を終えた値とは書かない。
 import * as E from './lib-w347e-spintorque.mjs';
 import * as BB from './lib-w351e-bgbalance.mjs';
 import * as BG from './lib-w350e-bgaxial.mjs';
@@ -317,12 +317,14 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // (5) 照合の列
   const cross = crossRows(GEO);
   // (6) 使ってよい所の門(合成のファイルの組で変異)
-  const F0 = { 'tests/lib-w279a-samplestatus.mjs': "import * as A from './lib-w268a-judgement.mjs';", 'tests/lib-w268a-judgement.mjs': "const x = 1;", 'tests/lib-w352x-diag.mjs': "import * as P from './lib-w352b-provisional.mjs';",
-    'tests/lib-w352b-provisional.mjs': "export const PROV = [];", 'tools/samplestatus-postgate.mjs': "import * as S from '../tests/lib-w279a-samplestatus.mjs';" };
+  // 合成の import の文は、字句で import を辿る道具(器の来歴の閉包・QA の呼ぶだけの検査)に拾われない形で組む
+  const imS = (p) => 'import * as Q ' + 'fr' + "om '" + p + "';", imD = (p) => 'const Q = await ' + 'imp' + "ort('" + p + "');", PV = './' + PROV_LIB;
+  const F0 = { 'tests/lib-w279a-samplestatus.mjs': imS('./lib-w268a-judgement.mjs'), 'tests/lib-w268a-judgement.mjs': "const x = 1;", 'tests/lib-w352x-diag.mjs': imS(PV),
+    'tests/lib-w352b-provisional.mjs': "export const PROV = [];", 'tools/samplestatus-postgate.mjs': imS('../tests/lib-w279a-samplestatus.mjs') };
   const s0 = scopeViolations(F0);
-  const s1 = scopeViolations(Object.assign({}, F0, { 'tests/lib-w268a-judgement.mjs': "import * as P from './lib-w352b-provisional.mjs';" }));   // 間接(postgate → samplestatus → judgement → 仮の値)
-  const s2 = scopeViolations(Object.assign({}, F0, { 'tests/lib-w351z-old.mjs': "const P = await import('./lib-w352b-provisional.mjs');" }));   // 本便より前の名の lib が import
-  const s3 = scopeViolations(Object.assign({}, F0, { 'tests/exp-w360a-calaudit.mjs': "import { prov } from './lib-w352b-provisional.mjs';" }));   // 名の形で守る器
+  const s1 = scopeViolations(Object.assign({}, F0, { 'tests/lib-w268a-judgement.mjs': imS(PV) }));   // 間接(postgate → samplestatus → judgement → 仮の値)
+  const s2 = scopeViolations(Object.assign({}, F0, { 'tests/lib-w351z-old.mjs': imD(PV) }));   // 本便より前の名の lib が import
+  const s3 = scopeViolations(Object.assign({}, F0, { 'tests/exp-w360a-calaudit.mjs': imS(PV) }));   // 名の形で守る器
   const scope = { clean: s0.banned.length === 0 && s0.guardedHit.length === 0 && s0.direct.length === 1, indirect: s1.guardedHit.length === 3 && s1.guardedHit.some((h) => /^tools\/samplestatus-postgate\.mjs → tests\/lib-w279a-samplestatus\.mjs → tests\/lib-w268a-judgement\.mjs → /.test(h)),
     oldName: s2.banned.includes('tests/lib-w351z-old.mjs'), byName: s3.banned.includes('tests/exp-w360a-calaudit.mjs') && s3.guardedHit.length === 1 };
   const leak = { none: keyLeaks('サンプルの状況の表').length === 0, hit: keyLeaks('| earth.psiA.rate |').includes('earth.psiA.rate') };
@@ -361,3 +363,10 @@ export function pureGates(S) {
     main: rel(S.main.gm, S.main.gmRef) < 1e-12 && Math.abs(S.main.venusN - 0.010) < 0.001,
   };
 }
+
+/* ───────── 宣言(器と文書が読む)───────── */
+export const DECL = Object.freeze({ nProv: 20, fields: FIELDS, grades: GRADES, mark: MARK, bgDirs: BG_DIRS, guarded: GUARDED, guardedRe: GUARDED_RE.source, noKeyDocs: NO_KEY_DOCS,
+  anchor: ANCHOR, common: COMMON, t4Premise: T4_PREMISE, provLib: PROV_LIB });
+/** 正本に載せる台帳の写し(JSON に書ける形)と、リポジトリの数を指す鍵の一覧 */
+export const provJson = () => PROV.map((e) => JSON.parse(JSON.stringify(e)));
+export const repoRefList = () => Object.entries(REPO_REFS).map(([name, r]) => ({ name, lib: r.lib, path: r.path }));

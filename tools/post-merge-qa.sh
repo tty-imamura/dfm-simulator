@@ -1478,6 +1478,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringstep351j docs.ringstep351j"
 #   docs.knobrank351k —— 原文と表と数の文が PHYSICS〔第351便k〕に逐語・文書)と、新しい段 knobrank-351k
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
 # ==== 第351便k の塊(ここまで)====
+# ==== 第352便b の塊(ここから)====
+# 第352便b(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R439 —— 診断だけ・html は変えない): 枝 b の新設 3 本
+#   (behavior.provisional352b —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・印と感度の式を QA の中で別に照合・呼ぶだけ /
+#   docs.provisional352b —— 原文と表と数の文が PHYSICS〔第352便b〕に逐語・文書 / lint.provisionalScope352b —— 仮の値を使ってよい所の門)と、新しい段 provisional-352b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.provisional352b docs.provisional352b lint.provisionalScope352b"
+# ==== 第352便b の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
