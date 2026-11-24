@@ -125407,7 +125407,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       try {
         const js = (x) => JSON.stringify(x);
         // ① 版・宣言・零試験
-        if (!(L.LIB_VERSION === 'w352za-sconseq-lib-1' && X.HARNESS_VERSION === 'w352za-sconseq-1' && D0.DOC_VERSION === 'w352za-sconseqdoc-1' && X.AMEND.length === 0
+        if (!((L.LIB_VERSION === J.libVersion && /^w352za-sconseq-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w352za-sconseq-\d+$/.test(X.HARNESS_VERSION)) && /^w352za-sconseqdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 版は正本の記録と名の型で見る(第344便f の形 —— 枝の字が 2 字の版は、文字の期待の数え〔lint.libVersionImport344f〕が便を読めない)
           && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
         const DL = L.DECL;
         if (!(js(DL.cols) === js(['MS', 'Srule', 'Sobs']) && js(DL.bgs) === js(['NpL', 'NpEq', 'Gm']) && js(DL.mags) === js(['uV', 'u1']) && DL.topics.length === 9
@@ -126080,7 +126080,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const L = await import('file://' + wLib);
     const files = {};
     for (const dir of ['tests', 'tools']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
-      if (!f.endsWith('.mjs') || (dir === 'tests' && f === 'qa.mjs')) continue;
+      if (!f.endsWith('.mjs') || (dir === 'tests' && (f === 'qa.mjs' || /^\.qa-preflight-\d+\.mjs$/.test(f)))) continue;   // 事前検査の道具が tests/ に置く qa.mjs の一時の写し(tests/.qa-preflight-<pid>.mjs)は qa.mjs と同じ扱い(読まない)
       files[dir + '/' + f] = fs.readFileSync(path.join(ROOT, dir, f), 'utf8');
     }
     const V = L.scopeViolations(files);
