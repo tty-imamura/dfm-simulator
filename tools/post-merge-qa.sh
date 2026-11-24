@@ -1417,6 +1417,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.eq
 #   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
 # ==== 第350便i の塊(ここまで)====
+# ==== 第351便a の塊(ここから)====
+# 第351便a(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R427 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report147_351a —— 第147報の決断の 5 行の当たり所の表・新しい句 7 つ・伺った項と採った読みの鎖が PHYSICS〔第351便a〕に逐語・当時の文が過去の節に残る・変異 /
+#   lint.readNames351a —— 読みの名の書き分け〔(C2) と (W) ほか〕の定義の文と対応の表・公開の文書に private の文書の名と第351便の文に外の検討の名が無い・変異)。段は無い
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report147_351a lint.readNames351a"
+# ==== 第351便a の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
