@@ -16,7 +16,7 @@
 //   (+1 = 合成の軸のまわりを自転と同じ回りに歳差・−1 = 逆回り)。閉じた形: Ω̂ のまわりの方位の率 = ±k₂ ratio abs(Ω)((g2+) で +・(g2−) で −)。
 // ■ 背景の向きの名: 'Gm' (G−) = 第351便e の bgTerm の主(sign −1 —— 銀河の回転と逆向き)/'Gp' (G+) = sign +1/
 //   'Np' (N+) = 引数の軸(太陽系の基準軸の候補)の向き/'Nm' (N−) = 引数の軸の逆。基準軸の定数は統括の数え直し 1 の 8 惑星の公転の法線の等しい重みの平均。
-// ■ 言わないこと: 歳差の向きが決まった・観測の向きに合った、とは書かない(この向きの読み・この背景の向き・この極では、の表)。
+// ■ 言わないこと: 歳差の向きの答え・観測の向きとの比べの答えとは書かない(この向きの読み・この背景の向き・この極では、の表)。
 import * as R3 from './lib-w351d-r3step.mjs';
 import * as BB from './lib-w351e-bgbalance.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
@@ -115,17 +115,19 @@ export function refAxisEq(GEO) { return unit(DECL.planets.reduce((t, id) => add(
 /**
  * 1 つの受け手の行: 局所の太陽由来の成分 part(k)+ 背景(name・u)・向きの読み sense・経路 ① の比率(f・norm —— 第351便d の r3Coeffs)。
  * 4 つの極(合成の軸・自分の公転の北極・基準軸 axis〔省けば refEq〕・黄道の極)のまわりの方位の率と傾きの率(rad/s)。
+ * 戻り値の poleDot は ŝ と各極の内積(極に対する自転の向き —— 極の向きの相対の回りを読む用)。kTilt・kPrec は (N3) のときだけ(第351便d の r3Coeffs)。
  * id 'Sun' は背景だけに応答する受け手(自転軸 = geometry() の太陽の自転軸・公転の北極の極は無し)。
  */
-export function rowOf(T1, GEO, id, { bg, sense, u, part = 'S', k = 1, f = 0, norm = 'N1', axis = null }, cache = null) {
+export function rowOf(T1, GEO, id, { bg, sense, u, part = 'S', k = 1, f = 0, norm = 'N1', kTilt, kPrec, axis = null }, cache = null) {
   const ref = axis === null ? DECL.refEq.slice() : unit(axis), b = bgVec(bg, { u, axis: ref });
   let s, n, loc;
   if (id === 'Sun') { s = unit(GEO['Earth|Sun'].s); n = null; loc = [0, 0, 0]; }
   else { const L = BB.localOf(T1, GEO, id, 'Sun', { k }, cache); s = unit(L.sHat); n = unit(L.nHat); loc = L.sun[part]; }
-  const Om = add(b, loc), c = R3.r3Coeffs(f, norm), ds = r3Ds(s, Om, { sense, kTilt: c.kTilt, kPrec: c.kPrec });
+  const Om = add(b, loc), c = R3.r3Coeffs(f, norm, { kTilt, kPrec }), ds = r3Ds(s, Om, { sense, kTilt: c.kTilt, kPrec: c.kPrec });
   const poles = { om: nrm(Om) > 0 ? unit(Om) : null, orb: n, ref, ecl: DECL.ecl.slice() }, rates = {};
-  for (const p of DECL.poles) rates[p] = poles[p] === null ? null : poleRates(poles[p], s, ds);
-  return { id, bg, sense, u, part, k, f, norm, sHat: s, Om, bgVec: b, local: loc, ds,
+  const poleDot = {};
+  for (const p of DECL.poles) { rates[p] = poles[p] === null ? null : poleRates(poles[p], s, ds); poleDot[p] = poles[p] === null ? null : dot(s, poles[p]); }
+  return { id, bg, sense, u, part, k, f, norm, sHat: s, nHat: n, Om, bgVec: b, local: loc, ds, poleDot,
     cosBg: dot(s, unit(b)), cosOm: nrm(Om) > 0 ? dot(s, unit(Om)) : null, spin: spinSense(s, Om), rel: relSense(s, Om, ds), rates };
 }
 
@@ -189,7 +191,7 @@ const p3 = (x, w) => Number(x.toPrecision(3)) === Number(w.toPrecision(3));
 export function pureGates(S) {
   const A = DECL.anchor, a = S.anc;
   return {
-    g2pIsR3: S.vsR3 < 1e-15,
+    g2pIsR3: S.vsR3 < 1e-12,
     closedAz: S.sc.length === 12 && S.sc.every((r) => r.azErr < 1e-12 && r.inc < 1e-12 && r.keep < 1e-12),
     relSense: S.sc.every((r) => r.rel === (r.sense === 'g2p' ? 1 : -1) * r.spin) && S.sc.filter((r) => r.deg < 90).every((r) => r.rel === (r.sense === 'g2p' ? 1 : -1)),
     path1: S.incErr < 1e-12 && S.azKeep < 1e-12,

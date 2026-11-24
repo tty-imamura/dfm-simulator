@@ -1478,6 +1478,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringstep351j docs.ringstep351j"
 #   docs.knobrank351k —— 原文と表と数の文が PHYSICS〔第351便k〕に逐語・文書)と、新しい段 knobrank-351k
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
 # ==== 第351便k の塊(ここまで)====
+# ==== 第352便d の塊(ここから)====
+# 第352便d(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R441 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.precsense352d —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と (g2−) の符号と数を QA の中で別に照合・呼ぶだけ /
+#   docs.precsense352d —— 原文と表と数の文が PHYSICS〔第352便d〕に逐語・文書)と、新しい段 precsense-352d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.precsense352d docs.precsense352d"
+# ==== 第352便d の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
