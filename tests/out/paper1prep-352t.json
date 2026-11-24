@@ -1,0 +1,589 @@
+{
+ "version": "w352t-paper1prep-1",
+ "libVersion": "w352t-paper1prep-lib-1",
+ "generator": "tests/exp-w352t-paper1prep.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
+ "ruling": "原仮定者の指示(2026-11-21 —— 第145報)「論文の改訂案」・原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R457",
+ "decl": {
+  "geoPNs": [
+   0,
+   1
+  ],
+  "books": [
+   {
+    "id": "grcal",
+    "key": "grcal.clocks・grcal.rays",
+    "steps": 1000,
+    "dt": 0.016,
+    "what": "地上の時計と周回の衛星の τ/t・解析の式との相対の差・光線ファンの宣言"
+   },
+   {
+    "id": "grcalGps",
+    "key": "behavior.grcal3",
+    "steps": 3200,
+    "dt": 0.01,
+    "what": "3 つの時計の τ/t・重力項 ÷ 運動項"
+   },
+   {
+    "id": "grcalLight",
+    "key": "behavior.grcal3",
+    "steps": 6000,
+    "dt": 0.01,
+    "what": "まっすぐ狙った光子の偏向 ÷ 4GM/(c₀²b)"
+   },
+   {
+    "id": "grcalShapiro",
+    "key": "behavior.grcal3",
+    "steps": 6000,
+    "dt": 0.01,
+    "what": "x = 300 を通る時刻の X_k 有無の差 ÷ 有限の幾何のシャピロ形"
+   },
+   {
+    "id": "gclock",
+    "key": "(時計の本 —— verify.V12 ほかの本)",
+    "steps": 1000,
+    "dt": 0.016,
+    "what": "4 つの時計の τ/t"
+   }
+  ],
+  "FLOOR": 1e-12,
+  "shapiroX": 300
+ },
+ "plan": {
+  "t1": "本 5 つ × geoPN 0・1(宣言のままと、geoPN だけを 1 にした写し)—— 受理・走る法則・既存の鍵の量(τ/t・解析の式との差・偏向の比・遅れの比)の差と相対の差",
+  "t2": "模型の値(HP.grSI・🛰️ の説明文の正典)・換算の規約(本 4 つの X_k と G_0 ÷ c_0²・SI の X_k = G/c²・grcal.calib-text の字句)・観測の値(リポジトリの字句から拾う)",
+  "t3": "第344便b の正本の t1(水星の型 e 0.2056・受け手)と added から、4 列(現行の近似・主の候補・比べる列 2)× 6 行の写し"
+ },
+ "amend": [],
+ "notClaim": [
+  "geoPN=1 で観測に合ったとは書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
+  "論文の主張が確かめられたとは書かない —— 照合の表は、模型の値・換算の規約・文献の値(未照合)を 1 つの表に並べただけ",
+  "観測の値は足していない —— リポジトリに既に在る字句(論文1 の日本語版の照合の表・🛰️ の説明文)から拾った数だけ。シャピロ遅延の観測の遅延の値はリポジトリに無い",
+  "水星の近点の表は第344便b の正本の写し(誇張した場 μ = 1e-5 の比)—— 水星の観測の値へ合わせたものではない・どの列を採るかを決めない",
+  "内蔵の本・エンジン・受理器・論文の本文と図は変えない(geoPN=1 の写しは器の中だけ)"
+ ],
+ "pure": {
+  "scenes": {
+   "relSame": true,
+   "relSmall": true,
+   "relZeroBase": true,
+   "relNaN": true,
+   "floor": true,
+   "pick": true,
+   "canon": true,
+   "t3Copy": true,
+   "t3Missing": true,
+   "cols": true
+  },
+  "gates": {
+   "relSame": true,
+   "relSmall": true,
+   "relZeroBase": true,
+   "relNaN": true,
+   "floor": true,
+   "pick": true,
+   "canon": true,
+   "t3Copy": true,
+   "t3Missing": true,
+   "cols": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "book": "grcal",
+    "q": "地上の時計 τ/t",
+    "v0": 0.9930738806724542,
+    "v1": 0.9930738806724542,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcal",
+    "q": "衛星の時計 τ/t",
+    "v0": 0.9965264797210687,
+    "v1": 0.9965264797210687,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcal",
+    "q": "地上の時計 ÷ e^(−ψ) − 1 の大きさ",
+    "v0": 0.000004997590736404952,
+    "v1": 0.000004997590736404952,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcal",
+    "q": "衛星の時計 ÷ √(N² − A²v²/c₀²) − 1 の大きさ",
+    "v0": 0.000009189277883315372,
+    "v1": 0.000008917491448940553,
+    "diff": -2.717864343748191e-7,
+    "rel": 0.0295764735625518,
+    "same": false
+   },
+   {
+    "book": "grcal",
+    "q": "衛星が地上より速く進む",
+    "v0": true,
+    "v1": true,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcal",
+    "q": "衛星の軌道の半径(終わり)",
+    "v0": 179.99411512213513,
+    "v1": 180.00450540431254,
+    "diff": 0.010390282177411336,
+    "rel": 0.00005772567714428332,
+    "same": false
+   },
+   {
+    "book": "grcal",
+    "q": "NaN",
+    "v0": false,
+    "v1": false,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcalGps",
+    "q": "地上の時計 τ/t",
+    "v0": 0.9460062980651204,
+    "v1": 0.9460062980651204,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalGps",
+    "q": "衛星の時計 τ/t",
+    "v0": 0.9798025488852781,
+    "v1": 0.9798025488852781,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalGps",
+    "q": "参照の時計 τ/t",
+    "v0": 0.9867174625396049,
+    "v1": 0.9867174625396049,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalGps",
+    "q": "順 地上 < 衛星 < 参照",
+    "v0": true,
+    "v1": true,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcalGps",
+    "q": "重力項 ÷ 運動項(一次)",
+    "v0": 6.320162695126858,
+    "v1": 6.364751926368681,
+    "diff": 0.044589231241823235,
+    "rel": 0.00705507648975613,
+    "same": false
+   },
+   {
+    "book": "grcalGps",
+    "q": "衛星の軌道の半径(終わり)",
+    "v0": 249.98553785893307,
+    "v1": 250.95379680742607,
+    "diff": 0.968258948493002,
+    "rel": 0.003873259856493742,
+    "same": false
+   },
+   {
+    "book": "grcalGps",
+    "q": "NaN",
+    "v0": false,
+    "v1": false,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "光子の偏向(rad)",
+    "v0": 0.09403647890177612,
+    "v1": 0.09403647890177612,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "弱場一次 4GM/(c₀²b)(rad)",
+    "v0": 0.09259259259259259,
+    "v1": 0.09259259259259259,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "偏向 ÷ 弱場一次",
+    "v0": 1.0155939721391822,
+    "v1": 1.0155939721391822,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "観測者を外す距離",
+    "v0": 35.370630348061454,
+    "v1": 35.370630348061454,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "NaN",
+    "v0": false,
+    "v1": false,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "x = 300 を通る時刻(X_k 宣言)",
+    "v0": 23.29000000000084,
+    "v1": 23.29000000000084,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "x = 300 を通る時刻(X_k = 0)",
+    "v0": 22.670000000000744,
+    "v1": 22.670000000000744,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "遅れ",
+    "v0": 0.6200000000000969,
+    "v1": 0.6200000000000969,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "有限の幾何のシャピロ形",
+    "v0": 0.5746621594723371,
+    "v1": 0.5746621594723371,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "遅れ ÷ シャピロ形",
+    "v0": 1.0788947728338154,
+    "v1": 1.0788947728338154,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "NaN",
+    "v0": false,
+    "v1": false,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "gclock",
+    "q": "粒子 0 の τ/t",
+    "v0": 0.9998203516006463,
+    "v1": 0.9998203516006463,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "gclock",
+    "q": "粒子 1 の τ/t",
+    "v0": 0.9309648871421807,
+    "v1": 0.9309648871421807,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "gclock",
+    "q": "粒子 2 の τ/t",
+    "v0": 0.9647610187530511,
+    "v1": 0.9647610187530511,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "gclock",
+    "q": "粒子 3 の τ/t",
+    "v0": 0.9792898893356317,
+    "v1": 0.9792898893356317,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "gclock",
+    "q": "NaN",
+    "v0": false,
+    "v1": false,
+    "diff": null,
+    "rel": null,
+    "same": true
+   },
+   {
+    "book": "grcal",
+    "q": "光線ファンの本数(宣言)",
+    "v0": 9,
+    "v1": 9,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalLight",
+    "q": "光線ファンの本数(宣言)",
+    "v0": 8,
+    "v1": 8,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   },
+   {
+    "book": "grcalShapiro",
+    "q": "光線ファンの本数(宣言)",
+    "v0": 8,
+    "v1": 8,
+    "diff": 0,
+    "rel": 0,
+    "same": true
+   }
+  ],
+  "books": [
+   {
+    "id": "grcal",
+    "key": "grcal.clocks・grcal.rays",
+    "steps": 1000,
+    "dt": 0.016,
+    "decl0": 0,
+    "ok0": true,
+    "warn0": "なし",
+    "law0": "newton",
+    "kFrame0": 0,
+    "geoPNRun0": 0,
+    "ok1": true,
+    "warn1": "なし",
+    "law1": "eih-kf0",
+    "kFrame1": 0,
+    "geoPNRun1": 1
+   },
+   {
+    "id": "grcalGps",
+    "key": "behavior.grcal3",
+    "steps": 3200,
+    "dt": 0.01,
+    "decl0": 0,
+    "ok0": true,
+    "warn0": "なし",
+    "law0": "newton",
+    "kFrame0": 0,
+    "geoPNRun0": 0,
+    "ok1": true,
+    "warn1": "なし",
+    "law1": "eih-kf0",
+    "kFrame1": 0,
+    "geoPNRun1": 1
+   },
+   {
+    "id": "grcalLight",
+    "key": "behavior.grcal3",
+    "steps": 6000,
+    "dt": 0.01,
+    "decl0": 0,
+    "ok0": true,
+    "warn0": "なし",
+    "law0": "newton",
+    "kFrame0": 0,
+    "geoPNRun0": 0,
+    "ok1": true,
+    "warn1": "なし",
+    "law1": "eih-kf0",
+    "kFrame1": 0,
+    "geoPNRun1": 1
+   },
+   {
+    "id": "grcalShapiro",
+    "key": "behavior.grcal3",
+    "steps": 6000,
+    "dt": 0.01,
+    "decl0": 0,
+    "ok0": true,
+    "warn0": "なし",
+    "law0": "newton",
+    "kFrame0": 0,
+    "geoPNRun0": 0,
+    "ok1": true,
+    "warn1": "なし",
+    "law1": "eih-kf0",
+    "kFrame1": 0,
+    "geoPNRun1": 1
+   },
+   {
+    "id": "gclock",
+    "key": "(時計の本 —— verify.V12 ほかの本)",
+    "steps": 1000,
+    "dt": 0.016,
+    "decl0": 0,
+    "ok0": true,
+    "warn0": "なし",
+    "law0": "newton",
+    "kFrame0": 0,
+    "geoPNRun0": 0,
+    "ok1": true,
+    "warn1": "なし",
+    "law1": "eih-kf0",
+    "kFrame1": 0,
+    "geoPNRun1": 1
+   }
+  ],
+  "nRows": 33,
+  "nNum": 26,
+  "nSame": 29,
+  "nChanged": 4
+ },
+ "gates": {
+  "pure": true,
+  "t1Books": true,
+  "t1Rows": true,
+  "t1Base": true
+ },
+ "ok": true,
+ "pageErrors": [],
+ "timing": {
+  "pure": {
+   "wallSec": 0.001
+  },
+  "t1": {
+   "wallSec": 0.381
+  }
+ },
+ "elapsedS": 2.409,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第352便t",
+  "target": "beta/index.html",
+  "targetSha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
+  "generatedAt": "2026-11-24T18:04:33.914Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7708556,
+    "sha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
+    "mtime": "2026-11-24T17:55:54.034Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w352t-paper1prep.mjs",
+    "bytes": 15992,
+    "sha256": "e6e59352ea1a3a928fdd6c3918234eca1472c2a0c20ea958d4172ab8f3a97700",
+    "mtime": "2026-11-24T18:03:32.722Z"
+   },
+   {
+    "file": "tests/lib-w352t-paper1prep.mjs",
+    "bytes": 12968,
+    "sha256": "901a5c64b856440b35fa2c34a10cb5b759ca1887369f42b3c8f7ff79a7092e9c",
+    "mtime": "2026-11-24T18:01:50.870Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-24T17:55:54.310Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-24T17:55:54.306Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-24T17:55:54.314Z"
+   }
+  ],
+  "codeSha256": "a010342a797507f40e2bffb7ff6d4aaf200c35b16d0796664577370330eba768",
+  "harnessVersion": "w352t-paper1prep-1",
+  "stage": "paper1prep-352t",
+  "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・本の宣言の写し(geoPN だけを 1)を走らせる・1 プロセス",
+  "notClaim": [
+   "geoPN=1 で観測に合ったとは書かない —— 宣言のままの値と geoPN だけを 1 にした写しの値を並べただけ(同じ・変わるの数)",
+   "論文の主張が確かめられたとは書かない —— 照合の表は、模型の値・換算の規約・文献の値(未照合)を 1 つの表に並べただけ",
+   "観測の値は足していない —— リポジトリに既に在る字句(論文1 の日本語版の照合の表・🛰️ の説明文)から拾った数だけ。シャピロ遅延の観測の遅延の値はリポジトリに無い",
+   "水星の近点の表は第344便b の正本の写し(誇張した場 μ = 1e-5 の比)—— 水星の観測の値へ合わせたものではない・どの列を採るかを決めない",
+   "内蔵の本・エンジン・受理器・論文の本文と図は変えない(geoPN=1 の写しは器の中だけ)"
+  ],
+  "scope": {
+   "version": "w327c-scope-8",
+   "presets": [
+    "gclock",
+    "grcal",
+    "grcalGps",
+    "grcalLight",
+    "grcalShapiro"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.geoLawOfSim",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ctx"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "abBody": false,
+   "names": 1341,
+   "segments": 1172,
+   "closureShare": 0.2879
+  },
+  "scopeSha256": "0f3f6017e163a9e6b83113b42eb6a14aa3eefbd5c22e3c539a6113c1e349168b",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}

@@ -1553,6 +1553,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinform352k docs.spinform352k"
 #   docs.suntilt352l —— 原文と表と数の文が PHYSICS〔第352便l〕に逐語・文書)と、新しい段 suntilt-352l
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntilt352l docs.suntilt352l"
 # ==== 第352便l の塊(ここまで)====
+# ==== 第352便t の塊(ここから)====
+# 第352便t(原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R457 —— 診断だけ・html は変えない): 枝 t の新設 2 本
+#   (behavior.paper1prep352t —— 零試験 10・器を走らせ直して正本と照合・第344便b の正本と逐語・呼ぶだけ /
+#   docs.paper1prep352t —— 表が PHYSICS〔第352便t〕に逐語・PAPER_PLAN §2 ⑧ の欄・文書)と、新しい段 paper1prep-352t
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.paper1prep352t docs.paper1prep352t"
+# ==== 第352便t の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
