@@ -1,0 +1,2371 @@
+{
+ "version": "w352l-suntilt-1",
+ "libVersion": "w352l-suntilt-lib-1",
+ "generator": "tests/exp-w352l-suntilt.mjs",
+ "target": "tests/lib-w352l-suntilt.mjs",
+ "ruling": "原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R449",
+ "provisional": true,
+ "provKeys": [
+  "gal.vertical.period",
+  "gal.vertical.amplitude"
+ ],
+ "provMark": "仮・未照合",
+ "decl": {
+  "senses": [
+   "g2p",
+   "g2m"
+  ],
+  "fs": [
+   0,
+   0.5,
+   1
+  ],
+  "norm": "N1",
+  "omegaG": 9.09e-16,
+  "uV": 1.19282e-12,
+  "ageYr": 4500000000,
+  "tiltDeg": {
+   "eq": 5.23,
+   "L": 5.968,
+   "ecl": 7.252
+  },
+  "disk": {
+   "p": 0,
+   "sigma": "exp",
+   "edge": 2,
+   "perUnit": 16,
+   "nPhi": 128
+  },
+  "als": [
+   1,
+   2
+  ],
+  "ring": {
+   "aAU": 5.2,
+   "N": 8
+  },
+  "au": 149597870700,
+  "pc": 30856775814913670,
+  "recvIds": [
+   "Sun",
+   "Jupiter",
+   "Earth"
+  ],
+  "floor": 1e-12,
+  "judge": "丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "rowDecl": {
+  "dirs": [
+   "Np",
+   "Gm"
+  ],
+  "mags": [
+   "uV",
+   1
+  ],
+  "axes": [
+   "L",
+   "eq",
+   "ecl"
+  ],
+  "fs": [
+   0,
+   0.5,
+   1
+  ],
+  "sunRatios": [
+   0,
+   2
+  ],
+  "zs": [
+   "lo",
+   "hi"
+  ],
+  "tzs": [
+   "lo",
+   "hi"
+  ]
+ },
+ "plan": {
+  "pure": "零試験 13(同じ係数で角が不変・同じ初めの向きで 0・係数の差の閉じた形 2 つ・Ω 0 で不変・閉じた形と RK4・輪の平均と ringOmega・一様な背景の輪・揺れの式と步・開く時間の往復・起点の数・模型の枠と受け手・拒否)",
+  "t2": "一様な背景(向き (N+)(G−)・倍率 1)の輪の平均と、第351便j の源の場の輪の (M)(S) の向き(輪の法線との角)",
+  "t3": "候補 (b): 背景の向き 2 × 大きさ 2((uV)・倍率 1)× 基準軸 3(L・eq・ecl)× f 3 —— 背景と基準軸の角・開き始めの率(係数の差 1 あたり)・開く時間(太陽の比 0・2)・要る係数の差・届く角の上限",
+  "t4": "候補 (b) の今の角(n̂ = 基準軸・ŝ = 太陽の自転軸)の変わる率: 同じ係数(比 1)× f 3 × (g2±)/太陽の比 0",
+  "t5": "候補 (c): 核 2 × 輪の粒子の自分の重み 3(太陽・木星・地球の質量)—— 太陽(C2・W)と輪(W)の Ω・差・年齢の間に届く角(係数 1)",
+  "t6": "候補 (d)(仮の値): 核 2 × 振幅 2 × 周期 2 × 背景の大きさ 2 —— 面の上下で替わる分と替わらない分・揺れの円の半径・要る倍",
+  "t7": "向きの材料: 基準軸 3 × 候補の向き(経路 ①・経路 ②・(d) の揺れ)の方位と (G+) の方位の差・太陽の傾きの方位",
+  "t8": "まとめ: 候補 × 背景の向き × 大きさ —— 太陽系の年齢の宣言の間に届く角と要る倍"
+ },
+ "amend": [],
+ "notClaim": [
+  "候補 (b)(c)(d) は、予想の文「太陽の自転軸の傾きは、その際に生じる」を数えられる式に直した候補 —— どれが正しいとは書かない(要る大きさ・出る向き・足りない量の表)",
+  "輪(公転面)と自転軸の応答の係数の差は置いていない(ノブ —— 差 1 あたりの数と、要る差を並べた)",
+  "背景の向き (N+) と (G−)・歳差の向き (g2+) と (g2−)・基準軸の L と eq はどれにも寄せていない",
+  "銀河の円盤は第352便f の対照の模型(核 K1・K2 で桁が 11 桁動く)—— 銀河の場の答えではない",
+  "上下の振動の周期と振幅は仮の値・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+  "「波打つ様に上下する」運動そのもの(面へ引き寄せる作用で振動が減るか)は式の形だけ —— 数えていない",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "scenes": {
+   "same2": [
+    0,
+    0
+   ],
+   "same1": 0,
+   "diffPrec": 0,
+   "diffTilt": 0,
+   "zero": 0,
+   "vsRk": 0,
+   "vsRing": 0,
+   "uni": 0,
+   "rrVs": 0,
+   "wob": {
+    "maxRel": 0.00000550939671262185,
+    "minRel": 0.000019002416123847787
+   },
+   "round": 0,
+   "tilt1": 0,
+   "sunDeg": {
+    "eq": "5.230",
+    "L": "5.968",
+    "ecl": "7.252"
+   },
+   "needA": {
+    "uV": 6.43342830592511e-16,
+    "one": 0.0005393476239000422
+   },
+   "uV": 1.1928166586523097e-12,
+   "tqN": 4,
+   "tqZero": [
+    0,
+    0
+   ],
+   "frame": 0,
+   "k1Mass": 0,
+   "sunVsF": 0,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "samePrecKeepsGamma": true,
+   "sameStartStays": true,
+   "diffPrecClosed": true,
+   "diffTiltClosed": true,
+   "omZero": true,
+   "closedVsRk": true,
+   "ringAvgVsRingOmega": true,
+   "uniformRing": true,
+   "wobbleClosed": true,
+   "openRound": true,
+   "anchors": true,
+   "frameRecv": true,
+   "rejects": true
+  }
+ },
+ "uV": 1.1928166586523097e-12,
+ "axes": {
+  "L": [
+   0.02625689205713563,
+   0.008317247598171621,
+   0.9996206275442153
+  ],
+  "eq": [
+   0.03395211880019718,
+   -0.009663360967089167,
+   0.9993767423168286
+  ],
+  "ecl": [
+   0,
+   0,
+   1
+  ]
+ },
+ "ringBg": [
+  {
+   "kind": "bg",
+   "dir": "Np",
+   "relToBg": 0,
+   "angLDeg": 0
+  },
+  {
+   "kind": "bg",
+   "dir": "Gm",
+   "relToBg": 0,
+   "angLDeg": 61.69445311427728
+  },
+  {
+   "kind": "src351j",
+   "part": "M",
+   "relToBg": null,
+   "angLDeg": 0
+  },
+  {
+   "kind": "src351j",
+   "part": "S",
+   "relToBg": null,
+   "angLDeg": 174.9616312267025
+  }
+ ],
+ "b": [
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.057756639406906e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.057756639406906e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.057756639406906e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 0,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0,
+   "openYr0": null,
+   "openYr2": null,
+   "openYr0m": null,
+   "deltaReq": null,
+   "reach": false,
+   "maxGammaDeg": 0
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.21387092752477e-15,
+   "openYr0": 3458008944627138600,
+   "openYr2": 3458008944627139000,
+   "openYr0m": 3458008944627137500,
+   "deltaReq": 768446432.1393641,
+   "reach": false,
+   "maxGammaDeg": 123.38890622855456
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.21387092752477e-15,
+   "openYr0": 3531574945432449500,
+   "openYr2": 3711299731584649700,
+   "openYr0m": 3531574945432449500,
+   "deltaReq": 784794432.3183221,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "L",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.21387092752477e-15,
+   "openYr0": 3565061759654693400,
+   "openYr2": 3852336645829092000,
+   "openYr0m": 3565061759654693400,
+   "deltaReq": 792235946.5899318,
+   "reach": false,
+   "maxGammaDeg": 61.69445311427728
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.239449695827268e-15,
+   "openYr0": 3017866944508849000,
+   "openYr2": 3017866944508847600,
+   "openYr0m": 3017866944508847600,
+   "deltaReq": 670637098.7797443,
+   "reach": false,
+   "maxGammaDeg": 124.27106690819593
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.239449695827268e-15,
+   "openYr0": 3072629125027204000,
+   "openYr2": 3202848173745046000,
+   "openYr0m": 3072629125027205000,
+   "deltaReq": 682806472.2282676,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "eq",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.239449695827268e-15,
+   "openYr0": 3097283193394968000,
+   "openYr2": 3301689162591718000,
+   "openYr0m": 3097283193394968000,
+   "deltaReq": 688285154.0877707,
+   "reach": false,
+   "maxGammaDeg": 62.13553345409797
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.1237770267832485e-15,
+   "openYr0": 4264187547223874000,
+   "openYr2": 4264187547223874000,
+   "openYr0m": 4264187547223874000,
+   "deltaReq": 947597232.7164165,
+   "reach": false,
+   "maxGammaDeg": 120.37712295461256
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.1237770267832485e-15,
+   "openYr0": 4383147968712701400,
+   "openYr2": 4689138026375539000,
+   "openYr0m": 4383147968712699000,
+   "deltaReq": 974032881.9361559,
+   "reach": false,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "mult": 1.1928166586523097e-12,
+   "axis": "ecl",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 7.0577566394069055e-15,
+   "initPerDeltaAsYr": 6.1237770267832485e-15,
+   "openYr0": 4438305087219120600,
+   "openYr2": 4945882021343685000,
+   "openYr0m": 4438305087219120600,
+   "deltaReq": 986290019.3820268,
+   "reach": false,
+   "maxGammaDeg": 60.18856147730628
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005209409914299353,
+   "openYr0": 4124770.6749199424,
+   "openYr2": 4124770.6749199433,
+   "openYr0m": 4124770.674919942,
+   "deltaReq": 0.000916615705537765,
+   "reach": true,
+   "maxGammaDeg": 123.38890622855456
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005209409914299353,
+   "openYr0": 4212521.426190947,
+   "openYr2": 4426900.145086016,
+   "openYr0m": 4212521.426190947,
+   "deltaReq": 0.0009361158724868772,
+   "reach": true,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "L",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 61.69445311427728,
+   "tgtDeg": 5.968,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005209409914299353,
+   "openYr0": 4252465.056040435,
+   "openYr2": 4595131.325881716,
+   "openYr0m": 4252465.056040435,
+   "deltaReq": 0.0009449922346756523,
+   "reach": true,
+   "maxGammaDeg": 61.69445311427728
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005230853920900836,
+   "openYr0": 3599761.9650063007,
+   "openYr2": 3599761.965006299,
+   "openYr0m": 3599761.965006299,
+   "deltaReq": 0.0007999471033347335,
+   "reach": true,
+   "maxGammaDeg": 124.27106690819593
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005230853920900836,
+   "openYr0": 3665083.2061927193,
+   "openYr2": 3820410.656777217,
+   "openYr0m": 3665083.2061927198,
+   "deltaReq": 0.0008144629347094931,
+   "reach": true,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "eq",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 62.13553345409797,
+   "tgtDeg": 5.23,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005230853920900836,
+   "openYr0": 3694490.9896453414,
+   "openYr2": 3938309.834831195,
+   "openYr0m": 3694490.9896453414,
+   "deltaReq": 0.0008209979976989647,
+   "reach": true,
+   "maxGammaDeg": 62.13553345409797
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 0,
+   "kTilt": 0,
+   "kPrec": 1,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005133879529903722,
+   "openYr0": 5086393.94194637,
+   "openYr2": 5086393.94194637,
+   "openYr0m": 5086393.94194637,
+   "deltaReq": 0.001130309764876971,
+   "reach": true,
+   "maxGammaDeg": 120.37712295461256
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 0.5,
+   "kTilt": 0.7071067811865475,
+   "kPrec": 0.7071067811865475,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005133879529903722,
+   "openYr0": 5228291.914418543,
+   "openYr2": 5593281.9525807565,
+   "openYr0m": 5228291.914418539,
+   "deltaReq": 0.0011618426476485652,
+   "reach": true,
+   "maxGammaDeg": null
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "mult": 1,
+   "axis": "ecl",
+   "f": 1,
+   "kTilt": 1,
+   "kPrec": 0,
+   "thDeg": 60.18856147730628,
+   "tgtDeg": 7.252,
+   "omAsYr": 0.005916883024907643,
+   "initPerDeltaAsYr": 0.005133879529903722,
+   "openYr0": 5294084.24421626,
+   "openYr2": 5899530.466787708,
+   "openYr0m": 5294084.24421626,
+   "deltaReq": 0.001176463165381391,
+   "reach": true,
+   "maxGammaDeg": 60.18856147730628
+  }
+ ],
+ "now": [
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "L",
+   "f": 0,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": 0,
+   "sun0_g2p": 0,
+   "same_g2m": 0,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "L",
+   "f": 0.5,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -5.189264326118598e-16,
+   "sun0_g2p": 0,
+   "same_g2m": -5.189264326118598e-16,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "L",
+   "f": 1,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -7.3387279887358e-16,
+   "sun0_g2p": 0,
+   "same_g2m": -7.3387279887358e-16,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 0,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": 0,
+   "sun0_g2p": 0,
+   "same_g2m": 0,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 0.5,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -4.549035214224542e-16,
+   "sun0_g2p": 0,
+   "same_g2m": -4.549035214224544e-16,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 1,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -6.433307295669146e-16,
+   "sun0_g2p": 0,
+   "same_g2m": -6.433307295669146e-16,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "L",
+   "f": 0,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": 0,
+   "sun0_g2p": 0,
+   "same_g2m": 0,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "L",
+   "f": 0.5,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -0.000435042911957787,
+   "sun0_g2p": 0,
+   "same_g2m": -0.0004350429119577871,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "L",
+   "f": 1,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -0.0006152435863049869,
+   "sun0_g2p": 0,
+   "same_g2m": -0.0006152435863049869,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "eq",
+   "f": 0,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": 0,
+   "sun0_g2p": 0,
+   "same_g2m": 0,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "eq",
+   "f": 0.5,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -0.00038136918873718777,
+   "sun0_g2p": 0,
+   "same_g2m": -0.0003813691887371878,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Np",
+   "mag": 1,
+   "axis": "eq",
+   "f": 1,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -0.0005393374789833557,
+   "sun0_g2p": 0,
+   "same_g2m": -0.0005393374789833557,
+   "sun0_g2m": 0
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "L",
+   "f": 0,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": 0,
+   "sun0_g2p": 2.377274330000641e-15,
+   "same_g2m": 0,
+   "sun0_g2m": -2.377274330000641e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "L",
+   "f": 0.5,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -2.240551650813554e-16,
+   "sun0_g2p": 5.740590146109149e-15,
+   "same_g2m": -2.240551650813565e-16,
+   "sun0_g2m": 2.3786165471408283e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "L",
+   "f": 1,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -3.1686185317779693e-16,
+   "sun0_g2p": 5.741146110652266e-15,
+   "same_g2m": -3.1686185317779693e-16,
+   "sun0_g2m": 5.741146110652266e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 0,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": 0,
+   "sun0_g2p": 1.4373353305411216e-15,
+   "same_g2m": 0,
+   "sun0_g2m": -1.4373353305411216e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 0.5,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -1.9474040070981666e-16,
+   "sun0_g2p": 5.309646640232985e-15,
+   "same_g2m": -1.9474040070981863e-16,
+   "sun0_g2m": 3.276947522103715e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": "uV",
+   "axis": "eq",
+   "f": 1,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -2.7540451582579505e-16,
+   "sun0_g2p": 6.0716389594851046e-15,
+   "same_g2m": -2.7540451582579505e-16,
+   "sun0_g2m": 6.0716389594851046e-15
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "L",
+   "f": 0,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": 0,
+   "sun0_g2p": 0.0019929922278974356,
+   "same_g2m": 0,
+   "sun0_g2m": -0.0019929922278974356
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "L",
+   "f": 0.5,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -0.00018783705228806827,
+   "sun0_g2p": 0.00481263411645767,
+   "same_g2m": -0.00018783705228806903,
+   "sun0_g2m": 0.001994117478060945
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "L",
+   "f": 1,
+   "gammaDeg": 5.9684624754699245,
+   "same_g2p": -0.00026564170686197103,
+   "sun0_g2p": 0.004813100210336458,
+   "same_g2m": -0.00026564170686197103,
+   "sun0_g2m": 0.004813100210336458
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "eq",
+   "f": 0,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": 0,
+   "sun0_g2p": 0.0012049926701770564,
+   "same_g2m": 0,
+   "sun0_g2m": -0.0012049926701770564
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "eq",
+   "f": 0.5,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -0.00016326096663492397,
+   "sun0_g2p": 0.004451351850025322,
+   "same_g2m": -0.0001632609666349244,
+   "sun0_g2m": 0.0027472348733007584
+  },
+  {
+   "dir": "Gm",
+   "mag": 1,
+   "axis": "eq",
+   "f": 1,
+   "gammaDeg": 5.229901351627743,
+   "same_g2p": -0.00023088587322125115,
+   "sun0_g2p": 0.005090169487023321,
+   "same_g2m": -0.00023088587322125115,
+   "sun0_g2m": 0.005090169487023321
+  }
+ ],
+ "c": {
+  "thLDeg": 118.30554688572272,
+  "thEqDeg": 117.86446654590206,
+  "thSunDeg": 112.76917138411692,
+  "ringR0": 3.0707603913013153e-9,
+  "ringVc": 0.05672239670360001,
+  "rows": [
+   {
+    "al": 1,
+    "recv": "Sun",
+    "Arel": 1,
+    "ringZ": 0.0000021215018078743792,
+    "ringXYrel": 9.373511159477045e-10,
+    "ringVsCenter": 0,
+    "sunC2": 0.000002807490889064132,
+    "sunW": 0.00000212150180787728,
+    "dW": 0,
+    "dC2": 6.859890811897527e-7,
+    "ringAsYr": 1.2552678034322787e-8,
+    "dWAsYr": 0,
+    "dC2AsYr": 4.0589171497636375e-9,
+    "ageDegW": 0,
+    "ageDegC2": 0.004466997900813751,
+    "ageDegAbs": 0.013814715688930987
+   },
+   {
+    "al": 1,
+    "recv": "Jupiter",
+    "Arel": 1,
+    "ringZ": 0.0000021215018078743792,
+    "ringXYrel": 9.373511159477045e-10,
+    "ringVsCenter": 0,
+    "sunC2": 0.000002807490889064132,
+    "sunW": 0.00000212150180787728,
+    "dW": 0,
+    "dC2": 6.859890811897527e-7,
+    "ringAsYr": 1.2552678034322787e-8,
+    "dWAsYr": 0,
+    "dC2AsYr": 4.0589171497636375e-9,
+    "ageDegW": 0,
+    "ageDegC2": 0.004466997900813751,
+    "ageDegAbs": 0.013814715688930987
+   },
+   {
+    "al": 1,
+    "recv": "Earth",
+    "Arel": 1.0000000000000002,
+    "ringZ": 0.000002121501807874379,
+    "ringXYrel": 9.373511167210216e-10,
+    "ringVsCenter": 0,
+    "sunC2": 0.000002807490889064132,
+    "sunW": 0.00000212150180787728,
+    "dW": 0,
+    "dC2": 6.859890811897531e-7,
+    "ringAsYr": 1.2552678034322784e-8,
+    "dWAsYr": 0,
+    "dC2AsYr": 4.05891714976364e-9,
+    "ageDegW": 0,
+    "ageDegC2": 0.004466997900813754,
+    "ageDegAbs": 0.013814715688930983
+   },
+   {
+    "al": 2,
+    "recv": "Sun",
+    "Arel": 1,
+    "ringZ": 3.136983761831274e-17,
+    "ringXYrel": 9.783959012945397e-9,
+    "ringVsCenter": 0,
+    "sunC2": 4.635612946063898e-17,
+    "sunW": 3.136983761953777e-17,
+    "dW": 0,
+    "dC2": 1.4986291842326238e-17,
+    "ringAsYr": 1.856116596979038e-19,
+    "dWAsYr": 0,
+    "dC2AsYr": 8.867213580817197e-20,
+    "ageDegW": 0,
+    "ageDegC2": 9.758717162749726e-14,
+    "ageDegAbs": 2.0427292887349897e-13
+   },
+   {
+    "al": 2,
+    "recv": "Jupiter",
+    "Arel": 0.0009544883077696755,
+    "ringZ": 3.2865607009489535e-14,
+    "ringXYrel": 9.783959012956516e-9,
+    "ringVsCenter": 0,
+    "sunC2": 4.635612946063898e-17,
+    "sunW": 3.136983761953777e-17,
+    "dW": 3.2834237171869995e-14,
+    "dC2": 3.281925088002889e-14,
+    "ringAsYr": 1.9446195221773423e-16,
+    "dWAsYr": 1.9427634055802905e-16,
+    "dC2AsYr": 1.9418766842222815e-16,
+    "ageDegW": 2.1380875081449484e-10,
+    "ageDegC2": 2.1371116364287535e-10,
+    "ageDegAbs": 2.1401302374337632e-10
+   },
+   {
+    "al": 2,
+    "recv": "Earth",
+    "Arel": 0.000003126225138263031,
+    "ringZ": 1.0034414103299493e-11,
+    "ringXYrel": 9.783959014847141e-9,
+    "ringVsCenter": 0,
+    "sunC2": 4.635612946063898e-17,
+    "sunW": 3.136983761953777e-17,
+    "dW": 1.0034382733461873e-11,
+    "dC2": 1.0034367747170032e-11,
+    "ringAsYr": 5.93724544727066e-14,
+    "dWAsYr": 5.937226886104689e-14,
+    "dC2AsYr": 5.93721801889111e-14,
+    "ageDegW": 6.534151611946314e-8,
+    "ageDegC2": 6.534141853229152e-8,
+    "ageDegAbs": 6.534172039239203e-8
+   }
+  ]
+ },
+ "d": {
+  "rows": [
+   {
+    "al": 1,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": "uV",
+    "sym": 0.000002806037455481411,
+    "anti": 1.552214713371796e-8,
+    "antiOverSym": 0.005531696344037197,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 9.18427288856146e-11,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 2.436204048199061e-7,
+    "need": 24497127.01369076,
+    "needEq": 21467824.108847633
+   },
+   {
+    "al": 1,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": 1,
+    "sym": 0.000002806037455481411,
+    "anti": 1.552214713371796e-8,
+    "antiOverSym": 0.005531696344037197,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 9.18427288856146e-11,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 2.6338409367779226e-7,
+    "need": 22658923.3870018,
+    "needEq": 19856931.85556626
+   },
+   {
+    "al": 1,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": "uV",
+    "sym": 0.000002806037455481411,
+    "anti": 1.552214713371796e-8,
+    "antiOverSym": 0.005531696344037197,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 9.18427288856146e-11,
+    "wAsYr": 0.0144,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 3.654306072298591e-7,
+    "need": 16331418.009127174,
+    "needEq": 14311882.739231758
+   },
+   {
+    "al": 1,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": 1,
+    "sym": 0.000002806037455481411,
+    "anti": 1.552214713371796e-8,
+    "antiOverSym": 0.005531696344037197,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 9.18427288856146e-11,
+    "wAsYr": 0.0144,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 4.3966041755011395e-7,
+    "need": 13574112.569093732,
+    "needEq": 11895544.359309688
+   },
+   {
+    "al": 1,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": "uV",
+    "sym": 0.000002804544958433592,
+    "anti": 2.216476100357213e-8,
+    "antiOverSym": 0.007903157671593077,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.311462981331708e-10,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 3.4787636026829233e-7,
+    "need": 17155520.41362427,
+    "needEq": 15034077.03807891
+   },
+   {
+    "al": 1,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": 1,
+    "sym": 0.000002804544958433592,
+    "anti": 2.216476100357213e-8,
+    "antiOverSym": 0.007903157671593077,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.311462981331708e-10,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 3.760978064580684e-7,
+    "need": 15868212.72956661,
+    "needEq": 13905957.201010954
+   },
+   {
+    "al": 1,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": "uV",
+    "sym": 0.000002804544958433592,
+    "anti": 2.216476100357213e-8,
+    "antiOverSym": 0.007903157671593077,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.311462981331708e-10,
+    "wAsYr": 0.0144,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 5.218145404024385e-7,
+    "need": 11437013.609082848,
+    "needEq": 10022718.02538594
+   },
+   {
+    "al": 1,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": 1,
+    "sym": 0.000002804544958433592,
+    "anti": 2.216476100357213e-8,
+    "antiOverSym": 0.007903157671593077,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.311462981331708e-10,
+    "wAsYr": 0.0144,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 6.27810572453634e-7,
+    "need": 9506052.082996354,
+    "needEq": 8330538.2697840035
+   },
+   {
+    "al": 2,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": "uV",
+    "sym": 4.6139670488665546e-17,
+    "anti": 2.346476315067502e-19,
+    "antiOverSym": 0.005085594002332389,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.3883825876970737e-21,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 3.682799195578436e-18,
+    "need": 1620506490596927700,
+    "needEq": 1420115439983568000
+   },
+   {
+    "al": 2,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": 1,
+    "sym": 4.6139670488665546e-17,
+    "anti": 2.346476315067502e-19,
+    "antiOverSym": 0.005085594002332389,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.3883825876970737e-21,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 3.981566031144988e-18,
+    "need": 1498907704485254700,
+    "needEq": 1313553501082084900
+   },
+   {
+    "al": 2,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": "uV",
+    "sym": 4.6139670488665546e-17,
+    "anti": 2.346476315067502e-19,
+    "antiOverSym": 0.005085594002332389,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.3883825876970737e-21,
+    "wAsYr": 0.0144,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 5.524198793367655e-18,
+    "need": 1080337660397951700,
+    "needEq": 946743626655711900
+   },
+   {
+    "al": 2,
+    "zKey": "lo",
+    "Zpc": 70,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": 1,
+    "sym": 4.6139670488665546e-17,
+    "anti": 2.346476315067502e-19,
+    "antiOverSym": 0.005085594002332389,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.3883825876970737e-21,
+    "wAsYr": 0.0144,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 6.646327647629525e-18,
+    "need": 897939481230442100,
+    "needEq": 786900718303487400
+   },
+   {
+    "al": 2,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": "uV",
+    "sym": 4.5923840784250766e-17,
+    "anti": 3.3387946957079174e-19,
+    "antiOverSym": 0.007270286279829042,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.9755257658685852e-21,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 5.240244847389795e-18,
+    "need": 1138878081808086900,
+    "needEq": 998044967804339000
+   },
+   {
+    "al": 2,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "lo",
+    "TzYr": 60000000,
+    "mag": 1,
+    "sym": 4.5923840784250766e-17,
+    "anti": 3.3387946957079174e-19,
+    "antiOverSym": 0.007270286279829042,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.9755257658685852e-21,
+    "wAsYr": 0.021599999999999998,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 5.665359356084227e-18,
+    "need": 1053419496433312300,
+    "needEq": 923154149856940900
+   },
+   {
+    "al": 2,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": "uV",
+    "sym": 4.5923840784250766e-17,
+    "anti": 3.3387946957079174e-19,
+    "antiOverSym": 0.007270286279829042,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.9755257658685852e-21,
+    "wAsYr": 0.0144,
+    "OpAsYr": 7.0577566394069055e-15,
+    "radDeg": 7.860367271084691e-18,
+    "need": 759252054538724600,
+    "needEq": 665363311869559300
+   },
+   {
+    "al": 2,
+    "zKey": "hi",
+    "Zpc": 100,
+    "tzKey": "hi",
+    "TzYr": 90000000,
+    "mag": 1,
+    "sym": 4.5923840784250766e-17,
+    "anti": 3.3387946957079174e-19,
+    "antiOverSym": 0.007270286279829042,
+    "mirror": 0,
+    "symEven": 0,
+    "AAsYr": 1.9755257658685852e-21,
+    "wAsYr": 0.0144,
+    "OpAsYr": 0.005916883024907643,
+    "radDeg": 9.457041331867852e-18,
+    "need": 631064176476562600,
+    "needEq": 553027084948462140
+   }
+  ],
+  "keys": [
+   "gal.vertical.period",
+   "gal.vertical.amplitude"
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "gal.vertical.amplitude",
+   "gal.vertical.period"
+  ]
+ },
+ "dir": [
+  {
+   "axis": "L",
+   "sunDAz": -22.493302112567903,
+   "sunOffDeg": 5.9684624754699245,
+   "gcDAz": -93.29588185728642,
+   "dWobbleDAz": 176.70412313682596
+  },
+  {
+   "axis": "eq",
+   "sunDAz": -13.318415513223954,
+   "sunOffDeg": 5.229901351627743,
+   "gcDAz": -92.69771547540631,
+   "dWobbleDAz": 177.30228953339133
+  },
+  {
+   "axis": "ecl",
+   "sunDAz": -14.257397590198934,
+   "sunOffDeg": 7.25172680841248,
+   "gcDAz": -93.1836971913765,
+   "dWobbleDAz": 176.8163077260026
+  }
+ ],
+ "sum": [
+  {
+   "cand": "b",
+   "dir": "Np",
+   "mag": "uV",
+   "path": "②",
+   "deltaReq": null,
+   "maxGammaDeg": 0,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Np",
+   "mag": "uV",
+   "path": "①",
+   "deltaReq": null,
+   "maxGammaDeg": 0,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Np",
+   "mag": 1,
+   "path": "②",
+   "deltaReq": null,
+   "maxGammaDeg": 0,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Np",
+   "mag": 1,
+   "path": "①",
+   "deltaReq": null,
+   "maxGammaDeg": 0,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Gm",
+   "mag": "uV",
+   "path": "②",
+   "deltaReq": 768446432.1393641,
+   "maxGammaDeg": 123.38890622855456,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Gm",
+   "mag": "uV",
+   "path": "①",
+   "deltaReq": 792235946.5899318,
+   "maxGammaDeg": 61.69445311427728,
+   "reach": false
+  },
+  {
+   "cand": "b",
+   "dir": "Gm",
+   "mag": 1,
+   "path": "②",
+   "deltaReq": 0.000916615705537765,
+   "maxGammaDeg": 123.38890622855456,
+   "reach": true
+  },
+  {
+   "cand": "b",
+   "dir": "Gm",
+   "mag": 1,
+   "path": "①",
+   "deltaReq": 0.0009449922346756523,
+   "maxGammaDeg": 61.69445311427728,
+   "reach": true
+  },
+  {
+   "cand": "c",
+   "al": 1,
+   "recv": "Sun",
+   "ageDegC2": 0.004466997900813751,
+   "ageDegW": 0,
+   "need": 1336.0203278610925
+  },
+  {
+   "cand": "c",
+   "al": 1,
+   "recv": "Jupiter",
+   "ageDegC2": 0.004466997900813751,
+   "ageDegW": 0,
+   "need": 1336.0203278610925
+  },
+  {
+   "cand": "c",
+   "al": 2,
+   "recv": "Sun",
+   "ageDegC2": 9.758717162749726e-14,
+   "ageDegW": 0,
+   "need": 61155579165472.9
+  },
+  {
+   "cand": "c",
+   "al": 2,
+   "recv": "Jupiter",
+   "ageDegC2": 2.1371116364287535e-10,
+   "ageDegW": 2.1380875081449484e-10,
+   "need": 27925541643.546986
+  },
+  {
+   "cand": "d",
+   "al": 1,
+   "mag": "uV",
+   "radDeg": 3.4787636026829233e-7,
+   "need": 17155520.41362427,
+   "provisional": true
+  },
+  {
+   "cand": "d",
+   "al": 2,
+   "mag": "uV",
+   "radDeg": 5.240244847389795e-18,
+   "need": 1138878081808086900,
+   "provisional": true
+  },
+  {
+   "cand": "d",
+   "al": 1,
+   "mag": 1,
+   "radDeg": 3.760978064580684e-7,
+   "need": 15868212.72956661,
+   "provisional": true
+  },
+  {
+   "cand": "d",
+   "al": 2,
+   "mag": 1,
+   "radDeg": 5.665359356084227e-18,
+   "need": 1053419496433312300,
+   "provisional": true
+  }
+ ],
+ "gates": {
+  "pure": true,
+  "t2": true,
+  "t3": true,
+  "t4": true,
+  "t5": true,
+  "t6": true,
+  "t7": true,
+  "t8": true
+ },
+ "ok": true,
+ "timing": {
+  "input": {
+   "wallSec": 0.073
+  },
+  "pure": {
+   "wallSec": 0.221
+  },
+  "ax": {
+   "wallSec": 0.228
+  },
+  "t2": {
+   "wallSec": 0.229
+  },
+  "t3": {
+   "wallSec": 0.299
+  },
+  "t4": {
+   "wallSec": 0.3
+  },
+  "t5": {
+   "wallSec": 0.464
+  },
+  "t6": {
+   "wallSec": 0.563
+  },
+  "t7": {
+   "wallSec": 0.563
+  },
+  "t8": {
+   "wallSec": 0.563
+  }
+ },
+ "elapsedS": 1.738,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第352便l",
+  "target": "tests/lib-w352l-suntilt.mjs",
+  "targetSha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+  "generatedAt": "2026-11-24T17:10:09.049Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w352l-suntilt.mjs",
+    "bytes": 17916,
+    "sha256": "d73a8cf3dfb99e8866bfb23d9db5b8cc8cda9982eba752242705c4955fc5997a",
+    "mtime": "2026-11-24T17:10:07.175Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-24T16:55:00.894Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-24T16:55:00.910Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-24T16:55:00.914Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-24T16:55:00.914Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-24T16:55:00.914Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-24T16:55:00.922Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-24T16:55:00.922Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-24T16:55:00.922Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-24T16:55:00.926Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-24T16:55:00.930Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-24T16:55:00.934Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-24T16:55:00.938Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-24T16:55:00.942Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-24T16:55:00.942Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-24T16:55:00.942Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-24T16:55:00.946Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-24T16:55:00.950Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-24T16:55:00.954Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-24T16:55:00.954Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-24T16:55:00.954Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-24T16:55:00.954Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-24T16:55:00.954Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-24T17:03:31.616Z"
+   }
+  ],
+  "codeSha256": "c2a06df3e44171ce31978d82a54d9f670f7603abdf7ecadf6133072569b2ba1f",
+  "harnessVersion": "w352l-suntilt-1",
+  "stage": "suntilt",
+  "engine": "Node(html を読まない —— 純関数の lib・第351便d・第351便j・第352便b〜f の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "候補 (b)(c)(d) は、予想の文「太陽の自転軸の傾きは、その際に生じる」を数えられる式に直した候補 —— どれが正しいとは書かない(要る大きさ・出る向き・足りない量の表)",
+   "輪(公転面)と自転軸の応答の係数の差は置いていない(ノブ —— 差 1 あたりの数と、要る差を並べた)",
+   "背景の向き (N+) と (G−)・歳差の向き (g2+) と (g2−)・基準軸の L と eq はどれにも寄せていない",
+   "銀河の円盤は第352便f の対照の模型(核 K1・K2 で桁が 11 桁動く)—— 銀河の場の答えではない",
+   "上下の振動の周期と振幅は仮の値・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+   "「波打つ様に上下する」運動そのもの(面へ引き寄せる作用で振動が減るか)は式の形だけ —— 数えていない",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 24,
+   "kept": 770,
+   "zeroPathsHead": [
+    "/pure/scenes/same2/0",
+    "/pure/scenes/same2/1",
+    "/pure/scenes/diffPrec",
+    "/pure/scenes/diffTilt",
+    "/pure/scenes/vsRk",
+    "/pure/scenes/round",
+    "/pure/scenes/frame",
+    "/ringBg/2/angLDeg",
+    "/b/3/thDeg",
+    "/b/3/initPerDeltaAsYr",
+    "/b/3/maxGammaDeg",
+    "/b/4/thDeg",
+    "/b/4/initPerDeltaAsYr",
+    "/b/5/thDeg",
+    "/b/5/initPerDeltaAsYr",
+    "/b/5/maxGammaDeg",
+    "/b/12/thDeg",
+    "/b/12/initPerDeltaAsYr",
+    "/b/12/maxGammaDeg",
+    "/b/13/thDeg"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
