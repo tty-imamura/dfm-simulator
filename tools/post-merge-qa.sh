@@ -1502,6 +1502,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.refaxis352c docs.refaxis352c"
 #   docs.precsense352d —— 原文と表と数の文が PHYSICS〔第352便d〕に逐語・文書)と、新しい段 precsense-352d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.precsense352d docs.precsense352d"
 # ==== 第352便d の塊(ここまで)====
+# ==== 第352便e の塊(ここから)====
+# 第352便e(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R442 —— 診断だけ・html は変えない): 枝 e の新設 2 本
+#   (behavior.sunrecv352e —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・背景だけの円錐と周期と応答の係数の比を QA の中で別に照合・呼ぶだけ /
+#   docs.sunrecv352e —— 原文と表と数の文が PHYSICS〔第352便e〕に逐語・文書)と、新しい段 sunrecv-352e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sunrecv352e docs.sunrecv352e"
+# ==== 第352便e の塊(ここまで)====
 # ==== 第352便f の塊(ここから)====
 # 第352便f(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R443 —— 診断だけ・html は変えない): 枝 f の新設 2 本
 #   (behavior.galdisk352f —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形とトルクと表 3 の数を QA の中で別に照合・呼ぶだけ /

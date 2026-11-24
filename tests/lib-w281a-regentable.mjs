@@ -2952,6 +2952,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/precsense-352d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便d: 零試験 12/無次元の例 12/8 惑星と太陽 72/文に当たる数 96/(MS) 72/経路 ① 64' }),
   // ==== 第352便d の塊(ここまで)====
+  // ==== 第352便e の塊(ここから)====
+  // ---- 第352便e(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R442):
+  //   **太陽を受け手に置いた診断 —— 惑星由来の局所の項 (M)(S)(MS)・背景の向き 4 × 成分 2 × 大きさ 2 の太陽の合成と円錐の半頂角・歳差の周期と時間の物差し・逆算の器・太陽の応答の係数**
+  //   (段 sunrecv-352e —— 正本 tests/out/sunrecv-352e.json・lib tests/lib-w352e-sunrecv.mjs —— 第351便c・第351便e・第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に knobrank-351k・srcparts-351c・bgbalance-351e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便e の枝の実測 2 s
+  S('sunrecv-352e', 'node tests/exp-w352e-sunrecv.mjs', ['tests/out/sunrecv-352e.json'], 2, { secSource: 'w352e-branch', node: true,
+    after: ['knobrank-351k', 'srcparts-351c', 'bgbalance-351e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/sunrecv-352e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便e: 零試験 13/局所の項 8 惑星 + 和/円錐 16/周期 20/逆算 5 + 要る率 15 + 步 3/応答の係数 10 + 診断 4' }),
+  // ==== 第352便e の塊(ここまで)====
   // ==== 第352便f の塊(ここから)====
   // ---- 第352便f(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R443):
   //   **銀河の円盤の中の回転の差分 —— 速度の場の速さの差分と向きの変化の分・在位の形の場の円盤の模型の (M 型)・(源の運動だけ)・(S 型-点)・(S 型-体)・一様な背景と (uV) との比・上下の運動のトルク**
