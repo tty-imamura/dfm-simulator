@@ -16,7 +16,7 @@
 //   (読み B) 終わり = いまの基準軸: 時刻 τ の輪の法線がいまの基準軸に来るように、始まりの向きを輪の写像で逆に戻して置く(始まり X₀ = M_輪(τ)⁻¹ N̂)。
 //     経路 ② だけ(f 0)なら、ŝ(τ) = (N̂ を Ω̂ のまわりに ±Δφ 回したもの)・Δφ = (c_s − c_n) k₂ τ —— 角と方位は Δφ だけで決まる。
 // ■ 方位: 輪の法線のまわりの ŝ の方位 − (G+) の方位(第352便r の dAzAround —— 右ねじで正)。いまの方位は第352便r の nowDAz。
-// ■ 言わないこと: 太陽の傾きの原因が分かったとは書かない。背景が 2 つの項から成るとは書かない(届く組の走査)。この場・この比・この係数・この読みでは、の表。
+// ■ 言わないこと: 太陽の傾きの由来の答えとは書かない。背景が 2 つの項から成るとは書かない(届く組の走査)。この場・この比・この係数・この読みでは、の表。
 import * as T from './lib-w352r-twobg.mjs';
 import * as SL from './lib-w352l-suntilt.mjs';
 import * as RC from './lib-w352c-refaxis.mjs';
@@ -86,7 +86,9 @@ export function stateAt({ GEO, axis, w, tau, ring, spin, read = 'B' }) {
   if (!(fin(tau) && tau >= 0)) throw new RangeError('stateAt: τ ≥ 0');
   const N = unit(axis), X0 = read === 'A' ? N : mapAxis(N, w, -tau, ring);
   const n = mapAxis(X0, w, tau, ring), s = mapAxis(X0, w, tau, spin), g = angDeg(n, s);
-  return { n, s, X0, gammaDeg: g, dAzDeg: g > 1e-9 ? T.dAzAround(GEO, n, s) : null, turnDeg: angDeg(X0, n), endOffDeg: angDeg(n, N) };
+  // 読み B で始まりが Ω̂ の反対の極に 1e-4° より寄る(逆に戻す写像が e^(k₁ c τ) で桁を失う)所は、条件が悪い印 illCond を付ける(走査はこの標本を数えない)
+  const illCond = read === 'B' && angDeg(X0, w) > 180 - 1e-4;
+  return { n, s, X0, gammaDeg: g, dAzDeg: g > 1e-9 ? T.dAzAround(GEO, n, s) : null, turnDeg: angDeg(X0, n), endOffDeg: angDeg(n, N), illCond };
 }
 /** 背景の向き Ω̂(比 ρ —— ∞ は純粋な (G−))と、いまの基準軸と Ω̂ の角 θ(°)。大きさ 1 の a で作る(τ の物差しは別) */
 export function bgDir(axis, rho) {
@@ -117,20 +119,21 @@ export function dphiReachB({ GEO, axis, w, sense, gT, azT, tol = DECL.tol, n = 7
 }
 /**
  * 一般の探し方(読み A・B・どの f でも): τ の対数の格子(tauMax × 10^(−dec) 〜 tauMax・nTau 点)で、角と方位の両方が幅の内に入る最初の τ。
- * 戻り値 { tau | null, nearAzDeg(角が幅の内の標本での方位の差の最小)| null, nearGDeg(標本の角といまの角の差の最小), turnDeg(届いた時の輪の回った角)| null, nGamma(角が幅の内の標本の数) }
+ * 戻り値 { tau | null, nearAzDeg(角が幅の内の標本での方位の差の最小)| null, nearGDeg(標本の角といまの角の差の最小), turnDeg(届いた時の輪の回った角)| null, nGamma(角が幅の内の標本の数), nIll(条件が悪くて数えない標本の数) }
  */
 export function reachScan({ GEO, axis, w, ring, spin, read, gT, azT, tauMax, tol = DECL.tol, nTau = 400, dec = 10 }) {
   if (!(fin(tauMax) && tauMax > 0)) throw new RangeError('reachScan: τ の上限 > 0');
-  let near = null, nearG = null, hit = null, nG = 0;
+  let near = null, nearG = null, hit = null, nG = 0, nIll = 0;
   for (let k = 0; k <= nTau; k++) {
     const tau = tauMax * Math.pow(10, -dec + dec * k / nTau), st = stateAt({ GEO, axis, w, tau, ring, spin, read });
+    if (st.illCond) { nIll++; continue; }
     const eg = Math.abs(st.gammaDeg - gT); nearG = nearG === null ? eg : Math.min(nearG, eg);
     if (eg > tol.gammaDeg || st.dAzDeg === null) continue;
     nG++;
     const e = Math.abs(RC.dAz(st.dAzDeg, azT)); near = near === null ? e : Math.min(near, e);
     if (hit === null && e <= tol.azDeg) hit = { tau, turnDeg: st.turnDeg, dAzDeg: st.dAzDeg, gammaDeg: st.gammaDeg };
   }
-  return { tau: hit ? hit.tau : null, nearAzDeg: near, nearGDeg: nearG, turnDeg: hit ? hit.turnDeg : null, nGamma: nG, hit };
+  return { tau: hit ? hit.tau : null, nearAzDeg: near, nearGDeg: nearG, turnDeg: hit ? hit.turnDeg : null, nGamma: nG, nIll, hit };
 }
 
 /* ───────── 係数の比の候補(T3)───────── */
