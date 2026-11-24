@@ -144,7 +144,9 @@ export function stateOf(T1, GEO, key) {
 export function oneBg(T1, GEO, key, { tSrc = 0, bg, axis }, cache = null) {
   const Lc = localOf(T1, GEO, key, tSrc, cache), uV = uVt(T1, GEO, tSrc, cache), b = bgOf(T1, GEO, bg, axis, uV), Om = add(b, Lc.loc);
   const perp = nrm(add(SP.perpOf(Lc.sHat, b), SP.perpOf(Lc.sHat, Lc.loc)));
-  return { key, tSrc, bg, axis, omOverBg: nrm(Om) / nrm(b), locOverBg: nrm(Lc.loc) / nrm(b), angOmSDeg: angDeg(Om, Lc.sHat), angOmBgDeg: angDeg(Om, b), perpOverBg: perp / nrm(b), omAsYr: nrm(Om) * ASYR };
+  // 合成と背景の角は、背景に直交する局所の成分から直接に(合成 ≈ 背景の行で外積の打ち消しを作らない)
+  const bh = unit(b), lPar = dot(Lc.loc, bh), lPerp = nrm(SP.perpOf(bh, Lc.loc));
+  return { key, tSrc, bg, axis, omOverBg: nrm(Om) / nrm(b), locOverBg: nrm(Lc.loc) / nrm(b), angOmSDeg: angDeg(Om, Lc.sHat), angOmBgDeg: Math.atan2(lPerp, nrm(b) + lPar) / D2R, perpOverBg: perp / nrm(b), omAsYr: nrm(Om) * ASYR };
 }
 
 /* ───────── T4: 打ち消しの近くの判定の量と潮汐のトルクの比 ───────── */
