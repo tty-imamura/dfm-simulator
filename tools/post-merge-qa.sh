@@ -1553,6 +1553,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinform352k docs.spinform352k"
 #   docs.suntilt352l —— 原文と表と数の文が PHYSICS〔第352便l〕に逐語・文書)と、新しい段 suntilt-352l
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntilt352l docs.suntilt352l"
 # ==== 第352便l の塊(ここまで)====
+# ==== 第352便n の塊(ここから)====
+# 第352便n(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R451 —— 診断だけ・html は変えない): 枝 n の新設 2 本
+#   (behavior.venuslong352n —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の步と行き着く向きを QA の中で別に照合・第352便h の lib と同じ数・呼ぶだけ /
+#   docs.venuslong352n —— 原文と表と数の文が PHYSICS〔第352便n〕に逐語・文書)と、新しい段 venuslong-352n
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslong352n docs.venuslong352n"
+# ==== 第352便n の塊(ここまで)====
 # ==== 第352便o の塊(ここから)====
 # 第352便o(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R452 —— 診断だけ・html は変えない): 枝 o の新設 2 本
 #   (behavior.obsradius352o —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・半径の 2 乗と向きの不変と金星の 2 つの読みを QA の中で別に照合・呼ぶだけ /

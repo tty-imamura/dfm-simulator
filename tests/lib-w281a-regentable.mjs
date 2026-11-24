@@ -3036,6 +3036,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/suntilt-352l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便l: 零試験 13/輪の平均 4/候補 (b) 36 + 今の角 24/候補 (c) 6/候補 (d) 16(仮の値)/向き 3/まとめ 16' }),
   // ==== 第352便l の塊(ここまで)====
+  // ==== 第352便n の塊(ここから)====
+  // ---- 第352便n(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R451):
+  //   **金星 —— 打ち消しの残りの回転の下での (R3) の 2 経路の長い步(閉じた形)と行き先・倍率の振り・公転面の向きの一周・「安定した歳差」の判定の量**
+  //   (段 venuslong-352n —— 正本 tests/out/venuslong-352n.json・lib tests/lib-w352n-venuslong.mjs —— 第352便c・第352便d・第352便e・第352便i・第351便c・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に suntilt-352l・refaxis-352c・precsense-352d・sunrecv-352e・stableprec-352i〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   仮の値は使わない。1 プロセス。正本は第338便c の settleRun で書く。所要は第352便n の枝の実測 3 s
+  S('venuslong-352n', 'node tests/exp-w352n-venuslong.mjs', ['tests/out/venuslong-352n.json'], 3, { secSource: 'w352n-branch', node: true,
+    after: ['suntilt-352l', 'refaxis-352c', 'precsense-352d', 'sunrecv-352e', 'stableprec-352i'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venuslong-352n.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便n: 零試験 14/表 2 4 天体 × 背景 3 × f 4 × (g2±) × 読み 2/表 3 3/表 4 大きさ 2 × 背景 3 × 傾き 3 × f 4 × (g2±) × 読み 2/表 5 3 天体 × 背景 3 × 倍率 16/表 6 基準軸 2 × ψ 36/表 7 24 + 逆解き 12' }),
+  // ==== 第352便n の塊(ここまで)====
   // ==== 第352便o の塊(ここから)====
   // ---- 第352便o(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R452):
   //   **(S) の源の半径を規則の半径と観測の半径の 2 列で(形 M1・q 1.2・q 0 と組にして)本便の主な表を数え直す —— 主の表・金星の 2 つの読み・倍率 1 の背景と要る k・太陽を受け手に・衛星**
