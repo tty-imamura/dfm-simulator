@@ -3036,6 +3036,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/suntilt-352l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便l: 零試験 13/輪の平均 4/候補 (b) 36 + 今の角 24/候補 (c) 6/候補 (d) 16(仮の値)/向き 3/まとめ 16' }),
   // ==== 第352便l の塊(ここまで)====
+  // ==== 第352便r の塊(ここから)====
+  // ---- 第352便r(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R455): **背景の向きの項を 2 つ同時に置いた候補(比 b ÷ a の走査・同時の条件の範囲・作られる方位・揺れの窓 —— 仮の値)**
+  //   (段 twobg-352r —— 正本 tests/out/twobg-352r.json・lib tests/lib-w352r-twobg.mjs —— 第352便b・c・d・e・j・k・l・第351便c・第348便c・第347便e・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に suntilt-352l〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便r の枝の実測 3 s
+  S('twobg-352r', 'node tests/exp-w352r-twobg.mjs', ['tests/out/twobg-352r.json'], 3, { secSource: 'w352r-branch', node: true,
+    after: ['suntilt-352l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/twobg-352r.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便r: 零試験 12/比の走査 48/同時の条件の範囲 4/作られる方位 64/揺れの窓 8(仮の値)/まとめ 12' }),
+  // ==== 第352便r の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

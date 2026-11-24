@@ -135,14 +135,19 @@ export function openYears1({ X0, Om, delta, gammaDeg }) {
 
 /* ───────── 作られる方位とその後の歳差 ───────── */
 /**
- * 開き始めの ŝ − n̂ の向き(輪の係数 1・太陽の係数 1 − δ —— 符号 sign +1 = 太陽が遅い/−1 = 太陽が速い)の、基準軸のまわりの方位 − (G+) の方位(°)。
- * f 0(経路 ② だけ)か 1(経路 ① だけ)・歳差の向き sense。
+ * 開き始めの ŝ − n̂ の向き(輪の係数 ringRatio・太陽の係数 spinRatio —— どちらも基準軸 axis から出る)の、基準軸のまわりの方位 − (G+) の方位(°)。
+ * f 0(経路 ② だけ)か 1(経路 ① だけ)・歳差の向き sense。差が 0 なら null。
  */
-export function createdDAz(GEO, { axis, Om, f, sense, sign = 1, delta = 0.01 }) {
-  const c1 = SL.axisCoef(f, { sense, ratio: 1 }), c2 = SL.axisCoef(f, { sense, ratio: 1 + (sign > 0 ? -delta : delta) });
-  const d = sub(SL.axisDs(axis, Om, c2), SL.axisDs(axis, Om, c1)), g = RC.galDirs(GEO);
-  return RC.dAz(RC.azimuthDeg(axis, d).az, RC.azimuthDeg(axis, g.Gp).az);
+export function createdDAz(GEO, { axis, Om, f, sense, ringRatio = 1, spinRatio = 0.99 }) {
+  const cr = SL.axisCoef(f, { sense, ratio: ringRatio }), cs = SL.axisCoef(f, { sense, ratio: spinRatio });
+  const d = sub(SL.axisDs(axis, Om, cs), SL.axisDs(axis, Om, cr)), g = RC.galDirs(GEO);
+  if (!(nrm(d) > 0)) return null;
+  const z = RC.dAz(RC.azimuthDeg(axis, d).az, RC.azimuthDeg(axis, g.Gp).az);
+  // 射影の線の上の向き(経路 ①)は丸めで ±180 を行き来する —— 1e-6° の内は 0 か 180 に寄せて書く(線の上の両端を 1 つの数に)
+  return Math.abs(z) < 1e-6 ? 0 : 180 - Math.abs(z) < 1e-6 ? 180 : z;
 }
+/** 基準軸 n̂ のまわりの ŝ の方位 − (G+) の方位(°)—— 平行なら null */
+export function dAzAround(GEO, n, s) { const g = RC.galDirs(GEO), a = RC.azimuthDeg(n, s).az; return a === null ? null : RC.dAz(a, RC.azimuthDeg(n, g.Gp).az); }
 /** いまの方位(太陽の自転軸 − (G+)・基準軸のまわり) */
 export function nowDAz(GEO, axis) { const g = RC.galDirs(GEO), s = unit(GEO['Earth|Sun'].s); return RC.dAz(RC.azimuthDeg(axis, s).az, RC.azimuthDeg(axis, g.Gp).az); }
 /** 作られた方位からいまの方位まで、歳差の向き sense で進む角(°・0〜360)—— (g2+) は右ねじで正の向きに進む */
