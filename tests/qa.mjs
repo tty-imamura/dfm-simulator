@@ -122268,6 +122268,104 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第351便k の塊(ここまで)====
 
+// ==== 第352便a の塊(ここから —— docs.report148_352a・lint.partExplicit352a の 2 ブロック。root は SKIP)====
+// ---- 第352便a(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R438 —— 文書だけ・html は変えない):
+// ----   **第148報の文書(決断の 5 行と「銀河由来の軸引きずりについて」の 7 文〔22 文〕の当たり所・新しい句 10・伺った 5 項の鎖・歳差の向きの 2 つの読み)の戻り止め**(新設 —— 文書の表の lib
+// ----   tests/lib-w352a-report148.mjs〔純関数 —— ファイルを読まない。原文と表と照合の関数を持つ〕。器・段・正本は無い)。世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第352便a〕が在る。
+// ----   docs.report148_352a: PHYSICS〔第352便a〕(位置・見出し・表 1 の 22 文の原文の字〔文を継ぐと原文の行に戻る〕・文の種類・公開に引かない行・表 2 の 10 句とこれまでの文が当時の節に在る・
+// ----     表 3 の鎖 5 項と当時の文が第351便の統括の節に残る・表 4 が lib の純関数の出力と逐語〔閉じた形・回りの読み〕・用語の定義の文 5 つ)・AI_SPEC §330・post-merge の塊・禁句と書かない語・変異の自己試験
+// ----   lint.partExplicit352a: tests/lib-w352*.mjs・tests/exp-w352*.mjs の中で第351便e の totalOm を呼ぶ所は part を明示している(既定は 'MS' のまま —— 本便の主は 'S')・対象 0 本でも通る・変異の自己試験
+{
+  await (async () => {
+  const rd352a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w352a-report148.mjs');
+  const PH0 = rd352a('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第352便a — ') >= 0)) {
+    console.log('SKIP docs.report148_352a・lint.partExplicit352a(第352便a の第148報の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, err0 = null;
+  try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const AS0 = rd352a('docs/AI_SPEC.md') || '', PM0 = rd352a('tools/post-merge-qa.sh') || '';
+  const iS = PH0.indexOf('\n〔第352便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
+  const runMut = (bad, MUT, fn) => { const sc = [];
+    for (const [nm, args, re] of MUT) {
+      const r = fn(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑨ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑨ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    return sc; };
+  // ---- docs.report148_352a
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const R = W.checkReport148(PH0, AS0, PM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
+      const r42 = (s0.split('\n').find((l) => l.startsWith('| 決 4-2 | ')) || '');
+      const r7 = (s0.split('\n').find((l) => l.startsWith('| 銀 7 | ')) || '');
+      const SD = ['| 決 4-2 | ', '| 銀 7 | ', '| 句 8 | 「太陽系の基準軸方向」', '| AN1017 | 経路 ②', '**⑤ 決断事項の候補。** ', '| 45 | 0.7071 | 3 | -3 |'];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑨ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const i351t = PH0.indexOf('\n〔第351便 — '), s351t = W.physSecOf(PH0, '〔第351便 — ');
+      const MUT = [
+        ['表 1 の決 4-2 の原文を 1 字変える', [inSec(PH0, r42, r42.replace('地球とも共鳴', '地球と共鳴')), AS0, PM0], /^② 表 1 の 決 4-2 の原文の字/],
+        ['表 1 から銀 7 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace('\n' + r7, ''), AS0, PM0], /^② 表 1 の行の並び/],
+        ['表 1 の決 4-2 の文の種類を定義の文にする', [inSec(PH0, r42, r42.replace(' | 予想の文 | ', ' | 定義の文 | ')), AS0, PM0], /^② 表 1 の 決 4-2 の文の種類/],
+        ['表 2 の句 8 の新しい語を変える', [inSec(PH0, '| 句 8 | 「太陽系の基準軸方向」', '| 句 8 | 「太陽系の軸」'), AS0, PM0], /^③ 表 2 の 句 8 の新しい語/],
+        ['第351便の統括の節の当時の文を書き換える', [PH0.slice(0, i351t + 1) + s351t.split('経路 ② の回る向き').join('経路 ② の向き') + PH0.slice(i351t + 1 + s351t.length), AS0, PM0], /^④ 表 3 の AN1017 の当時の文/],
+        ['表 4 の (g2−) の値の符号を変える', [inSec(PH0, '| 45 | 0.7071 | 3 | -3 |', '| 45 | 0.7071 | 3 | 3 |'), AS0, PM0], /^⑤ 表 4 が lib の出力と違う/],
+        ['用語の段の (g2+) の定義の文を変える', [inSec(PH0, '(g2+) dŝ/dt ∝ +Ω × ŝ(記号「これまでの向き」', '(g2+) dŝ/dt ∝ −Ω × ŝ(記号「これまでの向き」'), AS0, PM0], /^⑥ .*「歳差の向きの名」の定義の文/],
+        ['地の文に書かない語「決まった」を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 歳差の向きの主が決まった。'), AS0, PM0], /^⑧ PHYSICS〔第352便a〕 に書かない語「決まった」/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「型が決まった」の文は無い。'), AS0, PM0], null],
+        ['節に外部の名を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「' + W.EXT_NAMES[0] + '」。'), AS0, PM0], /^⑧ PHYSICS〔第352便a〕 に禁句/],
+        ['節に private の文書の名の形を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** REPORT148_' + 'original。'), AS0, PM0], /^⑧ PHYSICS〔第352便a〕 に private の文書の名の形/],
+        ['節に統括の節の見出しの字を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 〔第351便 — 統括' + '〕を見る。'), AS0, PM0], /^① 本節に統括の節の見出しの字/],
+        ['公開に引かない行を引く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「他の予定と並行しつつ」。'), AS0, PM0], /^② 公開に引かない行/],
+        ['AI_SPEC の §330 を消す', [PH0, AS0.replace(/\n## 330\. 第352便a/, '\n## 3300. 第352便a'), PM0], /^⑦ AI_SPEC §330/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第352便a の塊(ここから)====', '# ==== 第352便a の塊====')], /^⑦ post-merge/],
+      ];
+      const sc = runMut(bad, MUT, W.checkReport148);
+      cases.push(`⑨ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report148_352a', bad.length === 0,
+      `**第148報の文書(22 文の当たり所・新しい句 10・伺った 5 項の鎖・歳差の向きの 2 つの読み)**(第352便a・原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・R438 —— 原文は言葉を変えずに引く・当時の推奨の文は消さずに並べる・伺っている項は 2 列を同じ重さで・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ---- lint.partExplicit352a
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      let L0 = []; try { L0 = fs.readdirSync(path.join(ROOT, 'tests')).sort(); } catch (e) { }
+      const files = L0.filter((f) => W.PART_FILE_RE.test(f)).map((f) => ['tests/' + f, rd352a('tests/' + f) || '']);
+      const R = W.checkPartExplicit(files); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const FX = W.partFixtures(), nm = (s) => 'tests/lib-w352z-' + s + '.mjs';
+      const MUT = [
+        ['明示なしの名前空間の呼び出しを足す', [files.concat([[nm('a'), FX.noPartNs]])], /^① tests\/lib-w352z-a\.mjs の .* part の明示が無い/],
+        ['明示なしの別名の import の呼び出しを足す', [files.concat([[nm('b'), FX.noPartAlias]])], /^① tests\/lib-w352z-b\.mjs の .*tOm\( に part の明示が無い/],
+        ['動的な import で引数を変数で渡す(明示なし)', [files.concat([['tests/exp-w352z-c.mjs', FX.noPartDyn]])], /^① tests\/exp-w352z-c\.mjs の .*E2\.totalOm\( に part の明示が無い/],
+        ['part: を明示した呼び出し(落ちない)', [files.concat([[nm('d'), FX.okNs]])], null],
+        ['オブジェクトの省略形 { part }(落ちない)', [files.concat([[nm('e'), FX.okShort]])], null],
+        ['注釈の中の呼び出し(落ちない)', [files.concat([[nm('f'), FX.comment]])], null],
+        ['ほかの lib の同名の関数(落ちない)', [files.concat([[nm('g'), FX.localOther]])], null],
+        ['対象外の名のファイル(落ちない)', [files.concat([['tests/lib-w351z-h.mjs', FX.noPartNs]])], null],
+        ['対象 0 本(落ちない)', [[]], null],
+      ];
+      const sc = runMut(bad, MUT, W.checkPartExplicit);
+      const n0 = W.checkPartExplicit([]);
+      if (!(n0.nFiles === 0 && n0.bad.length === 0)) bad.push('② 対象 0 本で通らない');
+      cases.push(`② 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('lint.partExplicit352a', bad.length === 0,
+      `**第351便e の totalOm の成分の明示**(第352便a・原仮定者の回答(2026-11-24 —— 第148報)AN1015・R438 —— 既定は (MS) のまま・本便の主の成分は (S) なので、第352便の lib と器の呼び出しは part を明示する): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第352便a の塊(ここまで)====
+
 // ==== 第307便d の塊(ここから)====
 // ---- 第307便d(原仮定者の裁定(第100報)「UI関連タスク」6 項目・統括の検証項目 R212): **表示と UI だけ**(物理の步・本の宣言・エンジンの式は変えない)。
 // ----   世代切替 has307d = html の `function spinVisAdvance(`(root 等は 6 件とも SKIP)。期待は html の宣言(SPIN_VIS_*・AXIS_GIZMO_*・PP_OTHER_SECS・
