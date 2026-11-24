@@ -70,7 +70,7 @@ export const DECL = Object.freeze({
   phaseBodies: Object.freeze(['Earth', 'Mars', 'Venus', 'Mercury']), eGrid: Object.freeze([0, 0.1]), nPhase: 72, phaseF: Object.freeze([0, 0.5]),
   eMercury: TL.BODY_SRC.Mercury.e[0],
   /** 表 4(金星の公転面が回る): ψ の格子の数・輪の回る率 ρ(W_b の単位)・f・無次元の時間の上限(k₁ τ)・刻み */
-  nPsi: 36, rhos: Object.freeze([0, 1e-3, 1e-2, 1e-1, 1]), turnF: 0.5, k1tauMax: 12, dtau: 0.05, settleDeg: 1,
+  nPsi: 36, rhos: Object.freeze([0, 1e-3, 1e-2, 1e-1, 1]), turnF: 0.5, k1tauMax: 12, dtau: 0.05, settleDeg: 1, nearDeg: 5,
   /** 仮の値の鍵(第352便b の器 —— 表に入れる数はこれだけ) */
   provKeys: Object.freeze(['earth.psiA.rate']),
   floor: 1e-12, judge: '丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く',
@@ -184,14 +184,15 @@ export function phaseRot(T1, GEO, id, { tSrc = 0, e = 0, nPhase = DECL.nPhase } 
   return { phases, mean, T: 2 * Math.PI * Pq.a / Pq.vOrb, a: Pq.a, sHat: unit(Pq.sHat), nHat: unit(Pq.nHat), Rs };
 }
 /**
- * 位相ごとの (S) の揺れ: phases(Om の列 —— 等しい時間の刻み)・ŝ・周期 T・比率 f・向き sense。ずれ δ_j = Ω_j − Ω̄ から直接に:
+ * 位相ごとの (S) の揺れ: phases(局所の Om の列 —— 等しい時間の刻み)・ŝ・周期 T・比率 f・向き sense・一定の背景 bg(平均にだけ入る)。ずれ δ_j = Ω_j − Ω̄ から直接に:
  *   D の頂点(区切りごとの積分)・ŝ のずれの最大(一次 —— rad)・1 公転の後の二次の差 abs(M₂) × k₂²(rad)。
  * 返す { varRel(abs(δ) の最大 ÷ abs(Ω̄)), ampRad, ampAs, perpAmpRad(D の ŝ に直交する成分の最大), parAmpRad, m2Rad, m2As, netRad(D(T) —— 床) }
  */
-export function wobbleOf(phases, { sHat, T, f = 0, sense = 'g2p' }) {
-  if (!(Array.isArray(phases) && phases.length >= 4 && isVec(sHat) && fin(T) && T > 0)) throw new RangeError('wobbleOf: 位相・ŝ・T > 0');
+export function wobbleOf(phases, { sHat, T, f = 0, sense = 'g2p', bg = [0, 0, 0] }) {
+  if (!(Array.isArray(phases) && phases.length >= 4 && isVec(sHat) && fin(T) && T > 0 && isVec(bg))) throw new RangeError('wobbleOf: 位相・ŝ・T > 0・背景');
   const Nn = phases.length, dt = T / Nn, s = unit(sHat), k = I.kOf(f, sense);
-  const mean = phases.reduce((t, p) => add(t, scl(p.Om, 1 / Nn)), [0, 0, 0]), del = phases.map((p) => sub(p.Om, mean));
+  // ずれは局所の位相の値から作る(背景は一定 —— 平均にだけ足す。背景を足した後の差でずれを作らない)
+  const locMean = phases.reduce((t, p) => add(t, scl(p.Om, 1 / Nn)), [0, 0, 0]), del = phases.map((p) => sub(p.Om, locMean)), mean = add(locMean, bg);
   // 平均を差し引いたずれの和が 0 になるよう、平均の丸めの分を割り振る(ずれの和の残りは床)
   const rest = scl(del.reduce((t, d) => add(t, d), [0, 0, 0]), 1 / Nn), dd = del.map((d) => sub(d, rest));
   let Dv = [0, 0, 0], amp = 0, pa = 0, pp = 0, m2 = [0, 0, 0], Dsum = [0, 0, 0], vmax = 0;
@@ -258,10 +259,12 @@ export function turnStep(Gd, { rho, f = DECL.turnF, sense, k1tauMax = DECL.k1tau
     tr.push({ tau, s, obl: angDeg(s, n) });
   }
   const sEnd = s, last = tr.slice(Math.floor(tr.length * 0.9));
+  // 落ち着き: ρ 0 は終わりの向きから settleDeg 以内に留まり始めた τ/ρ > 0 は ψ の平均の合成の軸(turnMean の vecMean)から nearDeg 以内に留まり始めた τ(入らなければ null)
+  const tgt = rho === 0 ? sEnd : turnMean(Gd).vecMean, thr = rho === 0 ? DECL.settleDeg : DECL.nearDeg;
   let tauSettle = null;
-  for (let i = tr.length - 1; i >= 0; i--) { if (angDeg(tr[i].s, sEnd) > DECL.settleDeg) { tauSettle = i === tr.length - 1 ? null : tr[i + 1].tau; break; } if (i === 0) tauSettle = 0; }
+  for (let i = tr.length - 1; i >= 0; i--) { if (angDeg(tr[i].s, tgt) > thr) { tauSettle = i === tr.length - 1 ? null : tr[i + 1].tau; break; } if (i === 0) tauSettle = 0; }
   const out = { rho, f, sense, tauEnd, nStep, sEnd, oblEndDeg: tr[tr.length - 1].obl, oblLastMinDeg: Math.min(...last.map((x) => x.obl)), oblLastMaxDeg: Math.max(...last.map((x) => x.obl)),
-    angRefEndDeg: angDeg(sEnd, Gd.ref), tauSettle };
+    angRefEndDeg: angDeg(sEnd, Gd.ref), angMeanEndDeg: angDeg(sEnd, turnMean(Gd).vecMean), angMeanLastMaxDeg: Math.max(...last.map((x) => angDeg(x.s, turnMean(Gd).vecMean))), tauSettle };
   if (keepTrack) out.track = tr;
   return out;
 }

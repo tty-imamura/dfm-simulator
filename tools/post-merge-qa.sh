@@ -1589,6 +1589,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.twobg352r docs.twobg352r"
 #   docs.satring352s —— 原文と表と数の文が PHYSICS〔第352便s〕に逐語・文書)と、新しい段 satring-352s
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satring352s docs.satring352s"
 # ==== 第352便s の塊(ここまで)====
+# ==== 第352便w の塊(ここから)====
+# 第352便w(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R460 —— 診断だけ・html は変えない): 枝 w の新設 2 本
+#   (behavior.keepcone352w —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の上限と下限を QA の中で別に照合・呼ぶだけ /
+#   docs.keepcone352w —— 原文と表と数の文が PHYSICS〔第352便w〕に逐語・文書)と、新しい段 keepcone-352w
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.keepcone352w docs.keepcone352w"
+# ==== 第352便w の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
