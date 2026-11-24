@@ -2857,6 +2857,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/r3step-351d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第351便d: 零試験 13/原文の 4 句 2 点/90° の後の読み 15/比率のノブ 16/2 つの源 9 + 例 1/ω_T ÷ ω_L 8 + 地球の型/共通の点検の数' }),
   // ==== 第351便d の塊(ここまで)====
+  // ==== 第351便k の塊(ここから)====
+  // ---- 第351便k(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R437):
+  //   **係数の当てはめの診断 —— 換算の係数 k・構造の係数 c_R (ii)(i)・経路の比率 f・背景の倍率 u と観測量の対数の感度の行列と階数・分けられる組・当てはめの段の要る値・順位の相関**
+  //   (段 knobrank-351k —— 正本 tests/out/knobrank-351k.json・lib tests/lib-w351k-knobrank.mjs —— 第351便c・第351便d・第351便b・第350便f・第350便e・第348便h の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に structfit-350f・srcparts-351c・r3step-351d・c2main-351b〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便k の枝の実測 10 s(nice 15)
+  S('knobrank-351k', 'node tests/exp-w351k-knobrank.mjs', ['tests/out/knobrank-351k.json'], 10, { secSource: 'w351k-branch', node: true,
+    after: ['structfit-350f', 'srcparts-351c', 'r3step-351d', 'c2main-351b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/knobrank-351k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便k: 零試験 10/感度 3 天体 × 成分 3 × 基準 2/(あ) 12/(い) 24 + 月 6/(う) 36/ノブの組 30/当てはめの段 112/順位の相関 16' }),
+  // ==== 第351便k の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
