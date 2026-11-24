@@ -2822,6 +2822,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/diskcheck-350g.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第350便g: 零試験 8/通過の輪 24/🛟 の要点と区分 5/向きが入れ替わる行 60/粒子の輪 7/帳簿への口 30' }),
   // ==== 第350便g の塊(ここまで)====
+  // ==== 第351便b の塊(ここから)====
+  // ---- 第351便b(原仮定者の回答(2026-11-24 —— 第147報)AN1000・統括の検証項目 R428):
+  //   **球体換算の主の列を (C2) に替えた表・換算の係数 k の掛け先(局所の項だけ)・k と構造の係数 c_R の縮退の診断・(C2) の定義の門・球の中の自分の重みの置き方 3 列**
+  //   (段 c2main-351b —— 正本 tests/out/c2main-351b.json・lib tests/lib-w351b-c2main.mjs —— 第350便b・第348便h・第348便c・第350便e・第347便e・第347便h・第337便c の lib を
+  //   import して呼ぶ。入力のファイルは無い〔順序だけ after に sphereconv-350b〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便b の枝の実測 1 s(混まない時)
+  S('c2main-351b', 'node tests/exp-w351b-c2main.mjs', ['tests/out/c2main-351b.json'], 1, { secSource: 'w351b-branch', node: true,
+    after: ['sphereconv-350b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/c2main-351b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便b: 零試験 10/主の列の切り替え 15 組 × 読み 4/k の掛け先 3 組 × 背景 2 × k 5/縮退 3 組 × q 8 × 列 3/自分の重みの置き方 15 組 × 3' }),
+  // ==== 第351便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
