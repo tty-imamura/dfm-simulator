@@ -75,7 +75,7 @@ export function runAll() {
       t1.push({ id, bg, axis: ax, u: uc, sense, f, thDeg: S.thDeg, wAsYr: S.W * L.ASYR, turnYr: 2 * Math.PI / S.W / YR, locOverW: S.locOverW,
         dThPerTurnDeg: fl(j.dThPerTurnDeg, 360), phasePerTurnDeg: fl(j.phasePerTurnDeg, 360), returnPerTurn: fl(j.returnPerTurn, 2 * Math.PI), returnRatePerYr: fl(j.returnRate * YR, S.W * YR),
         returnRate: fl(j.returnRate, S.W), tE: j.tE, tStar: j.tStar, ageKwt: ta.kwt, ageThAlpha: ta.alpha, ageThBeta: ta.beta,
-        ageShrinkFrac: S.thDeg > 0 ? 1 - ta.alpha / S.thDeg : 0 });
+        ageShrinkFrac: S.thDeg > 0 ? ta.dropDeg / S.thDeg : 0 });
     }
   }
   mark('t1');

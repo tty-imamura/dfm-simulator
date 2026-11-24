@@ -15,7 +15,8 @@
 //   **合成の軸が回るとき**(Ω̂(t) が n̂ のまわりを率 g で回る・Ω̂ と n̂ の角 I): 一緒に回る枠で dŝ/dt|回る = b (Ω̂ − (ŝ·Ω̂) ŝ) + a × ŝ・
 //   a = σ k₂ W Ω̂ − g n̂・b = k₁ W。止まる向き(閉じた形): x = λ² が x² + (a² − b²) x − b² (a·Ω̂)² = 0 の正の根・
 //   ŝ* = b [λ² Ω̂ + λ (a × Ω̂) + (a·Ω̂) a] ÷ (λ (λ² + a²))・λ = b (ŝ*·Ω̂)(λ > 0 の枝 = 引き込む点・λ < 0 の枝 = 離れる点)。b 0 なら ŝ* = ± â(中立 —— 回り続ける)。
-//   (g2+) は a = +k₂ W Ω̂ − g n̂・(g2−) は a = −k₂ W Ω̂ − g n̂(別の式)。止まる点のまわりの戻りの率 = −(線形化の固有値の実部の大きい方)・跡 = −2λ(閉じた形)。
+//   (g2+) は a = +k₂ W Ω̂ − g n̂・(g2−) は a = −k₂ W Ω̂ − g n̂(別の式)。止まる点のまわりの線形化は接平面で J = −λ I + (a·ŝ*) R₉₀ —— 固有値 −λ ± i (a·ŝ*)・
+//   戻りの率 = λ(閉じた形)・跡 = −2λ。
 // ■ 言わないこと: 安定した歳差が在る/無い・観測の傾きの答えとは書かない(この流れ・この読み・この引数では、の表)。f の値・読み A・B・C を選ばない。
 import * as R3 from './lib-w351d-r3step.mjs';
 import * as RG from './lib-w351g-r3energy.mjs';
@@ -99,7 +100,9 @@ export function thAfter({ thDeg, W, f, sense, tYr }) {
   if (!(fin(x) && x >= 0)) throw new RangeError('thAfter: k₁ W t ≥ 0');
   const a = thDeg === 0 || thDeg === 180 ? thDeg : 2 * Math.atan(Math.tan(thDeg * D2R / 2) * Math.exp(-x)) / D2R;
   const b = thDeg > 90 && a <= 90 ? 90 : a;
-  return { alpha: a, beta: b, kwt: x };
+  // 縮んだ角 θ₀ − θ を差で作らず直接に: 2 atan(T₀ (1 − e^(−x)) ÷ (1 + T₀² e^(−x)))・T₀ = tan(θ₀/2)
+  const T0 = Math.tan(thDeg * D2R / 2), drop = thDeg === 0 || thDeg === 180 ? 0 : 2 * Math.atan(T0 * -Math.expm1(-x) / (1 + T0 * T0 * Math.exp(-x))) / D2R;
+  return { alpha: a, beta: b, kwt: x, dropDeg: drop };
 }
 
 /* ───────── (iii) 合成の軸が回るとき ───────── */
@@ -168,9 +171,10 @@ export function lockGeom({ IDeg, rho, f, sense, mut = null }) {
   const g = rho * (k2 > 0 ? k2 : 1), P = { Om, W: 1, n, g, k1, k2s };
   const L = lockPoints(P, { mut }), p = L.pts[0];
   if (!p) return { IDeg, rho, f, sense, g, ok: false };
-  const lin = linearize(p.s, P), res = nrm(flowRot(p.s, P));
+  // 線形化は閉じた形: 接平面で J = −λ I + (a·ŝ*) R₉₀(R₉₀ = 接平面の 90° の回転)—— 固有値 −λ ± i (a·ŝ*)・戻りの率 = λ・跡 = −2λ(差分の線形化 linearize は零試験で照合)
+  const res = nrm(flowRot(p.s, P)), as = dot(aOf(P).a, p.s);
   return { IDeg, rho, f, sense, g, ok: true, neutral: L.neutral, s: p.s, lam: p.lam, halfDeg: R3.angDeg(p.s, n), lagDeg: R3.angDeg(p.s, Om),
-    outDeg: Math.asin(Math.max(-1, Math.min(1, p.s[1]))) / D2R, returnRate: lin.returnRate, trace: lin.trace, spiral: lin.spiral, resid: res };
+    outDeg: Math.asin(Math.max(-1, Math.min(1, p.s[1]))) / D2R, returnRate: p.lam, trace: -2 * p.lam, im: Math.abs(as), spiral: as !== 0, resid: res };
 }
 /** 引き込む点(f > 0)・中立の点(f 0)の半頂角が目標になる ρ を逆に解く(片側の走査と二分 —— 両方の符号) */
 export function invertTarget({ targetDeg, IDeg, f, sense, perDecade = DECL.invPerDecade }) {
@@ -234,7 +238,9 @@ export function pureScenes() {
   for (const sense of DECL.senses) for (const f of [0, 0.5, 0.9]) for (const IDeg of [5, 40, 120]) for (const rho of [-3, -0.2, 0.2, 3]) {
     const { k1, k2, k2s } = kOf(f, sense), I = IDeg * D2R, P = { Om: [Math.sin(I), 0, Math.cos(I)], W: 1, n: [0, 0, 1], g: rho * k2, k1, k2s };
     for (const p of lockPoints(P).pts) { nPts++; resid = Math.max(resid, nrm(flowRot(p.s, P))); const lin = linearize(p.s, P);
-      trErr = Math.max(trErr, Math.abs(lin.trace + 2 * p.lam)); lamErr = Math.max(lamErr, Math.abs(p.lam - k1 * dot(p.s, P.Om))); }
+      // 差分の線形化と閉じた形(実部 −λ・虚部 abs(a·ŝ*))の照合
+      trErr = Math.max(trErr, Math.abs(lin.trace + 2 * p.lam), Math.abs(lin.reMax + p.lam), Math.abs(lin.im - Math.abs(dot(aOf(P).a, p.s))));
+      lamErr = Math.max(lamErr, Math.abs(p.lam - k1 * dot(p.s, P.Om))); }
   }
   // ⑤ 回る軸の数値の步: 止まる点から出ると R_n(gT) ŝ* に留まる・半頂角を乱すと戻りの率で近付く(f 0.5・(g2+) と (g2−))
   const rot = [];
