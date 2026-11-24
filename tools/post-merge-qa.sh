@@ -1529,6 +1529,12 @@ SINCE_REV=""; PMDRY=0
 #   docs.venusbal352h —— 原文と表と数の文が PHYSICS〔第352便h〕に逐語・文書)と、新しい段 venusbal-352h
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venusbal352h docs.venusbal352h"
 # ==== 第352便h の塊(ここまで)====
+# ==== 第352便i の塊(ここから)====
+# 第352便i(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R446 —— 診断だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.stableprec352i —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と止まる点を QA の中で別に照合・呼ぶだけ /
+#   docs.stableprec352i —— 原文と表と数の文が PHYSICS〔第352便i〕に逐語・文書)と、新しい段 stableprec-352i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.stableprec352i docs.stableprec352i"
+# ==== 第352便i の塊(ここまで)====
 # ==== 第352便j の塊(ここから)====
 # 第352便j(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R447 —— 診断だけ・html は変えない): 枝 j の新設 2 本
 #   (behavior.maintable352j —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・呼ぶだけ /

@@ -2988,6 +2988,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/venusbal-352h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便h: 零試験 12/表 3 16 行/表 4 3 軸/表 5 33 行 + r* 3/表 6 8 惑星 × 4/表 7 源 3 × 成分 2/表 8 自転周期 5(仮・未照合)/表 9 3' }),
   // ==== 第352便h の塊(ここまで)====
+  // ==== 第352便i の塊(ここから)====
+  // ---- 第352便i(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R446):
+  //   **「安定した歳差運動」の判定 —— 判定の量 3 つ(半頂角の 1 周あたりの変化・位相の 1 周あたりの進み・戻りの率)・一定の合成の軸の閉じた形・合成の軸が回るときの止まる向きと戻りの率**
+  //   (段 stableprec-352i —— 正本 tests/out/stableprec-352i.json・lib tests/lib-w352i-stableprec.mjs —— 第351便d・第351便g・第352便d・第352便c・第347便e・第318便d・第330便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便i の枝の実測 2 s
+  S('stableprec-352i', 'node tests/exp-w352i-stableprec.mjs', ['tests/out/stableprec-352i.json'], 2, { secSource: 'w352i-branch', node: true,
+    after: ['galdisk-352f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/stableprec-352i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便i: 零試験 12/表 1 324 行/表 2 504 行/候補 288 行 + (a) 8/逆に解く 48 組/読み 3/逆行 12' }),
+  // ==== 第352便i の塊(ここまで)====
   // ==== 第352便j の塊(ここから)====
   // ---- 第352便j(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R447):
   //   **主の表 —— 天体 16 組 + 太陽 × 背景の向き (N+)(G−) × 基準軸 L・eq × 歳差の向き (g2−)(g2+) × 背景の大きさ (uV)(uMin)・倍率 1・(仮) × 成分 (S)(MS) の格子・推奨と次点の差の表・仮の比べる数との並べ(仮・未照合)**
