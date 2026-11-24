@@ -5,7 +5,7 @@
 //   (器 tests/exp-w352q-response.mjs と QA behavior.response352q・docs.response352q が読む —— html を読まない・ファイルを読まない・状態を持たない)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib と第 1・第 2 ラウンドの lib は呼ぶだけ(本文は変えない):
 //   第352便k(spinRot・srcRadius・recvRadius —— (S) と源の半径・受け手の半径)・第352便j(cellOf・provCompare・provRefs —— 照合の相手)・第352便d(bgVec・uVenus・poleRates・precDs)・
-//   第352便c(refAxis)・第352便b(prov・toRH・tagProv・ratioOf —— 仮の値は「仮・未照合」の印つきの表だけ)・第351便k(partRotQ・singularValues・rankOf)・第351便d(r3Coeffs)・
+//   第352便e(bgPeriod —— 太陽の歳差の周期の列)・第352便c(refAxis)・第352便b(prov・toRH・tagProv・ratioOf —— 仮の値は「仮・未照合」の印つきの表だけ)・第351便k(partRotQ・singularValues・rankOf)・第351便d(r3Coeffs)・
 //   第351便c(pairInput)・第350便f(precObs・ruleRatio —— リポジトリの文献の値と規則の半径の比)・第348便c(massOf・radiusOf)・第347便e(t1Table・geometry)・第330便a(DECL.lit —— 慣性モーメントの係数・J2)。
 //
 // ■ 語: 単位の応答の率 = 背景 + 局所(太陽由来の (S)・k 1・(C2))の合成の大きさ abs(Ω)(応答の係数 1・比 ω_T ÷ ω_L 1・k₂ 1 で、歳差の率がこの大きさになる)。
@@ -13,6 +13,7 @@
 //   式の候補(天体の構造から作る「応答の物差し」X —— 比 C ÷ X が天体どうしでそろうかを見る):
 //   (ア) 第350便c の (S1) の比 ω_T ÷ ω_L(ω_T = ω_I + ŝ·Ω・ω_L = ω_I + ω_D —— 同じ式で 1)と (S2) の閉じた形 √(ω² + abs(Ω⊥)²) ÷ ω(1 からの外れを直接に数える)
 //   (イ) 自転の率の逆数 1 ÷ ω(遅い自転ほど軸が動きやすい)/(ウ) 公転の率の 2 乗 ÷ 自転の率 n² ÷ ω(潮汐の型の物差し —— 比べる列)/
+//   (ウ′) n² J2 ÷ (ω × 慣性モーメントの係数)((ウ) に扁平と慣性モーメントの係数を掛けた比べる列 —— 量 4 つ)/
 //   (エ) 構造の係数 c_R の入り方 2 つ(第350便f・第351便k の語): (ii) 受け手の半径(自分の重みの球と平均の球)を観測半径に/(i) 平均の球の半径だけを観測半径に ——
 //   局所の (S) が規則の半径のときの何倍になるか(背景には掛からない —— 局所の応答の倍)
 // ■ 言わないこと: 応答の係数・構造の式・べきの値を選ばない(並びの診断)。仮の値との並べは「仮・未照合」の印つきで合否にしない。リポジトリの文献の値も合わせない(固定の比べる列)。
@@ -21,6 +22,7 @@ import * as J from './lib-w352j-maintable.mjs';
 import * as D from './lib-w352d-precsense.mjs';
 import * as CR from './lib-w352c-refaxis.mjs';
 import * as B from './lib-w352b-provisional.mjs';
+import * as SR from './lib-w352e-sunrecv.mjs';
 import * as KR from './lib-w351k-knobrank.mjs';
 import * as R3 from './lib-w351d-r3step.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
@@ -56,8 +58,8 @@ export const DECL = Object.freeze({
   /** そろう度合いの物差し(最大 ÷ 最小)—— 表の数え上げの閾 */
   spreadMarks: Object.freeze([1.05, 1.2, 2]),
   /** 式の候補 */
-  cands: Object.freeze(['a1', 'a2', 'i', 'u', 'eii', 'ei']),
-  candLabels: Object.freeze({ a1: '(ア) (S1) ω_T ÷ ω_L', a2: '(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω', i: '(イ) 1 ÷ ω', u: '(ウ) n² ÷ ω', eii: '(エ) c_R の入り方 (ii)', ei: '(エ) c_R の入り方 (i)' }),
+  cands: Object.freeze(['a1', 'a2', 'i', 'u', 'uJ', 'eii', 'ei']),
+  candLabels: Object.freeze({ a1: '(ア) (S1) ω_T ÷ ω_L', a2: '(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω', i: '(イ) 1 ÷ ω', u: '(ウ) n² ÷ ω', uJ: '(ウ′) n² J2 ÷ (ω C′)', eii: '(エ) c_R の入り方 (ii)', ei: '(エ) c_R の入り方 (i)' }),
   /** 金星の (N+)・(uV) の行(合成が背景の 1% の桁まで打ち消す —— 要る係数が桁で大きくなる)の印の閾: abs(Ω) ÷ abs(背景) */
   cancelMark: 0.05,
   /** 階数の表: 経路の比率の置き方・f の点・対数の刻み */
@@ -156,7 +158,8 @@ export function s2Excess(perpRadS, omega) { const x = perpRadS / omega; return (
 export function candOf(T1, GEO, id, col, cache = null) {
   const S = structOf(T1, GEO, id), U = id === 'Sun' ? null : unitRate(T1, GEO, id, col, cache), e = cREntry(T1, GEO, id, cache);
   const perp = U ? U.perpAsYr / ASYR : null;
-  return { a1: 1, a2: perp === null ? null : 1 + s2Excess(perp, S.omega), a2Excess: perp === null ? null : s2Excess(perp, S.omega), i: 1 / S.omega, u: S.n * S.n / S.omega, eii: e.ii, ei: e.i };
+  return { a1: 1, a2: perp === null ? null : 1 + s2Excess(perp, S.omega), a2Excess: perp === null ? null : s2Excess(perp, S.omega), i: 1 / S.omega, u: S.n * S.n / S.omega,
+    uJ: S.J2 === null || S.moi === null ? null : S.n * S.n * S.J2 / (S.omega * S.moi), eii: e.ii, ei: e.i };
 }
 
 /* ───────── 並べ ───────── */
@@ -200,9 +203,10 @@ export function powerScan(needs, structs, { qs = DECL.scanQ, pows = DECL.scanPow
  * 観測量(天体ごとに 歳差の率・傾きの率〔起こす率〕)をノブ(背景の倍率 u〔共通〕・天体ごとの応答の係数 C_b・経路の比率 f〔共通/天体ごと〕)で微分した対数の感度の行列の階数。
  * 歳差の率 = C k₂ abs(Ω)・傾きの率 = C × 起こす率(経路 ① の dŝ/dt = k₁ Ω⊥ —— 第351便c の raiseRate)。金星は歳差の率だけ(傾きの率の比べる数が無い)。
  */
-export function rankCase(T1, GEO, { bodies, fMode, col }, cache = null) {
+export function rankCase(T1, GEO, { bodies, fMode, col, fixU = false }, cache = null) {
+  if (!['shared', 'each'].includes(fMode)) throw new RangeError('rankCase: f は shared・each');
   const h = DECL.lnStep, eh = Math.exp(h), withTilt = (id) => id !== 'Venus';
-  const knobs = ['u', ...bodies.map((b) => 'C:' + b), ...(fMode === 'shared' ? ['f'] : bodies.map((b) => 'f:' + b))];
+  const knobs = [...(fixU ? [] : ['u']), ...bodies.map((b) => 'C:' + b), ...(fMode === 'shared' ? ['f'] : bodies.map((b) => 'f:' + b))];
   const obsAt = (vals) => {
     const out = [];
     for (const id of bodies) {
@@ -216,7 +220,20 @@ export function rankCase(T1, GEO, { bodies, fMode, col }, cache = null) {
   const cols = knobs.map((kn) => { const up = { ...base, [kn]: base[kn] * eh }, dn = { ...base, [kn]: base[kn] / eh }, a = obsAt(up), b = obsAt(dn); return a.map((x, i) => { const v = (x - b[i]) / (2 * h); return Math.abs(v) < 1e-9 ? 0 : v; }); });
   const M = cols[0].map((_, i) => cols.map((c) => c[i]));
   const sv0 = KR.singularValues(M), sv = sv0.map((x) => (x < 1e-7 * sv0[0] ? 0 : x));
-  return { bodies, fMode, col: { bg: col.bg, axis: col.axis, tSrc: col.tSrc, uCol: col.uCol }, nObs: M.length, nKnobs: knobs.length, knobs, rank: DECL.rankTol.map((t) => KR.rankOf(sv, t)), undetermined: DECL.rankTol.map((t) => knobs.length - KR.rankOf(sv, t)), svRel: sv.map((s) => s / sv[0]) };
+  return { bodies, fMode, fixU, col: { bg: col.bg, axis: col.axis, tSrc: col.tSrc, uCol: col.uCol }, nObs: M.length, nKnobs: knobs.length, knobs, rank: DECL.rankTol.map((t) => KR.rankOf(sv, t)), undetermined: DECL.rankTol.map((t) => knobs.length - KR.rankOf(sv, t)), svRel: sv.map((s) => s / sv[0]) };
+}
+
+/* ───────── 太陽(受け手)—— 地球の要る係数を、式の候補の比で太陽へ写した仮の列 ───────── */
+/**
+ * 太陽の応答の係数 C_太陽 = C_地球 × X_太陽 ÷ X_地球(式の候補 cand —— 物差し X)。背景が主(太陽は背景だけに応答 —— 第352便e)とみて、太陽の率 = C_太陽 × 背景の大きさ。
+ * 周期 = 第352便e の bgPeriod(背景の大きさの周期)÷ C_太陽。地球の要る係数は仮の値から(印つき)。X が無い量の候補は null。
+ */
+export function sunRow(T1, GEO, { bg, axis, tSrc, uCol, cand, xs = null }, cache = null) {
+  const u = uOfCol(T1, GEO, uCol, tSrc, cache), nE = needOf(T1, GEO, 'Earth', { bg, axis, tSrc, u }, cache);
+  const xS = xs ? xs.Sun : candOf(T1, GEO, 'Sun', { bg, axis, tSrc, u }, cache)[cand], xE = xs ? xs.Earth : candOf(T1, GEO, 'Earth', { bg, axis, tSrc, u }, cache)[cand];
+  const per = SR.bgPeriod({ mult: u }), cSun = fin(xS) && fin(xE) && xE > 0 ? nE.need * xS / xE : null;
+  return B.tagProv({ bg, axis, tSrc, uCol, cand, u, needEarth: nE.need, xRatio: cSun === null ? null : xS / xE, cSun, bgPeriodYr: per.periodYr, bgRateAsYr: per.rateAsYr,
+    rateAsYr: cSun === null ? null : cSun * per.rateAsYr, periodYr: cSun === null ? null : per.periodYr / cSun }, nE.provKeys);
 }
 
 /* ───────── 零試験・変異 ───────── */
