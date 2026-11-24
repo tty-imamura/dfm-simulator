@@ -22,6 +22,8 @@ import * as C from './lib-w348c-axisbalance.mjs';
 import * as DK from './lib-w312a-decay.mjs';
 import * as H from './lib-w347h-axisdiff.mjs';
 import * as TL from './lib-w337c-tidelock.mjs';
+import * as BB from './lib-w351e-bgbalance.mjs';
+import * as E from './lib-w347e-spintorque.mjs';
 
 export const LIB_VERSION = 'w352f-galdisk-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -164,7 +166,7 @@ export function diskRows() {
     return r; });
 }
 /** (C2) の求積の照合(自分の重み off・基準の組・p 3 つ): c2Quad(半径 a)と中心の (W) */
-/** 点の数の収束(基準の組・p 0・N_φ 64・128・256 —— 自分の重み rule の M 型の (W)) */
+/** 点の数への依存(基準の組・p 0・N_φ 64・128・256 —— 自分の重み rule の M 型の (W)) */
 export function convRows() {
   const B = DECL.disk.base;
   return [64, 128, 256].map((nPhi) => { const src = diskSources({ ...B, p: 0, nPhi }); return { nPhi, W: recvRot(diskField(src, { al: B.al, self: 'rule', mode: 'M' }), 'rule', B.al).W, Woff: recvRot(diskField(src, { al: B.al, self: 'off', mode: 'M' }), 'off', B.al).W }; });
@@ -178,6 +180,12 @@ export function c2CheckRows() {
 /* ───────── 表 3: 一様な背景との比 ───────── */
 /** Ω₀ の倍の数 x を rad/s に(Ω₀ = ω_G —— 模型の R₀・v₀ は第348便c の galDistM と GALAXY.beta の組で Ω₀ = ω_G)と、(uV) との桁の差 log10(abs(x) ÷ uV) */
 export function bgRatio(x) { const g = DECL.gal; return { radS: x * g.omegaG, overU1: x, log10OverUV: x === 0 ? null : Math.log10(Math.abs(x) / g.uV) }; }
+
+/** (uV) の数え直し(第351便e の localOf・bgTerm・uEqMag を呼ぶだけ —— 金星・太陽由来 (S)・(C2)・分母 out・k 1)と宣言の値の相対の差 */
+export function uvCheck(T1 = E.t1Table(), GEO = E.geometry()) {
+  const V = BB.localOf(T1, GEO, 'Venus', 'Sun', { k: 1 }), b1 = BB.bgTerm('Venus', { u: 1 }).vec, uS = BB.uEqMag(V.sun.S, b1), uMS = BB.uEqMag(V.sun.MS, b1);
+  return { uS, uMS, relDecl: Math.abs(uS / DECL.gal.uV - 1), b1Mag: nrm(b1), b1OverOmegaG: nrm(b1) / DECL.gal.omegaG };
+}
 
 /* ───────── 表 4: 上下の運動と傾き(重心のまわりのトルク)───────── */
 const GLT = Object.freeze({ r: H.gaussLegendre(DECL.tq.nr), th: H.gaussLegendre(DECL.tq.nth) });
@@ -205,7 +213,7 @@ export function torqueRows() {
   return fields.map(([id, name, f]) => { const ts = torque(sph, f), to = torque(obl, f);
     const closedY = id === 'tideXZ' ? [T.h * (Ms[8] - Ms[0]), T.h * (Mo[8] - Mo[0])] : id === 'curlXZ' ? [-T.g * Ms[0], -T.g * Mo[0]] : [0, 0];
     const fl = (v) => (Math.abs(v) <= DECL.floor ? 0 : v);
-    return { id, name, sphere: ts.map(fl), oblate: to.map(fl), closedY, Mzz_Mxx: [Ms[8] - Ms[0], Mo[8] - Mo[0]].map(fl) }; });
+    return { id, name, sphere: ts.map(fl), oblate: to.map(fl), closedY: closedY.map(fl), Mzz_Mxx: [Ms[8] - Ms[0], Mo[8] - Mo[0]].map(fl) }; });
 }
 
 /* ───────── 零試験 ───────── */
