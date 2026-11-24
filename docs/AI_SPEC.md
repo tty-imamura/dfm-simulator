@@ -5525,3 +5525,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: `.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml` の `on:` の最後に `workflow_dispatch:` を 1 行ずつ足した(入力は持たない)。push と pull_request の道の絞りと job の `runs-on` は元のまま。定期の起動(`schedule`)は足していない。起こし方は Actions の画面から手で(`gh workflow run <yml> --ref <枝>` でも同じ)。CI は手元で回せないので、効き目は統合の後に main で手で起こして見る。
 - **AI が読むときの要点**: 起こし方を足しただけ。論文の組版が新しい TeX で通るようになったのではない(実行環境の固定〔第348便f〕のまま・論文の tex は不変)。
 - QA `lint.paperDispatch350i`(4 本の手で起こす口・道の絞り・runs-on・変異の自己試験 —— beta・root の両方で走る)・`docs.paperDispatch350i`(本節と PHYSICS〔第350便i〕・post-merge の塊 —— root は SKIP)。
+
+## 321. 第351便c —— 源の成分の切り分け: 源の由来の軸引きずりの回転を (M) 相対の公転の分(源の自転 0)・(S) 源の自転の分(相対の速度 0)・(MS) 両方 に分けた符号・大きさ・起こす率の表(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R429・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 〔第348便h〕の geoPN=3 の場(在位の形)の上で、源の入力だけを切り替えて太陽由来・母天体由来の回転を 3 つの成分に分けた((S) は (MS) − (M) の差で作らず直接に数える)。読みは (C2) 球の半径の平均(主)と (W) 中心の渦度の半分。無次元の例の向きと閉じた形・天体 16 組(15 組 + カロン–冥王星)の符号と大きさ・公転の北極を基準の起こす率・一様な背景(第350便e の uVec・向き −1 が主)との比・(M) の正体の対照を並べた。正本 `tests/out/srcparts-351c.json`(器 `tests/exp-w351c-srcparts.mjs`・lib `tests/lib-w351c-srcparts.mjs`・段 srcparts-351c)。第 2 段の枝は lib の口 `partRot`・`pairParts`・`cosTo`・`raiseRate`・`PAIRS16` を import する。
+- **AI が読むときの要点**: どれも候補の表(この場の形・この成分・この読みでは)。太陽由来の項は (M) がほぼ全部で、(S) ÷ (M) は 1e-13〜1e-15 の桁。(M) は公転の北極の向き・(S) は源の自転と逆向き(赤道面)。(M) は受け手の速度を引く形から出る分で、軸引きずりに数えるか並進引きずりの回転成分に数えるかは決めていない。第147報の「大半の惑星は…釣り合う」は予想の文として表に置いた —— 数えた符号と大きさは別の列。
+- QA `behavior.srcparts351c`・`docs.srcparts351c`(本節と PHYSICS〔第351便c〕 —— root は SKIP)。

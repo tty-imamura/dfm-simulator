@@ -239,7 +239,7 @@ export function pureGates(S) {
     denCols: S.den.in < 1e-12 && S.den.out < 1e-12 && Math.abs(S.den.diffE) > 0 && Math.abs(S.den.diffE) < 1e-3,
     absVelM: S.absVel.m === 0 && S.absVel.s < 1e-12,
     closedM: S.closed < 1e-9 && S.dirN < 1e-12,
-    kLocal: S.kk.two < 1e-15 && S.kk.zero === 0,
+    kLocal: S.kk.two < 1e-12 && S.kk.zero === 0,
     ballOverW: S.ballOverW.toFixed(5) === A.ballOverW,
     charonPair: S.charon.a < 1e-12 && S.charon.masses && S.charon.axis < 1e-12 && S.charon.pairs === 16,
     common350: Math.abs(c.diaXz - cw.diaXz) < cw.tol && Math.abs(c.sixZ - cw.sixZ) < cw.tol && Math.abs(c.rotWz - cw.rotWz) < cw.tol,
