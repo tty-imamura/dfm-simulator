@@ -1417,6 +1417,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.eq
 #   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
 # ==== 第350便i の塊(ここまで)====
+# ==== 第351便i の塊(ここから)====
+# 第351便i(統括の検証項目 R435 —— 道具と戻り止めだけ・html は変えない): 枝 i の新設 2 本(lint.changelogHeadRe351i —— CHANGELOG の節を開発中の形だけで探す式の戻り止め・
+#   読み分けの包み tools/qapart-verdict.mjs の自己試験 / docs.tools351i —— PHYSICS〔第351便i〕・AI_SPEC §327・tools/README.md・本塊)と、節の式の見出しの受け方を直した docs.bgaxial350e・docs.diskcheck350g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.changelogHeadRe351i docs.tools351i docs.bgaxial350e docs.diskcheck350g"
+# ==== 第351便i の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、

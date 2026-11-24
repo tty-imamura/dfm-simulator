@@ -5525,3 +5525,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: `.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml` の `on:` の最後に `workflow_dispatch:` を 1 行ずつ足した(入力は持たない)。push と pull_request の道の絞りと job の `runs-on` は元のまま。定期の起動(`schedule`)は足していない。起こし方は Actions の画面から手で(`gh workflow run <yml> --ref <枝>` でも同じ)。CI は手元で回せないので、効き目は統合の後に main で手で起こして見る。
 - **AI が読むときの要点**: 起こし方を足しただけ。論文の組版が新しい TeX で通るようになったのではない(実行環境の固定〔第348便f〕のまま・論文の tex は不変)。
 - QA `lint.paperDispatch350i`(4 本の手で起こす口・道の絞り・runs-on・変異の自己試験 —— beta・root の両方で走る)・`docs.paperDispatch350i`(本節と PHYSICS〔第350便i〕・post-merge の塊 —— root は SKIP)。
+
+## 327. 第351便i —— 道具: CHANGELOG の節を探す式の戻り止めと、部分 QA の終わり方の読み分けの包み(統括の検証項目 R435・**道具と戻り止めだけ** —— html・`tests/exp-w258c-qapart.mjs` の本文・既存の lib・検査の中身と閾値と判定式・エンジン・内蔵の本・受理器・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: `tests/qa.mjs` の中で CHANGELOG の節を開発中の形(`-b` と数の類)だけで探し、公開版の形(`.0`)を受けない式を挙げて落とす lint を置いた(今の木で違反 0 —— `docs.bgaxial350e`・`docs.diskcheck350g` の 2 行を、見出しの受け方だけ `(?:-b\d+|\.0)` の形に直した後)。部分 QA の器の出力を読み、要求した鍵の PASS・FAIL・SKIP・未実行と範囲の例外の数を 1 行で出す包み `tools/qapart-verdict.mjs` を置いた(要求した鍵に FAIL も未実行も無ければ終了コード 0 —— 範囲の例外と同じ範囲の他の鍵の FAIL は数を出すだけ)。
+- **AI が読むときの要点**: 器の判定と終了コードは元のまま。包みは読み分けの 1 行を足すだけで、部分 QA の通過数はフル QA の被覆ではない。
+- QA `lint.changelogHeadRe351i`(節の式の走査・変異の自己試験・包みの自己試験 11 通りと器の印字の型 —— beta・root の両方で走る)・`docs.tools351i`(本節と PHYSICS〔第351便i〕・tools/README.md・post-merge の塊 —— root は SKIP)。
