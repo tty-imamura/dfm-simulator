@@ -2988,6 +2988,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/venusbal-352h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便h: 零試験 12/表 3 16 行/表 4 3 軸/表 5 33 行 + r* 3/表 6 8 惑星 × 4/表 7 源 3 × 成分 2/表 8 自転周期 5(仮・未照合)/表 9 3' }),
   // ==== 第352便h の塊(ここまで)====
+  // ==== 第352便j の塊(ここから)====
+  // ---- 第352便j(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R447):
+  //   **主の表 —— 天体 16 組 + 太陽 × 背景の向き (N+)(G−) × 基準軸 L・eq × 歳差の向き (g2−)(g2+) × 背景の大きさ (uV)(uMin)・倍率 1・(仮) × 成分 (S)(MS) の格子・推奨と次点の差の表・仮の比べる数との並べ(仮・未照合)**
+  //   (段 maintable-352j —— 正本 tests/out/maintable-352j.json・lib tests/lib-w352j-maintable.mjs —— 第352便b〜e・第351便c〜f・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便j の枝の実測 1.5 s
+  S('maintable-352j', 'node tests/exp-w352j-maintable.mjs', ['tests/out/maintable-352j.json'], 2, { secSource: 'w352j-branch', node: true,
+    after: ['galdisk-352f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/maintable-352j.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便j: 零試験 12/格子 17 × 4 × 2 × 4 × 2/推奨の組と次点 4/差の表/仮の比べる数との並べ 192 行/8 惑星の傾き 16/衛星 20' }),
+  // ==== 第352便j の塊(ここまで)====
   // ==== 第352便k の塊(ここから)====
   // ---- 第352便k(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R448):
   //   **太陽の自転の分 (S) の強さと符号のノブ —— 源の回転の形 × 源の半径の置き方の (S)・金星の条件が決める「背景の倍率 ÷ k」・そのときの率と時間・受け手の半径の置き方 c_R との入り方**
