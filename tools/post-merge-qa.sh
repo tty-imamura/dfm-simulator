@@ -1565,6 +1565,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslong352n docs.venuslong352n"
 #   docs.obsradius352o —— 原文と表と数の文が PHYSICS〔第352便o〕に逐語・文書)と、新しい段 obsradius-352o
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsradius352o docs.obsradius352o"
 # ==== 第352便o の塊(ここまで)====
+# ==== 第352便p の塊(ここから)====
+# 第352便p(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R453 —— 診断だけ・html は変えない): 枝 p の新設 2 本
+#   (behavior.coprec352p —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・止まる点の流れ 0 と f の上限を QA の中で別に照合・呼ぶだけ /
+#   docs.coprec352p —— 原文と表と数の文が PHYSICS〔第352便p〕に逐語・文書)と、新しい段 coprec-352p
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coprec352p docs.coprec352p"
+# ==== 第352便p の塊(ここまで)====
 # ==== 第352便q の塊(ここから)====
 # 第352便q(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R454 —— 診断だけ・html は変えない): 枝 q の新設 2 本
 #   (behavior.response352q —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・要る係数と比と走査を QA の中で別に照合・呼ぶだけ /

@@ -3060,6 +3060,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/obsradius-352o.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便o: 零試験 10/表 1 列 6 × 行 9 × 背景 2 × 基準軸 2 × 向き 2/差の表 36/表 2 18/表 3 24/表 4 6/表 5 30' }),
   // ==== 第352便o の塊(ここまで)====
+  // ==== 第352便p の塊(ここから)====
+  // ---- 第352便p(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R453):
+  //   **公転面(輪の法線)と自転軸の共回り —— 係数の比の候補・(G−)(N+) の一緒に回る枠の止まる向き(読み A・B)・保つ作用と f の上限・輪の寄り(仮の値の列は印つき)**
+  //   (段 coprec-352p —— 正本 tests/out/coprec-352p.json・lib tests/lib-w352p-coprec.mjs —— 第352便i・第352便l・第352便b〜e・第351便d・第347便e・第337便c・第330便a・第348便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に suntilt-352l〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便p の枝の実測 5 s
+  S('coprec-352p', 'node tests/exp-w352p-coprec.mjs', ['tests/out/coprec-352p.json'], 5, { secSource: 'w352p-branch', node: true,
+    after: ['suntilt-352l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/coprec-352p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便p: 零試験 13/表 1 係数 18/表 2 (G−) 144/表 3 (N+) 144/表 4 保つ作用 36(仮 12)/表 5 輪の寄り 21(仮 7)' }),
+  // ==== 第352便p の塊(ここまで)====
   // ==== 第352便q の塊(ここから)====
   // ---- 第352便q(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R454):
   //   **応答の係数と天体の構造 —— 要る応答の係数(比べる数 ÷ 単位の応答の率)・構造の量の式の候補 (ア)〜(エ) とべきの組の走査・背景を共通に置いたときの階数・太陽へ写した仮の列**
