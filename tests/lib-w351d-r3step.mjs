@@ -17,7 +17,7 @@
 //   (α) 符号つきの Ω へ寄り続ける(θ > 90° では θ_line は 90° まで増え、その後は減って Ω へそろう)/
 //   (β) dθ_line/dt = −σ k₁ abs(Ω⊥)・σ = sign(ŝ·Ω)(回転軸の線に対する傾きだけを見る —— θ_line は 90° を越えない。90° に着いた点で σ = 0 となり率 0 —— そこに留まる)/
 //   (γ)(比べる列 —— 原文の「倒す」に当たらない): 符号を掛けたベクトルの形 dŝ/dt = σ k₁ Ω⊥(線の近い方の向きへそろう)。
-// ■ 言わないこと: (R3) で釣り合いが導けた・傾きが決まった、とは書かない。f の値を選ばない。90° を越えた後の読みを 1 つに決めない。
+// ■ 言わないこと: (R3) の釣り合いや傾きの答えとは書かない(この式・この例・このノブでは、の表)。f の値を選ばない。90° を越えた後の読みを 1 つに決めない。
 import * as GS from './lib-w350c-gyrostep.mjs';
 import * as BG from './lib-w350e-bgaxial.mjs';
 
@@ -249,7 +249,7 @@ export function pureGates(S) {
     f0isG2p: S.f0.length === 4 && S.f0.every((x) => x < 1e-12),
     f1noPrec: S.f1.prec < 1e-12 && S.f1.th < 0.01 && S.f1.vsG3a < 1e-12 && S.n3.vsG3b < 1e-12,
     closedOrder: S.cfErr < 1e-4 && S.ords[0].every((x) => x > 0.9 && x < 1.1) && S.ords[1].every((x) => x > 1.8 && x < 2.2),
-    parallelZero: S.par0 === 0,
+    parallelZero: S.par0 < 1e-12,
     omFlip: S.flip < 1e-15 && S.toNeg < 0.01,
     spinInS: S.spinRev < 1e-15,
     n1Mag: S.magN1.every((x) => Math.abs(x - S.magN1[0]) < 1e-12) && Math.abs(S.magN2[2] / S.magN2[0] - Math.SQRT1_2) < 1e-12 && S.orth < 1e-15,

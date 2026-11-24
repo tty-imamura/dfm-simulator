@@ -5525,3 +5525,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: `.github/workflows/paper1.yml`・`paper2.yml`・`paper3.yml`・`paper45.yml` の `on:` の最後に `workflow_dispatch:` を 1 行ずつ足した(入力は持たない)。push と pull_request の道の絞りと job の `runs-on` は元のまま。定期の起動(`schedule`)は足していない。起こし方は Actions の画面から手で(`gh workflow run <yml> --ref <枝>` でも同じ)。CI は手元で回せないので、効き目は統合の後に main で手で起こして見る。
 - **AI が読むときの要点**: 起こし方を足しただけ。論文の組版が新しい TeX で通るようになったのではない(実行環境の固定〔第348便f〕のまま・論文の tex は不変)。
 - QA `lint.paperDispatch350i`(4 本の手で起こす口・道の絞り・runs-on・変異の自己試験 —— beta・root の両方で走る)・`docs.paperDispatch350i`(本節と PHYSICS〔第350便i〕・post-merge の塊 —— root は SKIP)。
+
+## 322. 第351便d —— (R3) の 2 経路の步: 経路 ①(寄る —— 起こす/倒す: dŝ/dt = (ω_T/ω_L) k₁ Ω⊥)・経路 ②(歳差: dŝ/dt = (ω_T/ω_L) k₂ (Ω × ŝ))・比率のノブ f と置き方 (N1)(N2)(N3)・閉じた形・90° を越えた後の読み (α)(β)(比べる列 (γ))・2 つの源の合成の向きと安定・ω_T ÷ ω_L の因子(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R430・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 第147報の「AN1008: R3で進める」の文を、自転軸 ŝ の 2 つの経路の式に書き下し、無次元の例で数えた。姿勢は回転で更新し、f 0 が〔第350便c〕の (g2+)・f 1 が (g3) k_g 0・k_d 1 と同じ軌跡になることを零試験に置いた。器 `tests/exp-w351d-r3step.mjs`・lib `tests/lib-w351d-r3step.mjs`(純関数 `r3Coeffs`・`r3Rate`・`r3Step`・`closedR3`・`eqAxis`・`raiseRate` を出す —— 本便の第 2 段の枝が import する)・文書の lib `tests/lib-w351d-r3stepdoc.mjs`・正本 `tests/out/r3step-351d.json`・段 `r3step-351d`(Node だけ・html を読まない)。
+- **AI が読むときの要点**: どれも候補の表(この式・この例・このノブでは)。比率 f の既定の値は決めていない。経路 ① の行き先は合成のベクトルの向き(公転の北極に対する起こす率の和が 0 でも、合成の直交成分が残れば ŝ は動く)。原文の「倒す」には (α) も (β) も瞬時には当たり、違いは 90° を越えた後だけ —— 主の読みは決めていない。句 1 と同じ「自転方向に 90°」の規則を句 4 に当てると、経路 ② の向きは共通の式(Ω × ŝ)と逆になる(決断事項の候補)。エネルギー・熱・自転の増し分は本便の第 2 段の枝 g・天体の値は第 2 段の枝 e。
+- QA `behavior.r3step351d`・`docs.r3step351d`(本節と PHYSICS〔第351便d〕 —— root は SKIP)。
