@@ -3072,6 +3072,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/response-352q.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便q: 零試験 10/表 3 80 行/表 4 112 行/表 5 10/表 7 32/表 9 40' }),
   // ==== 第352便q の塊(ここまで)====
+  // ==== 第352便s の塊(ここから)====
+  // ---- 第352便s(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R456):
+  //   **衛星と輪を主の成分 (S) で数え直す —— 衛星の由来と潮汐ロックの 3 列・潮汐のトルクの比・イオの打ち消し・互いにロックした冥王星–カロン・土星の環と公転面の輪(源の半径 2 列)**
+  //   (段 satring-352s —— 正本 tests/out/satring-352s.json・lib tests/lib-w352s-satring.mjs —— 第352便k・j・d・c・第351便f・c・d・j・第348便h・d・c・第350便b・第347便h・e・第338便d・第337便c・第312便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に suntilt-352l〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便s の枝の実測 2 s
+  S('satring-352s', 'node tests/exp-w352s-satring.mjs', ['tests/out/satring-352s.json'], 2, { secSource: 'w352s-branch', node: true,
+    after: ['suntilt-352l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/satring-352s.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便s: 零試験 11/衛星 10 × 背景 4/トルク 8/打ち消し 48/互いの項 20 + 4/土星の環 10/公転面の輪 12' }),
+  // ==== 第352便s の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
