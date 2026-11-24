@@ -2976,6 +2976,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galdisk-352f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便f: 零試験 9/表 1 p 3/表 2 円盤の組 48 × 自分の重み 2 × 読み 2 + (S 型-体) 2/点の数 3/(C2) の求積 3/表 3 33 行 + (uV)/表 4 場 4' }),
   // ==== 第352便f の塊(ここまで)====
+  // ==== 第352便i の塊(ここから)====
+  // ---- 第352便i(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R446):
+  //   **「安定した歳差運動」の判定 —— 判定の量 3 つ(半頂角の 1 周あたりの変化・位相の 1 周あたりの進み・戻りの率)・一定の合成の軸の閉じた形・合成の軸が回るときの止まる向きと戻りの率**
+  //   (段 stableprec-352i —— 正本 tests/out/stableprec-352i.json・lib tests/lib-w352i-stableprec.mjs —— 第351便d・第351便g・第352便d・第352便c・第347便e・第318便d・第330便a の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便i の枝の実測 2 s
+  S('stableprec-352i', 'node tests/exp-w352i-stableprec.mjs', ['tests/out/stableprec-352i.json'], 2, { secSource: 'w352i-branch', node: true,
+    after: ['galdisk-352f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/stableprec-352i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便i: 零試験 12/表 1 324 行/表 2 504 行/候補 288 行 + (a) 8/逆に解く 48 組/読み 3/逆行 12' }),
+  // ==== 第352便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

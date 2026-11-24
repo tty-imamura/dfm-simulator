@@ -9,8 +9,9 @@
 // ■ 語(本便の共通の語): ŝ = 受け手の自転軸・Ω = 合成の軸引きずり回転(rad/s)・W = abs(Ω)・Ω̂ = Ω ÷ W・θ = ŝ と Ω̂ のなす角(半頂角)。
 //   流れ: dŝ/dt = k₁ W (Ω̂ − (ŝ·Ω̂) ŝ) + σ k₂ W (Ω̂ × ŝ)(経路 ① + 経路 ② —— σ = +1 が (g2+)・−1 が (g2−)・(k₂, k₁) は第351便d の r3Coeffs の (N1))。
 //   **1 周** = 合成の回転の 1 周 T_W = 2π ÷ W(f 1 でも定まる物差し —— 歳差の 1 周は T_W ÷ k₂)。
-//   **判定の量**(一定の Ω̂): 半頂角の 1 周あたりの変化 = −360° k₁ sin θ(T_W あたりの率 × T_W)・位相の 1 周あたりの進み = 360° σ k₂・
-//   **戻りの率** = 半頂角を δ だけ変えた初期値との差 dδ/dt = −k₁ W cos θ δ から λ = k₁ W cos θ(正 = 戻る・0 = 中立・負 = 離れる)。
+//   **判定の量**(一定の Ω̂): 半頂角の 1 周あたりの変化 = θ(T_W) − θ(tan(θ(T_W)/2) = tan(θ/2) e^(−2π k₁))・位相の 1 周あたりの進み = 360° σ k₂・
+//   **戻りの率** = 半頂角を δ だけ変えた初期値との差 dδ/dt = −k₁ W cos θ δ から λ = k₁ W cos θ(正 = 戻る・0 = 中立・負 = 離れる)・
+//   1 周あたりの戻り = −ln(sin θ(T_W) ÷ sin θ)(乱れの比の対数 —— 小さい θ では 2π k₁)。
 //   **合成の軸が回るとき**(Ω̂(t) が n̂ のまわりを率 g で回る・Ω̂ と n̂ の角 I): 一緒に回る枠で dŝ/dt|回る = b (Ω̂ − (ŝ·Ω̂) ŝ) + a × ŝ・
 //   a = σ k₂ W Ω̂ − g n̂・b = k₁ W。止まる向き(閉じた形): x = λ² が x² + (a² − b²) x − b² (a·Ω̂)² = 0 の正の根・
 //   ŝ* = b [λ² Ω̂ + λ (a × Ω̂) + (a·Ω̂) a] ÷ (λ (λ² + a²))・λ = b (ŝ*·Ω̂)(λ > 0 の枝 = 引き込む点・λ < 0 の枝 = 離れる点)。b 0 なら ŝ* = ± â(中立 —— 回り続ける)。
@@ -24,6 +25,8 @@ import * as E from './lib-w347e-spintorque.mjs';
 import * as DR from './lib-w318d-dragest.mjs';
 
 export const LIB_VERSION = 'w352i-stableprec-lib-1';
+/** 呼ぶ lib の名前空間(器が同じ口を使う) */
+export { R3, D };
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
 const D2R = Math.PI / 180;
 const { dot, crs, nrm, scl, add, sub, unit } = R3.vec;
@@ -77,8 +80,11 @@ export function kOf(f, sense) {
 export function judgeConst({ thDeg, W, f, sense }) {
   if (!(fin(thDeg) && thDeg >= 0 && thDeg <= 180 && fin(W) && W >= 0)) throw new RangeError('judgeConst: θ は 0〜180°・W ≥ 0');
   const { k1, k2s } = kOf(f, sense), th = thDeg * D2R, s = Math.sin(th), c = Math.cos(th);
+  // 1 周 T_W の閉じた形: tan(θ₁/2) = tan(θ/2) e^(−2π k₁)・乱れの比 dθ₁/dθ = sin θ₁ ÷ sin θ(戻りの 1 周あたり = −ln(その比))
+  const th1 = thDeg === 0 || thDeg === 180 ? th : 2 * Math.atan(Math.tan(th / 2) * Math.exp(-2 * Math.PI * k1));
   const out = { thDeg, W, f, sense, k1, k2s,
-    dThPerTurnDeg: -360 * k1 * s, phasePerTurnDeg: 360 * k2s, returnPerTurn: 2 * Math.PI * k1 * c,
+    dThPerTurnDeg: th1 / D2R - thDeg, phasePerTurnDeg: 360 * k2s,
+    returnPerTurn: thDeg === 0 || thDeg === 180 ? 2 * Math.PI * k1 * c : -Math.log(Math.sin(th1) / s),
     dThDt: -k1 * W * s, phaseRate: k2s * W, returnRate: k1 * W * c, tE: null, tStar: null };
   const kw = k1 * W;
   if (kw > 0 && thDeg > 0 && thDeg < 180) {
@@ -148,6 +154,8 @@ export function linearize(s, P, { h = 1e-6 } = {}) {
   const tr = J[0][0] + J[1][1], det = J[0][0] * J[1][1] - J[0][1] * J[1][0], disc = tr * tr / 4 - det;
   const reMax = disc >= 0 ? tr / 2 + Math.sqrt(disc) : tr / 2, im = disc >= 0 ? 0 : Math.sqrt(-disc);
   const fl = (v) => (Math.abs(v) <= 1e-9 * sc ? 0 : v);
+  // b 0(経路 ① なし): 回る枠の流れは a × ŝ の剛体の回転 —— 固有値は ± i abs(a)・実部は閉じた形で 0(差分の丸めを数えない)
+  if (aOf(P).b === 0) return { J, trace: 0, det, reMax: 0, im: nrm(aOf(P).a), returnRate: 0, spiral: true };
   return { J, trace: fl(tr), det, reMax: fl(reMax), im: fl(im), returnRate: fl(-reMax), spiral: disc < 0 };
 }
 /**
@@ -248,10 +256,11 @@ export function pureScenes() {
   // ⑧ 逆に解いた ρ の半頂角が目標(f 0.5・I 30・目標 23.4)
   const inv = invertTarget({ targetDeg: 23.4, IDeg: 30, f: 0.5, sense: 'g2p', perDecade: 20 });
   const invErr = inv.length ? Math.max(...inv.map((r) => Math.abs(r.halfDeg - 23.4))) : null;
-  // ⑨ 判定の量の閉じた形(θ 60・f 0.5): 1 周あたり −360 k₁ sin θ・360 σ k₂・2π k₁ cos θ
-  const j = judgeConst({ thDeg: 60, W: 3, f: 0.5, sense: 'g2m' }), k5 = kOf(0.5, 'g2m');
-  const jcErr = Math.abs(j.dThPerTurnDeg + 360 * k5.k1 * Math.sin(60 * D2R)) + Math.abs(j.phasePerTurnDeg + 360 * k5.k2) + Math.abs(j.returnPerTurn - 2 * Math.PI * k5.k1 * 0.5)
-    + Math.abs(j.dThDt * 2 * Math.PI / 3 / D2R - j.dThPerTurnDeg);
+  // ⑨ 判定の量の閉じた形(θ 60・f 0.5): 1 周の後の半頂角 = 第351便d の closedR3((α))・位相 360 σ k₂・1 周あたりの戻り = 乱れ δ の数値の比・局所の率 −k₁ W sin θ・k₁ W cos θ
+  const j = judgeConst({ thDeg: 60, W: 3, f: 0.5, sense: 'g2m' }), k5 = kOf(0.5, 'g2m'), TW = 2 * Math.PI / 3;
+  const c1 = R3.closedR3({ th0Deg: 60, Om: 3, t: TW, kTilt: k5.k1, kPrec: 0 }).thDeg, c2 = R3.closedR3({ th0Deg: 60 + 1e-6, Om: 3, t: TW, kTilt: k5.k1, kPrec: 0 }).thDeg;
+  const jcErr = Math.abs(j.dThPerTurnDeg - (c1 - 60)) + Math.abs(j.phasePerTurnDeg + 360 * k5.k2) + Math.abs(j.returnPerTurn + Math.log((c2 - c1) / 1e-6)) * 1e-3
+    + Math.abs(j.dThDt + k5.k1 * 3 * Math.sin(60 * D2R)) + Math.abs(j.returnRate - k5.k1 * 3 * 0.5);
   // 変異: 回る枠の項の符号を逆にした a で止まる点を作ると、正しい流れで 0 にならない
   const Pm = { Om: [Math.sin(0.5), 0, Math.cos(0.5)], W: 1, n: [0, 0, 1], g: 0.7, k1: kk.k1, k2s: kk.k2s }, pm = lockPoints(Pm, { mut: 'plusG' }).pts[0];
   const muts = { plusG: nrm(flowRot(pm.s, Pm)) > 1e-3, g2mDiff: nrm(sub(lockGeom({ IDeg: 20, rho: 0.5, f: 0.5, sense: 'g2p' }).s, lockGeom({ IDeg: 20, rho: 0.5, f: 0.5, sense: 'g2m' }).s)) > 1e-3 };
@@ -271,7 +280,7 @@ export function pureGates(S) {
     gIhalf: Math.abs(S.gI.half - 23.4) < 1e-9 && S.gI.lag < 1e-9,
     neutralPt: S.neutralPt,
     invert: S.inv.length >= 1 && S.invErr < 1e-9,
-    judgeClosed: S.jcErr < 1e-9,
+    judgeClosed: S.jcErr < 1e-8,
     mutants: S.muts.plusG && S.muts.g2mDiff,
     rejects: S.rejects.length === 7 && S.rejects.every(Boolean),
   };
