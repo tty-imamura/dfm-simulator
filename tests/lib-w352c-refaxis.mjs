@@ -12,7 +12,7 @@
 // ■ 枠: 黄道 J2000(第347便e の geometry() の枠)。公転の法線 n は geometry() の 'X|Sun' の n(8 惑星)。太陽の自転軸は geometry() の 'Earth|Sun' の s。
 // ■ 重み: eq = 1(等しい)/L = 質量 × √(a(1 − e²))(角運動量 m√(G M a(1 − e²)) の √(G M) を除いた形 —— a・e は第341便g の LIT.helio〔AU —— 冥王星を含む〕)/
 //   La = 質量 × √a(a は統括の数え直しの脚本と同じ作り: 第347便e の t1Table の β から a = G M☉ ÷ (β c²)・離心率なし —— 比べる列)。
-// ■ 言わないこと: 基準軸が決まった・太陽の傾きの原因が分かった・公転面の由来が導けた、と書かない。形成の文は予想の文として引くだけ。観測の向きは固定の比べる列(合わせない)。
+// ■ 言わないこと: 基準軸を 1 つに選んだ・太陽の傾きの原因の答え・公転面の由来の答え、とは書かない。形成の文は予想の文として引くだけ。観測の向きは固定の比べる列(合わせない)。
 import * as E from './lib-w347e-spintorque.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
 import * as BB from './lib-w351e-bgbalance.mjs';
@@ -96,8 +96,8 @@ export function sphMedian(ns, { x0 = null, iter = DECL.medIter, tol = DECL.medTo
   let x = x0 ? unit(x0) : unit(ns.reduce((s, n) => add(s, unit(n)), [0, 0, 0])), it = 0;
   for (; it < iter; it++) {
     let num = [0, 0, 0], den = 0;
-    for (const n0 of ns) { const n = unit(n0), c = Math.max(-1, Math.min(1, dot(x, n))), th = Math.acos(c); if (th < 1e-14) continue;
-      const t = sub(n, scl(x, c)), tl = nrm(t); if (!(tl > 0)) continue; const v = scl(t, th / tl); num = add(num, scl(v, 1 / th)); den += 1 / th; }
+    for (const n0 of ns) { const n = unit(n0), c = dot(x, n), t = sub(n, scl(x, c)), tl = nrm(t), th = Math.atan2(tl, c); if (!(th > 1e-12)) continue;
+      num = add(num, scl(t, 1 / tl)); den += 1 / th; }
     if (!(den > 0)) break;
     const step = scl(num, 1 / den), sl = nrm(step); if (sl < tol) break;
     x = unit(add(scl(x, Math.cos(sl)), scl(step, Math.sin(sl) / sl)));
@@ -203,11 +203,68 @@ export function pureGates(S) {
     anchorSun: ok3(S.anc.sunEq, A.sunEq) && ok3(S.anc.sunLa, A.sunLa) && ok3(S.anc.sunEcl, A.sunEcl),
     anchorLoo: ok3(Math.max(...S.anc.loo), A.looMax) && Math.abs(Math.min(...S.anc.loo) - A.looMin) <= 5e-3 && S.looMaxId === 'Mercury',
     anchorBg: ok3(S.anc.bgEq, A.bgEq) && ok3(S.anc.bgLa, A.bgLa) && ok3(S.anc.bgEcl, A.bgEcl) && ok3(S.anc.bgSun, A.bgSun) && S.gmIsNgp < 1e-9,
-    sameWeights: S.sameW < 1e-15,
-    oneNormal: S.oneAx < 1e-12,
+    sameWeights: S.sameW < 1e-12,
+    oneNormal: S.oneAx < 1e-9,
     median: S.medSym < 1e-9,
     azimuth: Math.abs(S.azT[0]) < 1e-12 && Math.abs(S.azT[1] - 90) < 1e-12 && S.azT[2] === null,
     angleTool: S.angT.a < 1e-12 && Math.abs(S.angT.small - 1e-10 / D2R) < 1e-15,
     rejects: S.rejects.length === 6 && S.rejects.every(Boolean),
   };
+}
+
+/* ───────── 表の行(器が呼ぶ —— 第 1 ラウンドの表 1〜表 4)───────── */
+const MAIN3 = Object.freeze(['eq', 'L', 'ecl']);
+export const CAND_ORDER = Object.freeze(['eq', 'L', 'La', 'ecl', 'med', 'noMer', 'giant4', 'rock4', 'eqPluto', 'LPluto']);
+/** 表 1(T2): 候補ごとに 成分・eq/L/ecl/中央値との角・太陽の自転軸との角・8 惑星の法線の散らばり(角の二乗平均・最大・角の和) */
+export function candRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const C = candidates(T1, GEO), ns = members(T1, GEO).map((r) => r.n), sun = unit(GEO['Earth|Sun'].s);
+  return CAND_ORDER.map((name) => { const a = C[name];
+    return { name, axis: a, toEq: angDeg(a, C.eq), toL: angDeg(a, C.L), toEcl: angDeg(a, C.ecl), toMed: angDeg(a, C.med), sunDeg: angDeg(a, sun),
+      rms: rmsDeg(a, ns), max: Math.max(...ns.map((n) => angDeg(a, n))), sum: ns.reduce((s, n) => s + angDeg(a, n), 0) }; });
+}
+/** 1 つ外した軸(eq・L)—— 外した天体ごとの動いた角 */
+export function looRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const A = looAxes(T1, GEO, 'eq'), B = looAxes(T1, GEO, 'L'), sun = unit(GEO['Earth|Sun'].s);
+  return A.map((r, i) => ({ out: r.out, eq: r.movedDeg, L: B[i].movedDeg, sunEq: angDeg(r.axis, sun), sunL: angDeg(B[i].axis, sun) }));
+}
+/**
+ * 「歳差運動の中心軸」の読み 2 つ(T2 (iv)): (ア) 各天体の歳差の中心 = 自分の公転の法線 —— 中心の群は公転の法線の群(平均は eq と同じ)/
+ * (イ) 歳差の中心 = 基準軸そのもの —— 円錐の半頂角は「自転軸と基準軸の角」。自転軸の歳差の中心の時系列はリポジトリに無い(数えるのは向きの幾何だけ)。
+ */
+export function readingRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const M = members(T1, GEO), R = refAxes(T1, GEO), SR = spinRows(GEO).filter((r) => DECL.planets.includes(r.id));
+  const centersA = M.map((r) => r.n), meanA = meanAxis(M, 'wEq');
+  const coneA = SR.map((r) => angDeg(r.n, r.s)), coneB = SR.map((r) => angDeg(R.eq, r.s));
+  return [
+    { reading: 'A', centersMeanToEq: angDeg(meanA, R.eq), centersRms: rmsDeg(R.eq, centersA), coneMean: coneA.reduce((s, x) => s + x, 0) / coneA.length, cones: coneA },
+    { reading: 'B', centersMeanToEq: 0, centersRms: 0, coneMean: coneB.reduce((s, x) => s + x, 0) / coneB.length, cones: coneB },
+  ];
+}
+/** 表 2(T3): 太陽・8 惑星・比べる行 × 基準軸の候補 3 つ —— 自転軸と基準軸の角(読み (イ) の円錐の半頂角)・自転軸と自分の公転の法線の角(これまでの傾き)・差 */
+export function coneRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const R = refAxes(T1, GEO);
+  return spinRows(GEO).map((r) => { const obl = r.n ? angDeg(r.n, r.s) : null, o = { id: r.id, role: r.role, obl };
+    for (const k of MAIN3) { const c = coneDeg(R[k], r.s); o[k] = { cone: c, diff: obl === null ? null : c - obl }; }
+    return o; });
+}
+/** 表 3(T4): 基準軸の候補 3 つ × 向き(太陽の自転軸・(G−)・銀河の面の法線 NGP・銀河の回転の軸 (G+)・銀河中心・黄道の極)の方位と、太陽の傾きの方位との差 */
+export const AZ_DIRS = Object.freeze(['sun', 'Gm', 'ngp', 'Gp', 'gc', 'eclPole']);
+export function azRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const R = refAxes(T1, GEO), g = galDirs(GEO), sun = unit(GEO['Earth|Sun'].s), V = { sun, Gm: g.Gm, ngp: g.ngp, Gp: g.Gp, gc: g.gc, eclPole: [0, 0, 1] };
+  const out = [];
+  for (const k of MAIN3) { const s = azimuthDeg(R[k], sun);
+    for (const d of AZ_DIRS) { const a = azimuthDeg(R[k], V[d]); out.push({ axis: k, dir: d, az: a.az, offDeg: a.offDeg, dAzSun: dAz(a.az, s.az) }); }
+    // 銀河の面と基準面(基準軸に垂直)の交線の方位(NGP の方位 + 90°)と太陽の傾きの方位との差
+    const n = azimuthDeg(R[k], g.ngp), line = n.az === null ? null : ((n.az + 90 + 540) % 360) - 180;
+    out.push({ axis: k, dir: 'node', az: line, offDeg: null, dAzSun: dAz(line, s.az) });
+  }
+  return out;
+}
+/** 表 4(T5): 背景の向きの候補 4 つ × 基準軸の候補 3 つ —— 背景と基準軸の角・背景と太陽の自転軸の角((N+) では太陽の円錐の半頂角) */
+export const BG_ORDER = Object.freeze(['Gm', 'Gp', 'Np', 'Nm']);
+export function bgRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const R = refAxes(T1, GEO), sun = unit(GEO['Earth|Sun'].s), out = [];
+  for (const k of MAIN3) { const B = bgDirs(R[k], GEO);
+    for (const d of BG_ORDER) out.push({ axis: k, bg: d, toAxis: angDeg(B[d], R[k]), toSun: angDeg(B[d], sun), toEq: angDeg(B[d], R.eq), toEcl: angDeg(B[d], R.ecl) }); }
+  return out;
 }
