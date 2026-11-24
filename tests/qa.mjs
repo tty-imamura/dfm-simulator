@@ -124950,7 +124950,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む
   const rd352m = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
-  const EQ0 = rd352m('docs/EQUATIONS.md') || '';
+  const EQ0 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'))).eqFixedView350h(rd352m('docs/EQUATIONS.md') || '', 129);   // 第352便z: 世代の写し(EQ-130 以降の項と §2a の EQ-130 以降の参照を外す —— 照合の中身は変えない)
   if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-118 ') >= 0)) {
     console.log('SKIP docs.equations352m(第352便m の EQ-118 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
