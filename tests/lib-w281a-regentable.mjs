@@ -3117,7 +3117,7 @@ export const REGEN_STEPS = [
     after: ['satring-352s'],
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/tidaldrag-352u.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
-    note: '第352便u: 零試験 10/歪み 33/歳差の率 54/そろい方 10 + 6/大きさ 5/背景 4' }),
+    note: '第352便u: 零試験 10/歪み 33/歳差の率 30/そろい方 10 + 6/大きさ 5/背景 4' }),
   // ==== 第352便u の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと

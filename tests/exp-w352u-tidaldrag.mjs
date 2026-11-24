@@ -35,7 +35,7 @@ export const NOT_CLAIM = Object.freeze([
   '月の扁平(J2)は公開の lib に無い —— 月を受け手にした歳差の率の列は null(足さない)',
   'アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)']);
 export const PLAN = Object.freeze({ pure: '零試験 10', strain: '表 1: 組 11(8 惑星 ← 太陽・地球 ← 月・月 ← 地球・月 ← 太陽)× 成分 3 —— 1 公転の平均と位相ごとの大きさ・主軸・回転の分との比・源の自転軸の傾きの sin・距離のべき・源の自転軸を公転の北極にそろえた試し',
-  rate: '表 2: 受け手と源の組 6 × 候補 3 × 向き(2・2・1)× 成分 2((S)・(MS))—— 方位の率と傾きの率(公転の北極・黄道の極)・要る係数', align: '表 2′: 要る係数のそろい方(地球〔太陽/太陽 + 月〕・火星・金星 —— + 水星)・(ウ′) を源に月を足して(第352便q の要る係数 × 列 3)',
+  rate: '表 2: 受け手と源の組 6 × 候補 3 × 向き(2・2・1)× 成分 (S)((M) の 1 公転の平均の歪みは床なので (MS) の率は (S) と同じ —— 表に持たない)—— 方位の率と傾きの率(公転の北極・黄道の極)・要る係数', align: '表 2′: 要る係数のそろい方(地球〔太陽/太陽 + 月〕・火星・金星 —— + 水星)・(ウ′) を源に月を足して(第352便q の要る係数 × 列 3)',
   size: '表 3: 単位の係数の率 ÷ 比べる数・重力の側の列 ÷ 比べる数', bg: '表 4: 一様な背景の歪み(背景の向き 2 × 大きさ 2)と金星の行',
   prov: '比べる列: 地球 ψ_A の率・火星の歳差の率・金星の歳差の率(仮・未照合)・水星と月(リポジトリの文献の値)' });
 const PL = L.DECL.planets;
@@ -69,7 +69,7 @@ export function runAll() {
   mark('strain');
   // 表 2 歳差の率
   const rate = [];
-  for (const [id, set] of L.DECL.rateRows) for (const cand of L.DECL.cands) for (const sense of L.DECL.senses[cand]) for (const part of (cand === 'Tg' ? ['—'] : ['S', 'MS'])) {
+  for (const [id, set] of L.DECL.rateRows) for (const cand of L.DECL.cands) for (const sense of L.DECL.senses[cand]) for (const part of (cand === 'Tg' ? ['—'] : ['S'])) {
     const o = part === '—' ? {} : { part }, r = L.rateOf(T1, GEO, id, set, cand, sense, o, cache), n = L.needRow(T1, GEO, id, set, cand, sense, o, cache);
     rate.push({ id, set, cand, sense, part, H: r.H, omega: r.omega, magAsYr: r.mag, az: r.az, inc: r.inc, ref: n.ref, kind: n.kind, pole: n.pole, need: n.need, overRef: n.overRef, retro: n.retro,
       ...(n.provisional ? { provisional: true, provMark: n.provMark, provKeys: n.provKeys } : {}) });
@@ -118,7 +118,7 @@ export function runAll() {
 }
 /* ───────── 門 ───────── */
 export function gatesOf(J) {
-  const nRate = L.DECL.rateRows.length * (2 * 2 + 2 * 2 + 1);
+  const nRate = L.DECL.rateRows.length * (2 + 2 + 1);
   return {
     pure: Object.values(J.pure.gates).every(Boolean) && Object.keys(J.pure.gates).length === 10,
     strain: J.strain.length === L.DECL.pairs.length * 3 && J.strain.filter((r) => r.part === 'M').every((r) => r.avgOverRms < 1e-12) && J.strain.every((r) => Math.abs(r.trace) <= 1e-9 * Math.max(r.ePhaseRmsAsYr, 1e-300)),

@@ -111,7 +111,7 @@
  "plan": {
   "pure": "零試験 10",
   "strain": "表 1: 組 11(8 惑星 ← 太陽・地球 ← 月・月 ← 地球・月 ← 太陽)× 成分 3 —— 1 公転の平均と位相ごとの大きさ・主軸・回転の分との比・源の自転軸の傾きの sin・距離のべき・源の自転軸を公転の北極にそろえた試し",
-  "rate": "表 2: 受け手と源の組 6 × 候補 3 × 向き(2・2・1)× 成分 2((S)・(MS))—— 方位の率と傾きの率(公転の北極・黄道の極)・要る係数",
+  "rate": "表 2: 受け手と源の組 6 × 候補 3 × 向き(2・2・1)× 成分 (S)((M) の 1 公転の平均の歪みは床なので (MS) の率は (S) と同じ —— 表に持たない)—— 方位の率と傾きの率(公転の北極・黄道の極)・要る係数",
   "align": "表 2′: 要る係数のそろい方(地球〔太陽/太陽 + 月〕・火星・金星 —— + 水星)・(ウ′) を源に月を足して(第352便q の要る係数 × 列 3)",
   "size": "表 3: 単位の係数の率 ÷ 比べる数・重力の側の列 ÷ 比べる数",
   "bg": "表 4: 一様な背景の歪み(背景の向き 2 × 大きさ 2)と金星の行",
@@ -1685,35 +1685,6 @@
    "id": "Earth",
    "set": "sun",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 8.781971996453146e-19,
-   "az": {
-    "orb": 2.0902363201382073e-18,
-    "ecl": 2.0902363201382073e-18
-   },
-   "inc": {
-    "orb": 2.827085341317344e-19,
-    "ecl": 2.827085341317344e-19
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 24104841440449440000,
-   "overRef": 4.148544193789788e-20,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sun",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
    "H": 0.003273752645902631,
@@ -1732,35 +1703,6 @@
    "pole": "ecl",
    "need": 24138236667588780000,
    "overRef": 4.142804686900487e-20,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sun",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 8.781971996453146e-19,
-   "az": {
-    "orb": -2.0902363201382073e-18,
-    "ecl": -2.0902363201382073e-18
-   },
-   "inc": {
-    "orb": -2.827085341317344e-19,
-    "ecl": -2.827085341317344e-19
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 24104841440449440000,
-   "overRef": 4.148544193789788e-20,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -1801,35 +1743,6 @@
    "id": "Earth",
    "set": "sun",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 1.2043106741336173e-14,
-   "az": {
-    "orb": 2.866433544562541e-14,
-    "ecl": 2.866433544562541e-14
-   },
-   "inc": {
-    "orb": 3.876907207868849e-15,
-    "ecl": 3.876907207868849e-15
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 1757752771403931.2,
-   "overRef": 5.689082197841122e-16,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sun",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
    "H": 0.003273752645902631,
@@ -1848,35 +1761,6 @@
    "pole": "ecl",
    "need": 1760187989789451.8,
    "overRef": 5.681211358109635e-16,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sun",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 1.2043106741336173e-14,
-   "az": {
-    "orb": -2.866433544562541e-14,
-    "ecl": -2.866433544562541e-14
-   },
-   "inc": {
-    "orb": -3.876907207868849e-15,
-    "ecl": -3.876907207868849e-15
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 1757752771403931.2,
-   "overRef": 5.689082197841122e-16,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -1946,35 +1830,6 @@
    "id": "Earth",
    "set": "sunMoon",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 8.781974914134364e-19,
-   "az": {
-    "orb": 2.0902382891709307e-18,
-    "ecl": 2.0902382891709307e-18
-   },
-   "inc": {
-    "orb": 2.8270713696238993e-19,
-    "ecl": 2.8270713696238993e-19
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 24104818733362962000,
-   "overRef": 4.1485481017781787e-20,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sunMoon",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
    "H": 0.003273752645902631,
@@ -1993,35 +1848,6 @@
    "pole": "ecl",
    "need": 24138236667588780000,
    "overRef": 4.142804686900487e-20,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sunMoon",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 8.781974914134364e-19,
-   "az": {
-    "orb": -2.0902382891709307e-18,
-    "ecl": -2.0902382891709307e-18
-   },
-   "inc": {
-    "orb": -2.8270713696238993e-19,
-    "ecl": -2.8270713696238993e-19
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 24104818733362962000,
-   "overRef": 4.1485481017781787e-20,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2062,35 +1888,6 @@
    "id": "Earth",
    "set": "sunMoon",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 1.2043110742481513e-14,
-   "az": {
-    "orb": 2.8664362447842304e-14,
-    "ecl": 2.8664362447842304e-14
-   },
-   "inc": {
-    "orb": 3.8768880478674756e-15,
-    "ecl": 3.8768880478674756e-15
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 1757751115577060.2,
-   "overRef": 5.689087557038502e-16,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sunMoon",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
    "H": 0.003273752645902631,
@@ -2109,35 +1906,6 @@
    "pole": "ecl",
    "need": 1760187989789451.8,
    "overRef": 5.681211358109635e-16,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "earth.psiA.rate"
-   ]
-  },
-  {
-   "id": "Earth",
-   "set": "sunMoon",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
-   "H": 0.003273752645902631,
-   "omega": 0.0000729211505392569,
-   "magAsYr": 1.2043110742481513e-14,
-   "az": {
-    "orb": -2.8664362447842304e-14,
-    "ecl": -2.8664362447842304e-14
-   },
-   "inc": {
-    "orb": -3.8768880478674756e-15,
-    "ecl": -3.8768880478674756e-15
-   },
-   "ref": 50.38481507,
-   "kind": "prov",
-   "pole": "ecl",
-   "need": 1757751115577060.2,
-   "overRef": 5.689087557038502e-16,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2207,35 +1975,6 @@
    "id": "Mars",
    "set": "sun",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": 0.005342981977061715,
-   "omega": 0.00007088216383964474,
-   "magAsYr": 4.0115973629257923e-19,
-   "az": {
-    "orb": 0,
-    "ecl": 0
-   },
-   "inc": {
-    "orb": -4.0108389249080296e-19,
-    "ecl": -4.0106041700062015e-19
-   },
-   "ref": 7.605,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 0,
-   "overRef": 0,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "mars.prec.rate"
-   ]
-  },
-  {
-   "id": "Mars",
-   "set": "sun",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
    "H": 0.005342981977061715,
@@ -2254,35 +1993,6 @@
    "pole": "orb",
    "need": 632805888345935600000,
    "overRef": 1.5802634242450833e-21,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "mars.prec.rate"
-   ]
-  },
-  {
-   "id": "Mars",
-   "set": "sun",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
-   "H": 0.005342981977061715,
-   "omega": 0.00007088216383964474,
-   "magAsYr": 4.0115973629257923e-19,
-   "az": {
-    "orb": 0,
-    "ecl": 0
-   },
-   "inc": {
-    "orb": 4.0108389249080296e-19,
-    "ecl": 4.0106041700062015e-19
-   },
-   "ref": 7.605,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 0,
-   "overRef": 0,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2323,35 +2033,6 @@
    "id": "Mars",
    "set": "sun",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": 0.005342981977061715,
-   "omega": 0.00007088216383964474,
-   "magAsYr": 5.659530050466781e-15,
-   "az": {
-    "orb": 0,
-    "ecl": 0
-   },
-   "inc": {
-    "orb": -5.658460052068483e-15,
-    "ecl": -5.6581288616968695e-15
-   },
-   "ref": 7.605,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 0,
-   "overRef": 0,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "mars.prec.rate"
-   ]
-  },
-  {
-   "id": "Mars",
-   "set": "sun",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
    "H": 0.005342981977061715,
@@ -2370,35 +2051,6 @@
    "pole": "orb",
    "need": 44854650656428620,
    "overRef": 2.2294232267232668e-17,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "mars.prec.rate"
-   ]
-  },
-  {
-   "id": "Mars",
-   "set": "sun",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
-   "H": 0.005342981977061715,
-   "omega": 0.00007088216383964474,
-   "magAsYr": 5.659530050466781e-15,
-   "az": {
-    "orb": 0,
-    "ecl": 0
-   },
-   "inc": {
-    "orb": 5.658460052068483e-15,
-    "ecl": 5.6581288616968695e-15
-   },
-   "ref": 7.605,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 0,
-   "overRef": 0,
    "retro": true,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2468,35 +2120,6 @@
    "id": "Venus",
    "set": "sun",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": 0.00001350909090909091,
-   "omega": 2.9923691869737844e-7,
-   "magAsYr": 7.249845285290755e-21,
-   "az": {
-    "orb": -4.6362869404869463e-20,
-    "ecl": -2.380734688784682e-19
-   },
-   "inc": {
-    "orb": 6.92879676039029e-21,
-    "ecl": -5.104853735536305e-21
-   },
-   "ref": 44.58,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 961545317885734400000,
-   "overRef": 1.0399925842276686e-21,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "venus.prec.rate"
-   ]
-  },
-  {
-   "id": "Venus",
-   "set": "sun",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
    "H": 0.00001350909090909091,
@@ -2515,35 +2138,6 @@
    "pole": "orb",
    "need": 958786810489130800000,
    "overRef": 1.042984727219854e-21,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "venus.prec.rate"
-   ]
-  },
-  {
-   "id": "Venus",
-   "set": "sun",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
-   "H": 0.00001350909090909091,
-   "omega": 2.9923691869737844e-7,
-   "magAsYr": 7.249845285290755e-21,
-   "az": {
-    "orb": 4.6362869404869463e-20,
-    "ecl": 2.380734688784682e-19
-   },
-   "inc": {
-    "orb": -6.92879676039029e-21,
-    "ecl": 5.104853735536305e-21
-   },
-   "ref": 44.58,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 961545317885734400000,
-   "overRef": 1.0399925842276686e-21,
    "retro": false,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2584,35 +2178,6 @@
    "id": "Venus",
    "set": "sun",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": 0.00001350909090909091,
-   "omega": 2.9923691869737844e-7,
-   "magAsYr": 2.422777682931097e-14,
-   "az": {
-    "orb": -1.5493699643310638e-13,
-    "ecl": -7.956019261087049e-13
-   },
-   "inc": {
-    "orb": 2.3154886070048922e-14,
-    "ecl": -1.7059571919663097e-14
-   },
-   "ref": 44.58,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 287729858112018.4,
-   "overRef": 3.475482199037828e-15,
-   "retro": true,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "venus.prec.rate"
-   ]
-  },
-  {
-   "id": "Venus",
-   "set": "sun",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
    "H": 0.00001350909090909091,
@@ -2631,35 +2196,6 @@
    "pole": "orb",
    "need": 286904410858455,
    "overRef": 3.4854814431324745e-15,
-   "retro": false,
-   "provisional": true,
-   "provMark": "仮・未照合",
-   "provKeys": [
-    "venus.prec.rate"
-   ]
-  },
-  {
-   "id": "Venus",
-   "set": "sun",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
-   "H": 0.00001350909090909091,
-   "omega": 2.9923691869737844e-7,
-   "magAsYr": 2.422777682931097e-14,
-   "az": {
-    "orb": 1.5493699643310638e-13,
-    "ecl": 7.956019261087049e-13
-   },
-   "inc": {
-    "orb": -2.3154886070048922e-14,
-    "ecl": 1.7059571919663097e-14
-   },
-   "ref": 44.58,
-   "kind": "prov",
-   "pole": "orb",
-   "need": 287729858112018.4,
-   "overRef": 3.475482199037828e-15,
    "retro": false,
    "provisional": true,
    "provMark": "仮・未照合",
@@ -2724,30 +2260,6 @@
    "id": "Mercury",
    "set": "sun",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": 0.00014537572254335262,
-   "omega": 0.0000012400173568061162,
-   "magAsYr": 4.527532384136004e-19,
-   "az": {
-    "orb": -6.368575894339503e-16,
-    "ecl": -3.644492556219767e-18
-   },
-   "inc": {
-    "orb": 2.303371968268801e-19,
-    "ecl": 7.48012698160294e-20
-   },
-   "ref": 4.32,
-   "kind": "repo",
-   "pole": "orb",
-   "need": 6783306145161415,
-   "overRef": 1.474207382948959e-16,
-   "retro": true
-  },
-  {
-   "id": "Mercury",
-   "set": "sun",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
    "H": 0.00014537572254335262,
@@ -2766,30 +2278,6 @@
    "pole": "orb",
    "need": 6861404663764555,
    "overRef": 1.4574275225028682e-16,
-   "retro": false
-  },
-  {
-   "id": "Mercury",
-   "set": "sun",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
-   "H": 0.00014537572254335262,
-   "omega": 0.0000012400173568061162,
-   "magAsYr": 4.527532384136004e-19,
-   "az": {
-    "orb": 6.368575894339503e-16,
-    "ecl": 3.644492556219767e-18
-   },
-   "inc": {
-    "orb": -2.303371968268801e-19,
-    "ecl": -7.48012698160294e-20
-   },
-   "ref": 4.32,
-   "kind": "repo",
-   "pole": "orb",
-   "need": 6783306145161415,
-   "overRef": 1.474207382948959e-16,
    "retro": false
   },
   {
@@ -2820,30 +2308,6 @@
    "id": "Mercury",
    "set": "sun",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": 0.00014537572254335262,
-   "omega": 0.0000012400173568061162,
-   "magAsYr": 3.6511846864768597e-13,
-   "az": {
-    "orb": -5.13587641284546e-10,
-    "ecl": -2.9390657608267686e-12
-   },
-   "inc": {
-    "orb": 1.8575320382623385e-13,
-    "ecl": 6.032276032707579e-14
-   },
-   "ref": 4.32,
-   "kind": "repo",
-   "pole": "orb",
-   "need": 8411417356.52974,
-   "overRef": 1.1888602807512638e-10,
-   "retro": true
-  },
-  {
-   "id": "Mercury",
-   "set": "sun",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
    "H": 0.00014537572254335262,
@@ -2862,30 +2326,6 @@
    "pole": "orb",
    "need": 8508260875.13848,
    "overRef": 1.1753283246427537e-10,
-   "retro": false
-  },
-  {
-   "id": "Mercury",
-   "set": "sun",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
-   "H": 0.00014537572254335262,
-   "omega": 0.0000012400173568061162,
-   "magAsYr": 3.6511846864768597e-13,
-   "az": {
-    "orb": 5.13587641284546e-10,
-    "ecl": 2.9390657608267686e-12
-   },
-   "inc": {
-    "orb": -1.8575320382623385e-13,
-    "ecl": -6.032276032707579e-14
-   },
-   "ref": 4.32,
-   "kind": "repo",
-   "pole": "orb",
-   "need": 8411417356.52974,
-   "overRef": 1.1888602807512638e-10,
    "retro": false
   },
   {
@@ -2940,56 +2380,8 @@
    "id": "Moon",
    "set": "earthSun",
    "cand": "Ta",
-   "sense": "g2m",
-   "part": "MS",
-   "H": null,
-   "omega": 0.0000026616994724158407,
-   "magAsYr": null,
-   "az": {
-    "orb": null,
-    "ecl": null
-   },
-   "inc": {
-    "orb": null,
-    "ecl": null
-   },
-   "ref": 69628.75409659915,
-   "kind": "repo",
-   "pole": "orb",
-   "need": null,
-   "overRef": null,
-   "retro": null
-  },
-  {
-   "id": "Moon",
-   "set": "earthSun",
-   "cand": "Ta",
    "sense": "g2p",
    "part": "S",
-   "H": null,
-   "omega": 0.0000026616994724158407,
-   "magAsYr": null,
-   "az": {
-    "orb": null,
-    "ecl": null
-   },
-   "inc": {
-    "orb": null,
-    "ecl": null
-   },
-   "ref": 69628.75409659915,
-   "kind": "repo",
-   "pole": "orb",
-   "need": null,
-   "overRef": null,
-   "retro": null
-  },
-  {
-   "id": "Moon",
-   "set": "earthSun",
-   "cand": "Ta",
-   "sense": "g2p",
-   "part": "MS",
    "H": null,
    "omega": 0.0000026616994724158407,
    "magAsYr": null,
@@ -3036,56 +2428,8 @@
    "id": "Moon",
    "set": "earthSun",
    "cand": "Tb",
-   "sense": "nat",
-   "part": "MS",
-   "H": null,
-   "omega": 0.0000026616994724158407,
-   "magAsYr": null,
-   "az": {
-    "orb": null,
-    "ecl": null
-   },
-   "inc": {
-    "orb": null,
-    "ecl": null
-   },
-   "ref": 69628.75409659915,
-   "kind": "repo",
-   "pole": "orb",
-   "need": null,
-   "overRef": null,
-   "retro": null
-  },
-  {
-   "id": "Moon",
-   "set": "earthSun",
-   "cand": "Tb",
    "sense": "flip",
    "part": "S",
-   "H": null,
-   "omega": 0.0000026616994724158407,
-   "magAsYr": null,
-   "az": {
-    "orb": null,
-    "ecl": null
-   },
-   "inc": {
-    "orb": null,
-    "ecl": null
-   },
-   "ref": 69628.75409659915,
-   "kind": "repo",
-   "pole": "orb",
-   "need": null,
-   "overRef": null,
-   "retro": null
-  },
-  {
-   "id": "Moon",
-   "set": "earthSun",
-   "cand": "Tb",
-   "sense": "flip",
-   "part": "MS",
    "H": null,
    "omega": 0.0000026616994724158407,
    "magAsYr": null,
@@ -3705,38 +3049,38 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.166
+   "wallSec": 0.223
   },
   "strain": {
-   "wallSec": 0.192
+   "wallSec": 0.256
   },
   "rate": {
-   "wallSec": 0.21
+   "wallSec": 0.277
   },
   "align": {
-   "wallSec": 0.227
+   "wallSec": 0.291
   },
   "size": {
-   "wallSec": 0.227
+   "wallSec": 0.291
   },
   "bg": {
-   "wallSec": 0.227
+   "wallSec": 0.292
   }
  },
- "elapsedS": 0.48,
+ "elapsedS": 0.628,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便u",
   "target": "tests/lib-w352u-tidaldrag.mjs",
   "targetSha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
-  "generatedAt": "2026-11-24T18:59:25.803Z",
+  "generatedAt": "2026-11-24T19:06:16.971Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w352u-tidaldrag.mjs",
-    "bytes": 14347,
-    "sha256": "97256dfd919d01145c851b5ddeb6531d751acec0f9b835319070e73be8b9fe92",
-    "mtime": "2026-11-24T18:53:36.952Z"
+    "bytes": 14429,
+    "sha256": "27058ad41cd19131c55bf7fb4f5aa6b461b3434e8985de8c80c5c8a89ebdeba3",
+    "mtime": "2026-11-24T19:05:53.910Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -4201,7 +3545,7 @@
     "mtime": "2026-11-24T18:59:25.184Z"
    }
   ],
-  "codeSha256": "6d3e5dc9154e23860fd8f2d6297d52c95433f6a389125bde5728c5410ba5195e",
+  "codeSha256": "1d5baca6ec0f5e8f0287d9206e631e7e181afe29dd7cb3e5b5d5b88b8080a95f",
   "harnessVersion": "w352u-tidaldrag-1",
   "stage": "tidaldrag",
   "engine": "Node(html を読まない —— 純関数の lib: 〔第348便h〕の場・〔第351便c〕の組の入力・〔第352便q〕の構造の量と比べる数・〔第352便d〕の方位の率と背景・〔第352便b〕の仮の値・〔第330便a〕の古典の歳差の定数)・入力のファイルなし・1 プロセス",
@@ -4248,8 +3592,8 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 372,
-   "kept": 1109,
+   "zeroed": 356,
+   "kept": 917,
    "zeroPathsHead": [
     "/pure/scenes/tgErr",
     "/pure/scenes/uJErr",
