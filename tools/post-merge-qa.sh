@@ -1422,6 +1422,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350
 #   第338便c の recheckRun で正本と照合・第350便b の正本の天体の行と地球の数・k の掛け先を QA の中で別に照合・呼ぶだけ / docs.c2main351b —— 原文と読みの表と表と数の文が PHYSICS〔第351便b〕に逐語・文書)と、新しい段 c2main-351b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.c2main351b docs.c2main351b"
 # ==== 第351便b の塊(ここまで)====
+# ==== 第351便h の塊(ここから)====
+# 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
+#   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations351h docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f"
+# ==== 第351便h の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
