@@ -1417,6 +1417,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations350h lint.eqReader350h docs.eq
 #   道の絞りと runs-on は元のまま・変異の自己試験 / docs.paperDispatch350i —— PHYSICS〔第350便i〕・AI_SPEC §318・本塊)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperDispatch350i docs.paperDispatch350i"
 # ==== 第350便i の塊(ここまで)====
+# ==== 第351便a の塊(ここから)====
+# 第351便a(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R427 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report147_351a —— 第147報の決断の 5 行の当たり所の表・新しい句 7 つ・伺った項と採った読みの鎖が PHYSICS〔第351便a〕に逐語・当時の文が過去の節に残る・変異 /
+#   lint.readNames351a —— 読みの名の書き分け〔(C2) と (W) ほか〕の定義の文と対応の表・公開の文書に private の文書の名と第351便の文に外の検討の名が無い・変異)。段は無い
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report147_351a lint.readNames351a"
+# ==== 第351便a の塊(ここまで)====
 # ==== 第351便b の塊(ここから)====
 # 第351便b(原仮定者の回答(2026-11-24 —— 第147報)AN1000・統括の検証項目 R428 —— 診断だけ・html は変えない): 枝 b の新設 2 本(behavior.c2main351b —— 零試験 10・器を走らせ直して
 #   第338便c の recheckRun で正本と照合・第350便b の正本の天体の行と地球の数・k の掛け先を QA の中で別に照合・呼ぶだけ / docs.c2main351b —— 原文と読みの表と表と数の文が PHYSICS〔第351便b〕に逐語・文書)と、新しい段 c2main-351b
