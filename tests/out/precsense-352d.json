@@ -1291,7 +1291,7 @@
     "ecl": 5.777304081524318e-15
    },
    "inc": {
-    "om": -1.107105372419777e-32,
+    "om": 0,
     "orb": 8.430397490642393e-17,
     "ref": 9.530653120900364e-18,
     "ecl": -2.3995693007261586e-17
@@ -2027,7 +2027,7 @@
     "ecl": 3.331149135906158e-15
    },
    "inc": {
-    "om": -6.030868624915421e-31,
+    "om": 0,
     "orb": 6.025760225287449e-15,
     "ref": 6.09509445738625e-15,
     "ecl": 5.9814775268954765e-15
@@ -5869,7 +5869,7 @@
     "ecl": 0.07102918850221121
    },
    "inc": {
-    "om": -1.0609626684972282e-17,
+    "om": 0,
     "orb": 0.1284246802283144,
     "ref": 0.12990310818485204,
     "ecl": 0.12748044665026798
@@ -5902,7 +5902,7 @@
     "ecl": -0.07102918850221121
    },
    "inc": {
-    "om": 1.0609626684972282e-17,
+    "om": 0,
     "orb": -0.1284246802283144,
     "ref": -0.12990310818485204,
     "ecl": -0.12748044665026798
@@ -7707,7 +7707,7 @@
    "rel": 0,
    "spinBg": -1,
    "az": {
-    "om": -1.5504292876641875e-33,
+    "om": 0,
     "orb": 1.0588862235204892e-16,
     "ref": 1.1776119249711567e-15,
     "ecl": 2.794720564701474e-15
@@ -7742,7 +7742,7 @@
    "rel": 0,
    "spinBg": -1,
    "az": {
-    "om": -1.5504292876641875e-33,
+    "om": 0,
     "orb": 1.0588862235204892e-16,
     "ref": 1.1776119249711567e-15,
     "ecl": 2.794720564701474e-15
@@ -8899,38 +8899,38 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.409
+   "wallSec": 0.176
   },
   "ex": {
-   "wallSec": 0.409
+   "wallSec": 0.176
   },
   "main": {
-   "wallSec": 0.487
+   "wallSec": 0.233
   },
   "ms": {
-   "wallSec": 0.493
+   "wallSec": 0.236
   },
   "count": {
-   "wallSec": 0.501
+   "wallSec": 0.243
   },
   "f": {
-   "wallSec": 0.503
+   "wallSec": 0.245
   }
  },
- "elapsedS": 1.275,
+ "elapsedS": 0.539,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便d",
   "target": "tests/lib-w352d-precsense.mjs",
   "targetSha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
-  "generatedAt": "2026-11-24T16:23:14.297Z",
+  "generatedAt": "2026-11-24T16:41:12.904Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w352d-precsense.mjs",
-    "bytes": 12710,
-    "sha256": "b870ceaa233fb6394b953271de1fba54499ac644c5df5b11cc95793192061183",
-    "mtime": "2026-11-24T16:16:01.418Z"
+    "bytes": 12979,
+    "sha256": "b72cac17114b3e3309db3aaeef547329c59468fd2512f76d376e59920f14b9e8",
+    "mtime": "2026-11-24T16:41:12.207Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -9299,7 +9299,7 @@
     "mtime": "2026-11-24T16:21:23.601Z"
    }
   ],
-  "codeSha256": "79d750a9d27fc563d2f9768f36c6286eb86b899d7b9b0796f6efdf20838d5d6c",
+  "codeSha256": "61e7130d912d0820e37d8f2b8f5b03acb95a792ee37fa998dbef0bac50174b61",
   "harnessVersion": "w352d-precsense-1",
   "stage": "precsense",
   "engine": "Node(html を読まない —— 純関数の lib・第351便d・第351便e・第351便c・第347便e の lib を呼ぶ)・1 プロセス",
@@ -9346,8 +9346,8 @@
     "TOL_FACTOR": 8,
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
-   "zeroed": 131,
-   "kept": 4247,
+   "zeroed": 7,
+   "kept": 4241,
    "zeroPathsHead": [
     "/pure/scenes/sc/2/azErr",
     "/pure/scenes/sc/3/azErr",
@@ -9355,20 +9355,7 @@
     "/pure/scenes/sc/9/azErr",
     "/pure/scenes/sc/10/azErr",
     "/pure/scenes/sc/11/azErr",
-    "/pure/scenes/incErr",
-    "/main/0/inc/om",
-    "/main/1/inc/om",
-    "/main/2/inc/om",
-    "/main/3/inc/om",
-    "/main/4/inc/om",
-    "/main/5/inc/om",
-    "/main/6/inc/om",
-    "/main/7/inc/om",
-    "/main/8/inc/om",
-    "/main/9/inc/om",
-    "/main/10/inc/om",
-    "/main/11/inc/om",
-    "/main/12/inc/om"
+    "/pure/scenes/incErr"
    ],
    "unstable": 0,
    "unstableHead": []

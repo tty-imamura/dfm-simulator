@@ -50,7 +50,9 @@ function packRow(R) {
     omAsYr: Math.hypot(...R.Om) * L.ASYR, bgAsYr: Math.hypot(...R.bgVec) * L.ASYR };
   for (const p of L.DECL.poles) {
     const q = R.rates[p];
-    out.az[p] = q === null ? null : q.az * L.ASYR; out.inc[p] = q === null ? null : q.inc * L.ASYR;
+    // 丸めの床: 打ち消しで 0 になる量(経路 ② の Ω̂ に対する傾きの率など)は abs(Ω) の 1e-12 倍以下を 0 と書く(実行系で丸めの残りが違うため)
+    const fl = (x) => (Math.abs(x) <= 1e-12 * out.omAsYr ? 0 : x);
+    out.az[p] = q === null ? null : fl(q.az * L.ASYR); out.inc[p] = q === null ? null : fl(q.inc * L.ASYR);
     // 打ち消しで 0 になる方位の率(経路 ① だけの Ω̂ のまわり)は abs(Ω) の 1e-9 倍以下を 0 と読む(符号を数えない)
     const azF = q === null ? null : Math.abs(q.az) * L.ASYR <= 1e-9 * out.omAsYr ? 0 : q.az;
     out.relP[p] = azF === null || R.poleDot[p] === null ? null : sg(azF) * sg(R.poleDot[p]);
