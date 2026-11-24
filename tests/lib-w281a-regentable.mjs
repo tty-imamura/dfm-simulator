@@ -3060,6 +3060,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/obsradius-352o.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便o: 零試験 10/表 1 列 6 × 行 9 × 背景 2 × 基準軸 2 × 向き 2/差の表 36/表 2 18/表 3 24/表 4 6/表 5 30' }),
   // ==== 第352便o の塊(ここまで)====
+  // ==== 第352便q の塊(ここから)====
+  // ---- 第352便q(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R454):
+  //   **応答の係数と天体の構造 —— 要る応答の係数(比べる数 ÷ 単位の応答の率)・構造の量の式の候補 (ア)〜(エ) とべきの組の走査・背景を共通に置いたときの階数・太陽へ写した仮の列**
+  //   (段 response-352q —— 正本 tests/out/response-352q.json・lib tests/lib-w352q-response.mjs —— 第352便k・第352便j・第352便d・第352便c・第352便b・第352便e・第351便k・第350便f ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に suntilt-352l〕)。**並びの診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。仮の値(第352便b)を使う —— 正本の最上位に provisional と鍵の一覧。所要は第352便q の枝の実測 2 s
+  S('response-352q', 'node tests/exp-w352q-response.mjs', ['tests/out/response-352q.json'], 2, { secSource: 'w352q-branch', node: true,
+    after: ['suntilt-352l'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/response-352q.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便q: 零試験 10/表 3 80 行/表 4 112 行/表 5 10/表 7 32/表 9 40' }),
+  // ==== 第352便q の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
