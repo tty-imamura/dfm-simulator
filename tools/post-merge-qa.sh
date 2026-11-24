@@ -1439,6 +1439,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcparts351c docs.srcparts351c"
 #   docs.r3step351d —— 原文と表と数の文が PHYSICS〔第351便d〕に逐語・文書)と、新しい段 r3step-351d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3step351d docs.r3step351d"
 # ==== 第351便d の塊(ここまで)====
+# ==== 第351便g の塊(ここから)====
+# 第351便g(原仮定者の整理(2026-11-23 —— 第146報)・統括の検証項目 R433 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.r3energy351g —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・f 0 の熱の閉じた形と m の式と供給が止まる点を QA の中で別に照合・呼ぶだけ /
+#   docs.r3energy351g —— 原文と表と数の文が PHYSICS〔第351便g〕に逐語・文書)と、新しい段 r3energy-351g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.r3energy351g docs.r3energy351g"
+# ==== 第351便g の塊(ここまで)====
 # ==== 第351便h の塊(ここから)====
 # 第351便h(統括の検証項目 R434 —— 文書と照合の鍵だけ・html は変えない): 枝 h の新設 1 本(docs.equations351h —— 計算式の一覧の EQ-109〜EQ-117 と表)と、
 #   EQ-108 までの写しで読む形にした既存の照合(docs.equations350h)・一覧を読む既存の照合(lint.eqReader350h・docs.equations348g・docs.equations347f)
