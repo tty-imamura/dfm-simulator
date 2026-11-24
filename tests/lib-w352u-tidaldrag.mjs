@@ -11,11 +11,11 @@
 // ■ 式の候補(読みを並べる —— 決めない。ŝ = 受け手の自転軸〔角運動量の向き〕・H = J2 ÷ 慣性モーメントの係数〔リポジトリの数 —— 第330便a の古典の歳差の定数と同じ置き方〕):
 //   (T-a) 向きの式: τ = λ (E ŝ − (ŝ·E ŝ) ŝ)・λ = −λ̃ H(扁平で負・λ̃ は形の係数のノブ —— 単位の係数 1)。τ を「軸を傾ける回転」と読み、自転の向きに 90° ずらす:
 //         (g2−) dŝ/dt = ŝ × τ(回転の分で Ω⊥ を自転の向きに 90° ずらすと −Ω × ŝ になるのと同じ向き)/(g2+) dŝ/dt = τ × ŝ。
-//   (T-b) トルクの式: 受け手の各部位が引きずりの差分 E x へ率 κ で引かれると読む —— トルク N = κ ∫ρ x × (E x) dV = −κ (C − A) ŝ × (E ŝ)(軸対称の慣性のテンソル)・
-//         dŝ/dt = N ÷ (C ω) = −κ (H ÷ ω) ŝ × (E ŝ)(角運動量の式 —— 1 ÷ ω が入る。κ は引きずりの強さのノブ —— 単位の係数 1 s⁻¹)。比べる向き(反転)の列も置く。
-//   (T-g) 比べる列 —— 重力の側の潮汐のトルク: 1 公転の平均の潮汐のテンソル T = (G M ÷ a³)(3 (I − n̂n̂) ÷ 2 − I) を (T-b) と同じトルクの式に入れる(κ E → T)。
+//   (T-b) トルクの式: 受け手の各部位が引きずりの差分 E x へ率 η_d で引かれると読む —— トルク N = η_d ∫ρ x × (E x) dV = −η_d (C − A) ŝ × (E ŝ)(軸対称の慣性のテンソル)・
+//         dŝ/dt = N ÷ (C ω) = −η_d (H ÷ ω) ŝ × (E ŝ)(角運動量の式 —— 1 ÷ ω が入る。η_d は引きずりの強さのノブ —— 単位の係数 1 s⁻¹)。比べる向き(反転)の列も置く。
+//   (T-g) 比べる列 —— 重力の側の潮汐のトルク: 1 公転の平均の潮汐のテンソル T = (G M ÷ a³)(3 (I − n̂n̂) ÷ 2 − I) を (T-b) と同じトルクの式に入れる(η_d E → T)。
 //         = −(3/2)(G M ÷ a³)(H ÷ ω)(n̂·ŝ)(n̂ × ŝ)(第330便a の precessionSolar の e 0 と同じ大きさ)。重力の列は DFM の結果ではない(比べる列)。
-// ■ 言わないこと: 歳差の率が説明できた・導けた・観測に合った、と書かない。重力の側の列を DFM の結果と書かない。仮の値との比は「仮・未照合」の印つきで合否にしない。
+// ■ 言わないこと: 歳差の率をこの項で読み切ったとは書かない(候補の式・単位の係数の表)。重力の側の列を DFM の結果と書かない。仮の値との比は「仮・未照合」の印つきで合否にしない。
 import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
 import * as Q from './lib-w352q-response.mjs';
@@ -81,7 +81,7 @@ export const DECL = Object.freeze({
   srcSets: Object.freeze({ sun: Object.freeze(['Sun']), sunMoon: Object.freeze(['Sun', 'Moon']), earthSun: Object.freeze(['EarthHi', 'Sun']) }),
   cands: Object.freeze(['Ta', 'Tb', 'Tg']), candLabels: Object.freeze({ Ta: '(T-a) 向きの式', Tb: '(T-b) トルクの式', Tg: '(T-g) 重力の側の潮汐のトルク(比べる列)' }),
   senses: Object.freeze({ Ta: Object.freeze(['g2m', 'g2p']), Tb: Object.freeze(['nat', 'flip']), Tg: Object.freeze(['nat']) }),
-  /** 単位の係数: (T-a) λ̃ = 1(λ = −H)・(T-b) κ = 1 s⁻¹ */
+  /** 単位の係数: (T-a) λ̃ = 1(λ = −H)・(T-b) η_d = 1 s⁻¹ */
   unit: Object.freeze({ lamT: 1, kappa: 1 }),
   /** 中心差分の歩幅(距離 a に対して)—— 自分の重みは中心の値に固めた場で数える(中心で勾配 0 なので同じ J) */
   cdStep: 1e-4,
@@ -129,10 +129,11 @@ export function jacCD(field, h) {
 /* ───────── 歪みの率 ───────── */
 /**
  * 組 1 つ・成分 1 つの勾配のテンソル(受け手の中心・位相ごとと 1 公転の平均)。返す: Javg・Eavg(歪み)・Wavg(反対称の軸のベクトル = (W) の読み)・
- * ePhaseRms(位相ごとの abs(E) の 2 乗平均の根 —— 平均で消える分を含む大きさ)・eig(Eavg の主軸)・cd(true なら中心差分の J も平均して返す)。
+ * ePhaseRms(位相ごとの abs(E) の 2 乗平均の根 —— 平均で消える分を含む大きさ)・eig(Eavg の主軸)・cd(true なら中心差分の J も平均して返す)・
+ * sAx(源の自転軸を置き換える試しの口 —— 既定は組の値)。
  */
-export function strainOf(T1, GEO, id, src, { part, extraW = 0, nPhase = DECL.nPhase, cd = false, mut = null } = {}) {
-  const Pp = pairSpec(T1, GEO, id, src);
+export function strainOf(T1, GEO, id, src, { part, extraW = 0, nPhase = DECL.nPhase, cd = false, mut = null, sAx = null } = {}) {
+  const P0 = pairSpec(T1, GEO, id, src), Pp = sAx ? { ...P0, sAx: unit(sAx) } : P0;
   let Jm = new Array(9).fill(0), Jc = cd ? new Array(9).fill(0) : null, e2 = 0, w2 = 0;
   for (let k = 0; k < nPhase; k++) {
     const ph = 2 * Math.PI * (k + 0.5) / nPhase, { f } = fieldAt(Pp, ph, { part, extraW, mut }), J = f.J([0, 0, 0]);
@@ -142,6 +143,15 @@ export function strainOf(T1, GEO, id, src, { part, extraW = 0, nPhase = DECL.nPh
   }
   const Eavg = symOf(Jm);
   return { id, src, part, Javg: Jm, Eavg, Wavg: axialOf(Jm), eAvg: fro(Eavg), ePhaseRms: Math.sqrt(e2), wPhaseRms: Math.sqrt(w2), eig: eigSym(Eavg), Jcd: Jc, sHat: Pp.sHat, nHat: Pp.nHat, a: Pp.a, nOrb: Pp.vOrb / Pp.a, Ms: Pp.Ms };
+}
+/** 源の自転軸と受け手の公転の北極の角の sin(1 公転の平均で残る (S) の歪みの物差し) */
+export function srcTiltSin(T1, GEO, id, src) { const P = pairSpec(T1, GEO, id, src); return nrm(crs(unit(P.sAx), unit(P.nHat))); }
+/** 対数の最小二乗の傾き(距離のべき) */
+export function logSlope(xs, ys) {
+  const p = xs.map((x, k) => [Math.log(x), Math.log(ys[k])]).filter(([a, b]) => fin(a) && fin(b)), n = p.length;
+  if (n < 2) return null;
+  const mx = p.reduce((t, q) => t + q[0], 0) / n, my = p.reduce((t, q) => t + q[1], 0) / n;
+  return p.reduce((t, q) => t + (q[0] - mx) * (q[1] - my), 0) / p.reduce((t, q) => t + (q[0] - mx) ** 2, 0);
 }
 /** 受け手の行の分母の他の重み(第351便c の pairParts の約束 —— 地球の月由来は太陽の重み・月の地球由来は太陽の重み・月の太陽由来は地球の重み・ほかは 0) */
 export function extraWOf(T1, GEO, id, src) {
@@ -171,7 +181,7 @@ export function tA(sHat, Em, { H, lamT = DECL.unit.lamT, sense }) {
   if (sense === 'g2p') return crs(tau, s);
   throw new RangeError('tA: sense は g2m・g2p・tilt');
 }
-/** (T-b): dŝ/dt = −κ (H ÷ ω) ŝ × (E ŝ)('nat')・反転の列 'flip'。ω は自転の率の大きさ(ŝ は角運動量の向き) */
+/** (T-b): dŝ/dt = −η_d (H ÷ ω) ŝ × (E ŝ)('nat')・反転の列 'flip'。ω は自転の率の大きさ(ŝ は角運動量の向き) */
 export function tB(sHat, Em, { H, omega, kappa = DECL.unit.kappa, sense = 'nat' }) {
   if (!fin(H) || !(fin(omega) && omega > 0)) return null;
   const s = unit(sHat), v = scl(crs(s, mv(Em, s)), -kappa * H / omega);
@@ -184,7 +194,7 @@ export function tideAvg(GM, a, nHat) {
   for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) T[3 * i + j] = g * (1.5 * ((i === j ? 1 : 0) - n[i] * n[j]) - (i === j ? 1 : 0));
   return T;
 }
-/** (T-g): (T-b) のトルクの式に κ E → T(1 公転の平均)を入れた形 */
+/** (T-g): (T-b) のトルクの式に η_d E → T(1 公転の平均)を入れた形 */
 export function tG(sHat, srcs, { H, omega }) {
   if (!fin(H) || !(fin(omega) && omega > 0)) return null;
   let T = new Array(9).fill(0);
@@ -278,7 +288,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ⑦ (ウ′) の太陽だけの物差し = 第352便q の candOf の uJ(地球・火星・金星)
   let uJErr = 0;
   for (const id of ['Earth', 'Mars', 'Venus']) uJErr = Math.max(uJErr, Math.abs(uJSet(T1, GEO, id, 'sun') / Q.candOf(T1, GEO, id, { bg: 'Np', axis: 'L', tSrc: 0, u: 1 }).uJ - 1));
-  // ⑧ (T-a) の (g2−) と (T-b) は同じ線の上(向きは λ の符号と κ で決まる —— 大きさの比 = ω ÷ κ)
+  // ⑧ (T-a) の (g2−) と (T-b) は同じ線の上(向きは λ の符号と η_d で決まる —— 大きさの比 = ω ÷ η_d)
   const shE = shapeOf(T1, GEO, 'Earth'), a1 = tA(sE, Ee, { H: shE.H, sense: 'g2m' }), b1 = tB(sE, Ee, { H: shE.H, omega: shE.omega });
   const lineErr = nrm(crs(unit(a1), unit(b1))), magRatio = nrm(a1) / nrm(b1) / shE.omega;
   // ⑨ 入力の拒否
