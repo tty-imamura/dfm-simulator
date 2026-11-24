@@ -121,9 +121,10 @@ export function cancelRow(T1, GEO, key, { tSrc = 0, bg, axis, part = 'S' }, cach
   if (key.endsWith('|Sun')) { const [id] = key.split('|'), R = K.spinRot(T1, GEO, id, 'Sun', { part, tSrc }); loc = R.Om; s = unit(R.sHat); }
   else { const P = satParts(T1, GEO, key, { tSrc, part }, cache); loc = add(P.sun, P.parent); s = P.sHat; }
   const b1 = bgOf(T1, GEO, bg, axis, 1), uV = uVt(T1, GEO, tSrc, cache), uEq = nrm(loc) / nrm(b1), uMin = J.uForMin(b1, loc);
+  // 残り: 合成 ÷ 背景(倍率 u の背景)—— uEq では局所と背景の大きさが同じ。uMin の残りは合成 ÷ 局所(背景の大きさが局所より小さいときに 1 を越えないように)
   const res = (u) => (u > 0 ? nrm(add(scl(b1, u), loc)) / (u * nrm(b1)) : null);
-  const cosLB = dot(unit(loc), unit(b1));
-  return { key, tSrc, bg, axis, part, uV, uEq, uMin, eqOverUV: uEq / uV, minOverUV: uMin / uV, resEq: res(uEq), resMin: res(uMin), resAtUV: res(uV), cosLocBg: cosLB, cosLocS: dot(s, unit(loc)),
+  const cosLB = dot(unit(loc), unit(b1)), resMin = nrm(add(scl(b1, uMin), loc)) / nrm(loc);
+  return { key, tSrc, bg, axis, part, uV, uEq, uMin, eqOverUV: uEq / uV, minOverUV: uMin / uV, resEq: res(uEq), resMin, resAtUV: res(uV), cosLocBg: cosLB, cosLocS: dot(s, unit(loc)),
     scan: DECL.scanExp.map((e) => ({ e, res: res(uV * Math.pow(10, e)) })) };
 }
 
@@ -208,9 +209,12 @@ export function saturnRing(T1, GEO, key, { tSrc = 0 } = {}, cache = null) {
     satS: { asYr: nrm(S0) * ASYR, cosL: dot(unit(S0), L0), perpOverMag: nrm(SP.perpOf(L0, S0)) / nrm(S0) }, satM: { asYr: nrm(M0) * ASYR, cosL: dot(unit(M0), L0), perpOverMag: nrm(SP.perpOf(L0, M0)) / nrm(M0) },
     SoverM: nrm(S0) / nrm(M0), sunSAsYr: nrm(sunS) * ASYR, satSOverSunS: nrm(S0) / nrm(sunS),
     tilt1: { satS: ringRates(L1, S1, { ref: L0 }), satM: ringRates(L1, M1, { ref: L0 }), cosSL: dot(unit(S1), L1) }, comb: {} };
+  // 環の物差し(第348便d の LIT —— 1e7 年で傾きが e 分の 1)と並べる: 起こす率 ÷ 傾き(1/年)× 物差しの年数(1 で同じ率)
+  const epsR = DECL.ringTiltDeg * D2R, yard = (rAsYr) => (rAsYr === null ? null : rAsYr / 206264.80624709636 / epsR * DA.LIT.tYardYr);
+  out.tilt1.satS.yard = yard(out.tilt1.satS.raiseAsYr); out.tilt1.satM.yard = yard(out.tilt1.satM.raiseAsYr);
   for (const bg of DECL.bgs) for (const axis of DECL.axes) {
-    const b = bgOf(T1, GEO, bg, axis, uV), loc = add(S0, sunS), Om = add(b, loc);
-    out.comb[bg + axis] = { bgAsYr: nrm(b) * ASYR, satSOverBg: nrm(S0) / nrm(b), ...ringRates(L0, Om) };
+    const b = bgOf(T1, GEO, bg, axis, uV), loc = add(S0, sunS), Om = add(b, loc), Om1 = add(b, add(S1, sunS)), r1 = ringRates(L1, Om1, { ref: L0 });
+    out.comb[bg + axis] = { bgAsYr: nrm(b) * ASYR, satSOverBg: nrm(S0) / nrm(b), ...ringRates(L0, Om), tilt1RaiseAsYr: r1.raiseAsYr, tilt1Yard: yard(r1.raiseAsYr) };
   }
   return out;
 }
