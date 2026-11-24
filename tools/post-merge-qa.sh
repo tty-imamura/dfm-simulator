@@ -1514,6 +1514,15 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sunrecv352e docs.sunrecv352e"
 #   docs.galdisk352f —— 原文と表と数の文が PHYSICS〔第352便f〕に逐語・文書)と、新しい段 galdisk-352f
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galdisk352f docs.galdisk352f"
 # ==== 第352便f の塊(ここまで)====
+# ==== 第352便g の塊(ここから)====
+# 第352便g(統括の検証項目 R444 —— 道具だけ・html は変えない): 枝 g の新設 2 本(lint.tools352g —— 道具 4 つの自己試験と既定の動きの不変 /
+#   docs.tools352g —— AI_SPEC §336・tools/README.md・本塊)。口の追加 2 つ(既定の動きは変えない —— 付けたときだけ効く):
+#   --since <rev>  ③′ の一覧を「<rev> から後に tests/qa.mjs に増えた鍵の名」だけにする(tools/qa-keys-since.mjs —— 字句は ③′ と同じ add('<名>'。
+#                  POST_MERGE_WAVE_IDS・--wave・--all-waves より先に効く・PHYSICS の走査の一式は足さない・rev が引けなければ終了コード 2)
+#   --dry          ③′ の一覧(範囲の句・名の数・名)を出して終了コード 0 で終わる(⓪ 以降は走らせない・ログの置き場も作らない)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.tools352g docs.tools352g"
+SINCE_REV=""; PMDRY=0
+# ==== 第352便g の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -1565,6 +1574,8 @@ while [ $# -gt 0 ]; do
     --all-waves) ALLW=1; shift ;;
     --resume) RESUME_LOG="${2:-}"; shift 2 ;;   # 第337便h(R344): ① の済み印から続き
     --base-rev) BASE_REV="${2:-}"; shift 2 ;;   # 第337便h(R344): ④ の root に足す「本便で直した鍵」の基点
+    --since) SINCE_REV="${2:-}"; shift 2 ;;   # 第352便g(R444): ③′ を <rev> から増えた鍵だけに
+    --dry) PMDRY=1; shift ;;   # 第352便g(R444): ③′ の一覧を出して終わる
     -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
     *) echo "post-merge-qa: 知らない引数 $1" >&2; exit 2 ;;
   esac
@@ -1592,6 +1603,21 @@ fi
 # ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
 qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
 # ==== 第324便c の塊(ここまで)====
+# ==== 第352便g の塊(--since と --dry —— ここから)====
+# 第352便g(R444): --since <rev> のときだけ ③′ の一覧を差し替える・--dry のときだけ一覧を出して終わる(どちらも付けなければ何もしない —— 既定の動きは不変)
+if [ -n "$SINCE_REV" ]; then
+  SINCE_IDS=$(node tools/qa-keys-since.mjs "$SINCE_REV" 2>"${TMPDIR:-/tmp}/post-merge-qa-since.$$.err"); rcs=$?
+  SINCE_MSG=$(cat "${TMPDIR:-/tmp}/post-merge-qa-since.$$.err" 2>/dev/null); rm -f "${TMPDIR:-/tmp}/post-merge-qa-since.$$.err"
+  if [ $rcs -ne 0 ]; then echo "post-merge-qa: --since $SINCE_REV が引けない —— $SINCE_MSG" >&2; exit 2; fi
+  WAVE_IDS="$SINCE_IDS"
+  S3W_SCOPE="基点 ${SINCE_REV} から tests/qa.mjs に増えた鍵 $(echo $SINCE_IDS | wc -w) 名(--since —— PHYSICS の走査の一式は足さない)"
+fi
+if [ $PMDRY -eq 1 ]; then
+  echo "post-merge-qa --dry: ③′ 〔${S3W_SCOPE:-全部の便の積み上げ}〕 $(echo $WAVE_IDS | wc -w) 名(⓪ 以降は走らせない)"
+  [ -n "$WAVE_IDS" ] && echo $WAVE_IDS | tr -s ' ' '\n'
+  exit 0
+fi
+# ==== 第352便g の塊(--since と --dry —— ここまで)====
 LOG="${POST_MERGE_LOG:-${TMPDIR:-/tmp}/post-merge-qa-$(date -u +%Y%m%dT%H%M%SZ)}"
 [ -n "$RESUME_LOG" ] && LOG="$RESUME_LOG"   # 第337便h(R344): 前のログの置き場をそのまま使う(① の済み印 $LOG/1-ckpt)
 mkdir -p "$LOG" || exit 2
