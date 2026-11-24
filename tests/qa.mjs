@@ -121162,6 +121162,195 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第351便e の塊(ここまで)====
 
+// ==== 第351便f の塊(ここから —— behavior.satlock351f・docs.satlock351f の 2 ブロック。root は SKIP)====
+// ---- 第351便f(原仮定者の回答(2026-11-24 —— 第147報)「AN1001: Aで進める。主要衛星は潮汐ロックしている」・統括の検証項目 R432):
+// ----   **衛星 —— 衛星の組の由来(母天体由来・太陽由来の成分と一様な背景・列 A/B)・潮汐ロックの 3 列((ア)(イ)(ウ))・潮汐のトルクの桁と軸引きずりの直交成分のトルクの比・互いにロックした連星の (M)(S) を源の回転の形 2 つで**
+// ----   (新設 —— 器 tests/exp-w351f-satlock.mjs〔html を読まない〕・lib tests/lib-w351f-satlock.mjs・文書の lib tests/lib-w351f-satlockdoc.mjs・正本 tests/out/satlock-351f.json・
+// ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.satlock351f(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・格子・零試験 14 を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ ③ QA の中で別に書いた式: 潮汐の物差し G M_p² R⁵ ÷ a⁶ と比・比が 1 になる (B − A) ÷ C・
+// ----     2 体の和と源の質量だけの平均運動・剛体の打ち消し((MS) ÷ (w ÷ W) ω_s と (S) = (M))・3 列の約束・共通の点検の数 ④ 作り直した門が全部真・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w351f-satlock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w351f-satlock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w351f-satlockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'satlock-351f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.satlock351f(第351便f の衛星の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, TLq = null, R338 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc);
+    TLq = await import('file://' + path.join(ROOT, 'tests', 'lib-w337c-tidelock.mjs')); R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/satlock-351f.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・格子・零試験
+        if (!(L.LIB_VERSION === 'w351f-satlock-lib-1' && X.HARNESS_VERSION === 'w351f-satlock-1' && D0.DOC_VERSION === 'w351f-satlockdoc-1' && X.AMEND.length === 0
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        const DL = L.DECL;
+        if (!(js(DL.sats) === js([['Moon', 'EarthHi'], ['Moon', 'EarthLo'], ['Io', 'Jupiter'], ['Pluto', 'Charon'], ['Charon', 'Pluto']]) && js(DL.cols) === js(['A', 'B']) && DL.mainCol === 'A'
+          && js(DL.lockCols) === js(['a', 'i', 'u']) && DL.mainLock === 'a' && js(DL.rotForms) === js(['M', 'q0']) && DL.mainRot === 'M' && js(DL.speeds) === js(['src', 'pair']) && DL.mainSpeed === 'src'
+          && js(DL.tideBodies) === js(['Moon', 'Io', 'Pluto', 'Charon']) && DL.k2q === 3e-3 && DL.tideFactor === 1.5 && DL.read === 'C2' && DL.den === 'out' && DL.bgMult === 1 && DL.bgSign === -1
+          && DL.sinEps === 1e-6 && DL.moonNodeYr === 18.6))
+          bad.push('① 格子(衛星 5 組・列 2・ロックの列 3・源の回転の形 2・相対の速さ 2・潮汐の天体 4・係数・読み・分母・背景・床・月の印)の宣言');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 14) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(第351便c の口と同じ・q0・列の和・第350便e の比・2 体の和・質量の比・剛体の打ち消し・3 列・月・潮汐の物差し・共通の点検の数・拒否)`);
+        // ② 器を走らせ直して正本と同じ
+        const parts = ['pure', 'origin', 'make', 'lock', 'torque', 'mutual', 'compare'];
+        const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.length} 部分が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ QA の中で別に書いた式
+        const B = TLq.BODY_SRC, Gq = 6.6743e-11, v0 = (id, k) => B[id][k][0];
+        const tideQ = { Moon: ['Earth', v0('Moon', 'a')], Io: ['Jupiter', v0('Io', 'a')], Pluto: ['Charon', v0('Charon', 'a')], Charon: ['Pluto', v0('Charon', 'a')] };
+        let nT = 0;
+        for (const r of J.torque) { nT++; const [p, a] = tideQ[r.id], Nt = Gq * v0(p, 'M') * v0(p, 'M') * Math.pow(v0(r.id, 'R'), 5) / Math.pow(a, 6), I = v0(r.id, 'C') * v0(r.id, 'M') * v0(r.id, 'R') * v0(r.id, 'R');
+          if (!(r.partner === p && Math.abs(r.Ntide / Nt - 1) < 1e-12 && Math.abs(r.NtideK / (4.5e-3 * Nt) - 1) < 1e-12)) bad.push('③ 潮汐の物差し ' + r.id + '・' + r.part);
+          if (r.Nax > 0) { const ba = r.Nax / (1.5 * Gq * v0(p, 'M') / Math.pow(a, 3) * I);
+            if (!(Math.abs(r.rTide * r.Nax / r.Ntide - 1) < 1e-12 && Math.abs(r.baNeed / ba - 1) < 1e-12 && r.over1 === (r.rTide > 1))) bad.push('③ 比と (B − A) ÷ C ' + r.id + '・' + r.part); }
+          else if (!(r.rTide === null && r.baNeed === null && r.over1 === null)) bad.push('③ Ω⊥ 0 の行 ' + r.id + '・' + r.part); }
+        for (const r of J.make) { const nP = Math.sqrt(Gq * (r.m + r.Ms) / Math.pow(r.a, 3)), nF = Math.sqrt(Gq * r.Ms / Math.pow(r.a, 3)), nD = 2 * Math.PI / v0('Charon', 'porb');
+          if (!(Math.abs(r.nPair / nP - 1) < 1e-12 && Math.abs(r.nField / nF - 1) < 1e-12 && Math.abs(r.nDecl / nD - 1) < 1e-12)) bad.push('③ 平均運動の 3 つ ' + r.id + '|' + r.src); }
+        let nM = 0;
+        for (const r of J.mutual.filter((x) => x.rot === 'q0' && x.spin === 'sync')) { nM++; if (!(r.resid < 1e-12 && Math.abs(r.wMSoverRigid - 1) < 1e-9 && Math.abs(r.S / r.M - 1) < 1e-9 && Math.abs(r.MSoverM - 2) < 1e-9 && r.perpMS === 0)) bad.push('③ 剛体の打ち消し ' + r.id + '・' + r.speed); }
+        for (const r of J.mutual.filter((x) => x.rot === 'M' && x.spin !== 'frame')) if (!(Math.abs(r.MSoverM - 1) < 1e-12)) bad.push('③ 球のモーメントは打ち消さない ' + r.id + '・' + r.speed + '・' + r.spin);
+        if (!(J.mutual.filter((x) => x.spin === 'frame').length === 2 && J.mutual.filter((x) => x.spin === 'frame').every((x) => x.MS === 0))) bad.push('③ 源に固定して回る座標系の読み (MS) 0');
+        for (const r of J.lock) { if (r.col === 'i' && r.lonOverN !== 0) bad.push('③ (イ) の経度のずれの率 ' + r.id);
+          if (r.col === 'u' && !(r.spinMinusN === 0 && Math.abs(r.ratioM1 - r.parOverN) <= 1e-12 * Math.abs(r.parOverN))) bad.push('③ (ウ) の ω_T ÷ ω_L − 1 ' + r.id);
+          if (r.col === 'a' && !(r.epsDeg === 0 && r.raise === null)) bad.push('③ (ア) の ŝ = 道の法線 ' + r.id); }
+        { const c = J.pure.scenes.common;
+          if (!(Math.abs(c.diaXz - (-0.03061311)) < 5e-9 && Math.abs(c.sixZ - (-0.01530656)) < 5e-9 && Math.abs(c.rotWz - (-0.01530612)) < 5e-9)) bad.push('③ 共通の点検の数(' + [c.diaXz, c.sixZ, c.rotWz].join('・') + ')');
+          const io = J.origin.find((r) => r.id === 'Io'); if (!(io && io.e350 && io.e350.p2.toExponential(2) === '4.32e+3')) bad.push('③ 第350便e のイオの比 4.32e3'); }
+        cases.push(`③ 潮汐の物差しと比 ${nT} 行・平均運動の 3 つ・剛体の打ち消し ${nM} 行・球のモーメント・座標系の読み・3 列の約束・共通の点検の数・第350便e の比`);
+        // ④ 門と呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w351f-satlock.mjs'), th = rd('tests/exp-w351f-satlock.mjs'), td = rd('tests/lib-w351f-satlockdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const wantImps = ['lib-w312a-decay.mjs', 'lib-w337c-tidelock.mjs', 'lib-w343g-plutostate.mjs', 'lib-w347e-spintorque.mjs', 'lib-w347h-axisdiff.mjs', 'lib-w348c-axisbalance.mjs', 'lib-w348h-axisgeo3.mjs', 'lib-w350b-sphereconv.mjs', 'lib-w350e-bgaxial.mjs', 'lib-w351c-srcparts.mjs', 'lib-w351d-r3step.mjs'];
+        if (!(js(imps) === js(wantImps) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w337c-tidelock.mjs', 'lib-w338c-recheck.mjs', 'lib-w347e-spintorque.mjs', 'lib-w350e-bgaxial.mjs', 'lib-w351c-srcparts.mjs', 'lib-w351f-satlock.mjs'])
+          && !/loadHtml|index\.html/.test(tl + td + th) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync|loadPlutoStates\(/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/w351f/.test(wantImps.map((f) => rd('tests/' + f)).join(''))))
+          bad.push('④ 呼ぶだけ(lib の import は 11 本・器は 7 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib の import は 11 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.satlock351f', bad.length === 0,
+      `**衛星の表の作り直し**(第351便f・原仮定者の回答(2026-11-24 —— 第147報)・R432 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第351便f: docs.satlock351f は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.satlock351f(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 原文の表・3 列の定義の表・表 8 本・数の文 7 つが PHYSICS〔第351便f〕に逐語 ③ 節の位置(〔第351便d〕の節の後・〔第351便h〕の節と第328便の統括の節の前)・必須の語・
+// ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §324(§322 の後)・CHANGELOG(第351便f の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w351f-satlock.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w351f-satlock.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w351f-satlockdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'satlock-351f.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.satlock351f(第351便f の衛星の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第351便f — '), i7 = PH.indexOf('\n## 7. 論文'), id0 = PH.indexOf('〔第351便d — '), ih = PH.indexOf('〔第351便h — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && id0 >= 0 && id0 < i0 && (ih < 0 || ih > i0) && iu > i0)) bad.push('PHYSICS〔第351便f〕が無いか〔第351便d〕の節の前か〔第351便h〕・第328便の統括の節・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/satlock-351f.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'satlock'
+        && J.target === 'tests/lib-w351f-satlock.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      if (!(D0.ORIGINAL.length === 7 && D0.ORIGINAL[0][0] === '原仮定者の回答(2026-11-24 —— 第147報)' && D0.ORIGINAL[0][1] === 'AN1001: Aで進める。主要衛星は潮汐ロックしている' && D0.READINGS.length === 7))
+        bad.push('② 原文 7 つ・出どころ・読み 7 つ');
+      for (const [, o] of D0.ORIGINAL) if (PH.split('「' + o).length < 3 || sec.indexOf('「' + o + '」') < 0) bad.push('② 原文が公開の文書のほかの所に無い(本節だけ)か本節に無い: ' + o.slice(0, 16));
+      for (const [k, v] of [['原文', D0.originalTable()], ['3 列の定義', D0.LOCK_TABLE]]) if (sec.indexOf(v) < 0) bad.push('② 表(' + k + ')が節に逐語で無い');
+      const T = D0.tablesOf(J), F = D0.factsOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第351便f〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第351便f〕に数の文 ' + k + ' が逐語で無い');
+      if (Object.keys(F).length !== 7) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      cases.push(`② 原文の表・3 列の定義の表・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第351便f〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-24 —— 第147報)', 'R432', 'tests/exp-w351f-satlock.mjs', 'tests/out/satlock-351f.json', 'tests/lib-w351f-satlock.mjs', 'satlock-351f',
+      '列 A', '列 B', '(ア)', '(イ)', '(ウ)', '(M)', '(S)', '(MS)', 'Ω∥', 'Ω⊥', 'ω_T', 'ω_L', 'n_orb', '`partRotF`', '`pairParts`', '`r3Rate`', '経路 ①', '経路 ②',
+      '観測の事実として置き', '積分でロックを作らない', 'この環境の公開の式では', '(B − A)', 'N_tide', '1.5 k₂/Q', '文献の桁・未照合', '比が 1 を越える', '球のモーメント', '落ち方なし', '源の質量だけ', '2 体の和',
+      '源に固定して回る座標系', '〔第350便f〕', '18.6 年', '値は作らない', '〔第343便g〕', '〔第337便c〕', '〔第327便f〕', 'エネルギーと熱は持たない',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '推奨', '次の便へ',
+      'behavior.satlock351f', 'docs.satlock351f', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第351便f〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 5
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 324. 第351便f'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && AS.indexOf('\n## 322. 第351便d') >= 0 && AS.indexOf('\n## 322. 第351便d') < a0 && ai.indexOf('tests/out/satlock-351f.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R432') >= 0))
+      bad.push('③ AI_SPEC §324(§322 の後・正本・SYSTEM_PROMPT・候補・R432)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const k351f = cls.findIndex((l) => l.indexOf('**第351便f**') >= 0), cl351f = k351f >= 0 ? cls[k351f] : '';
+    if (k351f >= 0 && !(k351f > 0 && cl351f.indexOf('tests/exp-w351f-satlock.mjs') >= 0 && cl351f.indexOf('satlock-351f') >= 0 && cl351f.indexOf('R432') >= 0))
+      bad.push('③ CHANGELOG の第351便f の行(見出しより後・器と段の名・R432)');
+    if (!(/S\('satlock-351f', 'node tests\/exp-w351f-satlock\.mjs', \['tests\/out\/satlock-351f\.json'\]/.test(RT) && RT.indexOf('// ==== 第351便f の塊(ここから)====') > RT.indexOf('// ==== 第351便d の塊(ここまで)====') && RT.indexOf('// ==== 第351便d の塊(ここまで)====') >= 0)) bad.push('③ 段の行 satlock-351f(第351便d の塊の後)');
+    if (GI.indexOf('!tests/out/satlock-351f.json') < 0) bad.push('③ .gitignore の例外');
+    if (!(PM.indexOf('# ==== 第351便f の塊(ここから)====') > PM.indexOf('# ==== 第351便d の塊(ここまで)====') && PM.indexOf('# ==== 第351便d の塊(ここまで)====') >= 0 && /behavior\.satlock351f docs\.satlock351f/.test(PM))) bad.push('③ post-merge に第351便f の塊(第351便d の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §324(次の見出しまで)・CHANGELOG(' + (k351f >= 0 ? '行あり' : '統合の前 —— 行なし') + ')・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, ''), stripCode = (t) => t.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/, /上回っていることが/, /上回っていた/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bm_d\b/];
+    const CODEN = /W_bg|(?<![A-Za-z0-9_$])Wbg2?(?![A-Za-z0-9_$])|D_bg/;   // コードの名前はコードの書式の中だけ(lint.symbols333e の型)
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第344便・第347便の書かない語(引用符の中でも書かない —— 逆さの字で持つ)+ 書かない結論(決まった・導けた・分かった・合った・釣り合った)
+    const W351 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'た出が果効ルーボーワパ', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'た出が熱部内', 'たっ合', 'たし決解', 'たっ合り釣'].map(rvC);
+    const OLDNAME = cpC([0x56de, 0x8ee2, 0x5f15, 0x304d, 0x305a, 0x308a]);   // 旧い呼び名(第346便b —— 文字で持たない)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第351便f〕', sec], ['AI_SPEC §324', ai], ['器', rd('tests/exp-w351f-satlock.mjs')], ['lib', rd('tests/lib-w351f-satlock.mjs')], ['文書の lib', rd('tests/lib-w351f-satlockdoc.mjs')]];
+    if (k351f >= 0) texts.push(['CHANGELOG の第351便f の行', cl351f]);
+    for (const [nm, tx] of texts) {
+      for (const w of NGC.concat(W351)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(OLDNAME) >= 0) bad.push('④ ' + nm + ' に旧い呼び名(第346便b)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (CODEN.test(stripCode(tx))) bad.push('④ ' + nm + ' にコードの書式の外のコードの名前(背景の旧い名)');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    // 変異の自己試験(壊した写しで落ちる): 原文の 1 字・表の 1 字
+    { const o0 = D0.ORIGINAL[0][1], s2 = sec.split('Aで進める。').join('A で進める。'), T0 = J ? D0.tablesOf(J) : {}, k0 = Object.keys(T0)[0];
+      if (s2.indexOf('「' + o0 + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
+      if (k0 && sec.replace(T0[k0], T0[k0].replace('|', '¦')).indexOf(T0[k0]) >= 0) bad.push('④ 変異(表の 1 字)で落ちない'); }
+    cases.push('④ 書かない語・禁句・旧い呼び名・旧い記号・コードの名前・裸の係数記号(節・AI_SPEC・器・lib・文書の lib)・変異 2 つで落ちる');
+    add('docs.satlock351f', bad.length === 0,
+      `**PHYSICS〔第351便f〕(衛星 —— 原文と読み・由来・3 列・トルクの比・互いにロックした連星・表と数の文)**(第351便f・原仮定者の回答(2026-11-24 —— 第147報)・R432): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第351便f の塊(ここまで)====
+
 // ==== 第351便h の塊(ここから —— docs.equations351h の 1 ブロック。root は SKIP)====
 // ---- 第351便h(第350便の枝 b・c・d・e・f・g の候補の型の式を計算式の一覧の EQ-109 から・用語の段の (C2) と (W) の書き分け・統括の検証項目 R434): **文書と照合の鍵だけ**
 // ----   (docs/EQUATIONS.md の EQ-109〜EQ-117・§2a の 3 行・§3・§6・§7 の規則 20・冒頭の 1 行・PHYSICS〔第351便h〕・AI_SPEC §326・post-merge —— html・エンジン・内蔵の本・受理器・
