@@ -2976,6 +2976,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/galdisk-352f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便f: 零試験 9/表 1 p 3/表 2 円盤の組 48 × 自分の重み 2 × 読み 2 + (S 型-体) 2/点の数 3/(C2) の求積 3/表 3 33 行 + (uV)/表 4 場 4' }),
   // ==== 第352便f の塊(ここまで)====
+  // ==== 第352便l の塊(ここから)====
+  // ---- 第352便l(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R449):
+  //   **太陽の自転軸の傾きを作る作用の候補 —— 2 つの軸の步・候補 (b) 輪と自転軸が別々に応える・(c) 銀河の円盤の模型・(d) 上下の運動で替わる分(仮の値)・向きとまとめ**
+  //   (段 suntilt-352l —— 正本 tests/out/suntilt-352l.json・lib tests/lib-w352l-suntilt.mjs —— 第351便d・第351便j・第350便g・第352便b〜f・第348便h・第350便b・第348便c・第312便a・第347便e・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に galdisk-352f〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第352便l の枝の実測 2 s
+  S('suntilt-352l', 'node tests/exp-w352l-suntilt.mjs', ['tests/out/suntilt-352l.json'], 2, { secSource: 'w352l-branch', node: true,
+    after: ['galdisk-352f'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/suntilt-352l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第352便l: 零試験 13/輪の平均 4/候補 (b) 36 + 今の角 24/候補 (c) 6/候補 (d) 16(仮の値)/向き 3/まとめ 16' }),
+  // ==== 第352便l の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
