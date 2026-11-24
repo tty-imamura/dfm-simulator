@@ -1535,6 +1535,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venusbal352h docs.venusbal352h"
 #   docs.spinform352k —— 原文と表と数の文が PHYSICS〔第352便k〕に逐語・文書)と、新しい段 spinform-352k
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinform352k docs.spinform352k"
 # ==== 第352便k の塊(ここまで)====
+# ==== 第352便m の塊(ここから)====
+# 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
+#   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352m docs.equations351h docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f"
+# ==== 第352便m の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
