@@ -143,7 +143,8 @@ export function cellOf(T1, GEO, key, { bg, axis, sense, u, part = 'S', k = 1, mu
   if (n !== null) { const cc = Math.max(-1, Math.min(1, dot(s, n))); if (Math.sqrt(1 - cc * cc) >= DECL.sinTable) raise = -D.poleRates(n, s, dsR).inc; }
   const sg = (x) => (x > 0 ? 1 : x < 0 ? -1 : 0);
   return { key, bg, axis, sense, u, part, k, sHat: s, nHat: n, Om, bgVec: b, local: loc, omAsYr: om * ASYR, bgAsYr: nrm(b) * ASYR, locAsYr: nrm(loc) * ASYR,
-    refDeg: om > 0 ? angDeg(Om, ax) : null, coneDeg: om > 0 ? angDeg(Om, s) : null, orbDeg: om > 0 && n ? angDeg(Om, n) : null,
+    // (N+) では背景は基準軸に平行 —— 合成と基準軸の角は局所の直交の分から直接に数える(大きい数の差で作らない)
+    refDeg: om > 0 ? (bg === 'Np' ? Math.atan2(nrm(crs(loc, ax)), dot(Om, ax)) / D2R : angDeg(Om, ax)) : null, coneDeg: om > 0 ? angDeg(Om, s) : null, orbDeg: om > 0 && n ? angDeg(Om, n) : null,
     cosBg: nrm(b) > 0 ? dot(s, unit(b)) : null, spinBg: nrm(b) > 0 ? sg(dot(s, b)) : 0, spin: sg(dot(s, Om)), az, inc, raise };
 }
 /** 名前の列(uCol)で 1 つのセル */
@@ -277,7 +278,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
 export function pureGates(S) {
   const A = DECL.anchor, e = S.earth, p3 = (x, w) => Number(x.toPrecision(3)) === Number(w.toPrecision(3));
   return {
-    sameAsD: S.vsD < 1e-12,
+    sameAsD: S.vsD < 1e-9,   // 床 1e-9: 尺度の走り直し(ulp の揺すり)で、極にほぼ平行な行(水星の公転の北極)の方位の率が 1 ÷ sin で揺れる
     anchorTable: S.anc.length === 16 && S.anc.every((r) => r.ok),
     anchorEarth: p3(e.gmRef, A.earthGmRef) && p3(e.gmOrb, A.earthGmOrb) && e.npRef >= A.earthNpRefLo && e.npRef <= A.earthNpRefHi && Math.abs(e.venusRatio - A.venusNpRatio) < 5e-4,
     g2mFlip: S.g2Flip < 1e-12,
