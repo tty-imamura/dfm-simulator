@@ -5970,34 +5970,34 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.06
+   "wallSec": 0.07
   },
   "kin": {
-   "wallSec": 0.071
+   "wallSec": 0.074
   },
   "disk": {
-   "wallSec": 1.559
+   "wallSec": 1.516
   },
   "conv": {
-   "wallSec": 1.606
+   "wallSec": 1.578
   },
   "c2check": {
-   "wallSec": 5.34
+   "wallSec": 3.808
   },
   "bg": {
-   "wallSec": 5.447
+   "wallSec": 3.898
   },
   "torque": {
-   "wallSec": 5.453
+   "wallSec": 3.906
   }
  },
- "elapsedS": 21.259,
+ "elapsedS": 13.83,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便f",
   "target": "tests/lib-w352f-galdisk.mjs",
-  "targetSha256": "a82c2c1a2c4c548a76bb29a96b052950339f72ed21c97f2b3c8e57b8326224f3",
-  "generatedAt": "2026-11-24T16:22:50.214Z",
+  "targetSha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+  "generatedAt": "2026-11-24T16:31:11.829Z",
   "inputs": [],
   "code": [
    {
@@ -6368,12 +6368,12 @@
    },
    {
     "file": "tests/lib-w352f-galdisk.mjs",
-    "bytes": 22412,
-    "sha256": "a82c2c1a2c4c548a76bb29a96b052950339f72ed21c97f2b3c8e57b8326224f3",
-    "mtime": "2026-11-24T16:20:31.378Z"
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-24T16:30:57.861Z"
    }
   ],
-  "codeSha256": "84d732dfb5bfaf289da0f2e21cdae41fdc5bed17e741e06a7a53852dd1539b0c",
+  "codeSha256": "5c01c0b8751121e83b035f9293032aeea7c3c220c3c230bc2cee2478be787f0b",
   "harnessVersion": "w352f-galdisk-1",
   "stage": "galdisk",
   "engine": "Node(html を読まない —— 純関数の lib: 〔第348便h〕の在位の形の場・〔第350便b〕の (C2)・〔第351便e〕の背景の項)・入力のファイルなし・1 プロセス",
