@@ -189,7 +189,7 @@ export const DEFS = Object.freeze([['背景の向きの名', DEF_BGDIR], ['歳�
 // ---- 書かない語
 export const EXT_NAMES = A351.EXT_NAMES;
 const rv = (x) => x.split('').reverse().join('');
-export const PRIVATE_NAMES = Object.freeze(A351.PRIVATE_NAMES.concat(['253evaw', 'rohcna-253w', '253nommoc', 'a253w'].map(rv)));
+export const PRIVATE_NAMES = Object.freeze(A351.PRIVATE_NAMES.concat(['253evaw', 'rohcna-253w', '253nommoc'].map(rv)));
 export const PRIVATE_RE = A351.PRIVATE_RE;
 export const PAST = Object.freeze(A351.PAST.concat(['決めた']));
 export const NOT148 = Object.freeze([/主が決まった/, /弱いと分かった/, /共鳴で説明/, /上下の運動で生じた/, /型が決まった/]);
