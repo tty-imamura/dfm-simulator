@@ -1577,6 +1577,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coprec352p docs.coprec352p"
 #   docs.response352q —— 原文と表と数の文が PHYSICS〔第352便q〕に逐語・文書)と、新しい段 response-352q
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.response352q docs.response352q"
 # ==== 第352便q の塊(ここまで)====
+# ==== 第352便r の塊(ここから)====
+# 第352便r(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R455 —— 診断だけ・html は変えない): 枝 r の新設 2 本
+#   (behavior.twobg352r —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・呼ぶだけ /
+#   docs.twobg352r —— 原文と表と数の文が PHYSICS〔第352便r〕に逐語・文書)と、新しい段 twobg-352r
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.twobg352r docs.twobg352r"
+# ==== 第352便r の塊(ここまで)====
 # ==== 第352便s の塊(ここから)====
 # 第352便s(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R456 —— 診断だけ・html は変えない): 枝 s の新設 2 本
 #   (behavior.satring352s —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・比と倍率と輪の向きを QA の中で別に照合・呼ぶだけ /
