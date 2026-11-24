@@ -2822,6 +2822,100 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/diskcheck-350g.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第350便g: 零試験 8/通過の輪 24/🛟 の要点と区分 5/向きが入れ替わる行 60/粒子の輪 7/帳簿への口 30' }),
   // ==== 第350便g の塊(ここまで)====
+  // ==== 第351便b の塊(ここから)====
+  // ---- 第351便b(原仮定者の回答(2026-11-24 —— 第147報)AN1000・統括の検証項目 R428):
+  //   **球体換算の主の列を (C2) に替えた表・換算の係数 k の掛け先(局所の項だけ)・k と構造の係数 c_R の縮退の診断・(C2) の定義の門・球の中の自分の重みの置き方 3 列**
+  //   (段 c2main-351b —— 正本 tests/out/c2main-351b.json・lib tests/lib-w351b-c2main.mjs —— 第350便b・第348便h・第348便c・第350便e・第347便e・第347便h・第337便c の lib を
+  //   import して呼ぶ。入力のファイルは無い〔順序だけ after に sphereconv-350b〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便b の枝の実測 1 s(混まない時)
+  S('c2main-351b', 'node tests/exp-w351b-c2main.mjs', ['tests/out/c2main-351b.json'], 1, { secSource: 'w351b-branch', node: true,
+    after: ['sphereconv-350b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/c2main-351b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便b: 零試験 10/主の列の切り替え 15 組 × 読み 4/k の掛け先 3 組 × 背景 2 × k 5/縮退 3 組 × q 8 × 列 3/自分の重みの置き方 15 組 × 3' }),
+  // ==== 第351便b の塊(ここまで)====
+  // ==== 第351便c の塊(ここから)====
+  // ---- 第351便c(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R429):
+  //   **源の成分の切り分け —— 源の由来の軸引きずりの回転を (M) 相対の公転の分・(S) 源の自転の分・(MS) 両方 に分けた符号・大きさ・起こす率の表(天体 16 組・読み (C2)(W)・一様な背景の向き 2)**
+  //   (段 srcparts-351c —— 正本 tests/out/srcparts-351c.json・lib tests/lib-w351c-srcparts.mjs —— 第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に bgaxial-350e〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便c の枝の実測 1 s(nice 15)
+  S('srcparts-351c', 'node tests/exp-w351c-srcparts.mjs', ['tests/out/srcparts-351c.json'], 1, { secSource: 'w351c-branch', node: true,
+    after: ['bgaxial-350e'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcparts-351c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便c: 零試験 14/無次元の例 6 + べき 3 + 8 惑星の比の閉じた形/16 組 × 由来 × 読み 2 × 成分 3 + 背景 2 向き/当たる行の数 24/起こす率の比 32/(M) の正体 8' }),
+  // ==== 第351便c の塊(ここまで)====
+  // ==== 第351便d の塊(ここから)====
+  // ---- 第351便d(原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R430):
+  //   **(R3) の 2 経路の步 —— 経路 ①(寄る)・経路 ②(歳差)・比率のノブ f と置き方 (N1)(N2)(N3)・閉じた形・90° を越えた後の読み (α)(β)(γ)・2 つの源の合成の向きと安定・ω_T ÷ ω_L の因子**
+  //   (段 r3step-351d —— 正本 tests/out/r3step-351d.json・lib tests/lib-w351d-r3step.mjs —— 第350便c・第350便e の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に gyrostep-350c〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第351便d の枝の実測 2 s(nice 15)
+  S('r3step-351d', 'node tests/exp-w351d-r3step.mjs', ['tests/out/r3step-351d.json'], 2, { secSource: 'w351d-branch', node: true,
+    after: ['gyrostep-350c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/r3step-351d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便d: 零試験 13/原文の 4 句 2 点/90° の後の読み 15/比率のノブ 16/2 つの源 9 + 例 1/ω_T ÷ ω_L 8 + 地球の型/共通の点検の数' }),
+  // ==== 第351便d の塊(ここまで)====
+  // ==== 第351便e の塊(ここから)====
+  // ---- 第351便e(原仮定者の回答(2026-11-24 —— 第147報)「AN1009: B2で進める」・統括の検証項目 R431):
+  //   **背景軸引きずり (B2) を主に置いた全体の軸引きずりの回転 Ω = Ω_bg + Σ(局所の項 × k)—— 入り方と分母・合成の向きと率(16 組 × 成分 3 × 倍率 6 × 向き 2 × 読み 2)・「釣り合う」の 3 つの読み・向きの幾何・金星の条件の読み直し・(R3) の步の 2 例**
+  //   (段 bgbalance-351e —— 正本 tests/out/bgbalance-351e.json・lib tests/lib-w351e-bgbalance.mjs —— 本便の枝 b・c・d と第350便e・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に srcparts-351c・r3step-351d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便e の枝の実測 1 s(nice 15)
+  S('bgbalance-351e', 'node tests/exp-w351e-bgbalance.mjs', ['tests/out/bgbalance-351e.json'], 1, { secSource: 'w351e-branch', node: true,
+    after: ['srcparts-351c', 'r3step-351d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bgbalance-351e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便e: 零試験 12/入り方と分母 21 + 16/合成 1152/3 つの読み 192 + 数 24/向きの幾何 48/金星の u を 16 組に 80/(R3) の步 27' }),
+  // ==== 第351便e の塊(ここまで)====
+  // ==== 第351便f の塊(ここから)====
+  // ---- 第351便f(原仮定者の回答(2026-11-24 —— 第147報)AN1001・統括の検証項目 R432):
+  //   **衛星 —— 衛星の組の由来(母天体由来・太陽由来の成分と一様な背景・列 A/B)・潮汐ロックの 3 列((ア)(イ)(ウ))・潮汐のトルクの桁と軸引きずりの直交成分のトルクの比・互いにロックした連星の (M)(S) を源の回転の形 2 つで**
+  //   (段 satlock-351f —— 正本 tests/out/satlock-351f.json・lib tests/lib-w351f-satlock.mjs —— 第351便c・第351便d・第348便h・第350便b・第350便e・第347便h・第348便c・第347便e・第312便a・第337便c・第343便g の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に srcparts-351c・r3step-351d〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便f の枝の実測 1.3 s(nice 15)
+  S('satlock-351f', 'node tests/exp-w351f-satlock.mjs', ['tests/out/satlock-351f.json'], 2, { secSource: 'w351f-branch', node: true,
+    after: ['srcparts-351c', 'r3step-351d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 2 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/satlock-351f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便f: 零試験 14/衛星 5 組の由来(読み 2)+ 組の作り 2/3 列 15/トルクの比 16/互いにロックした連星 18/比べる数の印 5' }),
+  // ==== 第351便f の塊(ここまで)====
+  // ==== 第351便g の塊(ここから)====
+  // ---- 第351便g(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R433):
+  //   **エネルギーの帳簿を (R3) の 2 経路の步の上で —— 帳簿の欄・m と f の関係の置き方 (m1)(m2)(m3)・釣り合い方 (K1)(K2)・潮汐ロックの 2 列・軸が起きる仕事の読み (A0)(A1)**
+  //   (段 r3energy-351g —— 正本 tests/out/r3energy-351g.json・lib tests/lib-w351g-r3energy.mjs —— 第350便d・第351便d・第351便c・第347便e の lib を import して呼ぶ。入力のファイルは無い〔順序だけ after に axisheat-350d・r3step-351d・srcparts-351c〕)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第351便g の枝の実測 13 s(混む時)
+  S('r3energy-351g', 'node tests/exp-w351g-r3energy.mjs', ['tests/out/r3energy-351g.json'], 13, { secSource: 'w351g-branch', node: true,
+    after: ['axisheat-350d', 'r3step-351d', 'srcparts-351c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 13 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/r3energy-351g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便g: 零試験 11/m と f 24 + 対照/釣り合い方 36/潮汐ロック 20/軸が起きる仕事 6/共通の点検の数' }),
+  // ==== 第351便g の塊(ここまで)====
+  // ==== 第351便j の塊(ここから)====
+  // ---- 第351便j(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R436):
+  //   **円盤引きずりの側 —— 粒子の輪の法線を (R3) の 2 経路の步に載せる・輪の 3 つの結果と 2 経路・向きが入れ替わる行を源の成分 (M)(S) で見る・🛟 の傾きの減りの率を経路 ① の寄る速さに換算・土星の環の物差し**
+  //   (段 ringstep-351j —— 正本 tests/out/ringstep-351j.json・lib tests/lib-w351j-ringstep.mjs —— 第350便g・第351便d・第351便c・第348便d・第348便i・第338便d・第350便e・第312便a の lib を import して呼ぶ。
+  //   入力のファイルは 🛟 の正本 tests/out/rotvert-w339a.json と〔第350便g〕の正本 tests/out/diskcheck-350g.json〔どちらも読むだけ —— after に diskcheck-350g〕・順序 after に r3step-351d)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第351便j の枝の実測 3 s
+  S('ringstep-351j', 'node tests/exp-w351j-ringstep.mjs', ['tests/out/ringstep-351j.json'], 3, { secSource: 'w351j-branch', node: true,
+    after: ['diskcheck-350g', 'r3step-351d'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は 🛟 と〔第350便g〕の正本 2 本)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringstep-351j.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第351便j: 零試験 10/輪の率 12/輪の步 24 + 刻み半分/3 つの結果/向きが入れ替わる行 60 + 閉じた形 2/🛟 の要点 2 と区分 5/土星の環 20' }),
+  // ==== 第351便j の塊(ここまで)====
+  // ==== 第351便k の塊(ここから)====
+  // ---- 第351便k(原仮定者の整理(2026-11-23 —— 第146報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R437):
+  //   **係数の当てはめの診断 —— 換算の係数 k・構造の係数 c_R (ii)(i)・経路の比率 f・背景の倍率 u と観測量の対数の感度の行列と階数・分けられる組・当てはめの段の要る値・順位の相関**
+  //   (段 knobrank-351k —— 正本 tests/out/knobrank-351k.json・lib tests/lib-w351k-knobrank.mjs —— 第351便c・第351便d・第351便b・第350便f・第350便e・第348便h の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に structfit-350f・srcparts-351c・r3step-351d・c2main-351b〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第351便k の枝の実測 10 s(nice 15)
+  S('knobrank-351k', 'node tests/exp-w351k-knobrank.mjs', ['tests/out/knobrank-351k.json'], 10, { secSource: 'w351k-branch', node: true,
+    after: ['structfit-350f', 'srcparts-351c', 'r3step-351d', 'c2main-351b'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 10 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/knobrank-351k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第351便k: 零試験 10/感度 3 天体 × 成分 3 × 基準 2/(あ) 12/(い) 24 + 月 6/(う) 36/ノブの組 30/当てはめの段 112/順位の相関 16' }),
+  // ==== 第351便k の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
