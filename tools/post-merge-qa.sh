@@ -1478,6 +1478,169 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringstep351j docs.ringstep351j"
 #   docs.knobrank351k —— 原文と表と数の文が PHYSICS〔第351便k〕に逐語・文書)と、新しい段 knobrank-351k
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.knobrank351k docs.knobrank351k"
 # ==== 第351便k の塊(ここまで)====
+# ==== 第352便a の塊(ここから)====
+# 第352便a(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R438 —— 文書だけ・html は変えない): 枝 a の新設 2 本
+#   (docs.report148_352a —— 第148報の文書〔22 文の当たり所・新しい句 10・伺った 5 項の鎖・歳差の向きの 2 つの読み〕の戻り止め /
+#   lint.partExplicit352a —— 第352便の lib と器の中で第351便e の totalOm を呼ぶ所は part を明示している)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report148_352a lint.partExplicit352a"
+# ==== 第352便a の塊(ここまで)====
+# ==== 第352便b の塊(ここから)====
+# 第352便b(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R439 —— 診断だけ・html は変えない): 枝 b の新設 3 本
+#   (behavior.provisional352b —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・印と感度の式を QA の中で別に照合・呼ぶだけ /
+#   docs.provisional352b —— 原文と表と数の文が PHYSICS〔第352便b〕に逐語・文書 / lint.provisionalScope352b —— 仮の値を使ってよい所の門)と、新しい段 provisional-352b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.provisional352b docs.provisional352b lint.provisionalScope352b"
+# ==== 第352便b の塊(ここまで)====
+# ==== 第352便c の塊(ここから)====
+# 第352便c(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R440 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.refaxis352c —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・統括の数え直しの数と円錐と方位の数を QA の中で別に照合・呼ぶだけ /
+#   docs.refaxis352c —— 原文と表と数の文が PHYSICS〔第352便c〕に逐語・文書)と、新しい段 refaxis-352c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.refaxis352c docs.refaxis352c"
+# ==== 第352便c の塊(ここまで)====
+# ==== 第352便d の塊(ここから)====
+# 第352便d(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R441 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.precsense352d —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と (g2−) の符号と数を QA の中で別に照合・呼ぶだけ /
+#   docs.precsense352d —— 原文と表と数の文が PHYSICS〔第352便d〕に逐語・文書)と、新しい段 precsense-352d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.precsense352d docs.precsense352d"
+# ==== 第352便d の塊(ここまで)====
+# ==== 第352便e の塊(ここから)====
+# 第352便e(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R442 —— 診断だけ・html は変えない): 枝 e の新設 2 本
+#   (behavior.sunrecv352e —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・背景だけの円錐と周期と応答の係数の比を QA の中で別に照合・呼ぶだけ /
+#   docs.sunrecv352e —— 原文と表と数の文が PHYSICS〔第352便e〕に逐語・文書)と、新しい段 sunrecv-352e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sunrecv352e docs.sunrecv352e"
+# ==== 第352便e の塊(ここまで)====
+# ==== 第352便f の塊(ここから)====
+# 第352便f(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R443 —— 診断だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.galdisk352f —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形とトルクと表 3 の数を QA の中で別に照合・呼ぶだけ /
+#   docs.galdisk352f —— 原文と表と数の文が PHYSICS〔第352便f〕に逐語・文書)と、新しい段 galdisk-352f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.galdisk352f docs.galdisk352f"
+# ==== 第352便f の塊(ここまで)====
+# ==== 第352便g の塊(ここから)====
+# 第352便g(統括の検証項目 R444 —— 道具だけ・html は変えない): 枝 g の新設 2 本(lint.tools352g —— 道具 4 つの自己試験と既定の動きの不変 /
+#   docs.tools352g —— AI_SPEC §336・tools/README.md・本塊)。口の追加 2 つ(既定の動きは変えない —— 付けたときだけ効く):
+#   --since <rev>  ③′ の一覧を「<rev> から後に tests/qa.mjs に増えた鍵の名」だけにする(tools/qa-keys-since.mjs —— 字句は ③′ と同じ add('<名>'。
+#                  POST_MERGE_WAVE_IDS・--wave・--all-waves より先に効く・PHYSICS の走査の一式は足さない・rev が引けなければ終了コード 2)
+#   --dry          ③′ の一覧(範囲の句・名の数・名)を出して終了コード 0 で終わる(⓪ 以降は走らせない・ログの置き場も作らない)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.tools352g docs.tools352g"
+SINCE_REV=""; PMDRY=0
+# ==== 第352便g の塊(ここまで)====
+# ==== 第352便h の塊(ここから)====
+# 第352便h(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R445 —— 診断だけ・html は変えない): 枝 h の新設 2 本
+#   (behavior.venusbal352h —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の残りと倍率の比・共鳴の算術を QA の中で別に照合・呼ぶだけ /
+#   docs.venusbal352h —— 原文と表と数の文が PHYSICS〔第352便h〕に逐語・文書)と、新しい段 venusbal-352h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venusbal352h docs.venusbal352h"
+# ==== 第352便h の塊(ここまで)====
+# ==== 第352便i の塊(ここから)====
+# 第352便i(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R446 —— 診断だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.stableprec352i —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と止まる点を QA の中で別に照合・呼ぶだけ /
+#   docs.stableprec352i —— 原文と表と数の文が PHYSICS〔第352便i〕に逐語・文書)と、新しい段 stableprec-352i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.stableprec352i docs.stableprec352i"
+# ==== 第352便i の塊(ここまで)====
+# ==== 第352便j の塊(ここから)====
+# 第352便j(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R447 —— 診断だけ・html は変えない): 枝 j の新設 2 本
+#   (behavior.maintable352j —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・呼ぶだけ /
+#   docs.maintable352j —— 原文と表と数の文が PHYSICS〔第352便j〕に逐語・文書)と、新しい段 maintable-352j
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maintable352j docs.maintable352j"
+# ==== 第352便j の塊(ここまで)====
+# ==== 第352便k の塊(ここから)====
+# 第352便k(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R448 —— 診断だけ・html は変えない): 枝 k の新設 2 本
+#   (behavior.spinform352k —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の符号と半径の 2 乗と倍率 ÷ k を QA の中で別に照合・呼ぶだけ /
+#   docs.spinform352k —— 原文と表と数の文が PHYSICS〔第352便k〕に逐語・文書)と、新しい段 spinform-352k
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.spinform352k docs.spinform352k"
+# ==== 第352便k の塊(ここまで)====
+# ==== 第352便l の塊(ここから)====
+# 第352便l(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R449 —— 診断だけ・html は変えない): 枝 l の新設 2 本
+#   (behavior.suntilt352l —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・呼ぶだけ /
+#   docs.suntilt352l —— 原文と表と数の文が PHYSICS〔第352便l〕に逐語・文書)と、新しい段 suntilt-352l
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntilt352l docs.suntilt352l"
+# ==== 第352便l の塊(ここまで)====
+# ==== 第352便n の塊(ここから)====
+# 第352便n(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R451 —— 診断だけ・html は変えない): 枝 n の新設 2 本
+#   (behavior.venuslong352n —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の步と行き着く向きを QA の中で別に照合・第352便h の lib と同じ数・呼ぶだけ /
+#   docs.venuslong352n —— 原文と表と数の文が PHYSICS〔第352便n〕に逐語・文書)と、新しい段 venuslong-352n
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslong352n docs.venuslong352n"
+# ==== 第352便n の塊(ここまで)====
+# ==== 第352便o の塊(ここから)====
+# 第352便o(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R452 —— 診断だけ・html は変えない): 枝 o の新設 2 本
+#   (behavior.obsradius352o —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・半径の 2 乗と向きの不変と金星の 2 つの読みを QA の中で別に照合・呼ぶだけ /
+#   docs.obsradius352o —— 原文と表と数の文が PHYSICS〔第352便o〕に逐語・文書)と、新しい段 obsradius-352o
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsradius352o docs.obsradius352o"
+# ==== 第352便o の塊(ここまで)====
+# ==== 第352便p の塊(ここから)====
+# 第352便p(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R453 —— 診断だけ・html は変えない): 枝 p の新設 2 本
+#   (behavior.coprec352p —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・止まる点の流れ 0 と f の上限を QA の中で別に照合・呼ぶだけ /
+#   docs.coprec352p —— 原文と表と数の文が PHYSICS〔第352便p〕に逐語・文書)と、新しい段 coprec-352p
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.coprec352p docs.coprec352p"
+# ==== 第352便p の塊(ここまで)====
+# ==== 第352便q の塊(ここから)====
+# 第352便q(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R454 —— 診断だけ・html は変えない): 枝 q の新設 2 本
+#   (behavior.response352q —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・要る係数と比と走査を QA の中で別に照合・呼ぶだけ /
+#   docs.response352q —— 原文と表と数の文が PHYSICS〔第352便q〕に逐語・文書)と、新しい段 response-352q
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.response352q docs.response352q"
+# ==== 第352便q の塊(ここまで)====
+# ==== 第352便r の塊(ここから)====
+# 第352便r(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R455 —— 診断だけ・html は変えない): 枝 r の新設 2 本
+#   (behavior.twobg352r —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・呼ぶだけ /
+#   docs.twobg352r —— 原文と表と数の文が PHYSICS〔第352便r〕に逐語・文書)と、新しい段 twobg-352r
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.twobg352r docs.twobg352r"
+# ==== 第352便r の塊(ここまで)====
+# ==== 第352便s の塊(ここから)====
+# 第352便s(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R456 —— 診断だけ・html は変えない): 枝 s の新設 2 本
+#   (behavior.satring352s —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・比と倍率と輪の向きを QA の中で別に照合・呼ぶだけ /
+#   docs.satring352s —— 原文と表と数の文が PHYSICS〔第352便s〕に逐語・文書)と、新しい段 satring-352s
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.satring352s docs.satring352s"
+# ==== 第352便s の塊(ここまで)====
+# ==== 第352便t の塊(ここから)====
+# 第352便t(原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R457 —— 診断だけ・html は変えない): 枝 t の新設 2 本
+#   (behavior.paper1prep352t —— 零試験 10・器を走らせ直して正本と照合・第344便b の正本と逐語・呼ぶだけ /
+#   docs.paper1prep352t —— 表が PHYSICS〔第352便t〕に逐語・PAPER_PLAN §2 ⑧ の欄・文書)と、新しい段 paper1prep-352t
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.paper1prep352t docs.paper1prep352t"
+# ==== 第352便t の塊(ここまで)====
+# ==== 第352便u の塊(ここから)====
+# 第352便u(原仮定者の整理(2026-11-11)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R458 —— 診断だけ・html は変えない): 枝 u の新設 2 本
+#   (behavior.tidaldrag352u —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・歪みと率と要る係数を QA の中で別に照合・呼ぶだけ /
+#   docs.tidaldrag352u —— 原文と表と数の文が PHYSICS〔第352便u〕に逐語・文書)と、新しい段 tidaldrag-352u
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.tidaldrag352u docs.tidaldrag352u"
+# ==== 第352便u の塊(ここまで)====
+# ==== 第352便v の塊(ここから)====
+# 第352便v(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R459 —— 診断だけ・html は変えない): 枝 v の新設 2 本
+#   (behavior.cancelmap352v —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・x と残りを QA の中で別に照合・第352便s の lib と同じ数・呼ぶだけ /
+#   docs.cancelmap352v —— 原文と表と数の文が PHYSICS〔第352便v〕に逐語・文書)と、新しい段 cancelmap-352v
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.cancelmap352v docs.cancelmap352v"
+# ==== 第352便v の塊(ここまで)====
+# ==== 第352便w の塊(ここから)====
+# 第352便w(原仮定者の回答(2026-11-24 —— 第148報)・原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R460 —— 診断だけ・html は変えない): 枝 w の新設 2 本
+#   (behavior.keepcone352w —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形の上限と下限を QA の中で別に照合・呼ぶだけ /
+#   docs.keepcone352w —— 原文と表と数の文が PHYSICS〔第352便w〕に逐語・文書)と、新しい段 keepcone-352w
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.keepcone352w docs.keepcone352w"
+# ==== 第352便w の塊(ここまで)====
+# ==== 第352便x の塊(ここから)====
+# 第352便x(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R461 —— 診断だけ・html は変えない): 枝 x の新設 2 本
+#   (behavior.sunorigin352x —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・呼ぶだけ /
+#   docs.sunorigin352x —— 原文と表と数の文が PHYSICS〔第352便x〕に逐語・文書)と、新しい段 sunorigin-352x
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sunorigin352x docs.sunorigin352x"
+# ==== 第352便x の塊(ここまで)====
+# ==== 第352便y の塊(ここから)====
+# 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・統括の検証項目 R462 —— 診断だけ・html は変えない): 枝 y の新設 2 本
+#   (behavior.bgwindow352y —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.bgwindow352y —— 原文と表と数の文が PHYSICS〔第352便y〕に逐語・文書)と、新しい段 bgwindow-352y
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgwindow352y docs.bgwindow352y"
+# ==== 第352便y の塊(ここまで)====
+# ==== 第352便za の塊(ここから)====
+# 第352便za(原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R463 —— 診断だけ・html は変えない): 枝 za の新設 2 本
+#   (behavior.sconseq352za —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・(P1) の式を QA の中で別に照合・呼ぶだけ /
+#   docs.sconseq352za —— 原文と表と数の文が PHYSICS〔第352便za〕に逐語・文書)と、新しい段 sconseq-352za
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
+# ==== 第352便za の塊(ここまで)====
+# ==== 第352便z の塊(ここから)====
+# 第352便z(統括の検証項目 R464 —— 文書と照合の鍵だけ・html は変えない): 枝 z の新設 1 本(docs.equations352z —— 計算式の一覧の EQ-130〜EQ-149)と、
+#   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
+# ==== 第352便z の塊(ここまで)====
+# ==== 第352便m の塊(ここから)====
+# 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
+#   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352m docs.equations351h docs.equations350h lint.eqReader350h docs.equations348g docs.equations347f"
+# ==== 第352便m の塊(ここまで)====
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 # ==== 第309便d の塊(ここから)====
 # 第309便d(AN361・R221 —— 細目): 枝 d の新設 2 本(preset.fitRole309 —— 退役の 🌥️ の標的の役割の記録・docs.w309d —— 文書と post-merge の一式)と、
@@ -1529,6 +1692,8 @@ while [ $# -gt 0 ]; do
     --all-waves) ALLW=1; shift ;;
     --resume) RESUME_LOG="${2:-}"; shift 2 ;;   # 第337便h(R344): ① の済み印から続き
     --base-rev) BASE_REV="${2:-}"; shift 2 ;;   # 第337便h(R344): ④ の root に足す「本便で直した鍵」の基点
+    --since) SINCE_REV="${2:-}"; shift 2 ;;   # 第352便g(R444): ③′ を <rev> から増えた鍵だけに
+    --dry) PMDRY=1; shift ;;   # 第352便g(R444): ③′ の一覧を出して終わる
     -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
     *) echo "post-merge-qa: 知らない引数 $1" >&2; exit 2 ;;
   esac
@@ -1556,6 +1721,21 @@ fi
 # ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
 qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
 # ==== 第324便c の塊(ここまで)====
+# ==== 第352便g の塊(--since と --dry —— ここから)====
+# 第352便g(R444): --since <rev> のときだけ ③′ の一覧を差し替える・--dry のときだけ一覧を出して終わる(どちらも付けなければ何もしない —— 既定の動きは不変)
+if [ -n "$SINCE_REV" ]; then
+  SINCE_IDS=$(node tools/qa-keys-since.mjs "$SINCE_REV" 2>"${TMPDIR:-/tmp}/post-merge-qa-since.$$.err"); rcs=$?
+  SINCE_MSG=$(cat "${TMPDIR:-/tmp}/post-merge-qa-since.$$.err" 2>/dev/null); rm -f "${TMPDIR:-/tmp}/post-merge-qa-since.$$.err"
+  if [ $rcs -ne 0 ]; then echo "post-merge-qa: --since $SINCE_REV が引けない —— $SINCE_MSG" >&2; exit 2; fi
+  WAVE_IDS="$SINCE_IDS"
+  S3W_SCOPE="基点 ${SINCE_REV} から tests/qa.mjs に増えた鍵 $(echo $SINCE_IDS | wc -w) 名(--since —— PHYSICS の走査の一式は足さない)"
+fi
+if [ $PMDRY -eq 1 ]; then
+  echo "post-merge-qa --dry: ③′ 〔${S3W_SCOPE:-全部の便の積み上げ}〕 $(echo $WAVE_IDS | wc -w) 名(⓪ 以降は走らせない)"
+  [ -n "$WAVE_IDS" ] && echo $WAVE_IDS | tr -s ' ' '\n'
+  exit 0
+fi
+# ==== 第352便g の塊(--since と --dry —— ここまで)====
 LOG="${POST_MERGE_LOG:-${TMPDIR:-/tmp}/post-merge-qa-$(date -u +%Y%m%dT%H%M%SZ)}"
 [ -n "$RESUME_LOG" ] && LOG="$RESUME_LOG"   # 第337便h(R344): 前のログの置き場をそのまま使う(① の済み印 $LOG/1-ckpt)
 mkdir -p "$LOG" || exit 2

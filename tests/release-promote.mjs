@@ -15,6 +15,8 @@
 //   node tests/release-promote.mjs --apply                … 適用(**統括だけ**)
 //   node tests/release-promote.mjs --check                … 適用後の検査(6 項・書かない)
 //   node tests/release-promote.mjs --root /tmp/copy --apply  … 使い捨てコピーで試す
+//   node tests/release-promote.mjs --check --perf-allow   … 第352便g(R444): --check に 8 項め「tests/perf.mjs の期限つきの許可 ALLOW が空か」を足す
+//                                                          (付けたときだけ —— 既定の --check は 7 項のまま〔QA version.promote-check が 7 項を数える〕・読むだけ・許可は外さない)
 // 主な引数:
 //   --root <dir>        … 対象リポジトリのルート(既定: このファイルの 1 つ上)
 //   --version <1.44>    … 昇格先の APP_VERSION(既定: 現 APP_VERSION の minor +1)
@@ -29,6 +31,8 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 // 第300便d(原仮定者の裁定(第90報)⑦・R178): beta 版の名前は便名(v<線>-b<便の番号>)。便の番号の規則は tools/beta-build.mjs の 1 か所
 import { changelogMaxWave } from '../tools/beta-build.mjs';
+// 第352便g(R444): 性能の検査の期限つきの許可を読むだけの口(--check --perf-allow のときだけ使う)
+import { allowVerdict } from '../tools/perf-allow-check.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -214,6 +218,13 @@ function check() {
   const hasNextBeta = new RegExp('^## v\\d+\\.\\d+-b\\d+(?:\\(|\\()開発中', 'm').test(cl);
   put('promote.changelog-heading', hasRC && hasNextBeta,
     `RC 見出し「## v${rApp}.0(…」=${hasRC}(QA release.no-beta-identifiers と同じ式)/ 次期 beta 見出し「## vX.Y-bNNN(開発中 — beta)」=${hasNextBeta}`);
+  // ⑧ 第352便g(R444): --perf-allow を付けたときだけ —— tests/perf.mjs の `const ALLOW = {…};` が空か(空でなければ残っている本の名と外す手順を 1 行。**道具は外さない**・閾値と判定式は読まない)
+  if (HAS('perf-allow')) {
+    let psrc = '';
+    try { psrc = rd('tests/perf.mjs'); } catch { psrc = ''; }
+    const v = allowVerdict(psrc);
+    put(v.id, v.pass, v.msg);
+  }
   const failed = res.filter((r) => !r.pass);
   console.log(`\n--check: ${res.length - failed.length}/${res.length} PASS` + (failed.length ? `  FAIL: ${failed.map((f) => f.id).join(' , ')}` : ''));
   if (WANT_JSON) console.log(JSON.stringify({ mode: 'check', res }));

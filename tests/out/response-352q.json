@@ -1,0 +1,10121 @@
+{
+ "version": "w352q-response-1",
+ "libVersion": "w352q-response-lib-1",
+ "generator": "tests/exp-w352q-response.mjs",
+ "target": "tests/lib-w352q-response.mjs",
+ "ruling": "原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第147報)・統括の検証項目 R454",
+ "decl": {
+  "provBodies": [
+   "Earth",
+   "Mars",
+   "Venus"
+  ],
+  "repoBodies": [
+   "Mercury",
+   "Moon"
+  ],
+  "provKeys": {
+   "Earth": "earth.psiA.rate",
+   "Mars": "mars.prec.rate",
+   "Venus": "venus.prec.rate"
+  },
+  "bgs": [
+   "Np",
+   "Gm"
+  ],
+  "axes": [
+   "L",
+   "eq"
+  ],
+  "tSrcs": [
+   0,
+   1
+  ],
+  "uCols": [
+   "u1",
+   "uV"
+  ],
+  "bgLabels": {
+   "Np": "(N+)",
+   "Gm": "(G−)"
+  },
+  "tLabels": {
+   "0": "規則の半径",
+   "1": "観測の半径"
+  },
+  "uLabels": {
+   "u1": "倍率 1",
+   "uV": "(uV)"
+  },
+  "uInv": [
+   1,
+   10,
+   1000
+  ],
+  "quantities": [
+   "omega",
+   "n",
+   "R",
+   "rho",
+   "M",
+   "moi",
+   "J2",
+   "cR"
+  ],
+  "scanQ": [
+   "omega",
+   "n",
+   "R",
+   "rho",
+   "moi",
+   "J2"
+  ],
+  "scanPows": [
+   -2,
+   -1.5,
+   -1,
+   -0.5,
+   0.5,
+   1,
+   1.5,
+   2
+  ],
+  "scanMaxQ": 3,
+  "spreadMarks": [
+   1.05,
+   1.2,
+   2
+  ],
+  "cands": [
+   "a1",
+   "a2",
+   "i",
+   "u",
+   "uJ",
+   "eii",
+   "ei"
+  ],
+  "candLabels": {
+   "a1": "(ア) (S1) ω_T ÷ ω_L",
+   "a2": "(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω",
+   "i": "(イ) 1 ÷ ω",
+   "u": "(ウ) n² ÷ ω",
+   "uJ": "(ウ′) n² J2 ÷ (ω C′)",
+   "eii": "(エ) c_R の入り方 (ii)",
+   "ei": "(エ) c_R の入り方 (i)"
+  },
+  "cancelMark": 0.05,
+  "rankNorm": "N1",
+  "rankF": 0.5,
+  "lnStep": 0.001,
+  "rankTol": [
+   0.001,
+   0.000001
+  ],
+  "anchor": {
+   "marsOverEarth": 0.1509,
+   "venusOverEarth": 0.8848,
+   "spread": 6.625,
+   "uV": 1.19282e-12,
+   "npLVenusUV": 41.6951,
+   "gmVenusUV": 0.7368
+  },
+  "judge": "丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "plan": {
+  "pure": "零試験 10",
+  "need": "表 1: 天体 5 × 背景の向き 2 × 基準軸 2 × 源の半径 2 × 背景の大きさ 2(月の観測の半径の列は持たない)",
+  "cand": "表 2: 式の候補 7 × 列 16(背景の向き × 基準軸 × 源の半径 × 背景の大きさ)",
+  "scan": "表 2′: べきの組の走査(量 6 —— ω・n・R・ρ・慣性モーメントの係数・J2 —— の 1〜3 つ × べき 8)× 列 5 × 天体 3 と 4",
+  "rank": "表 3: 背景を共通に置いたときの階数(天体の組 2 × f の置き方 2 × 背景の倍率をノブにする/宣言 × 列 4)と経路の比率の感度(第352便b)",
+  "sun": "表 4: 太陽(式の候補 7 + 走査の最良の組 × 列 4)",
+  "prov": "比べる列: 地球 ψ_A の率・火星の歳差の率・金星の歳差の率(仮・未照合)・水星と月(リポジトリの文献の値)"
+ },
+ "amend": [],
+ "notClaim": [
+  "応答の係数・構造の式・べきの値は決めていない(並びの診断 —— どの列も候補の表)",
+  "仮の値(第352便b)を使う列は「仮・未照合」—— 較正の合否・サンプルの状況・ノブの採否に入れない",
+  "リポジトリの文献の値(水星 —— 役割「桁」・月 —— 軌道の交点の率)は固定の比べる列(合わせない)",
+  "べきの組の走査の残差は、天体 3 つ(自由度 2)では小さくなる組が多い —— 残差の小ささは式の採否ではない",
+  "太陽の列は地球の要る係数を式の候補の比で写した仮の数 —— 太陽の歳差の率とは書かない",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "vsJ": 0,
+   "jr": {
+    "Np1": {
+     "m": 0.15093833309563373,
+     "v": 0.884790386510259,
+     "spread": 6.625222231428814,
+     "diff": 0
+    },
+    "NpV": {
+     "m": 0.10568265886693602,
+     "v": 41.6950953318937,
+     "spread": 394.5310969550035,
+     "diff": 0
+    },
+    "GmV": {
+     "m": 0.13568246491329874,
+     "v": 0.7368021113382051,
+     "spread": 7.37014912456817,
+     "diff": 0
+    }
+   },
+   "inv": 7.44737604918555e-13,
+   "uVr": 1.1928166586523097e-12,
+   "uVo": 0.0018835836681213884,
+   "uvErr": 0,
+   "uvObsErr": 0,
+   "a2": 1.1870627444757395e-23,
+   "a2Ok": true,
+   "structOk": true,
+   "eE": {
+    "ii": 1282069.289469485,
+    "i": 1298390.843806735
+   },
+   "iOne": 1,
+   "entryOk": true,
+   "scanTop": {
+    "qs": [
+     "omega",
+     "n"
+    ],
+    "pows": [
+     -1,
+     2
+    ],
+    "spread": 1.0000000000000036
+   },
+   "scanOk": true,
+   "markOk": true,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "sameAsJ": true,
+   "anchorJ": true,
+   "bgInvariant": true,
+   "uV": true,
+   "s1s2": true,
+   "structs": true,
+   "entries": true,
+   "scan": true,
+   "provMark": true,
+   "rejects": true
+  }
+ },
+ "need": [
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904996,
+   "overBg": 0.9999999999995526,
+   "need": 8515.43200329011,
+   "needPole": 8685.345974172287,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.00591688302490689,
+   "overBg": 0.9999999999998729,
+   "need": 1285.3051121658223,
+   "needPole": 1283.5841457553254,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.15093833309563373,
+   "relPole": 0.14778733622959112
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024900586,
+   "overBg": 0.9999999999988074,
+   "need": 7534.372373492886,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.884790386510259,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.005916883024861936,
+   "overBg": 0.9999999999922752,
+   "need": 730.1141465612806,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08574011820882206,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904996,
+   "overBg": 0.9999999999995526,
+   "need": 11767809.808563376,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 1381.9392608638814,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 4.41492875014286e-15,
+   "overBg": 0.6255427858609002,
+   "need": 11412373318226174,
+   "needPole": 11552307548855750,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 6.3054998182984874e-15,
+   "overBg": 0.8934141740013817,
+   "need": 1206089956252219.5,
+   "needPole": 1219650593842711.5,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.10568265886693602,
+   "relPole": 0.10557636114557192
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 9.368695488419283e-17,
+   "overBg": 0.013274324926576918,
+   "need": 475839993466600300,
+   "needPole": null,
+   "cancel": true,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 41.6950953318937,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 3.907269889155655e-14,
+   "overBg": 5.5361357564235885,
+   "need": 110563132892095.52,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.00968800527367259,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 4.414928659331085e-15,
+   "overBg": 0.625542772993954,
+   "need": 15771207072494066000,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 1381.9392892893366,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005912699922647878,
+   "overBg": 0.9992930226536242,
+   "need": 8521.456479975772,
+   "needPole": 8691.398386318935,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005915694907144774,
+   "overBg": 0.9997991987068415,
+   "need": 1285.5632549296856,
+   "needPole": 1283.8687818557062,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.1508619163813814,
+   "relPole": 0.14771717102240237
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005905739064441173,
+   "overBg": 0.9981165825960123,
+   "need": 7548.589518358335,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.8858332535167506,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.005844712947879642,
+   "overBg": 0.9878026865286682,
+   "need": 739.1295412663884,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08673746594883623,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "u1",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.000006971639463087543,
+   "overBg": 0.6255427858609003,
+   "need": 7227111.4042500965,
+   "needPole": 7315727.526929229,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.000009957051145235038,
+   "overBg": 0.8934141740013817,
+   "need": 763780.3491287061,
+   "needPole": 772367.891425682,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.10568265886693605,
+   "relPole": 0.10557636114557192
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 1.479416110228294e-7,
+   "overBg": 0.013274324926576927,
+   "need": 301335098.97442377,
+   "needPole": null,
+   "cancel": true,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 41.695095331893675,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.0000616999242655723,
+   "overBg": 5.536135756423582,
+   "need": 70016.29339779433,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.009688005273672601,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "uV",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904997,
+   "overBg": 0.9999999999995528,
+   "need": 8515.43200329011,
+   "needPole": 8334.853205321639,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.00591688302490689,
+   "overBg": 0.9999999999998729,
+   "need": 1285.3051121658223,
+   "needPole": 1308.7686631330853,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.15093833309563373,
+   "relPole": 0.157023600883272
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024900586,
+   "overBg": 0.9999999999988074,
+   "need": 7534.372373492886,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.884790386510259,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.005916883024861832,
+   "overBg": 0.9999999999922576,
+   "need": 730.1141465612934,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08574011820882357,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904997,
+   "overBg": 0.9999999999995528,
+   "need": 11767809.808563374,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 1381.9392608638811,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 4.419168325596296e-15,
+   "overBg": 0.6261434831745145,
+   "need": 11401424738262574,
+   "needPole": 10829777433399856,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 6.305625595355304e-15,
+   "overBg": 0.8934319951112953,
+   "need": 1206065898616278.5,
+   "needPole": 1246844258504908.2,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.10578203393903796,
+   "relPole": 0.11513110644910816
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 7.094962127401151e-17,
+   "overBg": 0.010052715742260803,
+   "need": 628333163722319000,
+   "needPole": null,
+   "cancel": true,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 55.11005669437665,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 3.905401951580751e-14,
+   "overBg": 5.533489111504614,
+   "need": 110616014780538.44,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.009701946670692565,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 4.419168233929877e-15,
+   "overBg": 0.6261434701864753,
+   "need": 15756076802416665000,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 1381.939289529326,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005912704115466474,
+   "overBg": 0.9992937312731082,
+   "need": 8521.450437237881,
+   "needPole": 8340.426832899682,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005915695084627882,
+   "overBg": 0.9997992287028897,
+   "need": 1285.5632163601247,
+   "needPole": 1309.0645794803195,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.15086201883453346,
+   "relPole": 0.1569541470367653
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005905738644876271,
+   "overBg": 0.9981165116862277,
+   "need": 7548.590054637269,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.8858339446123736,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.0058445476708785,
+   "overBg": 0.9877747534090768,
+   "need": 739.1504429889708,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08673998029243445,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "u1",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.000006978334201148029,
+   "overBg": 0.6261434831745146,
+   "need": 7220177.9991722135,
+   "needPole": 6858171.022973479,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.00000995724976051118,
+   "overBg": 0.8934319951112956,
+   "need": 763765.1141543303,
+   "needPole": 789588.8180921484,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.10578203393903797,
+   "relPole": 0.11513110644910814
+  },
+  {
+   "id": "Venus",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 1.1203695632664722e-7,
+   "overBg": 0.010052715742260817,
+   "need": 397904418.8778712,
+   "needPole": null,
+   "cancel": true,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 55.11005669437659,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.00006167042755554869,
+   "overBg": 5.533489111504608,
+   "need": 70049.78190087667,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.009701946670692579,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "uV",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024906181,
+   "overBg": 0.9999999999997529,
+   "need": 8515.432003288406,
+   "needPole": 17100.698400373207,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024907251,
+   "overBg": 0.9999999999999338,
+   "need": 1285.3051121657438,
+   "needPole": 549.1823298854732,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.15093833309565471,
+   "relPole": 0.03211461409514642
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904287,
+   "overBg": 0.9999999999994329,
+   "need": 7534.372373488173,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.8847903865098826,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.005916883024887945,
+   "overBg": 0.999999999996671,
+   "need": 730.1141465580711,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08574011820846232,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024906181,
+   "overBg": 0.9999999999997529,
+   "need": 11767809.80856102,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 1381.9392608638811,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 6.021243108231075e-15,
+   "overBg": 0.8531383860151158,
+   "need": 8367842680380013,
+   "needPole": 52690884656508820,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 6.698259782507707e-15,
+   "overBg": 0.9490635799353081,
+   "need": 1135369520880664.8,
+   "needPole": 484823182855603.44,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.13568246491329874,
+   "relPole": 0.009201272402544754
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 7.230622625828228e-15,
+   "overBg": 1.0244930500233074,
+   "need": 6165444154249939,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.7368021113382051,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 4.351805065963369e-14,
+   "overBg": 6.165989121337954,
+   "need": 99269152329176.58,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.011863171443451231,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 6.021243095051779e-15,
+   "overBg": 0.8531383841477667,
+   "need": 11563850354060550000,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 1381.93926388867,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005914576318860999,
+   "overBg": 0.9996101484452313,
+   "need": 8518.753052408472,
+   "needPole": 17124.177166733578,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005916266355424211,
+   "overBg": 0.9998957779829623,
+   "need": 1285.4390832196912,
+   "needPole": 549.2344276760052,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.1508952161556396,
+   "relPole": 0.03207362446255111
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.0059115950026655375,
+   "overBg": 0.9991062824429948,
+   "need": 7541.111997675565,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.885236601094276,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.00588614584087354,
+   "overBg": 0.9948051729424577,
+   "need": 733.9267691945067,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08615424871214064,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "u1",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.000009508179734232249,
+   "overBg": 0.8531383860151159,
+   "need": 5299102.086659113,
+   "needPole": 33367546.15211529,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.000010577260670907052,
+   "overBg": 0.9490635799353081,
+   "need": 718995.2329451132,
+   "needPole": 307023.88155009714,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.13568246491329874,
+   "relPole": 0.009201272402544763
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.000011417917908479632,
+   "overBg": 1.0244930500233078,
+   "need": 3904389.6056471216,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.7368021113382048,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.0000687196048918179,
+   "overBg": 6.165989121337947,
+   "need": 62864.156550387284,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.011863171443451243,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "uV",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024906181,
+   "overBg": 0.9999999999997529,
+   "need": 8515.432003288406,
+   "needPole": 17100.698400373207,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024907251,
+   "overBg": 0.9999999999999338,
+   "need": 1285.3051121657438,
+   "needPole": 549.1823298854732,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.15093833309565471,
+   "relPole": 0.03211461409514642
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024904287,
+   "overBg": 0.9999999999994329,
+   "need": 7534.372373488173,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.8847903865098826,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.005916883024887945,
+   "overBg": 0.999999999996671,
+   "need": 730.1141465580711,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08574011820846232,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 0.005916883024906181,
+   "overBg": 0.9999999999997529,
+   "need": 11767809.80856102,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 1381.9392608638811,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 6.021243108231075e-15,
+   "overBg": 0.8531383860151158,
+   "need": 8367842680380013,
+   "needPole": 52690884656508820,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 6.698259782507707e-15,
+   "overBg": 0.9490635799353081,
+   "need": 1135369520880664.8,
+   "needPole": 484823182855603.44,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.13568246491329874,
+   "relPole": 0.009201272402544754
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 7.230622625828228e-15,
+   "overBg": 1.0244930500233074,
+   "need": 6165444154249939,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.7368021113382051,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 4.351805065963369e-14,
+   "overBg": 6.165989121337954,
+   "need": 99269152329176.58,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.011863171443451231,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "u": 1.1928166586523097e-12,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": 6.021243095051779e-15,
+   "overBg": 0.8531383841477667,
+   "need": 11563850354060550000,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 1381.93926388867,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.005914576318860999,
+   "overBg": 0.9996101484452313,
+   "need": 8518.753052408472,
+   "needPole": 17124.177166733578,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "u1",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.005916266355424211,
+   "overBg": 0.9998957779829623,
+   "need": 1285.4390832196912,
+   "needPole": 549.2344276760052,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.1508952161556396,
+   "relPole": 0.03207362446255111
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.0059115950026655375,
+   "overBg": 0.9991062824429948,
+   "need": 7541.111997675565,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "u1",
+   "rel": 0.885236601094276,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.00588614584087354,
+   "overBg": 0.9948051729424577,
+   "need": 733.9267691945067,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "u1",
+   "rel": 0.08615424871214064,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 1,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "u1",
+   "rel": null,
+   "relPole": null
+  },
+  {
+   "id": "Earth",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 50.38481507,
+   "kind": "prov",
+   "repo": 50.28792,
+   "repoRole": "lit",
+   "omAsYr": 0.000009508179734232249,
+   "overBg": 0.8531383860151159,
+   "need": 5299102.086659113,
+   "needPole": 33367546.15211529,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "uCol": "uV",
+   "rel": 1,
+   "relPole": 1
+  },
+  {
+   "id": "Mars",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 7.605,
+   "kind": "prov",
+   "repo": 7.594,
+   "repoRole": "lit",
+   "omAsYr": 0.000010577260670907052,
+   "overBg": 0.9490635799353081,
+   "need": 718995.2329451132,
+   "needPole": 307023.88155009714,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.13568246491329874,
+   "relPole": 0.009201272402544763
+  },
+  {
+   "id": "Venus",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 44.58,
+   "kind": "prov",
+   "repo": 44.58,
+   "repoRole": "lit",
+   "omAsYr": 0.000011417917908479632,
+   "overBg": 1.0244930500233078,
+   "need": 3904389.6056471216,
+   "needPole": null,
+   "cancel": false,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "venus.prec.rate"
+   ],
+   "uCol": "uV",
+   "rel": 0.7368021113382048,
+   "relPole": null
+  },
+  {
+   "id": "Mercury",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 4.32,
+   "kind": "repo",
+   "repo": 4.32,
+   "repoRole": "order",
+   "omAsYr": 0.0000687196048918179,
+   "overBg": 6.165989121337947,
+   "need": 62864.156550387284,
+   "needPole": null,
+   "cancel": false,
+   "uCol": "uV",
+   "rel": 0.011863171443451243,
+   "relPole": null
+  },
+  {
+   "id": "Moon",
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "u": 0.0018835836681213884,
+   "rate": 69628.75409659915,
+   "kind": "repo",
+   "repo": 69628.75409659915,
+   "repoRole": "lit",
+   "omAsYr": null,
+   "overBg": null,
+   "need": null,
+   "needPole": null,
+   "cancel": null,
+   "uCol": "uV",
+   "rel": null,
+   "relPole": null
+  }
+ ],
+ "structs": [
+  {
+   "id": "Earth",
+   "omega": 0.0000729211505392569,
+   "n": 1.9909862887449405e-7,
+   "R": 6371000,
+   "M": 5.9722e+24,
+   "rho": 5513.443375519389,
+   "moi": 0.3307,
+   "J2": 0.00108263,
+   "cR": 8.256667052595722e-9
+  },
+  {
+   "id": "Mars",
+   "omega": 0.00007088216383964474,
+   "n": 1.0586072002707297e-7,
+   "R": 3389500,
+   "M": 6.4171e+23,
+   "rho": 3934.080869340542,
+   "moi": 0.3662,
+   "J2": 0.0019566,
+   "cR": 1.6675589780785099e-9
+  },
+  {
+   "id": "Venus",
+   "omega": 2.9923691869737844e-7,
+   "n": 3.236507400263445e-7,
+   "R": 6050000,
+   "M": 4.8675e+24,
+   "rho": 5247.485255092886,
+   "moi": 0.33,
+   "J2": 0.000004458,
+   "cR": 7.086448244441261e-9
+  },
+  {
+   "id": "Mercury",
+   "omega": 0.0000012400173568061162,
+   "n": 8.26697380283031e-7,
+   "R": 2439700,
+   "M": 3.3011e+23,
+   "rho": 5427.012135269099,
+   "moi": 0.346,
+   "J2": 0.0000503,
+   "cR": 1.1917915132057566e-9
+  },
+  {
+   "id": "Moon",
+   "omega": 0.0000026616994724158407,
+   "n": 0.0000026490793356886927,
+   "R": 1737400,
+   "M": 7.342e+22,
+   "rho": 3342.152936972654,
+   "moi": 0.3929,
+   "J2": null,
+   "cR": 3.722139082540799e-10
+  },
+  {
+   "id": "Sun",
+   "omega": 0.0000029030759347876406,
+   "n": 9.09e-16,
+   "R": 696000000,
+   "M": 1.9885e+30,
+   "rho": 1408.021437768195,
+   "moi": 0.07,
+   "J2": null,
+   "cR": 0.000025164852535032456
+  }
+ ],
+ "cand": [
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309563373,
+    0.884790386510259,
+    0.08574011820882206,
+    1381.9392608638814
+   ],
+   "spread3": 6.625222231428814,
+   "spread4": 11.663151636489193,
+   "spread5": 16117.767151873244
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309563373,
+    0.884790386510259,
+    0.08574011820882206,
+    1381.9392608638814
+   ],
+   "spread3": 6.625222231428814,
+   "spread4": 11.663151636489193,
+   "spread5": 16117.767151873244
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14671786686097185,
+    0.0036307977451598013,
+    0.0014580027052139121,
+    50.442251313244476
+   ],
+   "spread3": 275.42156577933736,
+   "spread4": 685.8697836594782,
+   "spread5": 34596.81599551202
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5189790842311802,
+    0.0013739957415895227,
+    0.00008456715987596549,
+    0.2849318973904747
+   ],
+   "spread3": 727.8042935148682,
+   "spread4": 11824.921180594196,
+   "spread5": 11824.921180594196
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3179889352919533,
+    0.33297001439679763,
+    0.0019043892512235156,
+    null
+   ],
+   "spread3": 3.144763509088377,
+   "spread4": 525.1027327304691,
+   "spread5": 525.1027327304691
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13365855909397667,
+    2.0947607771167474,
+    0.4986168779925706,
+    null
+   ],
+   "spread3": 15.672477627443971,
+   "spread4": 15.672477627443971,
+   "spread5": 15.672477627443971
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13508298648317857,
+    2.0725112696020713,
+    0.5049990855862101,
+    null
+   ],
+   "spread3": 15.342504067750635,
+   "spread4": 15.342504067750635,
+   "spread5": 15.342504067750635
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10568265886693602,
+    41.6950953318937,
+    0.00968800527367259,
+    1381.9392892893366
+   ],
+   "spread3": 394.5310969550035,
+   "spread4": 4303.785366963128,
+   "spread5": 142644.35766202494
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10568265886693602,
+    41.6950953318937,
+    0.00968800527367259,
+    1381.9392892893366
+   ],
+   "spread3": 394.5310969550035,
+   "spread4": 4303.785366963128,
+   "spread5": 142644.35766202494
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.10272761037667222,
+    0.1710986697226138,
+    0.0001647436251806789,
+    50.4422523508038
+   ],
+   "spread3": 9.73448127853156,
+   "spread4": 6070.037604813372,
+   "spread5": 306186.3686408648
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.36337415680301605,
+    0.06474853739895023,
+    0.000009555469574493399,
+    0.2849319032513104
+   ],
+   "spread3": 15.444364308006948,
+   "spread4": 104652.10445223117,
+   "spread5": 104652.10445223117
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.22264666292973548,
+    15.69096670194836,
+    0.0002151820349027751,
+    null
+   ],
+   "spread3": 70.47474458173323,
+   "spread4": 72919.5014306745,
+   "spread5": 72919.5014306745
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09358386047913471,
+    98.71405886752568,
+    0.056340054626110254,
+    null
+   ],
+   "spread3": 1054.8192643702146,
+   "spread4": 1752.1115221243963,
+   "spread5": 1752.1115221243963
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09458120337252922,
+    97.66556721226361,
+    0.05706119733172517,
+    null
+   ],
+   "spread3": 1032.6107485393893,
+   "spread4": 1711.5933730672527,
+   "spread5": 1711.5933730672527
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.1508619163813814,
+    0.8858332535167506,
+    0.08673746594883623,
+    null
+   ],
+   "spread3": 6.628578132813741,
+   "spread4": 11.529043292432238,
+   "spread5": 11.529043292432238
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1508619163813814,
+    0.8858332535167506,
+    0.08673746594883623,
+    null
+   ],
+   "spread3": 6.628578132813741,
+   "spread4": 11.529043292432238,
+   "spread5": 11.529043292432238
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14664358687471737,
+    0.003635077221105066,
+    0.0014749625104177968,
+    null
+   ],
+   "spread3": 275.09731958211313,
+   "spread4": 677.9833337707959,
+   "spread5": 677.9833337707959
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.518716336686741,
+    0.0013756152153629835,
+    0.00008555086350903364,
+    null
+   ],
+   "spread3": 726.9474696353442,
+   "spread4": 11688.952735052244,
+   "spread5": 11688.952735052244
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3178279445806792,
+    0.333362472822499,
+    0.0019265415220098606,
+    null
+   ],
+   "spread3": 3.1463564392342303,
+   "spread4": 519.0648571938133,
+   "spread5": 519.0648571938133
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13359089074420638,
+    2.097229787782159,
+    0.5044168981790093,
+    null
+   ],
+   "spread3": 15.698898151654944,
+   "spread4": 15.698898151654944,
+   "spread5": 15.698898151654944
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13501459697756577,
+    2.0749540556637225,
+    0.5108733450022277,
+    null
+   ],
+   "spread3": 15.36836832545225,
+   "spread4": 15.36836832545225,
+   "spread5": 15.36836832545225
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10568265886693605,
+    41.695095331893675,
+    0.009688005273672601,
+    null
+   ],
+   "spread3": 394.5310969550032,
+   "spread4": 4303.78536696312,
+   "spread5": 4303.78536696312
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.10568265886693605,
+    41.695095331893675,
+    0.009688005273672601,
+    null
+   ],
+   "spread3": 394.5310969550032,
+   "spread4": 4303.78536696312,
+   "spread5": 4303.78536696312
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.10272761037667223,
+    0.17109866972261373,
+    0.00016474362518067908,
+    null
+   ],
+   "spread3": 9.734481278531558,
+   "spread4": 6070.037604813365,
+   "spread5": 6070.037604813365
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.3633741568030161,
+    0.06474853739895019,
+    0.000009555469574493409,
+    null
+   ],
+   "spread3": 15.444364308006957,
+   "spread4": 104652.10445223105,
+   "spread5": 104652.10445223105
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.22264666292973553,
+    15.690966701948353,
+    0.00021518203490277535,
+    null
+   ],
+   "spread3": 70.47474458173318,
+   "spread4": 72919.50143067438,
+   "spread5": 72919.50143067438
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09358386047913472,
+    98.71405886752562,
+    0.056340054626110324,
+    null
+   ],
+   "spread3": 1054.819264370214,
+   "spread4": 1752.111522124393,
+   "spread5": 1752.111522124393
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09458120337252926,
+    97.66556721226358,
+    0.057061197331725245,
+    null
+   ],
+   "spread3": 1032.6107485393884,
+   "spread4": 1711.59337306725,
+   "spread5": 1711.59337306725
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309563373,
+    0.884790386510259,
+    0.08574011820882357,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231428814,
+   "spread4": 11.663151636488989,
+   "spread5": 16117.767151872958
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309563373,
+    0.884790386510259,
+    0.08574011820882357,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231428814,
+   "spread4": 11.663151636488989,
+   "spread5": 16117.767151872958
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14671786686097185,
+    0.0036307977451598013,
+    0.0014580027052139377,
+    50.44225131324447
+   ],
+   "spread3": 275.42156577933736,
+   "spread4": 685.8697836594662,
+   "spread5": 34596.81599551141
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5189790842311802,
+    0.0013739957415895227,
+    0.00008456715987596696,
+    0.28493189739047464
+   ],
+   "spread3": 727.8042935148682,
+   "spread4": 11824.92118059399,
+   "spread5": 11824.92118059399
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3179889352919533,
+    0.33297001439679763,
+    0.001904389251223549,
+    null
+   ],
+   "spread3": 3.144763509088377,
+   "spread4": 525.1027327304599,
+   "spread5": 525.1027327304599
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13365855909397667,
+    2.0947607771167474,
+    0.4986168779925793,
+    null
+   ],
+   "spread3": 15.672477627443971,
+   "spread4": 15.672477627443971,
+   "spread5": 15.672477627443971
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13508298648317857,
+    2.0725112696020713,
+    0.504999085586219,
+    null
+   ],
+   "spread3": 15.342504067750635,
+   "spread4": 15.342504067750635,
+   "spread5": 15.342504067750635
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10578203393903796,
+    55.11005669437665,
+    0.009701946670692565,
+    1381.939289529326
+   ],
+   "spread3": 520.9774726598329,
+   "spread4": 5680.309175564935,
+   "spread5": 142439.3821606811
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10578203393903796,
+    55.11005669437665,
+    0.009701946670692565,
+    1381.939289529326
+   ],
+   "spread3": 520.9774726598329,
+   "spread4": 5680.309175564935,
+   "spread5": 142439.3821606811
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.10282420677003976,
+    0.22614787935340158,
+    0.00016498069733539742,
+    50.44225235956366
+   ],
+   "spread3": 9.72533639122975,
+   "spread4": 6061.315148687065,
+   "spread5": 305746.3883609191
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.36371584325772327,
+    0.0855807029227399,
+    0.000009569220247752458,
+    0.28493190330079204
+   ],
+   "spread3": 11.684877149265468,
+   "spread4": 104501.72261787704,
+   "spread5": 104501.72261787704
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.22285602110087832,
+    20.739371325348554,
+    0.00021549168978996828,
+    null
+   ],
+   "spread3": 93.06175001644061,
+   "spread4": 96242.09335201021,
+   "spread5": 96242.09335201021
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09367185886015955,
+    130.47427610892322,
+    0.05642113004333822,
+    null
+   ],
+   "spread3": 1392.886590450875,
+   "spread4": 2312.507317891422,
+   "spread5": 2312.507317891422
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09467013957081759,
+    129.08844321646615,
+    0.0571433104999125,
+    null
+   ],
+   "spread3": 1363.5602926295687,
+   "spread4": 2259.0298337136733,
+   "spread5": 2259.0298337136733
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15086201883453346,
+    0.8858339446123736,
+    0.08673998029243445,
+    null
+   ],
+   "spread3": 6.628573631225279,
+   "spread4": 11.52870909848732,
+   "spread5": 11.52870909848732
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.15086201883453346,
+    0.8858339446123736,
+    0.08673998029243445,
+    null
+   ],
+   "spread3": 6.628573631225279,
+   "spread4": 11.52870909848732,
+   "spread5": 11.52870909848732
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14664368646312284,
+    0.0036350800570631274,
+    0.0014750052665959384,
+    null
+   ],
+   "spread3": 275.0971049611285,
+   "spread4": 677.9636809757501,
+   "spread5": 677.9636809757501
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5187166889567173,
+    0.001375616288569087,
+    0.00008555334345542857,
+    null
+   ],
+   "spread3": 726.9469024972057,
+   "spread4": 11688.61390579058,
+   "spread5": 11688.61390579058
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.31782816042358714,
+    0.33336273290005297,
+    0.001926597368549641,
+    null
+   ],
+   "spread3": 3.1463543024861136,
+   "spread4": 519.0498109902478,
+   "spread5": 519.0498109902478
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13359098146828155,
+    2.097231423966307,
+    0.5044315202040465,
+    null
+   ],
+   "spread3": 15.698899737960614,
+   "spread4": 15.698899737960614,
+   "spread5": 15.698899737960614
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1350146886685065,
+    2.0749556744691353,
+    0.5108881541865917,
+    null
+   ],
+   "spread3": 15.368369878359312,
+   "spread4": 15.368369878359312,
+   "spread5": 15.368369878359312
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.10578203393903797,
+    55.11005669437659,
+    0.009701946670692579,
+    null
+   ],
+   "spread3": 520.9774726598322,
+   "spread4": 5680.30917556492,
+   "spread5": 5680.30917556492
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.10578203393903797,
+    55.11005669437659,
+    0.009701946670692579,
+    null
+   ],
+   "spread3": 520.9774726598322,
+   "spread4": 5680.30917556492,
+   "spread5": 5680.30917556492
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.10282420677003978,
+    0.2261478793534013,
+    0.00016498069733539763,
+    null
+   ],
+   "spread3": 9.725336391229746,
+   "spread4": 6061.3151486870565,
+   "spread5": 6061.3151486870565
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.3637158432577233,
+    0.08558070292273981,
+    0.000009569220247752471,
+    null
+   ],
+   "spread3": 11.68487714926548,
+   "spread4": 104501.7226178769,
+   "spread5": 104501.7226178769
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.22285602110087838,
+    20.73937132534853,
+    0.0002154916897899686,
+    null
+   ],
+   "spread3": 93.06175001644048,
+   "spread4": 96242.09335200995,
+   "spread5": 96242.09335200995
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09367185886015954,
+    130.47427610892308,
+    0.056421130043338305,
+    null
+   ],
+   "spread3": 1392.8865904508734,
+   "spread4": 2312.5073178914163,
+   "spread5": 2312.5073178914163
+  },
+  {
+   "bg": "Np",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.09467013957081763,
+    129.088443216466,
+    0.05714331049991259,
+    null
+   ],
+   "spread3": 1363.5602926295667,
+   "spread4": 2259.029833713667,
+   "spread5": 2259.029833713667
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309565471,
+    0.8847903865098826,
+    0.08574011820846232,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231427892,
+   "spread4": 11.66315163653813,
+   "spread5": 16117.767151940869
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309565471,
+    0.8847903865098826,
+    0.08574011820846232,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231427892,
+   "spread4": 11.66315163653813,
+   "spread5": 16117.767151940869
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.1467178668609923,
+    0.003630797745158258,
+    0.001458002705207795,
+    50.442251313244476
+   ],
+   "spread3": 275.42156577945445,
+   "spread4": 685.8697836623559,
+   "spread5": 34596.815995657176
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5189790842312524,
+    0.0013739957415889383,
+    0.00008456715987561067,
+    0.2849318973904747
+   ],
+   "spread3": 727.8042935151777,
+   "spread4": 11824.92118064381,
+   "spread5": 11824.92118064381
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3179889352919976,
+    0.332970014396656,
+    0.0019043892512155254,
+    null
+   ],
+   "spread3": 3.144763509087939,
+   "spread4": 525.1027327326723,
+   "spread5": 525.1027327326723
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13365855909399527,
+    2.0947607771158565,
+    0.49861687799047855,
+    null
+   ],
+   "spread3": 15.672477627435125,
+   "spread4": 15.672477627435125,
+   "spread5": 15.672477627435125
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1350829864831974,
+    2.0725112696011903,
+    0.5049990855840913,
+    null
+   ],
+   "spread3": 15.342504067741976,
+   "spread4": 15.342504067741976,
+   "spread5": 15.342504067741976
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382051,
+    0.011863171443451231,
+    1381.93926388867
+   ],
+   "spread3": 7.37014912456817,
+   "spread4": 84.29449112884777,
+   "spread5": 116489.8670204699
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382051,
+    0.011863171443451231,
+    1381.93926388867
+   ],
+   "spread3": 7.37014912456817,
+   "spread4": 84.29449112884777,
+   "spread5": 116489.8670204699
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.13188857604452844,
+    0.0030235177565920784,
+    0.0002017321228184245,
+    50.44225142365247
+   ],
+   "spread3": 330.7405745574777,
+   "spread4": 4957.0687406094585,
+   "spread5": 250045.7077381506
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.4665240429170341,
+    0.0011441839545361348,
+    0.00001170087862079834,
+    0.28493189801413366
+   ],
+   "spread3": 873.9853377907326,
+   "spread4": 85463.66750805342,
+   "spread5": 85463.66750805342
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.28584867522176033,
+    0.27727811395815666,
+    0.0002634950435606667,
+    null
+   ],
+   "spread3": 3.6064873124133685,
+   "spread4": 3795.1378002666734,
+   "spread5": 3795.1378002666734
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1201492184436689,
+    1.7443952679182764,
+    0.06898961223516996,
+    null
+   ],
+   "spread3": 14.518573574709716,
+   "spread4": 25.28489741284569,
+   "spread5": 25.28489741284569
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.12142967394687412,
+    1.7258671686498084,
+    0.06987266703440223,
+    null
+   ],
+   "spread3": 14.212894694956365,
+   "spread4": 24.700175932887564,
+   "spread5": 24.700175932887564
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.1508952161556396,
+    0.885236601094276,
+    0.08615424871214064,
+    null
+   ],
+   "spread3": 6.627115328616902,
+   "spread4": 11.607088622421967,
+   "spread5": 11.607088622421967
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1508952161556396,
+    0.885236601094276,
+    0.08615424871214064,
+    null
+   ],
+   "spread3": 6.627115328616902,
+   "spread4": 11.607088622421967,
+   "spread5": 11.607088622421967
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14667595553644772,
+    0.0036326288171630782,
+    0.0014650449557585114,
+    null
+   ],
+   "spread3": 275.28273609329443,
+   "spread4": 682.5729108648824,
+   "spread5": 682.5729108648824
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5188308330243855,
+    0.0013746886706127376,
+    0.00008497562491211529,
+    null
+   ],
+   "spread3": 727.4374346551293,
+   "spread4": 11768.080564682336,
+   "spread5": 11768.080564682336
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3178980987923009,
+    0.3331379367417162,
+    0.0019135875786296295,
+    null
+   ],
+   "spread3": 3.145662096750541,
+   "spread4": 522.5786429467348,
+   "spread5": 522.5786429467348
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13362037828229048,
+    2.09581719999727,
+    0.5010252308495526,
+    null
+   ],
+   "spread3": 15.684862046787378,
+   "spread4": 15.684862046787378,
+   "spread5": 15.684862046787378
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13504439877054808,
+    2.0735564716839834,
+    0.5074382649325679,
+    null
+   ],
+   "spread3": 15.354627741407715,
+   "spread4": 15.354627741407715,
+   "spread5": 15.354627741407715
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382048,
+    0.011863171443451243,
+    null
+   ],
+   "spread3": 7.370149124568169,
+   "spread4": 84.29449112884768,
+   "spread5": 84.29449112884768
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382048,
+    0.011863171443451243,
+    null
+   ],
+   "spread3": 7.370149124568169,
+   "spread4": 84.29449112884768,
+   "spread5": 84.29449112884768
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.13188857604452844,
+    0.0030235177565920775,
+    0.00020173212281842471,
+    null
+   ],
+   "spread3": 330.74057455747777,
+   "spread4": 4957.068740609452,
+   "spread5": 4957.068740609452
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.46652404291703403,
+    0.0011441839545361344,
+    0.000011700878620798351,
+    null
+   ],
+   "spread3": 873.985337790733,
+   "spread4": 85463.66750805335,
+   "spread5": 85463.66750805335
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.28584867522176033,
+    0.27727811395815655,
+    0.000263495043560667,
+    null
+   ],
+   "spread3": 3.6064873124133694,
+   "spread4": 3795.1378002666697,
+   "spread5": 3795.1378002666697
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1201492184436689,
+    1.744395267918276,
+    0.06898961223517003,
+    null
+   ],
+   "spread3": 14.51857357470971,
+   "spread4": 25.28489741284566,
+   "spread5": 25.28489741284566
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.12142967394687415,
+    1.725867168649808,
+    0.06987266703440231,
+    null
+   ],
+   "spread3": 14.21289469495636,
+   "spread4": 24.700175932887532,
+   "spread5": 24.700175932887532
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309565471,
+    0.8847903865098826,
+    0.08574011820846232,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231427892,
+   "spread4": 11.66315163653813,
+   "spread5": 16117.767151940869
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.15093833309565471,
+    0.8847903865098826,
+    0.08574011820846232,
+    1381.9392608638811
+   ],
+   "spread3": 6.625222231427892,
+   "spread4": 11.66315163653813,
+   "spread5": 16117.767151940869
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.1467178668609923,
+    0.003630797745158258,
+    0.001458002705207795,
+    50.442251313244476
+   ],
+   "spread3": 275.42156577945445,
+   "spread4": 685.8697836623559,
+   "spread5": 34596.815995657176
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5189790842312524,
+    0.0013739957415889383,
+    0.00008456715987561067,
+    0.2849318973904747
+   ],
+   "spread3": 727.8042935151777,
+   "spread4": 11824.92118064381,
+   "spread5": 11824.92118064381
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3179889352919976,
+    0.332970014396656,
+    0.0019043892512155254,
+    null
+   ],
+   "spread3": 3.144763509087939,
+   "spread4": 525.1027327326723,
+   "spread5": 525.1027327326723
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13365855909399527,
+    2.0947607771158565,
+    0.49861687799047855,
+    null
+   ],
+   "spread3": 15.672477627435125,
+   "spread4": 15.672477627435125,
+   "spread5": 15.672477627435125
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1350829864831974,
+    2.0725112696011903,
+    0.5049990855840913,
+    null
+   ],
+   "spread3": 15.342504067741976,
+   "spread4": 15.342504067741976,
+   "spread5": 15.342504067741976
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382051,
+    0.011863171443451231,
+    1381.93926388867
+   ],
+   "spread3": 7.37014912456817,
+   "spread4": 84.29449112884777,
+   "spread5": 116489.8670204699
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382051,
+    0.011863171443451231,
+    1381.93926388867
+   ],
+   "spread3": 7.37014912456817,
+   "spread4": 84.29449112884777,
+   "spread5": 116489.8670204699
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.13188857604452844,
+    0.0030235177565920784,
+    0.0002017321228184245,
+    50.44225142365247
+   ],
+   "spread3": 330.7405745574777,
+   "spread4": 4957.0687406094585,
+   "spread5": 250045.7077381506
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.4665240429170341,
+    0.0011441839545361348,
+    0.00001170087862079834,
+    0.28493189801413366
+   ],
+   "spread3": 873.9853377907326,
+   "spread4": 85463.66750805342,
+   "spread5": 85463.66750805342
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.28584867522176033,
+    0.27727811395815666,
+    0.0002634950435606667,
+    null
+   ],
+   "spread3": 3.6064873124133685,
+   "spread4": 3795.1378002666734,
+   "spread5": 3795.1378002666734
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1201492184436689,
+    1.7443952679182764,
+    0.06898961223516996,
+    null
+   ],
+   "spread3": 14.518573574709716,
+   "spread4": 25.28489741284569,
+   "spread5": 25.28489741284569
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.12142967394687412,
+    1.7258671686498084,
+    0.06987266703440223,
+    null
+   ],
+   "spread3": 14.212894694956365,
+   "spread4": 24.700175932887564,
+   "spread5": 24.700175932887564
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.1508952161556396,
+    0.885236601094276,
+    0.08615424871214064,
+    null
+   ],
+   "spread3": 6.627115328616902,
+   "spread4": 11.607088622421967,
+   "spread5": 11.607088622421967
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1508952161556396,
+    0.885236601094276,
+    0.08615424871214064,
+    null
+   ],
+   "spread3": 6.627115328616902,
+   "spread4": 11.607088622421967,
+   "spread5": 11.607088622421967
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.14667595553644772,
+    0.0036326288171630782,
+    0.0014650449557585114,
+    null
+   ],
+   "spread3": 275.28273609329443,
+   "spread4": 682.5729108648824,
+   "spread5": 682.5729108648824
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.5188308330243855,
+    0.0013746886706127376,
+    0.00008497562491211529,
+    null
+   ],
+   "spread3": 727.4374346551293,
+   "spread4": 11768.080564682336,
+   "spread5": 11768.080564682336
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.3178980987923009,
+    0.3331379367417162,
+    0.0019135875786296295,
+    null
+   ],
+   "spread3": 3.145662096750541,
+   "spread4": 522.5786429467348,
+   "spread5": 522.5786429467348
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13362037828229048,
+    2.09581719999727,
+    0.5010252308495526,
+    null
+   ],
+   "spread3": 15.684862046787378,
+   "spread4": 15.684862046787378,
+   "spread5": 15.684862046787378
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "u1",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13504439877054808,
+    2.0735564716839834,
+    0.5074382649325679,
+    null
+   ],
+   "spread3": 15.354627741407715,
+   "spread4": 15.354627741407715,
+   "spread5": 15.354627741407715
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a1",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382048,
+    0.011863171443451243,
+    null
+   ],
+   "spread3": 7.370149124568169,
+   "spread4": 84.29449112884768,
+   "spread5": 84.29449112884768
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a2",
+   "x": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "xRel": [
+    1,
+    1,
+    1,
+    1,
+    null
+   ],
+   "ratio": [
+    1,
+    0.13568246491329874,
+    0.7368021113382048,
+    0.011863171443451243,
+    null
+   ],
+   "spread3": 7.370149124568169,
+   "spread4": 84.29449112884768,
+   "spread5": 84.29449112884768
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "i",
+   "x": [
+    13713.442432064381,
+    14107.921454856816,
+    3341833.6358800395,
+    806440.324815837,
+    375699.8152358535
+   ],
+   "xRel": [
+    1,
+    1.028765864205626,
+    243.6903536391606,
+    58.80655632682288,
+    27.396462784384674
+   ],
+   "ratio": [
+    1,
+    0.13188857604452844,
+    0.0030235177565920775,
+    0.00020173212281842471,
+    null
+   ],
+   "spread3": 330.74057455747777,
+   "spread4": 4957.068740609452,
+   "spread5": 4957.068740609452
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "u",
+   "x": [
+    5.436044786260371e-10,
+    1.5810030955040463e-10,
+    3.500564100699589e-7,
+    5.511443487590506e-7,
+    0.000002636519035863743
+   ],
+   "xRel": [
+    1,
+    0.2908370253865529,
+    643.9542421628462,
+    1013.8701398341502,
+    4850.068642788884
+   ],
+   "ratio": [
+    1,
+    0.46652404291703403,
+    0.0011441839545361344,
+    0.000011700878620798351,
+    null
+   ],
+   "spread3": 873.985337790733,
+   "spread4": 85463.66750805335,
+   "spread5": 85463.66750805335
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "uJ",
+   "x": [
+    1.7796266002265096e-12,
+    8.447271044956901e-13,
+    4.728943866945081e-12,
+    8.012300792653251e-11,
+    null
+   ],
+   "xRel": [
+    1,
+    0.4746653620417754,
+    2.6572674663006186,
+    45.022370376085924,
+    null
+   ],
+   "ratio": [
+    1,
+    0.28584867522176033,
+    0.27727811395815655,
+    0.000263495043560667,
+    null
+   ],
+   "spread3": 3.6064873124133694,
+   "spread4": 3795.1378002666697,
+   "spread5": 3795.1378002666697
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "eii",
+   "x": [
+    1282069.289469485,
+    1447819.0007238246,
+    541523.6883153734,
+    220459.3893282771,
+    null
+   ],
+   "xRel": [
+    1,
+    1.1292829588975852,
+    0.4223825441910817,
+    0.17195590842013092,
+    null
+   ],
+   "ratio": [
+    1,
+    0.1201492184436689,
+    1.744395267918276,
+    0.06898961223517003,
+    null
+   ],
+   "spread3": 14.51857357470971,
+   "spread4": 25.28489741284566,
+   "spread5": 25.28489741284566
+  },
+  {
+   "bg": "Gm",
+   "axis": "eq",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "ei",
+   "x": [
+    1298390.843806735,
+    1450789.2871855202,
+    554305.1820189698,
+    220444.3287258926,
+    null
+   ],
+   "xRel": [
+    1,
+    1.117374859893474,
+    0.42691704478892484,
+    0.16978271972372724,
+    null
+   ],
+   "ratio": [
+    1,
+    0.12142967394687415,
+    1.725867168649808,
+    0.06987266703440231,
+    null
+   ],
+   "spread3": 14.21289469495636,
+   "spread4": 24.700175932887532,
+   "spread5": 24.700175932887532
+  }
+ ],
+ "scan": [
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "nBodies": 3,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 3,
+    "le1.2": 19,
+    "le2": 191
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1
+     ],
+     "spread": 1.0156797618194737
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      1.5,
+      -1.5
+     ],
+     "spread": 1.0404800118643664
+    },
+    {
+     "qs": [
+      "omega",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 1.0419705069111607
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1.5
+     ],
+     "spread": 1.053348330090106
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -2
+     ],
+     "spread": 1.0658858193156557
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1
+     ],
+     "spread": 1.0763042546829102
+    },
+    {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.0831490907631356
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 1.0848788100293754
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 1.8752385259762205
+    },
+    "2": {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.0831490907631356
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1
+     ],
+     "spread": 1.0156797618194737
+    }
+   }
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "nBodies": 4,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus",
+    "Mercury"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 0,
+    "le2": 64
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      0.5,
+      2,
+      -0.5
+     ],
+     "spread": 1.375267716152803
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1,
+      1.5,
+      -1
+     ],
+     "spread": 1.3827827815065779
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      1,
+      -1.5
+     ],
+     "spread": 1.4058741593506616
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      0.5,
+      -2
+     ],
+     "spread": 1.445887195665052
+    },
+    {
+     "qs": [
+      "omega",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 1.525792168659911
+    },
+    {
+     "qs": [
+      "omega",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -2
+     ],
+     "spread": 1.5378941483102235
+    },
+    {
+     "qs": [
+      "omega",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 1.5513157919892617
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      0.5,
+      -2
+     ],
+     "spread": 1.5523830260458076
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 1.8752385259762205
+    },
+    "2": {
+     "qs": [
+      "R",
+      "moi"
+     ],
+     "pows": [
+      2,
+      -2
+     ],
+     "spread": 1.5623911005756992
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      0.5,
+      2,
+      -0.5
+     ],
+     "spread": 1.375267716152803
+    }
+   }
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "nBodies": 3,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 4,
+    "le2": 28
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1.5
+     ],
+     "spread": 1.0873679640278338
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -0.5
+     ],
+     "spread": 1.1287479888062903
+    },
+    {
+     "qs": [
+      "n",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1324025487747749
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -0.5,
+      2,
+      1.5
+     ],
+     "spread": 1.1500248304386187
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -2
+     ],
+     "spread": 1.274058542418629
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -0.5
+     ],
+     "spread": 1.2950589230464409
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -0.5,
+      2,
+      2
+     ],
+     "spread": 1.3021356924124285
+    },
+    {
+     "qs": [
+      "n",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -0.5
+     ],
+     "spread": 1.3078405844785586
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "J2"
+     ],
+     "pows": [
+      -1
+     ],
+     "spread": 5.824451349765093
+    },
+    "2": {
+     "qs": [
+      "n",
+      "J2"
+     ],
+     "pows": [
+      2,
+      -0.5
+     ],
+     "spread": 2.0147294091394317
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1.5
+     ],
+     "spread": 1.0873679640278338
+    }
+   }
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "nBodies": 4,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus",
+    "Mercury"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 0,
+    "le2": 0
+   },
+   "top": [
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      2,
+      -1
+     ],
+     "spread": 18.896386513490857
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      1.5,
+      -1
+     ],
+     "spread": 30.536155113660534
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -1.5,
+      2,
+      -1
+     ],
+     "spread": 38.5050693284228
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -2
+     ],
+     "spread": 46.37412741558363
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      -2,
+      -2
+     ],
+     "spread": 47.163654091970926
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      1,
+      -1
+     ],
+     "spread": 49.345771397077584
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -1.5,
+      2,
+      -0.5
+     ],
+     "spread": 51.038019286792746
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -1,
+      -2,
+      2
+     ],
+     "spread": 51.62884856258833
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 699.8624740472659
+    },
+    "2": {
+     "qs": [
+      "n",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      -1
+     ],
+     "spread": 128.86088845791787
+    },
+    "3": {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      2,
+      -1
+     ],
+     "spread": 18.896386513490857
+    }
+   }
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "nBodies": 3,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 10,
+    "le2": 126
+   },
+   "top": [
+    {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.1086674425310017
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1098426790384164
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      0.5
+     ],
+     "spread": 1.1176739866654835
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1
+     ],
+     "spread": 1.1388260556127927
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1.5
+     ],
+     "spread": 1.1400332615835012
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 1.1412417472459118
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -1
+     ],
+     "spread": 1.1583308514043393
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      1
+     ],
+     "spread": 1.1761351122883623
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 2.0860866394816133
+    },
+    "2": {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.1086674425310017
+    },
+    "3": {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1098426790384164
+    }
+   }
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "nBodies": 4,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus",
+    "Mercury"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 0,
+    "le2": 0
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 2.7439375097154968
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 3.234251755688514
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -1.5
+     ],
+     "spread": 3.3263028344351655
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      1
+     ],
+     "spread": 4.089326310420923
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      1.5
+     ],
+     "spread": 4.1586900147688555
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      2
+     ],
+     "spread": 4.229230275624041
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "moi"
+     ],
+     "pows": [
+      -1,
+      2,
+      -2
+     ],
+     "spread": 4.231756059612365
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -2
+     ],
+     "spread": 4.32414912290063
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 12.36109190608998
+    },
+    "2": {
+     "qs": [
+      "n",
+      "R"
+     ],
+     "pows": [
+      -1,
+      2
+     ],
+     "spread": 5.21110021192657
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 2.7439375097154968
+    }
+   }
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "nBodies": 3,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 4,
+    "le2": 28
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1.5
+     ],
+     "spread": 1.0873679640278493
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -0.5
+     ],
+     "spread": 1.1287479888062824
+    },
+    {
+     "qs": [
+      "n",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1324025487747589
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -0.5,
+      2,
+      1.5
+     ],
+     "spread": 1.1500248304386187
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -2
+     ],
+     "spread": 1.274058542418647
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -0.5
+     ],
+     "spread": 1.29505892304645
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -0.5,
+      2,
+      2
+     ],
+     "spread": 1.3021356924124285
+    },
+    {
+     "qs": [
+      "n",
+      "rho",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -0.5
+     ],
+     "spread": 1.3078405844785586
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "J2"
+     ],
+     "pows": [
+      -1
+     ],
+     "spread": 5.824451349765093
+    },
+    "2": {
+     "qs": [
+      "n",
+      "J2"
+     ],
+     "pows": [
+      2,
+      -0.5
+     ],
+     "spread": 2.014729409139403
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      2,
+      -1.5
+     ],
+     "spread": 1.0873679640278493
+    }
+   }
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "nBodies": 4,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus",
+    "Mercury"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 0,
+    "le2": 0
+   },
+   "top": [
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      2,
+      -1
+     ],
+     "spread": 18.89638651349099
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      1.5,
+      -1
+     ],
+     "spread": 30.536155113660534
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -1.5,
+      2,
+      -1
+     ],
+     "spread": 38.5050693284228
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -2
+     ],
+     "spread": 46.3741274155833
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "J2"
+     ],
+     "pows": [
+      1,
+      -2,
+      -2
+     ],
+     "spread": 47.16365409197109
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      1,
+      -1
+     ],
+     "spread": 49.34577139707776
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -1.5,
+      2,
+      -0.5
+     ],
+     "spread": 51.038019286792746
+    },
+    {
+     "qs": [
+      "omega",
+      "n",
+      "R"
+     ],
+     "pows": [
+      -1,
+      -2,
+      2
+     ],
+     "spread": 51.62884856258796
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 699.8624740472659
+    },
+    "2": {
+     "qs": [
+      "n",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      -1
+     ],
+     "spread": 128.86088845791787
+    },
+    "3": {
+     "qs": [
+      "n",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      -2,
+      2,
+      -1
+     ],
+     "spread": 18.89638651349099
+    }
+   }
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "nBodies": 3,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 10,
+    "le2": 126
+   },
+   "top": [
+    {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.1086674425310017
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1098426790384224
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      0.5
+     ],
+     "spread": 1.1176739866654835
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1
+     ],
+     "spread": 1.1388260556127927
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -1.5
+     ],
+     "spread": 1.1400332615835012
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 1.1412417472459138
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -1
+     ],
+     "spread": 1.1583308514043373
+    },
+    {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      1
+     ],
+     "spread": 1.1761351122883643
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 2.086086639481606
+    },
+    "2": {
+     "qs": [
+      "R",
+      "rho"
+     ],
+     "pows": [
+      2,
+      2
+     ],
+     "spread": 1.1086674425310017
+    },
+    "3": {
+     "qs": [
+      "R",
+      "rho",
+      "moi"
+     ],
+     "pows": [
+      2,
+      2,
+      -0.5
+     ],
+     "spread": 1.1098426790384224
+    }
+   }
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "nBodies": 4,
+   "ids": [
+    "Earth",
+    "Mars",
+    "Venus",
+    "Mercury"
+   ],
+   "usable": [
+    "omega",
+    "n",
+    "R",
+    "rho",
+    "moi",
+    "J2"
+   ],
+   "counts": {
+    "total": 11248,
+    "le1.05": 0,
+    "le1.2": 0,
+    "le2": 0
+   },
+   "top": [
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 2.7439375097154968
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1.5,
+      -2
+     ],
+     "spread": 3.2342517556885255
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      1.5,
+      2,
+      -1.5
+     ],
+     "spread": 3.3263028344351655
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      1
+     ],
+     "spread": 4.089326310420953
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      1.5
+     ],
+     "spread": 4.1586900147689
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "rho"
+     ],
+     "pows": [
+      -1,
+      2,
+      2
+     ],
+     "spread": 4.229230275624056
+    },
+    {
+     "qs": [
+      "n",
+      "R",
+      "moi"
+     ],
+     "pows": [
+      -1,
+      2,
+      -2
+     ],
+     "spread": 4.23175605961238
+    },
+    {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      1,
+      -2
+     ],
+     "spread": 4.3241491229006455
+    }
+   ],
+   "bestBySize": {
+    "1": {
+     "qs": [
+      "R"
+     ],
+     "pows": [
+      2
+     ],
+     "spread": 12.36109190608998
+    },
+    "2": {
+     "qs": [
+      "n",
+      "R"
+     ],
+     "pows": [
+      -1,
+      2
+     ],
+     "spread": 5.21110021192657
+    },
+    "3": {
+     "qs": [
+      "omega",
+      "R",
+      "J2"
+     ],
+     "pows": [
+      2,
+      2,
+      -2
+     ],
+     "spread": 2.7439375097154968
+    }
+   }
+  }
+ ],
+ "rank": [
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    3,
+    3
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.816496989174749,
+    0.5773502691889627,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 4,
+   "nKnobs": 3,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    3,
+    3
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.7071064276322134,
+    0.707106427631489
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 4,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.577350736275947,
+    0.5773505578647304,
+    0.5773500907784685,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.999999999999962,
+    0.9999988819665867,
+    0.9999988819663267
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 5,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.8099315354575071,
+    0.5235287579450247,
+    0.35432641692744243,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 5,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6180335578477285,
+    0.6180335578473906,
+    0.3819656696090197
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 5,
+   "nKnobs": 7,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    2,
+    2
+   ],
+   "svRel": [
+    1,
+    0.5345228933545557,
+    0.534522877378643,
+    0.5345226324295129,
+    0.5345222957400415,
+    0,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "u1"
+   },
+   "nObs": 5,
+   "nKnobs": 6,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.999999999999962,
+    0.9999999409830673,
+    0.9999988819665867,
+    0.9999988819663267,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6454002552520568,
+    0.45636676345499005,
+    0.0017624113933932452
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 3,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    3,
+    3
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.7071064276329645,
+    0.707106427631523
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.45636646330053576,
+    0.45636632228963075,
+    0.4563659530678112,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.9999999999992056,
+    0.9999988819668233,
+    0.9999988819660288
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.72481469116783,
+    0.4500182395756719,
+    0.2826298729158543,
+    0.0016941615392142098
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6180335578485757,
+    0.6180335578474353,
+    0.3819656696097404
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 7,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    2,
+    2
+   ],
+   "svRel": [
+    1,
+    0.45053952466769503,
+    0.4505395012693365,
+    0.4505393715085299,
+    0.4505390209496794,
+    0,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 6,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.9999999999992056,
+    0.9999999409828074,
+    0.9999988819668233,
+    0.9999988819660288,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.4456903602784295,
+    0.32485143582545656,
+    0.09928648028378013
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 3,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    3,
+    3
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.7071064276323363,
+    0.7071064276308949
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.3252682233470721,
+    0.32526820929594114,
+    0.3252678596857764,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.9999999999987146,
+    0.9999988819652343,
+    0.9999988819647434
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.5153358866299473,
+    0.3239239772982392,
+    0.21394137167307123,
+    0.09114675443152898
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6180335578482945,
+    0.6180335578471541,
+    0.3819656696083749
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 7,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    2,
+    2
+   ],
+   "svRel": [
+    1,
+    0.3231385029315988,
+    0.3231384937783419,
+    0.32313847427009995,
+    0.32313814165140514,
+    0,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Gm",
+    "axis": "L",
+    "tSrc": 0,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 6,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.9999999999987146,
+    0.9999999409797458,
+    0.9999988819652343,
+    0.9999988819647434,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6454002552523411,
+    0.4563667634547184,
+    0.0017624113925168907
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 3,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f"
+   ],
+   "rank": [
+    3,
+    3
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.7071064276320885,
+    0.7071064276311428
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.4563664633007986,
+    0.4563663222896945,
+    0.45636595306761785,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 4,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "f:Earth",
+    "f:Mars"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.9999999999997546,
+    0.9999988819662274,
+    0.9999988819655848
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 5,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.7248146911682548,
+    0.4500182395754001,
+    0.2826298729153444,
+    0.0016941615383708197
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "shared",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 4,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f"
+   ],
+   "rank": [
+    4,
+    4
+   ],
+   "undetermined": [
+    0,
+    0
+   ],
+   "svRel": [
+    1,
+    0.6180335578476598,
+    0.61803355784703,
+    0.38196566960875417
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": false,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 7,
+   "knobs": [
+    "u",
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    2,
+    2
+   ],
+   "svRel": [
+    1,
+    0.450539524667953,
+    0.4505395012693489,
+    0.4505393715085733,
+    0.45053902094948745,
+    0,
+    0
+   ]
+  },
+  {
+   "bodies": [
+    "Earth",
+    "Mars",
+    "Venus"
+   ],
+   "fMode": "each",
+   "fixU": true,
+   "col": {
+    "bg": "Np",
+    "axis": "L",
+    "tSrc": 1,
+    "uCol": "uV"
+   },
+   "nObs": 5,
+   "nKnobs": 6,
+   "knobs": [
+    "C:Earth",
+    "C:Mars",
+    "C:Venus",
+    "f:Earth",
+    "f:Mars",
+    "f:Venus"
+   ],
+   "rank": [
+    5,
+    5
+   ],
+   "undetermined": [
+    1,
+    1
+   ],
+   "svRel": [
+    1,
+    0.9999999999997546,
+    0.9999999409826846,
+    0.9999988819662274,
+    0.9999988819655848,
+    0
+   ]
+  }
+ ],
+ "tilt": {
+  "earthTiltDeg": 23.4392911,
+  "marsTiltDeg": 25.19,
+  "earthOmegaA": {
+   "r": 0.000012850060855032202,
+   "f": 0.000012849895733090053,
+   "poleSpeed": 20.0419284333901,
+   "toward": true
+  },
+  "earthEpsA": {
+   "r": 0.023369392401300215,
+   "f": 0.02283573514590343,
+   "poleSpeed": 20.047400418903187,
+   "toward": true
+  },
+  "mars": {
+   "r": 0.0016682883740729586,
+   "f": 0.0016655098233976798,
+   "poleSpeed": 3.2368549697518203,
+   "toward": true
+  },
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.epsA.rate",
+   "earth.omegaA.rate",
+   "earth.psiA.rate",
+   "mars.eps.rate",
+   "mars.obliquity",
+   "mars.prec.rate"
+  ]
+ },
+ "sun": [
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a1",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 1,
+   "cSun": 8515.43200329011,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 50.384815070022526,
+   "periodYr": 25722.035462447922,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S1) ω_T ÷ ω_L"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "a2",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "i",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 25.118581868782936,
+   "cSun": 213895.5759226969,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 1265.595102279849,
+   "periodYr": 1024.0241904108032,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(イ) 1 ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "u",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 5.235839734771542e-16,
+   "cSun": 4.458543724157159e-12,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 2.638068167727399e-14,
+   "periodYr": 49126857897552260000,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ) n² ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "uJ",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ′) n² J2 ÷ (ω C′)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "eii",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (ii)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "ei",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (i)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "scan",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 11934.473625918496,
+   "cSun": 101627198.65656812,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 601316.2465999646,
+   "periodYr": 2.155271884516676,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2",
+   "pick": {
+    "qs": [
+     "R"
+    ],
+    "pows": [
+     2
+    ]
+   },
+   "spread3": 1.8752385259762205
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "scan",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 778.3518575413698,
+   "cSun": 6628002.317528086,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 39217.11440163044,
+   "periodYr": 33.04679652682756,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^2",
+   "pick": {
+    "qs": [
+     "R",
+     "rho"
+    ],
+    "pows": [
+     2,
+     2
+    ]
+   },
+   "spread3": 1.0831490907631356
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "scan",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "omega^1 R^2 J2^-1",
+   "pick": {
+    "qs": [
+     "omega",
+     "R",
+     "J2"
+    ],
+    "pows": [
+     1,
+     2,
+     -1
+    ]
+   },
+   "spread3": 1.0156797618194737
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "u1",
+   "cand": "scan",
+   "u": 1,
+   "needEarth": 8515.43200329011,
+   "xRatio": 15815.649227155163,
+   "cSun": 134677085.5817276,
+   "bgPeriodYr": 219034243.96669218,
+   "bgRateAsYr": 0.0059168830249076414,
+   "rateAsYr": 796868.5615225576,
+   "periodYr": 1.6263660816581391,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^1.5 moi^-1.5",
+   "pick": {
+    "qs": [
+     "R",
+     "rho",
+     "moi"
+    ],
+    "pows": [
+     2,
+     1.5,
+     -1.5
+    ]
+   },
+   "spread3": 1.053348330090106
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 1,
+   "cSun": 11412373318226174,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 80.54575355810098,
+   "periodYr": 16090.233721199735,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S1) ω_T ÷ ω_L"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 25.118581868782936,
+   "cSun": 286662633510978100,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 2023.195104931974,
+   "periodYr": 640.570944858813,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(イ) 1 ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 5.235839734771542e-16,
+   "cSun": 5.975335768761515,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 4.217246569466214e-14,
+   "periodYr": 30730951549841140000,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ) n² ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ′) n² J2 ÷ (ω C′)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (ii)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (i)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 11934.473625918496,
+   "cSun": 136200668375506220000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 961271.1715188869,
+   "periodYr": 1.3482147789288366,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2",
+   "pick": {
+    "qs": [
+     "R"
+    ],
+    "pows": [
+     2
+    ]
+   },
+   "spread3": 1.8752385259762205
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 778.3518575413698,
+   "cSun": 8882841971196910000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 62692.936899017295,
+   "periodYr": 20.672185163179275,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^2",
+   "pick": {
+    "qs": [
+     "R",
+     "rho"
+    ],
+    "pows": [
+     2,
+     2
+    ]
+   },
+   "spread3": 1.0831490907631356
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "omega^1 R^2 J2^-1",
+   "pick": {
+    "qs": [
+     "omega",
+     "R",
+     "J2"
+    ],
+    "pows": [
+     1,
+     2,
+     -1
+    ]
+   },
+   "spread3": 1.0156797618194737
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 11412373318226174,
+   "xRatio": 15815.649227155163,
+   "cSun": 180494093250410020000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 1273883.38501181,
+   "periodYr": 1.0173615695505633,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^1.5 moi^-1.5",
+   "pick": {
+    "qs": [
+     "R",
+     "rho",
+     "moi"
+    ],
+    "pows": [
+     2,
+     1.5,
+     -1.5
+    ]
+   },
+   "spread3": 1.053348330090106
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a1",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 1,
+   "cSun": 8367842680380013,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 59.0581972349645,
+   "periodYr": 21944.45581946621,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S1) ω_T ÷ ω_L"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "a2",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "i",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 25.118581868782936,
+   "cSun": 210188341432221400,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 1483.4581622691858,
+   "periodYr": 873.6343450478988,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(イ) 1 ÷ ω"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "u",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 5.235839734771542e-16,
+   "cSun": 4.381268320025088,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 3.092192557468019e-14,
+   "periodYr": 41912008256730420000,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ) n² ÷ ω"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "uJ",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ′) n² J2 ÷ (ω C′)"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "eii",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (ii)"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "ei",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (i)"
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 11934.473625918496,
+   "cSun": 99865797774830390000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 704828.4972949764,
+   "periodYr": 1.8387451769811365,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2",
+   "pick": {
+    "qs": [
+     "R"
+    ],
+    "pows": [
+     2
+    ]
+   },
+   "spread3": 1.8752385259762205
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 778.3518575413698,
+   "cSun": 6513125893887738000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 45968.05752087921,
+   "periodYr": 28.193490651880214,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^2",
+   "pick": {
+    "qs": [
+     "R",
+     "rho"
+    ],
+    "pows": [
+     2,
+     2
+    ]
+   },
+   "spread3": 1.0831490907631356
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "omega^1 R^2 J2^-1",
+   "pick": {
+    "qs": [
+     "omega",
+     "R",
+     "J2"
+    ],
+    "pows": [
+     1,
+     2,
+     -1
+    ]
+   },
+   "spread3": 1.0156797618194737
+  },
+  {
+   "bg": "Gm",
+   "axis": "L",
+   "tSrc": 0,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 1.1928166586523097e-12,
+   "needEarth": 8367842680380013,
+   "xRatio": 15815.649227155163,
+   "cSun": 132342864620908150000,
+   "bgPeriodYr": 183627754003842900000,
+   "bgRateAsYr": 7.057756639406904e-15,
+   "rateAsYr": 934043.7314563436,
+   "periodYr": 1.3875153339761734,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^1.5 moi^-1.5",
+   "pick": {
+    "qs": [
+     "R",
+     "rho",
+     "moi"
+    ],
+    "pows": [
+     2,
+     1.5,
+     -1.5
+    ]
+   },
+   "spread3": 1.053348330090106
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a1",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 1,
+   "cSun": 7227111.4042500965,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 80.54575355810097,
+   "periodYr": 16090.23372119974,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S1) ω_T ÷ ω_L"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "a2",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ア) (S2) √(ω² + abs(Ω⊥)²) ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "i",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 25.118581868782936,
+   "cSun": 181534789.48247084,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 2023.1951049319734,
+   "periodYr": 640.5709448588133,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(イ) 1 ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "u",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 5.235839734771542e-16,
+   "cSun": 3.783999705799321e-9,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 4.217246569466214e-14,
+   "periodYr": 30730951549841150000,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ) n² ÷ ω"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "uJ",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(ウ′) n² J2 ÷ (ω C′)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "eii",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (ii)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "ei",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "(エ) c_R の入り方 (i)"
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 11934.473625918496,
+   "cSun": 86251770445.59755,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 961271.1715188867,
+   "periodYr": 1.348214778928837,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2",
+   "pick": {
+    "qs": [
+     "R"
+    ],
+    "pows": [
+     2
+    ]
+   },
+   "spread3": 1.8752385259762205
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 778.3518575413698,
+   "cSun": 5625235586.15648,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 62692.93689901728,
+   "periodYr": 20.672185163179282,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^2",
+   "pick": {
+    "qs": [
+     "R",
+     "rho"
+    ],
+    "pows": [
+     2,
+     2
+    ]
+   },
+   "spread3": 1.0831490907631356
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": null,
+   "cSun": null,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": null,
+   "periodYr": null,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "omega^1 R^2 J2^-1",
+   "pick": {
+    "qs": [
+     "omega",
+     "R",
+     "J2"
+    ],
+    "pows": [
+     1,
+     2,
+     -1
+    ]
+   },
+   "spread3": 1.0156797618194737
+  },
+  {
+   "bg": "Np",
+   "axis": "L",
+   "tSrc": 1,
+   "uCol": "uV",
+   "cand": "scan",
+   "u": 0.0018835836681213884,
+   "needEarth": 7227111.4042500965,
+   "xRatio": 15815.649227155163,
+   "cSun": 114301458895.19232,
+   "bgPeriodYr": 116285911623.5321,
+   "bgRateAsYr": 0.000011144944231900712,
+   "rateAsYr": 1273883.3850118099,
+   "periodYr": 1.0173615695505638,
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.psiA.rate"
+   ],
+   "label": "R^2 rho^1.5 moi^-1.5",
+   "pick": {
+    "qs": [
+     "R",
+     "rho",
+     "moi"
+    ],
+    "pows": [
+     2,
+     1.5,
+     -1.5
+    ]
+   },
+   "spread3": 1.053348330090106
+  }
+ ],
+ "provisional": true,
+ "provMark": "仮・未照合",
+ "provKeys": [
+  "earth.epsA.rate",
+  "earth.omegaA.rate",
+  "earth.psiA.rate",
+  "mars.eps.rate",
+  "mars.obliquity",
+  "mars.prec.rate",
+  "venus.prec.rate"
+ ],
+ "gates": {
+  "pure": true,
+  "need": true,
+  "structs": true,
+  "cand": true,
+  "scan": true,
+  "rank": true,
+  "sun": true,
+  "prov": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.283
+  },
+  "need": {
+   "wallSec": 0.311
+  },
+  "struct": {
+   "wallSec": 0.312
+  },
+  "cand": {
+   "wallSec": 0.345
+  },
+  "scan": {
+   "wallSec": 0.53
+  },
+  "rank": {
+   "wallSec": 0.584
+  },
+  "sun": {
+   "wallSec": 0.588
+  }
+ },
+ "elapsedS": 1.566,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第352便q",
+  "target": "tests/lib-w352q-response.mjs",
+  "targetSha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+  "generatedAt": "2026-11-24T18:04:35.378Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w352q-response.mjs",
+    "bytes": 12672,
+    "sha256": "08bdd2eff9bc3d6ec0807b68994468d5886ad76aa9fb1d1b3249059a4d34823a",
+    "mtime": "2026-11-24T18:04:33.662Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-24T17:52:16.290Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-24T17:52:16.290Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-24T17:52:16.294Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-24T17:52:16.302Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-24T17:52:16.306Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-24T17:52:16.310Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-24T17:52:16.314Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-24T17:52:16.318Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-24T17:52:16.318Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-24T17:52:16.318Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-24T17:52:16.318Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-24T17:52:16.318Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-24T17:52:16.322Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-24T17:52:16.326Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-24T17:52:16.330Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-24T17:52:16.334Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-24T17:52:16.338Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-24T17:52:16.342Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-24T17:52:16.346Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-24T18:00:50.278Z"
+   }
+  ],
+  "codeSha256": "c58d8311b190188ac4e0692569f5b5dcea5cc8ef7cd2f19bb1fc426b150a778c",
+  "harnessVersion": "w352q-response-1",
+  "stage": "response",
+  "engine": "Node(html を読まない —— 純関数の lib: 〔第352便k〕の (S)・〔第352便j〕の主の表・〔第352便d〕の背景・〔第352便c〕の基準軸・〔第352便b〕の仮の値・〔第351便k〕の階数の道具・〔第350便f〕の構造の比)・入力のファイルなし・1 プロセス",
+  "notClaim": [
+   "応答の係数・構造の式・べきの値は決めていない(並びの診断 —— どの列も候補の表)",
+   "仮の値(第352便b)を使う列は「仮・未照合」—— 較正の合否・サンプルの状況・ノブの採否に入れない",
+   "リポジトリの文献の値(水星 —— 役割「桁」・月 —— 軌道の交点の率)は固定の比べる列(合わせない)",
+   "べきの組の走査の残差は、天体 3 つ(自由度 2)では小さくなる組が多い —— 残差の小ささは式の採否ではない",
+   "太陽の列は地球の要る係数を式の候補の比で写した仮の数 —— 太陽の歳差の率とは書かない",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 3664,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

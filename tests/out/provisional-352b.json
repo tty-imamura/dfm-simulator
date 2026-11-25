@@ -1,0 +1,1418 @@
+{
+ "version": "w352b-provisional-1",
+ "libVersion": "w352b-provisional-lib-1",
+ "generator": "tests/exp-w352b-provisional.mjs",
+ "target": "tests/lib-w352b-provisional.mjs",
+ "ruling": "原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R439",
+ "decl": {
+  "nProv": 20,
+  "fields": [
+   "key",
+   "value",
+   "unit",
+   "quantity",
+   "epoch",
+   "frame",
+   "positive",
+   "sigma",
+   "grade",
+   "sourceHint",
+   "provisional",
+   "verified",
+   "useForVerdict"
+  ],
+  "grades": [
+   "A",
+   "B",
+   "C"
+  ],
+  "mark": "仮・未照合",
+  "bgDirs": [
+   "G-",
+   "G+",
+   "N+",
+   "N-"
+  ],
+  "guarded": [
+   "tools/samplestatus-postgate.mjs",
+   "tools/calaudit-split.mjs",
+   "tests/exp-w249b-calaudit.mjs",
+   "tests/exp-w279a-samplestatus.mjs",
+   "tests/lib-w279a-samplestatus.mjs",
+   "tests/lib-w268a-judgement.mjs"
+  ],
+  "guardedRe": "(^|\\/)[^/]*(samplestatus|calaudit|calverdict|judgement)[^/]*\\.mjs$",
+  "noKeyDocs": [
+   "docs/SAMPLE_STATUS.md",
+   "tests/out/samplestatus-w279a.json",
+   "tests/data-w279a-samplestatus-src.json",
+   "tests/data-w323d-calverdict.json"
+  ],
+  "anchor": {
+   "refEq": [
+    0.0339521,
+    -0.0096634,
+    0.9993767
+   ],
+   "refEqTol": 5e-7,
+   "sunToRefEqDeg": 5.23,
+   "sunToEclDeg": 7.252,
+   "degTol": 0.0005,
+   "uS": 1.19282e-12,
+   "uMS": 25.4221,
+   "uRelTol": 0.000005,
+   "bgMagAsYr": 7.05776e-15,
+   "gDeltaRefDeg": 62.136
+  },
+  "common": {
+   "p2x": -0.03061311,
+   "p6": -0.01530656,
+   "w": -0.01530612,
+   "tol": 5e-9
+  },
+  "t4Premise": [
+   "観測の基準の極 = 合成の軸",
+   "一定の場",
+   "ほかのトルクなし"
+  ],
+  "provLib": "lib-w352b-provisional.mjs"
+ },
+ "plan": {
+  "pure": "零試験 10",
+  "prov": "台帳 20 件",
+  "cross": "照合の列 11",
+  "t4": "地球 3 列 + 火星 2 列 × 背景の向き 4"
+ },
+ "amend": [],
+ "notClaim": [
+  "仮の値は統括の手元の知識の数で、一次の資料に当たっていない(仮・未照合)—— 較正の合否・サンプルの状況・ノブの採否・正式判定値に入れない",
+  "経路の比率の感度の数は、前提(観測の基準の極 = 合成の軸・一定の場・ほかのトルクなし)の下の数 —— この前提は今の候補では成り立っていない。ノブの値ではない",
+  "照合の列は、仮の値とリポジトリの数の差を並べるだけ(どちらかを正しいとは言わない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "scenes": {
+   "ledger": [],
+   "mutantCaught": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "dupCaught": true,
+   "unknownThrows": true,
+   "tagUnknownThrows": true,
+   "taggedKeys": [
+    "earth.precSense",
+    "mars.obliquity"
+   ],
+   "avThrows": true,
+   "avNestedThrows": true,
+   "avClean": true,
+   "rangeThrows": true,
+   "sense": {
+    "psiRH": -50.38481507,
+    "mars": -7.605,
+    "earthSense": -1,
+    "venus": null
+   },
+   "cross": [
+    {
+     "key": "venusEarth.synodic",
+     "prov": 583.92,
+     "repo": 583.9236487922877,
+     "repoFrom": "repo.orbitDays.venus・repo.orbitDays.earth の 1 ÷ (1/P_V − 1/P_E)",
+     "diff": -0.003648792287776814,
+     "unit": "日",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "venus.resonance.period",
+     "prov": 243.16,
+     "repo": 243.1667208542334,
+     "repoFrom": "S ÷ (5 − S/P_V)(リポジトリの公転の周期)",
+     "diff": -0.006720854233407181,
+     "unit": "日",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "venus.spin.period",
+     "prov": 243.0226,
+     "repo": 243.025,
+     "repoFrom": "repo.venus.spinDays(大きさ —— 符号は逆行)",
+     "diff": -0.0023999999999944066,
+     "unit": "日",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "venus.prec.rate",
+     "prov": 44.58,
+     "repo": 44.58,
+     "repoFrom": "repo.venus.prec",
+     "diff": 0,
+     "unit": "″/年",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "venus.obliquity",
+     "prov": 177.3608,
+     "repo": 177.36240331763807,
+     "repoFrom": "〔第347便e〕の geometry() の自転のベクトルと公転の法線の角(有向の角運動量)",
+     "diff": -0.0016033176380574332,
+     "unit": "°",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "mars.prec.rate",
+     "prov": 7.605,
+     "repo": 7.594,
+     "repoFrom": "repo.mars.prec(大きさ)",
+     "diff": 0.01100000000000012,
+     "unit": "″/年",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "mars.obliquity",
+     "prov": 25.19,
+     "repo": 25.191842165359787,
+     "repoFrom": "〔第347便e〕の geometry() の火星の自転のベクトルと公転の法線の角",
+     "diff": -0.0018421653597862075,
+     "unit": "°",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "sun.obliquity.ecl",
+     "prov": 7.25,
+     "repo": 7.251726808412437,
+     "repoFrom": "第342便e の lib の spinUnit('Sun') と黄道の極の角",
+     "diff": -0.0017268084124371086,
+     "unit": "°",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "gal.R0・gal.v0",
+     "prov": 9.089990689904927e-16,
+     "repo": 9.09e-16,
+     "repoFrom": "repo.galaxy.omega(第337便c の lib の宣言の銀河の公転の角速度)",
+     "diff": -9.310095073023405e-22,
+     "rel": -0.0000010242128792858907,
+     "unit": "rad/s",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "gal.oort.A・gal.oort.B",
+     "prov": 27.200000000000003,
+     "repo": 28.04878048780488,
+     "repoFrom": "A − B(局所の角速度)と v0 ÷ R0(仮の値どうし)",
+     "diff": -0.848780487804877,
+     "rel": -0.03026086956521734,
+     "unit": "km/s/kpc",
+     "mark": "仮・未照合"
+    },
+    {
+     "key": "earth.obliquity(リポジトリの数 —— 仮の値ではない)",
+     "prov": null,
+     "repo": 23.439291099999995,
+     "repoFrom": "〔第347便e〕の geometry() の地球の自転のベクトルと黄道の極の角",
+     "diff": null,
+     "unit": "°",
+     "mark": null
+    }
+   ],
+   "scope": {
+    "clean": true,
+    "indirect": true,
+    "oldName": true,
+    "byName": true
+   },
+   "leak": {
+    "none": true,
+    "hit": true
+   },
+   "outMark": {
+    "ok": true,
+    "miss": true,
+    "free": true
+   },
+   "anc": {
+    "refEq": [
+     0.03395211880019718,
+     -0.009663360967089167,
+     0.9993767423168286
+    ],
+    "sunToRefEq": 5.229901351627631,
+    "sunToEcl": 7.251726808412437,
+    "uS": 1.1928166586523097e-12,
+    "uMS": 25.42212683346153,
+    "bgMag": 7.0577566394069055e-15,
+    "gDeltaRef": 62.13553345409797
+   },
+   "common": {
+    "p2x": -0.03061311434667674,
+    "p6": -0.01530655717333837,
+    "w": -0.015306122448979593
+   },
+   "ratio": {
+    "r": 0.5000000000000001,
+    "f": 0.3333333333333334,
+    "inv": 0.5000000000000002,
+    "toward": true,
+    "throws": true
+   },
+   "main": {
+    "gm": 6.021243108231075e-15,
+    "gmRef": 6.021243108231075e-15,
+    "venusN": 0.010052715742260805
+   },
+   "frozen": true
+  },
+  "gates": {
+   "ledger": true,
+   "mutants": true,
+   "api": true,
+   "sense": true,
+   "cross": true,
+   "scope": true,
+   "anchor": true,
+   "common": true,
+   "ratio": true,
+   "main": true
+  }
+ },
+ "prov": [
+  {
+   "sigma": null,
+   "key": "earth.precSense",
+   "value": -1,
+   "unit": "1",
+   "quantity": "地球の自転軸の歳差の回る向き —— 公転・自転と逆回り",
+   "epoch": "—",
+   "frame": "固定の黄道 J2000(黄道の極のまわり)",
+   "positive": "黄道の極のまわりを右ねじで正",
+   "grade": "A",
+   "sourceHint": "一般の教科書の記述(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "earth.psiA.rate",
+   "value": 50.38481507,
+   "unit": "″/年",
+   "quantity": "歳差の角 ψ_A の J2000 での率(規約の角)",
+   "epoch": "J2000",
+   "frame": "固定の黄道 J2000",
+   "positive": "伝統の正の向き(極のベクトルの右ねじの方位と逆 —— toRH で変換して使う)",
+   "grade": "A",
+   "sourceHint": "IERS Conventions (2010) の歳差の式の一次の係数 ÷ 100(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "earth.omegaA.rate",
+   "value": -0.00025754,
+   "unit": "″/年",
+   "quantity": "固定の黄道 J2000 に対する赤道の傾き ω_A の率",
+   "epoch": "J2000",
+   "frame": "固定の黄道 J2000",
+   "positive": "傾きが増える向きを正",
+   "grade": "A",
+   "sourceHint": "IERS Conventions (2010) の歳差の式の一次の係数 ÷ 100(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "earth.epsA.rate",
+   "value": -0.46836769,
+   "unit": "″/年",
+   "quantity": "その日の黄道に対する平均の黄道傾斜の率(ω_A の率とは別の量)",
+   "epoch": "J2000",
+   "frame": "その日の黄道",
+   "positive": "傾きが増える向きを正",
+   "grade": "A",
+   "sourceHint": "IAU 2006 の歳差の式の一次の係数 ÷ 100(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": 0.003,
+   "key": "mars.prec.rate",
+   "value": -7.605,
+   "unit": "″/年",
+   "quantity": "火星の自転軸の歳差の率(負 = 逆回り)",
+   "epoch": "1980(解の元期)",
+   "frame": "火星の公転面(元期の解)",
+   "positive": "公転の北極のまわりを右ねじで正",
+   "grade": "B",
+   "sourceHint": "Kahan ほか (2021) の表(未照合)",
+   "alt": {
+    "value": -7.5981,
+    "sigma": 0.0022,
+    "sourceHint": "Le Maistre ほか (2023)(別の解・未照合)"
+   },
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "mars.obliquity",
+   "value": 25.19,
+   "unit": "°",
+   "quantity": "火星の自転軸と公転の法線の角",
+   "epoch": "1980(解の元期)",
+   "frame": "火星の公転面(元期の解)",
+   "positive": "角(向きなし)",
+   "grade": "A",
+   "sourceHint": "Kahan ほか (2021) の表(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": 0.001,
+   "key": "mars.eps.rate",
+   "value": -0.0054,
+   "unit": "″/年",
+   "quantity": "火星の傾きの率(同じ解の値 —— 統括は確かめていない)",
+   "epoch": "1980(解の元期)",
+   "frame": "火星の公転面(元期の解)",
+   "positive": "傾きが増える向きを正",
+   "grade": "C",
+   "sourceHint": "Kahan ほか (2021) の表(確度は低い)(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "venus.spin.period",
+   "value": 243.0226,
+   "unit": "日",
+   "quantity": "金星の恒星時の自転周期(逆行・2006〜2020 年の平均)",
+   "epoch": "2006〜2020 年の平均",
+   "frame": "慣性の枠(恒星時)",
+   "positive": "周期(正の数 —— 逆行は向きの欄で持つ)",
+   "grade": "B",
+   "sourceHint": "Margot ほか (2021)(未照合)",
+   "sigmaGiven": 0.0013,
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "venus.prec.rate",
+   "value": 44.58,
+   "unit": "″/年",
+   "quantity": "金星の自転軸の歳差の率の大きさ(回る向きは未記入 —— sense null)",
+   "epoch": "2006〜2020 年の解",
+   "frame": "金星の公転面",
+   "positive": "大きさだけ(向きは null)",
+   "grade": "B",
+   "sourceHint": "Margot ほか (2021)(未照合)",
+   "sigmaGiven": 3.3,
+   "sense": null,
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "venus.obliquity",
+   "value": 2.6392,
+   "unit": "°",
+   "quantity": "金星の自転軸の傾き(著者の定義 —— 北極で測る角。有向の角運動量のベクトルでは 177.3608°)",
+   "epoch": "2006〜2020 年の解",
+   "frame": "金星の公転面",
+   "positive": "角(北極で測る)",
+   "grade": "B",
+   "sourceHint": "Margot ほか (2021)(未照合)",
+   "spinVectorDeg": 177.3608,
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "venusEarth.synodic",
+   "value": 583.92,
+   "unit": "日",
+   "quantity": "金星と地球の会合周期",
+   "epoch": "—",
+   "frame": "平均の運動",
+   "positive": "周期(正の数)",
+   "grade": "A",
+   "sourceHint": "軌道の周期から(リポジトリの公転の周期から自分で出して照合する)(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "venus.resonance.period",
+   "value": 243.16,
+   "unit": "日",
+   "quantity": "内合ごとに同じ面を地球に向ける自転周期の候補(逆行)",
+   "epoch": "—",
+   "frame": "慣性の枠(恒星時)",
+   "positive": "周期(正の数 —— 逆行)",
+   "grade": "B",
+   "sourceHint": "Goldreich と Peale の共鳴の条件(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "sun.obliquity.ecl",
+   "value": 7.25,
+   "unit": "°",
+   "quantity": "太陽の自転軸と黄道の極の角",
+   "epoch": "J2000",
+   "frame": "固定の黄道 J2000",
+   "positive": "角(向きなし)",
+   "grade": "A",
+   "sourceHint": "キャリントンの要素(リポジトリの spinUnit('Sun') と照合する)(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "sun.poleDrift.upper",
+   "value": null,
+   "unit": "″/年",
+   "quantity": "慣性の枠での太陽の自転軸の動きの上限(観測の弧からの値 —— 統括は数を持っていない。照合の依頼に入れる)",
+   "epoch": "—",
+   "frame": "慣性の枠",
+   "positive": "大きさの上限",
+   "grade": "C",
+   "sourceHint": "—— 出どころの候補なし(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.vertical.period",
+   "value": {
+    "lo": 60000000,
+    "hi": 90000000
+   },
+   "unit": "年",
+   "quantity": "太陽の、銀河の面に対する上下の振動の周期(範囲)",
+   "epoch": "現在",
+   "frame": "銀河の面",
+   "positive": "周期(正の数)",
+   "grade": "C",
+   "sourceHint": "銀河の円盤の密度からの概算(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.vertical.amplitude",
+   "value": {
+    "lo": 70,
+    "hi": 100
+   },
+   "unit": "pc",
+   "quantity": "同じ振動の振幅(範囲)",
+   "epoch": "現在",
+   "frame": "銀河の面",
+   "positive": "振幅(正の数)",
+   "grade": "C",
+   "sourceHint": "銀河の円盤の密度からの概算(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.oort.A",
+   "value": 15.3,
+   "unit": "km/s/kpc",
+   "quantity": "オールトの定数 A(局所の回転の差分のずれの分)",
+   "epoch": "現在",
+   "frame": "銀河の面(太陽の近傍)",
+   "positive": "規約の符号",
+   "grade": "B",
+   "sourceHint": "Gaia の近傍の星からの推定(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.oort.B",
+   "value": -11.9,
+   "unit": "km/s/kpc",
+   "quantity": "オールトの定数 B(局所の渦度の半分の符号つきの値)",
+   "epoch": "現在",
+   "frame": "銀河の面(太陽の近傍)",
+   "positive": "規約の符号",
+   "grade": "B",
+   "sourceHint": "Gaia の近傍の星からの推定(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.R0",
+   "value": 8.2,
+   "unit": "kpc",
+   "quantity": "太陽の銀河中心からの距離",
+   "epoch": "現在",
+   "frame": "銀河の面",
+   "positive": "距離(正の数)",
+   "grade": "B",
+   "sourceHint": "近年の測定の代表の値(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  },
+  {
+   "sigma": null,
+   "key": "gal.v0",
+   "value": 230,
+   "unit": "km/s",
+   "quantity": "太陽の銀河中心のまわりの円運動の速さ",
+   "epoch": "現在",
+   "frame": "銀河の面",
+   "positive": "速さ(正の数)",
+   "grade": "B",
+   "sourceHint": "近年の測定の代表の値(未照合)",
+   "provisional": true,
+   "verified": false,
+   "useForVerdict": false
+  }
+ ],
+ "repoRefs": [
+  {
+   "name": "repo.earth.precGeneral",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.precessionArcsecPerYear.earth"
+  },
+  {
+   "name": "repo.mars.prec",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.precessionArcsecPerYear.mars"
+  },
+  {
+   "name": "repo.venus.prec",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.precessionArcsecPerYear.venus"
+  },
+  {
+   "name": "repo.venus.spinDays",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.spinDays.venus"
+  },
+  {
+   "name": "repo.orbitDays.venus",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.orbitDays.venus"
+  },
+  {
+   "name": "repo.orbitDays.earth",
+   "lib": "tests/lib-w330a-spinclass.mjs",
+   "path": "DECL.lit.orbitDays.earth"
+  },
+  {
+   "name": "repo.galaxy.omega",
+   "lib": "tests/lib-w337c-tidelock.mjs",
+   "path": "GALAXY.omega"
+  },
+  {
+   "name": "repo.spinRates",
+   "lib": "tests/lib-w347e-spintorque.mjs",
+   "path": "LIT.spinRates・observedRates()"
+  }
+ ],
+ "cross": [
+  {
+   "key": "venusEarth.synodic",
+   "prov": 583.92,
+   "repo": 583.9236487922877,
+   "repoFrom": "repo.orbitDays.venus・repo.orbitDays.earth の 1 ÷ (1/P_V − 1/P_E)",
+   "diff": -0.003648792287776814,
+   "unit": "日",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "venus.resonance.period",
+   "prov": 243.16,
+   "repo": 243.1667208542334,
+   "repoFrom": "S ÷ (5 − S/P_V)(リポジトリの公転の周期)",
+   "diff": -0.006720854233407181,
+   "unit": "日",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "venus.spin.period",
+   "prov": 243.0226,
+   "repo": 243.025,
+   "repoFrom": "repo.venus.spinDays(大きさ —— 符号は逆行)",
+   "diff": -0.0023999999999944066,
+   "unit": "日",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "venus.prec.rate",
+   "prov": 44.58,
+   "repo": 44.58,
+   "repoFrom": "repo.venus.prec",
+   "diff": 0,
+   "unit": "″/年",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "venus.obliquity",
+   "prov": 177.3608,
+   "repo": 177.36240331763807,
+   "repoFrom": "〔第347便e〕の geometry() の自転のベクトルと公転の法線の角(有向の角運動量)",
+   "diff": -0.0016033176380574332,
+   "unit": "°",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "mars.prec.rate",
+   "prov": 7.605,
+   "repo": 7.594,
+   "repoFrom": "repo.mars.prec(大きさ)",
+   "diff": 0.01100000000000012,
+   "unit": "″/年",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "mars.obliquity",
+   "prov": 25.19,
+   "repo": 25.191842165359787,
+   "repoFrom": "〔第347便e〕の geometry() の火星の自転のベクトルと公転の法線の角",
+   "diff": -0.0018421653597862075,
+   "unit": "°",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "sun.obliquity.ecl",
+   "prov": 7.25,
+   "repo": 7.251726808412437,
+   "repoFrom": "第342便e の lib の spinUnit('Sun') と黄道の極の角",
+   "diff": -0.0017268084124371086,
+   "unit": "°",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "gal.R0・gal.v0",
+   "prov": 9.089990689904927e-16,
+   "repo": 9.09e-16,
+   "repoFrom": "repo.galaxy.omega(第337便c の lib の宣言の銀河の公転の角速度)",
+   "diff": -9.310095073023405e-22,
+   "rel": -0.0000010242128792858907,
+   "unit": "rad/s",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "gal.oort.A・gal.oort.B",
+   "prov": 27.200000000000003,
+   "repo": 28.04878048780488,
+   "repoFrom": "A − B(局所の角速度)と v0 ÷ R0(仮の値どうし)",
+   "diff": -0.848780487804877,
+   "rel": -0.03026086956521734,
+   "unit": "km/s/kpc",
+   "mark": "仮・未照合"
+  },
+  {
+   "key": "earth.obliquity(リポジトリの数 —— 仮の値ではない)",
+   "prov": null,
+   "repo": 23.439291099999995,
+   "repoFrom": "〔第347便e〕の geometry() の地球の自転のベクトルと黄道の極の角",
+   "diff": null,
+   "unit": "°",
+   "mark": null
+  }
+ ],
+ "t4": [
+  {
+   "id": "Earth",
+   "col": "地球・固定の黄道 J2000 に対する傾きの率 ÷ ψ_A の率",
+   "dThetaDt": -0.00025754,
+   "thetaDeg": 23.439291099999995,
+   "thetaFrom": "リポジトリ(geometry の地球の傾き)",
+   "dPhiDt": -50.38481507,
+   "r": 0.000012850060855032204,
+   "fN1": 0.000012849895733090055,
+   "kTiltOverKPrec": 0.000012850060855032204,
+   "toward": true,
+   "poleSpeedAsYr": 20.041928433390098,
+   "uS": 1.1928166586523097e-12,
+   "mainRateAsYr": {
+    "G-": 6.021243108231075e-15,
+    "G+": 8.804142903387662e-15,
+    "N+": 4.419168325596295e-15,
+    "N-": 9.707690360829296e-15
+   },
+   "poleOverMain": {
+    "G-": 3328536661473220,
+    "G+": 2276420164156849,
+    "N+": 4535226304303710,
+    "N-": 2064541377860550.2
+   },
+   "repoRefs": [],
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.omegaA.rate",
+    "earth.psiA.rate"
+   ]
+  },
+  {
+   "id": "Earth",
+   "col": "地球・その日の黄道に対する傾きの率 ÷ ψ_A の率",
+   "dThetaDt": -0.46836769,
+   "thetaDeg": 23.439291099999995,
+   "thetaFrom": "リポジトリ(geometry の地球の傾き)",
+   "dPhiDt": -50.38481507,
+   "r": 0.02336939240130022,
+   "fN1": 0.022835735145903438,
+   "kTiltOverKPrec": 0.02336939240130022,
+   "toward": true,
+   "poleSpeedAsYr": 20.047400418903184,
+   "uS": 1.1928166586523097e-12,
+   "mainRateAsYr": {
+    "G-": 6.021243108231075e-15,
+    "G+": 8.804142903387662e-15,
+    "N+": 4.419168325596295e-15,
+    "N-": 9.707690360829296e-15
+   },
+   "poleOverMain": {
+    "G-": 3329445441506633,
+    "G+": 2277041688088608.5,
+    "N+": 4536464543064924,
+    "N-": 2065105053184926.8
+   },
+   "repoRefs": [],
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.epsA.rate",
+    "earth.psiA.rate"
+   ]
+  },
+  {
+   "id": "Earth",
+   "col": "地球・その日の黄道に対する傾きの率 ÷ リポジトリの一般歳差",
+   "dThetaDt": -0.46836769,
+   "thetaDeg": 23.439291099999995,
+   "thetaFrom": "リポジトリ(geometry の地球の傾き)",
+   "dPhiDt": -50.28792,
+   "r": 0.023414420688661907,
+   "fN1": 0.02287872851440397,
+   "kTiltOverKPrec": 0.023414420688661907,
+   "toward": true,
+   "poleSpeedAsYr": 20.00886831412396,
+   "uS": 1.1928166586523097e-12,
+   "mainRateAsYr": {
+    "G-": 6.021243108231075e-15,
+    "G+": 8.804142903387662e-15,
+    "N+": 4.419168325596295e-15,
+    "N-": 9.707690360829296e-15
+   },
+   "poleOverMain": {
+    "G-": 3323046081094403.5,
+    "G+": 2272665100247854.5,
+    "N+": 4527745231660549,
+    "N-": 2061135818140646.5
+   },
+   "repoRefs": [
+    "repo.earth.precGeneral"
+   ],
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "earth.epsA.rate"
+   ]
+  },
+  {
+   "id": "Mars",
+   "col": "火星・傾きの率 ÷ 歳差の率(Kahan ほか の解)",
+   "dThetaDt": -0.0054,
+   "thetaDeg": 25.19,
+   "thetaFrom": "仮の値 mars.obliquity",
+   "dPhiDt": -7.605,
+   "r": 0.0016682883740729586,
+   "fN1": 0.0016655098233976798,
+   "kTiltOverKPrec": 0.0016682883740729586,
+   "toward": true,
+   "poleSpeedAsYr": 3.2368549697518203,
+   "uS": 1.1928166586523097e-12,
+   "mainRateAsYr": {
+    "G-": 6.698259782507707e-15,
+    "G+": 7.476160618867037e-15,
+    "N+": 6.305625595355302e-15,
+    "N-": 7.810169496512775e-15
+   },
+   "poleOverMain": {
+    "G-": 483238195419766.25,
+    "G+": 432956852422780.7,
+    "N+": 513328125941393.44,
+    "N-": 414441065740899.6
+   },
+   "repoRefs": [],
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.eps.rate",
+    "mars.obliquity",
+    "mars.prec.rate"
+   ]
+  },
+  {
+   "id": "Mars",
+   "col": "火星・傾きの率 ÷ 歳差の率(別の解)",
+   "dThetaDt": -0.0054,
+   "thetaDeg": 25.19,
+   "thetaFrom": "仮の値 mars.obliquity",
+   "dPhiDt": -7.5981,
+   "r": 0.0016698033830595612,
+   "fN1": 0.0016670197877783016,
+   "kTiltOverKPrec": 0.0016698033830595612,
+   "toward": true,
+   "poleSpeedAsYr": 3.2339181864378514,
+   "uS": 1.1928166586523097e-12,
+   "mainRateAsYr": {
+    "G-": 6.698259782507707e-15,
+    "G+": 7.476160618867037e-15,
+    "N+": 6.305625595355302e-15,
+    "N-": 7.810169496512775e-15
+   },
+   "poleOverMain": {
+    "G-": 482799755674321,
+    "G+": 432564032703718.25,
+    "N+": 512862385743286.5,
+    "N-": 414065045308144.6
+   },
+   "repoRefs": [],
+   "provisional": true,
+   "provMark": "仮・未照合",
+   "provKeys": [
+    "mars.eps.rate",
+    "mars.obliquity",
+    "mars.prec.rate"
+   ]
+  }
+ ],
+ "t4Premise": [
+  "観測の基準の極 = 合成の軸",
+  "一定の場",
+  "ほかのトルクなし"
+ ],
+ "usedKeys": [
+  "earth.epsA.rate",
+  "earth.omegaA.rate",
+  "earth.psiA.rate",
+  "gal.R0",
+  "gal.oort.A",
+  "gal.oort.B",
+  "gal.v0",
+  "mars.eps.rate",
+  "mars.obliquity",
+  "mars.prec.rate",
+  "sun.obliquity.ecl",
+  "venus.obliquity",
+  "venus.prec.rate",
+  "venus.resonance.period",
+  "venus.spin.period",
+  "venusEarth.synodic"
+ ],
+ "timing": {
+  "pure": {
+   "wallSec": 0.229
+  },
+  "prov": {
+   "wallSec": 0.229
+  },
+  "cross": {
+   "wallSec": 0.229
+  },
+  "t4": {
+   "wallSec": 0.27
+  }
+ },
+ "provisional": true,
+ "provMark": "仮・未照合",
+ "provKeys": [
+  "earth.epsA.rate",
+  "earth.omegaA.rate",
+  "earth.psiA.rate",
+  "gal.R0",
+  "gal.oort.A",
+  "gal.oort.B",
+  "gal.v0",
+  "mars.eps.rate",
+  "mars.obliquity",
+  "mars.prec.rate",
+  "sun.obliquity.ecl",
+  "venus.obliquity",
+  "venus.prec.rate",
+  "venus.resonance.period",
+  "venus.spin.period",
+  "venusEarth.synodic"
+ ],
+ "elapsedS": 0.511,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第352便b",
+  "target": "tests/lib-w352b-provisional.mjs",
+  "targetSha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+  "generatedAt": "2026-11-24T16:31:11.923Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w352b-provisional.mjs",
+    "bytes": 6477,
+    "sha256": "586f1b6b4e2f876bfe5c578b69de8422eae2ff7aac2277ff15e0c84a9d2346d5",
+    "mtime": "2026-11-24T16:18:44.141Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-24T16:08:58.793Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-24T16:08:58.809Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-24T16:08:58.817Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-24T16:08:58.821Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-24T16:08:58.821Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-24T16:08:58.821Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-24T16:08:58.821Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-24T16:08:58.821Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-24T16:08:58.825Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-24T16:08:58.829Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-24T16:08:58.833Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-24T16:08:58.837Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-24T16:08:58.841Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-24T16:08:58.841Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-24T16:08:58.841Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-24T16:08:58.841Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-24T16:08:58.845Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-24T16:08:58.849Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-24T16:08:58.849Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-24T16:08:58.849Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-24T16:31:02.479Z"
+   }
+  ],
+  "codeSha256": "d54d67e380e5300fffb072a002188afe6c01ce61d52d51fe2b252d930e984bba",
+  "harnessVersion": "w352b-provisional-1",
+  "stage": "provisional",
+  "engine": "Node(html を読まない —— 純関数の lib・第351便e・第350便e・第347便e・第337便c・第330便a の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "仮の値は統括の手元の知識の数で、一次の資料に当たっていない(仮・未照合)—— 較正の合否・サンプルの状況・ノブの採否・正式判定値に入れない",
+   "経路の比率の感度の数は、前提(観測の基準の極 = 合成の軸・一定の場・ほかのトルクなし)の下の数 —— この前提は今の候補では成り立っていない。ノブの値ではない",
+   "照合の列は、仮の値とリポジトリの数の差を並べるだけ(どちらかを正しいとは言わない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 193,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ },
+ "gates": {
+  "pure": true,
+  "prov": true,
+  "cross": true,
+  "t4": true,
+  "mark": true
+ },
+ "ok": true
+}
