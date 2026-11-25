@@ -119,17 +119,21 @@ export function table(ends = DECL.ends, o = {}) {
   const rows = ROWS.map((R) => ({ g: R.g, id: R.id, label: R.label, ruler: R.ruler, kind: R.kind, cells: cols.map((c) => rowAt(R.id, c, o)) }));
   return { ends: { lo: ends.lo, hi: ends.hi }, us, cols: cols.map((c) => ({ u: c.u, lam: c.lam, gainVenus: ZF.gainLam('Venus', c.lam, o) })), rows };
 }
+/** 「ほぼ等しい数どうしの差」の葉(spread = 最大 ÷ 最小 − 1・pDev = 指数の散り)を小数 9 桁で持つ。
+ *  元の数(値・指数 p)は相対 1e-9 で照らすので、その差は絶対 1e-9 までしか意味を持たない。丸めずに持つと、Node の版による元の数の末尾の違い(1e-12 の桁)が
+ *  差の葉では相対 1e-9 を越えて見える(第338便c の尺度〔Math の関数の戻り値をずらした走り直し〕では、この葉の尺度は 0〜4e-16 で、版の違いより小さく出る)。形の判定(tolFlat・tolPow)は丸める前の数で行う。 */
+const q9 = (x) => Number(x.toFixed(9));
 /** 形: u に依らない(flat)・u の冪(power —— 指数 p)・なだらかに曲がる(bend)・値が数でない(discrete) */
 export function shapeOf(row, us) {
   const v = row.cells.map((c) => c.v);
   if (row.kind !== 'num' || !v.every(fin)) return { kind: 'discrete' };
   const sign = v.every((x) => x > 0) ? 1 : v.every((x) => x < 0) ? -1 : 0;
   const av = v.map(Math.abs), mx = Math.max(...av), mn = Math.min(...av), hiLo = v[v.length - 1] / v[0];
-  if (sign !== 0 && mx / mn - 1 < DECL.tolFlat) return { kind: 'flat', hiLo, spread: mx / mn - 1 };
+  if (sign !== 0 && mx / mn - 1 < DECL.tolFlat) return { kind: 'flat', hiLo, spread: q9(mx / mn - 1) };
   if (sign === 0) return { kind: 'bend', hiLo, signChange: true };
   const p = us.slice(1).map((u, j) => Math.log(av[j + 1] / av[j]) / Math.log(u / us[j]));
   const pm = p.reduce((s, x) => s + x, 0) / p.length, pDev = Math.max(...p.map((x) => Math.abs(x - pm)));
-  return pDev < DECL.tolPow ? { kind: 'power', p: pm, pDev, hiLo } : { kind: 'bend', p, hiLo };
+  return pDev < DECL.tolPow ? { kind: 'power', p: pm, pDev: q9(pDev), hiLo } : { kind: 'bend', p, hiLo };
 }
 /** 切り替わりの u(二分 —— 状態の印が uA と uB で違うとき、相対 tolSwitch まで) */
 export function switchOf(id, uA, uB, o = {}) {

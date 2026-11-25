@@ -81482,7 +81482,7 @@ u 0.98 の列は〔第353便zf〕の列 (イ) と同じ数(35 行・相対 1e-9 
 | スピン斥力(E5′) | F = kRep μ (ω_i² + ω_j²)(r_i − r_j)・ω_a = s_a g_a・g_a = (R_a ÷ (R_a + d))^q ／ 内部温度のとき F = kRep μ √(T_i T_j)(g_i² + g_j²)(r_i − r_j) | `kRep`・`q` | PHYSICS §5 E5′・E5′改(計算式の一覧 §5 の表の行 —— EQ の番号なし) | 拒否「kRep≠0(E5′ スピン斥力 —— フレームの ω を使う二次元の式)」 |
 | 接触の摩擦(E9) | v_s = (v_i − v_j)·t̂ − s_i R̃_i − s_j R̃_j・j_t = muF v_s ÷ (3K)・Δs_a = R̃_a j_t ÷ I_a(I = ½ m R²・t̂ = ẑ × n̂) | `muF` | PHYSICS §5 E9・E9′(計算式の一覧 §5 の表の行) | 拒否「muF≠0(E9 接線摩擦 —— 速度と自転を結ぶので自転のベクトル化が要る)」 |
 | 法線の減衰(E9) | j_n = −γn v_n ÷ K(近づくときだけ)・失う分 ½ (1 ÷ K) v_n² (1 − (1 − γn)²) | `gammaN` | PHYSICS §5 E9(計算式の一覧 §5 の表の行) | 受理(三次元の対応の一覧「E9 接触の法線ばね(球)と法線減衰 γn」) |
-| スピンの近接拡散(E10′) | Δs_i = κs (s_j − s_i) g² I_j ÷ (I_i + I_j)・g = (R_i + R_j) ÷ (R_i + R_j + d) ／ 内部温度のとき Q̇ = C κs (T_j − T_i) g² μ | `kappaS` | PHYSICS §5 E10′・E10′改(計算式の一覧 §5 の表の行) | 拒否「kappaS≠0(E10′ スピン拡散)」 |
+| スピンの近接拡散(E10′) | Δs_i = S_k (s_j − s_i) g² I_j ÷ (I_i + I_j)・g = (R_i + R_j) ÷ (R_i + R_j + d) ／ 内部温度のとき Q̇ = C S_k (T_j − T_i) g² μ | `kappaS` | PHYSICS §5 E10′・E10′改(計算式の一覧 §5 の表の行) | 拒否「kappaS≠0(E10′ スピン拡散)」 |
 | 放射の冷却(E11) | Λ = η_rad T^p | `etaRad`・`pRad` | PHYSICS §5 E11・E11改(計算式の一覧 §5 の表の行) | 拒否「etaRad≠0(E11 放射冷却・光掻き出し)」 |
 | 壁(熱の壁) | 箱の壁 + 伝熱境界(面の並び [bottom, top, left, right] —— 面ごとの温度と率) | `world.boundary`・`thermal` | PHYSICS(伝熱境界 —— 第37便 C1) | 拒否「world.boundary:…(壁は二次元の箱・円)」 |
 | 内部温度 | 散逸を質量比で 2 粒へ配り ΔT_int = ΔE ÷ (C m)(熱量関数 C m T + a √T を解く) | `thermal:"tint"`・`cHeat` | PHYSICS §5 E9′・E5′改・E10′改・E11改 | 拒否「thermal:"tint"(内部温度・伝導・放射)」 |
