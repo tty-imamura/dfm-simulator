@@ -132249,6 +132249,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   let W = null, err0 = null;
   try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
   const AS0 = rd355a('docs/AI_SPEC.md') || '', PM0 = rd355a('tools/post-merge-qa.sh') || '', EQ0 = rd355a('docs/EQUATIONS.md') || '';
+  let J0 = null; try { J0 = JSON.parse(rd355a('tests/out/bgrange-355b.json') || 'null'); } catch (e) { J0 = null; }   // 第355便e: 範囲の数は枝 b の正本の主の行
   const iS = PH0.indexOf('\n〔第355便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
   const inOther = (ph, head, a, z) => { const i = ph.indexOf('\n' + head), s = W.physSecOf(ph, head); return ph.slice(0, i + 1) + s.split(a).join(z) + ph.slice(i + 1 + s.length); };
   const blk = (id) => new RegExp('(### ' + id + ' [\\s\\S]*?)(?=\\n### |\\n## )');
@@ -132260,7 +132261,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       const g = W.libGates(); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
       if (!/^w355a-report155doc-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ 版の名の型');
       cases.push(`⓪ lib の零試験 ${g.n}(文の分け方・継ぎ・表の行の数・鎖の頭・印の継ぎと外し・冪等)・版の名の型`);
-      const R = W.checkReport155(PH0, AS0, PM0, EQ0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const R = W.checkReport155(PH0, AS0, PM0, EQ0, J0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
       const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
       const rK = s0.split('\n').find((l) => l.startsWith('| 換算の係数 | ')) || '', r3 = s0.split('\n').find((l) => l.startsWith('| 鎖 1 | ')) || '', r4 = s0.split('\n').find((l) => l.startsWith('| EQ-160 | ')) || '';
       const stepI = ' → ' + W.SRC_I + ' 「' + W.LINES.respect + '」';
@@ -132285,11 +132286,14 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         ['本節を〔第354便a〕の前に移す', [(() => { const s = W.physSecOf(PH0, W.HEAD), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第354便a — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), AS0, PM0, EQ0], /^① PHYSICS〔第355便a〕の位置/],
         ['AI_SPEC の §396 を消す', [PH0, AS0.replace(/\n## 396\. 第355便a/, '\n## 3960. 第355便a'), PM0, EQ0], /^⑦ AI_SPEC §396/],
         ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第355便a の塊(ここから)====', '# ==== 第355便a の塊===='), EQ0], /^⑦ post-merge/],
+        ['正本の主の行の上端を変える(本節の範囲の数が正本と違う —— 第355便e)', [PH0, AS0, PM0, EQ0, (() => { const j = JSON.parse(JSON.stringify(J0 || {})); const r = W.rangeMainOf(j); if (r) r.hi = r.hi * 1.01; return j; })()], /^② 表 1 /],
+        ['本節の範囲の数を第355便a の時点の字に戻す(第355便e)', [inSec(PH0, W.rangeText(J0), W.RANGE_TBD_OLD), AS0, PM0, EQ0], /^② 本節に範囲の数の仮の字/],
+        ['正本の版の名の型を崩す(第355便e)', [PH0, AS0, PM0, EQ0, Object.assign({}, J0 || {}, { version: 'bgrange' })], /^② 範囲の正本の版の名の型/],
       ];
       const sc = [];
       for (const [nm, args, re] of MUT) {
-        if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === EQ0) { bad.push('⑨ 変異「' + nm + '」が入力を変えていない'); continue; }
-        const r = W.checkReport155(...args);
+        if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === EQ0 && args.length < 5) { bad.push('⑨ 変異「' + nm + '」が入力を変えていない'); continue; }
+        const r = W.checkReport155(args[0], args[1], args[2], args[3], args.length > 4 ? args[4] : J0);
         if (re === null) { if (r.bad.length) bad.push('⑨ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
         const hit = r.bad.some((b) => re.test(b));
         if (!hit) bad.push('⑨ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));

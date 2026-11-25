@@ -2,11 +2,13 @@
 // **軸引きずりの主の列の印の置き直しの文書の lib —— 原文(言葉を変えずに引く —— 指示 1 文・回答 2 文)と当たる節の表・主の列の切り替えの表(前 = 〔第353便zl〕の表 2 の形/後 = 回答の形)・
 // 訂正の鎖(〔第353便zl〕の鎖を消さずに後ろに 1 段継ぐ)・計算式の一覧の主の列の印の置き直し(前の印は残し、後ろに「。」で継ぐ)と、QA docs.report155_355a の照合の関数**
 // (純関数 —— ファイルを読まない。QA が文書の文字列を渡す)。器・正本・段は無い(文書の枝)。
-// 主の列は「回答で主に置いた列」—— 正しさの判定ではない。0.98 倍は背景の大きさの範囲の内の 1 点(固定しない)。範囲の数は枝 b の正本(この lib は数を持たない)。
+// 主の列は「回答で主に置いた列」—— 正しさの判定ではない。0.98 倍は背景の大きさの範囲の内の 1 点(固定しない)。範囲の数は枝 b の正本 tests/out/bgrange-355b.json の主の行
+// (第355便e で継いだ —— この lib は数を持たない。QA が正本を読んで rangeText(J) に渡し、表 1・表 2 の範囲の字は正本の主の行から作る)。
 // 外部の名・private の文書の名は第350便a〜第353便zl の lib の反転の綴りの表を使う(本文に綴りを置かない)。
 import * as ZL from './lib-w353zl-report153doc.mjs';
+import { BN as BN_B, MN as MN_B, KN as KN_B } from './lib-w355b-bgrangedoc.mjs';
 
-export const LIB_VERSION = 'w355a-report155doc-lib-1';
+export const LIB_VERSION = 'w355a-report155doc-lib-2';
 
 export const SRC_I = '原仮定者の指示(2026-11-25)';
 export const SRC_A = '原仮定者の回答(2026-11-25)';
@@ -31,13 +33,45 @@ export const N_I = 1, N_A = 2;
 const K = ZL.KINDS;
 const S = (...ids) => ids.map((x) => '〔第353便' + x + '〕').join('・');
 /** 並行の枝の節 —— 名だけ書く(実在の検査に入れない) */
-export const NAME_ONLY = Object.freeze(['〔第355便b〕']);
-export const RANGE_TBD = '未 —— 枝 b の後';
+export const NAME_ONLY = Object.freeze([]);
+// ---- 範囲の数(第355便e —— 枝 b の正本の主の行から作る。数を直に書かない)
+export const RANGE_JSON = 'tests/out/bgrange-355b.json';
+export const RANGE_VER_RE = /^w355b-bgrange-\d+$/, RANGE_LIB_RE = /^w355b-bgrange-lib-\d+$/;
+/** 表 1・表 2 の範囲の字の差し込み口(TABLE1・MAIN はこの字を持つ —— 表の markdown は rangeText(J) に替えて作る) */
+export const RANGE_SLOT = '〈範囲の数 —— 正本の主の行〉';
+/** 第355便a の時点の字(置き直した後の本節には無いことを見る) */
+export const RANGE_TBD_OLD = '未 —— 枝 b の後';
+const fin3 = (x) => typeof x === 'number' && Number.isFinite(x);
+/** 有効数字 3 桁(枝 b の文書の lib の表と同じ規則) */
+export const fp3 = (x) => (!fin3(x) ? '—' : Math.abs(x) >= 1e4 || (Math.abs(x) < 1e-3 && x !== 0) ? Number(x).toExponential(2) : Number(x).toPrecision(3));
+/** 正本の主の行(正本の decl の mainBuild・refMain・modeMain・k2qMain・partAsLockMain の行) */
+export function rangeMainOf(J) {
+  if (!J || !J.decl || !J.t3 || !Array.isArray(J.t3.rows)) return null;
+  const d = J.decl;
+  return J.t3.rows.find((r) => r.build === d.mainBuild && r.ref === d.refMain && r.mode === d.modeMain && r.k2q === d.k2qMain && r.partAsLock === d.partAsLockMain) || null;
+}
+/** 範囲の字(正本の主の行から —— 有効数字 3 桁) */
+export function rangeText(J) {
+  const r = rangeMainOf(J);
+  if (!r || !r.open) return '(正本 ' + RANGE_JSON + ' に開いた主の行が無い)';
+  return 'u = ' + fp3(r.lo) + '〜' + fp3(r.hi) + '(主の行 —— 主の作り・物差しの半径 = 観測の半径・' + MN_B[r.mode] + '・k₂/Q ' + KN_B[r.k2q] + '・下端 ' + BN_B[r.loBody] + '・上端 ' + BN_B[r.hiBody] + ' —— 正本 `' + RANGE_JSON + '`)';
+}
+/** 正本の門(版の名の型・主の行が開いている・0.98 倍が主の行の内) */
+export function rangeGate(J) {
+  const bad = [], r = rangeMainOf(J);
+  if (!J) { bad.push('範囲の正本が読めない(' + RANGE_JSON + ')'); return bad; }
+  if (!(RANGE_VER_RE.test(J.version || '') && RANGE_LIB_RE.test(J.libVersion || ''))) bad.push('範囲の正本の版の名の型');
+  if (!(J.ok === true && J.provisional === true)) bad.push('範囲の正本の ok・provisional の印');
+  if (!r) bad.push('範囲の正本に主の行が無い');
+  else { if (!r.open) bad.push('範囲の正本の主の行が開いていない'); if (r.in098 !== true || !(r.lo <= 0.98 && 0.98 <= r.hi)) bad.push('範囲の正本の主の行で 0.98 倍が範囲の内でない'); }
+  return bad;
+}
+const fillRange = (t, J) => String(t).split(RANGE_SLOT).join(rangeText(J));
 /** [番号, 行の鍵, 文の番号(0 起点), 種類, 読み(原文と分ける), 当たる節] */
 export const TABLE1 = Object.freeze([
-  ['指 1', 'respect', 0, K.jo, '背景の大きさの側の材料 = 比 1 の線(潮汐力 ÷ 軸引きずり = 1)で惑星が分かれる背景の大きさの範囲。範囲はこれまでの窓と重なり、注目の 0.98 倍を含む(引かれた文は〔第353便zk〕の表の読み)', S('zk', 'zf') + '・〔第355便b〕(名だけ)'],
+  ['指 1', 'respect', 0, K.jo, '背景の大きさの側の材料 = 比 1 の線(潮汐力 ÷ 軸引きずり = 1)で惑星が分かれる背景の大きさの範囲。範囲はこれまでの窓と重なり、注目の 0.98 倍を含む(引かれた文は〔第353便zk〕の表の読み)', S('zk', 'zf') + '・〔第355便b〕'],
   ['回 1', 'd1113', 0, K.ju, '換算の係数の主の列 = 金星で局所の項と背景が同じ大きさになる値(〔第353便zf〕の列 (イ) の作り —— 換算の係数 = 背景の倍率 ÷ 1.19282e-12)', S('zf', 'j', 'q')],
-  ['回 2', 'd1113', 1, K.jo, '背景の大きさは 0.98 倍に固定しない —— 比 1 の線で惑星が分かれる範囲の内の値として持つ(0.98 倍は範囲の内の 1 点)。範囲の数: ' + RANGE_TBD, S('e', 'zk') + '・〔第355便b〕(名だけ)'],
+  ['回 2', 'd1113', 1, K.jo, '背景の大きさは 0.98 倍に固定しない —— 比 1 の線で惑星が分かれる範囲の内の値として持つ(0.98 倍は範囲の内の 1 点)。範囲の数: ' + RANGE_SLOT, S('e', 'zk') + '・〔第355便b〕'],
 ].map((r) => Object.freeze(r)));
 export const sentOf = (r) => sentencesOf(r[1])[r[2]];
 
@@ -46,7 +80,7 @@ const Z = (i) => ZL.MAIN[i][1];
 export const SAME = '前のまま';
 export const MAIN = Object.freeze([
   ['換算の係数', Z(2), '**金星で等大になる値**(〔第353便zf〕の列 (イ) の作り —— 換算の係数 = 背景の倍率 ÷ 1.19282e-12・0.98 倍の点では 8.2158e11)', '比べる列: 換算の係数 1((ウ)・(ア))', S('zf', 'j')],
-  ['背景の大きさ', Z(2), '**比 1 の線で惑星が分かれる範囲の内**(0.98 倍は範囲の内の 1 点 —— 固定しない。範囲の数: ' + RANGE_TBD + ')', '比べる列: (ウ) 金星の条件 (uV)・(ア) 換算の係数 1 で 0.98 倍・これまでの窓(0.0487〜0.835)', S('zk', 'zf') + '・〔第355便b〕(名だけ)'],
+  ['背景の大きさ', Z(2), '**比 1 の線で惑星が分かれる範囲の内**(0.98 倍は範囲の内の 1 点 —— 固定しない。範囲の数: ' + RANGE_SLOT + ')', '比べる列: (ウ) 金星の条件 (uV)・(ア) 換算の係数 1 で 0.98 倍・これまでの窓(0.0487〜0.835)', S('zk', 'zf') + '・〔第355便b〕'],
   ['受け手の半径の入れ方', Z(0), SAME, ZL.MAIN[0][2], ZL.MAIN[0][3]],
   ['源の扁平率の式', Z(1), SAME, ZL.MAIN[1][2], ZL.MAIN[1][3]],
   ['金星の条件の読み', Z(3), SAME + '(換算の係数を置く条件として使う)', ZL.MAIN[3][2], ZL.MAIN[3][3]],
@@ -130,14 +164,14 @@ export function countsOf(eq) {
 }
 
 // ---- 表の markdown(本節の表はこの関数の出力と逐語で同じ)
-export function table1Md() {
+export function table1Md(J) {
   const R = ['| # | 出どころ | 原文(言葉を変えずに引く —— 「。」で文に分けた。継ぐと原文に戻る) | 文の種類 | 読み(原文と分ける) | 当たる節 |', '|---|---|---|---|---|---|'];
-  for (const r of TABLE1) R.push(`| ${r[0]} | ${SRC_OF[r[1]]} | ${q(sentOf(r))} | ${r[3]} | ${r[4]} | ${r[5]} |`);
+  for (const r of TABLE1) R.push(`| ${r[0]} | ${SRC_OF[r[1]]} | ${q(sentOf(r))} | ${r[3]} | ${fillRange(r[4], J)} | ${r[5]} |`);
   return R.join('\n');
 }
-export function table2Md() {
+export function table2Md(J) {
   const R = ['| 題 | 前(〔第353便zl〕の表 2 の字 —— 当時の節に残る) | 後(回答の形 —— 回答で主に置いた列) | 比べる列か選択肢(残す) | 当たる節 |', '|---|---|---|---|---|'];
-  for (const r of MAIN) R.push(`| ${r[0]} | ${r[1]} | ${r[2]} | ${r[3]} | ${r[4]} |`);
+  for (const r of MAIN) R.push(`| ${r[0]} | ${r[1]} | ${fillRange(r[2], J)} | ${r[3]} | ${r[4]} |`);
   return R.join('\n');
 }
 export function table3Md() {
@@ -172,7 +206,7 @@ const strip = (t) => outsideQuotes(t).replace(/『[^』]*』/g, '').replace(/[^�
 // ---- docs.report155_355a の照合(ph = PHYSICS・as = AI_SPEC・pm = post-merge・eq = 計算式の一覧・eq0 = 置き直す前の一覧〔変異の自己試験用に任意〕)
 export const SEC_HEADS = Object.freeze(['**① 原文と読み。**', '**表 1 指示と回答の文の当たる節(', '**表 2 主の列の切り替え(', '**表 3 訂正の鎖(', '**表 4 計算式の一覧の主の列の印の置き直し(',
   '**② 印の置き方。**', '**③ 検査。**', '**④ 決断事項の候補。**', '**⑤ 言わないこと。**', 'docs.report155_355a', 'tests/lib-w355a-report155doc.mjs']);
-export function checkReport155(ph, as, pm, eq) {
+export function checkReport155(ph, as, pm, eq, J) {
   const bad = [], cases = [];
   ph = String(ph || ''); as = String(as || ''); pm = String(pm || ''); eq = String(eq || '');
   const sec = physSecOf(ph, HEAD), iA = ph.indexOf('\n' + HEAD), iP = ph.indexOf('\n' + PREV_HEAD), iZ = ph.indexOf('\n' + ZL.HEAD), iT = ph.indexOf('\n〔第328便 — 統括');
@@ -190,12 +224,15 @@ export function checkReport155(ph, as, pm, eq) {
     if (sentencesOf('respect').length !== N_I || sentencesOf('d1113').length !== N_A) bad.push('② 文の数(指示 ' + N_I + '・回答 ' + N_A + ' のはず)');
     for (const k of LINE_KEYS) { const rows = TABLE1.filter((r) => r[1] === k).sort((a, b) => a[2] - b[2]);
       if (rows.length !== sentencesOf(k).length || rows.map(sentOf).join('。') !== L[k]) bad.push('② 行 ' + k + ' の文を継いでも原文に戻らない'); }
-    if (T.join('\n') !== table1Md().split('\n').slice(2).join('\n')) bad.push('② 表 1 が lib の出力と違う(原文・出どころ・読み・当たる節)');
+    if (T.join('\n') !== table1Md(J).split('\n').slice(2).join('\n')) bad.push('② 表 1 が lib の出力と違う(原文・出どころ・読み・当たる節・範囲の数 = 正本の主の行)');
+    for (const b of rangeGate(J)) bad.push('② ' + b);
+    if (sec.indexOf(RANGE_TBD_OLD) >= 0 || sec.indexOf(RANGE_SLOT) >= 0) bad.push('② 本節に範囲の数の仮の字(「' + RANGE_TBD_OLD + '」か差し込み口)が残っている');
+    if (J && rangeMainOf(J) && sec.split(rangeText(J)).length - 1 < 2) bad.push('② 本節に正本の主の行の範囲の字が 2 回(表 1 回 2・表 2 背景の大きさ)無い');
     for (const r of TABLE1) for (const m of r[5].match(/〔第35\d便[a-z]+〕/g) || []) if (!NAME_ONLY.includes(m) && ph.indexOf('\n' + m.replace('〕', ' — ')) < 0) bad.push('② 表 1 の ' + r[0] + ' の当たる節 ' + m + ' が PHYSICS に無い'); }
-  cases.push(`② 表 1 の ${TABLE1.length} 文(指示 ${N_I}・回答 ${N_A} —— 原文が${ORIG_NAME}に同じ字で在る・継ぐと原文に戻る・lib の出力と逐語・当たる節が PHYSICS に在る〔並行の枝の節は名だけ〕)`);
+  cases.push(`② 表 1 の ${TABLE1.length} 文(指示 ${N_I}・回答 ${N_A} —— 原文が${ORIG_NAME}に同じ字で在る・継ぐと原文に戻る・lib の出力と逐語・当たる節が PHYSICS に在る)・範囲の数 = 正本 ${RANGE_JSON} の主の行(${J && rangeMainOf(J) ? rangeText(J).split('(')[0] : '—'}・版の名の型・0.98 倍が内・仮の字が残っていない)`);
   // ③ 表 2 —— 主の列の切り替え(前 = 〔第353便zl〕の表 2 の字・後 = 回答の形)
   { const T = tabIn(sec, '**表 2 ');
-    if (T.join('\n') !== table2Md().split('\n').slice(2).join('\n')) bad.push('③ 表 2 が lib の出力と違う(前・後・比べる列)');
+    if (T.join('\n') !== table2Md(J).split('\n').slice(2).join('\n')) bad.push('③ 表 2 が lib の出力と違う(前・後・比べる列・範囲の数 = 正本の主の行)');
     const zt = tabIn(physSecOf(ph, ZL.HEAD), '**表 2 ');
     for (const r of MAIN) if (!zt.some((l) => cells(l)[1] === r[1])) bad.push('③ 表 2 の ' + r[0] + ' の「前」の字が〔第353便zl〕の表 2 に無い');
     const kr = cells(T.find((l) => l.startsWith('| 換算の係数 |')) || ''), mr = cells(T.find((l) => l.startsWith('| 背景の大きさ |')) || '');
@@ -271,5 +308,14 @@ export function libGates() {
   if (markParts('a。' + MA153 + ANS153.k).pre.join() !== 'k') bad.push('markParts');
   for (const k of MARK_KEYS) if (ANS155[k].indexOf(ANS153[k]) >= 0 || ANS153[k].indexOf(ANS155[k]) >= 0) bad.push('継ぐ字と前の字が重なる ' + k);
   if (ANS153.mag.indexOf(ZL.OPT) < 0) bad.push('前の字の選択肢の印');
-  return { bad, n: 12 + LINE_KEYS.length };
+  // 第355便e: 範囲の差し込み口(表 1 の回 2 と表 2 の背景の大きさの 2 か所)・正本の形の小さな模型で rangeText と rangeGate
+  const nSlot = TABLE1.concat(MAIN).reduce((n, r) => n + r.join('\u0001').split(RANGE_SLOT).length - 1, 0);
+  if (nSlot !== 2) bad.push('範囲の差し込み口の数 ' + nSlot + '(2)');
+  const fj = { version: 'w355b-bgrange-1', libVersion: 'w355b-bgrange-lib-1', ok: true, provisional: true, decl: { mainBuild: 'M', refMain: 'obs', modeMain: 'obs', k2qMain: 'common', partAsLockMain: true },
+    t3: { rows: [{ build: 'M', ref: 'obs', mode: 'obs', k2q: 'common', partAsLock: false, lo: 1, hi: 2, open: true, loBody: 'Earth', hiBody: 'Moon', in098: true }, { build: 'M', ref: 'obs', mode: 'obs', k2q: 'common', partAsLock: true, lo: 0.0012345, hi: 12345, open: true, loBody: 'Earth', hiBody: 'Mercury', in098: true }] } };
+  if (rangeText(fj).indexOf('u = 0.00123〜1.23e+4(主の行') !== 0 || rangeText(fj).indexOf('下端 地球・上端 水星') < 0) bad.push('rangeText の字(3 桁・主の行の選び方)');
+  if (rangeGate(fj).length) bad.push('rangeGate(模型)');
+  if (rangeGate(Object.assign({}, fj, { version: 'w355b-bgrange-x' })).length !== 1) bad.push('rangeGate の版の名の型');
+  if (table1Md(fj).indexOf(RANGE_SLOT) >= 0 || table2Md(fj).indexOf(RANGE_SLOT) >= 0 || table2Md(fj).split(rangeText(fj)).length !== 2) bad.push('表 1・表 2 の範囲の差し込み');
+  return { bad, n: 12 + LINE_KEYS.length + 5 };
 }
