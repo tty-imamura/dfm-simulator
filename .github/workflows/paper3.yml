@@ -8,6 +8,8 @@
 # エラー・未定義参照ゼロを assert。
 # 第348便f(原仮定者の回答(2026-11-23 —— 第145報の回答 10)AN981・統括の検証項目 R414): 実行環境を ubuntu-24.04(TeX Live 2023)に固定した。2026-11-22 の走行で
 #   ubuntu-latest の TeX が TeX Live 2025 になり、論文2・3 の pdflatex が最初の tabular で止まった(論文の tex は不変)。4 本をそろえて固定。見直す時: ubuntu 24.04 の提供が終わる前。
+# 第354便a(原仮定者の指示(2026-11-25 —— 第156報)・統括の検証項目 R503): 論文2・3 の前置きに TeX Live 2025(LaTeX 2025-11-01)向けの 1 塊を足したので、組版の段だけを
+#   ubuntu-latest(TeX Live 2025)でも回す job `paper3-tl2025` を足した。図の再生成と照合は job `paper3`(ubuntu-24.04)の 1 回だけ。artifact は 24.04 の PDF を正とする。
 name: paper3
 on:
   push:
@@ -72,6 +74,41 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: paper3-pdfs
+          path: |
+            paper/dfm-paper3.pdf
+            paper/dfm-paper3-ja.pdf
+
+  paper3-tl2025:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Install TeX Live
+        run: |
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=60 update -qq
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=60 install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-publishers \
+            texlive-fonts-recommended texlive-lang-japanese texlive-luatex
+      - name: Build English (pdflatex x2, halt on error)
+        working-directory: paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper3.tex
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper3.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper3.log
+      - name: Show TeX version (LaTeX2e line of the English log)
+        if: always()
+        working-directory: paper
+        run: grep -m1 'LaTeX2e <' dfm-paper3.log
+      - name: Build Japanese (lualatex x2, halt on error)
+        working-directory: paper
+        run: |
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper3-ja.tex
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper3-ja.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper3-ja.log
+      - name: Upload PDFs
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: paper3-pdfs-tl2025
           path: |
             paper/dfm-paper3.pdf
             paper/dfm-paper3-ja.pdf

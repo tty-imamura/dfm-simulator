@@ -114653,7 +114653,8 @@ function view343aOf344a(eq) {
       const jq = ci.search(/^  qa:\s*$/m), jp = ci.search(/^  perf:\s*$/m);
       const qa = jq >= 0 && jp > jq ? ci.slice(jq, jp) : '', perf = jp >= 0 ? ci.slice(jp) : '';
       const tq = qa.match(/^    timeout-minutes:\s*(\d+)\s*$/m), tp = perf.match(/^    timeout-minutes:\s*(\d+)\s*$/m);
-      if (!tq || tq[1] !== '180') b.push('② qa ジョブの timeout-minutes が 180 でない: ' + (tq ? tq[1] : 'なし'));
+      if (!tq || tq[1] !== '240') b.push('② qa ジョブの timeout-minutes が 240 でない: ' + (tq ? tq[1] : 'なし'));   // 第354便: 180 → 240 分
+      if (!/# 第354便: 180→240 分 —— /.test(qa)) b.push('② 第354便のコメント(180→240 分)が無い');
       if (!/# 第345便: 120→180 分 —— /.test(qa)) b.push('② 第345便のコメント(120→180 分)が無い');
       if (!/# 第335便: 90→120 分/.test(qa)) b.push('② 前の便のコメント(第335便)が消えた');
       if (!tp || tp[1] !== '15') b.push('② perf ジョブの timeout-minutes が 15 でない: ' + (tp ? tp[1] : 'なし'));
@@ -114665,10 +114666,11 @@ function view343aOf344a(eq) {
     const pkgT = rd('package.json'), lockT = rd('package-lock.json'), ciT = rd('.github/workflows/ci.yml');
     for (const x of check(pkgT, lockT, ciT)) bad.push(x);
     cases.push(`① package.json の playwright = ${PW_VER}(固定)・lock の playwright と playwright-core = ${PW_VER}(resolved・integrity・項は根と 2 つ)`);
-    cases.push('② ci.yml: qa の上限 180 分(第345便のコメント・前の便のコメントは残る)・perf 15 分・npm ci と npx playwright install --with-deps chromium が 2 ジョブ・版の固定の書き方なし');
+    cases.push('② ci.yml: qa の上限 240 分(第354便のコメント・第345便と前の便のコメントは残る)・perf 15 分・npm ci と npx playwright install --with-deps chromium が 2 ジョブ・版の固定の書き方なし');
     // ③ 変異
     const mut = [
-      ['上限 120', pkgT, lockT, ciT.replace(/^    timeout-minutes: 180$/m, '    timeout-minutes: 120')],
+      ['上限 180', pkgT, lockT, ciT.replace(/^    timeout-minutes: 240$/m, '    timeout-minutes: 180')],
+      ['第354便のコメントを消す', pkgT, lockT, ciT.replace(/^    # 第354便: 180→240 分 —— .*$/m, '    #')],
       ['範囲 ^1.63.0', pkgT.replace('"playwright": "1.63.0"', '"playwright": "^1.63.0"'), lockT, ciT],
       ['lock の playwright-core だけ 1.61.1', pkgT, (() => { try { const L = JSON.parse(lockT); L.packages['node_modules/playwright-core'].version = '1.61.1'; return JSON.stringify(L); } catch (e) { return lockT; } })(), ciT],
       ['install の行を消す', pkgT, lockT, ciT.replace(/^          npx playwright install --with-deps chromium\s*$/m, '')],
@@ -114677,7 +114679,7 @@ function view343aOf344a(eq) {
     if (caught.length !== mut.length) bad.push('③ 変異が落ちない: ' + mut.map(([n]) => n).filter((n) => !caught.includes(n)).join(','));
     cases.push(`③ 変異 ${caught.length}/${mut.length} で落ちる(${caught.join('・')})`);
     add('lint.ciEngine345e', bad.length === 0,
-      `**CI の版**(第345便e・原仮定者の回答 第145報 AN921・R396 —— Playwright を ${PW_VER} に固定・beta の上限 120 → 180 分): ${cases.join(' / ')}`
+      `**CI の版**(第345便e・原仮定者の回答 第145報 AN921・R396 —— Playwright を ${PW_VER} に固定・beta の上限 120 → 180 分。第354便で 180 → 240 分 —— 検査の数と性能の門は変えない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
@@ -117866,11 +117868,13 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
   const rd348f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
   const RUNNER348F = 'ubuntu-24.04';
   // 宣言の一覧(TeX を使う検査 = 論文の 4 本 —— 固定の版 / 使わない検査 = 今の値のまま)
+  // 第354便a: 論文の 4 本に組版の段だけの job `<名>-tl2025`(ubuntu-latest)を足した —— 最初の job(固定)は ubuntu-24.04 のまま。
+  //   jobs348 = 第348便f の当時の job の一覧(PHYSICS〔第348便f〕の表 1 の 2 列目はこれで照らす —— 過去の節は書き換えない)。
   const DECL348F = {
-    'paper1.yml': { tex: true, jobs: { paper1: RUNNER348F } },
-    'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F } },
-    'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F } },
-    'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F } },
+    'paper1.yml': { tex: true, jobs: { paper1: RUNNER348F, 'paper1-tl2025': 'ubuntu-latest' }, jobs348: { paper1: RUNNER348F } },
+    'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F, 'paper2-tl2025': 'ubuntu-latest' }, jobs348: { paper2: RUNNER348F } },
+    'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F, 'paper3-tl2025': 'ubuntu-latest' }, jobs348: { paper3: RUNNER348F } },
+    'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F, 'paper45-tl2025': 'ubuntu-latest' }, jobs348: { paper45: RUNNER348F } },
     'ci.yml': { tex: false, jobs: { qa: 'ubuntu-latest', perf: 'ubuntu-latest' } },
     'nightly.yml': { tex: false, jobs: { 'pages-collate': 'ubuntu-latest', 'frozen-baseline': 'ubuntu-latest', 'paper2-figures': 'ubuntu-latest' } },
   };
@@ -117912,7 +117916,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
       if (ln < 0) bad.push('② ' + f + ' の頭の注に第348便f の理由の行が無い');
       else { const nt = hd.split('\n').slice(ln, ln + 2).join('\n'); for (const w of NOTE348F) if (nt.indexOf(w) < 0) bad.push('② ' + f + ' の頭の注に「' + w + '」が無い'); }
     }
-    cases.push(`① 論文の検査 ${TEX.length} 本(${TEX.join('・')})の job の runs-on = ${RUNNER348F} / ② 頭の注(${NOTE348F.length} 語 —— 決定・項目・版・いつ・見直す時)`);
+    cases.push(`① 論文の検査 ${TEX.length} 本(${TEX.join('・')})の固定の job の runs-on = ${RUNNER348F}・第354便a の組版だけの job(<名>-tl2025)= ubuntu-latest / ② 頭の注(${NOTE348F.length} 語 —— 決定・項目・版・いつ・見直す時)`);
     // ③ TeX を使わない検査は今の値のまま
     for (const f of NOTEX) { if (W[f] == null) { bad.push('③ ' + f + ' が無い'); continue; } sameJobs(f, jobsOf(W[f]), DECL348F[f].jobs, '③'); }
     cases.push('③ ' + NOTEX.map((f) => f + '(' + Object.entries(DECL348F[f].jobs).map(([j, v]) => j + ' ' + v).join('・') + ')').join(' / '));
@@ -117931,7 +117935,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
       const want = Object.keys(DECL348F);
       if (T.map((c) => c[0]).join('|') !== want.map((f) => '`' + f + '`').join('|')) bad.push('⑤ 表 1 の行の並び ' + T.map((c) => c[0]).join('・'));
       for (const c of T) { const f = c[0].replace(/`/g, ''), d = DECL348F[f]; if (!d) continue;
-        if (c[1] !== Object.keys(d.jobs).join('・')) bad.push('⑤ 表 1 の ' + f + ' の job');
+        if (c[1] !== Object.keys(d.jobs348 || d.jobs).join('・')) bad.push('⑤ 表 1 の ' + f + ' の job');
         if (c[3].split('(')[0] !== Object.values(d.jobs)[0]) bad.push('⑤ 表 1 の ' + f + ' の runs-on(本枝の後)' + c[3]);
         if (c[4] !== (d.tex ? '使う' : '使わない')) bad.push('⑤ 表 1 の ' + f + ' の TeX の欄'); } }
     const a306 = as.search(/\n## 306\. 第348便f/), a300 = as.search(/\n## 300\. 第347便i/);
@@ -117977,7 +117981,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     cases.push(`⑥ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
   } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
   add('lint.paperRunner348f', bad.length === 0,
-    `**論文の組版の検査の実行環境の固定**(第348便f・原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・R414 —— 論文の検査 4 本を ${RUNNER348F}〔TeX Live 2023〕に固定・ci.yml と nightly.yml は今の値のまま・論文の tex は変えていない・効き目は PR の走行で見る): ${cases.join(' / ')}`
+    `**論文の組版の検査の実行環境の固定**(第348便f・原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・R414 —— 論文の検査 4 本の固定の job は ${RUNNER348F}〔TeX Live 2023〕のまま・第354便a で組版の段だけの job を ubuntu-latest に足した・ci.yml と nightly.yml は今の値のまま・論文の tex は第348便f では変えていない〔第354便a で論文 2・3 の前置きに 1 塊〕・効き目は PR の走行で見る): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   })();
 }
@@ -120218,10 +120222,12 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       const j = jobsOf(t);
       if (!j.jobs) bad.push('③ ' + f + ' に jobs: が無い');
       else {
-        const gk = Object.keys(j.jobs);
-        if (gk.join('|') !== d.job) bad.push('③ ' + f + ' の job の並び ' + gk.join('・') + ' ≠ ' + d.job);
+        // 第354便a: 組版の段だけの job `<名>-tl2025`(ubuntu-latest)を固定の job の後に足した —— 並び・各 job の runs-on・行の数で照らす(固定の job は ubuntu-24.04 のまま)
+        const gk = Object.keys(j.jobs), wantJ = [d.job, d.job + '-tl2025'];
+        if (gk.join('|') !== wantJ.join('|')) bad.push('③ ' + f + ' の job の並び ' + gk.join('・') + ' ≠ ' + wantJ.join('・'));
         const v = j.jobs[d.job] || []; if (v.length !== 1 || v[0] !== RUN350I) bad.push('③ ' + f + ' の job ' + d.job + ' の runs-on ' + (v.join('・') || 'なし') + ' ≠ ' + RUN350I);
-        if (j.all !== 1) bad.push('③ ' + f + ' の runs-on の行が ' + j.all + ' 行');
+        const v2 = j.jobs[wantJ[1]] || []; if (v2.length !== 1 || v2[0] !== 'ubuntu-latest') bad.push('③ ' + f + ' の job ' + wantJ[1] + ' の runs-on ' + (v2.join('・') || 'なし') + ' ≠ ubuntu-latest');
+        if (j.all !== wantJ.length) bad.push('③ ' + f + ' の runs-on の行が ' + j.all + ' 行');
       }
     }
     const F = Object.keys(DECL350I);
@@ -132050,6 +132056,178 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第353便zl の塊(ここまで)====
+// ==== 第354便a の塊(ここから —— lint.paperTex354a の 1 ブロック。beta・root の両方で走る)====
+// ---- 第354便a(原仮定者の指示(2026-11-25 —— 第156報)「TeX Live 2025対応の修正を先行して進める」・統括の検証項目 R503): **論文 2・3 の前置きの 1 塊と、論文の検査 4 本の
+// ----   組版だけの job `<名>-tl2025`(ubuntu-latest)の戻り止め**(html・論文の本文・既存の job は変えない)。yml は行の形で読む(YAML の読み手を持たない —— 第348便f と同じ)。
+// ----   ① 前置きの塊(paper/ の tex のうち revtex4-2 で array か tabularx を読むものは全部、塊を \makeatletter〜\makeatother の中・\begin{document} の前に 1 つだけ・上の注に語。
+// ----   当たらない tex は持たない)② 検査の定義 4 本の job <名>-tl2025(runs-on・同じ組版の行・-halt-on-error・未定義の参照の grep・図の再生成と Playwright の段が無い・
+// ----   LaTeX2e の版を出す行・artifact の名が違う)③ 頭の注の第354便a の 2 行 ④ PHYSICS〔第354便a〕(位置・見出し・本文の語・表 1 と宣言・表 2)・AI_SPEC §395・
+// ----   post-merge の塊・paper/README.md の注記・禁句と書かない語 ⑤ 変異の自己試験。
+{
+  await (async () => {
+  const rd354a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  // 宣言: 検査の定義 → 固定の job(ubuntu-24.04)と組版だけの job(ubuntu-latest)
+  const DECL354A = {
+    'paper1.yml': { base: 'paper1', tl: 'paper1-tl2025' },
+    'paper2.yml': { base: 'paper2', tl: 'paper2-tl2025' },
+    'paper3.yml': { base: 'paper3', tl: 'paper3-tl2025' },
+    'paper45.yml': { base: 'paper45', tl: 'paper45-tl2025' },
+  };
+  const RUN_BASE = 'ubuntu-24.04', RUN_TL = 'ubuntu-latest';
+  const BLK1 = '\\@ifundefined{@mkpream@relax}{}{', BLK2 = '\\g@addto@macro\\@mkpream@relax{\\let\\@endpefalse\\relax}}';
+  const NEED_NOW = ['dfm-paper2.tex', 'dfm-paper3.tex'];   // いま塊を要る tex(検出が空にならないことの確かめ)
+  const NOTE354A = ['第156報', 'TeX Live 2025', 'ubuntu-latest', '組版の段だけ', '図の再生成と照合は', '1 回だけ', '24.04 の PDF を正'];
+  const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+  const rv = (x) => x.split('').reverse().join('');
+  const NG = ['付添', '信私', '査審', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta', 'lanigiro_651TROPER'].map(rv);
+  const NOT354A = [/組版が直った/, /新しい TeX に対応した/, /通るようになった/, /直った/, /対応した/];
+  const uncom = (t) => String(t).split('\n').map((l) => { let i = 0; while (i < l.length) { if (l[i] === '\\') { i += 2; continue; } if (l[i] === '%') return l.slice(0, i); i++; } return l; }).join('\n');
+  const headOf = (t) => { const L = String(t).split('\n'), out = []; for (const x of L) { if (!x.startsWith('#')) break; out.push(x); } return out.join('\n'); };
+  // job の名 → その job の行(2 字下げの job 名から次の job 名か jobs: の終わりまで)
+  const jobBlocks = (t) => {
+    const L = String(t).split('\n'), k = L.findIndex((x) => /^jobs:\s*$/.test(x)), out = {}; let cur = null;
+    if (k < 0) return out;
+    for (let n = k + 1; n < L.length; n++) { const x = L[n]; if (/^\S/.test(x)) break;
+      const m = /^ {2}([A-Za-z0-9_-]+):\s*(#.*)?$/.exec(x); if (m) { cur = m[1]; out[cur] = []; continue; } if (cur) out[cur].push(x); }
+    return out;
+  };
+  const texLines = (lines) => lines.map((x) => x.trim()).filter((x) => /^(pdflatex|lualatex) .*\.tex$/.test(x) || /^! grep -i "undefined references/.test(x)).sort();
+  const artOf = (lines) => [...lines.join('\n').matchAll(/upload-artifact[^\n]*\n\s+with:\s*\n\s+name:\s*(\S+)/g)].map((m) => m[1]);
+  const physSecOf = (ph, head) => { const i = ph.indexOf('\n' + head); if (i < 0) return ''; const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = i + 2; const z = m.exec(ph); return ph.slice(i + 1, z ? z.index : ph.length); };
+  const tableOf = (sec, head) => { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith(head)), T = []; if (k >= 0) for (let n = k + 4; n < L.length && L[n].startsWith('|'); n++) T.push(L[n].split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, ''))); return T; };
+  const check = (W, P, ph, as, pm, rm) => {
+    const bad = [], cases = [];
+    // ① 前置きの塊
+    const need = [], rows = [];
+    for (const f of Object.keys(P).sort()) {
+      const raw = P[f], t = uncom(raw);
+      const cls = /\\documentclass(\[[^\]]*\])?\{revtex4-2\}/.test(t), arr = /\\usepackage(\[[^\]]*\])?\{[^}]*\b(array|tabularx)\b[^}]*\}/.test(t), nd = cls && arr;
+      const n1 = t.split(BLK1).length - 1, n2 = t.split(BLK2).length - 1;
+      if (!nd) { if (n1 || n2 || /@mkpream@relax/.test(t)) bad.push('① ' + f + ' は塊を要らない(revtex4-2 で array を読む tex でない)のに塊を持つ'); continue; }
+      need.push(f);
+      if (n1 !== 1 || n2 !== 1) { bad.push('① ' + f + ' の前置きの塊が 1 つでない(' + n1 + '・' + n2 + ')'); continue; }
+      const i1 = t.indexOf(BLK1), i2 = t.indexOf(BLK2), bd = t.indexOf('\\begin{document}');
+      const between = t.slice(i1 + BLK1.length, i2);
+      if (!/^\s*$/.test(between)) bad.push('① ' + f + ' の塊の 2 行が続いていない');
+      const ma = t.lastIndexOf('\\makeatletter', i1), mo = t.lastIndexOf('\\makeatother', i1), mz = t.indexOf('\\makeatother', i2);
+      if (!(ma >= 0 && ma > mo && mz > i2 && bd > mz)) bad.push('① ' + f + ' の塊が \\makeatletter〜\\makeatother の中・\\begin{document} の前に無い');
+      const L = raw.split('\n');
+      const k = L.findIndex((x, n) => x.trim() === '\\makeatletter' && (L[n + 1] || '').indexOf('\\@ifundefined{@mkpream@relax}') >= 0); const note = [];
+      for (let n = k - 1; k > 0 && n >= 0 && L[n].startsWith('%'); n--) note.unshift(L[n]);
+      for (const w of ['TeX Live 2025', '\\@endpefalse', 'revtex4-2']) if (note.join('\n').indexOf(w) < 0) bad.push('① ' + f + ' の塊の上の注に「' + w + '」が無い');
+      rows.push(f);
+    }
+    for (const f of NEED_NOW) if (need.indexOf(f) < 0) bad.push('① ' + f + ' が「revtex4-2 で array を読む tex」と読めない(検出が空振り)');
+    cases.push(`① paper/ の tex ${Object.keys(P).length} 本のうち revtex4-2 で array か tabularx を読む ${need.length} 本(${need.join('・')})が塊を 1 つ(\\makeatletter〜\\makeatother の中・\\begin{document} の前・上の注の 3 語)・ほかは持たない`);
+    // ② ③ 検査の定義
+    const nTex = [];
+    for (const f of Object.keys(DECL354A)) {
+      const d = DECL354A[f], y = W[f];
+      if (y == null) { bad.push('② ' + f + ' が無い'); continue; }
+      const J = jobBlocks(y), B = J[d.base], T = J[d.tl];
+      if (!B) { bad.push('② ' + f + ' に job ' + d.base + ' が無い'); continue; }
+      if (!T) { bad.push('② ' + f + ' に job ' + d.tl + ' が無い'); continue; }
+      const ro = (ls) => ls.map((x) => /^ {4}runs-on:\s*([^\s#]+)/.exec(x)).filter(Boolean).map((m) => m[1]);
+      if (ro(B).join('|') !== RUN_BASE) bad.push('② ' + f + ' の job ' + d.base + ' の runs-on ' + ro(B).join('・') + ' ≠ ' + RUN_BASE);
+      if (ro(T).join('|') !== RUN_TL) bad.push('② ' + f + ' の job ' + d.tl + ' の runs-on ' + (ro(T).join('・') || 'なし') + ' ≠ ' + RUN_TL);
+      const tb = texLines(B), tt = texLines(T);
+      if (!tb.length || JSON.stringify(tb) !== JSON.stringify(tt)) bad.push('② ' + f + ' の job ' + d.tl + ' の組版の行が job ' + d.base + ' と違う(' + tt.length + ' 行 ≠ ' + tb.length + ' 行)');
+      for (const x of tt.filter((x) => /^(pdflatex|lualatex) /.test(x))) if (x.indexOf('-interaction=nonstopmode -halt-on-error') < 0) bad.push('② ' + f + ' の job ' + d.tl + ' の組版の行に -halt-on-error が無い');
+      const texs = {}; for (const x of tt) { const m = /^(?:pdflatex|lualatex) .* (\S+\.tex)$/.exec(x); if (m) texs[m[1]] = (texs[m[1]] || 0) + 1; }
+      if (!Object.keys(texs).length || Object.values(texs).some((v) => v !== 2)) bad.push('② ' + f + ' の job ' + d.tl + ' の組版が tex ごとに 2 回でない');
+      if (tt.filter((x) => /^! grep/.test(x)).length !== Object.keys(texs).length) bad.push('② ' + f + ' の job ' + d.tl + ' の未定義の参照の grep の数');
+      const tj = T.join('\n');
+      if (/gen-figures|p2fig-compare|playwright|setup-node/i.test(tj)) bad.push('② ' + f + ' の job ' + d.tl + ' に図の再生成か Playwright の段がある');
+      if (!/grep -m1 'LaTeX2e <' \S+\.log/.test(tj)) bad.push('② ' + f + ' の job ' + d.tl + ' に TeX の版(LaTeX2e)を出す行が無い');
+      const ab = artOf(B), at = artOf(T);
+      if (!at.length || at.some((a) => ab.indexOf(a) >= 0 || !/-tl2025$/.test(a))) bad.push('② ' + f + ' の job ' + d.tl + ' の artifact の名(' + at.join('・') + ')が既存の job と重なるか -tl2025 で終わらない');
+      nTex.push(f + ' ' + Object.keys(texs).length + ' 本');
+      // ③ 頭の注
+      const hd = headOf(y).split('\n'), l4 = hd.findIndex((x) => x.startsWith('# 第354便a(')), l8 = hd.findIndex((x) => x.startsWith('# 第348便f('));
+      if (l4 < 0) bad.push('③ ' + f + ' の頭の注に第354便a の行が無い');
+      else { if (!(l8 >= 0 && l4 > l8)) bad.push('③ ' + f + ' の頭の注の第354便a の行が第348便f の行の後に無い');
+        const nt = hd.slice(l4, l4 + 2).join('\n'); for (const w of NOTE354A) if (nt.indexOf(w) < 0) bad.push('③ ' + f + ' の頭の注に「' + w + '」が無い'); }
+    }
+    cases.push(`② 検査の定義 4 本の job <名>-tl2025 = ${RUN_TL}・既存の job(${RUN_BASE})と同じ組版の行(${nTex.join('・')} × 2 回・-halt-on-error・未定義の参照の grep)・図の再生成と Playwright の段なし・LaTeX2e の版を出す行・artifact の名 -tl2025 / ③ 頭の注の第354便a の 2 行(${NOTE354A.length} 語)`);
+    // ④ 文書
+    const sec = physSecOf(ph, '〔第354便a — '), iA = ph.indexOf('\n〔第354便a — '), iZ = ph.indexOf('\n〔第353便zl — '), iT = ph.indexOf('\n〔第328便 — 統括');
+    if (!(iA >= 0 && iZ >= 0 && iZ < iA && iT >= 0 && iA < iT)) bad.push('④ PHYSICS〔第354便a〕の位置(〔第353便zl〕の後・〔第328便 — 統括〕の前)');
+    const h1 = sec.split('\n')[0];
+    for (const w of ['原仮定者の指示(2026-11-25 —— 第156報)', '「TeX Live 2025対応の修正を先行して進める」', 'R503', 'html・計算・論文の本文は 1 字も変えていない']) if (h1.indexOf(w) < 0) bad.push('④ PHYSICS〔第354便a〕の見出しに「' + w + '」が無い');
+    const WANT = ['**① 事実。**', '**② 直しの形。**', '**③ 手元で見たこと。**', '**但し書き。**', '**④ 検査の定義。**', '**⑤ 決定の出どころ。**', '**⑥ 見直す時。**', '**⑦ 決断事項の候補。**', '**⑧ 言わないこと。**',
+      '\\@endpefalse', '\\color@endgroup', '\\xdef', 'revtex4-2', '最小の例', '実行ファイル', 'PR の `ubuntu-latest` の走行', '24.04 の PDF を正', '「AN981: 推奨で進める」', '決断事項 AN1124', '`lint.paperTex354a`', '〔第348便f〕の状態の更新', 'ubuntu 24.04 の提供が終わる前'];
+    for (const w of WANT) if (sec.indexOf(w) < 0) bad.push('④ PHYSICS〔第354便a〕に「' + w.slice(0, 24) + '」が無い');
+    { const T = tableOf(sec, '**表 1 '), want = [];
+      for (const f of Object.keys(DECL354A)) { const d = DECL354A[f], J = jobBlocks(W[f] || ''), fig = /gen-figures/.test((J[d.base] || []).join('\n'));
+        want.push(['`' + f + '`', d.base, RUN_BASE, fig], ['`' + f + '`', d.tl, RUN_TL, false]); }
+      if (T.length !== want.length) bad.push('④ 表 1 の行の数 ' + T.length + ' ≠ ' + want.length);
+      T.forEach((c, n) => { const w = want[n]; if (!w) return;
+        if (c[0] !== w[0] || c[1] !== w[1] || c[2] !== w[2]) bad.push('④ 表 1 の ' + (n + 1) + ' 行目 ' + c.slice(0, 3).join('・') + ' ≠ 宣言 ' + w.slice(0, 3).join('・'));
+        if (/図の再生成/.test(c[3] || '') !== w[3]) bad.push('④ 表 1 の ' + (n + 1) + ' 行目の回す段(図の再生成の有無)');
+        if (w[2] === RUN_TL && !/^組版だけ/.test(c[3] || '')) bad.push('④ 表 1 の ' + (n + 1) + ' 行目の回す段(組版だけ)'); }); }
+    { const T = tableOf(sec, '**表 2 '), names = Object.keys(P).map((f) => '`' + f.replace(/\.tex$/, '') + '`').sort();
+      const got = T.map((c) => c[0].split('(')[0]).sort();
+      if (T.length !== 10 || JSON.stringify(got) !== JSON.stringify(names)) bad.push('④ 表 2 の行(' + T.length + ' 行)が paper/ の tex(' + names.length + ' 本)と違う');
+      const stop = []; T.forEach((c) => c.forEach((x, k) => { if (/止まる/.test(x)) stop.push(c[0].split('(')[0] + '@' + k); }));
+      if (stop.join('|') !== '`dfm-paper2`@3|`dfm-paper3`@3') bad.push('④ 表 2 の「止まる」が論文 2・3 の TeX Live 2025 の前の 2 か所でない(' + stop.join('・') + ')'); }
+    const a395 = as.search(/\n## 395\. 第354便a/), a394 = as.search(/\n## 394\. 第353便zl/);
+    const ai = a395 >= 0 ? (() => { const r = as.slice(a395 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(a395 >= 0 && a394 >= 0 && a394 < a395 && ['第156報', 'R503', 'ubuntu-latest', 'SYSTEM_PROMPT には載せない', 'lint.paperTex354a', 'PR の走行で見る'].every((w) => ai.indexOf(w) >= 0))) bad.push('④ AI_SPEC §395(§394 の後・必須の語)');
+    if (!(pm.indexOf('# ==== 第354便a の塊(ここから)====') > pm.indexOf('# ==== 第353便zl の塊(ここまで)====') && pm.indexOf('# ==== 第353便zl の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.paperTex354a lint\.paperRunner348f lint\.paperDispatch350i"/.test(pm))) bad.push('④ post-merge に第354便a の塊(第353便zl の塊の後)');
+    const rmi = rm.indexOf('**組版の注記(第354便a)**'), rmn = rmi >= 0 ? rm.slice(rmi, (rm.indexOf('\n\n', rmi) + 1 || rm.length + 1) - 1) : '';
+    if (!rmn || ['dfm-paper2.tex', 'dfm-paper3.tex', '\\@endpefalse', '版の表記・本文・数・図・参考文献は変えていない', '-tl2025'].some((w) => rmn.indexOf(w) < 0)) bad.push('④ paper/README.md に組版の注記(第354便a)の項(語)が無い');
+    for (const [nm, tx] of [['PHYSICS〔第354便a〕', sec], ['AI_SPEC §395', ai], ['paper/README.md の注記', rmn], ...Object.keys(DECL354A).map((f) => [f + ' の頭の注', headOf(W[f] || '').split('\n').filter((x, n, A) => x.startsWith('# 第354便a(') || (n > 0 && A[n - 1].startsWith('# 第354便a('))).join('\n')])]) {
+      for (const w of NG) if (String(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+      for (const re of NOT354A) if (re.test(stripQ(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ PHYSICS〔第354便a〕(〔第353便zl〕の後・〔第328便 — 統括〕の前・見出し・本文の語 ' + WANT.length + '・表 1 と宣言・表 2 の 10 行と「止まる」の 2 か所)・AI_SPEC §395・post-merge の塊・paper/README.md の注記・禁句と書かない語(「組版が直った」「新しい TeX に対応した」「通るようになった」)');
+    return { bad, cases };
+  };
+  const WFD = path.join(ROOT, '.github', 'workflows'), PD = path.join(ROOT, 'paper');
+  const W0 = {}; for (const f of fs.readdirSync(WFD).filter((x) => /\.ya?ml$/.test(x))) W0[f] = fs.readFileSync(path.join(WFD, f), 'utf8');
+  const P0 = {}; for (const f of fs.readdirSync(PD).filter((x) => /\.tex$/.test(x))) P0[f] = fs.readFileSync(path.join(PD, f), 'utf8');
+  const PH0 = rd354a('docs/PHYSICS.md') || '', AS0 = rd354a('docs/AI_SPEC.md') || '', PM0 = rd354a('tools/post-merge-qa.sh') || '', RM0 = rd354a('paper/README.md') || '';
+  let bad = [], cases = [];
+  try {
+    const R = check(W0, P0, PH0, AS0, PM0, RM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const w = (f, a, z) => Object.assign({}, W0, { [f]: String(W0[f] || '').replace(a, z) });
+    const wTL = (f, job, a, z) => { const t = String(W0[f] || ''), k = t.indexOf('\n  ' + job + ':\n'); return Object.assign({}, W0, { [f]: k < 0 ? t : t.slice(0, k) + t.slice(k).replace(a, z) }); };
+    const p = (f, a, z) => Object.assign({}, P0, { [f]: String(P0[f] || '').replace(a, z) });
+    const iS = PH0.indexOf('\n〔第354便a — ');
+    const ph = (a, z) => PH0.slice(0, iS) + PH0.slice(iS).replace(a, z);
+    const base = [W0, P0, PH0, AS0, PM0, RM0];
+    const MUT = [
+      ['論文 3 の塊を消す', [W0, p('dfm-paper3.tex', /\\@ifundefined\{@mkpream@relax\}\{\}\{%\n[^\n]*\n/, ''), PH0, AS0, PM0, RM0], /^① dfm-paper3\.tex の前置きの塊が 1 つでない/],
+      ['塊の \\@mkpream@relax を別の名に', [W0, p('dfm-paper2.tex', '\\g@addto@macro\\@mkpream@relax{', '\\g@addto@macro\\@mkpream@relaxx{'), PH0, AS0, PM0, RM0], /^① dfm-paper2\.tex の前置きの塊が 1 つでない/],
+      ['論文 1 に \\usepackage{array} を足す', [W0, p('dfm-paper.tex', '\\begin{document}', '\\usepackage{array}\n\\begin{document}'), PH0, AS0, PM0, RM0], /^① dfm-paper\.tex の前置きの塊が 1 つでない/],
+      ['paper2-tl2025 の runs-on を ubuntu-24.04 に', [wTL('paper2.yml', 'paper2-tl2025', '    runs-on: ubuntu-latest\n', '    runs-on: ubuntu-24.04\n'), P0, PH0, AS0, PM0, RM0], /^② paper2\.yml の job paper2-tl2025 の runs-on ubuntu-24\.04/],
+      ['paper3-tl2025 から -halt-on-error を消す', [wTL('paper3.yml', 'paper3-tl2025', ' -halt-on-error dfm-paper3.tex', ' dfm-paper3.tex'), P0, PH0, AS0, PM0, RM0], /^② paper3\.yml の job paper3-tl2025 の組版の行/],
+      ['paper45-tl2025 の組む tex を 1 本減らす', [wTL('paper45.yml', 'paper45-tl2025', /\n[^\n]*lualatex [^\n]*dfm-paper5-ja\.tex\n[^\n]*lualatex [^\n]*dfm-paper5-ja\.tex/, ''), P0, PH0, AS0, PM0, RM0], /^② paper45\.yml の job paper45-tl2025 の組版の行/],
+      ['paper1-tl2025 に図の再生成の段を足す', [wTL('paper1.yml', 'paper1-tl2025', '    steps:\n', '    steps:\n      - run: node tools/gen-figures.mjs\n'), P0, PH0, AS0, PM0, RM0], /^② paper1\.yml の job paper1-tl2025 に図の再生成/],
+      ['paper2-tl2025 の artifact の名を既存と同じに', [wTL('paper2.yml', 'paper2-tl2025', 'name: paper2-pdfs-tl2025', 'name: paper2-pdfs'), P0, PH0, AS0, PM0, RM0], /^② paper2\.yml の job paper2-tl2025 の artifact/],
+      ['頭の注の第354便a の行を消す', [w('paper2.yml', /\n# 第354便a\([^\n]*\n#[^\n]*/, ''), P0, PH0, AS0, PM0, RM0], /^③ paper2\.yml の頭の注に第354便a の行が無い/],
+      ['本節を消す', [W0, P0, ph('\n〔第354便a — ', '\n〔第354便x — '), AS0, PM0, RM0], /^④ PHYSICS〔第354便a〕の位置/],
+      ['表 2 の「止まる」を 1 か所消す', [W0, P0, ph('止まる(1 回目・311 行', '組める(1 回目・311 行'), AS0, PM0, RM0], /^④ 表 2 の「止まる」/],
+      ['本節に「組版が直った」を地の文で書く', [W0, P0, ph('**⑧ 言わないこと。** ', '**⑧ 言わないこと。** 論文の組版が直った。'), AS0, PM0, RM0], /^④ PHYSICS〔第354便a〕 に書かない語 組版が直った/],
+      ['書かない語を「」の中に置く(数えない)', [W0, P0, ph('**⑧ 言わないこと。** ', '**⑧ 言わないこと。** 「組版が直った」「新しい TeX に対応した」「通るようになった」。'), AS0, PM0, RM0], null],
+    ];
+    const sc = [];
+    for (const [nm, args, re] of MUT) {
+      if (args.every((a, k) => JSON.stringify(a) === JSON.stringify(base[k]))) { bad.push('⑤ 変異「' + nm + '」の種が無い(空振り)'); sc.push(nm + ' → 空振り'); continue; }
+      const r = check(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑤ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑤ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`⑤ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('lint.paperTex354a', bad.length === 0,
+    `**論文 2・3 の前置きの 1 塊と、論文の検査 4 本の組版だけの job**(第354便a・原仮定者の指示(2026-11-25 —— 第156報)「TeX Live 2025対応の修正を先行して進める」・R503 —— 固定の job は ${RUN_BASE} のまま・組版の段だけの job <名>-tl2025 を ${RUN_TL} に・論文の本文は変えていない・新しい TeX での組版は PR の走行で見る): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();
+}
+// ==== 第354便a の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

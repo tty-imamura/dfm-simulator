@@ -25,7 +25,10 @@ jobs:
     # 第345便: 120→180 分 —— 第344便の main の push の run で beta が 107 分(preflight 32 分 + 本体 75 分)に達し、
     #          Playwright 1.63.0(package-lock)の新しい実行系では手元の全 QA が約 35% 遅い(本体 75 分 → 約 101 分の見込み)。
     #          検査の数と性能の門は変えない(上限はハング防止のガードのまま —— 性能の門は perf)
-    timeout-minutes: 180
+    # 第354便: 180→240 分 —— 第353便の PR の push の run で beta が 163 分(preflight 56 分 + 本体 106 分)に達した
+    #          (同じ commit の pull_request の run は 98 分 —— 走行機の速さで開く)。上限まで 17 分。
+    #          検査の数と性能の門は変えない(上限はハング防止のガードのまま —— 性能の門は perf)
+    timeout-minutes: 240
     strategy:
       fail-fast: false
       matrix:
