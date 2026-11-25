@@ -6,7 +6,7 @@
 //
 // Node だけ・**html を読まない**(来歴の対象は純関数 tests/lib-w353w-formstage.mjs —— 領域の宣言なし)。入力のファイルは無い(lib を呼んで作り直す)。
 //   1 プロセス。正本は第338便c の settleRun で書く。lib の閉包に第352便b の仮の値の lib が入る(第353便o の lib を経て)—— 正本の最上位に provisional: true と鍵の一覧。
-//   仮の値の欄は使わない(鍵の一覧は空 —— 閉包に入るための印だけ)。
+//   仮の値を使う欄は表 2 の比べる欄 1 つ(黄道の極に対する太陽の傾き —— 仮・未照合 —— を「残る角が届くべき角」に置いた条件)だけ。
 //
 // ■ 言わないこと: 太陽の傾きの由来の答え・形成の段階の再現とは書かない(この形・この格子・この幅での、ノブの走査の表)。背景が替わる理由は予想の文として引くだけ。
 import fs from 'node:fs';
@@ -26,13 +26,14 @@ export const OUT_MAIN = 'tests/out/formstage-353w.json';
 export const TARGET = 'tests/lib-w353w-formstage.mjs';
 export const AMEND = Object.freeze([]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
-export const PROV_KEYS = Object.freeze([]);
+export const PROV_KEYS = Object.freeze(['sun.obliquity.ecl']);
 export const NOT_CLAIM = Object.freeze([
   'ノブの走査の表 —— 太陽の傾きの由来の答え・形成の段階の再現とは書かない(この形・この格子・この幅では、の表)',
   '背景の時間の替わり方(替わる時刻・幅・形・始めの比と大きさ・移った後の大きさ)はノブ —— 由来は書かない。背景が替わる理由(銀河の中の位置・上下の運動)は予想の文として引くだけ',
   '主の式は (g2−)・主の向きは (N+)・基準軸 L(第151報の回答)。比べる式 (g2+)・eq は消さずに並べる —— 主の列と同じ重さでは扱わない',
   '「届く」の幅(角 ± 0.5°・方位 ± 5°)と「保つ」の帯(いまの角 ±10%)は物差し —— 採否の判定ではない',
   '上下の揺れの共鳴の帯(背景の大きさ ÷ 銀河の公転の角速度 2.4〜3.7)は〔第352便r〕〔第352便y〕の数を引くだけ',
+  '黄道の極に対する太陽の傾き 7.25° は仮の値・未照合(表 2 の比べる欄だけ —— 較正・サンプルの状況・ノブの採否に入れない)',
   'アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない']);
 export const PLAN = Object.freeze({
   pure: '零試験 8(統括の数え直し 3 の基準軸 L・ω_G・太陽の円錐・t_sw → ∞ で枝 o の届く組 18 と 36・t_sw → 0 で届き 0・進め方 = 枝 o の twoAxisBoth・帯の長さ = 枝 o の dwellOf・残る角の閉じた形の極限・背景の和と方位 = 第352便r・拒否)',
@@ -161,6 +162,16 @@ export function keepCondRows(GEO, ax) {
   }
   return rows;
 }
+/** 黄道の極の比べる欄(仮の値 —— 太陽の傾き 7.25° を「残る角が届くべき角」に置いた条件・基準軸 L の θ のまま) */
+export function eclCondRows(GEO, ax) {
+  const p = PV.provValue('sun.obliquity.ecl', 'mid'), rows = [];
+  for (const rho0 of RD.rRhos) {
+    const th = O.frameOf(GEO, ax.L, 'L', rho0).thDeg, r = p / th, row = { rho0: isoRho(rho0), thDeg: th, need: r };
+    for (const shape of RD.rShapes) { const xs = r >= 1 ? null : L.xForRetain(shape, r); row[shape] = xs === null ? null : { x: xs, perTurn: xs / (2 * Math.PI) }; }
+    rows.push(row);
+  }
+  return { provisional: true, provKeys: ['sun.obliquity.ecl'], provMark: PV.MARK, tiltDeg: p, rows };
+}
 
 /* ───────── 表 3: 比べる式 (g2+)(f も時間で替わる列)───────── */
 export function cmpRuns(GEO, ax) {
@@ -194,7 +205,7 @@ export function gatesOf(J) {
     pure: Object.values(J.pure.gates).every(Boolean) && Object.keys(J.pure.gates).length === 8,
     t1: J.t1.rows.length === RD.reads.length * RD.axes.length * RD.afters.length && sumN(J.t1.rows) === nMain && sumN(J.t1.tsw) === nMain
       && J.t1.rows.every((r) => r.nMake <= r.nB && r.nB <= r.nG && r.nNow <= r.nKeepSw) && J.t1.width.length === RD.reads.length * RD.widthCol.tSws.length && J.t1.oA.nHit === L.ANCHOR.oA18,
-    t2: J.t2.rows.length === RD.rRhos.length * (1 + RD.rShapes.length * RD.rXs.length) && J.t2.rows.filter((r) => r.shape === 'step').every((r) => Math.abs(r.ratio - 1) < 1e-9) && J.t2.cond.length === RD.rRhos.length,
+    t2: J.t2.rows.length === RD.rRhos.length * (1 + RD.rShapes.length * RD.rXs.length) && J.t2.rows.filter((r) => r.shape === 'step').every((r) => Math.abs(r.ratio - 1) < 1e-9) && J.t2.cond.length === RD.rRhos.length && J.t2.ecl.provisional === true && J.t2.ecl.rows.length === RD.rRhos.length,
     t3: J.t3.rows.length === RD.axes.length * RD.cFs.length && J.t3.oB.nHit === L.ANCHOR.oB36 && sumN(J.t3.rows) === RD.axes.length * RD.cTsws.length * RD.cRhos.length * RD.u0s.length * RD.cQs.length * RD.cFs.length,
   };
 }
@@ -207,7 +218,7 @@ export function runAll() {
   const hA = oHits(GEO, ax, 'g2m', 'A'), oa = oARuns(GEO, ax, hA);
   const t1 = { rows: mainRows(mr), tsw: tswRows(mr), width: widthRows(GEO, ax), makes: strip(mr.filter((r) => r.make)), nowRuns: strip(mr.filter((r) => r.nowBoth)),
     oA: { nHit: hA.length, sum: sumRows(oa), byU0: RD.u0s.map((u0) => ({ u0, ...sumRows(oa.filter((r) => r.u0 === u0)) })), runs: strip(oa) } }; mark('t1');
-  const t2 = { rows: retainRows(ax), cond: keepCondRows(GEO, ax), xHalf: { exp: L.xForRetain('exp', 0.5), tanh: L.xForRetain('tanh', 0.5) } }; mark('t2');
+  const t2 = { rows: retainRows(ax), cond: keepCondRows(GEO, ax), ecl: eclCondRows(GEO, ax), xHalf: { exp: L.xForRetain('exp', 0.5), tanh: L.xForRetain('tanh', 0.5) } }; mark('t2');
   const cr = cmpRuns(GEO, ax);
   const hB = oHits(GEO, ax, 'g2p', 'B'), ob = oBRuns(GEO, ax, hB);
   const t3 = { rows: cmpRows(cr), makes: strip(cr.filter((r) => r.make)),

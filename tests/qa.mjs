@@ -127630,7 +127630,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         // ④ 門・仮の値の印・呼ぶだけ
         const G2 = X.gatesOf(J);
         if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
-        if (!(J.provisional === true && js(J.provKeys) === js([]) && typeof J.provMark === 'string' && J.provMark.length > 0)) bad.push('④ 仮の値の印(最上位の provisional・provKeys〔空〕・provMark)');
+        if (!(J.provisional === true && js(J.provKeys) === js(['sun.obliquity.ecl']) && J.t2.ecl.provisional === true && js(J.t2.ecl.provKeys) === js(['sun.obliquity.ecl']) && typeof J.provMark === 'string' && J.provMark.length > 0)) bad.push('④ 仮の値の印(最上位の provisional・provKeys・provMark と表 2 の黄道の欄)');
         const tl = rd('tests/lib-w353w-formstage.mjs'), th2 = rd('tests/exp-w353w-formstage.mjs'), td = rd('tests/lib-w353w-formstagedoc.mjs');
         const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th2.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
         const wantImps = ['lib-w347e-spintorque.mjs', 'lib-w352c-refaxis.mjs', 'lib-w352l-suntilt.mjs', 'lib-w352r-twobg.mjs', 'lib-w352x-sunorigin.mjs', 'lib-w353o-suntiltmain.mjs'];
@@ -127639,7 +127639,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
           && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th2) && !/from '/.test(td) && !/Math\.random/.test(tl + th2)
           && !/w353w/.test(wantImps.map((f) => rd('tests/' + f)).join(''))))
           bad.push('④ 呼ぶだけ(lib の import は 6 本・器は 7 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
-        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・仮の値の印(最上位)・lib の import は 6 本の lib だけ・html を読まない`);
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・仮の値の印(最上位と表 2 の黄道の欄)・lib の import は 6 本の lib だけ・html を読まない`);
       } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
     }
     add('behavior.formstage353w', bad.length === 0,

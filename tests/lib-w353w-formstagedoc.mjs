@@ -55,7 +55,8 @@ export function tablesOf(J) {
   T.t2 = ['| 始めの比 ρ₀ | 始めの背景と基準軸の角 θ ° | 形 | x = 歳差の率 × 幅 | 幅 ÷ 歳差の 1 周 | 残る角 ° | 残る角 ÷ θ | 閉じた形(小さい角) |', '|---|---|---|---|---|---|---|---|',
     ...J.t2.rows.map((r) => `| ${rhoN(r.rho0)} | ${fd(r.thDeg)} | ${r.shape} | ${fp(r.x)} | ${r.shape === 'step' ? '0' : fp(r.perTurn)} | ${fd(r.residDeg)} | ${fp(r.ratio)} | ${fp(r.closed)} |`)].join('\n');
   T.cond = ['| 始めの比 ρ₀ | θ ° | いまの角 ÷ θ | exp: 残る角がいまの角に届く x の上限・幅 ÷ 歳差の 1 周 | tanh: 同じ |', '|---|---|---|---|---|',
-    ...J.t2.cond.map((r) => `| ${rhoN(r.rho0)} | ${fd(r.thDeg)} | ${fp(r.need)} | ${r.exp ? fp(r.exp.x) + '・' + fp(r.exp.perTurn) : '届かない(θ < いまの角)'} | ${r.tanh ? fp(r.tanh.x) + '・' + fp(r.tanh.perTurn) : '届かない(θ < いまの角)'} |`)].join('\n');
+    ...J.t2.cond.map((r) => `| ${rhoN(r.rho0)} | ${fd(r.thDeg)} | ${fp(r.need)} | ${r.exp ? fp(r.exp.x) + '・' + fp(r.exp.perTurn) : '届かない(θ < いまの角)'} | ${r.tanh ? fp(r.tanh.x) + '・' + fp(r.tanh.perTurn) : '届かない(θ < いまの角)'} |`),
+    ...J.t2.ecl.rows.map((r) => `| ${rhoN(r.rho0)}(比べる欄: 黄道の極に対する ${fd(J.t2.ecl.tiltDeg)}° —— ${J.t2.ecl.provMark}) | ${fd(r.thDeg)} | ${fp(r.need)} | ${r.exp ? fp(r.exp.x) + '・' + fp(r.exp.perTurn) : '届かない'} | ${r.tanh ? fp(r.tanh.x) + '・' + fp(r.tanh.perTurn) : '届かない'} |`)].join('\n');
   const FN = { c70: '一定 0.7', c85: '一定 0.85', s70: '0.7 → 保つ上限', s85: '0.85 → 保つ上限' };
   T.t3 = ['| 基準軸 | f の列 | 組 | 角・同時 | 作る段 → 保つ段 | いまの姿 | 条件の悪い組(読み B を後ろへ解けない) | 届いた組でいまの角からの外れの最小 |', '|---|---|---|---|---|---|---|---|',
     ...J.t3.rows.map((r) => `| ${AXN[r.axis]} | ${FN[r.fId]} | ${r.n} | ${r.nG}・${r.nB} | ${r.nMake} | ${r.nNow} | ${r.nIll} | ${fp(r.nearKeepDev)} |`)].join('\n');
