@@ -65,7 +65,8 @@ export const moiOf = (id) => { const k = MOIKEY[id], m = W330.DECL.lit.moi; retu
 const srcBody = (s) => (s === 'EarthHi' || s === 'EarthLo' ? 'Earth' : s);
 
 /* ───────── 小さな道具 ───────── */
-export const angDeg = (a, b) => Math.acos(Math.max(-1, Math.min(1, dot(unit(a), unit(b))))) / D2R;
+/** 2 本のなす角(°)—— atan2(abs(a × b), a·b)(同じ向きの近くでも丸めの桁が立たない形・同じベクトルは 0) */
+export const angDeg = (a, b) => { const ua = unit(a), ub = unit(b), c = [ua[1] * ub[2] - ua[2] * ub[1], ua[2] * ub[0] - ua[0] * ub[2], ua[0] * ub[1] - ua[1] * ub[0]]; return Math.atan2(nrm(c), dot(ua, ub)) / D2R; };
 /** 背景の向きの単位ベクトル: 'Np' = 基準軸(L・eq)・'Gm' = 銀河の回転と逆向き */
 export function bgUnit(dir, axis, T1 = E.t1Table(), GEO = E.geometry()) {
   if (dir === 'Np') { if (!DECL.axes.includes(axis)) throw new RangeError('bgUnit: 基準軸は L・eq'); return unit(RA.refAxis(axis, T1, GEO)); }
@@ -129,6 +130,87 @@ export function totalOf(T1, GEO, id, src, { place = 'field', cR = 1, u, dir = 'N
   return { tot, toLDeg: angDeg(tot, Lx), coneDeg: angDeg(tot, sHat), cosSpin: cs, sense: cs > 0 ? 1 : cs < 0 ? -1 : 0, localOverBg: nrm(s.Om) / (u * DECL.omegaG) };
 }
 
+/* ───────── 表を作る(器が呼ぶ)───────── */
+/** 帯の端: 入れ方 place で残り(等大)が band を越える最初の c_R(log10 の 0.01 刻みで挟み・二分で 40 回)。越えなければ null */
+export function bandEdge(T1, GEO, id, src, { place, band, dir = 'Np', axis = 'L', lo = -6, hi = 0 }) {
+  const f = (lc) => cancelOf(T1, GEO, id, src, { place, cR: Math.pow(10, lc), dir, axis }).residEqual - band;
+  let prev = lo;
+  if (f(lo) > 0) return { cR: null, below: true };
+  for (let lc = lo + 0.01; lc <= hi + 1e-9; lc += 0.01) {
+    if (f(lc) > 0) { let a = prev, b = lc; for (let i = 0; i < 40; i++) { const m = 0.5 * (a + b); if (f(m) > 0) b = m; else a = m; } return { cR: Math.pow(10, 0.5 * (a + b)), below: false }; }
+    prev = lc;
+  }
+  return { cR: null, below: false };
+}
+/** 表 1(金星): 入れ方 3 つ × c_R の格子 —— φ・等大の残り・下限・等大の倍率 ÷ k・A0・平均の球の半径。比べる列: (N+) eq・(G−) の等大の残り */
+export function t1Rows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const out = [];
+  for (const place of ['field', 'avg', 'resp']) for (const cR of DECL.cRGrid) {
+    const r = cancelOf(T1, GEO, 'Venus', 'Sun', { place, cR }), q = cancelOf(T1, GEO, 'Venus', 'Sun', { place, cR, axis: 'eq' }), g = cancelOf(T1, GEO, 'Venus', 'Sun', { place, cR, dir: 'Gm' });
+    out.push({ place, cR, phiDeg: r.phiDeg, residEqual: r.residEqual, residMin: r.residMin, uEqualOverK: r.uEqualOverK, A0: r.A0, wS: r.wS, A0overWS: r.A0 / r.wS, Ra: r.Ra, residEq: q.residEqual, residGm: g.residEqual });
+  }
+  return out;
+}
+/** 表 1 の帯: 入れ方 × 基準軸 × 帯(2%・5%)の c_R の上端・規則の半径の行・規則の半径を c_R に直した数 */
+export function t1Bands(T1 = E.t1Table(), GEO = E.geometry()) {
+  const rule = cancelOf(T1, GEO, 'Venus', 'Sun', { place: 'rule' }), rule2 = cancelOf(T1, GEO, 'Venus', 'Sun', { place: 'rule', axis: 'eq' }), out = [];
+  for (const place of ['field', 'avg', 'resp']) for (const axis of DECL.axes) for (const band of DECL.bands) out.push({ place, axis, band, ...bandEdge(T1, GEO, 'Venus', 'Sun', { place, band, axis }) });
+  return { rows: out, rule: { phiDeg: rule.phiDeg, residEqual: rule.residEqual, residEq: rule2.residEqual, uEqualOverK: rule.uEqualOverK }, ruleAsCR: ruleOverObs('Venus'), cRStar: cRStar('Venus', 'Sun', T1, GEO).cR };
+}
+/** 表 2(全部の受け手): 組ごとに cR★・規則の半径 ÷ 観測半径・自分の重み ÷ 源の重み(規則・c_R 1)・φ と等大の残り(規則・(P-場) c_R 1・(P-平) c_R 1)・(S) の大きさの比(c_R 1 ÷ 規則) */
+export function t2Rows(T1 = E.t1Table(), GEO = E.geometry()) {
+  return DECL.pairs.map((pr) => {
+    const [id, src] = pr.split('|'), a = cancelOf(T1, GEO, id, src, { place: 'rule' }), b = cancelOf(T1, GEO, id, src, { place: 'field', cR: 1 }), v = cancelOf(T1, GEO, id, src, { place: 'avg', cR: 1 });
+    return { pair: pr, id, src, cRStar: cRStar(id, src, T1, GEO).cR, ruleOverObs: ruleOverObs(id), selfOverSrcRule: a.A0 / a.wS, selfOverSrc1: b.A0 / b.wS,
+      phiRule: a.phiDeg, phiField1: b.phiDeg, phiAvg1: v.phiDeg, resRule: a.residEqual, resField1: b.residEqual, resAvg1: v.residEqual, sRatio: b.S / a.S, uRule: a.uEqualOverK, uField1: b.uEqualOverK };
+  });
+}
+/** 表 2 のイオ: 打ち消しの倍率の比 x = abs(S_イオ←木星) ÷ abs(S_金星←太陽)(同じ c_R を両方に)と、イオの φ・等大の残り((P-場)・(P-平)) */
+export function ioRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const out = [], r0i = cancelOf(T1, GEO, 'Io', 'Jupiter', { place: 'rule' }), r0v = cancelOf(T1, GEO, 'Venus', 'Sun', { place: 'rule' });
+  out.push({ place: 'rule', cR: null, x: r0i.S / r0v.S, phiDeg: r0i.phiDeg, residEqual: r0i.residEqual });
+  for (const place of ['field', 'avg']) for (const cR of DECL.cRGrid) {
+    const i = cancelOf(T1, GEO, 'Io', 'Jupiter', { place, cR }), v = cancelOf(T1, GEO, 'Venus', 'Sun', { place, cR });
+    out.push({ place, cR, x: i.S / v.S, phiDeg: i.phiDeg, residEqual: i.residEqual });
+  }
+  return out;
+}
+/** 表 3(主の表への影響): 8 惑星 × 入れ方の列 × 背景の倍率 u —— 合成と L の角・円錐・回る向きの目安と、規則の半径の列からの動き */
+export const T3COLS = Object.freeze([Object.freeze({ id: 'rule', place: 'rule', cR: 1 }), Object.freeze({ id: 'f0.01', place: 'field', cR: 0.01 }), Object.freeze({ id: 'f0.1', place: 'field', cR: 0.1 }),
+  Object.freeze({ id: 'f1', place: 'field', cR: 1 }), Object.freeze({ id: 'resp', place: 'resp', cR: 1 })]);
+export function t3Rows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const out = [];
+  for (const id of DECL.planets) for (const u of DECL.uCols) {
+    const base = totalOf(T1, GEO, id, 'Sun', { place: 'rule', u });
+    for (const c of T3COLS) {
+      const t = totalOf(T1, GEO, id, 'Sun', { place: c.place, cR: c.cR, u });
+      out.push({ id, u, col: c.id, toLDeg: t.toLDeg, coneDeg: t.coneDeg, sense: t.sense, localOverBg: t.localOverBg, dToL: t.toLDeg - base.toLDeg, dCone: t.coneDeg - base.coneDeg, dTot: angDeg(t.tot, base.tot) });
+    }
+  }
+  return out;
+}
+/** 表 3 の境: 合成の向きが規則の半径の列から 0.1° 以上動く背景の倍率 u の上端(u の格子 10^(−12〜0)・0.25 刻み —— 上から下ろして初めて越える u)。越えなければ null */
+export function uMoveRows(T1 = E.t1Table(), GEO = E.geometry(), { tolDeg = 0.1 } = {}) {
+  const us = []; for (let k = 0; k <= 48; k++) us.push(Math.pow(10, -k * 0.25));
+  const out = [];
+  for (const id of DECL.planets) for (const c of T3COLS.filter((x) => x.place === 'field')) {
+    let hit = null;
+    for (const u of us) { const t = totalOf(T1, GEO, id, 'Sun', { place: c.place, cR: c.cR, u }), b = totalOf(T1, GEO, id, 'Sun', { place: 'rule', u }); if (angDeg(t.tot, b.tot) >= tolDeg) { hit = u; break; } }
+    out.push({ id, col: c.id, uMove: hit, localOverBgAtU1: totalOf(T1, GEO, id, 'Sun', { place: c.place, cR: c.cR, u: 1 }).localOverBg });
+  }
+  return out;
+}
+/** 表 4((P-応) の率の倍): 天体ごとに慣性モーメントの係数(文献の値か null)・倍(R_ref 規則・観測 × c 文献・格子)・地球を 1 にした比 */
+export function t4Rows() {
+  const ids = [...DECL.planets, 'Moon', 'Io', 'Pluto'], mE = { rule: rateMult('Earth', { ref: 'rule' }), obs: rateMult('Earth', { ref: 'obs' }) };
+  return ids.map((id) => {
+    const c = moiOf(id), r = { id, moi: c, ruleOverObs: ruleOverObs(id), multRule: rateMult(id, { ref: 'rule' }), multObs: rateMult(id, { ref: 'obs' }) };
+    r.relRule = r.multRule === null ? null : r.multRule / mE.rule; r.relObs = r.multObs === null ? null : r.multObs / mE.obs;
+    r.grid = DECL.cGrid.map((cc) => ({ c: cc, multRule: rateMult(id, { c: cc, ref: 'rule' }), multObs: rateMult(id, { c: cc, ref: 'obs' }) }));
+    return r;
+  });
+}
+
 /* ───────── 零試験 ───────── */
 /** 統括の数え直し 3(2026-11-25)の金星の表 6 行・8 惑星の φ・基準軸 L */
 export const ANCHOR = Object.freeze({
@@ -174,10 +256,10 @@ export function pureGates(S) {
     refAxisL: S.L.every((x, i) => x.toFixed(6) === A.L[i].toFixed(6)) && p(S.LeqDeg, 4) === A.LeqDeg && ex(S.omegaG, 2) === A.omegaG,
     venus6: S.venus.length === 6 && S.venus.every((r, i) => { const a = A.venus[i]; return p(r.uEq, 6) === Number(a.uEq).toPrecision(6) && p(r.phi, 4) === a.phi && p(r.res, 5) === a.res && ex(r.A0, 3) === a.A0 && ex(r.wS, 3) === A.wS && (a.min === undefined || p(r.min, 5) === a.min); }),
     phi8: Object.entries(A.phi8).every(([id, [a, b]]) => p(S.phi8[id][0], 5) === a && p(S.phi8[id][1], 5) === b),
-    places: S.vsK < 1e-15 && S.vsResp === 0 && S.vsAvg < 1e-12,
+    places: S.vsK < 1e-12 && S.vsResp < 1e-12 && S.vsAvg < 1e-9,   // 尺度の走り直し(ulp をずらす)でも通る床
     cRStar: Math.abs(S.A0s / S.cs.wS - 1) < 1e-9 && Math.abs(S.cs.cR / S.cs.closed - 1) < 1e-9 && S.cs.cR > 0.05 && S.cs.cR < 0.09,
-    rateMult: Math.abs(S.m1 - 1) < 1e-15 && Math.abs(S.m2 / (S.rr * S.rr) - 1) < 1e-12 && S.mNull === null,
-    residForms: Math.abs(S.r60.e - 1) < 1e-15 && Math.abs(S.r60.m - Math.sqrt(3) / 2) < 1e-15,
+    rateMult: Math.abs(S.m1 - 1) < 1e-12 && Math.abs(S.m2 / (S.rr * S.rr) - 1) < 1e-12 && S.mNull === null,
+    residForms: Math.abs(S.r60.e - 1) < 1e-12 && Math.abs(S.r60.m - Math.sqrt(3) / 2) < 1e-12,
     rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
   };
 }

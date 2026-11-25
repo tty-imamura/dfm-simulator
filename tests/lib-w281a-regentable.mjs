@@ -3187,6 +3187,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sconseq-352za.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便za: 零試験 14/内部熱と供給 84/慣性回転 63/題ごとのまとめ 162/k を金星の条件で置いたとき 81' }),
   // ==== 第352便za の塊(ここまで)====
+  // ==== 第353便c の塊(ここから)====
+  // ---- 第353便c(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R467): **受け手の半径 = 観測半径 × 構造の係数 —— 入れ方の候補 3 つ((P-場)・(P-応)・(P-平))と金星・イオの打ち消し・主の表への影響・応答の率の倍**
+  //   (段 recvradius-353c —— 正本 tests/out/recvradius-353c.json・lib tests/lib-w353c-recvradius.mjs —— 第352便k・c・d・第351便k ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便c の枝の実測 17 s
+  S('recvradius-353c', 'node tests/exp-w353c-recvradius.mjs', ['tests/out/recvradius-353c.json'], 18, { secSource: 'w353c-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/recvradius-353c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便c: 零試験 8/金星 42 + 帯 12/受け手 15 + イオ 29/主の表 120 + 動き始め 24/率の倍 11' }),
+  // ==== 第353便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
