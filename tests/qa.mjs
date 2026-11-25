@@ -131754,6 +131754,83 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第353便zz の塊(ここまで)====
+// ==== 第353便zl の塊(ここから —— docs.report153_353zl の 1 ブロック。root は SKIP)====
+// ---- 第353便zl(原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第153報)・統括の検証項目 R502 —— 文書と照合の鍵だけ・html は変えない):
+// ----   **第152報・第153報の文書(原文 9 文の当たる節・主の列の切り替え 5 題・訂正の鎖 3)と、枝 zf の正本の列を (ウ)(ア)(イ) に並べた表の戻り止め**(新設 —— 文書の表の lib
+// ----   tests/lib-w353zl-report153doc.mjs〔純関数 —— ファイルを読まない。原文と表と照合の関数を持つ〕。器・段・正本は無い —— 表 4・表 5 の数は枝 zf の正本 tests/out/threecols-353zf.json と
+// ----   文書の lib tests/lib-w353zf-threecolsdoc.mjs から作る)。世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第353便zl〕が在る。
+// ----   docs.report153_353zl: ⓪ lib の零試験・版の名の型と枝 zf の正本の記録 ① 位置(〔第353便zz〕より後・統括の節より前)・見出し ② 表 1 の文が原文と逐語(継ぐと原文に戻る)・当たる節の実在
+// ----     (並行の枝の節は名だけ —— 実在の検査に入れない) ③ 表 2 が lib の出力と逐語 ④ 表 3 が lib の出力と逐語・前の文が当時の節に残る ⑤ 表 4・表 5 が枝 zf の正本と逐語・② の帰結の文
+// ----     ⑥ AI_SPEC §394・post-merge の塊 ⑦ 書かない語 ⑧ 変異の自己試験
+{
+  await (async () => {
+  const rd353zl = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w353zl-report153doc.mjs');
+  const PH0 = rd353zl('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第353便zl — ') >= 0)) {
+    console.log('SKIP docs.report153_353zl(第353便zl の第152報・第153報の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, ZD = null, err0 = null;
+  try { W = await import('file://' + wLib); ZD = await import('file://' + path.join(ROOT, 'tests', 'lib-w353zf-threecolsdoc.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  let J = null; try { J = JSON.parse(rd353zl('tests/out/threecols-353zf.json') || 'null'); } catch (e) { J = null; }
+  const AS0 = rd353zl('docs/AI_SPEC.md') || '', PM0 = rd353zl('tools/post-merge-qa.sh') || '';
+  const iS = PH0.indexOf('\n〔第353便zl — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
+  const inOther = (ph, head, a, z) => { const i = ph.indexOf('\n' + head), s = W.physSecOf(ph, head); return ph.slice(0, i + 1) + s.split(a).join(z) + ph.slice(i + 1 + s.length); };
+  const runMut = (bad, MUT, fn) => { const sc = [];
+    for (const [nm, args, re] of MUT) {
+      if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === J) { bad.push('⑧ 変異「' + nm + '」が入力を変えていない'); continue; }
+      const r = fn(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑧ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑧ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    return sc; };
+  {
+    let bad = [], cases = [];
+    if (!W || !ZD) bad.push('lib が読めない: ' + err0);
+    else if (!J) bad.push('枝 zf の正本が読めない');
+    else try {
+      const g = W.libGates(); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
+      if (!(/^w353zl-report153doc-lib-\d+$/.test(W.LIB_VERSION) && /^w353zf-threecolsdoc-\d+$/.test(ZD.DOC_VERSION) && /^w353zf-threecols-\d+$/.test(J.version) && /^w353zf-threecols-lib-\d+$/.test(J.libVersion) && J.ok === true)) bad.push('⓪ 版の名の型か枝 zf の正本の記録');
+      cases.push(`⓪ lib の零試験 ${g.n}(文の分け方・継ぎ・表の行の数・列の並べ替え・AN1045 の文・第138報の公開の節の字)・版の名の型と枝 zf の正本の記録`);
+      const R = W.checkReport153(PH0, AS0, PM0, J); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
+      const rH3 = (s0.split('\n').find((l) => l.startsWith('| 補 3 | ')) || '');
+      const rV = (s0.split('\n').find((l) => l.startsWith('| 1 | 金星の合成 ÷ 背景')) || '');
+      const SD = ['| 補 3 | ', '| 1 | 金星の合成 ÷ 背景', '| (ウ) | 3 | 0 | 8 |', '**④ 決断事項の候補。** ', '**(ウ) 換算の係数 1・背景 = 金星の条件 (uV)**', '(AN1082 の「ウ」) | 選択肢(採否は置いていない): '];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑧ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const J2 = JSON.parse(JSON.stringify(J)); J2.t1.rows.find((r) => r.id === 'periodSun').cells[2].v *= 1.1;
+      const MUT = [
+        ['表 1 の補 3 の原文を 1 字変える', [inSec(PH0, rH3, rH3.replace('下回っている', '上回っている')), AS0, PM0, J], /^② 表 1 の 補 3 の原文の字/],
+        ['表 1 の補 3 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace('\n' + rH3, ''), AS0, PM0, J], /^② 表 1 の行の並び/],
+        ['表 2 の主の列 (ウ) と選択肢 (ア) を入れ替える', [inSec(PH0, '**(ウ) 換算の係数 1・背景 = 金星の条件 (uV)**', '**(ア) 換算の係数 1・背景 0.98 倍**'), AS0, PM0, J], /^③ 表 2 /],
+        ['表 2 の選択肢の印から「採否は置いていない」を消す', [inSec(PH0, '(AN1082 の「ウ」) | 選択肢(採否は置いていない): ', '(AN1082 の「ウ」) | 選択肢: '), AS0, PM0, J], /^③ 表 2 /],
+        ['〔第353便a〕の第151報の AN1058 の文を消す(当時の文)', [inOther(PH0, '〔第353便a — ', '「AN1058: 置かない」', '「AN1058」'), AS0, PM0, J], /^④ 表 3 の 鎖 1 の前の文が 〔第353便a〕に残っていない/],
+        ['表 4 の金星の (ウ) の数を 1 字変える', [inSec(PH0, rV, rV.replace('| — | 0.0133 | 1 |', '| — | 0.0134 | 1 |')), AS0, PM0, J], /^⑤ 表 4 が枝 zf の正本/],
+        ['表 4 の列の順を (ア)(イ)(ウ) に戻す(正本の側の数を変えずに見出しだけ)', [inSec(PH0, '| (ウ) λ 1・u 1.19e-12 | (ア) λ 1・u 0.98 | (イ) 換算の係数 8.22e11・u 0.98 |', '| (ア) λ 1・u 0.98 | (イ) 換算の係数 8.22e11・u 0.98 | (ウ) λ 1・u 1.19e-12 |'), AS0, PM0, J], /^⑤ 表 4 の列の順/],
+        ['枝 zf の正本の (ウ) の太陽の歳差の 1 周を変える(本節は変えない)', [PH0, AS0, PM0, J2], /^⑤ 表 4 が枝 zf の正本/],
+        ['表 5 の (ウ) の入る数を変える', [inSec(PH0, '| (ウ) | 3 | 0 | 8 |', '| (ウ) | 4 | 0 | 8 |'), AS0, PM0, J], /^⑤ 表 5 /],
+        ['地の文に「ロックした」を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 金星はロックした。'), AS0, PM0, J], /^⑦ PHYSICS〔第353便zl〕 に書かない語「ロックした」/],
+        ['地の文に「0.98 倍が外れた」を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 0.98 倍が外れた。'), AS0, PM0, J], /^⑦ PHYSICS〔第353便zl〕 に書かない語「外れた」/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 「金星はロックした」の文は無い。'), AS0, PM0, J], null],
+        ['節に private の文書の名を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** ' + W.PRIVATE_NAMES[W.PRIVATE_NAMES.length - 3] + '。'), AS0, PM0, J], /^⑦ PHYSICS〔第353便zl〕 に禁句/],
+        ['本節を〔第353便zz〕の前に移す', [(() => { const s = W.physSecOf(PH0, W.HEAD), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第353便zz — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), AS0, PM0, J], /^① PHYSICS〔第353便zl〕の位置/],
+        ['AI_SPEC の §394 を消す', [PH0, AS0.replace(/\n## 394\. 第353便zl/, '\n## 3940. 第353便zl'), PM0, J], /^⑥ AI_SPEC §394/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第353便zl の塊(ここから)====', '# ==== 第353便zl の塊====')], /^⑥ post-merge/],
+      ];
+      MUT[MUT.length - 1][1].push(J);
+      const sc = runMut(bad, MUT, W.checkReport153);
+      cases.push(`⑧ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report153_353zl', bad.length === 0,
+      `**第152報・第153報の文書(原文 9 文の当たる節・主の列の切り替え 5 題・訂正の鎖 3)と、枝 zf の正本の列を (ウ)(ア)(イ) に並べた表**(第353便zl・原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第153報)・R502 —— 原文は言葉を変えずに引く・主の列 (ウ) は回答で主に置いた列・(ア)(イ) は選択肢〔採否は置いていない〕・数は正本の字・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第353便zl の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

@@ -1857,6 +1857,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.orbitk353zj docs.orbitk353zj"
 #   EQ-149 までの写しで読み・主の列の印を回答の印か未定の印で受ける形にした既存の照合(docs.equations352z)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations353zz docs.equations352z"
 # ==== 第353便zz の塊(ここまで)====
+# ==== 第353便zl の塊(ここから)====
+# 第353便zl(原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第153報)・統括の検証項目 R502 —— 文書と照合の鍵だけ・html は変えない): 枝 zl の新設 1 本
+#   (docs.report153_353zl —— 第152報・第153報の文書と枝 zf の正本の列を (ウ)(ア)(イ) に並べる表)(第153報の印で受ける形に直した既存の照合 docs.equations353zz・docs.equations352z は第353便zz の塊が足す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
+# ==== 第353便zl の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

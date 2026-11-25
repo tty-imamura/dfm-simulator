@@ -128,7 +128,7 @@ export function table3Md() {
 // ---- 書かない語
 export const EXT_NAMES = A353.EXT_NAMES;
 const rv = (x) => x.split('').reverse().join('');
-export const PRIVATE_NAMES = Object.freeze(A353.PRIVATE_NAMES.concat(['lz353w', 'lz353-W', '251TROPER', '351TROPER', 'sfeirb'].map(rv)));
+export const PRIVATE_NAMES = Object.freeze(A353.PRIVATE_NAMES.concat(['lz353-W', '251TROPER', '351TROPER', 'sfeirb/'].map(rv)));
 export const PRIVATE_RE = A353.PRIVATE_RE;
 export const PAST = Object.freeze(A353.PAST.concat(['ロックした', '採用した', '外れた']));
 export const NOT153 = Object.freeze([/正しい/, /ロックしている/, /主が決まった/, /型が決まった/, /採る型/, /観測に合った/, /主の列が合った/]);
