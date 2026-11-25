@@ -43,8 +43,8 @@ export const DECL = Object.freeze({
   centers: KS.DECL.centers, tiltDeg: 1,
   /** 面密度 Σ(kg/m²)の格子 —— ノブ(値は未照合)。格子の外の走査(上がるか下がるかを見る)は sigmaWide */
   sigmas: Object.freeze([1, 10, 100, 1e3, 1e4]), sigmaWide: Object.freeze([1e6, 1e8, 1e10, 1e12, 1e14]),
-  /** 周りの粒子の重みの和を作る区切り: 区分の幅を径の向きに N 個・周の向きは同じ長さの升(升は面積の等しい K1 の球 —— 既存の重みの核) */
-  surfN: 48, surfNcheck: 96,
+  /** 周りの粒子の重みの和を作る区切り: 区分の幅を径の向きに N 個・周の向きは近くで細かく遠くで粗い升(幅の伸びは grow)(升は面積の等しい K1 の球 —— 既存の重みの核) */
+  surfN: 48, surfNcheck: 96, surfGrow: 0.02,
   reads: Object.freeze(['C2', 'C1']), frames: Object.freeze(['F2', 'F1']),
   /** F1(〔第352便s〕の輪)の作りに在る読みは C2 だけ(〔第353便k〕の axStd と同じ)—— C1 の欄は「作りに無い」 */
   readsF1: Object.freeze(['C2']),
@@ -71,23 +71,26 @@ export function regionOf(key) {
 /* ───────── 周りの粒子の重みの和(SI: kg/m)───────── */
 /**
  * 面密度 sigma の平らな輪(半径 r の周りに幅 dr —— 内縁 r − dr/2・外縁 r + dr/2)が、点 at(既定 = 輪の面の上・半径 r)に作る重みの和 Σ_i m_i K(d_i, R_i)。
- * 升は径の向きに N 個・周の向きに同じ長さ(2π r_j ÷ Δr を丸めた数)。升の質量 = sigma × 面積・升の球の半径 = √(面積 ÷ π)(既存の核 K1 —— 中の値は (3R² − d²)/(2R³))。
+ * 升は径の向きに N 個(幅 h = dr/N)。周の向きは受け手の向き(φ 0)から両側へ、初めの升の幅 h(弧の長さ)・升の幅を (1 + grow) 倍ずつ —— ただし升の幅は φ × grow を下回らない —— で π まで
+ * (近くは細かく遠くは粗く —— 遠い升の長さは距離の grow 倍)。升の質量 = sigma × 面積・升の球の半径 = √(面積 ÷ π)(既存の核 K1 —— 中の値は (3R² − d²)/(2R³))。
  * kernel は { kind: 'ball', al: 1 } だけ(既存の Kball の α 1)。
  */
-export function surfW({ sigma, r, dr, N = DECL.surfN, kernel = { kind: 'ball', al: 1 }, at = null }) {
+export function surfW({ sigma, r, dr, N = DECL.surfN, kernel = { kind: 'ball', al: 1 }, at = null, grow = DECL.surfGrow }) {
   if (!(fin(sigma) && sigma >= 0)) throw new RangeError('surfW: Σ ≥ 0');
   if (!(fin(r) && r > 0 && fin(dr) && dr > 0 && dr < 2 * r)) throw new RangeError('surfW: r > 0・0 < dr < 2r');
   if (!(Number.isInteger(N) && N >= 2)) throw new RangeError('surfW: N は 2 以上の整数');
+  if (!(fin(grow) && grow > 0 && grow < 1)) throw new RangeError('surfW: 0 < grow < 1');
   if (!(kernel && kernel.kind === 'ball' && kernel.al === 1)) throw new RangeError('surfW: 核は ball(α 1)だけ');
   const p = at === null ? [r, 0, 0] : at;
   if (sigma === 0) return { W: 0, cells: 0, perSigma: null };
   const h = dr / N; let W = 0, cells = 0;
   for (let i = 0; i < N; i++) {
-    const rj = r - dr / 2 + (i + 0.5) * h, M = Math.max(4, Math.round(2 * Math.PI * rj / h)), dph = 2 * Math.PI / M, area = rj * dph * h, Rc = Math.sqrt(area / Math.PI), m = sigma * area;
-    for (let j = 0; j < M; j++) {
-      // 升の中心: 受け手の向き(φ 0)から半升ずらす —— 受け手が升の中心に乗るのは径の向きの真ん中の升の φ 0 だけにしない(偶数の N では升の境)
-      const ph = (j + 0.5) * dph, x = [rj * Math.cos(ph) - p[0], rj * Math.sin(ph) - p[1], -p[2]];
-      W += m * DK.Kball(1, nrm(x), Rc); cells++;
+    const rj = r - dr / 2 + (i + 0.5) * h, d0 = h / rj;
+    let e = 0;
+    while (e < Math.PI - 1e-15) {
+      const dph = Math.min(Math.max(d0, grow * e), Math.PI - e), ph = e + dph / 2, area = rj * dph * h, Rc = Math.sqrt(area / Math.PI), m = sigma * area;
+      for (const sg of [1, -1]) { const x = [rj * Math.cos(ph) - p[0], sg * rj * Math.sin(ph) - p[1], -p[2]]; W += m * DK.Kball(1, nrm(x), Rc); cells++; }
+      e += dph;
     }
   }
   return { W, cells, perSigma: W / sigma };
@@ -217,15 +220,21 @@ export function planeAx(T1, GEO, id, { axis = 'L', src = 'rule', ob = 'O0', recv
   const R = KS.ringStdOm({ Ms: P.Ms, Rs, spinVec: scl(P.sAx, P.ws), L: Lh, r: P.a, recvM: rv.m, recvR: rv.R, ob: KS.obOf('Sun', ob, src), extraW, read });
   const perp = nrm(SP.perpOf(Lh, R.Om)), v = perp * Z.DECL.ageYr * YR / (Z.DECL.planeSpreadDeg * D2R);
   const n = unit(GEO[id + '|Sun'].n);
-  return { id, axis, recv, v, A0: R.A0, wS: R.wS, A0OverWS: R.A0 / R.wS, scatterDeg: CR.angDeg(Lh, n), mOverMsun: C.massOf(id) / P.Ms };
+  return { id, axis, recv, v, a: P.a, R: R.Rr, A0: R.A0, wS: R.wS, A0OverWS: R.A0 / R.wS, scatterDeg: CR.angDeg(Lh, n), mOverMsun: C.massOf(id) / P.Ms };
 }
-/** 公転面の閉じた形: 点の読み(W)で v(W) = α/W − β/W²。v★ = A0 → 0 の値(α/w_S − β/w_S²)・v ÷ v★ と 1/(1 + A0/w_S) を並べる */
+/**
+ * 閉じた形(場の式から): 点の読みの率は v(W) = α (W + w_S) ÷ W²(β = −α w_S —— 源 1 つ・核 K1 の外で、場の勾配の 2 つの項が W = w_S で同じ大きさ)。
+ * 分母を W₀ から W₀(1 + x) へ(x = 足した重み ÷ W₀・s = w_S ÷ W₀): 率の比 = (1 + x + s) ÷ ((1 + x)²(1 + s))・比 − 1 = −x(1 + 2s + x(1 + s)) ÷ ((1 + x)²(1 + s))(差を取らずに直接)。
+ * 自分の重みを 0 にした値 v★ との比(q = 自分の重み ÷ 源の重み): v ÷ v★ = (2 + q) ÷ (2(1 + q)²)。
+ */
+export const ratioOf = (x, s) => (1 + x + s) / ((1 + x) * (1 + x) * (1 + s));
+export const dOf = (x, s) => -x * (1 + 2 * s + x * (1 + s)) / ((1 + x) * (1 + x) * (1 + s));
+export const starOf = (q) => (2 + q) / (2 * (1 + q) * (1 + q));
+/** 公転面: 点の読み(W)で v、自分の重みをほぼ 0 にした v★(c_R 1e12 —— q ≈ 0)、閉じた形 (2 + q) ÷ (2(1 + q)²) と並べる */
 export function planeClosed(T1, GEO, id, { axis = 'L', cR = 1 } = {}) {
-  const base = planeAx(T1, GEO, id, { axis, recv: { cR }, read: 'W' }), W0 = base.wS + base.A0;
-  const ab = abOf((E0) => planeAx(T1, GEO, id, { axis, recv: { cR }, read: 'W', extraW: E0 }).v, W0);
-  // v★: W = w_S のときの値 = α/w_S − β/w_S² = (a W0/w_S) − (b W0²/w_S²)
-  const g = W0 / base.wS, vStar = ab.a * g - ab.b * g * g;
-  return { id, axis, cR, v: base.v, vStar, vOverStar: base.v / vStar, inv1q: 1 / (1 + base.A0OverWS), q: base.A0OverWS, ab };
+  const base = planeAx(T1, GEO, id, { axis, recv: { cR }, read: 'W' }), st = planeAx(T1, GEO, id, { axis, recv: { cR: 1e12 }, read: 'W' });
+  const q = base.A0OverWS, closed = starOf(q) / starOf(st.A0OverWS);
+  return { id, axis, cR, vW: base.v, vStar: st.v, vOverStar: base.v / st.v, closed, q, qStar: st.A0OverWS };
 }
 
 /* ───────── 零試験 ───────── */
@@ -246,8 +255,12 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ⑤ extraW の口: W_surf を直に渡すのと Σ から作るのが同じ数(F2・F1)
   { const w = surfOf('ringB', 1e3).W; S.extraSame = [rel(diskSurf('ringB', { sigma: 1e3 }).raiseOverEpsPerS, diskSurf('ringB', { extraWSI: w }).raiseOverEpsPerS),
     rel(axSurf(T1, GEO, 'ringB', { sigma: 1e3 }).yard, axSurf(T1, GEO, 'ringB', { extraWSI: w }).yard)]; }
-  // ⑥ 閉じた形 v(W) = α/W − β/W²(F2・C2)の 3 点目の照合
+  // ⑥ 閉じた形 v(W) = α/W − β/W²(F2・C2)の 3 点目の照合と β = −α w_S(−b ÷ a = w_S ÷ W₀)・Σ★(源)での率の比 = ratioOf(1, s)・公転面の v ÷ v★ = (2 + q) ÷ (2(1 + q)²)
   S.abCheck = DECL.centers.map((k) => sigmaStar(k).ab.check);
+  S.abBeta = DECL.centers.map((k) => { const st = sigmaStar(k), s = st.srcSI / (st.srcSI + st.oneSI); return rel(-st.ab.b / st.ab.a, s); });
+  { const st = sigmaStar('ringB'), s = st.srcSI / (st.srcSI + st.oneSI), x = st.srcSI / (st.srcSI + st.oneSI);
+    const r = diskSurf('ringB', { extraWSI: st.srcSI }).raiseOverEpsPerS / diskSurf('ringB', {}).raiseOverEpsPerS; S.ratioClosed = rel(r, ratioOf(x, s)); S.dDirect = rel(dOf(x, s), ratioOf(x, s) - 1); }
+  S.planeClosed = ['Earth', 'Jupiter'].map((id) => { const c = planeClosed(T1, GEO, id); return rel(c.vOverStar, c.closed); });
   // ⑦ 公転面: 基準軸 L・受け手 規則と c_R 1 は〔第353便k〕の planeStd と同じ数(地球・木星)
   S.vsPlane = [];
   for (const id of ['Earth', 'Jupiter']) for (const recv of ['rule', { cR: 1 }]) S.vsPlane.push(rel(planeAx(T1, GEO, id, { axis: 'L', recv }).v, KS.planeStd(T1, GEO, id, { recv }).v));
@@ -270,7 +283,7 @@ export function pureGates(S) {
     surfOrigin: S.surfOrigin < 1e-9,
     surfConv: S.surfConv.every((x) => x < 2e-2) && S.surfLinear < 1e-9,
     extraSame: S.extraSame.every((x) => x < 1e-9),
-    abCheck: S.abCheck.every((x) => x < 1e-6),
+    abCheck: S.abCheck.every((x) => x < 1e-6) && S.abBeta.every((x) => x < 1e-6) && S.ratioClosed < 1e-6 && S.dDirect < 1e-12 && S.planeClosed.every((x) => x < 1e-6),
     vsPlane: S.vsPlane.length === 4 && S.vsPlane.every((x) => x < 1e-9),
     rigid: S.rigidMass < 1e-12 && S.rigidSame < 1e-9,
     rejects: S.rejects.length === 9 && S.rejects.every(Boolean),
