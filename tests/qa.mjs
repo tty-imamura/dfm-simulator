@@ -132903,6 +132903,182 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第355便f の塊(ここまで)====
+// ==== 第355便g の塊(ここから —— behavior.heat3d355g・docs.heat3d355g の 2 ブロック。root は SKIP)====
+// ---- 第355便g(原仮定者の指示(2026-11-21)・原仮定者の回答(2026-11-22)AN949・AN951・AN962〜AN964・統括の検証項目 R510):
+// ----   **論文 5 の三次元の熱の項 —— 形の候補の表のための状態方程式の診断(小さな純関数の積分器・候補の斥力の則・熱への依り方・三次元の摩擦と拡散の候補・圧力の冪)**
+// ----   (新設 —— 器 tests/exp-w355g-heat3d.mjs〔html を読まない〕・lib tests/lib-w355g-heat3d.mjs・文書の lib tests/lib-w355g-heat3ddoc.mjs・正本 tests/out/heat3d-355g.json・
+// ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・三次元の受理の門・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.heat3d355g(正本と照合 —— html を読まない・照合は第338便c の recheckRun —— 器の走り直し 3 回で 2〜3 分):
+// ----     ① 版・宣言・零試験 10 を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ
+// ----     ③ QA の中で別に書いた式: 冪(log–log の最小二乗の傾き)・並進の分 N T ÷ V・斥力の分 ÷ 並進の分・粒の数で振る冪・熱への依り方・保存の量
+// ----     ④ 作り直した門が全部真・呼ぶだけ(lib は import しない・器は 3 本)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w355g-heat3d.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w355g-heat3d.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w355g-heat3ddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'heat3d-355g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.heat3d355g(第355便g の三次元の熱の項の候補の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, R338 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc);
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/heat3d-355g.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・宣言・零試験
+        if (!((L.LIB_VERSION === J.libVersion && /^w355g-heat3d-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w355g-heat3d-\d+$/.test(X.HARNESS_VERSION)) && /^w355g-heat3ddoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 版は正本の記録と名の型で見る(第344便f の形)
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        const DL = L.DECL;
+        if (!(js(DL.dims) === js([2, 3]) && js(DL.laws) === js(['L0', 'L1', 'L2']) && js(DL.heatForms) === js(['prod', 'sum', 'other']) && js(DL.carriers) === js(['A', 'I', 'U']) && DL.q === 2 && DL.N === 64
+          && js(DL.window) === js([0.9, 1.1]) && js(DL.tGrid) === js([0.5, 1, 2]) && L.COLS.length === 10 && js(L.COLS.map((c) => c.id)) === js(J.cols.map((c) => c.id))))
+          bad.push('① 宣言(次元 2・則 3・熱への依り方 3・担い手 3・q 2・粒 64・窓・温度の格子・列 10)');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 10) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(L0 = アプリの E5′・L1 は二次元で L0・熱への依り方の対称・(F-vec) は面内でアプリの E9・保存・拡散・結合の角・並進だけの箱・二次元の ρ²T の形・定めた手順)`);
+        // ② 器を走らせ直して正本と同じ
+        const parts = ['pure', 't1', 't2', 't3', 't4', 't5'];
+        const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.length} 部分が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ QA の中で別に書いた式
+        const near = (a, b, t) => (a === b) || Math.abs(a - b) <= t * Math.max(Math.abs(a), Math.abs(b));
+        const sl = (xs, ys) => { const a = xs.map(Math.log), b = ys.map(Math.log), n = a.length, ma = a.reduce((s, t) => s + t, 0) / n, mb = b.reduce((s, t) => s + t, 0) / n;
+          let p = 0, q = 0; for (let k = 0; k < n; k++) { p += (a[k] - ma) * (b[k] - mb); q += (a[k] - ma) * (a[k] - ma); } return p / q; };
+        let n3 = 0;
+        for (const r of J.t1) {
+          const D = r.D;
+          if (!(near(r.aRho, sl(r.rhoPts.map((p) => p.rho), r.rhoPts.map((p) => p.P)), 1e-9) && near(r.aT, sl(r.tPts.map((p) => p.T), r.tPts.map((p) => p.P)), 1e-9))) bad.push('③ 冪を点から作り直して違う ' + r.col);
+          for (const p of r.rhoPts.concat(r.tPts)) { n3++;
+            if (!(near(p.Pkin, J.decl.N * p.Ttr / Math.pow(p.L, D), 1e-9) && near(p.rho, J.decl.N / Math.pow(p.L, D), 1e-9) && (p.Prep === 0 || near(p.Prep, p.P - p.Pkin, 1e-6)))) bad.push('③ 並進の分 N T ÷ V・密度・斥力の分 ' + r.col); }
+          if (r.repOverKin && !r.repOverKin.every((x, k) => x === 0 || near(x, r.rhoPts[k].Prep / r.rhoPts[k].Pkin, 1e-6))) bad.push('③ 斥力の分 ÷ 並進の分 ' + r.col);
+          if (!(r.rep || r.repOverKin === null)) bad.push('③ 斥力なしの列に斥力の分 ' + r.col);
+        }
+        for (const r of J.t3) if (!near(r.aRhoN, sl(r.pts.map((p) => p.rho), r.pts.map((p) => p.P)), 1e-9)) bad.push('③ 粒の数で振る冪 ' + r.col);
+        const hh = { prod: [1, 1, 0, 0], sum: [1.25, 1.25, 0, 1], other: [2, 0.5, 1.5, 2] };
+        for (const r of J.t4) { const w = hh[r.form]; if (!(w && near(r.onI, w[0], 1e-12) && near(r.onJ, w[1], 1e-12) && Math.abs(r.pairSum - w[2]) <= 1e-12 && Math.abs(r.zeroOnI - w[3]) <= 1e-12 && r.momentum === (w[2] === 0 ? 'keep' : 'break'))) bad.push('③ 熱への依り方 ' + r.form); }
+        const fv = J.t5.find((r) => r.id === 'F-vec'), fs2 = J.t5.find((r) => r.id === 'F-scal');
+        if (!(fv && fs2 && fv.dP <= 1e-12 && fv.dL <= 1e-12 && fv.dE > 0 && fs2.dP <= 1e-12 && fs2.dL > 1e-3 && fs2.dE > 0 && J.t5.find((r) => r.id === 'D-vec').dSpin <= 1e-12 && J.t5.find((r) => r.id === 'D-scal').dHeat <= 1e-12)) bad.push('③ 保存の量(F-vec は運動量と角運動量・F-scal は並進の角運動量を保たない・拡散)');
+        const z9 = J.pure.scenes.z9, z8 = J.pure.scenes.z8;
+        if (!(z9.aRho >= 1.6 && z9.aRho <= 2.4 && z9.aT >= 0.95 && z9.aT <= 1.05 && z8.every((r) => Math.abs(r.ratio - 1) <= 0.05))) bad.push('③ 二次元の ρ²T の形・並進だけの箱の P ÷ (ρ T)');
+        cases.push(`③ 冪を点から ${J.t1.length} 列・並進の分と密度と斥力の分 ${n3} 点・粒の数で振る ${J.t3.length} 列・熱への依り方 ${J.t4.length}・保存の量 ${J.t5.length}・二次元の ρ²T の形(密度 ${z9.aRho.toFixed(3)}・温度 ${z9.aT.toFixed(3)})を作り直して同じ`);
+        // ④ 門・呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const tl = rd('tests/lib-w355g-heat3d.mjs'), th = rd('tests/exp-w355g-heat3d.mjs'), td = rd('tests/lib-w355g-heat3ddoc.mjs');
+        const impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        if (!(!/from '/.test(tl) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w355g-heat3d.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th) && !/from '/.test(td) && !/Math\.random/.test(tl + th) && J.provisional === undefined))
+          bad.push('④ 呼ぶだけ(lib と文書の lib は import しない・器は 3 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・Math.random なし・仮の値の印なし)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・lib は import しない・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.heat3d355g', bad.length === 0,
+      `**論文 5 の三次元の熱の項 —— 形の候補の表のための状態方程式の診断(候補の列 10 の圧力の冪・斥力の強さの倍・粒の数で振る冪・熱への依り方・三次元の摩擦と拡散の保存の量)の作り直し**(第355便g・R510 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第355便g: docs.heat3d355g は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.heat3d355g(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 原文 4 つと表 1(原文と読み)・事実の表・候補の表・プログラムの抜粋・表 5 本・数の文 5 つが PHYSICS〔第355便g〕に逐語・抜粋の行が beta/index.html に在る・表 6b が PAPER_PLAN の論文 5 の節に逐語
+// ----     ③ 節の位置(〔第354便a〕の節の後・第328便の統括の節の前)・必須の語・ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §402(§395 の後)・CHANGELOG(第355便g の行が在れば見出しより後)・段の行・.gitignore・post-merge
+// ----     ④ 書かない語・禁句・変異 2
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w355g-heat3d.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w355g-heat3d.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w355g-heat3ddoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'heat3d-355g.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.heat3d355g(第355便g の三次元の熱の項の候補の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md'), PP = rd('docs/PAPER_PLAN.md'), HT = rd('beta/index.html');
+    const i0 = PH.indexOf('〔第355便g — '), i7 = PH.indexOf('\n## 7. 論文'), ia = PH.indexOf('〔第354便a — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ia >= 0 && ia < i0 && iu > i0)) bad.push('PHYSICS〔第355便g〕が無いか〔第354便a〕の節の前か第328便の統括の節・「## 7.」の後ろ');
+    const p6 = PP.indexOf('\n## 6. 論文5'), p7 = PP.indexOf('\n## 7. 順番の案'), p9 = PP.indexOf('\n### ⑨ 表 6b 三次元の熱の項の形の候補'), s6b = (p9 >= 0 && p7 > p9) ? PP.slice(p9, p7) : '';
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/heat3d-355g.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'heat3d'
+        && J.target === 'tests/lib-w355g-heat3d.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN) || JSON.stringify(J.cols) !== JSON.stringify(L.COLS)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      if (!(D0.ORIGINAL.length === 4 && D0.READINGS.length === 4)) bad.push('② 原文の数(4)・読みの数');
+      for (const [, o] of D0.ORIGINAL) { if (sec.indexOf('「' + o + '」') < 0) bad.push('② 原文が節に逐語で無い: ' + o.slice(0, 20)); if (PP.indexOf(o) < 0) bad.push('② 原文が PAPER_PLAN の字と違う: ' + o.slice(0, 20)); }
+      if (!(D0.ORIGINAL[0][0] === '原仮定者の指示(2026-11-21)' && D0.ORIGINAL.slice(1).every(([s]) => s === '原仮定者の回答(2026-11-22)') && D0.ORIGINAL[1][1].startsWith('AN949: ') && D0.ORIGINAL[3][1] === 'AN962〜AN964: 推奨で進める')) bad.push('② 原文の出どころの名(日付)');
+      for (const [nm, t] of [['表 1(原文と読み)', D0.originalTable()], ['事実の表', D0.factsTable()], ['候補の表', D0.candTable()], ['プログラムの抜粋', D0.excerptBlock()]]) if (sec.indexOf(t) < 0) bad.push('② ' + nm + 'が節に逐語で無い');
+      for (const [k, l] of D0.EXCERPTS) if (HT.indexOf('\n' + l + '\n') < 0) bad.push('② 抜粋の行が beta/index.html に無い: ' + k);
+      const T = D0.tablesOf(J), F = D0.factsOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第355便g〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 5) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第355便g〕に数の文 ' + k + ' が逐語で無い');
+      if (Object.keys(F).length !== 5) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      if (!(p6 >= 0 && p6 < p9 && s6b.indexOf(D0.table6b(J)) >= 0)) bad.push('② PAPER_PLAN の論文 5 の節に表 6b が逐語で無い(⑧ の後・「## 7.」の前)');
+      cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・事実の表 ${D0.FACTS.length} 行・候補の表 ${D0.CANDS.length} 行・抜粋 ${D0.EXCERPTS.length} 行(html に在る)・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第355便g〕に逐語・表 6b(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の指示(2026-11-21)', '原仮定者の回答(2026-11-22)', 'AN949', 'AN951', 'AN962〜AN964', 'R510', 'tests/exp-w355g-heat3d.mjs', 'tests/out/heat3d-355g.json', 'tests/lib-w355g-heat3d.mjs', 'heat3d-355g',
+      'アナロジー', '現実の熱力学の記述ではない', '列を 1 つに絞らない', '三次元の受理の門', 'geoPN=0', '12 本', '(ア)', '(イ)', '(ウ)', '(L0)', '(L1)', '(L2)', '(積)', '(和)', '(相手だけ)', '(F-vec)', '(F-scal)', '(D-vec)', '(D-scal)', '(θ-flat)', '(θ-tet)',
+      '圧力 = 壁に渡る力の時間平均の和', '密度への冪', '温度への冪', '窓 0.9〜1.1', 'ρ²T', 'U5-3', '並進の運動の寄与', '二次元へ落とすと', '保存する量', 'E5′', 'E9', 'E10′', 'E11', 'EQ の番号は無い',
+      'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態', '題カードの恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '推奨', '次点', '次の便へ', 'behavior.heat3d355g', 'docs.heat3d355g', '書かないこと', 'エントロピー'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第355便g〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 3
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 402. 第355便g'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && AS.indexOf('\n## 395. 第354便a') >= 0 && AS.indexOf('\n## 395. 第354便a') < a0 && ai.indexOf('tests/out/heat3d-355g.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R510') >= 0 && ai.indexOf('比べる列') >= 0))
+      bad.push('③ AI_SPEC §402(§395 の後・正本・SYSTEM_PROMPT・候補・R510・比べる列)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第355便g**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('tests/exp-w355g-heat3d.mjs') >= 0 && clz.indexOf('heat3d-355g') >= 0 && clz.indexOf('R510') >= 0))
+      bad.push('③ CHANGELOG の第355便g の行(見出しより後・器と段の名・R510)');
+    if (!(/S\('heat3d-355g', 'node tests\/exp-w355g-heat3d\.mjs', \['tests\/out\/heat3d-355g\.json'\]/.test(RT) && RT.indexOf('// ==== 第355便g の塊(ここから)====') > RT.indexOf('// ==== 第353便zk の塊(ここまで)====') && RT.indexOf('// ==== 第353便zk の塊(ここまで)====') >= 0)) bad.push('③ 段の行 heat3d-355g(第353便zk の塊の後)');
+    if (!(GI.indexOf('!tests/out/heat3d-355g.json') >= 0 && GI.indexOf('# ==== 第355便g の塊(ここから)====') > GI.indexOf('# ==== 第353便zk の塊(ここまで)===='))) bad.push('③ .gitignore の例外(第353便zk の塊の後)');
+    if (!(PM.indexOf('# ==== 第355便g の塊(ここから)====') > PM.indexOf('# ==== 第354便a の塊(ここまで)====') && PM.indexOf('# ==== 第354便a の塊(ここまで)====') >= 0 && /behavior\.heat3d355g docs\.heat3d355g/.test(PM))) bad.push('③ post-merge に第355便g の塊(第354便a の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §402(次の見出しまで)・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')・段の行・.gitignore・post-merge');
+    const dropOrig = (t) => (D0 ? D0.ORIGINAL.reduce((s, [, o]) => s.split(o).join(''), t) : t);   // 原文(言葉を変えずに引く)は書かない語の照合から外す
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W351 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっなに体気想理'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]),
+      cpC([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpC([0x8f03, 0x6b63]), cpC([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第355便g〕', sec], ['AI_SPEC §402', ai], ['PAPER_PLAN の表 6b', s6b], ['器', rd('tests/exp-w355g-heat3d.mjs')], ['lib', rd('tests/lib-w355g-heat3d.mjs')], ['文書の lib', rd('tests/lib-w355g-heat3ddoc.mjs')]];
+    if (kz >= 0) texts.push(['CHANGELOG の第355便g の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropOrig(tx0);
+      for (const w of NGC.concat(W351)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('④ ' + nm + ' に報の番号');
+    }
+    // 変異の自己試験(壊した写しで落ちる): 原文の 1 字・表の 1 字
+    { const s2 = D0 ? sec.split(D0.ORIGINAL[2][1]).join(D0.ORIGINAL[2][1].replace('斥力', '引力')) : '', T0 = J && D0 ? D0.tablesOf(J) : {}, k0 = Object.keys(T0)[0];
+      if (D0 && s2.indexOf('「' + D0.ORIGINAL[2][1] + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
+      if (k0 && sec.replace(T0[k0], T0[k0].replace('|', '¦')).indexOf(T0[k0]) >= 0) bad.push('④ 変異(表の 1 字)で落ちない'); }
+    cases.push('④ 書かない語・禁句・報の番号(節・AI_SPEC・表 6b・器・lib・文書の lib —— 原文は外す)・変異 2 つ');
+    add('docs.heat3d355g', bad.length === 0,
+      `**PHYSICS〔第355便g〕(論文 5 の三次元の熱の項 —— 事実の表・候補の表・冪の表・決断事項の候補)と PAPER_PLAN の表 6b**(第355便g・R510): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第355便g の塊(ここまで)====
 // ==== 第355便h の塊(ここから —— docs.aichat355h・behavior.aichatIntake355h の 2 ブロック。beta・root の両方で走る)====
 // ---- 第355便h(原仮定者の指示(2026-11-25)「AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと
 // ----   考えている。対話式はDFMについてのQ&Aも兼ねる」・統括の検証項目 R511): **AI チャットとの対話の入口**(文書と道具と検査だけ —— html は変えない)。
