@@ -3552,6 +3552,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/lockdef-353zk.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zk: 零試験 12/X 10 天体 × 列 3 × 置き方 3 × k₂/Q 2 と X = 1 の自転周期/線 1 で分かれるか 36 行と k₂/Q の範囲 18/u の範囲 12/金星と地球 3/整数の並び 12/言えること 3' }),
   // ==== 第353便zk の塊(ここまで)====
+  // ==== 第355便f の塊(ここから)====
+  // ---- 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・統括の検証項目 R509): **新しい geoPN=4 の計算の候補の列(表 5c)の低 N の診断 —— 列 6 × 模型 2 × γ 2 × N 2 × 種 3 の効果と離散化の幅・既存の正本の数の写し**
+  //   (段 g4cols-355f —— 正本 tests/out/g4cols-355f.json・lib tests/lib-w355f-g4cols.mjs —— 第335便f・第337便e の lib を import して呼ぶ。入力のファイルは第337便e・第340便g の正本(数の写しだけ)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入らない。所要は第355便f の枝の実測 176 s(settleRun の 3 回分)
+  S('g4cols-355f', 'node tests/exp-w355f-g4cols.mjs', ['tests/out/g4cols-355f.json'], 180, { secSource: 'w355f-branch', node: true,
+    after: ['fluid-337e', 'fluidconv-340g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 低 N の走り 132 本を 3 回(尺度の走り直し)で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/g4cols-355f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便f: 零試験 8/走り 132(模型 2 × N 2 × 種 3 × 列 11)/効果と幅 20/既存の正本の写し 2' }),
+  // ==== 第355便f の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

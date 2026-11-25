@@ -1,4 +1,4 @@
-// 第355便f(原仮定者の回答(2026-11-22 —— 第145報の回答 5・回答 6)AN948・AN962〜AN964・原仮定者の予定(第123報)・原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R509):
+// 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・原仮定者の予定(〔第321便c〕に引いた文)・原仮定者の指示(2026-11-14)・統括の検証項目 R509):
 //   **新しい geoPN=4 の計算の候補の列(表 5c)の「低 N の診断で測れる量」を、いま在る純関数の組み合わせとノブで数える器** ——
 //   列 6(対照 G0・場の契約の続き A1・A2・引きずりの定義をそのまま流体に B1・B2・両方 C1)× 模型 2(円盤・楕円の型)× γ 2 × N 2 × 種 3 の走りの要約と、
 //   列ごとの効果(対照との差)・離散化の幅(N を倍に・種の間)・効果 ÷ 幅。加えて、表 5c の「いま在る器で数えた値」に写す既存の正本の数(出どころつき)。
@@ -99,7 +99,7 @@ export async function main() {
   let tm = null;
   const S = settleRun(() => { const R = runAll(); if (tm === null) tm = R.timing; delete R.timing; return R; });
   const out = { version: HARNESS_VERSION, libVersion: L.LIB_VERSION, generator: 'tests/exp-w355f-g4cols.mjs', target: TARGET,
-    ruling: '原仮定者の回答(2026-11-22 —— 第145報の回答 5・回答 6)AN948・AN962〜AN964・原仮定者の予定(第123報)・原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R509',
+    ruling: '原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・原仮定者の予定(〔第321便c〕に引いた文)・原仮定者の指示(2026-11-14)・統括の検証項目 R509',
     decl: L.DECL, cols: L.COLS, colDrag: L.COL_DRAG, models: L.MODELS, plan: PLAN, amend: AMEND, notClaim: NOT_CLAIM, ...S.value, timing: tm };
   out.elapsedS = (Date.now() - t0) / 1000;
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第355便f', target: TARGET, code: codeClosure(), inputs: [...INPUTS] }), {
