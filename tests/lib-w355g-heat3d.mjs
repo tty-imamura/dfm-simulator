@@ -1,7 +1,7 @@
 // 第355便g(統括の検証項目 R510): **論文 5 の三次元の熱の項 —— 形の候補の表のための純関数の lib**
 //   (アプリではない小さな積分器・候補の斥力の則・熱への依り方・三次元の摩擦と拡散の候補・圧力の密度と温度への冪)。
 //   診断だけ —— アプリ・エンジン・内蔵の本・受理器・既存の lib の本文は変えない。physics の鍵を足さない。三次元の受理の門は変えない。
-//   アナロジーとしての玩具の量(現実の熱力学の記述ではない)。列を 1 つに絞らない(候補の表)。乱数は使わない(決まった種の線形合同)。
+//   アナロジーとしての玩具の量(現実の熱力学の記述ではない)。列を 1 つに絞らない(候補の表)。乱数は使わない(定めた種の線形合同)。
 //
 // 記号: D = 次元(2・3)/N = 粒の数/L = 箱の一辺/ρ = N ÷ L^D/T = 温度の読み(内部の温度 T_int と並進の温度 T_tr —— m = 1・k = 1 の玩具の単位)/
 //   g_a = (R_a ÷ (R_a + d))^q(アプリの E5′ の距離の則と同じ形)/μ = m_i m_j ÷ (m_i + m_j)。
@@ -20,7 +20,7 @@ export const DECL = Object.freeze({
   zeroWindow2D: Object.freeze({ rho: Object.freeze([1.6, 2.4]), T: Object.freeze([0.95, 1.05]) }),
 });
 
-/* ───────── 決まった種の線形合同(乱数は使わない) ───────── */
+/* ───────── 定めた種の線形合同(乱数は使わない) ───────── */
 export function lcg(seed) {
   let s = (seed >>> 0) || 1;
   return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return (s + 0.5) / 4294967296; };
@@ -55,7 +55,7 @@ export function pairCoef(o) {
   return [base * hi * fac, base * hj * fac];
 }
 
-/** アプリの E5′(thermal:"tint")の二次元の式を別に書いたもの(零試験の照合用 —— beta/index.html の E5′ の行と同じ形) */
+/** アプリの E5′(thermal:"tint")の二次元の式を別に書いたもの(零試験の照合用 —— アプリの html の E5′ の行と同じ形) */
 export function appE5tint(d, Ri, Rj, mi, mj, Ti, Tj, q, kRep) {
   const ti2 = Ri / (Ri + d), tj2 = Rj / (Rj + d);
   const gi = (q === 2) ? ti2 * ti2 : Math.pow(ti2, q), gj = (q === 2) ? tj2 * tj2 : Math.pow(tj2, q);
@@ -66,12 +66,12 @@ export function appE5tint(d, Ri, Rj, mi, mj, Ti, Tj, q, kRep) {
 /**
  * cfg: { D, N, L, law, form, Tint, Ttr, rep(真で斥力あり), steps, warm, seed, q, R, kRep, wallK, dt }
  * 圧力 = 壁に渡る力の時間平均の和 ÷ (2D × 面の大きさ L^(D−1))(二次元では面は長さ)。
- * Ttr > 0: 並進の温度を Ttr に保つ(rescaleEvery 步ごとの速さの尺度の掛け直し —— 決まった手順)。Ttr = 0: 並進を減衰させて止める(静的な押し合い)。
+ * Ttr > 0: 並進の温度を Ttr に保つ(rescaleEvery 步ごとの速さの尺度の掛け直し —— 定めた手順)。Ttr = 0: 並進を減衰させて止める(静的な押し合い)。
  */
 export function simulate(cfg) {
   const c = Object.assign({}, DECL, cfg), D = c.D, N = c.N, L = c.L, R = c.R, m = c.m, dt = c.dt, rnd = lcg(c.seed);
   const x = new Float64Array(N * D), v = new Float64Array(N * D), a = new Float64Array(N * D), nn = new Float64Array(N);
-  // 格子に置く(壁から壁まで —— 端の粒は壁の上)+ 小さな決まったずらし
+  // 格子に置く(壁から壁まで —— 端の粒は壁の上)+ 小さな定めたずらし
   const side = Math.max(2, Math.ceil(Math.pow(N - 1e-9, 1 / D))), h = L / (side - 1);
   for (let i = 0; i < N; i++) {
     let k = i;
@@ -218,7 +218,7 @@ export function friction3scal(o) {
   const ke = (vA, vB) => 0.5 * mi * dot(vA, vA) + 0.5 * mj * dot(vB, vB);
   return { vi: vi1, vj: vj1, dE: ke(vi, vj) - ke(vi1, vj1) };
 }
-/** アプリの E9 の接線の摩擦(二次元)を別に書いたもの(零試験の照合用 —— beta/index.html の E9 の行と同じ形) */
+/** アプリの E9 の接線の摩擦(二次元)を別に書いたもの(零試験の照合用 —— アプリの html の E9 の行と同じ形) */
 export function appE9fric2(o) {
   const { ri, rj, vi, vj, si, sj, Ri, Rj, mi, mj, muF } = o;
   const dx = ri[0] - rj[0], dy = ri[1] - rj[1], d = Math.sqrt(dx * dx + dy * dy), nxv = dx / d, nyv = dy / d, sumR = Ri + Rj;
@@ -289,7 +289,7 @@ export function pureScenes() {
   // z9: 二次元の今の形(並進なし)の圧力の冪 —— 密度への冪が 2 の近く・温度への冪が 1 の近く(ρ²T の形)
   const k2 = colPowers('K2-L0');
   s.z9 = { aRho: k2.aRho, aT: k2.aT };
-  // z10: 決まった手順(同じ入力で同じ数)
+  // z10: 定めた手順(同じ入力で同じ数)
   const r1 = simulate({ D: 3, N: 27, L: 6, rep: true, law: 'L2', form: 'prod', Tint: 1, Ttr: 1, steps: 200, warm: 50 }), r2 = simulate({ D: 3, N: 27, L: 6, rep: true, law: 'L2', form: 'prod', Tint: 1, Ttr: 1, steps: 200, warm: 50 });
   s.z10 = { p1: r1.P, p2: r2.P };
   return s;

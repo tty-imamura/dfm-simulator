@@ -1873,6 +1873,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
 #   前置きの塊・論文の検査 4 本の job <名>-tl2025 と組版の行・頭の注・文書)と、宣言を更新した既存の lint.paperRunner348f・job の並びを更新した既存の lint.paperDispatch350i。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperTex354a lint.paperRunner348f lint.paperDispatch350i"
 # ==== 第354便a の塊(ここまで)====
+# ==== 第355便g の塊(ここから)====
+# 第355便g(統括の検証項目 R510 —— 診断と文書だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.heat3d355g —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・冪と保存の量を QA の中で別に書いた式で照合 /
+#   docs.heat3d355g —— 原文と表と数の文が PHYSICS〔第355便g〕に逐語・プログラムの抜粋が html に在る・PAPER_PLAN の表 6b・文書)と、新しい段 heat3d-355g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heat3d355g docs.heat3d355g"
+# ==== 第355便g の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

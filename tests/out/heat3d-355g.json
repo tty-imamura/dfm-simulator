@@ -179,7 +179,7 @@
   ]
  },
  "plan": {
-  "pure": "零試験 10(L0 = アプリの E5′〔tint〕の式・L1 は二次元で L0 に戻る・熱への依り方の対称・三次元の摩擦 (F-vec) は面内でアプリの E9 に戻る・(F-vec) は運動量と角運動量を保つ・拡散は Σ I ω と熱を保つ・結合の角・並進だけの箱で P ÷ (ρ T) が 1 の近く・二次元の今の形で ρ²T の形・決まった手順)",
+  "pure": "零試験 10(L0 = アプリの E5′〔tint〕の式・L1 は二次元で L0 に戻る・熱への依り方の対称・三次元の摩擦 (F-vec) は面内でアプリの E9 に戻る・(F-vec) は運動量と角運動量を保つ・拡散は Σ I ω と熱を保つ・結合の角・並進だけの箱で P ÷ (ρ T) が 1 の近く・二次元の今の形で ρ²T の形・定めた手順)",
   "t1": "表 1: 候補の列 10 × (密度 3 点・温度 3 点)の圧力と、密度への冪・温度への冪・斥力の分の冪・斥力の分 ÷ 並進の分・P ÷ (ρ T)",
   "t2": "表 2: 並進あり の列 4 × 斥力の強さの倍 2(0.1・10 —— 倍 1 は表 1)の全体の密度の冪",
   "t3": "表 3: 並進なし の列 4 × 粒の数 3(箱の一辺は固定)の密度の冪",
@@ -1431,38 +1431,38 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 2.797
+   "wallSec": 2.703
   },
   "t1": {
-   "wallSec": 23.8
+   "wallSec": 23.099
   },
   "t2": {
-   "wallSec": 33.663
+   "wallSec": 33.209
   },
   "t3": {
-   "wallSec": 42.323
+   "wallSec": 41.342
   },
   "t4": {
-   "wallSec": 42.323
+   "wallSec": 41.342
   },
   "t5": {
-   "wallSec": 42.323
+   "wallSec": 41.342
   }
  },
- "elapsedS": 199.468,
+ "elapsedS": 191.24,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第355便g",
   "target": "tests/lib-w355g-heat3d.mjs",
-  "targetSha256": "c93267748a37918db19618a9af6002de1071b2f910b372fe9f3e95beed3b4266",
-  "generatedAt": "2026-11-25T19:55:34.717Z",
+  "targetSha256": "7f3bfa151ac961ebc2ec8dd28bb1c110973a07b7ceb87af995d2a7ebe42b72b2",
+  "generatedAt": "2026-11-25T20:14:38.939Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w355g-heat3d.mjs",
-    "bytes": 8640,
-    "sha256": "3fa2587a407a56e674868d1d5a5e238bf6098e4b4d1e6672001a55fda769d951",
-    "mtime": "2026-11-25T19:47:31.360Z"
+    "bytes": 8634,
+    "sha256": "4a3b6eab3e93f826ff375efbe5ed542130bc1c4d0983865dd0b95123c3ab1be9",
+    "mtime": "2026-11-25T19:59:13.273Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -1478,12 +1478,12 @@
    },
    {
     "file": "tests/lib-w355g-heat3d.mjs",
-    "bytes": 26297,
-    "sha256": "c93267748a37918db19618a9af6002de1071b2f910b372fe9f3e95beed3b4266",
-    "mtime": "2026-11-25T19:52:09.360Z"
+    "bytes": 26286,
+    "sha256": "7f3bfa151ac961ebc2ec8dd28bb1c110973a07b7ceb87af995d2a7ebe42b72b2",
+    "mtime": "2026-11-25T20:11:27.237Z"
    }
   ],
-  "codeSha256": "83cfd97d84d24b745d1f43aac886fb41a3f55cce4fcc584f1efab5d535b37632",
+  "codeSha256": "474e71b9a09e1a40208d754452a8e132934aa716f771e391c09e47596260d4be",
   "harnessVersion": "w355g-heat3d-1",
   "stage": "heat3d",
   "engine": "Node(html を読まない —— 純関数の lib の小さな積分器)・1 プロセス",
