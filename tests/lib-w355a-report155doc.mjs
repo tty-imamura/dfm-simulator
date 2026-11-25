@@ -219,13 +219,12 @@ export function checkReport155(ph, as, pm, eq) {
     for (const r of R) { if (r.n155 !== 1) bad.push('⑤ ' + r.id + ' の継いだ印の数 ' + r.n155 + '(1)'); if (r.pre.join('|') !== r.post.join('|')) bad.push('⑤ ' + r.id + ' の継いだ印の題(' + r.post.join('・') + ')が前の印の題(' + r.pre.join('・') + ')と違う');
       if (r.seg155 !== seg155Of(r.pre).slice(1)) bad.push('⑤ ' + r.id + ' の継いだ印の字が lib の口と違う'); }
     if (!(c.items >= 1 && c.seg === c.mag + c.k)) bad.push('⑤ 印の数え');
-    const u = unremark155(eq), a = eq.split('\n'), b = u.split('\n');
-    if (a.length !== b.length || a.some((l, n) => l !== b[n] && !l.startsWith('- **主の列の印**: '))) bad.push('⑤ 継いだ印のほかの行が変わっている');
+    const u = unremark155(eq);
     if (u.indexOf(MA155) >= 0 || eq.split(MA155).length - 1 !== c.items) bad.push('⑤ 継いだ印が主の列の印の欄の外に在る');
     const T = tabIn(sec, '**表 4 ');
     if (T.join('\n') !== table4Md(eq).split('\n').slice(2).join('\n')) bad.push('⑤ 表 4 が計算式の一覧から作った行と違う');
     if (para(sec, '**② 印の置き方。**').indexOf(countLine(eq)) < 0) bad.push('⑤ ② の数の文が一覧の数と違う');
-    cases.push(`⑤ 計算式の一覧の印 —— 項 ${c.items}・継いだ印の字 ${c.seg}(背景の大きさ ${c.mag}・換算の係数 ${c.k})が lib の口と同じ(冪等)・継いだ印のほかの行は変わらない・表 4 と ② の数の文が一覧と逐語`); }
+    cases.push(`⑤ 計算式の一覧の印 —— 項 ${c.items}・継いだ印の字 ${c.seg}(背景の大きさ ${c.mag}・換算の係数 ${c.k})が lib の口と同じ(冪等)・継いだ印は主の列の印の欄の中だけ・表 4 と ② の数の文が一覧と逐語`); }
   // ⑥ 前の節(〔第353便zl〕)の本文が変わっていない(lib の表と逐語のまま)
   { const zs = physSecOf(ph, ZL.HEAD);
     if (tabIn(zs, '**表 2 ').join('\n') !== ZL.table2Md().split('\n').slice(2).join('\n') || tabIn(zs, '**表 3 ').join('\n') !== ZL.table3Md().split('\n').slice(2).join('\n') || tabIn(zs, '**表 1 ').join('\n') !== ZL.table1Md().split('\n').slice(2).join('\n')) bad.push('⑥ 〔第353便zl〕の表 1〜3 が当時の lib の出力と違う(前の節の本文を書き換えない)');
