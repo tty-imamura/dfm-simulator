@@ -148,12 +148,14 @@ export function summary(T, o = {}) {
   });
   const ids = (f) => rows.filter(f).map((r) => r.id);
   const count = { flat: ids((r) => r.kind === 'flat'), power: ids((r) => r.kind === 'power'), prop1: ids((r) => r.kind === 'power' && Math.abs(r.p - 1) < DECL.tolPow), inv1: ids((r) => r.kind === 'power' && Math.abs(r.p + 1) < DECL.tolPow),
-    bend: ids((r) => r.kind === 'bend'), discrete: ids((r) => r.kind === 'discrete'), switched: ids((r) => r.switched), steady: ids((r) => !r.switched) };
+    bend: ids((r) => r.kind === 'bend'), discrete: ids((r) => r.kind === 'discrete'), switched: ids((r) => r.switched), steady: ids((r) => !r.switched),
+    /** u に依らない題 = 範囲の内で 1% の内(flat)+ 値が数でなく、どの列でも同じ印(順位・印) */
+    indep: ids((r) => r.kind === 'flat' || (r.kind === 'discrete' && !r.switched)) };
   return { rows, count };
 }
 /** 比べる列: 〔第353便zf〕の列 (ウ)(換算の係数 1・背景 = 金星の条件)と (ア)(換算の係数 1・0.98)と、主の作りの 0.98 の列の照合の元の (イ) */
 export function compareCols(o = {}) {
-  const T = ZF.table1(o), pick = (k) => T.rows.map((r) => ({ id: r.id, v: r.cells[k].v, band: r.cells[k].band === undefined ? null : r.cells[k].band }));
+  const T = ZF.table1(o), pick = (k) => T.rows.map((r) => ({ id: r.id, v: r.cells[k].v, band: r.cells[k].band === undefined ? null : r.cells[k].band, noLimit: r.cells[k].noLimit === true }));
   return { U: { u: T.cols[2].u, lam: T.cols[2].lam, rows: pick(2) }, A: { u: T.cols[0].u, lam: T.cols[0].lam, rows: pick(0) }, I: { u: T.cols[1].u, lam: T.cols[1].lam, rows: T.rows.map((r) => ({ id: r.id, cell: r.cells[1] })) } };
 }
 
