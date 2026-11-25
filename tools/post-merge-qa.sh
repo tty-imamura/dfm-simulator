@@ -1852,6 +1852,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.eqthird353zi docs.eqthird353zi"
 #   docs.orbitk353zj —— 原文と表と数の文が PHYSICS〔第353便zj〕に逐語・文書)と、新しい段 orbitk-353zj
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.orbitk353zj docs.orbitk353zj"
 # ==== 第353便zj の塊(ここまで)====
+# ==== 第353便zz の塊(ここから)====
+# 第353便zz(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R500 —— 文書と照合の鍵だけ・html は変えない): 枝 zz の新設 1 本(docs.equations353zz —— 計算式の一覧の EQ-150〜EQ-182・主の列の印・訂正の文)と、
+#   EQ-149 までの写しで読み・主の列の印を回答の印か未定の印で受ける形にした既存の照合(docs.equations352z)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations353zz docs.equations352z"
+# ==== 第353便zz の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
