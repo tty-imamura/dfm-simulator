@@ -925,7 +925,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.unmarkedFail336b docs.unmarkedFail336b lint.violationKinds320 lint.postMergeQaScript lint.postMergeCounts324c lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
 unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(① か ④)→ 要約に足す句(0 件なら空)
   [ -f "$1" ] || { echo ""; return; }
-  node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
+  local e353i; e353i=$(pmerr353i unmarked); node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>"$e353i" || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと —— 道具の stderr は $e353i)"
 }
 # ==== 第336便b の塊(ここまで)====
 # ==== 第337便a の塊(ここから)====
@@ -982,10 +982,10 @@ rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 �
   local rev="$1"
   [ "${POST_MERGE_ROOT_AUTO:-1}" = "0" ] && { echo ""; echo "本便で直した鍵は足さない(POST_MERGE_ROOT_AUTO=0)"; return; }
   local wv="${PMWAVE:-}"
-  [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>/dev/null || true)
+  local e353i; e353i=$(pmerr353i wave-of-root); [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>"$e353i" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $e353i)" >&2; true; })
   [ -n "$rev" ] || { [ -n "$wv" ] && rev=$(node "$ROOT/tests/lib-w337h-postmerge.mjs" --wave-base "$wv" 2>/dev/null); }
   [ -n "$rev" ] || { echo ""; echo "本便で直した鍵は拾えなかった(便の基点が引けない —— --base-rev で渡す)"; return; }
-  node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>/dev/null || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り)"; }
+  e353i=$(pmerr353i changed-ids); node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>"$e353i" || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り —— stderr は $e353i)"; }
 }
 # ==== 第337便h の塊(ここまで)====
 # ==== 第337便i の塊(ここから)====
@@ -1636,6 +1636,18 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 # ==== 第352便z の塊(ここまで)====
+# ==== 第353便i の塊(ここから)====
+# 第353便i(統括の検証項目 R473 —— 道具だけ・html は変えない): 枝 i の新設 3 本(lint.qaTempCopy353i —— 事前検査の一時の写しを tests/ の走査が読んでも結果が変わらない /
+#   lint.versionRegistry353i —— 版の番号の台帳 tests/data-w353i-versions.json と木と正本 / docs.tools353i —— 文書)と、触った道具を読む既存の鍵。
+#   外からの点検で指摘された点: 道具の中で stderr を捨てて「落ちたら文だけ出す」形が 9 か所 → stderr を下の置き場のファイルへ流し、落ちたときの文にそのファイルの道を書く。
+#   置き場: POST_MERGE_ERR_DIR(既定 ${TMPDIR:-/tmp}/post-merge-qa-<pid>/)・ファイルは <印>.XXXXXX(pmerr353i <印> が道を返す)。
+#   終わるときに空のファイルを消し、置き場が空なら置き場も消す(--dry でも何も残さない —— 落ちたときのファイルだけが残る)。
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.qaTempCopy353i lint.versionRegistry353i docs.tools353i lint.changelogHeadRe351i lint.provisionalScope352b lint.preflightResume337h lint.tools352g"
+PMERR_DIR="${POST_MERGE_ERR_DIR:-${TMPDIR:-/tmp}/post-merge-qa-$$}"
+pmerr353i() { mkdir -p "$PMERR_DIR" || :; mktemp "$PMERR_DIR/$1.XXXXXX" || printf '%s/%s.err' "$PMERR_DIR" "$1"; }
+pmerrclean353i() { if [ -d "$PMERR_DIR" ]; then find "$PMERR_DIR" -maxdepth 1 -type f -empty -delete; [ -n "$(ls -A "$PMERR_DIR")" ] || rmdir "$PMERR_DIR"; fi; return 0; }
+trap pmerrclean353i EXIT
+# ==== 第353便i の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
@@ -1709,7 +1721,7 @@ S3W_SCOPE="指定の一覧(POST_MERGE_WAVE_IDS)"
 if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   if [ $ALLW -eq 1 ]; then S3W_SCOPE="全部の便の積み上げ(--all-waves)"
   else
-    [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>/dev/null || true)
+    E353I=$(pmerr353i wave-of); [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>"$E353I" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $E353I)" >&2; true; })
     if [ -n "$PMWAVE" ]; then
       NALLW=$(echo "$WAVE_IDS" | tr -s ' ' '\n' | sort -u | grep -c .)   # 重複を除いた名の数
       WAVE_IDS="$(node tests/lib-w324c-postmerge.mjs --wave-ids "$ROOT/tools/post-merge-qa.sh" "$PMWAVE" 2>/dev/null) ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
@@ -1719,7 +1731,7 @@ if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   fi
 fi
 # ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
-qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
+qsum324c() { local e353i; e353i=$(pmerr353i sum); node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>"$e353i" || echo "要約が読めない(stderr は $e353i)"; }
 # ==== 第324便c の塊(ここまで)====
 # ==== 第352便g の塊(--since と --dry —— ここから)====
 # 第352便g(R444): --since <rev> のときだけ ③′ の一覧を差し替える・--dry のときだけ一覧を出して終わる(どちらも付けなければ何もしない —— 既定の動きは不変)
@@ -1790,7 +1802,7 @@ const unIds = un.slice(0, 12).map((z) => z[0] + (z[1] === "stamp" ? "〔刻印�
 const unText = un.length ? "・‼ 印のない FAIL " + un.length + " 件(" + unIds + " —— 種類を数えていない・理由の文を読んで分ける)" : "";
 if (!r.byLint.length) { console.log(unText); process.exit(0); }
 const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
-console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>"${E353K:=$(pmerr353i kinds)}" || echo "・‼ 違反の種類が数えられない(道具の stderr は $E353K)"
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====
@@ -1830,7 +1842,7 @@ else S2="$S2・roster FAIL(統合で段が増えた —— node tools/regen-plan
 
 # ③ 前回失敗項
 if [ -z "$FAILED" ] && [ -f tests/out/qa-results-full-beta.json ]; then
-  FAILED=$(node -e 'const j=JSON.parse(require("fs").readFileSync("tests/out/qa-results-full-beta.json","utf8"));const src=require("fs").readFileSync("tests/qa.mjs","utf8");console.log([...new Set((j.results||[]).filter(r=>!r.pass).map(r=>r.id))].filter(id=>src.includes("add(\x27"+id+"\x27")).join(" "))' 2>/dev/null || true)
+  FAILED=$(node -e 'const j=JSON.parse(require("fs").readFileSync("tests/out/qa-results-full-beta.json","utf8"));const src=require("fs").readFileSync("tests/qa.mjs","utf8");console.log([...new Set((j.results||[]).filter(r=>!r.pass).map(r=>r.id))].filter(id=>src.includes("add(\x27"+id+"\x27")).join(" "))' 2>"${E353F:=$(pmerr353i failed)}" || { echo "post-merge-qa: 前回失敗項が読めない(stderr は $E353F)" >&2; true; })
 fi
 S3="前回失敗 0"
 if [ -n "$FAILED" ]; then
@@ -1843,7 +1855,7 @@ fi
 # ③′ 本便の新設ブロック(名前 → qa.mjs の id: 完全一致か末尾一致。無い名は未統合として数える)
 S3W="本便 なし"
 if [ -n "$WAVE_IDS" ]; then
-  RES=$(node -e 'const src=require("fs").readFileSync("tests/qa.mjs","utf8");const ids=[...new Set([...src.matchAll(/add\(\x27([\w.\-]+)\x27/g)].map(m=>m[1]))];const got=[],miss=[];for(const n of process.argv.slice(1)){if(ids.includes(n)){got.push(n);continue;}const h=ids.filter(i=>i.endsWith("."+n));if(h.length)got.push(...h);else miss.push(n);}console.log(got.join(" ")+"|"+miss.join(" "))' $WAVE_IDS 2>/dev/null || echo "|$WAVE_IDS")
+  RES=$(node -e 'const src=require("fs").readFileSync("tests/qa.mjs","utf8");const ids=[...new Set([...src.matchAll(/add\(\x27([\w.\-]+)\x27/g)].map(m=>m[1]))];const got=[],miss=[];for(const n of process.argv.slice(1)){if(ids.includes(n)){got.push(n);continue;}const h=ids.filter(i=>i.endsWith("."+n));if(h.length)got.push(...h);else miss.push(n);}console.log(got.join(" ")+"|"+miss.join(" "))' $WAVE_IDS 2>"${E353R:=$(pmerr353i wave-res)}" || { echo "post-merge-qa: ③′ の鍵の名を tests/qa.mjs と照らせない(stderr は $E353R)" >&2; echo "|$WAVE_IDS"; })
   WGOT="${RES%%|*}"; WMISS="${RES#*|}"
   nmiss=$(echo "$WMISS" | wc -w)
   if [ -n "$WGOT" ]; then
@@ -1891,7 +1903,7 @@ if [ -n "$BASE" ]; then
   else
     say "⑤ bitsame $BASE → beta/index.html → $LOG/5-bitsame.json"
     node tests/exp-w258c-bitsame.mjs "$BASE" beta/index.html >"$LOG/5-bitsame.json" 2>"$LOG/5-bitsame.err"; rc=$?
-    if [ $rc -gt 1 ] || ! node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$LOG/5-bitsame.json" 2>/dev/null; then S5="bitsame FAIL(器 rc $rc)"; fail=1
+    if [ $rc -gt 1 ] || ! node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$LOG/5-bitsame.json" 2>"${E353B:=$(pmerr353i bitsame-json)}"; then S5="bitsame FAIL(器 rc $rc —— 結果の JSON の読みの stderr は $E353B)"; fail=1
     else S5=$(node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));const ids=j.diff.map(s=>s.split(":")[0]);const pe=(j.pageErrorsBase||[]).length+(j.pageErrorsNow||[]).length;console.log("bitsame "+(j.n-ids.length)+"/"+j.n+(ids.length?"(差分 ID "+ids.slice(0,8).join(",")+(ids.length>8?" 他 "+(ids.length-8):"")+" —— 情報)":"")+(pe?" pageErrors "+pe:""))' "$LOG/5-bitsame.json")
     fi
   fi

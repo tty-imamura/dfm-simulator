@@ -1,0 +1,25 @@
+{
+ "version": "w353i-versions-1",
+ "tool": "tools/versions-registry.mjs",
+ "note": "第353便以降の lib・器(tests/lib-w353*.mjs・tests/exp-w353*.mjs など —— 波の番号 ≥ 353)と第352便za の lib・器の期待する版の字。統合のたびに node tools/versions-registry.mjs --write で引き直す(名簿と同じ運用)。QA lint.versionRegistry353i が木と比べる",
+ "waveFrom": 353,
+ "extra": [
+  "tests/lib-w352za-sconseq.mjs",
+  "tests/lib-w352za-sconseqdoc.mjs",
+  "tests/exp-w352za-sconseq.mjs"
+ ],
+ "files": {
+  "tests/exp-w352za-sconseq.mjs": {
+   "HARNESS_VERSION": "w352za-sconseq-1"
+  },
+  "tests/lib-w352za-sconseq.mjs": {
+   "LIB_VERSION": "w352za-sconseq-lib-1"
+  },
+  "tests/lib-w352za-sconseqdoc.mjs": {
+   "DOC_VERSION": "w352za-sconseqdoc-1"
+  },
+  "tests/lib-w353i-qatemp.mjs": {
+   "LIB_VERSION": "w353i-qatemp-lib-1"
+  }
+ }
+}

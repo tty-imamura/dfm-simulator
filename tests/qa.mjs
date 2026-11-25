@@ -126080,7 +126080,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const L = await import('file://' + wLib);
     const files = {};
     for (const dir of ['tests', 'tools']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
-      if (!f.endsWith('.mjs') || (dir === 'tests' && (f === 'qa.mjs' || /^\.qa-preflight-\d+\.mjs$/.test(f)))) continue;   // 事前検査の道具が tests/ に置く qa.mjs の一時の写し(tests/.qa-preflight-<pid>.mjs)は qa.mjs と同じ扱い(読まない)
+      if (!f.endsWith('.mjs') || (dir === 'tests' && (f === 'qa.mjs' || (await import('file://' + path.join(ROOT, 'tests', 'lib-w353i-qatemp.mjs'))).isQaTempCopy(f)))) continue;   // 事前検査の道具が tests/ に置く qa.mjs の一時の写し(tests/.qa-preflight-<pid>.mjs)は qa.mjs と同じ扱い(読まない)
       files[dir + '/' + f] = fs.readFileSync(path.join(ROOT, dir, f), 'utf8');
     }
     const V = L.scopeViolations(files);

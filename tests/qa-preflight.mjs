@@ -45,6 +45,14 @@ if (argOf('--remaining')) {
   console.error(`[preflight] 残り ${R.units} 文・鍵 ${R.ids.length}(接頭辞だけの文 ${R.prefixes.length}${R.prefixes.length ? ' —— ' + R.prefixes.slice(0, 4).join('・') : ''})・preflight の項 ${D.recs.has('preflight:preflight.builtinsAcceptBuildStep') ? '済み' : '未'}(一覧に入れない)`);
   process.exit(0);
 }
+// 第353便i(R473): 始めに、生きていない pid の古い一時の写し(tests/.qa-preflight-<pid>.mjs —— 異常終了で残ったもの)を消す(自分の写しは今までどおり終わるときに消す)。
+//   名の型と選び方は tests/lib-w353i-qatemp.mjs(staleTempCopies —— 自分の pid と生きている pid の写しは消さない)。消したときだけ 1 行を出す。
+{
+  const QT353I = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w353i-qatemp.mjs')).href);
+  const gone353i = [];
+  for (const f of QT353I.staleTempCopies(path.join(ROOT, 'tests'))) { try { fs.unlinkSync(path.join(ROOT, 'tests', f)); gone353i.push(f); } catch (e) { /* 同時に消えた */ } }
+  if (gone353i.length) console.log(`[preflight] 古い一時の写し ${gone353i.length} 本を消した(pid が生きていない —— ${gone353i.join('・')})`);
+}
 const RESUME_DIR = argOf('--resume') ? path.resolve(argOf('--resume')) : null;
 const ONLY = new Set(String(process.env.QA_PREFLIGHT_ONLY || '').split(/[\s,]+/).filter(Boolean));
 const STOP_AFTER = Number(process.env.QA_PREFLIGHT_STOP_AFTER || 0);
