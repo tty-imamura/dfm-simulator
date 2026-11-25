@@ -1012,7 +1012,25 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 3. **補足資料**: `tests/out/qa-results.json`(全QA結果)と `paper/figures/*.json`
    (図の生成パラメータ・実測値)を論文の supplementary material として同梱する
 
+## AI チャットと対話しながら使う
+
+ページを読める AI チャットに次の文を貼ると、案内役の AI と対話しながら、DFM とこのアプリについての質問に答えてもらったり、シミュレーションの設定(JSON)を作ってもらったりできます。作った JSON は、アプリの「AI」のタブの貼付欄に貼り、まず「検証のみ」を押し、通ったら「貼り付けた内容を取り込む」を押します。対話の進め方は [docs/AI_CHAT.md](docs/AI_CHAT.md)(対話の入口)、設定の仕様は [docs/AI_SPEC_CORE.md](docs/AI_SPEC_CORE.md)(仕様の頭だけの短いページ —— 正本は [docs/AI_SPEC.md](docs/AI_SPEC.md))にあります。
+
+```text
+あなたはこれから、ブラウザで動く教育用のトイ模型「仮想物理ラボ(DFM シミュレータ)」の案内役として、私と対話します。
+まず次の 2 つのページを読んでください。
+1. 対話の入口(全部): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md
+2. シミュレーションを作るときの仕様: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md
+読めないときは、同じ内容が https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ の下に在ります(AI_CHAT.md・AI_SPEC_CORE.md)。
+どちらも読めないページが在れば、最初にその旨を言ってください(読めないまま、中身を推測して答えないでください)。
+読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。
+```
+
+アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください。
+
 ## AI追加機能のコスト
+
+アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください(上の節)。
 
 プリセット生成1回 ≈ $0.03〜0.05(約5〜8円、Claude Sonnet 5 既定 — 第170便で Haiku 4.5 から引き上げ・第238便で Haiku は候補から撤去)。
 
