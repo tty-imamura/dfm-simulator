@@ -1,0 +1,2181 @@
+{
+ "version": "w353zf-threecols-1",
+ "libVersion": "w353zf-threecols-lib-1",
+ "generator": "tests/exp-w353zf-threecols.mjs",
+ "target": "tests/lib-w353zf-threecols.mjs",
+ "ruling": "原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1034・AN1039・AN1045・AN1046・AN1058・統括の検証項目 R496",
+ "provisional": true,
+ "provKeys": [
+  "earth.precSense",
+  "earth.psiA.rate",
+  "mars.prec.rate"
+ ],
+ "provMark": "仮・未照合(閉包の lib が使う鍵 —— 本器は歳差の率の残りと回る向きの題だけが読む)",
+ "decl": {
+  "cols": [
+   "A",
+   "I",
+   "U"
+  ],
+  "uFocus": 0.98,
+  "band": {
+   "lo": 0.1,
+   "hi": 10
+  },
+  "ageYr": 4500000000,
+  "sats": {
+   "Moon": [
+    "Sun",
+    "EarthHi"
+   ],
+   "Io": [
+    "Sun",
+    "Jupiter"
+   ]
+  },
+  "dirRecvs": [
+   "Mercury",
+   "Venus",
+   "Earth",
+   "Mars",
+   "Jupiter",
+   "Saturn",
+   "Uranus",
+   "Neptune",
+   "Moon",
+   "Io"
+  ],
+  "lamLo": 1000,
+  "lamHi": 30000,
+  "lamIter": 60,
+  "topics": [
+   "ringAx",
+   "ringDisk",
+   "plane",
+   "io",
+   "moon",
+   "mercury",
+   "precEarth",
+   "precMars",
+   "tilt",
+   "ioHeat",
+   "ioLock"
+  ],
+  "ringMain": "ringB",
+  "judge": "丸めの桁の床: 逐語の表は有効数字 3 桁・零試験は相対 1e-9 の床・便の始めの数え直しと枝 q・j の表は 5 桁/3 桁の字"
+ },
+ "plan": {
+  "pure": "零試験 9",
+  "t1": "表 1: 題 × 3 列((ア)(イ)(ウ))—— 値と、物差しが在る題は値 ÷ 物差し・列ごとの数(0.1〜10 倍に入る・越える・届かない・物差しの無い)",
+  "t2": "表 2: (イ) を換算の係数(局所の (S) の項だけ)で書くか規則の係数の倍 λ(源と受け手の半径)で書くかで動く所 —— 受け手ごとの局所の倍・題ごとの比・頭打ちの境・回答の基準の輪の場と慣性モーメントの読み"
+ },
+ "amend": [],
+ "notClaim": [
+  "主の列を (ア)(イ)(ウ) のどれかに選んだのではない —— 同じ題を 3 列で並べた表(判定はしない)",
+  "背景の大きさは置いていない(AN1058 —— 窓のまま)—— 0.98 と金星の条件の大きさは列の名",
+  "規則の係数の倍 λ は換算の係数 k の言い換えの候補 —— 規則の係数の値を替えたのではない",
+  "物差しは文献の値・未照合・歳差の率の残りと回る向きは仮の値(仮・未照合)・重力の側の潮汐のトルクの列は比べる列(DFM の式ではない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+ ],
+ "pure": {
+  "scenes": {
+   "a6": {
+    "lam": 9374.338941698314,
+    "cubeAt937": 0.9973118172424067,
+    "resid": 0.013258801765212986,
+    "residK1": 0.013274324926576918,
+    "uV": 1.1928166586523097e-12,
+    "kQ": 821584769873.3866,
+    "sunR": 164189084.52855018,
+    "venusR": 401.90614480398193,
+    "earthR": 493.12046800171356,
+    "jupR": 156716.5614459081,
+    "side": {
+     "Mercury": 6.502700852126623,
+     "Earth": 0.3765601494460491,
+     "Mars": 0.10677805378688042,
+     "Jupiter": 0.0026803182046158964
+    }
+   },
+   "lu": {
+    "Venus": 0,
+    "Mercury": 0,
+    "Io": 0,
+    "Moon": 0
+   },
+   "qt": {
+    "ringAx": 0.20420751694280248,
+    "ringDisk": 0.15431048949002213,
+    "plane": 6.210796472915325,
+    "io": 0.8941419530444394,
+    "moon": 0.37680032336426156,
+    "mercury": 6.526962164214431
+   },
+   "qCount": 6,
+   "js": {
+    "Mercury": 6.526962164214431,
+    "Earth": 0.37680031049390555,
+    "Mars": 0.10677511520397596
+   },
+   "ring1": {
+    "mine": 2.485531918687741e-13,
+    "kr": 2.485531918687741e-13
+   },
+   "plane1": {
+    "mine": 7.559532139175929e-12,
+    "kr": 7.559532139175929e-12
+   },
+   "kU": 0.9999999999999998,
+   "cbrt": 9365.927535548955,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "anchor6": true,
+   "cbrtK": true,
+   "localUnit353q": true,
+   "table353q": true,
+   "side353j": true,
+   "ringStd353k": true,
+   "planeStd353k": true,
+   "colU": true,
+   "rejects": true
+  }
+ },
+ "t1": {
+  "cols": [
+   {
+    "id": "A",
+    "label": "(ア)",
+    "lam": 1,
+    "u": 0.98,
+    "kQ": 821584769873.3866,
+    "gainVenus": 1
+   },
+   {
+    "id": "I",
+    "label": "(イ)",
+    "lam": 9374.338941698314,
+    "u": 0.98,
+    "kQ": 821584769873.3866,
+    "gainVenus": 821584769873.387
+   },
+   {
+    "id": "U",
+    "label": "(ウ)",
+    "lam": 1,
+    "u": 1.1928166586523097e-12,
+    "kQ": 0.9999999999999998,
+    "gainVenus": 1
+   }
+  ],
+  "rows": [
+   {
+    "g": 1,
+    "id": "venusResid",
+    "label": "金星の合成 ÷ 背景(等大の残り)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.9999999999987831
+     },
+     {
+      "col": "I",
+      "v": 0.013258801765212986
+     },
+     {
+      "col": "U",
+      "v": 0.013274324926576918
+     }
+    ]
+   },
+   {
+    "g": 1,
+    "id": "venusRank",
+    "label": "向きの一致 2 sin(φ/2) の金星の順位(受け手 10)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1,
+      "res": 0.013274324926581352,
+      "second": "Saturn"
+     },
+     {
+      "col": "I",
+      "v": 1,
+      "res": 0.013258801765212535,
+      "second": "Saturn"
+     },
+     {
+      "col": "U",
+      "v": 1,
+      "res": 0.013274324926581352,
+      "second": "Saturn"
+     }
+    ]
+   },
+   {
+    "g": 2,
+    "id": "ioX0",
+    "label": "イオの x(扁平率なし)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.8941419530444394
+     },
+     {
+      "col": "I",
+      "v": 0.8959617938056709
+     },
+     {
+      "col": "U",
+      "v": 0.8941419530444394
+     }
+    ]
+   },
+   {
+    "g": 2,
+    "id": "ioX2",
+    "label": "イオの x(体積を保つ扁平 (1 − f)^(−2/3))",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.9349068940134789
+     },
+     {
+      "col": "I",
+      "v": 0.9368096684117505
+     },
+     {
+      "col": "U",
+      "v": 0.9349068940134789
+     }
+    ]
+   },
+   {
+    "g": 2,
+    "id": "ioX5",
+    "label": "イオの x(赤道の球 (1 − f)^(−5/3))",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.9995759675527567
+     },
+     {
+      "col": "I",
+      "v": 1.0016103070005278
+     },
+     {
+      "col": "U",
+      "v": 0.9995759675527567
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "cassini0",
+    "label": "カッシーニの間隙 ÷ 土星の a★(倍なし)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.009894887419992,
+      "aStar": 118700472.19097047
+     },
+     {
+      "col": "I",
+      "v": 1.00902302856124,
+      "aStar": 118803036.80573976
+     },
+     {
+      "col": "U",
+      "v": 1.009894887419992,
+      "aStar": 118700472.19097047
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "cassini2",
+    "label": "カッシーニの間隙 ÷ 土星の a★(n 2)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.9870209032379705,
+      "aStar": 121451328.5450634
+     },
+     {
+      "col": "I",
+      "v": 0.9861687918658061,
+      "aStar": 121556270.07137345
+     },
+     {
+      "col": "U",
+      "v": 0.9870209032379705,
+      "aStar": 121451328.5450634
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "cassini5",
+    "label": "カッシーニの間隙 ÷ 土星の a★(n 5)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.9536776732127287,
+      "aStar": 125697605.56118263
+     },
+     {
+      "col": "I",
+      "v": 0.9528543475992001,
+      "aStar": 125806216.13579825
+     },
+     {
+      "col": "U",
+      "v": 0.9536776732127287,
+      "aStar": 125697605.56118263
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "ioOrb0",
+    "label": "イオの道 ÷ 木星の a★(倍なし)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.0381109609576447,
+      "aStar": 406218618.1051271
+     },
+     {
+      "col": "I",
+      "v": 1.0374076284472664,
+      "aStar": 406494022.6352267
+     },
+     {
+      "col": "U",
+      "v": 1.0381109609576447,
+      "aStar": 406218618.1051271
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "ioOrb2",
+    "label": "イオの道 ÷ 木星の a★(n 2)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.0227532901867098,
+      "aStar": 412318399.80003005
+     },
+     {
+      "col": "I",
+      "v": 1.0220603626807514,
+      "aStar": 412597939.806537
+     },
+     {
+      "col": "U",
+      "v": 1.0227532901867098,
+      "aStar": 412318399.80003005
+     }
+    ]
+   },
+   {
+    "g": 3,
+    "id": "ioOrb5",
+    "label": "イオの道 ÷ 木星の a★(n 5)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.0001417303578608,
+      "aStar": 421640240.777786
+     },
+     {
+      "col": "I",
+      "v": 0.9994641224523458,
+      "aStar": 421926100.7241473
+     },
+     {
+      "col": "U",
+      "v": 1.0001417303578608,
+      "aStar": 421640240.777786
+     }
+    ]
+   },
+   {
+    "g": 4,
+    "id": "ringAx",
+    "label": "土星の環 (F1) の率 ÷ 物差し(B 環)",
+    "ruler": "環の物差しの率",
+    "cells": [
+     {
+      "col": "A",
+      "v": 2.485531918687741e-13,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.2047373185718607,
+      "vComp": null,
+      "band": "in",
+      "vK": 0.20420751694280248,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 2.4855319186877405e-13,
+      "vComp": 9.539440492554562e-12,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 4,
+    "id": "ringDisk",
+    "label": "土星の環 (F2) の率 ÷ 物差し(B 環)",
+    "ruler": "環の物差しの率",
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.8782053313111285e-13,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.15472661514260563,
+      "vComp": null,
+      "band": "in",
+      "vK": 0.15431048949002213,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 1.878205331311128e-13,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 5,
+    "id": "plane",
+    "label": "公転面の集まり ÷ 物差し",
+    "ruler": "30° → 7° の 23°",
+    "cells": [
+     {
+      "col": "A",
+      "v": 7.559532139175929e-12,
+      "vComp": 7.559532139175929e-12,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 6.227539026979212,
+      "vComp": 6.227539026979212,
+      "band": "in",
+      "vK": 6.210796472915325,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 7.559532139175927e-12,
+      "vComp": 7.559532139175927e-12,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "mercury",
+    "label": "水星の局所 ÷ 背景",
+    "ruler": "背景の大きさ",
+    "cells": [
+     {
+      "col": "A",
+      "v": 7.944356326396231e-12,
+      "vComp": 0.9999999999921175,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 6.511723458670044,
+      "vComp": 5.520913310334177,
+      "band": "in",
+      "vK": 6.526962164214431,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 6.526962164214431,
+      "vComp": 5.536135756423587,
+      "band": "in",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "sideEarth",
+    "label": "地球の局所 ÷ 背景",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 4.586262115739728e-13
+     },
+     {
+      "col": "I",
+      "v": 0.37708317100756533
+     },
+     {
+      "col": "U",
+      "v": 0.37680031049390567
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "sideMars",
+    "label": "火星の局所 ÷ 背景",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.29962383821247e-13
+     },
+     {
+      "col": "I",
+      "v": 0.1069263956019231
+     },
+     {
+      "col": "U",
+      "v": 0.10677511520397599
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "moon",
+    "label": "月の局所 ÷ 背景",
+    "ruler": "背景の大きさ",
+    "cells": [
+     {
+      "col": "A",
+      "v": 4.586262272392535e-13,
+      "vComp": 0.9999999999995435,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.37708318391234935,
+      "vComp": 0.6252692086732397,
+      "band": "in",
+      "vK": 0.37680032336426156,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 0.37680032336426156,
+      "vComp": 0.6255427729485623,
+      "band": "in",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "io",
+    "label": "イオの局所 ÷ 背景",
+    "ruler": "背景の大きさ",
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.0883136906033865e-12,
+      "vComp": 0.9999999999989139,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.8959617938056712,
+      "vComp": 0.11800124683045163,
+      "band": "in",
+      "vK": 0.8941419530444394,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 0.8941419530444393,
+      "vComp": 0.11958262063581757,
+      "band": "in",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "senseEarth",
+    "label": "地球の歳差の回る向きが仮の値と同じか(1 = 同じ —— 仮・未照合)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1,
+      "drag": -0.005685106720611114,
+      "provisional": true
+     },
+     {
+      "col": "I",
+      "v": 1,
+      "drag": -0.00358330113004127,
+      "provisional": true
+     },
+     {
+      "col": "U",
+      "v": 1,
+      "drag": -4.361450286613136e-15,
+      "provisional": true
+     }
+    ]
+   },
+   {
+    "g": 6,
+    "id": "senseMars",
+    "label": "火星の歳差の回る向きが仮の値と同じか(1 = 同じ —— 仮・未照合)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 1,
+      "drag": -0.005806319768474795,
+      "provisional": true
+     },
+     {
+      "col": "I",
+      "v": 1,
+      "drag": -0.0051229034007200915,
+      "provisional": true
+     },
+     {
+      "col": "U",
+      "v": 1,
+      "drag": -6.235392364332137e-15,
+      "provisional": true
+     }
+    ]
+   },
+   {
+    "g": 7,
+    "id": "tilt",
+    "label": "地球の傾き(局所だけで年齢の間に動き得る角 ÷ いまの傾き)",
+    "ruler": "いまの傾き",
+    "cells": [
+     {
+      "col": "A",
+      "v": 5.496568253604862e-11,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": 0.0008526653555366167
+     },
+     {
+      "col": "I",
+      "v": 45.19286805731409,
+      "vComp": null,
+      "band": "over",
+      "vK": 45.15896763731312,
+      "cNeed": null,
+      "fMax": 0.0013642095737546912
+     },
+     {
+      "col": "U",
+      "v": 5.496568253604859e-11,
+      "vComp": 9.437348481903727e-11,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": 1
+     }
+    ]
+   },
+   {
+    "g": 7,
+    "id": "watch10000",
+    "label": "地球の傾きの変化 °(公転の極を固定・1 万年)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.00042290314303983223,
+      "provisional": true
+     },
+     {
+      "col": "I",
+      "v": 0.0007964476796011866,
+      "provisional": true
+     },
+     {
+      "col": "U",
+      "v": 0,
+      "provisional": true
+     }
+    ]
+   },
+   {
+    "g": 7,
+    "id": "watch1000000",
+    "label": "地球の傾きの変化 °(公転の極を固定・100 万年)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.04210230641285051,
+      "provisional": true
+     },
+     {
+      "col": "I",
+      "v": 0.07960708906261971,
+      "provisional": true
+     },
+     {
+      "col": "U",
+      "v": 0,
+      "provisional": true
+     }
+    ]
+   },
+   {
+    "g": 7,
+    "id": "watch4500000000",
+    "label": "地球の傾きの変化 °(公転の極を固定・45 億年)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 2.0084164153855184,
+      "provisional": true
+     },
+     {
+      "col": "I",
+      "v": 4.730109544393848,
+      "provisional": true
+     },
+     {
+      "col": "U",
+      "v": 4.362412653335923e-10,
+      "provisional": true
+     }
+    ]
+   },
+   {
+    "g": 7,
+    "id": "watchTurn",
+    "label": "地球の傾きの一周の揺れの幅 °",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 3.156561496711788,
+      "periodYr": 223504330.5783593
+     },
+     {
+      "col": "I",
+      "v": 9.078587571218122,
+      "periodYr": 357296632.0291913
+     },
+     {
+      "col": "U",
+      "v": 9.078587571218122,
+      "periodYr": 293549471202239350000
+     }
+    ]
+   },
+   {
+    "g": 8,
+    "id": "fMax",
+    "label": "傾きを保つ寄る割合の上限(地球)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.0008526653555366167,
+      "noLimit": false
+     },
+     {
+      "col": "I",
+      "v": 0.0013642095737546912,
+      "noLimit": false
+     },
+     {
+      "col": "U",
+      "v": 1,
+      "noLimit": true
+     }
+    ]
+   },
+   {
+    "g": 8,
+    "id": "fRing",
+    "label": "公転面が寄る割合の下限(地球の道の輪)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.011543513337365498,
+      "gap": 13.538152174718885
+     },
+     {
+      "col": "I",
+      "v": 0.018328863146937525,
+      "gap": 13.435518632589053
+     },
+     {
+      "col": "U",
+      "v": null,
+      "gap": null
+     }
+    ]
+   },
+   {
+    "g": 9,
+    "id": "periodSun",
+    "label": "太陽の歳差の 1 周(年)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 223504330.5782573
+     },
+     {
+      "col": "I",
+      "v": 223504330.6099883
+     },
+     {
+      "col": "U",
+      "v": 183627754029912600000
+     }
+    ]
+   },
+   {
+    "g": 9,
+    "id": "periodEarth",
+    "label": "地球の歳差の 1 周(年)",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 223504330.5783593
+     },
+     {
+      "col": "I",
+      "v": 357296632.0291913
+     },
+     {
+      "col": "U",
+      "v": 293549471202239350000
+     }
+    ]
+   },
+   {
+    "g": 9,
+    "id": "turnsSun",
+    "label": "太陽の円錐の年齢の内の周の数",
+    "ruler": null,
+    "cells": [
+     {
+      "col": "A",
+      "v": 20.133838070866283
+     },
+     {
+      "col": "I",
+      "v": 20.133838068007876
+     },
+     {
+      "col": "U",
+      "v": 2.4506099438905947e-11
+     }
+    ]
+   },
+   {
+    "g": 10,
+    "id": "precEarth",
+    "label": "地球の歳差の率の残りの埋まる割合(1 ÷ 要る応答の係数 —— 仮・未照合)",
+    "ruler": "残り(仮の値 − 重力の側の列)",
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.03442761731874263,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": 29.04644811000595,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.021690041365975254,
+      "vComp": null,
+      "band": "under",
+      "vK": 0.021699596173916317,
+      "cNeed": 46.104107554570206,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 2.6411877349260527e-14,
+      "vComp": 2.6411877349260527e-14,
+      "band": "under",
+      "vK": null,
+      "cNeed": 37861753891114.36,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 10,
+    "id": "precMars",
+    "label": "火星の歳差の率の残りの埋まる割合(同上)",
+    "ruler": "残り(同上)",
+    "cells": [
+     {
+      "col": "A",
+      "v": 0.04097892007031323,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": 24.4027904660289,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 0.03614877901296773,
+      "vComp": null,
+      "band": "under",
+      "vK": 0.036155612738701985,
+      "cNeed": 27.66345163805582,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 4.4007160386229985e-14,
+      "vComp": 4.4007160386229985e-14,
+      "band": "under",
+      "vK": null,
+      "cNeed": 22723574782455.266,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 11,
+    "id": "ioHeat",
+    "label": "イオの内部熱 ÷ 物差し",
+    "ruler": "熱の物差し",
+    "cells": [
+     {
+      "col": "A",
+      "v": 1.4915611879379415e-44,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 1.0109085512117497e-20,
+      "vComp": null,
+      "band": "under",
+      "vK": 1.0068060900440978e-20,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 1.4915611879379415e-44,
+      "vComp": 1.881983296152828e-40,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   },
+   {
+    "g": 11,
+    "id": "ioLock",
+    "label": "潮汐ロック(直交成分のトルク ÷ 潮汐のトルク)",
+    "ruler": "潮汐のトルク(比べる列(DFM の式ではない))",
+    "cells": [
+     {
+      "col": "A",
+      "v": 3.0618906561514148e-24,
+      "vComp": null,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "I",
+      "v": 2.520722718466654e-12,
+      "vComp": null,
+      "band": "under",
+      "vK": 2.5156027301116432e-12,
+      "cNeed": null,
+      "fMax": null
+     },
+     {
+      "col": "U",
+      "v": 3.0618906561514148e-24,
+      "vComp": 3.4393551421777415e-22,
+      "band": "under",
+      "vK": null,
+      "cNeed": null,
+      "fMax": null
+     }
+    ]
+   }
+  ],
+  "count": [
+   {
+    "col": "A",
+    "inBand": 0,
+    "over": 0,
+    "under": 11,
+    "noRuler": 24,
+    "inIds": []
+   },
+   {
+    "col": "I",
+    "inBand": 6,
+    "over": 1,
+    "under": 4,
+    "noRuler": 24,
+    "inIds": [
+     "ringAx",
+     "ringDisk",
+     "plane",
+     "mercury",
+     "moon",
+     "io"
+    ]
+   },
+   {
+    "col": "U",
+    "inBand": 3,
+    "over": 0,
+    "under": 8,
+    "noRuler": 24,
+    "inIds": [
+     "mercury",
+     "moon",
+     "io"
+    ]
+   }
+  ],
+  "rulerTopics": [
+   "ringAx",
+   "ringDisk",
+   "plane",
+   "io",
+   "moon",
+   "mercury",
+   "precEarth",
+   "precMars",
+   "tilt",
+   "ioHeat",
+   "ioLock"
+  ]
+ },
+ "t2": {
+  "lam": 9374.338941698314,
+  "kQ": 821584769873.3866,
+  "lam3OverK": 1.0026966776786124,
+  "cbrtK": 9365.927535548955,
+  "recv": [
+   {
+    "id": "Mercury",
+    "gainOverLam3": 0.9949821222089461,
+    "lamOverK": 0.997665268288525
+   },
+   {
+    "id": "Venus",
+    "gainOverLam3": 0.9973105748342009,
+    "lamOverK": 1
+   },
+   {
+    "id": "Earth",
+    "gainOverLam3": 0.9980592466734198,
+    "lamOverK": 1.0007506907658563
+   },
+   {
+    "id": "Mars",
+    "gainOverLam3": 0.9987235776705785,
+    "lamOverK": 1.0014168132495862
+   },
+   {
+    "id": "Jupiter",
+    "gainOverLam3": 0.9996261978534342,
+    "lamOverK": 1.0023218675081413
+   },
+   {
+    "id": "Saturn",
+    "gainOverLam3": 0.9997968511794497,
+    "lamOverK": 1.0024929810311718
+   },
+   {
+    "id": "Uranus",
+    "gainOverLam3": 0.999898647192938,
+    "lamOverK": 1.0025950515556974
+   },
+   {
+    "id": "Neptune",
+    "gainOverLam3": 0.999935307464005,
+    "lamOverK": 1.0026318106876992
+   },
+   {
+    "id": "Moon",
+    "gainOverLam3": 0.9980592467389711,
+    "lamOverK": 1.0007506908315844
+   },
+   {
+    "id": "Io",
+    "gainOverLam3": 0.9993403939580109,
+    "lamOverK": 1.0020352928917329
+   },
+   {
+    "id": "ringB",
+    "gainOverLam3": 0.9998980249689188,
+    "lamOverK": 1.0025944276537406
+   },
+   {
+    "id": "plane",
+    "gainOverLam3": 0.9999990426161449,
+    "lamOverK": 1.0026957177130014
+   }
+  ],
+  "topics": [
+   {
+    "topic": "ringAx",
+    "vK": 0.20420751694280248,
+    "vLam": 0.2047373185718607,
+    "lamOverK": 1.002594427653741,
+    "how": "輪の場を λ で作り直す(第353便k の axStd の作り)"
+   },
+   {
+    "topic": "ringDisk",
+    "vK": 0.15431048949002213,
+    "vLam": 0.15472661514260563,
+    "lamOverK": 1.0026966776786124,
+    "how": "λ³ の写し(源の半径の 2 乗 × 受け手の規則の半径 —— 粒子の自分の重みは源の重みの 1e20 倍の桁で頭打ちなし)"
+   },
+   {
+    "topic": "plane",
+    "vK": 6.210796472915325,
+    "vLam": 6.227539026979212,
+    "lamOverK": 1.0026957177130018,
+    "how": "輪の場を λ で作り直す(第353便k の planeStd の作り)"
+   },
+   {
+    "topic": "io",
+    "vK": 0.8941419530444394,
+    "vLam": 0.8959617938056712,
+    "lamOverK": 1.002035292891733,
+    "how": "局所の倍(受け手 Io)"
+   },
+   {
+    "topic": "moon",
+    "vK": 0.37680032336426156,
+    "vLam": 0.37708318391234935,
+    "lamOverK": 1.0007506908315849,
+    "how": "局所の倍(受け手 Moon)"
+   },
+   {
+    "topic": "mercury",
+    "vK": 6.526962164214431,
+    "vLam": 6.511723458670044,
+    "lamOverK": 0.9976652682885253,
+    "how": "局所の倍(受け手 Mercury)"
+   },
+   {
+    "topic": "precEarth",
+    "vK": 0.021699596173916317,
+    "vLam": 0.021690041365975254,
+    "lamOverK": 0.9995596780758276,
+    "how": "局所の倍を λ の作りの倍(Earth)に置いて方位の率を作り直す"
+   },
+   {
+    "topic": "precMars",
+    "vK": 0.036155612738701985,
+    "vLam": 0.03614877901296773,
+    "lamOverK": 0.9998109912896888,
+    "how": "局所の倍を λ の作りの倍(Mars)に置いて方位の率を作り直す"
+   },
+   {
+    "topic": "tilt",
+    "vK": 45.15896763731312,
+    "vLam": 45.19286805731409,
+    "lamOverK": 1.000750690765857,
+    "how": "局所の倍(受け手 Earth)"
+   },
+   {
+    "topic": "ioHeat",
+    "vK": 1.0068060900440978e-20,
+    "vLam": 1.0109085512117497e-20,
+    "lamOverK": 1.0040747282006133,
+    "how": "局所の倍の 2 乗(内部熱は直交成分の 2 乗)"
+   },
+   {
+    "topic": "ioLock",
+    "vK": 2.5156027301116432e-12,
+    "vLam": 2.520722718466654e-12,
+    "lamOverK": 1.002035292891729,
+    "how": "局所の倍(受け手 Io)"
+   }
+  ],
+  "cap": [
+   {
+    "id": "Mercury",
+    "selfOverSrc1": 4959452.042749031,
+    "selfOverSrcLam": 529.0455224195837,
+    "lamCap": 4959452.042749031
+   },
+   {
+    "id": "Venus",
+    "selfOverSrc1": 9267167.221706249,
+    "selfOverSrcLam": 988.5675437320331,
+    "lamCap": 9267167.221706249
+   },
+   {
+    "id": "Earth",
+    "selfOverSrc1": 12812067.650887689,
+    "selfOverSrcLam": 1366.7169205817702,
+    "lamCap": 12812067.650887689
+   },
+   {
+    "id": "Mars",
+    "selfOverSrc1": 19521274.73491537,
+    "selfOverSrcLam": 2082.416142228667,
+    "lamCap": 19521274.73491537
+   },
+   {
+    "id": "Jupiter",
+    "selfOverSrc1": 66678419.1908531,
+    "selfOverSrcLam": 7112.866262415429,
+    "lamCap": 66678419.1908531
+   },
+   {
+    "id": "Saturn",
+    "selfOverSrc1": 122771172.00898033,
+    "selfOverSrcLam": 13096.51515403158,
+    "lamCap": 122771172.00898033
+   },
+   {
+    "id": "Uranus",
+    "selfOverSrc1": 245876734.22410873,
+    "selfOverSrcLam": 26228.701111970266,
+    "lamCap": 245876734.22410873
+   },
+   {
+    "id": "Neptune",
+    "selfOverSrc1": 385240578.87609106,
+    "selfOverSrcLam": 41095.22615642682,
+    "lamCap": 385240578.87609106
+   }
+  ],
+  "capAny": false,
+  "capMin": {
+   "id": "Mercury",
+   "selfOverSrc1": 4959452.042749031,
+   "selfOverSrcLam": 529.0455224195837,
+   "lamCap": 4959452.042749031
+  },
+  "differ": [
+   {
+    "id": "ringDiskObs",
+    "label": "円盤引きずりの側の輪の場 (F2)・受け手 = 粒子の観測半径 × 構造の係数(回答の基準)",
+    "vK": 9690591.508159885,
+    "vLam": 1036.523638669731,
+    "lamOverK": 0.00010696185447471753,
+    "how": "受け手の半径は λ で替わらない —— 源の半径の 2 乗だけ(λ²)"
+   },
+   {
+    "id": "ioLockI",
+    "label": "潮汐ロックで慣性モーメントを規則の半径 × λ に読む(応答の側の率の倍 —— 半径の 2 乗)",
+    "vK": 2.5156027301116432e-12,
+    "vLam": 4.131845908336215e-23,
+    "lamOverK": 1.64248744798939e-11,
+    "how": "(λ × 規則の半径 ÷ 観測半径)² = 1.639e-11"
+   }
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "t1": true,
+  "t2": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.321
+  },
+  "t1": {
+   "wallSec": 2.338
+  },
+  "t2": {
+   "wallSec": 2.389
+  }
+ },
+ "elapsedS": 7.245,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第353便zf",
+  "target": "tests/lib-w353zf-threecols.mjs",
+  "targetSha256": "ff64011515d60e86bbfe1fb5485a376c5ed91dfea1d36a706a6e7a4a0caf1dfb",
+  "generatedAt": "2026-11-25T08:01:45.399Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w353zf-threecols.mjs",
+    "bytes": 7638,
+    "sha256": "435c8d907c7b3e32db494a77fb9f960a709f65930bcff5267c7e6234635785f1",
+    "mtime": "2026-11-25T07:55:58.718Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-25T07:46:49.643Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-25T07:46:49.643Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-25T07:46:49.647Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-11-25T07:46:49.659Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-25T07:46:49.663Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-25T07:46:49.663Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-25T07:46:49.663Z"
+   },
+   {
+    "file": "tests/lib-w318d-dragest.mjs",
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-11-25T07:46:49.663Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-25T07:46:49.667Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-25T07:46:49.671Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-25T07:46:49.675Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-25T07:46:49.679Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-25T07:46:49.683Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-25T07:46:49.687Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-25T07:46:49.691Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w351g-r3energy.mjs",
+    "bytes": 26339,
+    "sha256": "4bde20de253d5e8bcf9b3e53587fba5dcebe6ba4f52f58482af36808d201842f",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-25T07:46:49.695Z"
+   },
+   {
+    "file": "tests/lib-w352i-stableprec.mjs",
+    "bytes": 23435,
+    "sha256": "fb799e95727ceac3b5eebe0421f94ee026a516e79480f3e557bb8dedf0e0ecb2",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352n-venuslong.mjs",
+    "bytes": 25425,
+    "sha256": "b964fdbc2c93b26466d4d76ef2a7a65bfea07e67493ce9e27378baa2028a655c",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352o-obsradius.mjs",
+    "bytes": 19068,
+    "sha256": "27f44ff076d17fdc0dfc9212e52223889c6dd14b52463c35677ca54c2f988112",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352p-coprec.mjs",
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352s-satring.mjs",
+    "bytes": 27009,
+    "sha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352u-tidaldrag.mjs",
+    "bytes": 25911,
+    "sha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
+    "mtime": "2026-11-25T07:46:49.699Z"
+   },
+   {
+    "file": "tests/lib-w352v-cancelmap.mjs",
+    "bytes": 21081,
+    "sha256": "51a9693562abc5a88e2c6e0be23aa4132eca302eccc773a2bfac646ec20816cb",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w352w-keepcone.mjs",
+    "bytes": 30717,
+    "sha256": "57adb0c0b4f55dee929bb0f3c1bc693fe2d0f9e442e54ded1bb6abb53acaffc6",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w352y-bgwindow.mjs",
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w352za-sconseq.mjs",
+    "bytes": 25293,
+    "sha256": "19b9b7539509eab2484ae191fe14970a9385bdc076c9ba341d92032257e95ed5",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353b-maincol.mjs",
+    "bytes": 24104,
+    "sha256": "56fc229c55e418ed7f1d61645a58af5848e5aaa556b38ff1e8fce2190de428fe",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353c-recvradius.mjs",
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353d-srcoblate.mjs",
+    "bytes": 38264,
+    "sha256": "daeb5d7ce4ac2941f3cc8d17505053f2d55db428cd9efd432ec3c6602a5ef37b",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353e-focus098.mjs",
+    "bytes": 20594,
+    "sha256": "932081452c5512c862e1fd5b238e2bfec9ef13269000b631a104b2ab4b920f2a",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353f-ratesum.mjs",
+    "bytes": 21288,
+    "sha256": "24e003450ac21b263edfa23c33a2fb671bab7f56cc498d8362a0d70a3ef15073",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353h-ringdisk.mjs",
+    "bytes": 15195,
+    "sha256": "64ef3be5ad1c81803c855f4a4070240801a81a12fed0fa30bdde021179c3379d",
+    "mtime": "2026-11-25T07:46:49.703Z"
+   },
+   {
+    "file": "tests/lib-w353j-venus098.mjs",
+    "bytes": 18349,
+    "sha256": "ecc1830efe394183983d0fc051d9ca12d9dada45fb743b723e522ee92151e6c5",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353k-ringstd.mjs",
+    "bytes": 23630,
+    "sha256": "8bd49bb7426adffe4e7d6cf785e293029abb802224946fdfc6dd31df8c0e3276",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353m-residsign.mjs",
+    "bytes": 22856,
+    "sha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353n-watch098.mjs",
+    "bytes": 26992,
+    "sha256": "22ea47ab31ac9fde56397d080aae39dd81340a183609a6f7466e65f746cbb944",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353p-cancelstd.mjs",
+    "bytes": 24520,
+    "sha256": "2dde45bf3123ddfb9dc1fe54e6641b1afdf00dfe7289e653ff602d790208051b",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353q-onek.mjs",
+    "bytes": 27248,
+    "sha256": "2acd6449dc5ac41741afb4a9cff1602fbc888f08377d5f72b3c68a2b4ec1ba1d",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353u-nearrecv.mjs",
+    "bytes": 19578,
+    "sha256": "a82ebefc3e7719425b8a845487b966d873fe0e88173bc6c9188a01adaf2712f7",
+    "mtime": "2026-11-25T07:46:49.707Z"
+   },
+   {
+    "file": "tests/lib-w353x-twoaxis.mjs",
+    "bytes": 28920,
+    "sha256": "007c3d567f77e212cf0dcefd2b44718d070f5cde742d111b7f7785d41367abb1",
+    "mtime": "2026-11-25T07:46:49.711Z"
+   },
+   {
+    "file": "tests/lib-w353z-obpower.mjs",
+    "bytes": 30109,
+    "sha256": "258d0b9ceec7f7eb8d1fcfe4f6e0daa5471b865be2ffb645199abaa28ca498c3",
+    "mtime": "2026-11-25T07:46:49.711Z"
+   },
+   {
+    "file": "tests/lib-w353za-ktilt.mjs",
+    "bytes": 19739,
+    "sha256": "e862ead2b569ddcaa94240031888b92450a388252728387c712d44b342ee23b3",
+    "mtime": "2026-11-25T07:46:49.711Z"
+   },
+   {
+    "file": "tests/lib-w353zf-threecols.mjs",
+    "bytes": 28474,
+    "sha256": "ff64011515d60e86bbfe1fb5485a376c5ed91dfea1d36a706a6e7a4a0caf1dfb",
+    "mtime": "2026-11-25T08:01:05.780Z"
+   },
+   {
+    "file": "tests/lib-w353zg-equalradius.mjs",
+    "bytes": 26736,
+    "sha256": "22a5500216afcda0abed630b8327eb0fd4a0e97090d394b15accd5bb3be8307b",
+    "mtime": "2026-11-25T07:46:49.711Z"
+   }
+  ],
+  "codeSha256": "7879978c7ae2a0982ed7d0b99052a1106f46aab633970aca34a84d427f273e4e",
+  "harnessVersion": "w353zf-threecols-1",
+  "stage": "threecols",
+  "engine": "Node(html を読まない —— 純関数の lib: 〔第353便q〕の topicAt・〔第353便d〕の obRot・〔第353便k〕の ringStdOm・〔第353便u〕の obsRow・〔第353便za〕の kWatch・〔第353便zg〕の aStar を呼ぶ)・入力のファイルは無い",
+  "notClaim": [
+   "主の列を (ア)(イ)(ウ) のどれかに選んだのではない —— 同じ題を 3 列で並べた表(判定はしない)",
+   "背景の大きさは置いていない(AN1058 —— 窓のまま)—— 0.98 と金星の条件の大きさは列の名",
+   "規則の係数の倍 λ は換算の係数 k の言い換えの候補 —— 規則の係数の値を替えたのではない",
+   "物差しは文献の値・未照合・歳差の率の残りと回る向きは仮の値(仮・未照合)・重力の側の潮汐のトルクの列は比べる列(DFM の式ではない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない(AN712)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 2,
+   "kept": 352,
+   "zeroPathsHead": [
+    "/t1/rows/22/cells/2/v",
+    "/t1/rows/23/cells/2/v"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

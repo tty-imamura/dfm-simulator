@@ -3501,6 +3501,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/equalradius-353zg.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zg: 零試験 10/a★ 2 母天体 × 扁平の倍 3 と入力の幅 6/閉じた形 10 行・ほかの母天体 4/偶然の並びの見込み/合成の軸の格子 11・構造・環の縁' }),
   // ==== 第353便zg の塊(ここまで)====
+  // ==== 第353便zf の塊(ここから)====
+  // ---- 第353便zf(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1034・AN1039・AN1045・AN1046・AN1058・統括の検証項目 R496): **主の列の候補を 3 本に並べた 1 枚 —— (ア)(イ)(ウ) × 題 11 の組・(イ) を換算の係数で書くか規則の係数で書くかで動く所**
+  //   (段 threecols-353zf —— 正本 tests/out/threecols-353zf.json・lib tests/lib-w353zf-threecols.mjs —— 第353便q・d・k・u・za・zg・c・p・h・第352便s・c・k・第351便c・第348便h・c・第338便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に onek-353q・ktilt-353za・equalradius-353zg)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。閉包に仮の値の lib(provisional の印)。所要は第353便zf の枝の実測 6 s
+  S('threecols-353zf', 'node tests/exp-w353zf-threecols.mjs', ['tests/out/threecols-353zf.json'], 10, { secSource: 'w353zf-branch', node: true,
+    after: ['onek-353q', 'ktilt-353za', 'equalradius-353zg'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/threecols-353zf.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zf: 零試験 9/題 35 行 × 3 列と列ごとの数/(イ) の作り 2 つ —— 受け手 12・題 11・頭打ち 8・桁で動く所 2' }),
+  // ==== 第353便zf の塊(ここまで)====
   // ==== 第353便zh の塊(ここから)====
   // ---- 第353便zh(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R497): **向きの一致が時間の間保たれる条件 —— 公転面の応える比の走査・換算の係数を置いた組・破れる条件の順・水星・月・イオの 2 つの軸**
   //   (段 comove-353zh —— 正本 tests/out/comove-353zh.json・lib tests/lib-w353zh-comove.mjs —— 第353便zc・x・b・n・za・第352便w・l・第347便e の lib を import して呼ぶ。
