@@ -3590,6 +3590,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/heat3d-355g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第355便g: 零試験 10/候補の列 10 の圧力の冪/斥力の強さの倍 8/粒の数で振る 4/熱への依り方 3/摩擦と拡散の保存 4' }),
   // ==== 第355便g の塊(ここまで)====
+  // ==== 第355便i の塊(ここから)====
+  // ---- 第355便i(統括の検証項目 R512): **論文 5 の思考実験「圧力 = 粒の間の斥力」のまま、斥力の則の族をノブで振った圧力の冪の診断の器**(形 × 距離の冪・届く距離を切る・近くの粒の数で割る・熱への依り方)
+  //   (段 replaw-355i —— 正本 tests/out/replaw-355i.json・lib tests/lib-w355i-replaw.mjs —— 第355便g の lib tests/lib-w355g-heat3d.mjs を呼ぶ。入力のファイルは無い)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・約 11 分(尺度の走り直し 3 回 —— 正本を書いた走行 657 s)
+  S('replaw-355i', 'node tests/exp-w355i-replaw.mjs', ['tests/out/replaw-355i.json'], 660, { secSource: 'w355i-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/replaw-355i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第355便i: 零試験 10/斥力の則の族 26 組と和の 1 組の斥力だけの圧力の冪(箱・粒の数・温度)/二次元 1/並進あり 2/窓に入る組の先頭 2 組の粒 216/比べる列 B 3 列 × 倍 4/零試験の照合 9 行' }),
+  // ==== 第355便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
