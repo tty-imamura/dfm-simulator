@@ -3187,6 +3187,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sconseq-352za.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便za: 零試験 14/内部熱と供給 84/慣性回転 63/題ごとのまとめ 162/k を金星の条件で置いたとき 81' }),
   // ==== 第352便za の塊(ここまで)====
+  // ==== 第353便e の塊(ここから)====
+  // ---- 第353便e(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R469): **注目の列 u = 0.98(背景の向きは (N+) のまま大きさだけ 0.98 —— 傾きを保つ寄る割合の上限・向きと大きさを分ける表・金星の条件と 0.98 の副作用)**
+  //   (段 focus098-353e —— 正本 tests/out/focus098-353e.json・lib tests/lib-w353e-focus098.mjs —— 第352便w・y・za・c・d・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便e の枝の実測 1 s
+  S('focus098-353e', 'node tests/exp-w353e-focus098.mjs', ['tests/out/focus098-353e.json'], 2, { secSource: 'w353e-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/focus098-353e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便e: 零試験 11/0.98 を (N+) に置いた列 36 + 最小 4 + 上端 6/向きと大きさを分ける表 8 × 2 × 9/金星の条件と 0.98 18 + 18' }),
+  // ==== 第353便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
