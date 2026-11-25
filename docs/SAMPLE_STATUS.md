@@ -1,4 +1,4 @@
-# サンプル状況一覧(v1.48-b354・第279便a)
+# サンプル状況一覧(v1.48-b355・第279便a)
 
 > **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w279a-samplestatus.mjs` が、原稿 `tests/data-w279a-samplestatus-src.json`(目的・状況・根拠 ID)と正本 `tests/out/calaudit-w249.json`(verdictLedger)・`tests/out/charonwin-w278b.json`(冥王星–カロンの同一定義の比較値)から作り、`beta/index.html` の生成領域 `sample-status` と正本 `tests/out/samplestatus-w279a.json` を同時に書く。QA `docs.sampleStatus-sync`(この表 ↔ html ↔ 正本)と `preset.statusLedger-sync`(html の較正欄 ↔ calaudit)が照合する。
 > 原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する(一覧の情報はサンプルの『概要』で利用する)」への対応。アプリの「説明」タブの 🔖概要(1 行 3 節「目的。状況。較正。」)と状態チップは、この表と同じ宣言から出ている。
@@ -229,10 +229,10 @@
 > **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`tests/out/calaudit-w249.json`(各本の壁時計)・`tests/out/qa-results-full-beta.json`(試験ごとの所要 ms)の転記で、走行のたびに変わる。
 
 - **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。
-- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・`skippedBy:"reuse-dt2"`)3 段(元の走行 31.2 s)・**h4**(同一契約の dt/4 の転記 —— `skippedBy:"reuse"`)3 段(元の走行 97.8 s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。
+- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・`skippedBy:"reuse-dt2"`)3 段(元の走行 29.5 s)・**h4**(同一契約の dt/4 の転記 —— `skippedBy:"reuse"`)3 段(元の走行 97.8 s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。
 - **再生成の段**: 下の「再生成の段の表」に段ごとの実測秒と対象の本を置いた(第318便 —— 本の表の段の列は外した)。段の所要は対象の本で共有する(本ごとに足し上げない)。
-- **宣言の無い段**(どの本に関与するかを宣言していない 151 段・実測 3452 s —— うち **html を読まない段** 143 段・実測 3244 s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** 7 段・実測 208 s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**html の全文を文字列で読むと宣言した段** 1 段・実測 0.00 s〔第327便c —— 物理は読まず全文の語を数える(理由を宣言)〕・**対象 html の全体に縛られる段** 0 段・実測 0.00 s)と**常時群**(14 段・実測 1035 s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「html の全文(宣言)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 363 段の実測秒の和 78628 s(21.84 h・逐次の上限。履歴の段は除く)。
-- **保存 QA の来歴**(第320便d): 保存物は版名 `v1.48-b354`・commit cc01b45・2026-11-25T21:42:04.474Z・対象 html の sha cb4374061ba3 —— 今の html(版名 `v1.48-b354`)に対して この html の QA の保存物。
+- **宣言の無い段**(どの本に関与するかを宣言していない 157 段・実測 4531 s —— うち **html を読まない段** 149 段・実測 4323 s〔対象が lib・CSV・正本 —— html の変更では作り直さない〕・**物理の部分(htmlPhys)の段** 7 段・実測 208 s〔第325便a —— 段が読むと宣言した html の部分だけで比べる。版名・説明だけの差では作り直さない〕・**html の全文を文字列で読むと宣言した段** 1 段・実測 0.00 s〔第327便c —— 物理は読まず全文の語を数える(理由を宣言)〕・**対象 html の全体に縛られる段** 0 段・実測 0.00 s)と**常時群**(14 段・実測 1035 s・毎回走る)は下の「再生成の段の表」で区分「html を読まない」「物理の部分(htmlPhys)」「html の全文(宣言)」「宣言なし(html 全体)」「常時群」として載せる。現行の段 369 段の実測秒の和 79707 s(22.14 h・逐次の上限。履歴の段は除く)。
+- **保存 QA の来歴**(第320便d): 保存物は版名 `v1.48-b354`・commit cc01b45・2026-11-25T21:42:04.474Z・対象 html の sha cb4374061ba3 —— 今の html(版名 `v1.48-b355`)に対して **前の便のゲートの保存物**(1 便遅れる —— 鎖の常時群の段 samplestatus はゲートの QA の前に走る)。
 - **保存 QA**: `tests/out/qa-results-full-beta.json`(1871 試験・全体 7559 s・commit cc01b45)のうち、**その本の claims が挙げる testId と、原稿 `tests/data-w279a-samplestatus-src.json` の `qaTargets` がその本を挙げた試験**(帰属 w283e-1 —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(6 本)。内訳は所要の上位 3。
 
 | 本 | 較正走行(s) | 段別(s) | 保存 QA(s・本数) | QA の内訳(上位 3) |
@@ -314,13 +314,13 @@
 | 📀 `shapeToyDiskCore` | — | — | 0.29・1 | `preset.shapeToyDiskCore` 0.29 |
 | 🧹 `shapeToyArmCore` | — | — | 0.14・1 | `preset.shapeToyArmCore` 0.14 |
 | 🎢 `shapeToySpiralCore` | — | — | 4.10・4 | `behavior.spiralGeometry` 3.25・`preset.shapeToySpiral` 0.62・`preset.shapeToySpiral` 0.12 |
-| 🌙 `earthMoonReal` | 82.1 | dt 28.0・dt/2 54.2 | 0.01・1 | `preset.earthMoonReal` 0.01 |
-| 🔆 `emAuditSolar` | 2.57 | dt 0.83・dt/2 1.74 | 0.01・2 | `preset.emAuditSolar` 0.01・`behavior.emAudit` 0.00 |
+| 🌙 `earthMoonReal` | 79.1 | dt 26.8・dt/2 52.3 | 0.01・1 | `preset.earthMoonReal` 0.01 |
+| 🔆 `emAuditSolar` | 2.41 | dt 0.86・dt/2 1.55 | 0.01・2 | `preset.emAuditSolar` 0.01・`behavior.emAudit` 0.00 |
 | 🌦️ `earthMoonSunInertial3d` | — | — | 24.2・10 | `behavior.gLocNull307` 17.8・`behavior.wbgDirect302` 1.49・`behavior.wbgEstimate302` 1.24 |
 | 🌔 `earthMoonOnly3d` | — | — | 2.34・3 | `behavior.wbgEstimate302` 1.24・`preset.earthReorg300` 0.88・`behavior.dragNorm301` 0.23 |
 | 📶 `qLockRadialAudit` | — | — | 1.10・2 | `behavior.qlockRadial` 1.08・`preset.qLockRadialAudit` 0.02 |
 | 📐 `qLockRadialAuditQ3` | — | — | 1.09・2 | `behavior.qlockRadial` 1.08・`preset.qLockRadialAuditQ3` 0.02 |
-| ☄️ `mercuryReal` | 6.29 | dt 2.48・dt/2 3.81 | 0.01・1 | `preset.mercuryReal` 0.01 |
+| ☄️ `mercuryReal` | 5.27 | dt 1.79・dt/2 3.48 | 0.01・1 | `preset.mercuryReal` 0.01 |
 | 🟫 `mercurySunInertialFit` | — | — | 75.4・8 | `ui.liveMeasure297` 68.2・`behavior.gLoc302` 4.19・`ui.wbgSlider302` 1.15 |
 | 🌡️ `mercurySunInertial3d` | — | — | 9.95・11 | `behavior.gLoc302` 4.19・`behavior.wbgEstimate302` 1.24・`ui.softeningFloorSlider305` 1.01 |
 | 🌋 `venusSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
@@ -331,30 +331,30 @@
 | 🔷 `uranusSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
 | 💙 `neptuneSunInertial3d` | — | — | 0.11・1 | `preset.planets306` 0.11 |
 | 🗺️ `solarSystem16Inertial3d` | — | — | 5.04・3 | `behavior.solar16Builtin318c` 3.37・`preset.solarSystem16Inertial3d` 1.52・`docs.solar16Builtin318c` 0.15 |
-| 🟠 `jupiterGalilean` | 31.7 | dt 10.2・dt/2 21.4 | 0.72・2 | `behavior.jupiter` 0.71・`preset.jupiterGalilean` 0.01 |
-| 🌇 `venusReal` | 15.7 | dt 5.56・dt/2 10.1 | 7.84・2 | `behavior.venusReal` 7.83・`preset.venusReal` 0.02 |
-| 🥔 `marsMoonsReal` | 11.3 | dt 3.94・dt/2 7.39 | 0.03・2 | `preset.marsMoonsReal` 0.03・`behavior.marsMoonsReal` 0.00 |
-| 🥶 `plutoCharonDiagInput` | 148 | dt 49.9・dt/2 98.3 | 0.01・1 | `preset.plutoCharonDiagInput` 0.01 |
+| 🟠 `jupiterGalilean` | 29.9 | dt 10.1・dt/2 19.7 | 0.72・2 | `behavior.jupiter` 0.71・`preset.jupiterGalilean` 0.01 |
+| 🌇 `venusReal` | 14.8 | dt 4.86・dt/2 9.96 | 7.84・2 | `behavior.venusReal` 7.83・`preset.venusReal` 0.02 |
+| 🥔 `marsMoonsReal` | 10.9 | dt 3.64・dt/2 7.24 | 0.03・2 | `preset.marsMoonsReal` 0.03・`behavior.marsMoonsReal` 0.00 |
+| 🥶 `plutoCharonDiagInput` | 142 | dt 47.2・dt/2 95.0 | 0.01・1 | `preset.plutoCharonDiagInput` 0.01 |
 | 🟪 `plutoCharonInertialFit` | — | — | 5.67・8 | `behavior.wbgDirect302` 1.49・`behavior.wbgEstimate302` 1.24・`behavior.shell304` 0.95 |
-| 💠 `uranusReal` | 38.1 | dt 38.1 | 0.10・2 | `preset.uranusReal` 0.10・`behavior.uranusReal` 0.00 |
-| 🌊 `neptuneReal` | 4.08 | dt 1.33・dt/2 2.75 | 0.01・2 | `preset.neptuneReal` 0.01・`behavior.neptuneReal` 0.00 |
-| ✨ `alphaCenAB` | 8.96 | dt 8.96・dt/2 再利用〔h2〕(元 14.3)・dt/4 再利用〔h4〕(元 47.0) | 4.65・2 | `behavior.alphaCenAB` 4.64・`preset.alphaCenAB` 0.01 |
-| 🌟 `siriusAB` | 4.91 | dt 4.91・dt/2 再利用〔h2〕(元 8.45)・dt/4 再利用〔h4〕(元 27.7) | 3.88・2 | `behavior.siriusAB` 3.86・`preset.siriusAB` 0.01 |
+| 💠 `uranusReal` | 37.1 | dt 37.1 | 0.10・2 | `preset.uranusReal` 0.10・`behavior.uranusReal` 0.00 |
+| 🌊 `neptuneReal` | 3.86 | dt 1.26・dt/2 2.60 | 0.01・2 | `preset.neptuneReal` 0.01・`behavior.neptuneReal` 0.00 |
+| ✨ `alphaCenAB` | 6.66 | dt 6.66・dt/2 再利用〔h2〕(元 13.6)・dt/4 再利用〔h4〕(元 47.0) | 4.65・2 | `behavior.alphaCenAB` 4.64・`preset.alphaCenAB` 0.01 |
+| 🌟 `siriusAB` | 3.93 | dt 3.93・dt/2 再利用〔h2〕(元 7.85)・dt/4 再利用〔h4〕(元 27.7) | 3.88・2 | `behavior.siriusAB` 3.86・`preset.siriusAB` 0.01 |
 | 🌠 `siriusABInertial3d` | — | — | 0.35・2 | `behavior.binBooks322b` 0.19・`docs.binBooks322b` 0.17 |
 | 🔶 `alphaCenABInertial3d` | — | — | 0.35・2 | `behavior.binBooks322b` 0.19・`docs.binBooks322b` 0.17 |
 | 🔸 `alphaCenABInertial3dJ` | — | — | 0.65・2 | `behavior.obsSpin324b` 0.48・`docs.obsSpin324b` 0.17 |
 | 📟 `psrDoubleABInertial3d` | — | — | 0.65・2 | `behavior.obsSpin324b` 0.48・`docs.obsSpin324b` 0.17 |
-| 📻 `psrDoubleAB` | 7.02 | dt 2.34・dt/2 4.67 | 0.02・2 | `preset.psrDoubleAB` 0.02・`behavior.psrDoubleAB` 0.00 |
-| 🧮 `psrJ1757DFM` | 5.03 | dt 1.74・dt/2 3.29 | 0.02・1 | `preset.psrJ1757DFM` 0.02 |
-| 🩺 `psrJ1946DFM` | 2.09 | dt 0.66・dt/2 1.44 | 0.01・1 | `preset.psrJ1946DFM` 0.01 |
-| 📿 `psrB1534` | 35.0 | dt 12.0・dt/2 23.1 | 0.02・1 | `preset.psrB1534` 0.02 |
-| 🎐 `gw150914` | 1.20 | dt 0.41・dt/2 0.79 | 6.45・2 | `behavior.gw150914` 6.43・`preset.gw150914` 0.01 |
-| ⏰ `gw150914Merge4s` | 0.13 | dt 0.06・dt/2 0.06 | 0.01・1 | `preset.gw150914Merge4s` 0.01 |
+| 📻 `psrDoubleAB` | 6.68 | dt 2.26・dt/2 4.42 | 0.02・2 | `preset.psrDoubleAB` 0.02・`behavior.psrDoubleAB` 0.00 |
+| 🧮 `psrJ1757DFM` | 4.60 | dt 1.61・dt/2 2.99 | 0.02・1 | `preset.psrJ1757DFM` 0.02 |
+| 🩺 `psrJ1946DFM` | 1.94 | dt 0.68・dt/2 1.26 | 0.01・1 | `preset.psrJ1946DFM` 0.01 |
+| 📿 `psrB1534` | 32.2 | dt 10.9・dt/2 21.4 | 0.02・1 | `preset.psrB1534` 0.02 |
+| 🎐 `gw150914` | 1.20 | dt 0.45・dt/2 0.75 | 6.45・2 | `behavior.gw150914` 6.43・`preset.gw150914` 0.01 |
+| ⏰ `gw150914Merge4s` | 0.12 | dt 0.06・dt/2 0.06 | 0.01・1 | `preset.gw150914Merge4s` 0.01 |
 | ⚛️ `gw150914SpinDipole` | — | — | 0.01・1 | `preset.gw150914SpinDipole` 0.01 |
-| 📡 `saturnZonalD68` | 4.09 | dt 4.09・dt/2 再利用〔h2〕(元 8.44)・dt/4 再利用〔h4〕(元 23.1) | 12.2・4 | `zonal.d68-realunit` 12.1・`preset.saturnZonalD68` 0.03・`zonal.analytic-d68` 0.03 |
+| 📡 `saturnZonalD68` | 3.96 | dt 3.96・dt/2 再利用〔h2〕(元 8.02)・dt/4 再利用〔h4〕(元 23.1) | 12.2・4 | `zonal.d68-realunit` 12.1・`preset.saturnZonalD68` 0.03・`zonal.analytic-d68` 0.03 |
 | 🧷 `saturnD68Consistent` | — | — | 0.01・1 | `preset.saturnD68Consistent` 0.01 |
 | 📎 `saturnD68ObsOrbit` | — | — | 0.01・1 | `preset.saturnD68ObsOrbit` 0.01 |
-| 💍 `saturnRingReal` | 88.4 | dt 88.4 | 0.17・2 | `preset.saturnRingReal` 0.11・`wave121.ui` 0.06 |
+| 💍 `saturnRingReal` | 85.1 | dt 85.1 | 0.17・2 | `preset.saturnRingReal` 0.11・`wave121.ui` 0.06 |
 | 🍇 `tuc47` | — | — | 0.73・2 | `preset.tuc47` 0.73・`behavior.tuc47` 0.00 |
 | 🌃 `ngc3198` | — | — | 1.22・2 | `preset.ngc3198` 1.22・`behavior.ngc3198` 0.00 |
 | 🥀 `supernovaProg` | — | — | 0.01・1 | `preset.supernovaProg` 0.01 |
@@ -362,7 +362,7 @@
 
 ### 再生成の段の表
 
-> 段 363(履歴の段を除く)・実測秒の和 78628 s。実測秒は `tests/lib-w281a-regentable.mjs` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**物理の部分(htmlPhys)** = 領域の宣言は無いが段が読む html の部分(第325便a の宣言 —— 版名・説明の欄・注釈を外した部分)だけで刻印の html と比べる段(第326便e)・**html の全文(宣言)** = 物理を読まず html の全文を文字列で読むと理由つきで宣言した段(第327便c —— 外部名の出現数など)・**宣言なし(html 全体)** = 対象 html の全体に縛られる段・**html を読まない** = 宣言は無いが対象が lib・CSV・正本の段(第320便d —— html の変更では作り直さない)。対象: **all** = 内蔵の全本(187 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。
+> 段 369(履歴の段を除く)・実測秒の和 79707 s。実測秒は `tests/lib-w281a-regentable.mjs` の段の秒(段 1 回の実測 —— 対象の本で共有する)。区分: **常時群** = 毎回走る段・**領域の宣言** = REGEN_SCOPE の presets で対象の本を宣言した段・**物理の部分(htmlPhys)** = 領域の宣言は無いが段が読む html の部分(第325便a の宣言 —— 版名・説明の欄・注釈を外した部分)だけで刻印の html と比べる段(第326便e)・**html の全文(宣言)** = 物理を読まず html の全文を文字列で読むと理由つきで宣言した段(第327便c —— 外部名の出現数など)・**宣言なし(html 全体)** = 対象 html の全体に縛られる段・**html を読まない** = 宣言は無いが対象が lib・CSV・正本の段(第320便d —— html の変更では作り直さない)。対象: **all** = 内蔵の全本(187 本)・それ以外は宣言した本のうち掲載の本の列挙(掲載の外の本は数だけ)。並びは実測秒の大きい順。
 
 | 段 | 実測(s) | 区分 | 対象の本 |
 |---|---|---|---|
@@ -403,6 +403,7 @@
 | charoneps-h2 | 697 | 領域の宣言 | 7 本: ✨ `alphaCenAB`・🌊 `neptuneReal`・🥶 `plutoCharonDiagInput`・🧮 `psrJ1757DFM`・🩺 `psrJ1946DFM`・🌟 `siriusAB`・🌇 `venusReal`(ほかに掲載の外の本 3 本) |
 | moon3d-298c | 696 | 領域の宣言 | 1 本: 🌦️ `earthMoonSunInertial3d`(ほかに掲載の外の本 1 本) |
 | geo2thick-324a | 666 | 領域の宣言 | 4 本: 💫 `galaxyGeo2`・🫓 `galaxyGeo2Flat3d`・🥞 `galaxyGeo2Thick3d`・🧇 `galaxyGeo2ThickTilt3d` |
+| replaw-355i | 660 | html を読まない | — |
 | charon-h4 | 657 | 領域の宣言 | 7 本: ✨ `alphaCenAB`・🌊 `neptuneReal`・🥶 `plutoCharonDiagInput`・🧮 `psrJ1757DFM`・🩺 `psrJ1946DFM`・🌟 `siriusAB`・🌇 `venusReal`(ほかに掲載の外の本 3 本) |
 | rotframe-306d | 646 | 領域の宣言 | 1 本: 🍩 `saturnRingInertial3d`(ほかに掲載の外の本 3 本) |
 | j2-305c | 618 | 領域の宣言 | 4 本: 🌔 `earthMoonOnly3d`・🌦️ `earthMoonSunInertial3d`・🌡️ `mercurySunInertial3d`・🟪 `plutoCharonInertialFit` |
@@ -437,9 +438,11 @@
 | timing294 | 231 | 領域の宣言 | all(内蔵の全 187 本) |
 | sparc | 225 | 領域の宣言 | 2 本: 🌌 `galaxy`・🌃 `ngc3198`(ほかに掲載の外の本 1 本) |
 | galaxial-311b | 201 | 領域の宣言 | 20 本: 🌔 `earthMoonOnly3d`・🌦️ `earthMoonSunInertial3d`・🌌 `galaxy`・💫 `galaxyGeo2`・🎡 `galaxyStd`・🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🥔 `marsMoonsReal`・🔴 `marsSunInertial3d`・☿ `mercury`・☄️ `mercuryReal`・🌡️ `mercurySunInertial3d`・🌊 `neptuneReal`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・💠 `uranusReal`・🔷 `uranusSunInertial3d`・🌇 `venusReal`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 1 本) |
+| heat3d-355g | 200 | html を読まない | — |
 | shapetoy | 199 | 領域の宣言 | 3 本: 🧵 `shapeToyArm`・🔮 `shapeToyCluster`・🥏 `shapeToyDisk` |
 | formwave-353ze | 190 | html を読まない | — |
 | saturnring3d-300c | 182 | 領域の宣言 | 9 本: 🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・🍩 `saturnRingInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 1 本) |
+| g4cols-355f | 180 | html を読まない | — |
 | galfield-321c | 179 | 領域の宣言 | 14 本: 🍳 `galaxyDB`・💫 `galaxyGeo2`・🎡 `galaxyStd`・🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🗺️ `solarSystem16Inertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 4 本) |
 | moonwindow-348e | 167 | html を読まない | — |
 | geo4-295b | 165 | 領域の宣言 | all(内蔵の全 187 本) |
@@ -496,6 +499,7 @@
 | draglong-347d | 39.0 | html を読まない | — |
 | binarylaw-334d | 38.0 | 領域の宣言 | 10 本: 🔶 `alphaCenABInertial3d`・🔸 `alphaCenABInertial3dJ`・♊ `binaryCheckEqualInertial3d`・⚖️ `binaryCheckRatio3Inertial3d`・🥶 `plutoCharonDiagInput`・🟪 `plutoCharonInertialFit`・📿 `psrB1534`・📟 `psrDoubleABInertial3d`・🧮 `psrJ1757DFM`・🩺 `psrJ1946DFM` |
 | dragest-318d | 36.0 | 領域の宣言 | 10 本: 🟠 `jupiterGalilean`・🏀 `jupiterSunInertial3d`・🔴 `marsSunInertial3d`・☿ `mercury`・🌡️ `mercurySunInertial3d`・💙 `neptuneSunInertial3d`・💍 `saturnRingReal`・🟡 `saturnSunInertial3d`・🔷 `uranusSunInertial3d`・🌋 `venusSunInertial3d`(ほかに掲載の外の本 1 本) |
+| rangecols-355c | 35.0 | html を読まない | — |
 | gyropath-340d | 34.0 | html を読まない | — |
 | partyconv-344b | 34.0 | html を読まない | — |
 | rotring-337i | 32.0 | html を読まない | — |
@@ -633,6 +637,7 @@
 | venuslong-352n | 3.00 | html を読まない | — |
 | obsradius-352o | 3.00 | html を読まない | — |
 | twobg-352r | 3.00 | html を読まない | — |
+| bgrange-355b | 3.00 | html を読まない | — |
 | qsplit | 2.00 | 領域の宣言 | all(内蔵の全 187 本) |
 | rpar | 2.00 | 領域の宣言 | 0 本 |
 | nslockledger | 2.00 | 領域の宣言 | all(内蔵の全 187 本) |
@@ -715,6 +720,7 @@
 | precsense-352d | 1.00 | html を読まない | — |
 | tidaldrag-352u | 1.00 | html を読まない | — |
 | obpower-353z | 1.00 | html を読まない | — |
+| kqopen-355e | 1.00 | html を読まない | — |
 | obsintake | 0.00 | html を読まない | — |
 | corrections | 0.00 | html を読まない | — |
 | solarsigma | 0.00 | 常時群 | — |
