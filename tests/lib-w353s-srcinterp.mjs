@@ -16,7 +16,7 @@
 //   'io'     イオ ← 木星の打ち消しの倍率 ÷ 金星の条件(第353便d の obCancel の x = eqOverUV)。tJ を渡すと木星だけ別の t(太陽は t)。
 //   'earth'  地球の項 ÷ 金星の残り(第353便l の ratioOf と同じ量 —— 内合・等大の残り 2 sin(φ/2))。tSun を渡すと太陽だけ別の t(地球は t)。
 // ■ t の外: t は 0〜1(srcRadius の範囲)。1 に届かない題は、t 0.9〜1 の対数の傾きで外へ延ばした t を「外挿」の印つきで出す(数えた値ではない)。
-// ■ 言わないこと: 源の半径が決まった・合った とは書かない。この場・この置き方・このノブでは、の候補の表。
+// ■ 言わないこと: 源の半径は決めていない(候補の表)。この場・この置き方・このノブでは、の候補の表。
 import * as KS from './lib-w353k-ringstd.mjs';
 import * as Dd from './lib-w353d-srcoblate.mjs';
 import * as Le from './lib-w353l-earthonvenus.mjs';
@@ -178,8 +178,8 @@ export function solveT(fn, { grid = DECL.tGrid, nBisect = DECL.nBisect } = {}) {
   }
   if (tStar === null) {
     const n = pts.length, a = pts[n - 2], b = pts[n - 1], s = (Math.log(b.q) - Math.log(a.q)) / (b.t - a.t);
-    if (pts[0].q > 1) { const a0 = pts[0], b0 = pts[1], s0 = (Math.log(b0.q) - Math.log(a0.q)) / (b0.t - a0.t); tStar = s0 > 0 ? a0.t - Math.log(a0.q) / s0 : null; kind = 'below'; }
-    else { tStar = s > 0 ? b.t - Math.log(b.q) / s : null; kind = 'extrap'; }
+    if (pts[0].q > 1) { const a0 = pts[0], b0 = pts[1], s0 = (Math.log(b0.q) - Math.log(a0.q)) / (b0.t - a0.t); tStar = s0 > 0 ? a0.t - Math.log(a0.q) / s0 : null; kind = s0 > 0 ? 'below' : 'none'; }
+    else { tStar = s > 0 ? b.t - Math.log(b.q) / s : null; kind = s > 0 ? 'extrap' : 'none'; }
   }
   const slopes = pts.slice(1).map((p, i) => (Math.log10(p.q) - Math.log10(pts[i].q)) / (p.t - pts[i].t));
   return { pts, tStar, kind, mono, slopeMin: Math.min(...slopes), slopeMax: Math.max(...slopes) };
@@ -188,7 +188,7 @@ export function solveT(fn, { grid = DECL.tGrid, nBisect = DECL.nBisect } = {}) {
 export function tFor(topic, opts = {}) {
   const T1 = opts.T1 || E.t1Table(), GEO = opts.GEO || E.geometry();
   const r = solveT((t) => atT(topic, t, { ...opts, T1, GEO }).q);
-  const src = topic === 'ring' ? 'Saturn' : topic === 'io' ? (opts.tJ === undefined ? 'Jupiter' : 'Sun') : topic === 'earth' ? (opts.tSun === undefined ? 'Earth' : 'Earth') : 'Sun';
+  const src = topic === 'ring' ? 'Saturn' : topic === 'io' ? 'Jupiter' : topic === 'earth' ? 'Earth' : 'Sun';
   const R = r.tStar === null ? null : radiusAt(src, r.tStar, { extrap: true });
   return { topic, opts: { ...opts, T1: undefined, GEO: undefined }, ...r, src, R, overRule: R === null ? null : R / K.srcRadius(src, 0) };
 }
@@ -204,6 +204,68 @@ export function srcRow(src, T1 = E.t1Table(), GEO = E.geometry()) {
 }
 /** 候補の半径 Rc の t(= ln(Rc ÷ R_規則) ÷ ln(R_観測 ÷ R_規則)) */
 export const tOfRadius = (src, Rc) => Math.log(Rc / K.srcRadius(src, 0)) / Math.log(K.srcRadius(src, 1) / K.srcRadius(src, 0));
+
+/* ───────── 表 ───────── */
+/** 表 1 の行(題 × 置き方 —— 主の行を先頭に)。vary = どの源の t を振るか('both' = 題の源に同じ t)。fixed = 振らない源の t(0 = 規則の半径) */
+export const T1ROWS = Object.freeze([
+  ...['ringD', 'ringC', 'ringB', 'ringA', 'ringF'].map((k) => Object.freeze({ id: 'ring-' + k, topic: 'ring', opts: Object.freeze({ key: k }), main: true, vary: 'Saturn' })),
+  Object.freeze({ id: 'venus-rule', topic: 'venus', opts: Object.freeze({ cR: null }), main: true, vary: 'Sun' }),
+  Object.freeze({ id: 'io-same', topic: 'io', opts: Object.freeze({}), main: true, vary: 'Sun・Jupiter' }),
+  Object.freeze({ id: 'earth-same', topic: 'earth', opts: Object.freeze({}), main: true, vary: 'Sun・Earth' }),
+  Object.freeze({ id: 'venus-cR0.0128', topic: 'venus', opts: Object.freeze({ cR: 0.0128 }), main: false, vary: 'Sun' }),
+  Object.freeze({ id: 'venus-cR1', topic: 'venus', opts: Object.freeze({ cR: 1 }), main: false, vary: 'Sun' }),
+  Object.freeze({ id: 'io-J', topic: 'io', fn: 'ioJ', main: false, vary: 'Jupiter' }),
+  Object.freeze({ id: 'io-S', topic: 'io', fn: 'ioS', main: false, vary: 'Sun' }),
+  Object.freeze({ id: 'earth-E', topic: 'earth', fn: 'earthE', main: false, vary: 'Earth' }),
+  Object.freeze({ id: 'earth-S', topic: 'earth', fn: 'earthS', main: false, vary: 'Sun' }),
+]);
+const rowFn = (r, T1, GEO) => {
+  if (!r.fn) return (t) => atT(r.topic, t, { ...r.opts, T1, GEO }).q;
+  if (r.fn === 'ioJ') return (t) => ioXAt(0, { tJ: t, T1, GEO }).x;
+  if (r.fn === 'ioS') return (t) => ioXAt(t, { tJ: 0, T1, GEO }).x;
+  if (r.fn === 'earthE') return (t) => earthRatioAt(t, { tSun: 0, T1, GEO }).ratio;
+  return (t) => earthRatioAt(0, { tSun: t, T1, GEO }).ratio;
+};
+const srcOfVary = (v) => (v.startsWith('Sun・') ? v.split('・')[1] : v);
+export function table1(T1 = E.t1Table(), GEO = E.geometry()) {
+  return T1ROWS.map((r) => {
+    const s = solveT(rowFn(r, T1, GEO)), src = srcOfVary(r.vary), R = s.tStar === null ? null : radiusAt(src, s.tStar, { extrap: true });
+    const extra = r.topic === 'venus' ? { k0: 1 / s.pts[0].q, k1: 1 / s.pts[s.pts.length - 1].q } : {};
+    return { id: r.id, topic: r.topic, main: r.main, vary: r.vary, src, tStar: s.tStar, kind: s.kind, q0: s.pts[0].q, q1: s.pts[s.pts.length - 1].q, qHalf: s.pts[5].q,
+      slopeMin: s.slopeMin, slopeMax: s.slopeMax, mono: s.mono, R, overRule: R === null ? null : R / K.srcRadius(src, 0), overObs: R === null ? null : R / K.srcRadius(src, 1), ...extra };
+  });
+}
+/** 題の t がそろうか: 主の行の t の最小・最大と、内側の行だけの幅 */
+export function spreadOf(rows) {
+  const m = rows.filter((r) => r.main && r.tStar !== null), inn = m.filter((r) => r.kind === 'inside');
+  const tt = m.map((r) => r.tStar), ti = inn.map((r) => r.tStar);
+  return { nMain: m.length, nInside: inn.length, tMin: Math.min(...tt), tMax: Math.max(...tt), tInMin: Math.min(...ti), tInMax: Math.max(...ti), ratio: Math.max(...tt) / Math.min(...tt) };
+}
+/** 表 2: 源ごとの量と、源ごとに要る t(他の源は規則の半径)と、源の量の式の候補の t(候補 3 —— 当てはめではなく桁の表) */
+export const CANDS = Object.freeze([
+  Object.freeze({ id: 'sync', name: '(A) 同期の半径 (GM ÷ ω²)^(1/3)(質量と自転の率)' }),
+  Object.freeze({ id: 'invF', name: '(B) 規則の半径 ÷ 扁平率 f' }),
+  Object.freeze({ id: 'invQ', name: '(C) 規則の半径 ÷ q(q = ω² R_観測³ ÷ GM —— 自転の率の無次元の量)' }),
+]);
+export function table2(T1 = E.t1Table(), GEO = E.geometry(), t1 = null) {
+  const rows = t1 || table1(T1, GEO), pick = (id) => rows.find((r) => r.id === id);
+  const need = { Sun: ['venus-rule', 'venus-cR0.0128', 'venus-cR1'], Jupiter: ['io-J'], Saturn: ['ring-ringD', 'ring-ringF'], Earth: ['earth-E'] };
+  return DECL.srcs.map((src) => {
+    const s = srcRow(src, T1, GEO), Rc = { sync: s.rSync, invF: s.Rrule / s.f, invQ: s.Rrule / s.qRot };
+    return { ...s, need: need[src].map((id) => ({ id, tStar: pick(id).tStar, kind: pick(id).kind, overRule: pick(id).overRule })),
+      cands: CANDS.map((c) => ({ id: c.id, R: Rc[c.id], overRule: Rc[c.id] / s.Rrule, t: tOfRadius(src, Rc[c.id]) })) };
+  });
+}
+/** 表 3: 金星の φ と等大の残りを t で(受け手の列 5)・イオの φ と金星の条件での残り(太陽と木星に同じ t) */
+export function table3(T1 = E.t1Table(), GEO = E.geometry()) {
+  const venus = DECL.phiCRs.map((cR) => {
+    const pts = DECL.tGrid.map((t) => venusPhiAt(t, { cR, T1, GEO })), p0 = pts[0];
+    return { cR, phi0: p0.phiDeg, phiHalf: pts[5].phiDeg, phi1: pts[10].phiDeg, dPhiMax: Math.max(...pts.map((p) => Math.abs(p.phiDeg - p0.phiDeg))),
+      res0: p0.residEqual, res1: pts[10].residEqual, dResRelMax: Math.max(...pts.map((p) => Math.abs(p.residEqual / p0.residEqual - 1))), mag1over0: pts[10].uEqualOverK / p0.uEqualOverK, A0overWS0: p0.A0 / p0.wS, A0overWS1: pts[10].A0 / pts[10].wS };
+  });
+  const io = DECL.tGrid.map((t) => { const r = ioXAt(t, { T1, GEO }); return { t, phiDeg: r.phiDeg, resAtUV: r.resAtUV, x: r.x }; });
+  return { venus, io };
+}
 
 /* ───────── 零試験 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
