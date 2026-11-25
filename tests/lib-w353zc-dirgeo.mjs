@@ -55,7 +55,7 @@ export const DECL = Object.freeze({
   cRUni: Object.freeze([1e-3, 0.0128, 0.02, 0.03, 0.04, 0.1, 1]),
   rGrid: Object.freeze([0.01, 0.03, 0.1, 0.195, 0.3, 1, 3, 10]),
   c0Grid: Object.freeze([1, 1e2, 1e4, 1e5, 5.99e5, 1e6, 1.81e6, 1e7]),
-  moonW: Object.freeze([0, 0.25, 0.5, 0.75, 1]),
+  moonW: Object.freeze([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]),
   /** 零試験の点検の数(第353便t の表 2a・統括の数え直し 3・第353便b) */
   anchor: Object.freeze({ venusToNstar: '0.508', saturnToNstar: '1.66', venusPhi: 0.7606, sunCone: '5.968', sunPeriodYr: '2.24e+8' }),
   /** 仮の値の台帳の鍵(第353便t・第353便v の lib の閉包に入る —— 本 lib の数には使わない) */
@@ -94,18 +94,18 @@ export function orbitAvg(s0, n0, N = 24) {
   return { num: m, closed, rel: nrm(sub(m, closed)) / nrm(closed), toSDir: angDeg(scl(m, -1), H.sDirClosed(s, n)) };
 }
 /** 惑星 key の公転の法線が弧 b̂ → ŝ☉ のどこに在るか */
-export function arcPos(key, { axis = 'L', T1 = E.t1Table(), GEO = E.geometry(), F = null } = {}) {
+export function arcPos(key, { axis = 'L', T1 = null, GEO = null, F = null } = {}) {
   if (!DECL.planets.includes(key)) throw new RangeError('arcPos: 8 惑星だけ(' + DECL.planets.join('・') + ')');
-  const f = F || frame(T1, GEO, { axis }), { b, s } = f, n = f.normals[key], th = angDeg(b, s);
+  const f = F || frame(T1 || E.t1Table(), GEO || E.geometry(), { axis }), { b, s } = f, n = f.normals[key], th = angDeg(b, s);
   const w = unit(crs(b, s)), side = Math.asin(Math.max(-1, Math.min(1, dot(n, w)))) / D2R, np = sub(n, scl(w, dot(n, w)));
   const e = unit(sub(s, scl(b, dot(s, b)))), along = Math.atan2(dot(np, e), dot(np, b)) / D2R, ns = nStar(b, s), ph = phiOf(s, n, b);
   return { key, axis, t: along / th, alongDeg: along, sideDeg: side, arcDeg: th, nToB: angDeg(n, b), toNstarDeg: angDeg(n, ns), phiDeg: ph.phiDeg, own: ph.own, ratio: ph.phiDeg / angDeg(n, ns) };
 }
 /** 太陽の自転軸を円錐の上で sunPhaseDeg 回し・法線を b̂ のまわりに nodeDeg 回し(incDeg を置けば b̂ との角を置き替え)たときの φ */
-export function phiAt(key, { sunPhaseDeg = 0, nodeDeg = 0, incDeg = null, axis = 'L', T1 = E.t1Table(), GEO = E.geometry(), F = null } = {}) {
+export function phiAt(key, { sunPhaseDeg = 0, nodeDeg = 0, incDeg = null, axis = 'L', T1 = null, GEO = null, F = null } = {}) {
   if (!DECL.planets.includes(key)) throw new RangeError('phiAt: 8 惑星だけ');
   if (!(fin(sunPhaseDeg) && fin(nodeDeg) && (incDeg === null || (fin(incDeg) && incDeg >= 0 && incDeg < 90)))) throw new RangeError('phiAt: 角');
-  const f = F || frame(T1, GEO, { axis }), { b } = f, s = rotAbout(f.s, b, sunPhaseDeg);
+  const f = F || frame(T1 || E.t1Table(), GEO || E.geometry(), { axis }), { b } = f, s = rotAbout(f.s, b, sunPhaseDeg);
   let n = f.normals[key];
   if (incDeg !== null) { const e = unit(sub(n, scl(b, dot(n, b)))); n = add(scl(b, Math.cos(incDeg * D2R)), scl(e, Math.sin(incDeg * D2R))); }
   n = rotAbout(n, b, nodeDeg);
@@ -139,7 +139,7 @@ export function nodeScan(T1 = E.t1Table(), GEO = E.geometry(), { axis = 'L', id 
   const F = frame(T1, GEO, { axis }), ps = Array.from({ length: n }, (_, j) => 360 * j / n - 180), a = ps.map((p) => phiAt(id, { nodeDeg: p, F }).phiDeg);
   const j0 = ps.indexOf(0), a0 = a[j0], lim = factor * a0;
   let lo = j0, hi = j0; while (lo > 0 && a[lo - 1] <= lim) lo--; while (hi < n - 1 && a[hi + 1] <= lim) hi++;
-  const firsts = ps.map((p, j) => (DECL.planets.every((k) => k === id || phiAt(k, { F }).phiDeg > a[j]) ? 1 : 0));
+  const others = DECL.planets.filter((k) => k !== id).map((k) => phiAt(k, { F }).phiDeg), oMin = Math.min(...others), firsts = a.map((x) => (x < oMin ? 1 : 0));
   return { axis, id, n, phi0: a0, min: Math.min(...a), max: Math.max(...a), argMin: ps[a.indexOf(Math.min(...a))], pct: pct(a, a0), fracLe: a.filter((x) => x <= lim).length / n,
     winLo: ps[lo], winHi: ps[hi], winDeg: ps[hi] - ps[lo] + 360 / n, firstFrac: firsts.reduce((s, x) => s + x, 0) / n };
 }
@@ -150,12 +150,14 @@ export function relSame(T1 = E.t1Table(), GEO = E.geometry(), { axis = 'L', id =
 /** 時間の窓: 交点の周期と向きの格子(ノブ)ごとに、相対の周期と、φ ≤ 2 × いまで在る時間の長さ・いまから窓を出るまでの時間 */
 export function timeRows(NS) {
   const out = [], Ps = sunPeriodYr();
-  out.push({ case: 'sunOnly', Pnode: null, sense: null, relYr: Ps, inWinYr: Ps * NS.winDeg / 360, toExitYr: Ps * Math.abs(DECL.sunSense > 0 ? NS.winHi : NS.winLo) / 360 });
+  // 相対の位相 ψ = 交点 − 太陽の位相(φ は ψ だけで決まる —— relSame)。ψ の進む率 = σ_交点 ÷ P_交点 − σ_太陽 ÷ P_太陽(負なら窓の下の端から出る)
+  const exitOf = (rate) => (rate < 0 ? Math.abs(NS.winLo) : Math.abs(NS.winHi)) / 360;
+  { const rate = -DECL.sunSense / Ps; out.push({ case: 'sunOnly', Pnode: null, sense: null, relYr: Ps, inWinYr: Ps * NS.winDeg / 360, toExitYr: Ps * exitOf(rate) }); }
   for (const P of DECL.nodePeriodsYr) for (const sg of DECL.nodeSenses) {
-    const R = relPeriodYr(P, sg), w = DECL.sunSense / Ps - sg / P, rel = w > 0 ? NS.winHi : -NS.winLo;   // 相対の位相(太陽 − 交点)の進む向き —— 交点の座標では −(太陽 − 交点)
-    out.push({ case: 'node', Pnode: P, sense: sg, relYr: R, inWinYr: R * NS.winDeg / 360, toExitYr: R * Math.abs(w > 0 ? NS.winLo : NS.winHi) / 360, dirSign: Math.sign(w), _r: rel });
+    const R = relPeriodYr(P, sg), rate = sg / P - DECL.sunSense / Ps;
+    out.push({ case: 'node', Pnode: P, sense: sg, relYr: R, inWinYr: R * NS.winDeg / 360, toExitYr: R * exitOf(rate) });
   }
-  return out.map(({ _r, ...r }) => r);
+  return out;
 }
 /** 見込み: 惑星ごとに、いまの b̂ との角を保って交点を回したとき、n★ からの角が金星のいまの値以下になる交点の割合・帽子の見本で 8 惑星のどれかが入る見込み */
 export function chanceRows(T1 = E.t1Table(), GEO = E.geometry(), { axis = 'L', n = DECL.nScan } = {}) {
@@ -192,7 +194,7 @@ export function rankPer(T1, GEO, cRs, { axis = 'L', moonAx = 'repo' } = {}, cach
   const rows = DECL.recvs.map((k) => { const c = cRs[k] === undefined ? null : cRs[k], l = T.localT(T1, GEO, k, c === null ? { moonAx } : { place: 'field', cR: c, moonAx }, cache).loc, ph = angDeg(scl(l, -1), b); return { key: k, cR: c, phiDeg: ph, own: 2 * Math.sin(ph * D2R / 2) }; });
   return rows.sort((p, q) => p.own - q.own).map((r, i) => ({ ...r, rank: i + 1 }));
 }
-const cut = (top, lo, hi, n = 30) => { if (top(lo) !== 'Venus' || top(hi) === 'Venus') return null; let a = Math.log10(lo), b = Math.log10(hi);
+const cut = (top, lo, hi, n = 16) => { if (top(lo) !== 'Venus' || top(hi) === 'Venus') return null; let a = Math.log10(lo), b = Math.log10(hi);
   for (let i = 0; i < n; i++) { const m = 0.5 * (a + b); if (top(Math.pow(10, m)) === 'Venus') a = m; else b = m; } return { at: Math.pow(10, b), next: top(Math.pow(10, b)) }; };
 /** 表 4a: 置き方 3 つ(全部同じ c_R・r × c_R★・C0 × 質量 ÷ 観測半径)の格子で金星の順位と 1 番・金星が 1 番を保つ端 */
 export function placeRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
