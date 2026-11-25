@@ -3572,6 +3572,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/rangecols-355c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第355便c: 零試験 5/題 35 × u の列 6(主の作り)/形・切り替わる u/比べる列 (ウ)(ア)' }),
   // ==== 第355便c の塊(ここまで)====
+  // ==== 第355便e の塊(ここから)====
+  // ---- 第355便e(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R508): **6 組の共通部分が開く k₂/Q を閉じた形で数えた表と、全体の係数で読む 3 つの題・枝 c の端と枝 b の正本の照合**
+  //   (段 kqopen-355e —— 正本 tests/out/kqopen-355e.json・lib tests/lib-w355e-kqopen.mjs —— 第355便b の lib を import して呼ぶ。入力のファイルは第355便b・第355便c の正本 2 本・順序 after に bgrange-355b・rangecols-355c)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入る(正本の最上位に provisional の印)。
+  S('kqopen-355e', 'node tests/exp-w355e-kqopen.mjs', ['tests/out/kqopen-355e.json'], 1, { secSource: 'w355e-branch', node: true,
+    after: ['bgrange-355b', 'rangecols-355c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は第355便b・第355便c の正本 2 本)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/kqopen-355e.json': ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便e: 零試験 7/k₂/Q 1 あたりの X 3 × 10/比の下限と上限 3/1 つの値で開く区間 3/開いた所の共通部分 8/全体の係数の題 7/枝 c の端の照合 2' }),
+  // ==== 第355便e の塊(ここまで)====
   // ==== 第355便f の塊(ここから)====
   // ---- 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・統括の検証項目 R509): **新しい geoPN=4 の計算の候補の列(表 5c)の低 N の診断 —— 列 6 × 模型 2 × γ 2 × N 2 × 種 3 の効果と離散化の幅・既存の正本の数の写し**
   //   (段 g4cols-355f —— 正本 tests/out/g4cols-355f.json・lib tests/lib-w355f-g4cols.mjs —— 第335便f・第337便e の lib を import して呼ぶ。入力のファイルは第337便e・第340便g の正本(数の写しだけ)。

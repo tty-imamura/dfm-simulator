@@ -132249,6 +132249,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   let W = null, err0 = null;
   try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
   const AS0 = rd355a('docs/AI_SPEC.md') || '', PM0 = rd355a('tools/post-merge-qa.sh') || '', EQ0 = rd355a('docs/EQUATIONS.md') || '';
+  let J0 = null; try { J0 = JSON.parse(rd355a('tests/out/bgrange-355b.json') || 'null'); } catch (e) { J0 = null; }   // 第355便e: 範囲の数は枝 b の正本の主の行
   const iS = PH0.indexOf('\n〔第355便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
   const inOther = (ph, head, a, z) => { const i = ph.indexOf('\n' + head), s = W.physSecOf(ph, head); return ph.slice(0, i + 1) + s.split(a).join(z) + ph.slice(i + 1 + s.length); };
   const blk = (id) => new RegExp('(### ' + id + ' [\\s\\S]*?)(?=\\n### |\\n## )');
@@ -132260,7 +132261,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       const g = W.libGates(); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
       if (!/^w355a-report155doc-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ 版の名の型');
       cases.push(`⓪ lib の零試験 ${g.n}(文の分け方・継ぎ・表の行の数・鎖の頭・印の継ぎと外し・冪等)・版の名の型`);
-      const R = W.checkReport155(PH0, AS0, PM0, EQ0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const R = W.checkReport155(PH0, AS0, PM0, EQ0, J0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
       const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
       const rK = s0.split('\n').find((l) => l.startsWith('| 換算の係数 | ')) || '', r3 = s0.split('\n').find((l) => l.startsWith('| 鎖 1 | ')) || '', r4 = s0.split('\n').find((l) => l.startsWith('| EQ-160 | ')) || '';
       const stepI = ' → ' + W.SRC_I + ' 「' + W.LINES.respect + '」';
@@ -132285,11 +132286,14 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         ['本節を〔第354便a〕の前に移す', [(() => { const s = W.physSecOf(PH0, W.HEAD), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第354便a — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), AS0, PM0, EQ0], /^① PHYSICS〔第355便a〕の位置/],
         ['AI_SPEC の §396 を消す', [PH0, AS0.replace(/\n## 396\. 第355便a/, '\n## 3960. 第355便a'), PM0, EQ0], /^⑦ AI_SPEC §396/],
         ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第355便a の塊(ここから)====', '# ==== 第355便a の塊===='), EQ0], /^⑦ post-merge/],
+        ['正本の主の行の上端を変える(本節の範囲の数が正本と違う —— 第355便e)', [PH0, AS0, PM0, EQ0, (() => { const j = JSON.parse(JSON.stringify(J0 || {})); const r = W.rangeMainOf(j); if (r) r.hi = r.hi * 1.01; return j; })()], /^② 表 1 /],
+        ['本節の範囲の数を第355便a の時点の字に戻す(第355便e)', [inSec(PH0, W.rangeText(J0), W.RANGE_TBD_OLD), AS0, PM0, EQ0], /^② 本節に範囲の数の仮の字/],
+        ['正本の版の名の型を崩す(第355便e)', [PH0, AS0, PM0, EQ0, Object.assign({}, J0 || {}, { version: 'bgrange' })], /^② 範囲の正本の版の名の型/],
       ];
       const sc = [];
       for (const [nm, args, re] of MUT) {
-        if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === EQ0) { bad.push('⑨ 変異「' + nm + '」が入力を変えていない'); continue; }
-        const r = W.checkReport155(...args);
+        if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === EQ0 && args.length < 5) { bad.push('⑨ 変異「' + nm + '」が入力を変えていない'); continue; }
+        const r = W.checkReport155(args[0], args[1], args[2], args[3], args.length > 4 ? args[4] : J0);
         if (re === null) { if (r.bad.length) bad.push('⑨ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
         const hit = r.bad.some((b) => re.test(b));
         if (!hit) bad.push('⑨ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
@@ -132743,7 +132747,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const W = await import('file://' + wLib355d);
     if (!/^w355d-equations-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ lib の版の名の型(w355d-equations-lib-<数>)');
     cases.push('⓪ lib の版の名の型');
-    const inp = { eq: EQ0, ph: rd355d('docs/PHYSICS.md') || '', as: rd355d('docs/AI_SPEC.md') || '', pm: rd355d('tools/post-merge-qa.sh') || '', rd: rd355d, exists: (p) => fs.existsSync(path.join(ROOT, p)) };
+    const inp = { eq: (await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'))).eqFixedView350h(EQ0, 189), ph: rd355d('docs/PHYSICS.md') || '', as: rd355d('docs/AI_SPEC.md') || '', pm: rd355d('tools/post-merge-qa.sh') || '', rd: rd355d, exists: (p) => fs.existsSync(path.join(ROOT, p)) };   // 第355便e: 世代の写し view355dOf355e(EQ-189 まで)
     const R = W.check355d(inp); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
     const S = W.selfTest355d(inp); bad = bad.concat(S.bad);
     if (S.lines.length < 12) bad.push('⑦ 変異の自己試験が 12 種より少ない(' + S.lines.length + ')');
@@ -132755,6 +132759,148 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便d の塊(ここまで)====
+// ==== 第355便e の塊(ここから —— docs.equations355e・behavior.kqopen355e・docs.kqopen355e の 3 ブロック。root は SKIP)====
+// ---- 第355便e(統括の検証項目 R508 —— 継ぎ目・計算式の一覧・共通部分が開く k₂/Q の表・html は変えない):
+// ----   docs.equations355e: **計算式の一覧の EQ-190〜EQ-194(〔第355便b〕の式)・冒頭の 1 行・§2a の 1 行・§7 の規則 24(第355便 a・d・e の分をまとめて)と、第355便d の照合へ渡す EQ-189 までの世代の写し**
+// ----     (照合の lib tests/lib-w355e-equations.mjs〔純関数 —— ファイルを読まない〕)。世代切替 = beta 対象 ∧ lib がある ∧ 計算式の一覧に「### EQ-190 」がある。
+// ----     ⓪ lib の版の名の型 ① 番号の連続と重複・EQ-190 以降は EQ-190〜EQ-194 だけ ② 欄・出どころの節〔第355便b〕と同じ字の式・経路・抜粋・台帳・比べる列・仮の値・主の列の印の欄なし
+// ----     ③ §3 の 5 行・§6 の件数の文 ④ 世代の写し view355dOf355e ⑤ 冒頭・§2a・§7 の規則 24 ⑥ PHYSICS〔第355便e〕の表・AI_SPEC §400・post-merge ⑦ 書かない語 ⑧ 変異の自己試験
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd355e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib355e = path.join(ROOT, 'tests', 'lib-w355e-equations.mjs');
+  const EQ0 = rd355e('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib355e) && EQ0.indexOf('\n### EQ-190 ') >= 0)) {
+    console.log('SKIP docs.equations355e(第355便e の EQ-190 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let bad = [], cases = [];
+  try {
+    const W = await import('file://' + wLib355e);
+    if (!/^w355e-equations-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ lib の版の名の型(w355e-equations-lib-<数>)');
+    cases.push('⓪ lib の版の名の型');
+    const inp = { eq: EQ0, ph: rd355e('docs/PHYSICS.md') || '', as: rd355e('docs/AI_SPEC.md') || '', pm: rd355e('tools/post-merge-qa.sh') || '', rd: rd355e, exists: (p) => fs.existsSync(path.join(ROOT, p)) };
+    const R = W.check355e(inp); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const S = W.selfTest355e(inp); bad = bad.concat(S.bad);
+    if (S.lines.length < 15) bad.push('⑧ 変異の自己試験が 15 種より少ない(' + S.lines.length + ')');
+    cases.push(`⑧ 変異の自己試験 ${S.lines.length} 種: ` + S.lines.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('docs.equations355e', bad.length === 0,
+    `**計算式の一覧の EQ-190〜EQ-194(第355便b の背景の大きさの範囲を主の作りで数える式 —— 出どころの節と同じ字の式・欄・抜粋は lib の定義の範囲・比べる列と仮の値の印)・冒頭の 1 行・§2a・§7 の規則 24 と、第355便d の照合へ渡す EQ-189 までの世代の写し**(第355便e・R508 —— 既存の項の行は書き換えない・文書): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- behavior.kqopen355e(正本と照合 —— html を読まない・照合は第338便c の recheckRun): ① 版(正本の記録と名の型)・宣言・零試験 7 ② 器の runAll を走らせ直して正本と同じ
+// ----   ③ QA の中で別に書いた式: 比の端を表 1 の a から直に(最大と最小)・1 つの値で開く区間の端の両側で共通部分が閉じる/開く・枝 c の端 = 枝 b の正本の主の行の端の 3 桁(2 つの正本を読む) ④ 門・仮の値の印・import の閉包
+// ---- docs.kqopen355e: 表 2〜表 7 と数の文が文書の lib の出力と逐語・位置(〔第355便d〕より後・統括の節より前)・書かない語・段・.gitignore・post-merge・AI_SPEC §400
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w355e-kqopen.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w355e-kqopen.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w355e-kqopendoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'kqopen-355e.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.kqopen355e・docs.kqopen355e(第355便e の共通部分が開く k₂/Q の表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, R338 = null, E347 = null, J = null, Jb = null, Jc = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc);
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); E347 = await import('file://' + path.join(ROOT, 'tests', 'lib-w347e-spintorque.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  try { Jb = JSON.parse(rd('tests/out/bgrange-355b.json')); Jc = JSON.parse(rd('tests/out/rangecols-355c.json')); } catch (e) { Jb = null; }
+  const js = (x) => JSON.stringify(x), near = (a, b, t) => (a === b) || Math.abs(a / b - 1) <= t;
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/kqopen-355e.json が読めない');
+    else if (!Jb || !Jc) bad.push('入力 tests/out/bgrange-355b.json・tests/out/rangecols-355c.json が読めない');
+    else {
+      try {
+        // ① 版・宣言・零試験
+        if (!((L.LIB_VERSION === J.libVersion && /^w355e-kqopen-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w355e-kqopen-\d+$/.test(X.HARNESS_VERSION)) && /^w355e-kqopendoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 版は正本の記録と名の型で見る(第344便f の形)
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        const DL = L.DECL;
+        if (!(DL.build === 'M' && DL.ref === 'obs' && DL.partAsLock === true && js(DL.modes) === js(['obs', 'sync', 'syncAbs']) && js(DL.kModes) === js(['common', 'c337']) && js(DL.k0) === js({ c: 1e-2, s: 3e-3, g: 1e-5 }) && js(DL.over) === js([1.001, 1.01, 1.05, 1.2]) && DL.uFocus === 0.98))
+          bad.push('① 宣言(主の作り・観測の半径・主の読み・置き方 3・k₂/Q 2・いまの k₂/Q・開く端の倍・0.98)');
+        const o = { T1: E347.t1Table(), GEO: E347.geometry() }, PS = L.pureScenes(Jb, o), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 7) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(種類・いまの 6 組の共通部分と組ごとの範囲 = 第355便b の正本・k₂/Q に比例・定数の条件・開く下限の両側・いまは閉じている)`);
+        // ② 器を走らせ直して正本と同じ
+        const parts = ['pure', 't1', 't2', 't3', 't4', 't5', 't6'];
+        const RC = R338.recheckRun(() => { const q = X.runAll(Jb, Jc); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・' + diffs[k].first).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length);
+        cases.push(`② 器を走らせ直して ${parts.length} 部分が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ QA の中で別に書いた式(表 1 の a から: 比 x/y の上限 = min a_j(q)/a_i(p) —— ロックしない p・ロックの側 q)
+        const sym = (km, kind) => (km === 'common' ? 'c' : kind), lk = (st) => st === 'lock' || st === 'part', ub = {};
+        for (const mi of J.t1) for (const mj of J.t1) for (const ki of ['common', 'c337']) for (const kj of ['common', 'c337']) for (const p of mi.rows) for (const q of mj.rows) {
+          if (lk(p.state) || !lk(q.state)) continue; const k = sym(ki, p.kind) + '/' + sym(kj, q.kind), c = q.a / p.a; if (!(k in ub) || c < ub[k]) ub[k] = c; }
+        let n3 = 0;
+        for (const r of J.t2.ratios) { const hi = ub[r.x + '/' + r.y], lo = ub[r.y + '/' + r.x]; n3++;
+          if (!((hi === undefined ? r.hi === null : near(r.hi, hi, 1e-12)) && (lo === undefined ? r.lo === null : near(r.lo, 1 / lo, 1e-12)))) bad.push('③ 比の端を表 1 の a から直に作り直して違う ' + r.x + '/' + r.y); }
+        const U = L.unitRows(o), K0 = DL.k0;
+        for (const r of J.t3) { if (r.lo > 0) { const a = L.commonAt({ ...K0, [r.sym]: r.lo * (1 - 1e-7) }, U), b = L.commonAt({ ...K0, [r.sym]: r.lo * (1 + 1e-7) }, U);
+            if (!(a.open === false && b.open === true)) bad.push('③ 開く区間の下端の両側 ' + r.sym); }
+          if (r.hi !== null) { const a = L.commonAt({ ...K0, [r.sym]: r.hi * (1 - 1e-7) }, U), b = L.commonAt({ ...K0, [r.sym]: r.hi * (1 + 1e-7) }, U);
+            if (!(r.lo === 0 ? a.open === false : a.open === true) || b.open !== false) { if (!(r.sym === 'g')) bad.push('③ 開く区間の上端の両側 ' + r.sym); } } }
+        const mb = Jb.t3.rows.find((q) => q.build === Jb.decl.mainBuild && q.ref === Jb.decl.refMain && q.mode === Jb.decl.modeMain && q.k2q === Jb.decl.k2qMain && q.partAsLock === Jb.decl.partAsLockMain);
+        const r3 = (x) => Number(Number(x).toPrecision(3));
+        if (!(mb && r3(mb.lo) === Jc.ends.lo && r3(mb.hi) === Jc.ends.hi)) bad.push('③ 枝 c の端(' + (Jc.ends && Jc.ends.lo) + '・' + (Jc.ends && Jc.ends.hi) + ')が枝 b の正本の主の行の端の 3 桁と違う');
+        cases.push(`③ 比の端 ${n3} を表 1 の a から直に・1 つの値で開く区間の端の両側で閉じる/開く・枝 c の端 ${Jc.ends.lo}・${Jc.ends.hi} = 枝 b の正本の主の行の端の 3 桁(2 つの正本を読んで比べる)`);
+        // ④ 門・仮の値の印・呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        if (!(J.provisional === true && js(J.provKeys) === js(Jb.provKeys) && typeof J.provMark === 'string' && J.provMark.length > 0)) bad.push('④ 仮の値の印(最上位の provisional・provKeys〔第355便b と同じ〕・provMark)');
+        const tl = rd('tests/lib-w355e-kqopen.mjs'), th = rd('tests/exp-w355e-kqopen.mjs'), td = rd('tests/lib-w355e-kqopendoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsD = [...td.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]);
+        if (!(js(imps) === js(['lib-w355b-bgrange.mjs']) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w347e-spintorque.mjs', 'lib-w355e-kqopen.mjs']) && impsD.length === 0 && !/loadHtml|index\.html/.test(tl + td + th)))
+          bad.push('④ import の閉包(lib は第355便b の lib だけ・器は来歴と照合と第347便e と本 lib・文書の lib は import しない・html を読まない)');
+        cases.push('④ 門 ' + Object.keys(G2).length + ' 全部真・仮の値の印(provKeys は第355便b と同じ)・import の閉包・html を読まない');
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.kqopen355e', bad.length === 0,
+      `**6 組(自転の置き方 3 × k₂/Q の置き方 2)の共通部分が開く k₂/Q を閉じた形で数えた表と、全体の係数で読む 3 つの題・枝 c の端と枝 b の正本の照合**(第355便e・R508 —— 診断だけ・潮汐のトルクは比べる列(DFM の式ではない)・k₂/Q は仮の値・未照合): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  {
+    const bad = [], cases = [];
+    if (err0 || !J) bad.push('器/lib/正本が読めない: ' + (err0 || '正本'));
+    else {
+      try {
+        const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), PM = rd('tools/post-merge-qa.sh'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore');
+        const iE = PH.indexOf('\n〔第355便e — '), iD = PH.indexOf('\n〔第355便d — '), iT = PH.indexOf('\n〔第328便 — 統括');
+        if (!(iE >= 0 && iD >= 0 && iD < iE && iT > iE)) bad.push('① PHYSICS〔第355便e〕の位置(〔第355便d〕より後・統括の節より前)');
+        const z = PH.slice(iE + 2).search(/\n〔第\d+便[a-z]* — |\n〔第\d+便 — /), sec = iE < 0 ? '' : PH.slice(iE + 1, z < 0 ? PH.length : iE + 2 + z);
+        const T = D0.tablesOf(J), F = D0.factsOf(J);
+        for (const [k, t] of Object.entries(T)) if (sec.indexOf(t) < 0) bad.push('② 表 ' + k + ' が文書の lib の出力と逐語で無い');
+        for (const [k, t] of Object.entries(F)) if (sec.indexOf(t) < 0) bad.push('② 数の文 ' + k + ' が文書の lib の出力と逐語で無い');
+        cases.push(`① 位置 / ② 表 ${Object.keys(T).length}・数の文 ${Object.keys(F).length} が文書の lib の出力と逐語`);
+        const NEVER = ['再現した', '再現しない', '私信', '添付', '審査', '合わせられない', '普遍定数', '収束した', '法則を発見した', 'フィットした', '較正した', '完全に一致'];
+        const PAST = ['合った', '決まった', '導けた', '釣り合った', '確かめた', '示した', '説明できた', 'ロックした', '直った', '対応した', '通るようになった'];
+        const outQ = (t) => t.replace(/「[^「」]*」/g, '').replace(/「[^「」]*」/g, '').replace(/『[^』]*』/g, '');
+        const ai = (() => { const a = AS.search(/\n## 400\. 第355便e/); if (a < 0) return ''; const b = AS.indexOf('\n## ', a + 4); return AS.slice(a, b < 0 ? AS.length : b); })();
+        for (const [nm, tx] of [['PHYSICS〔第355便e〕', sec], ['AI_SPEC §400', ai]]) {
+          for (const w of NEVER) if (tx.indexOf(w) >= 0) bad.push('③ ' + nm + ' に引用の中でも書かない語「' + w + '」');
+          for (const w of PAST) if (outQ(tx).indexOf(w) >= 0) bad.push('③ ' + nm + ' に書かない語「' + w + '」');
+          if (/第1[45]\d報/.test(tx)) bad.push('③ ' + nm + ' に「第〜報」の番号');
+          if (/固定(?!しない|せず)/.test(outQ(tx))) bad.push('③ ' + nm + ' に「固定」(固定しない のほか)');
+          if (/(^|[^_A-Za-z])κ/.test(tx)) bad.push('③ ' + nm + ' に裸の係数記号');
+        }
+        cases.push(`③ 書かない語(引用の中でも ${NEVER.length}・引用の外 ${PAST.length}・「第〜報」・「固定」・係数記号)—— 節と §400`);
+        if (!(/S\('kqopen-355e', 'node tests\/exp-w355e-kqopen\.mjs', \['tests\/out\/kqopen-355e\.json'\]/.test(RT) && RT.indexOf('// ==== 第355便e の塊(ここから)====') > RT.indexOf('// ==== 第355便c の塊(ここまで)====') && RT.indexOf('// ==== 第355便c の塊(ここまで)====') >= 0)) bad.push('④ 段の行 kqopen-355e(第355便c の塊より後)');
+        if (!(GI.indexOf('!tests/out/kqopen-355e.json') >= 0 && GI.indexOf('# ==== 第355便e の塊(ここから)====') > GI.indexOf('# ==== 第355便c の塊(ここまで)===='))) bad.push('④ .gitignore の例外(第355便c の塊より後)');
+        if (!(PM.indexOf('# ==== 第355便e の塊(ここから)====') > PM.indexOf('# ==== 第355便d の塊(ここまで)====') && /behavior\.kqopen355e docs\.kqopen355e/.test(PM))) bad.push('④ post-merge に第355便e の塊(第355便d の塊より後)');
+        if (!(ai && ['behavior.kqopen355e', 'docs.kqopen355e', 'k₂/Q', '仮の値・未照合'].every((w) => ai.indexOf(w) >= 0))) bad.push('④ AI_SPEC §400 に共通部分が開く k₂/Q の行');
+        cases.push('④ 段・.gitignore・post-merge・AI_SPEC §400');
+      } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('docs.kqopen355e', bad.length === 0,
+      `**PHYSICS〔第355便e〕の 6 組の共通部分が開く k₂/Q の表・全体の係数の題・枝 c の端の照合の表が正本から作った字と同じ**(第355便e・R508 —— 文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第355便e の塊(ここまで)====
 // ==== 第355便f の塊(ここから —— behavior.g4cols355f・docs.g4cols355f の 2 ブロック。root は SKIP)====
 // ---- 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・統括の検証項目 R509 —— 診断と文書だけ・html は変えない):
 // ----   **新しい geoPN=4 の計算の候補の列の表(表 5c)と低 N の診断**(新設 —— 器 tests/exp-w355f-g4cols.mjs〔html を読まない〕・lib tests/lib-w355f-g4cols.mjs・文書の lib tests/lib-w355f-g4colsdoc.mjs・
