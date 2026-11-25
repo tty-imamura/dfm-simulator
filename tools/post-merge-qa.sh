@@ -1918,6 +1918,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heat3d355g docs.heat3d355g"
 #   仕様の頭の短いページと写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書/behavior.aichatIntake355h —— 返答の検査の器の自己試験 7 本)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 # ==== 第355便h の塊(ここまで)====
+# ==== 第355便i の塊(ここから)====
+# 第355便i(統括の検証項目 R512 —— 診断と文書だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.replaw355i —— 零試験 10・組 2 つと零試験の照合の行を第338便c の recheckRun で作り直して正本と照合・冪と印を QA の中で別に書いた式で照合 /
+#   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
+# ==== 第355便i の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
