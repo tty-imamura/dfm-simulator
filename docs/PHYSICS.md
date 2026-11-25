@@ -75845,6 +75845,37 @@ QA `behavior.venuslock353g`・`docs.venuslock353g`(root は SKIP)。
 
 **⑦ 書かないこと。** 環の傾きの答えとは書かない。円盤引きずりの型を決めていない。🛟 の本の「達」は、その本の目的(探索用・未較正)で、円盤引きずりの型を採ったことではない。表 6 の切り分けは統括の読みの表で、題が軸引きずりの内か外かの判定ではない。QA `behavior.ringdisk353h`(零試験 9・器を走らせ直して正本と照合・呼ぶだけ)・`docs.ringdisk353h`(原文と表と数の文が本節に逐語・節の位置・書かない語)。
 
+〔第353便i — 道具: 部分 QA の読み分けの包みの要約の行の数・統合の直後の部分 QA の道具の stderr の置き場・事前検査の一時の写しの名の型と古い写しの掃除・版の番号の台帳・ルートの古い脚本(統括の検証項目 R473)(**道具と戻り止めと文書だけ —— beta/index.html と root の index.html は 1 byte も変えていない・物理の lib・器・正本・計算式の一覧は変えていない・検査の閾値と判定式は変えていない**・lib `tests/lib-w353i-qatemp.mjs`(版 w353i-qatemp-lib-1)・道具 `tools/versions-registry.mjs`(版 w353i-versions-registry-1)・台帳 `tests/data-w353i-versions.json`)〕
+
+**① 出どころ。** 外からの点検で指摘された点(5 つ): (1) `tools/qapart-verdict.mjs` は、束でない走行(`--batch` の頭の行が無い)でも `# qapart-summary` の行を全部足していた (2) `tools/post-merge-qa.sh` に「道具の stderr を捨てて、落ちたら文だけ出す」形が 9 か所 (3) 事前検査の道具 `tests/qa-preflight.mjs` は走っている間 `tests/.qa-preflight-<pid>.mjs`(`tests/qa.mjs` のブラウザに触れない文の写し)を置く —— 異常終了で残り、`tests/` を走査する検査が読みうる(第352便b で 1 か所を直した)(4) 版の照合を「正本の記録と名の型」で書く形(第344便f)は、lib と正本が一緒に版を上げると何版でも通る (5) ルートに古い `_scratch-exp-w246b-floor.mjs` が追跡されたまま残っていた。
+
+**② 何を直したか。** (1) 包み: 束でない走行で要約の行が 2 本以上なら NG(終了コード 1・理由の 1 行「束でない走行(--batch の頭の行が無い)に要約の行が n 本」)。自己試験は 12 通り(足したのは「束でない走行に要約の行が 2 本(出力を重ねた)」)。`--batch` の読みは今までどおり。包みの版の字 w351i-qapart-verdict-1 は変えていない(既存の鍵 `lint.changelogHeadRe351i` が字で読む)。(2) `tools/post-merge-qa.sh`: 9 か所の stderr を置き場のファイルへ流し、落ちたときの文にそのファイルの道を書く。置き場は `POST_MERGE_ERR_DIR`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<pid>/`)・ファイルは `<印>.XXXXXX`(第353便i の塊の `pmerr353i <印>`)。終わるときに空のファイルを消し、置き場が空なら置き場も消す —— `--dry` の出力と置き場の跡は変わらない。(3) 名の型を `tests/lib-w353i-qatemp.mjs` の `isQaTempCopy(name)`(`/^\.qa-preflight-\d+\.mjs$/`)に 1 か所にまとめ、`tests/qa.mjs` の第352便b の塊の走査の 1 行をこの関数を呼ぶ形にした(意味は同じ)。`tests/qa-preflight.mjs` は始めに、生きていない pid の古い写しを消す(`staleTempCopies` —— 自分の pid と生きている pid の写しは消さない・消したときだけ 1 行)。自分の写しは今までどおり終わるときに消す(SIGKILL や箱の再起動で残った写しは、次の走行の始めに消える)。(4) 版の番号の台帳(下の ④)。(5) `_scratch-exp-w246b-floor.mjs` を参照する所が自分の中の実行の注だけであることを `grep -rn` で見てから外した。
+
+**③ `tests/` を走査する所の分類(`tests/qa.mjs` の中で `tests/` を読み、`.mjs` の本文を読む所 —— 字句で 13 所)。** 「除いている」= 名の型の lib を呼ぶ/「dot で始まる名を読まない」= 名の型の式が字(`exp-`・`lib-` など)で始まり、写しの名を受けない/「読むが判定は同じ」= 写しを読むが、写しの本文は `tests/qa.mjs` の行の部分集合と包みの 2 行で、判定の式が `tests/qa.mjs` と包みに当たらない。手元で 1 回だけ本物の `tests/` に写し(`tests/qa.mjs` の全文)を置いて 14 鍵を走らせ、写しの無い走行と PASS・FAIL が同じであることを見て、写しを消した(違いは `lint.docNames318` の「現行の参照」のファイルの数が 1 増える文だけ)。鍵の中では本物の `tests/` に写しを置かない(作りものの木で名の選び方を比べる)。
+
+| 鍵 | 名の型 | 分類 |
+|---|---|---|
+| `lint.regenScope` | `^exp-.*\.mjs$` | dot で始まる名を読まない |
+| `lint.valdiffDecl313` | `^(exp\|lib)-.*\.mjs$` | dot で始まる名を読まない |
+| `lint.docNames318` | `\.mjs$`(tests・tools・docs を読む) | 読むが判定は同じ(旧名の式が `tests/qa.mjs` に当たらない —— ファイルの数の文が 1 増える) |
+| `docs.regenShort319c` | `^lib-w3\d\d[a-z]-(pre\|legacy7)\.mjs$` | dot で始まる名を読まない |
+| `lint.laterBooks319`(2 所) | `^(exp\|lib)-.*\.mjs$` | dot で始まる名を読まない |
+| `docs.geo3Bin321b` | `^(exp\|lib)-.*\.mjs$` | dot で始まる名を読まない |
+| `lint.quickEnvWin325d` | `^exp-.*\.mjs$` | dot で始まる名を読まない |
+| `docs.symbols333e` | `^lib-.*\.mjs$` | dot で始まる名を読まない |
+| `lint.jsonPathInputs337f` | `^exp-.*\.mjs$` | dot で始まる名を読まない |
+| `behavior.judgeScale341c` | `\.mjs$`(`qa.mjs` は除く) | 読むが判定は同じ(呼び出しの式が `tests/qa.mjs` に当たらない) |
+| `lint.partExplicit352a` | 第352便a の lib の `PART_FILE_RE`(`^(?:lib\|exp)-w352…`) | dot で始まる名を読まない |
+| `lint.provisionalScope352b` | `\.mjs$`(`qa.mjs` と写しを除く) | 除いている(`isQaTempCopy` を呼ぶ) |
+
+表の外の所(後の便で増えた所)は、鍵 `lint.qaTempCopy353i` が字句で分類する(名の型の lib を呼ぶ → 除いている/名の型の式が字で始まる → dot で始まる名を読まない/どちらでもない → 違反 —— 表に足す)。`tests/qa.mjs` の外(lib・道具)の走査はこの表に入れていない。
+
+**④ 版の番号の台帳(`tests/data-w353i-versions.json`・道具 `tools/versions-registry.mjs`)。** 第353便以降の lib と器(`tests/lib-w353*.mjs`・`tests/exp-w353*.mjs` など —— 名の波の番号が 353 以上)と、第352便za の lib・器(`tests/lib-w352za-sconseq.mjs`・`tests/lib-w352za-sconseqdoc.mjs`・`tests/exp-w352za-sconseq.mjs`)の「期待する版の字」(`LIB_VERSION`・`DOC_VERSION`・`HARNESS_VERSION` —— 字句で読む・器は走らせない)を 1 か所に持つ。`node tools/versions-registry.mjs --check` は台帳と木を比べ(終了コード 0 同じ/1 違う/2 台帳が読めない)、正本(`tests/out/*.json` のうち generator が台帳の器のもの —— 第353便以降の正本を含む)の `version` と `libVersion` が台帳と同じかを見る。lib と正本が一緒に版を上げても、台帳を引き直すまでは「違う」と出る。**統合のたびに、統括が `node tools/versions-registry.mjs --write` で引き直す**(名簿と同じ運用 —— 版を上げた lib・器と正本の組を見てから)。ほかの枝の lib は基点に無いので、基点の時点で載るのは第352便za の 3 本と本便の lib の 4 本。事前検査の一時の写しは読まない。
+
+**⑤ 戻り止め。** `lint.qaTempCopy353i`(beta・root の両方で走る): ① 名の型の lib の自己試験 ② 走査の所の数と分類 ③ 作りものの木で写しの有る無しの名の選び方・古い写しの選び方・事前検査の道具の掃除と後始末の行 ④ 包みの要約の行の数 ⑤ post-merge の置き場(9 か所・捨てる形の残り 0・作りものの失敗で道と中身・`--dry`)。`lint.versionRegistry353i`(beta・root の両方で走る): 道具の自己試験・台帳と木・第353便以降の lib と器が全部載る・正本の版。`docs.tools353i`(root は SKIP): 本節・AI_SPEC §365・`tools/README.md` の節・post-merge の塊。
+
+**⑥ 書かないこと。** 検査の厳しさの評価は書かない(何を変えたかだけ)。事前検査が速くなった・軽くなったとは書かない。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。

@@ -5752,3 +5752,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: 傾き 0.1〜30° の輪の法線が土星の赤道面へ寄る率 ÷ 環の物差し(1e7 年で e 分の 1 —— 文献の値・未照合)を、(i) 軸引きずりの (S)・規則の半径/(ii) 同・観測の半径(比べる列)/(iii-a) 〔第351便j〕の輪 (C1)(C2)/(iii-b) 🛟 の率で並べた。器 `tests/exp-w353h-ringdisk.mjs`・lib `tests/lib-w353h-ringdisk.mjs`(口 `axialRow`・`diskRow`・`bookRow`・`cellRow`・`splitRows`・`yardOf`・`yardOfRate`)・正本 `tests/out/ringdisk-353h.json`・段 `ringdisk-353h`(Node だけ・html を読まない・入力は 🛟 の正本・仮の値の lib に届かない)。
 - **AI が読むときの要点**: どれも候補の表(この場・この列・このノブでは)。(iii-a) (C2) は (ii) の 0.809 倍で区分に依らない —— これまでの円盤引きずりの側の候補は、源を観測の半径に置いた土星の自転の分と同じ作りの量。源を規則の半径に置いた円盤引きずりの側の場は未作成。🛟 の本の「達」はその本の目的で、円盤引きずりの型を採ったことではない。
 - QA `behavior.ringdisk353h`・`docs.ringdisk353h`(本節と PHYSICS〔第353便h〕 —— root は SKIP)。
+
+## 365. 第353便i —— 道具: 部分 QA の読み分けの包みの要約の行の数・統合の直後の部分 QA の道具の stderr の置き場・事前検査の一時の写しの名の型と古い写しの掃除・版の番号の台帳(統括の検証項目 R473・**html は変えない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。道具だけ: `tools/qapart-verdict.mjs`(束でない走行で要約の行が 2 本以上なら NG)・`tools/post-merge-qa.sh`(道具の stderr を置き場 `POST_MERGE_ERR_DIR` のファイルへ流し、落ちたときの文にファイルの道)・`tests/lib-w353i-qatemp.mjs`(事前検査の一時の写しの名の型 `isQaTempCopy`・古い写しの選び方 `staleTempCopies`)と `tests/qa-preflight.mjs`(始めに生きていない pid の古い写しを消す)・版の番号の台帳 `tests/data-w353i-versions.json` と `tools/versions-registry.mjs`(`--check`・`--write`)・ルートの古い脚本を外した。
+- **AI が本を作るときの説明**: 本を作る側には関係しない(道具と戻り止めだけ)。本節は **SYSTEM_PROMPT には載せない**。
+- QA `lint.qaTempCopy353i`・`lint.versionRegistry353i`(beta・root の両方)・`docs.tools353i`(root は SKIP)。
