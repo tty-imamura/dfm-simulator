@@ -127606,8 +127606,8 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         const lin = R1.filter((r) => r.main && Math.abs(r.slopeMax - r.slopeMin) < 1e-6 * Math.abs(r.slopeMin));
         if (!(lin.length >= 7 && lin.every((r) => Math.abs(r.tStar - (-l10(r.q0) / r.slopeMin)) < 1e-6))) bad.push('③ 対数で直線の行の t = −log₁₀(量 t 0) ÷ 傾き(' + lin.length + ' 行)');
         const slopeOf = (src) => 2 * l10(1 / sr(src).ruleOverObs);
-        if (!(Math.abs(rw('venus-rule').slopeMin - slopeOf('Sun')) < 1e-6 && Math.abs(rw('ring-ringB').slopeMin - slopeOf('Saturn')) < 2e-2 && Math.abs(rw('earth-E').slopeMin - slopeOf('Earth')) < 1e-6))
-          bad.push('③ 傾き = 2 log₁₀(観測 ÷ 規則)(太陽・地球 —— 土星は土星の単位の半径の差 2e-2 の内)');
+        if (!(Math.abs(rw('venus-rule').slopeMin - slopeOf('Sun')) < 1e-6 && Math.abs(rw('ring-ringB').slopeMin / slopeOf('Saturn') - 1) < 5e-3 && Math.abs(rw('earth-E').slopeMin - slopeOf('Earth')) < 1e-6))
+          bad.push('③ 傾き = 2 log₁₀(観測 ÷ 規則)(太陽・地球 —— 土星は土星の単位〔第338便d の本の質量と半径〕との差で相対 5e-3 の内)');
         for (const r of R1.filter((x) => x.tStar !== null && ['Sun', 'Jupiter', 'Earth'].includes(x.src))) if (!(Math.abs(r.overRule / Math.pow(1 / sr(r.src).ruleOverObs, r.tStar) - 1) < 1e-9)) bad.push('③ 半径の倍 = (観測 ÷ 規則)^t ' + r.id);
         for (const r of R1.filter((x) => x.topic === 'venus')) if (!(Math.abs(r.k0 * r.q0 - 1) < 1e-12 && Math.abs(r.k1 * r.q1 - 1) < 1e-12)) bad.push('③ k × 量 = 1 ' + r.id);
         for (const s of J.t2) { const GM = 6.6743e-11 * s.M, Rc = { sync: Math.cbrt(GM / (s.w * s.w)), invF: s.Rrule / s.f, invQ: s.Rrule / (s.w * s.w * s.Robs ** 3 / GM) };
