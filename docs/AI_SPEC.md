@@ -5753,6 +5753,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: どれも候補の表(この場・この列・このノブでは)。(iii-a) (C2) は (ii) の 0.809 倍で区分に依らない —— これまでの円盤引きずりの側の候補は、源を観測の半径に置いた土星の自転の分と同じ作りの量。源を規則の半径に置いた円盤引きずりの側の場は未作成。🛟 の本の「達」はその本の目的で、円盤引きずりの型を採ったことではない。
 - QA `behavior.ringdisk353h`・`docs.ringdisk353h`(本節と PHYSICS〔第353便h〕 —— root は SKIP)。
 
+## 365. 第353便i —— 道具: 部分 QA の読み分けの包みの要約の行の数・統合の直後の部分 QA の道具の stderr の置き場・事前検査の一時の写しの名の型と古い写しの掃除・版の番号の台帳(統括の検証項目 R473・**html は変えない**)
+- **何が変わったか**: アプリは変えていない(beta/index.html と root の index.html は 1 byte も変えていない)。道具だけ: `tools/qapart-verdict.mjs`(束でない走行で要約の行が 2 本以上なら NG)・`tools/post-merge-qa.sh`(道具の stderr を置き場 `POST_MERGE_ERR_DIR` のファイルへ流し、落ちたときの文にファイルの道)・`tests/lib-w353i-qatemp.mjs`(事前検査の一時の写しの名の型 `isQaTempCopy`・古い写しの選び方 `staleTempCopies`)と `tests/qa-preflight.mjs`(始めに生きていない pid の古い写しを消す)・版の番号の台帳 `tests/data-w353i-versions.json` と `tools/versions-registry.mjs`(`--check`・`--write`)・ルートの古い脚本を外した。
+- **AI が本を作るときの説明**: 本を作る側には関係しない(道具と戻り止めだけ)。本節は **SYSTEM_PROMPT には載せない**。
+- QA `lint.qaTempCopy353i`・`lint.versionRegistry353i`(beta・root の両方)・`docs.tools353i`(root は SKIP)。
+
 ## 366. 第353便j —— 金星の条件と注目の列 u = 0.98 を同時に置く道: 換算の係数 k × 受け手の半径の係数 c_R の組 8 つで金星が 2%(5%)以下まで打ち消す組と、その組を全部の受け手に同じに掛けたときの副作用・金星とイオを同じ組で(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R474・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
 - **何をしたか**: u 0.98・背景 (N+) L・(S) 規則の半径の源で、規則の半径・(P-場) c_R 6 点・(P-応) の組ごとに金星で等大の k を数え、その組を 8 惑星・太陽・月・イオ・冥王星に同じに掛けた(局所 ÷ 背景・合成と L の角・円錐・自転と合成の順逆・傾きを保つ f の上限・(g2−) の回る向き・題の欄・イオの打ち消し)。器 `tests/exp-w353j-venus098.mjs`・lib `tests/lib-w353j-venus098.mjs`(口 `kFor`・`sideRow`・`pairRow`・`topicRow`・`ioRow`・`combos`・`provOf`)・正本 `tests/out/venus098-353j.json`(最上位に provisional: true と仮の値の鍵の一覧)・段 `venus098-353j`(Node だけ・html を読まない)。
 - **AI が読むときの要点**: どれも候補の表(この場・この組・このノブでは)。金星の残り 2% 以下の組は規則の半径・(P-応)・(P-場) c_R ≤ 0.0128 —— どの組でも水星・地球・火星・月・イオの局所は背景の 0.1 倍を越える。k・c_R の値は決めていない。仮の値は未照合。

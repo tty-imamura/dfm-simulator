@@ -125374,6 +125374,234 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第353便e の塊(ここまで)====
 
+// ==== 第353便i の塊(ここから —— lint.qaTempCopy353i・lint.versionRegistry353i・docs.tools353i の 3 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第353便i(統括の検証項目 R473): **道具の前倒し**(外からの点検で指摘された点 —— html・器・既存の lib・正本・検査の閾値と判定式は変えない)。
+// ----   lint.qaTempCopy353i:
+// ----     ① tests/lib-w353i-qatemp.mjs の自己試験(名の型 /^\.qa-preflight-\d+\.mjs$/・pid・生きていない pid の写しだけを選ぶ —— 作りものの木)
+// ----     ② tests/qa.mjs の中で tests/ を走査して .mjs の本文を読む所を字句で数え(本塊は数えない)、所ごとの分類の表と同じこと:
+// ----        「除いている」(名の型の lib を呼ぶ)/「dot で始まる名を読まない」(名の型の式が ^exp- ・^lib- などで始まる —— 写しの名を受けない)/
+// ----        「読むが判定は同じ」(写しの本文は qa.mjs の行の部分集合と包みの 2 行 —— 判定の式が qa.mjs と包みに当たらない)
+// ----     ③ 作りものの木(一時のディレクトリ)に写しを置いて、「除いている」「dot で始まる名を読まない」所の名の選び方が、写しの有る無しで同じ
+// ----        (本物の tests/ に写しは置かない)・事前検査の道具が始めに古い写しを消す(staleTempCopies)・自分の写しを終わるときに消す行が残る
+// ----     ④ 部分 QA の読み分けの包み: 束でない走行で要約の行が 2 本以上なら NG(終了コード 1・理由の 1 行)・自己試験に 1 ケース・--batch の読みは今までどおり
+// ----     ⑤ tools/post-merge-qa.sh: stderr を捨てて「落ちたら文だけ出す」形の 9 か所が置き場のファイル(pmerr353i)へ・落ちたときの文にファイルの道・
+// ----        --dry の出力の形と、置き場を何も残さないこと・作りものの失敗で道とファイルの中身
+// ----   lint.versionRegistry353i: tools/versions-registry.mjs の自己試験・台帳 tests/data-w353i-versions.json と木が同じ・第353便以降の lib と器が全部載る・
+// ----     正本(generator が台帳の器 —— tests/out/*-353*.json を含む)の version・libVersion が台帳と同じ(版の字は字句で読む —— 字で期待しない)
+// ----   docs.tools353i: PHYSICS〔第353便i〕(〔第352便za〕の後)・AI_SPEC §365・tools/README.md の節・post-merge の塊・書かない語。
+{
+  await (async () => {   // 第310便c(heap)
+  const rd353i = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const os353i = (await import('node:os')).default;
+  const { spawnSync: sp353i } = await import('node:child_process');
+  // ───── lint.qaTempCopy353i ─────
+  {
+    const bad = [], cases = [];
+    let tmp = null;
+    try {
+      const QT = await import('file://' + path.join(ROOT, 'tests', 'lib-w353i-qatemp.mjs'));
+      tmp = fs.mkdtempSync(path.join(os353i.tmpdir(), 'w353i-'));
+      fs.mkdirSync(path.join(tmp, 'st'));
+      const st = QT.selfTest353i(path.join(tmp, 'st'));
+      if (!st.ok) bad.push('① 名の型の lib の自己試験: ' + st.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+      if (!/^w353i-qatemp-lib-\d+$/.test(QT.LIB_VERSION)) bad.push('① 名の型の lib の版の型 ' + QT.LIB_VERSION);
+      cases.push(`① 名の型の lib(${QT.LIB_VERSION})の自己試験 ${st.rows.length} 通り ${st.ok ? '全部期待どおり' : 'NG'}`);
+      // ② 走査の所を字句で数える(本塊の行は数えない)
+      const QA = rd353i('tests/qa.mjs') || '', QL = QA.split('\n');
+      const b0 = QL.findIndex((l) => l.startsWith('// ==== 第353便i の塊(ここから')), b1 = QL.findIndex((l) => l.startsWith('// ==== 第353便i の塊(ここまで'));
+      if (!(b0 >= 0 && b1 > b0)) bad.push('② 本塊の印が無い');
+      const TD = "readdirSync(path.join(ROOT, 'tests'))", VD = /readdirSync\(path\.join\(ROOT, (?:d|dir)\)\)/, TQ = "'tests'";
+      const sites = [];
+      QL.forEach((l, i) => {
+        if (i >= b0 && i <= b1) return;
+        const hit = l.indexOf(TD) >= 0 || (VD.test(l) && (l.indexOf(TQ) >= 0 || (QL[i + 1] || '').indexOf(TQ) >= 0));
+        if (!hit) return;
+        let id = null; for (let j = i; j < Math.min(QL.length, i + 400); j++) { const m = /add\('([A-Za-z0-9_.-]+)'/.exec(QL[j]); if (m) { id = m[1]; break; } }
+        sites.push({ line: i + 1, text: l, next: QL[i + 1] || '', id });
+      });
+      const reOf0 = (s) => {
+        const tx = s.text.slice(Math.max(0, s.text.indexOf('readdirSync'))) + '\n' + s.next;
+        const m = /\/(\^[^\/\n]*?\\\.mjs\$)\//.exec(tx);
+        if (m) return new RegExp(m[1]);
+        if (/W\.PART_FILE_RE\.test\(f\)/.test(s.next)) return null;
+        return undefined;
+      };
+      // 分類の表(字句の印 → 鍵 → 分類)。新しい走査の所が増えたら、分類して表に足す
+      const TABLE = [
+        { id: 'lint.regenScope', mark: "const harnesses = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-", cls: 'name' },
+        { id: 'lint.valdiffDecl313', mark: "readdirSync(path.join(ROOT, 'tests'))) if (/^(exp|lib)-", cls: 'name' },
+        { id: 'lint.docNames318', mark: 'const walkDir = (d, re) =>', cls: 'read' },
+        { id: 'docs.regenShort319c', mark: "(pre|legacy7)", cls: 'name' },
+        { id: 'lint.laterBooks319', mark: "readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-", cls: 'name', n: 2 },
+        { id: 'docs.geo3Bin321b', mark: "readdirSync(path.join(ROOT, 'tests')).filter((x) => /^(exp|lib)-", cls: 'name' },
+        { id: 'lint.quickEnvWin325d', mark: "const rwExp = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-", cls: 'name' },
+        { id: 'docs.symbols333e', mark: "LIBS = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^lib-", cls: 'name' },
+        { id: 'lint.jsonPathInputs337f', mark: "const harn = fs.readdirSync(path.join(ROOT, 'tests')).filter((f) => /^exp-", cls: 'name' },
+        { id: 'behavior.judgeScale341c', mark: "for (const dir of ['tests', 'tools'])", cls: 'read' },
+        { id: 'lint.partExplicit352a', mark: "L0 = fs.readdirSync(path.join(ROOT, 'tests')).sort()", cls: 'name' },
+        { id: 'lint.provisionalScope352b', mark: "for (const dir of ['tests', 'tools'])", cls: 'excl' },
+      ];
+      const want = TABLE.reduce((s, t) => s + (t.n || 1), 0);
+      const used = new Set();
+      for (const t of TABLE) {
+        const got = sites.filter((s) => s.id === t.id && s.text.indexOf(t.mark) >= 0);
+        if (got.length !== (t.n || 1)) bad.push('② 走査の所 ' + t.id + '(' + t.mark.slice(0, 40) + ')が ' + got.length + ' か所(表は ' + (t.n || 1) + ')');
+        for (const s of got) { used.add(s.line); s.cls = t.cls; }
+      }
+      const tmpName = '.qa-preflight-' + process.pid + '.mjs';
+      // 表に無い所(後の便で増えた所)は字句で分類する: 名の型の lib を呼ぶ → 除いている/名の型の式が写しの名を受けない → dot で始まる名を読まない/どちらでもない → 違反(表に足す)
+      let nAuto = 0;
+      for (const s of sites) if (!used.has(s.line)) {
+        if (s.next.indexOf('isQaTempCopy(') >= 0 || s.text.indexOf('isQaTempCopy(') >= 0) { s.cls = 'excl'; s.auto = true; nAuto++; continue; }
+        const r = reOf0(s);
+        if (r instanceof RegExp && !r.test(tmpName) && /^\^[^.\\]/.test(r.source)) { s.cls = 'name'; s.auto = true; nAuto++; continue; }
+        bad.push('② 表に無い走査の所 ' + s.line + ' 行(' + (s.id || '?') + ')—— 写しを読むかを分類して表に足す(名の型の lib を呼ぶか、名の型の式を字で始める)');
+      }
+      // 「除いている」: 名の型の lib を呼ぶ
+      for (const s of sites.filter((z) => z.cls === 'excl')) if (!(s.next.indexOf('isQaTempCopy(f)') >= 0 && s.next.indexOf('lib-w353i-qatemp.mjs') >= 0)) bad.push('② 「除いている」の所 ' + s.line + ' 行が名の型の lib を呼ばない');
+      // 「dot で始まる名を読まない」: 同じ行(か次の行)の名の型の式が写しの名を受けない
+      const W2 = await import('file://' + path.join(ROOT, 'tests', 'lib-w352a-report148.mjs'));
+      const nameSites = sites.filter((z) => z.cls === 'name').map((s) => { const r = reOf0(s); return { s, re: r === null ? W2.PART_FILE_RE : r }; });
+      for (const { s, re } of nameSites) {
+        if (!(re instanceof RegExp)) { bad.push('② 「dot で始まる名を読まない」の所 ' + s.line + ' 行の名の型の式が読めない'); continue; }
+        if (re.test(tmpName)) bad.push('② ' + s.line + ' 行の名の型の式 ' + re.source + ' が写しの名を受ける');
+        if (!/^\^/.test(re.source) || /^\^\\?\./.test(re.source)) bad.push('② ' + s.line + ' 行の名の型の式が字で始まらない ' + re.source);
+      }
+      // 「読むが判定は同じ」: 判定の式が qa.mjs の本文と包みの 2 行に当たらない(写しの本文は qa.mjs の行の部分集合 + 包みの行)
+      const PF = rd353i('tests/qa-preflight.mjs') || '';
+      const wrapA = (/`if \(!globalThis\.__PF337H\.begin\(\$\{u\.l0\}, results\)\) \{\\n\$\{t\}\\n\}\\nglobalThis\.__PF337H\.end\(\$\{u\.l0\}, results\);`/.test(PF)), wrapB = PF.indexOf("globalThis.__QA_PREFLIGHT_RESULTS = results;") >= 0;
+      if (!(wrapA && wrapB)) bad.push('② 事前検査の写しの包みの行の形が変わった(写しの本文の読みを見直す)');
+      const copyText = QA + '\nif (!globalThis.__PF337H.begin(1, results)) {\n}\nglobalThis.__PF337H.end(1, results);\n\nglobalThis.__QA_PREFLIGHT_RESULTS = results;\n';
+      const OLDN = ['SAMPLE_STATUS', 'FAMILIES', 'KF0_LEDGER', 'CALIBRATION_ISSUES', 'BH_DESIGN'];
+      const READ_JUDGE = { 'lint.docNames318': new RegExp('(?:' + OLDN.join('|') + ')_v1' + '\\.45\\.md'), 'behavior.judgeScale341c': new RegExp('\\b' + 'judge3' + '\\(') };
+      for (const s of sites.filter((z) => z.cls === 'read')) {
+        const re = READ_JUDGE[s.id];
+        if (!re) { bad.push('② 「読むが判定は同じ」の所 ' + s.line + ' 行(' + s.id + ')の判定の式が表に無い'); continue; }
+        if (re.test(copyText)) bad.push('② ' + s.id + ' の判定の式 ' + re.source + ' が qa.mjs の本文か包みに当たる(写しを読むと判定が変わりうる)');
+      }
+      const byCls = (c) => sites.filter((z) => z.cls === c).length;
+      cases.push(`② tests/ を走査する所 ${sites.length}(表 ${want}・表の外を字句で分類 ${nAuto})= 除いている ${byCls('excl')}・dot で始まる名を読まない ${byCls('name')}・読むが判定は同じ ${byCls('read')}(${sites.map((z) => z.id + '=' + z.cls).join(' ')})`);
+      // ③ 作りものの木で名の選び方が写しの有る無しで同じ
+      const tree = path.join(tmp, 'tree', 'tests');
+      fs.mkdirSync(tree, { recursive: true });
+      for (const f of ['qa.mjs', 'exp-w999z-a.mjs', 'lib-w999z-b.mjs', 'lib-w352z-c.mjs', 'lib-w352q-d.mjs', 'lib-w399z-pre.mjs', 'README.md']) fs.writeFileSync(path.join(tree, f), '// w353i\n');
+      const pick = (L) => { const o = {}; for (const { s, re } of nameSites) o[s.line] = L.filter((f) => re.test(f)).sort(); for (const s of sites.filter((z) => z.cls === 'excl')) o[s.line] = L.filter((f) => f.endsWith('.mjs') && !(f === 'qa.mjs' || QT.isQaTempCopy(f))).sort(); return JSON.stringify(o); };
+      const p0 = pick(fs.readdirSync(tree));
+      fs.writeFileSync(path.join(tree, tmpName), QA.slice(0, 2000));
+      const p1 = pick(fs.readdirSync(tree));
+      if (p0 !== p1) bad.push('③ 作りものの木で写しを置くと名の選び方が変わる');
+      if (!fs.readdirSync(tree).includes(tmpName)) bad.push('③ 作りものの木に写しが置けていない');
+      fs.writeFileSync(path.join(tree, '.qa-preflight-1.mjs'), '// 古い写し(pid 1 は生きている側 —— 消さない)\n');
+      const stale = QT.staleTempCopies(tree, (p) => p === 1);
+      if (stale.length !== 0) bad.push('③ 自分の写しと生きている pid の写しを古いと読んだ ' + stale.join(','));
+      const staleAll = QT.staleTempCopies(tree, () => false);
+      if (JSON.stringify(staleAll) !== JSON.stringify(['.qa-preflight-1.mjs'])) bad.push('③ 生きていない pid の写しの選び方 ' + JSON.stringify(staleAll));
+      for (const w of ['QT353I.staleTempCopies(path.join(ROOT, \'tests\'))', "fs.unlinkSync(path.join(ROOT, 'tests', f))", "process.on('exit', () => { try { fs.unlinkSync(tmp); } catch {} });", "const tmp = path.join(ROOT, 'tests', `.qa-preflight-${process.pid}.mjs`);"])
+        if (PF.indexOf(w) < 0) bad.push('③ 事前検査の道具に「' + w.slice(0, 44) + '」が無い');
+      if (!(PF.indexOf('QT353I.staleTempCopies(') >= 0 && PF.indexOf('QT353I.staleTempCopies(') < PF.indexOf('const tmp = path.join(ROOT,'))) bad.push('③ 古い写しの掃除が自分の写しを置く前に無い');
+      cases.push(`③ 作りものの木(本物の tests/ には置かない): 写しの有る無しで名の選び方が同じ(${nameSites.length + byCls('excl')} 所)・古い写しは生きていない pid のものだけ・事前検査の道具は始めに古い写しを消し、自分の写しは終わるときに消す`);
+      // ④ 部分 QA の読み分けの包み
+      const VT = await import('file://' + path.join(ROOT, 'tools', 'qapart-verdict.mjs'));
+      const vs = VT.selfTest351i();
+      const c2 = vs.rows.find((z) => z.name === '束でない走行に要約の行が 2 本(出力を重ねた)');
+      if (!(vs.ok && c2 && c2.rc === 1 && vs.rows.length >= 12)) bad.push('④ 包みの自己試験(要約の行 2 本のケース)' + (c2 ? 'rc ' + c2.rc : '無い'));
+      const sl = (n) => '# qapart-summary ' + JSON.stringify({ version: 'w323a-qapart-summary-1', counts: { pass: n, fail: 0, skip: 0, notRun: 0 }, extra: { pass: 0, fail: 0 }, errors: 0, rc: 0 });
+      const v1 = VT.verdictOf(['PASS a', sl(1)].join('\n')), v2 = VT.verdictOf(['PASS a', sl(1), 'PASS b', sl(1)].join('\n'));
+      if (!(v1.rc === 0 && v2.rc === 1 && v2.bad.some((x) => x.indexOf('要約の行が 2 本') >= 0))) bad.push('④ 束でない走行の要約の行 1 本 → rc ' + v1.rc + '・2 本 → rc ' + v2.rc);
+      const vb = vs.rows.find((z) => z.name.indexOf('--batch 2 束・2 束目に範囲の例外') === 0);
+      if (!(vb && vb.ok && vb.rc === 0)) bad.push('④ --batch の読み(要約の行 2 本)が変わった');
+      cases.push(`④ 包みの自己試験 ${vs.rows.length} 通り ${vs.ok ? '全部期待どおり' : 'NG'}(束でない走行の要約の行 1 本 → rc ${v1.rc}・2 本 → rc ${v2.rc}・--batch の 2 本は rc 0 のまま)`);
+      // ⑤ post-merge の stderr の置き場
+      const PMS = rd353i('tools/post-merge-qa.sh') || '';
+      const nCall = (PMS.match(/pmerr353i [a-z-]+\)/g) || []).length;   // 関数を切り出して走らせる既存の鍵のため、関数の中では pmerr353i が無いとき〔関数だけを切り出して走らせたとき〕は今までどおり /dev/null
+      if (nCall !== 9) bad.push('⑤ post-merge の置き場のファイルへ流す所 ' + nCall + '(9 か所)');
+      const leftNode = PMS.split('\n').filter((l) => !/^\s*#/.test(l) && /2>\/dev\/null\s*(?:\|\||;\s*then)/.test(l) && !/^count\(\) \{ grep -c/.test(l));
+      if (leftNode.length) bad.push('⑤ stderr を捨てて落ちたら文だけ出す形が残る ' + leftNode.length + ': ' + leftNode.map((l) => l.trim().slice(0, 50)).join(' | '));
+      const blk = (/# ==== 第353便i の塊\(ここから\)====\n[\s\S]*?# ==== 第353便i の塊\(ここまで\)====\n/.exec(PMS) || [''])[0];
+      const q324 = (/^qsum324c\(\) \{[^\n]*\n/m.exec(PMS) || [''])[0];
+      if (!(blk && q324)) bad.push('⑤ post-merge の第353便i の塊か qsum324c が見つからない');
+      else {
+        const t5 = path.join(tmp, 'pm'); fs.mkdirSync(path.join(t5, 'tests'), { recursive: true });
+        fs.writeFileSync(path.join(t5, 'blk.sh'), blk); fs.writeFileSync(path.join(t5, 'q.sh'), q324);
+        fs.writeFileSync(path.join(t5, 'tests', 'lib-w324c-postmerge.mjs'), 'console.error("w353i-boom"); process.exit(3);\n');
+        fs.writeFileSync(path.join(t5, 'run.sh'), 'DEFAULT_WAVE_IDS=""\n. ./blk.sh\n. ./q.sh\necho "OUT: $(qsum324c /none beta 1)"\nE=$(pmerr353i empty)\necho "EMPTY: $E"\n');
+        const r5 = sp353i('bash', ['run.sh'], { cwd: t5, encoding: 'utf8', env: Object.assign({}, process.env, { POST_MERGE_ERR_DIR: path.join(t5, 'err') }), timeout: 60000 });
+        const out5 = String(r5.stdout || ''), mP = /OUT: 要約が読めない\(stderr は (\S+?)\)/.exec(out5), mE = /EMPTY: (\S+)/.exec(out5);
+        if (!(r5.status === 0 && mP && fs.existsSync(mP[1]) && fs.readFileSync(mP[1], 'utf8').indexOf('w353i-boom') >= 0)) bad.push('⑤ 作りものの失敗で、文に置き場のファイルの道と中身が無い(rc ' + r5.status + ')');
+        if (!(mE && !fs.existsSync(mE[1]))) bad.push('⑤ 終わるときに空のファイルが消えない');
+        const envD = Object.assign({}, process.env, { POST_MERGE_ERR_DIR: path.join(tmp, 'dryerr') });
+        delete envD.POST_MERGE_WAVE_IDS;
+        const rd = sp353i('bash', [path.join(ROOT, 'tools', 'post-merge-qa.sh'), '--dry'], { cwd: ROOT, encoding: 'utf8', env: envD, timeout: 120000 });
+        if (!(rd.status === 0 && /^post-merge-qa --dry: ③′ 〔/.test(String(rd.stdout || '')))) bad.push('⑤ --dry の出力の形(rc ' + rd.status + ')');
+        if (fs.existsSync(path.join(tmp, 'dryerr'))) bad.push('⑤ --dry が置き場を残した');
+        cases.push(`⑤ post-merge: 置き場のファイルへ流す所 ${nCall}・捨てる形の残り ${leftNode.length}・作りものの失敗で文に道と中身(w353i-boom)・空のファイルは消える・--dry の出力の形と置き場を残さない(rc ${rd.status})`);
+      }
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+    finally { if (tmp) { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時の置き場 */ } } }
+    add('lint.qaTempCopy353i', bad.length === 0,
+      `**事前検査の一時の写しと道具の直し**(第353便i・統括の検証項目 R473 —— 外からの点検で指摘された点。検査の閾値・判定式は変えていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── lint.versionRegistry353i ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const VR = await import('file://' + path.join(ROOT, 'tools', 'versions-registry.mjs'));
+      const st = VR.selfTest353i();
+      if (!st.ok) bad.push('① 道具の自己試験: ' + st.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+      if (!/^w353i-versions-registry-\d+$/.test(VR.VERSIONS_REGISTRY_VERSION)) bad.push('① 道具の版の型 ' + VR.VERSIONS_REGISTRY_VERSION);
+      cases.push(`① 道具(${VR.VERSIONS_REGISTRY_VERSION})の自己試験 ${st.rows.length} 通り ${st.ok ? '全部期待どおり' : 'NG'}(lib と正本が一緒に版を上げても台帳を引き直すまでは違う・新しい器が載っていない・一時の写しは読まない)`);
+      const c = VR.checkRegistry(ROOT);
+      if (c.rc === 2) bad.push('② 台帳 ' + VR.REGISTRY_PATH + ' が読めない(' + c.readErr + ')');
+      for (const x of c.diff) bad.push('② ' + x + '(統合の後は node tools/versions-registry.mjs --write)');
+      for (const x of c.outs.bad) bad.push('③ ' + x);
+      const reg = JSON.parse(rd353i(VR.REGISTRY_PATH) || '{}');
+      const files = Object.keys(reg.files || {});
+      let L = []; try { L = fs.readdirSync(path.join(ROOT, 'tests')); } catch (e) { L = []; }
+      const late = L.filter((f) => /^(?:lib|exp)-w(\d{3})[a-z]*-.+\.mjs$/.test(f) && Number(/^(?:lib|exp)-w(\d{3})/.exec(f)[1]) >= 353).map((f) => 'tests/' + f);
+      const miss = late.filter((f) => !files.includes(f));
+      if (miss.length) bad.push('② 第353便以降の lib・器が台帳に無い: ' + miss.join('・'));
+      for (const f of VR.EXTRA_NAMES) if (fs.existsSync(path.join(ROOT, f)) && !files.includes(f)) bad.push('② 第352便za の ' + f + ' が台帳に無い');
+      if (!(reg.waveFrom === 353)) bad.push('② 台帳の waveFrom ' + reg.waveFrom);
+      const o353 = L.length ? (fs.readdirSync(path.join(ROOT, 'tests', 'out')).filter((f) => /-35[3-9][a-z]*\.json$/.test(f))) : [];
+      const unchecked = o353.filter((f) => !c.outs.checked.includes('tests/out/' + f));
+      if (unchecked.length) bad.push('③ 第353便以降の正本を照らしていない: ' + unchecked.join('・'));
+      cases.push(`② 台帳 ${VR.REGISTRY_PATH}(${reg.version})と木: ${c.ok ? '同じ' : '違う'} —— 載っている ${files.length} 本(第353便以降 ${late.length}・第352便za ${VR.EXTRA_NAMES.filter((f) => files.includes(f)).length})/ ③ 正本 ${c.outs.checked.length} 本(第353便以降 ${o353.length})の version・libVersion が台帳と同じ`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+    add('lint.versionRegistry353i', bad.length === 0,
+      `**版の番号の台帳**(第353便i・統括の検証項目 R473 —— 第353便以降の lib・器と第352便za の期待する版の字を 1 か所に。統合のたびに統括が --write で引き直す): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.tools353i(root は SKIP)─────
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.tools353i(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const PH = rd353i('docs/PHYSICS.md') || '', AS = rd353i('docs/AI_SPEC.md') || '', TR = rd353i('tools/README.md') || '', PM = rd353i('tools/post-merge-qa.sh') || '';
+    const secOf = (T, head, next) => { const a = T.indexOf(head); if (a < 0) return ''; const r = T.slice(a + 1), z = r.search(next); return z < 0 ? r : r.slice(0, z); };
+    const p0 = PH.indexOf('\n〔第353便i — '), pza = PH.indexOf('\n〔第352便za — '), p328 = PH.indexOf('\n〔第328便 — 統括');
+    if (!(p0 >= 0 && pza >= 0 && pza < p0 && (p328 < 0 || p0 < p328))) bad.push('① PHYSICS〔第353便i〕の位置(〔第352便za〕の後・〔第328便 — 統括〕の前)');
+    const ph = secOf(PH, '\n〔第353便i — ', /\n〔第/);
+    for (const x of ['R473', '外からの点検で指摘された点', '`tools/qapart-verdict.mjs`', '`tools/post-merge-qa.sh`', 'POST_MERGE_ERR_DIR', '`tests/lib-w353i-qatemp.mjs`', '`tests/qa-preflight.mjs`',
+      '`node tools/versions-registry.mjs --write`', '`node tools/versions-registry.mjs --check', '`tests/data-w353i-versions.json`', '`_scratch-exp-w246b-floor.mjs`', 'lint.qaTempCopy353i', 'lint.versionRegistry353i', 'docs.tools353i',
+      '| 鍵 | 名の型 | 分類 |', '除いている', 'dot で始まる名を読まない', '読むが判定は同じ'])
+      if (ph.indexOf(x) < 0) bad.push('① PHYSICS〔第353便i〕に「' + x + '」が無い');
+    const ai = secOf(AS, '\n## 365. 第353便i', /\n## /);
+    if (!ai) bad.push('② AI_SPEC §365 が無い');
+    for (const x of ['R473', 'SYSTEM_PROMPT には載せない', 'lint.qaTempCopy353i', 'lint.versionRegistry353i', 'docs.tools353i', '`tools/versions-registry.mjs`']) if (ai && ai.indexOf(x) < 0) bad.push('② AI_SPEC §365 に「' + x + '」が無い');
+    const ts = secOf(TR, '\n## 第353便i — ', /\n## /), t352g = TR.indexOf('\n## 第352便g — '), t0 = TR.indexOf('\n## 第353便i — ');
+    if (!(t0 >= 0 && t352g >= 0 && t352g < t0)) bad.push('③ tools/README.md の第353便i の節(第352便g の節の後)');
+    for (const x of ['`node tools/versions-registry.mjs --check', '`node tools/versions-registry.mjs --write`', 'POST_MERGE_ERR_DIR', '`tests/lib-w353i-qatemp.mjs`']) if (ts.indexOf(x) < 0) bad.push('③ tools/README.md の第353便i の節に「' + x + '」が無い');
+    if (!(PM.indexOf('# ==== 第353便i の塊(ここから)====') > PM.indexOf('# ==== 第352便z の塊(ここまで)====') && PM.indexOf('# ==== 第352便z の塊(ここまで)====') >= 0
+      && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.qaTempCopy353i lint\.versionRegistry353i docs\.tools353i/.test(PM))) bad.push('④ post-merge に第353便i の塊(第352便z の塊の後)');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const NG = ['決まった', '確かめた', '示した', '説明できた', '導けた', '厳しくなった', '緩くなった', '厳しくした', '緩めた'].concat(['GOLKCAB', 'TSEGID_SNOITAREPO', '1v 帳台'].map((t) => t.split('').reverse().join('')));   // 非公開側の文書の名は逆さの字で持つ
+    for (const w of NG) for (const [nm, tx] of [['PHYSICS〔第353便i〕', ph], ['AI_SPEC §365', ai], ['tools/README.md の節', ts]]) if (stripQ(tx).indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に書かない語「' + w + '」');
+    cases.push('① PHYSICS〔第353便i〕(位置・必須の語・走査の所の分類の表)/ ② AI_SPEC §365 / ③ tools/README.md の節(第352便g の節の後)/ ④ post-merge の塊(第352便z の塊の後)/ ⑤ 書かない語 ' + NG.length + ' 種');
+    add('docs.tools353i', bad.length === 0, `**第353便i の道具の文書**(統括の検証項目 R473): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第353便i の塊(ここまで)====
 
 // ==== 第353便a の塊(ここから —— docs.report151_353a の 1 ブロック。root は SKIP)====
 // ---- 第353便a(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R465 —— 文書だけ・html は変えない):
@@ -128837,7 +129065,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const L = await import('file://' + wLib);
     const files = {};
     for (const dir of ['tests', 'tools']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
-      if (!f.endsWith('.mjs') || (dir === 'tests' && (f === 'qa.mjs' || /^\.qa-preflight-\d+\.mjs$/.test(f)))) continue;   // 事前検査の道具が tests/ に置く qa.mjs の一時の写し(tests/.qa-preflight-<pid>.mjs)は qa.mjs と同じ扱い(読まない)
+      if (!f.endsWith('.mjs') || (dir === 'tests' && (f === 'qa.mjs' || (await import('file://' + path.join(ROOT, 'tests', 'lib-w353i-qatemp.mjs'))).isQaTempCopy(f)))) continue;   // 事前検査の道具が tests/ に置く qa.mjs の一時の写し(tests/.qa-preflight-<pid>.mjs)は qa.mjs と同じ扱い(読まない)
       files[dir + '/' + f] = fs.readFileSync(path.join(ROOT, dir, f), 'utf8');
     }
     const V = L.scopeViolations(files);
