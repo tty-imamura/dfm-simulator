@@ -91,10 +91,10 @@ export function sideRow(key, { u = DECL.uFocus, k = 1, cR = null, place = 'rule'
   let st;
   if (key in DECL.sats) {
     const L = satLocal(T1, GEO, key, { place, cR, k }), ax = axisL(T1, GEO), bg = D.bgVec('Np', { u, axis: ax }), Om = add(bg, L.local), Wm = nrm(Om), s = L.sHat;
-    const ds = D.precDs(s, Om, { sense: 'g2m' }), azOf = (p) => D.poleRates(p, s, ds).az;
+    const ds = D.precDs(s, Om, { sense: 'g2m' }), azOf = (p) => { const r = D.poleRates(p, s, ds); return r === null ? null : r.az; }, rl = (a, sp) => (a === null ? null : sg(a) * sp);   // 極が ŝ に平行(同期した衛星の公転の北極)なら方位は無い = null
     const spinOm = sg(dot(s, Om)), spinAx = sg(dot(s, ax)), spinOrb = sg(dot(s, L.nHat));
     st = { local: L.local, bg, Om, W: Wm, coneDeg: CC.angDeg(s, Om), omToAxisDeg: Math.atan2(nrm(crs(L.local, ax)), dot(Om, ax)) / D2R,
-      spinOm, relOm: sg(azOf(unit(Om))) * spinOm, relAx: sg(azOf(ax)) * spinAx, relOrb: sg(azOf(L.nHat)) * spinOrb, sunRule: false };
+      spinOm, relOm: rl(azOf(unit(Om)), spinOm), relAx: rl(azOf(ax), spinAx), relOrb: rl(azOf(L.nHat), spinOrb), sunRule: false };
   } else {
     const m = B.mainState(T1, GEO, key, { u, k, cR: key === 'Sun' ? null : fieldCR(place, cR) }, cache);
     st = { local: m.local, bg: m.bg, Om: m.Om, W: m.W, coneDeg: m.coneDeg, omToAxisDeg: m.omToAxisDeg, spinOm: m.spinOm,
@@ -148,7 +148,7 @@ export function pairRow(combo, { u = DECL.uFocus, T1 = E.t1Table(), GEO = E.geom
   const rows = DECL.recvs.map((key) => {
     const r = sideRow(key, { u, k: kv.k, cR: combo.cR, place: combo.place, T1, GEO, cache }), r0 = sideRow(key, { u, k: 1, place: 'rule', T1, GEO, cache });
     const pv = provOf(r), { _ms, ...rest } = r;
-    return { ...rest, dConeDeg: r.coneDeg - r0.coneDeg, dAxisDeg: r.omToAxisDeg - r0.omToAxisDeg, fMax0: r0.fMax, relOm0: r0.relOm, relAx0: r0.relAx, relOrb0: r0.relOrb,
+    return { ...rest, dConeDeg: r.coneDeg - r0.coneDeg, dAxisDeg: r.omToAxisDeg - r0.omToAxisDeg, fMax0: r0.fMax, spinOm0: r0.spinOm, relOm0: r0.relOm, relAx0: r0.relAx, relOrb0: r0.relOrb,
       over: r.locOverBg > DECL.sideTol, prov: pv };
   });
   return { combo, kv, rows };
