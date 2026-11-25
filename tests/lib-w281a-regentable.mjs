@@ -3198,6 +3198,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/maincol-353b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便b: 零試験 13/主の表 54/回る向きのまとめ 9 + 仮の値の並べ 6/u への依存 9/cR への依存 8' }),
   // ==== 第353便b の塊(ここまで)====
+  // ==== 第353便d の塊(ここから)====
+  // ---- 第353便d(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R468): **源(引きずる側)の扁平率を (S) に入れる式の候補 (O0)〜(O3)(遠い場・近い場・金星とイオの打ち消し・四重極の項の半径)**
+  //   (段 srcoblate-353d —— 正本 tests/out/srcoblate-353d.json・lib tests/lib-w353d-srcoblate.mjs —— 第352便k・s・c・d・第351便c・j・第348便h・c・d・第334便a・第330便a ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便d の枝の実測 3 s
+  S('srcoblate-353d', 'node tests/exp-w353d-srcoblate.mjs', ['tests/out/srcoblate-353d.json'], 4, { secSource: 'w353d-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcoblate-353d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便d: 零試験 9/遠い場 8/近い場 12/打ち消し 9/範囲 301 点/半径 5' }),
+  // ==== 第353便d の塊(ここまで)====
   // ==== 第353便e の塊(ここから)====
   // ---- 第353便e(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R469): **注目の列 u = 0.98(背景の向きは (N+) のまま大きさだけ 0.98 —— 傾きを保つ寄る割合の上限・向きと大きさを分ける表・金星の条件と 0.98 の副作用)**
   //   (段 focus098-353e —— 正本 tests/out/focus098-353e.json・lib tests/lib-w353e-focus098.mjs —— 第352便w・y・za・c・d・第351便d・第347便e の lib を import して呼ぶ。
