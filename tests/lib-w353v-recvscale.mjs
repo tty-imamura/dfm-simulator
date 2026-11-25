@@ -6,7 +6,7 @@
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
 //   第353便p(stdCancel・localStd・bg1・moonWeights —— 打ち消しの点の一覧の置き方)・第353便j(kFor・sideRow —— 0.98 の列の副作用)・
 //   第353便c(cRStar・cancelOf・moiOf・rateMult —— 受け手の半径の入れ方 (P-場))・第352便v(allPairs・uForMin)・第352便k(spinRot・vec)・
-//   第348便c(massOf・radiusOf)・第312便a(Kball)・第347便e(t1Table・geometry)。
+//   第348便c(massOf・radiusOf)・第347便e(t1Table・geometry)。
 //   **第353便j は第353便b と第352便j を import するので、仮の値の lib(第352便b)が閉包に入る —— この lib を呼ぶ段の正本は最上位に provisional: true と使った鍵の一覧を持つ。**
 //
 // ■ 語: c_R★(受け手 X)= 場の式 (P-場) の自分の重み A0 = m K1(0, c_R R_観測) が、主の源の重み wS = M K1(a, R_源 規則) と同じになる c_R(第353便c の cRStar —— 二分)。
@@ -24,13 +24,11 @@ import * as Cc from './lib-w353c-recvradius.mjs';
 import * as V from './lib-w352v-cancelmap.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
-import * as D from './lib-w312a-decay.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
 
 export const LIB_VERSION = 'w353v-recvscale-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
-const D2R = Math.PI / 180;
-const { dot, crs, nrm, scl, add, unit } = K.vec;
+const { nrm, scl, add } = K.vec;
 
 /* ───────── 宣言(走らせたノブの格子と物差しの記録 —— 式の形の宣言ではない)───────── */
 export const DECL = Object.freeze({
@@ -99,6 +97,67 @@ export function sideAtR(recv, r, { u = DECL.uFocus, T1 = E.t1Table(), GEO = E.ge
   const r0 = J.sideRow(recv, { u, k: 1, place: 'rule', T1, GEO, cache });
   const { _ms, ...rest } = row;
   return { ...rest, r, k: kv.k, venusResid: kv.residEqual, relOm0: r0.relOm, sameSense: row.relOm === r0.relOm };
+}
+
+/* ───────── 表(T2〜T4)───────── */
+const inBand = (x, [lo, hi]) => x >= lo && x <= hi;
+const rCols = () => [null, ...DECL.rGrid];
+/** 表 1(背景は金星の条件 (uV)): σ の有無 2 × r(規則の半径 + 格子 8)—— 金星の残り・17 組の x・帯に入る組(金星を除く)・イオの x と残り・月の x */
+export function table1(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const cols = [];
+  for (const ob of [null, 'lit']) for (const r of rCols()) {
+    const rows = V.allPairs().map((k) => stateAtR(T1, GEO, k, r, { ob }, cache));
+    const io = rows.find((x) => x.key === 'Io|Jupiter'), ven = rows.find((x) => x.key === 'Venus|Sun'), moon = rows.find((x) => x.key === 'Moon|EarthHi');
+    cols.push({ ob, r, venusRes: ven.resEq, cRV: ven.cR, x: Object.fromEntries(rows.map((x) => [x.key, x.x])),
+      bands: DECL.bands.map((b) => { const hit = rows.filter((x) => x.key !== 'Venus|Sun' && inBand(x.x, b)).map((x) => x.key); return { band: b, n: hit.length, keys: hit }; }),
+      io: { x: io.x, resAtUV: io.resAtUV, resEq: io.resEq, cR: io.cR }, moonX: moon.x });
+  }
+  return { cols };
+}
+/** 金星の残り ≤ 2% とイオの x 0.9〜1.1 が同時に入る r の走査(log10 r = lo〜hi・刻み step)—— σ の有無ごとに: 同時に入る点の数・イオの x の最小と r・金星の 2% の端(二分)・月の x が 0.9〜1.1 に入る r の幅 */
+export function scanBoth(T1 = E.t1Table(), GEO = E.geometry(), { lo = -8, hi = 1, step = 0.05 } = {}, cache = {}) {
+  const out = [];
+  for (const ob of [null, 'lit']) {
+    const pts = [];
+    for (let i = 0; lo + i * step <= hi + 1e-12; i++) { const r = Math.pow(10, lo + i * step), io = stateAtR(T1, GEO, 'Io|Jupiter', r, { ob }, cache), mo = stateAtR(T1, GEO, 'Moon|EarthHi', r, { ob }, cache); pts.push({ r, venusRes: io.venusResEq, ioX: io.x, moonX: mo.x }); }
+    const both = pts.filter((p) => p.venusRes <= DECL.venusBand && inBand(p.ioX, DECL.ioBand)), ioMin = pts.reduce((b, p) => (p.ioX < b.ioX ? p : b), pts[0]);
+    const vf = (lr) => stateAtR(T1, GEO, 'Venus|Sun', Math.pow(10, lr), { ob }, cache).resEq - DECL.venusBand;
+    let a = -2, b = 0.5; for (let i = 0; i < 60; i++) { const m = 0.5 * (a + b); if (vf(m) > 0) b = m; else a = m; }
+    const moonIn = pts.filter((p) => inBand(p.moonX, DECL.ioBand));
+    out.push({ ob, n: pts.length, nBoth: both.length, ioMin: { r: ioMin.r, x: ioMin.ioX, venusRes: ioMin.venusRes }, venusEdge2: Math.pow(10, 0.5 * (a + b)),
+      moonBand: moonIn.length ? { rLo: moonIn[0].r, rHi: moonIn[moonIn.length - 1].r, venusResHi: moonIn[moonIn.length - 1].venusRes } : null });
+  }
+  return out;
+}
+/** r → 0 の極限の閉じた形: x(r → 0)= x(規則の半径)× wS_金星 ÷ wS_受け手(規則の半径では自分の重みが全部の受け手で同じ 3/(2 Y_K)・r × c_R★ では自分の重み = 源の重み ÷ r) */
+export function limitRows(T1 = E.t1Table(), GEO = E.geometry(), { rSmall = 1e-8 } = {}, cache = {}) {
+  const wV = cRStarOf('Venus', T1, GEO, cache).wS;
+  return V.allPairs().filter((k) => k !== V.DECL.sunRecv).map((k) => { const a = stateAtR(T1, GEO, k, rSmall, {}, cache), b = stateAtR(T1, GEO, k, null, {}, cache), s = cRStarOf(k, T1, GEO, cache);
+    return { key: k, xSmall: a.x, xRule: b.x, closed: b.x * wV / s.wS, dPhiDeg: a.phiDeg - b.phiDeg }; });
+}
+/** 表 2(注目の列 0.98): r ごとに金星を等大にする k(r)・受け手 6 の局所 ÷ 背景・合成と L の角・回る向き(k 1 と同じか) */
+export function table2(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  return { cols: rCols().map((r) => { const rows = DECL.sideRecvs.map((id) => sideAtR(id, r, { T1, GEO, cache }));
+    return { r, k: rows[0].k, venusResid: rows[0].venusResid, rows: rows.map((s) => ({ key: s.key, cR: s.cR, locOverBg: s.locOverBg, omOverBg: s.omOverBg, omToAxisDeg: s.omToAxisDeg, coneDeg: s.coneDeg, relOm: s.relOm, relOm0: s.relOm0, sameSense: s.sameSense })) }; }) };
+}
+/** 水星の回る向きが k 1 と替わらない r の下限(二分 —— log10 r の [lo, hi])と、そのときの金星の残り・k */
+export function mercuryEdge(T1 = E.t1Table(), GEO = E.geometry(), { lo = 0, hi = 3 } = {}, cache = {}) {
+  const ok = (lr) => sideAtR('Mercury', Math.pow(10, lr), { T1, GEO, cache }).sameSense;
+  if (ok(lo) || !ok(hi)) return { r: null, bracket: [lo, hi] };
+  let a = lo, b = hi; for (let i = 0; i < 40; i++) { const m = 0.5 * (a + b); if (ok(m)) b = m; else a = m; }
+  const r = Math.pow(10, b), s = sideAtR('Mercury', r, { T1, GEO, cache });
+  return { r, venusResid: s.venusResid, k: s.k, omToAxisDeg: s.omToAxisDeg, cR: s.cR };
+}
+/** 表 3(c_R★ は何で決まるか): 受け手ごとの c_R★・閉じた形の因子 m/M・a/R_観測・慣性モーメントの係数 C/MR²(第330便a —— 文献の値・未照合)・(P-応) の率の倍 0.4/c(第353便c の rateMult・R_ref 観測・c_R 1)・順位 */
+export function table3(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const rows = Object.keys(DECL.starSrc).filter((id) => DECL.starSrc[id] !== null).map((id) => { const s = cRStarOf(id, T1, GEO, cache), moi = Cc.moiOf(id);
+    return { id, src: s.src, cRStar: s.cR, closed: s.closed, mOverM: s.m / s.M, aOverR: s.a / s.Ro, moi, rateMult: moi === null ? null : Cc.rateMult(id, { cR: 1, ref: 'obs' }), ratio: moi === null ? null : s.cR / moi }; });
+  const withMoi = rows.filter((x) => x.moi !== null), rank = (arr, f) => { const o = [...arr].sort((a, b) => f(a) - f(b)).map((x) => x.id); return Object.fromEntries(o.map((id, i) => [id, i + 1])); };
+  const rS = rank(withMoi, (x) => x.cRStar), rM = rank(withMoi, (x) => x.moi), n = withMoi.length;
+  const d2 = withMoi.reduce((s, x) => s + (rS[x.id] - rM[x.id]) ** 2, 0), rho = 1 - 6 * d2 / (n * (n * n - 1));
+  const ratios = withMoi.map((x) => x.ratio), spanDec = Math.log10(Math.max(...ratios) / Math.min(...ratios)), spanStar = Math.log10(Math.max(...withMoi.map((x) => x.cRStar)) / Math.min(...withMoi.map((x) => x.cRStar)));
+  return { rows: rows.map((x) => ({ ...x, rankStar: rS[x.id] || null, rankMoi: rM[x.id] || null })), n, rho, sameOrder: d2 === 0, spanRatioDec: spanDec, spanStarDec: spanStar,
+    spanMoi: Math.max(...withMoi.map((x) => x.moi)) / Math.min(...withMoi.map((x) => x.moi)) };
 }
 
 /* ───────── 零試験 ───────── */
