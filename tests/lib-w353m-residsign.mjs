@@ -17,7 +17,7 @@
 //     力学的偏平率 —— リポジトリに在る数・文献の値・未照合)。
 //   **離心率の倍**(1 公転の平均の 1/r³ = (1 − e²)^(−3/2) ÷ a³)—— 'none'(第352便u の置き方 —— 円)/'repo'(月 0.0549・太陽 0.0167 —— 第330便b の器の入力・第347便b の REAL と同じ数)。
 //   **ŝ の向きの置き方**(金星): 'L' 有向の角運動量(第347便e の geometry)/'N' 北半球の極(黄道の極の側を向く側 —— sign(ŝ·ẑ) ŝ)。
-// ■ 言わないこと: 歳差の率が説明できたとは書かない・地球の残りの原因が分かったとは書かない。重力の側の列を DFM の結果と書かない。仮の値を合否に使わない(印つき)。
+// ■ 言わないこと: 歳差の率の答えとは書かない・地球の残りが何から来るかは数えていない(読み切ったとは書かない)。重力の側の列を DFM の結果と書かない。仮の値を合否に使わない(印つき)。
 import * as F from './lib-w353f-ratesum.mjs';
 import * as U from './lib-w352u-tidaldrag.mjs';
 import * as Y from './lib-w352y-bgwindow.mjs';
@@ -112,6 +112,21 @@ export function earthGrav(o2 = {}, o = {}) {
   const P = F.provRate('Earth', {}, o), resid = P.value - az, base = P.value - F.tideRate('Earth', {}, o).az;
   return B.tagProv({ id: 'Earth', moon, nodeDeg: moon === 'node' ? nodeDeg : null, iDeg: iDeg, h, ecc, dMsun, dMmoon, daSun, daMoon, H, az, sun: part.sun, moon_: part.moon, prov: P.value, resid,
     flip: Math.sign(resid) !== Math.sign(base) }, P.provKeys);
+}
+/**
+ * 地球の残り(入力の候補 o2 の重力の列)に、軸引きずり(第353便f の dragRate —— 黄道の極・u・歳差の式 sense・c 1)を当てたときの向きと要る c。
+ * 返す { resid, drag1, fill(c > 0 で埋める向き), cNeed(符号つき), width(第353便f の幅 —— 入力の振れの和), inWidth }(印つき)。
+ */
+export function earthFill(o2 = {}, { u = DECL.uMain, sense = 'g2m' } = {}, o = {}) {
+  const g = earthGrav(o2, o), d = F.dragRate('Earth', { u, sense, pole: 'ecl' }, o).az, w = widthOf('Earth', o);
+  return B.tagProv({ id: 'Earth', u, sense, resid: g.resid, drag1: d, fill: d !== 0 ? Math.sign(g.resid) === Math.sign(d) : null, cNeed: d !== 0 ? g.resid / d : null, width: w, inWidth: Math.abs(g.resid) <= w }, ['earth.psiA.rate']);
+}
+/** 最後の桁の振れ 4 つ(質量 2・距離 2)の上下の大きい方の和(残りの幅 —— 入力 o2 のまわり) */
+export function digitSwing(o2 = {}, o = {}) {
+  const R = lastDigitRel(), base = earthGrav(o2, o).resid;
+  let s = 0;
+  for (const [k, v] of Object.entries(R)) s += Math.max(Math.abs(earthGrav({ ...o2, [k]: v }, o).resid - base), Math.abs(earthGrav({ ...o2, [k]: -v }, o).resid - base));
+  return s;
 }
 /** 月の道の傾き(リポジトリ —— 黄道の極との角 °) */
 export function moonIncDeg(o = {}) { const Cx = ctx(o), s = U.gravSrcs(Cx.T1, Cx.GEO, 'Earth', 'sunMoon').find((q) => q.src === 'Moon'); return Math.acos(Math.max(-1, Math.min(1, dot(unit(s.nHat), Z)))) / D2R; }
