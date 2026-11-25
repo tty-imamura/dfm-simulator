@@ -3187,6 +3187,371 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sconseq-352za.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便za: 零試験 14/内部熱と供給 84/慣性回転 63/題ごとのまとめ 162/k を金星の条件で置いたとき 81' }),
   // ==== 第352便za の塊(ここまで)====
+  // ==== 第353便b の塊(ここから)====
+  // ---- 第353便b(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R466): **主の列の表(8 惑星と太陽 × 背景の倍率の格子 —— 合成の向き・円錐・回る向き (g2−)・率)**
+  //   (段 maincol-353b —— 正本 tests/out/maincol-353b.json・lib tests/lib-w353b-maincol.mjs —— 第352便k・d・c・e・w・j・b の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く(仮の値の印つき)。所要は第353便b の枝の実測 1 s
+  S('maincol-353b', 'node tests/exp-w353b-maincol.mjs', ['tests/out/maincol-353b.json'], 2, { secSource: 'w353b-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/maincol-353b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便b: 零試験 13/主の表 54/回る向きのまとめ 9 + 仮の値の並べ 6/u への依存 9/cR への依存 8' }),
+  // ==== 第353便b の塊(ここまで)====
+  // ==== 第353便c の塊(ここから)====
+  // ---- 第353便c(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R467): **受け手の半径 = 観測半径 × 構造の係数 —— 入れ方の候補 3 つ((P-場)・(P-応)・(P-平))と金星・イオの打ち消し・主の表への影響・応答の率の倍**
+  //   (段 recvradius-353c —— 正本 tests/out/recvradius-353c.json・lib tests/lib-w353c-recvradius.mjs —— 第352便k・c・d・第351便k ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便c の枝の実測 17 s
+  S('recvradius-353c', 'node tests/exp-w353c-recvradius.mjs', ['tests/out/recvradius-353c.json'], 18, { secSource: 'w353c-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/recvradius-353c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便c: 零試験 8/金星 42 + 帯 12/受け手 15 + イオ 29/主の表 120 + 動き始め 24/率の倍 11' }),
+  // ==== 第353便c の塊(ここまで)====
+  // ==== 第353便d の塊(ここから)====
+  // ---- 第353便d(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R468): **源(引きずる側)の扁平率を (S) に入れる式の候補 (O0)〜(O3)(遠い場・近い場・金星とイオの打ち消し・四重極の項の半径)**
+  //   (段 srcoblate-353d —— 正本 tests/out/srcoblate-353d.json・lib tests/lib-w353d-srcoblate.mjs —— 第352便k・s・c・d・第351便c・j・第348便h・c・d・第334便a・第330便a ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便d の枝の実測 3 s
+  S('srcoblate-353d', 'node tests/exp-w353d-srcoblate.mjs', ['tests/out/srcoblate-353d.json'], 4, { secSource: 'w353d-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcoblate-353d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便d: 零試験 9/遠い場 8/近い場 12/打ち消し 9/範囲 301 点/半径 5' }),
+  // ==== 第353便d の塊(ここまで)====
+  // ==== 第353便e の塊(ここから)====
+  // ---- 第353便e(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R469): **注目の列 u = 0.98(背景の向きは (N+) のまま大きさだけ 0.98 —— 傾きを保つ寄る割合の上限・向きと大きさを分ける表・金星の条件と 0.98 の副作用)**
+  //   (段 focus098-353e —— 正本 tests/out/focus098-353e.json・lib tests/lib-w353e-focus098.mjs —— 第352便w・y・za・c・d・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便e の枝の実測 1 s
+  S('focus098-353e', 'node tests/exp-w353e-focus098.mjs', ['tests/out/focus098-353e.json'], 2, { secSource: 'w353e-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/focus098-353e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便e: 零試験 11/0.98 を (N+) に置いた列 36 + 最小 4 + 上端 6/向きと大きさを分ける表 8 × 2 × 9/金星の条件と 0.98 18 + 18' }),
+  // ==== 第353便e の塊(ここまで)====
+  // ==== 第353便f の塊(ここから)====
+  // ---- 第353便f(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R470): **歳差の率を符号つきで同じ極へ足す(重力の側の列〔比べる列〕+ 主の列の軸引きずり)・応答の係数の上限・極の取り方・予告**
+  //   (段 ratesum-353f —— 正本 tests/out/ratesum-353f.json・lib tests/lib-w353f-ratesum.mjs —— 第352便u・y・q・d・c・k・b・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便f の枝の実測 1 s
+  S('ratesum-353f', 'node tests/exp-w353f-ratesum.mjs', ['tests/out/ratesum-353f.json'], 2, { secSource: 'w353f-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ratesum-353f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便f: 零試験 11/符号つきの率 24/上限 24 + 比 24/極 15/予告 9' }),
+  // ==== 第353便f の塊(ここまで)====
+  // ==== 第353便g の塊(ここから)====
+  // ---- 第353便g(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R471): **「金星の自転がロックした状態」の判定の量の候補と、地球の影響の大きさ**
+  //   (段 venuslock-353g —— 正本 tests/out/venuslock-353g.json・lib tests/lib-w353g-venuslock.mjs —— 第352便k・c・d・h・u・b・第351便c・第337便c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib を使う(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便g の枝の実測 16 s
+  S('venuslock-353g', 'node tests/exp-w353g-venuslock.mjs', ['tests/out/venuslock-353g.json'], 16, { secSource: 'w353g-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venuslock-353g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便g: 零試験 10/残りの列 6/大きさの比べ 11/共鳴の幅 3 + 捕まる範囲 18/釣り合いが外れたとき 2' }),
+  // ==== 第353便g の塊(ここまで)====
+  // ==== 第353便h の塊(ここから)====
+  // ---- 第353便h(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R472): **土星の環を円盤引きずりの側で(環の区分 5 × 傾き 5 × 列 6 の率 ÷ 物差し・第352便za の題の切り分け)**
+  //   (段 ringdisk-353h —— 正本 tests/out/ringdisk-353h.json・lib tests/lib-w353h-ringdisk.mjs —— 第352便s・k・c・za・第351便j・第350便g・第348便d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは 🛟 の正本 tests/out/rotvert-w339a.json〔読むだけ —— 第351便j と同じ〕・順序 after に sconseq-352za・ringstep-351j)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便h の枝の実測 1 s
+  S('ringdisk-353h', 'node tests/exp-w353h-ringdisk.mjs', ['tests/out/ringdisk-353h.json'], 2, { secSource: 'w353h-branch', node: true,
+    after: ['sconseq-352za', 'ringstep-351j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は 🛟 の正本 1 本)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringdisk-353h.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第353便h: 零試験 9/🛟 の率 1/環の区分 5 × 傾き 5 × 列 6/題の切り分け 9' }),
+  // ==== 第353便h の塊(ここまで)====
+  // ==== 第353便j の塊(ここから)====
+  // ---- 第353便j(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R474): **金星の条件と注目の列 u = 0.98 を同時に置く道(k × c_R の組 8 つ・受け手 12 の副作用・題 3・金星とイオ)**
+  //   (段 venus098-353j —— 正本 tests/out/venus098-353j.json・lib tests/lib-w353j-venus098.mjs —— 第353便b・c・d・e・第352便w・za・d・k・j・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib に届く(正本の最上位に provisional: true)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便j の枝の実測 2 s
+  S('venus098-353j', 'node tests/exp-w353j-venus098.mjs', ['tests/out/venus098-353j.json'], 4, { secSource: 'w353j-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venus098-353j.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便j: 零試験 11/組 8 × 受け手 12/題 3/金星とイオ 8' }),
+  // ==== 第353便j の塊(ここまで)====
+  // ==== 第353便k の塊(ここから)====
+  // ---- 第353便k(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R475): **回答の基準で作った円盤引きずりの側の輪の場(土星の環 5 区分 × 置き方の組 9・受け手の自分の重みの格子・公転面の集まり)**
+  //   (段 ringstd-353k —— 正本 tests/out/ringstd-353k.json・lib tests/lib-w353k-ringstd.mjs —— 第353便h・d・c・第352便s・k・za・c・第351便j・c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h・srcoblate-353d・recvradius-353c)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便k の枝の実測 1 s
+  S('ringstd-353k', 'node tests/exp-w353k-ringstd.mjs', ['tests/out/ringstd-353k.json'], 2, { secSource: 'w353k-branch', node: true,
+    after: ['ringdisk-353h', 'srcoblate-353d', 'recvradius-353c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringstd-353k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便k: 零試験 9/環の区分 5 × 置き方の組 9/受け手の自分の重み 16/公転面 8 惑星 × 6' }),
+  // ==== 第353便k の塊(ここまで)====
+  // ==== 第353便l の塊(ここから)====
+  // ---- 第353便l(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R476): **「金星は、自転に地球の影響が出るほどに釣り合っている」を DFM の側で(地球を源にした項の置き方の走査・(L2) を全部の受け手で)**
+  //   (段 earthonvenus-353l —— 正本 tests/out/earthonvenus-353l.json・lib tests/lib-w353l-earthonvenus.mjs —— 第353便g・c・d・第352便h・k・v・c・d・第351便c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に venuslock-353g〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便g の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便l の枝の実測 1 s
+  S('earthonvenus-353l', 'node tests/exp-w353l-earthonvenus.mjs', ['tests/out/earthonvenus-353l.json'], 2, { secSource: 'w353l-branch', node: true,
+    after: ['venuslock-353g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/earthonvenus-353l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便l: 零試験 10/(E-S) ÷ 残り の走査 10 × 6/成分 × 位相 3 × 4/内合の前後 12/会合の平均 4/(L2) 14 × 4/内合の角 6 × 5' }),
+  // ==== 第353便l の塊(ここまで)====
+  // ==== 第353便m の塊(ここから)====
+  // ---- 第353便m(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477): **歳差の率の残りの符号(地球の残りが重力の列の入力と定義の幅で替わるか・金星の極 × ŝ の向き × 仮の値の回る向き・要る応答の係数の並び)**
+  //   (段 residsign-353m —— 正本 tests/out/residsign-353m.json・lib tests/lib-w353m-residsign.mjs —— 第353便f・c・第352便u・y・q・d・c・b・第348便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に ringdisk-353h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便m の枝の実測 1 s
+  S('residsign-353m', 'node tests/exp-w353m-residsign.mjs', ['tests/out/residsign-353m.json'], 2, { secSource: 'w353m-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/residsign-353m.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便m: 零試験 10/地球の残り 12/交点 12/金星 20/要る c 10' }),
+  // ==== 第353便m の塊(ここまで)====
+  // ==== 第353便n の塊(ここから)====
+  // ---- 第353便n(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R478): **注目の列 u = 0.98 での「見ている時間の間は変わらない」(見ている時間 5 × 受け手 9 × 寄る割合 3 の傾きの揺れ・
+  //   達する時間・重力の側の歳差との 2 つの軸の合成・応答の側の構造の係数を入れた率)**
+  //   (段 watch098-353n —— 正本 tests/out/watch098-353n.json・lib tests/lib-w353n-watch098.mjs —— 第353便e・b・c・第352便w・l・i・c・b・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便n の枝の実測 3 s
+  S('watch098-353n', 'node tests/exp-w353n-watch098.mjs', ['tests/out/watch098-353n.json'], 4, { secSource: 'w353n-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/watch098-353n.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便n: 零試験 10/見ている時間 5 × 受け手 9 × f 3/変わらないと言える時間の幅 27/2 つの軸 12/応答の側の率の倍 18' }),
+  // ==== 第353便n の塊(ここまで)====
+  // ==== 第353便o の塊(ここから)====
+  // ---- 第353便o(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R479): **太陽の自転軸の傾きを「作る」話と、いまの円錐の読みを分ける(主の列 (N+)・(g2−) の届きと比べる列)**
+  //   (段 suntiltmain-353o —— 正本 tests/out/suntiltmain-353o.json・lib tests/lib-w353o-suntiltmain.mjs —— 第352便l・x・r・w・c・第353便e・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に ringdisk-353h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便o の枝の実測 12 s
+  S('suntiltmain-353o', 'node tests/exp-w353o-suntiltmain.mjs', ['tests/out/suntiltmain-353o.json'], 12, { secSource: 'w353o-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/suntiltmain-353o.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便o: 零試験 10/主の列 6 + ずれ 3 + 黄道の欄 1/比べる列 56 + 帯 12/分ける表 8 + 窓 12' }),
+  // ==== 第353便o の塊(ここまで)====
+  // ==== 第353便p の塊(ここから)====
+  // ---- 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480): **打ち消しの点の一覧を、源の扁平率((O2b) の σ)と受け手の半径の係数((P-場) の c_R)で数え直す(17 組 × 置き方 7・イオと金星の格子 70 点・衛星の自分の重み)**
+  //   (段 cancelstd-353p —— 正本 tests/out/cancelstd-353p.json・lib tests/lib-w353p-cancelstd.mjs —— 第353便d・c・第352便v・k・e・c・d・第351便c・第348便h・c・第350便b・第347便h・e・第312便a・第334便a の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便p の枝の実測 2 s
+  S('cancelstd-353p', 'node tests/exp-w353p-cancelstd.mjs', ['tests/out/cancelstd-353p.json'], 2, { secSource: 'w353p-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/cancelstd-353p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便p: 零試験 9/17 組 × 置き方 7/イオと金星の格子 70/衛星の自分の重み 5 + 実在の組 3' }),
+  // ==== 第353便p の塊(ここまで)====
+  // ==== 第353便q の塊(ここから)====
+  // ---- 第353便q(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R481): **1 つの換算の係数で全部の題を並べる(組 6 の金星の k × 題 11 の値 ÷ 物差し・環の要る k ÷ 金星の k・食い違う題)**
+  //   (段 onek-353q —— 正本 tests/out/onek-353q.json・lib tests/lib-w353q-onek.mjs —— 第353便j・k・h・c・d・f・m・e・第352便w・za・d・k・第351便d・c・f・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に venus098-353j・ringstd-353k・residsign-353m)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便q の枝の実測 2 s
+  S('onek-353q', 'node tests/exp-w353q-onek.mjs', ['tests/out/onek-353q.json'], 2, { secSource: 'w353q-branch', node: true,
+    after: ['venus098-353j', 'ringstd-353k', 'residsign-353m'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/onek-353q.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便q: 零試験 12/組 6 の k × 題 11/環の要る k ÷ 金星の k(区分 5 × 作り 2 × 当て方 2)/食い違う題' }),
+  // ==== 第353便q の塊(ここまで)====
+  // ==== 第353便r の塊(ここから)====
+  // ---- 第353便r(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R482): **歳差の率の残りを軸引きずりで読む列(要る応答の係数の区間・地球と火星の重なり・共通の値 c × u の帰結・基準の列の置き方ごとの余地)**
+  //   (段 residfit-353r —— 正本 tests/out/residfit-353r.json・lib tests/lib-w353r-residfit.mjs —— 第353便m・f・e・c・第352便q・y・u・c・b・第299便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に ringdisk-353h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便r の枝の実測 1 s
+  S('residfit-353r', 'node tests/exp-w353r-residfit.mjs', ['tests/out/residfit-353r.json'], 2, { secSource: 'w353r-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/residfit-353r.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便r: 零試験 9/要る c の区間 20/重なり 24/共通の値 6/式の候補 8/基準の列 6' }),
+  // ==== 第353便r の塊(ここまで)====
+  // ==== 第353便s の塊(ここから)====
+  // ---- 第353便s(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R483): **源(引きずる側)の半径を規則の半径と観測の半径の間で振る(第352便k の srcRadius の t)——
+  //   4 つの題(土星の環・0.98 の金星・イオ・地球の項)で量が 1 になる t・源ごとの t と源の量の式の候補・金星の φ は t で動くか**
+  //   (段 srcinterp-353s —— 正本 tests/out/srcinterp-353s.json・lib tests/lib-w353s-srcinterp.mjs —— 第353便k・d・l・j・第352便k・s・c・d・第351便j・c・第348便h・d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringstd-353k・earthonvenus-353l・venus098-353j)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。
+  //   正本は第338便c の settleRun で書く(lib の閉包に仮の値の lib が入る —— 最上位に provisional の印)。所要は第353便s の枝の実測 2 s
+  S('srcinterp-353s', 'node tests/exp-w353s-srcinterp.mjs', ['tests/out/srcinterp-353s.json'], 2, { secSource: 'w353s-branch', node: true,
+    after: ['ringstd-353k', 'earthonvenus-353l', 'venus098-353j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcinterp-353s.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便s: 零試験 9/題ごとの t 14 行/源 4 と候補 3/金星の φ 5 列 × t 11・イオの φ' }),
+  // ==== 第353便s の塊(ここまで)====
+  // ==== 第353便t の塊(ここから)====
+  // ---- 第353便t(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R484): **「金星で釣り合う」を選び出す量の候補 —— 背景の大きさに依らない向きの一致 2 sin(φ/2) の順位の頑健さ(置き方の組 180)・φ を決める幾何(閉じた形と n★)・相対の運動の分を入れたとき**
+  //   (段 dirmatch-353t —— 正本 tests/out/dirmatch-353t.json・lib tests/lib-w353t-dirmatch.mjs —— 第353便l・c・d・p・第352便h・k・c・第351便c・j・第348便h・c・第350便b・第347便h・e・第337便c・第334便a・第312便a の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便l の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便t の枝の実測 8 s
+  S('dirmatch-353t', 'node tests/exp-w353t-dirmatch.mjs', ['tests/out/dirmatch-353t.json'], 10, { secSource: 'w353t-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/dirmatch-353t.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便t: 零試験 8/置き方の組 180/14 の受け手 × 列 7/c_R の上端 6/8 惑星の幾何/公転の法線を回す 3/基準軸の定義 11/成分 × 背景の向き 6 + 8' }),
+  // ==== 第353便t の塊(ここまで)====
+  // ==== 第353便u の塊(ここから)====
+  // ---- 第353便u(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R485): **注目の列 u = 0.98 で金星を打ち消す換算の係数 k を置いたときの、局所の項が背景に並ぶ受け手(水星・地球・火星・月・イオ)の状態 ——
+  //   受け手 5 × 組 9 の円錐・回る向き・f の上限・傾きの揺れ/観測の当たり所との並べ(仮の値は印つき)/並びを決める量(8 惑星 × 組 9)**
+  //   (段 nearrecv-353u —— 正本 tests/out/nearrecv-353u.json・lib tests/lib-w353u-nearrecv.mjs —— 第353便j・e・n・f・m・c・第352便w・d・k・q・第351便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に venus098-353j〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib に届く(正本の最上位に provisional: true)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便u の枝の実測 3 s
+  S('nearrecv-353u', 'node tests/exp-w353u-nearrecv.mjs', ['tests/out/nearrecv-353u.json'], 4, { secSource: 'w353u-branch', node: true,
+    after: ['venus098-353j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/nearrecv-353u.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便u: 零試験 12/受け手 5 × 組 9/観測の当たり所 2 × 9 + 3 × 9/並び 8 惑星 × 組 9' }),
+  // ==== 第353便u の塊(ここまで)====
+  // ==== 第353便v の塊(ここから)====
+  // ---- 第353便v(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R486): **受け手ごとの構造の係数 —— c_R = r × c_R★ の r の走査(17 組の x・金星とイオと月・0.98 の列の副作用・c_R★ の閉じた形)**
+  //   (段 recvscale-353v —— 正本 tests/out/recvscale-353v.json・lib tests/lib-w353v-recvscale.mjs —— 第353便p・j・c・第352便v・k・第348便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。
+  //   呼ぶ lib(第353便j)の閉包に仮の値の lib が入る —— 正本の最上位に provisional: true と鍵の一覧。所要は第353便v の枝の実測 8 s
+  S('recvscale-353v', 'node tests/exp-w353v-recvscale.mjs', ['tests/out/recvscale-353v.json'], 8, { secSource: 'w353v-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/recvscale-353v.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便v: 零試験 8/表 1 σ 2 × r 9/走査 181 × 2/r → 0 の極限 16 組/表 2 0.98 の r 9 × 受け手 6・水星の下限/表 3 c_R★ 12' }),
+  // ==== 第353便v の塊(ここまで)====
+  // ==== 第353便w の塊(ここから)====
+  // ---- 第353便w(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R487): **形成の段階の題の入口 —— 背景が時間で替わる模型で、太陽の傾きを「作る段」と「保つ段」を 1 本の時間の列でつなぐノブの走査の表**
+  //   (段 formstage-353w —— 正本 tests/out/formstage-353w.json・lib tests/lib-w353w-formstage.mjs —— 第353便o・第352便x・r・l・c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便w の枝の実測 109 s(settleRun で 3 回 —— 札の待ちを除く)
+  S('formstage-353w', 'node tests/exp-w353w-formstage.mjs', ['tests/out/formstage-353w.json'], 110, { secSource: 'w353w-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/formstage-353w.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便w: 零試験 8/主の式 (g2−) 4800 組 + 幅 240 + 第353便o の読み A の組 36/残る角 52 + 条件 4/比べる式 (g2+) 576 + 第353便o の読み B の組 144' }),
+  // ==== 第353便w の塊(ここまで)====
+  // ==== 第353便x の塊(ここから)====
+  // ---- 第353便x(原仮定者の回答(2026-11-25 —— 第151報)AN1046・AN1052・統括の検証項目 R488): **2 つの軸(重力の側の歳差 —— 比べる列 —— と軸引きずりの歳差)を金星・天王星・火星ほかで・
+  //   公転面が背景に応える係数の比 c_輪 ÷ c を振る表(天体 6 × 率の列 3 × 向き 2/c_輪 ÷ c 11/帯 36/見ている時間 3 × 受け手 9)**
+  //   (段 twoaxis-353x —— 正本 tests/out/twoaxis-353x.json・lib tests/lib-w353x-twoaxis.mjs —— 第353便n・f・m・e・第352便u・w・l・i・c・b・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便x の枝の実測 32 s
+  S('twoaxis-353x', 'node tests/exp-w353x-twoaxis.mjs', ['tests/out/twoaxis-353x.json'], 32, { secSource: 'w353x-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/twoaxis-353x.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便x: 零試験 10/2 つの軸 20/c_輪 ÷ c 66/帯 36/見ている時間 27' }),
+  // ==== 第353便x の塊(ここまで)====
+  // ==== 第353便y の塊(ここから)====
+  // ---- 第353便y(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R489): **土星の環の「受け手の重み」—— 輪の周りの粒子の重み(面密度)を場の分母に足す形・受け手の読み 3 つ・公転面の集まりを内側の惑星と巨大な惑星に分けて**
+  //   (段 ringsurf-353y —— 正本 tests/out/ringsurf-353y.json・lib tests/lib-w353y-ringsurf.mjs —— 第353便k・d・h・第352便s・k・za・c・第351便j・c・第348便h・d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringstd-353k)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便y の枝の実測 2 s
+  S('ringsurf-353y', 'node tests/exp-w353y-ringsurf.mjs', ['tests/out/ringsurf-353y.json'], 2, { secSource: 'w353y-branch', node: true,
+    after: ['ringstd-353k'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringsurf-353y.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便y: 零試験 10/区分 5 × 面密度 11 × 読みと作り 3/受け手の読み 3/公転面 8 惑星 × 基準軸 2' }),
+  // ==== 第353便y の塊(ここまで)====
+  // ==== 第353便z の塊(ここから)====
+  // ---- 第353便z(原仮定者の回答(2026-11-25 —— 第151報)AN1045・AN1039・統括の検証項目 R490): **源の扁平率の入れ方を冪の指数 n で振る(イオ ← 木星の n★ と入力の幅・読み替えの候補の n・同じ n をほかの題に)**
+  //   (段 obpower-353z —— 正本 tests/out/obpower-353z.json・lib tests/lib-w353z-obpower.mjs —— 第353便p・d・k・第352便v・k・第351便c・第348便h・c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便z の枝の実測 1 s
+  S('obpower-353z', 'node tests/exp-w353z-obpower.mjs', ['tests/out/obpower-353z.json'], 1, { secSource: 'w353z-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/obpower-353z.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便z: 零試験 9/n の走査 9・入力の幅 7・置き方 7/冪 4 と読み替えの候補 11/衛星 5・環 3・公転面・金星・0.98 の列' }),
+  // ==== 第353便z の塊(ここまで)====
+  // ==== 第353便za の塊(ここから)====
+  // ---- 第353便za(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R491): **換算の係数 k を置いた列の傾きの題を見ている時間の物差しで読み直す(窓 4 × 受け手 7 × 組 9・2 つの軸・寄る割合の窓・1 枚のまとめ)**
+  //   (段 ktilt-353za —— 正本 tests/out/ktilt-353za.json・lib tests/lib-w353za-ktilt.mjs —— 第353便u・n・x・b・e・第352便w・l・i・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に nearrecv-353u・twoaxis-353x)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便za の枝の実測 9 s
+  S('ktilt-353za', 'node tests/exp-w353za-ktilt.mjs', ['tests/out/ktilt-353za.json'], 9, { secSource: 'w353za-branch', node: true,
+    after: ['nearrecv-353u', 'twoaxis-353x'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ktilt-353za.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便za: 零試験 12/窓 4 × 受け手 7 × 組 9/2 つの軸(地球・火星 —— 仮の値は印)/寄る割合の窓 6 × 9/1 枚のまとめ 4 × 3' }),
+  // ==== 第353便za の塊(ここまで)====
+  // ==== 第353便zb の塊(ここから)====
+  // ---- 第353便zb(原仮定者の回答(2026-11-25 —— 第151報)AN1045・AN1039・統括の検証項目 R492): **構造の係数を質量 ÷ 観測半径に比例させる置き方(c_R = C0 × 質量 ÷ 観測半径 —— 17 組の x・3 つの置き方の比べ・頭打ち・題 × (C0, k) の線・c_R の読み)**
+  //   (段 massradius-353zb —— 正本 tests/out/massradius-353zb.json・lib tests/lib-w353zb-massradius.mjs —— 第353便p・v・q・k・c・第352便v・k・第348便h・c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p・recvscale-353v・onek-353q)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。
+  //   呼ぶ lib(第353便q・v)の閉包に仮の値の lib が入る —— 正本の最上位に provisional: true と鍵の一覧。所要は第353便zb の枝の実測 10 s
+  S('massradius-353zb', 'node tests/exp-w353zb-massradius.mjs', ['tests/out/massradius-353zb.json'], 10, { secSource: 'w353zb-branch', node: true,
+    after: ['cancelstd-353p', 'recvscale-353v', 'onek-353q'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/massradius-353zb.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zb: 零試験 7/表 1 σ 2 × C0 9 の 17 組/3 つの置き方の比べ 9/頭打ち 10 + 衛星 4 + 環 3 × 粒子 4/題 11 × C0 9/c_R の読み 16 + 粒子 4' }),
+  // ==== 第353便zb の塊(ここまで)====
+  // ==== 第353便zc の塊(ここから)====
+  // ---- 第353便zc(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R493): **向きの一致の幾何 —— 金星の公転の法線は基準軸から太陽の自転軸へ 1/3 の所(n★)の近く: 法線の並び・1/3 の由来・太陽の円錐の位相と交点の百分位と時間の窓・受け手の半径の置き方と衛星の道の面**
+  //   (段 dirgeo-353zc —— 正本 tests/out/dirgeo-353zc.json・lib tests/lib-w353zc-dirgeo.mjs —— 第353便t・v・第352便h・k・c・第351便c・j・第348便h・c・第337便c・第334便a・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便t・v の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zc の枝の実測 5 s
+  S('dirgeo-353zc', 'node tests/exp-w353zc-dirgeo.mjs', ['tests/out/dirgeo-353zc.json'], 8, { secSource: 'w353zc-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/dirgeo-353zc.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zc: 零試験 8/法線の並び 3 × 8/1/3 の由来 3/太陽の位相 2 × 3600/交点 5 × 3600・時間 11/見込み 8 + 3/置き方 24・端 3/衛星の道 11' }),
+  // ==== 第353便zc の塊(ここまで)====
+  // ==== 第353便ze の塊(ここから)====
+  // ---- 第353便ze(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R494): **形成の段階の題の続き —— 始めの背景が上下の揺れで回る形と、替わる幅のノブ 1 つで作る段と保つ段をつなぐ条件のノブの走査の表**
+  //   (段 formwave-353ze —— 正本 tests/out/formwave-353ze.json・lib tests/lib-w353ze-formwave.mjs —— 第353便w・第352便x・r・c・b・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に obpower-353z)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便ze の枝の実測 174〜196 s(settleRun で 3 回・nice 15 で並行の枝と同時 —— 札の待ちを除く)
+  S('formwave-353ze', 'node tests/exp-w353ze-formwave.mjs', ['tests/out/formwave-353ze.json'], 190, { secSource: 'w353ze-branch', node: true,
+    after: ['obpower-353z'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/formwave-353ze.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便ze: 零試験 8/替わる幅 12 行 × x 12/上下の揺れ 51 列 × 24 組/方位の位相 6 × 240 組/2 つのノブの面 40 × 24 組' }),
+  // ==== 第353便ze の塊(ここまで)====
+  // ==== 第353便zg の塊(ここから)====
+  // ---- 第353便zg(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・AN1034・統括の検証項目 R495): **局所の項が金星の局所の項と同じ大きさになる半径 a★(等大の半径)—— 木星・土星の衛星と環の半径と並べる・入力の幅・閉じた形・偶然の並びの見込み・a★ の内と外の合成の軸**
+  //   (段 equalradius-353zg —— 正本 tests/out/equalradius-353zg.json・lib tests/lib-w353zg-equalradius.mjs —— 第353便z・p・d・第352便v・k・第351便c・第348便h・c・第338便d・第337便c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に obpower-353z)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zg の枝の実測 37 s
+  S('equalradius-353zg', 'node tests/exp-w353zg-equalradius.mjs', ['tests/out/equalradius-353zg.json'], 40, { secSource: 'w353zg-branch', node: true,
+    after: ['obpower-353z'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/equalradius-353zg.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zg: 零試験 10/a★ 2 母天体 × 扁平の倍 3 と入力の幅 6/閉じた形 10 行・ほかの母天体 4/偶然の並びの見込み/合成の軸の格子 11・構造・環の縁' }),
+  // ==== 第353便zg の塊(ここまで)====
+  // ==== 第353便zf の塊(ここから)====
+  // ---- 第353便zf(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1034・AN1039・AN1045・AN1046・AN1058・統括の検証項目 R496): **主の列の候補を 3 本に並べた 1 枚 —— (ア)(イ)(ウ) × 題 11 の組・(イ) を換算の係数で書くか規則の係数で書くかで動く所**
+  //   (段 threecols-353zf —— 正本 tests/out/threecols-353zf.json・lib tests/lib-w353zf-threecols.mjs —— 第353便q・d・k・u・za・zg・c・p・h・第352便s・c・k・第351便c・第348便h・c・第338便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に onek-353q・ktilt-353za・equalradius-353zg)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。閉包に仮の値の lib(provisional の印)。所要は第353便zf の枝の実測 6 s
+  S('threecols-353zf', 'node tests/exp-w353zf-threecols.mjs', ['tests/out/threecols-353zf.json'], 10, { secSource: 'w353zf-branch', node: true,
+    after: ['onek-353q', 'ktilt-353za', 'equalradius-353zg'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/threecols-353zf.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zf: 零試験 9/題 35 行 × 3 列と列ごとの数/(イ) の作り 2 つ —— 受け手 12・題 11・頭打ち 8・桁で動く所 2' }),
+  // ==== 第353便zf の塊(ここまで)====
+  // ==== 第353便zh の塊(ここから)====
+  // ---- 第353便zh(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R497): **向きの一致が時間の間保たれる条件 —— 公転面の応える比の走査・換算の係数を置いた組・破れる条件の順・水星・月・イオの 2 つの軸**
+  //   (段 comove-353zh —— 正本 tests/out/comove-353zh.json・lib tests/lib-w353zh-comove.mjs —— 第353便zc・x・b・n・za・第352便w・l・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に dirgeo-353zc・ktilt-353za)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便zc・x・b・n・za の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zh の枝の実測 34 s
+  S('comove-353zh', 'node tests/exp-w353zh-comove.mjs', ['tests/out/comove-353zh.json'], 40, { secSource: 'w353zh-branch', node: true,
+    after: ['dirgeo-353zc', 'ktilt-353za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/comove-353zh.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zh: 零試験 9/比 8 × 8 惑星・窓・位相の割合・年齢の帯/組 9 × 公転面 3/破れる条件 5・8・6 と順/水星 9 × 窓 4・月とイオ 2 × 9 × 向き 2' }),
+  // ==== 第353便zh の塊(ここまで)====
+  // ==== 第353便zi の塊(ここから)====
+  // ---- 第353便zi(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・統括の検証項目 R498): **等大の半径 a★ の続き —— 3 組目の照合(冥王星 ⇄ カロン ほか)・環の区分を帯として読む見込み・受け手の半径の置き方・a★ を作る因子と扁平の倍の冪**
+  //   (段 eqthird-353zi —— 正本 tests/out/eqthird-353zi.json・lib tests/lib-w353zi-eqthird.mjs —— 第353便zg・z・p・k・c・第351便c・第348便h・c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に equalradius-353zg)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zi の枝の実測 52 s
+  S('eqthird-353zi', 'node tests/exp-w353zi-eqthird.mjs', ['tests/out/eqthird-353zi.json'], 60, { secSource: 'w353zi-branch', node: true,
+    after: ['equalradius-353zg'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/eqthird-353zi.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zi: 零試験 7/3 組目の照合 14 行/帯と見込み(置き方 4 × 範囲 2)/受け手の置き方 9/因子 3 と冪 4' }),
+  // ==== 第353便zi の塊(ここまで)====
+  // ==== 第353便zj の塊(ここから)====
+  // ---- 第353便zj(原仮定者の回答(2026-11-25 —— 第151報)・原仮定者の回答(2026-11-14 —— 第138報の回答)AN721・統括の検証項目 R499): **換算の係数 k を置いた列で公転の道が合成の回転に応えるとしたときの率と、暦表の参考の幅との比(受け手 4 × 組 9・c_輪 の上限・寄る下限・在位の組)**
+  //   (段 orbitk-353zj —— 正本 tests/out/orbitk-353zj.json・lib tests/lib-w353zj-orbitk.mjs —— 第353便u・x・e・第351便d・第352便d・第337便b・第335便c・第333便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に nearrecv-353u・twoaxis-353x)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zj の枝の実測 7 s
+  S('orbitk-353zj', 'node tests/exp-w353zj-orbitk.mjs', ['tests/out/orbitk-353zj.json'], 7, { secSource: 'w353zj-branch', node: true,
+    after: ['nearrecv-353u', 'twoaxis-353x'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/orbitk-353zj.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zj: 零試験 14/率 4 × 9(全部・共通の分・差)/参考の幅との比と c_輪 の上限・寄る下限の窓 4 × 9/在位の組 9/言えること 3 × 4' }),
+  // ==== 第353便zj の塊(ここまで)====
+  // ==== 第353便zk の塊(ここから)====
+  // ---- 第353便zk(原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第151報)AN1034・原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R501): **潮汐ロックの定義の不等式を、主の列の候補 3 本で比 X = 潮汐のトルク ÷ 軸引きずりの直交成分のトルク として数える表(天体 10 × 列 3 × 置き方 3 × k₂/Q 2・線 1 で分かれるか・k₂/Q と u の範囲・金星と地球・整数の並び)**
+  //   (段 lockdef-353zk —— 正本 tests/out/lockdef-353zk.json・lib tests/lib-w353zk-lockdef.mjs —— 第337便c・第353便zf・j・g・第352便q・k・第351便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に threecols-353zf・venus098-353j・venuslock-353g)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第353便zk の枝の実測 2 s(第353便z の扁平の倍の lib も呼ぶ)
+  S('lockdef-353zk', 'node tests/exp-w353zk-lockdef.mjs', ['tests/out/lockdef-353zk.json'], 2, { secSource: 'w353zk-branch', node: true,
+    after: ['threecols-353zf', 'venus098-353j', 'venuslock-353g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lockdef-353zk.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zk: 零試験 12/X 10 天体 × 列 3 × 置き方 3 × k₂/Q 2 と X = 1 の自転周期/線 1 で分かれるか 36 行と k₂/Q の範囲 18/u の範囲 12/金星と地球 3/整数の並び 12/言えること 3' }),
+  // ==== 第353便zk の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

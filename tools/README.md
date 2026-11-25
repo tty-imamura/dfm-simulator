@@ -458,3 +458,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **許可の項**: `node tests/release-promote.mjs --check --perf-allow`(8 項め —— `tests/perf.mjs` の `ALLOW` が空か。残っていれば本の名と外す手順を出す・道具は外さない)。単独では `node tools/perf-allow-check.mjs [--root <dir>]`。
 - **root の SKIP の突き合わせ**: `node tools/root-skip-check.mjs [--root-log <root の全 QA のログ>] [--json]`(保存の結果 2 本は既定の場所 —— 読むだけ)。
 - **箱の立て直し**: `tools/box-setup.sh [--check|--apply] [--node-modules <dir>] [--no-engine] [--no-stamps]`(`--check` が既定・`--apply` は symlink・exclude・unshallow だけ)。QA `lint.tools352g`・`docs.tools352g`。
+
+## 第353便i — 道具: 包みの要約の行の数・post-merge の stderr の置き場・事前検査の一時の写し・版の番号の台帳
+
+- **版の番号の台帳**: `node tools/versions-registry.mjs --check [--json]`(台帳 `tests/data-w353i-versions.json` と木の lib・器の版の字と、正本の `version`・`libVersion` を比べる —— 0 同じ/1 違う/2 台帳が読めない)。統合のたびに `node tools/versions-registry.mjs --write` で引き直す(版を上げた lib・器と正本の組を見てから)。`--self-test` は作りものの木。
+- **post-merge の stderr の置き場**: `POST_MERGE_ERR_DIR`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<pid>/`)。落ちたときの文に置き場のファイルの道が出る。空のファイルと空の置き場は終わるときに消える。
+- **事前検査の一時の写し**: 名の型は `tests/lib-w353i-qatemp.mjs` の `isQaTempCopy(name)`(`tests/` を走査する検査はこれで写しを除く)。`tests/qa-preflight.mjs` は始めに生きていない pid の古い写しを消す。
+- **包み**: `node tools/qapart-verdict.mjs <出力>` は、束でない走行で要約の行が 2 本以上なら NG(2 つ以上の走行の出力を重ねて読んでいる)。QA `lint.qaTempCopy353i`・`lint.versionRegistry353i`・`docs.tools353i`。

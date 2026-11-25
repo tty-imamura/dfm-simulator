@@ -925,7 +925,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.unmarkedFail336b docs.unmarkedFail336b lint.violationKinds320 lint.postMergeQaScript lint.postMergeCounts324c lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
 unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(① か ④)→ 要約に足す句(0 件なら空)
   [ -f "$1" ] || { echo ""; return; }
-  node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>/dev/null || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと)"
+  local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i unmarked); node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>"${e353i:-/dev/null}" || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと —— 道具の stderr は $e353i)"
 }
 # ==== 第336便b の塊(ここまで)====
 # ==== 第337便a の塊(ここから)====
@@ -982,10 +982,10 @@ rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 �
   local rev="$1"
   [ "${POST_MERGE_ROOT_AUTO:-1}" = "0" ] && { echo ""; echo "本便で直した鍵は足さない(POST_MERGE_ROOT_AUTO=0)"; return; }
   local wv="${PMWAVE:-}"
-  [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>/dev/null || true)
+  local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i wave-of-root); [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>"${e353i:-/dev/null}" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $e353i)" >&2; true; })
   [ -n "$rev" ] || { [ -n "$wv" ] && rev=$(node "$ROOT/tests/lib-w337h-postmerge.mjs" --wave-base "$wv" 2>/dev/null); }
   [ -n "$rev" ] || { echo ""; echo "本便で直した鍵は拾えなかった(便の基点が引けない —— --base-rev で渡す)"; return; }
-  node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>/dev/null || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り)"; }
+  e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i changed-ids); node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>"${e353i:-/dev/null}" || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り —— stderr は $e353i)"; }
 }
 # ==== 第337便h の塊(ここまで)====
 # ==== 第337便i の塊(ここから)====
@@ -1631,11 +1631,243 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgwindow352y docs.bgwindow352y"
 #   docs.sconseq352za —— 原文と表と数の文が PHYSICS〔第352便za〕に逐語・文書)と、新しい段 sconseq-352za
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
 # ==== 第352便za の塊(ここまで)====
+# ==== 第353便f の塊(ここから)====
+# 第353便f(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R470 —— 診断だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.ratesum353f —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.ratesum353f —— 原文と表と数の文が PHYSICS〔第353便f〕に逐語・文書)と、新しい段 ratesum-353f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ratesum353f docs.ratesum353f"
+# ==== 第353便f の塊(ここまで)====
 # ==== 第352便z の塊(ここから)====
 # 第352便z(統括の検証項目 R464 —— 文書と照合の鍵だけ・html は変えない): 枝 z の新設 1 本(docs.equations352z —— 計算式の一覧の EQ-130〜EQ-149)と、
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 # ==== 第352便z の塊(ここまで)====
+# ==== 第353便a の塊(ここから)====
+# 第353便a(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R465 —— 文書だけ・html は変えない): 枝 a の新設 1 本
+#   (docs.report151_353a —— 第151報の文書〔15 行・24 文の当たり所・主の列の切り替え 11 題・新しい句 13・訂正の鎖 3〕の戻り止め)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report151_353a"
+# ==== 第353便a の塊(ここまで)====
+# ==== 第353便b の塊(ここから)====
+# 第353便b(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R466 —— 診断だけ・html は変えない): 枝 b の新設 2 本
+#   (behavior.maincol353b —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・回る向きと率の式を QA の中で別に照合・呼ぶだけ /
+#   docs.maincol353b —— 原文と表と数の文が PHYSICS〔第353便b〕に逐語・文書)と、新しい段 maincol-353b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maincol353b docs.maincol353b"
+# ==== 第353便b の塊(ここまで)====
+# ==== 第353便c の塊(ここから)====
+# 第353便c(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R467 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.recvradius353c —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・等大の残りと cR★ の式を QA の中で別に照合・呼ぶだけ /
+#   docs.recvradius353c —— 原文と表と数の文が PHYSICS〔第353便c〕に逐語・文書)と、新しい段 recvradius-353c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.recvradius353c docs.recvradius353c"
+# ==== 第353便c の塊(ここまで)====
+# ==== 第353便d の塊(ここから)====
+# 第353便d(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R468 —— 診断だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.srcoblate353d —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・一次の係数と σ の式を QA の中で別に照合・呼ぶだけ /
+#   docs.srcoblate353d —— 原文と表と数の文が PHYSICS〔第353便d〕に逐語・文書)と、新しい段 srcoblate-353d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcoblate353d docs.srcoblate353d"
+# ==== 第353便d の塊(ここまで)====
+# ==== 第353便e の塊(ここから)====
+# 第353便e(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R469 —— 診断だけ・html は変えない): 枝 e の新設 2 本
+#   (behavior.focus098_353e —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.focus098_353e —— 原文と表と数の文が PHYSICS〔第353便e〕に逐語・文書)と、新しい段 focus098-353e
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.focus098_353e docs.focus098_353e"
+# ==== 第353便e の塊(ここまで)====
+# ==== 第353便g の塊(ここから)====
+# 第353便g(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R471 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.venuslock353g —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.venuslock353g —— 原文と表と数の文が PHYSICS〔第353便g〕に逐語・文書)と、新しい段 venuslock-353g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslock353g docs.venuslock353g"
+# ==== 第353便g の塊(ここまで)====
+# ==== 第353便h の塊(ここから)====
+# 第353便h(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R472 —— 診断だけ・html は変えない): 枝 h の新設 2 本
+#   (behavior.ringdisk353h —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・率 ÷ 物差しの換算を QA の中で別に照合・呼ぶだけ /
+#   docs.ringdisk353h —— 原文と表と数の文が PHYSICS〔第353便h〕に逐語・文書)と、新しい段 ringdisk-353h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringdisk353h docs.ringdisk353h"
+# ==== 第353便h の塊(ここまで)====
+# ==== 第353便i の塊(ここから)====
+# 第353便i(統括の検証項目 R473 —— 道具だけ・html は変えない): 枝 i の新設 3 本(lint.qaTempCopy353i —— 事前検査の一時の写しを tests/ の走査が読んでも結果が変わらない /
+#   lint.versionRegistry353i —— 版の番号の台帳 tests/data-w353i-versions.json と木と正本 / docs.tools353i —— 文書)と、触った道具を読む既存の鍵。
+#   外からの点検で指摘された点: 道具の中で stderr を捨てて「落ちたら文だけ出す」形が 9 か所 → stderr を下の置き場のファイルへ流し、落ちたときの文にそのファイルの道を書く。
+#   置き場: POST_MERGE_ERR_DIR(既定 ${TMPDIR:-/tmp}/post-merge-qa-<pid>/)・ファイルは <印>.XXXXXX(pmerr353i <印> が道を返す)。
+#   終わるときに空のファイルを消し、置き場が空なら置き場も消す(--dry でも何も残さない —— 落ちたときのファイルだけが残る)。
+#   関数の中の 5 か所は、pmerr353i が無いとき(既存の鍵が関数だけを切り出して走らせるとき)は今までどおり stderr を /dev/null へ。
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.qaTempCopy353i lint.versionRegistry353i docs.tools353i lint.changelogHeadRe351i lint.provisionalScope352b lint.preflightResume337h lint.tools352g"
+PMERR_DIR="${POST_MERGE_ERR_DIR:-${TMPDIR:-/tmp}/post-merge-qa-$$}"
+pmerr353i() { mkdir -p "$PMERR_DIR" || :; mktemp "$PMERR_DIR/$1.XXXXXX" || printf '%s/%s.err' "$PMERR_DIR" "$1"; }
+pmerrclean353i() { if [ -d "$PMERR_DIR" ]; then find "$PMERR_DIR" -maxdepth 1 -type f -empty -delete; [ -n "$(ls -A "$PMERR_DIR")" ] || rmdir "$PMERR_DIR"; fi; return 0; }
+trap pmerrclean353i EXIT
+# ==== 第353便i の塊(ここまで)====
+# ==== 第353便j の塊(ここから)====
+# 第353便j(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R474 —— 診断だけ・html は変えない): 枝 j の新設 2 本
+#   (behavior.venus098_353j —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・k と残りの式を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.venus098_353j —— 原文と表と数の文が PHYSICS〔第353便j〕に逐語・文書)と、新しい段 venus098-353j
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venus098_353j docs.venus098_353j"
+# ==== 第353便j の塊(ここまで)====
+# ==== 第353便k の塊(ここから)====
+# 第353便k(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R475 —— 診断だけ・html は変えない): 枝 k の新設 2 本
+#   (behavior.ringstd353k —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・呼ぶだけ /
+#   docs.ringstd353k —— 原文と表と数の文が PHYSICS〔第353便k〕に逐語・文書)と、新しい段 ringstd-353k
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringstd353k docs.ringstd353k"
+# ==== 第353便k の塊(ここまで)====
+# ==== 第353便l の塊(ここから)====
+# 第353便l(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R476 —— 診断だけ・html は変えない): 枝 l の新設 2 本
+#   (behavior.earthonvenus353l —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.earthonvenus353l —— 原文と表と数の文が PHYSICS〔第353便l〕に逐語・文書)と、新しい段 earthonvenus-353l
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.earthonvenus353l docs.earthonvenus353l"
+# ==== 第353便l の塊(ここまで)====
+# ==== 第353便m の塊(ここから)====
+# 第353便m(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477 —— 診断だけ・html は変えない): 枝 m の新設 2 本
+#   (behavior.residsign353m —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.residsign353m —— 原文と表と数の文が PHYSICS〔第353便m〕に逐語・文書)と、新しい段 residsign-353m
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.residsign353m docs.residsign353m"
+# ==== 第353便m の塊(ここまで)====
+# ==== 第353便n の塊(ここから)====
+# 第353便n(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R478 —— 診断だけ・html は変えない): 枝 n の新設 2 本
+#   (behavior.watch098_353n —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.watch098_353n —— 原文と表と数の文が PHYSICS〔第353便n〕に逐語・文書)と、新しい段 watch098-353n
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.watch098_353n docs.watch098_353n"
+# ==== 第353便n の塊(ここまで)====
+# ==== 第353便o の塊(ここから)====
+# 第353便o(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R479 —— 診断だけ・html は変えない): 枝 o の新設 2 本
+#   (behavior.suntiltmain353o —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.suntiltmain353o —— 原文と表と数の文が PHYSICS〔第353便o〕に逐語・文書)と、新しい段 suntiltmain-353o
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntiltmain353o docs.suntiltmain353o"
+# ==== 第353便o の塊(ここまで)====
+# ==== 第353便p の塊(ここから)====
+# 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480 —— 診断だけ・html は変えない): 枝 p の新設 2 本
+#   (behavior.cancelstd353p —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・x と残りを QA の中で別に照合・呼ぶだけ /
+#   docs.cancelstd353p —— 原文と表と数の文が PHYSICS〔第353便p〕に逐語・文書)と、新しい段 cancelstd-353p
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.cancelstd353p docs.cancelstd353p"
+# ==== 第353便p の塊(ここまで)====
+# ==== 第353便q の塊(ここから)====
+# 第353便q(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R481 —— 診断だけ・html は変えない): 枝 q の新設 2 本
+#   (behavior.onek353q —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・値 ÷ 物差しと比を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.onek353q —— 原文と表と数の文が PHYSICS〔第353便q〕に逐語・文書)と、新しい段 onek-353q
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.onek353q docs.onek353q"
+# ==== 第353便q の塊(ここまで)====
+# ==== 第353便r の塊(ここから)====
+# 第353便r(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R482 —— 診断だけ・html は変えない): 枝 r の新設 2 本
+#   (behavior.residfit353r —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.residfit353r —— 原文と表と数の文が PHYSICS〔第353便r〕に逐語・文書)と、新しい段 residfit-353r
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.residfit353r docs.residfit353r"
+# ==== 第353便r の塊(ここまで)====
+# ==== 第353便s の塊(ここから)====
+# 第353便s(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R483 —— 診断だけ・html は変えない): 枝 s の新設 2 本
+#   (behavior.srcinterp353s —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.srcinterp353s —— 原文と表と数の文が PHYSICS〔第353便s〕に逐語・文書)と、新しい段 srcinterp-353s
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcinterp353s docs.srcinterp353s"
+# ==== 第353便s の塊(ここまで)====
+# ==== 第353便t の塊(ここから)====
+# 第353便t(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R484 —— 診断だけ・html は変えない): 枝 t の新設 2 本
+#   (behavior.dirmatch353t —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.dirmatch353t —— 原文と表と数の文が PHYSICS〔第353便t〕に逐語・文書)と、新しい段 dirmatch-353t
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dirmatch353t docs.dirmatch353t"
+# ==== 第353便t の塊(ここまで)====
+# ==== 第353便u の塊(ここから)====
+# 第353便u(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R485 —— 診断だけ・html は変えない): 枝 u の新設 2 本
+#   (behavior.nearrecv353u —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・揺れの幅と率と要る c の式を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.nearrecv353u —— 原文と表と数の文が PHYSICS〔第353便u〕に逐語・文書)と、新しい段 nearrecv-353u
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.nearrecv353u docs.nearrecv353u"
+# ==== 第353便u の塊(ここまで)====
+# ==== 第353便v の塊(ここから)====
+# 第353便v(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R486 —— 診断だけ・html は変えない): 枝 v の新設 2 本
+#   (behavior.recvscale353v —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.recvscale353v —— 原文と表と数の文が PHYSICS〔第353便v〕に逐語・文書)と、新しい段 recvscale-353v
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.recvscale353v docs.recvscale353v"
+# ==== 第353便v の塊(ここまで)====
+# ==== 第353便w の塊(ここから)====
+# 第353便w(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R487 —— 診断だけ・html は変えない): 枝 w の新設 2 本
+#   (behavior.formstage353w —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.formstage353w —— 原文と表と数の文が PHYSICS〔第353便w〕に逐語・文書)と、新しい段 formstage-353w
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.formstage353w docs.formstage353w"
+# ==== 第353便w の塊(ここまで)====
+# ==== 第353便x の塊(ここから)====
+# 第353便x(原仮定者の回答(2026-11-25 —— 第151報)AN1046・AN1052・統括の検証項目 R488 —— 診断だけ・html は変えない): 枝 x の新設 2 本
+#   (behavior.twoaxis353x —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.twoaxis353x —— 原文と表と数の文が PHYSICS〔第353便x〕に逐語・文書)と、新しい段 twoaxis-353x
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.twoaxis353x docs.twoaxis353x"
+# ==== 第353便x の塊(ここまで)====
+# ==== 第353便y の塊(ここから)====
+# 第353便y(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R489 —— 診断だけ・html は変えない): 枝 y の新設 2 本
+#   (behavior.ringsurf353y —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・呼ぶだけ /
+#   docs.ringsurf353y —— 原文と表と数の文が PHYSICS〔第353便y〕に逐語・文書)と、新しい段 ringsurf-353y
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringsurf353y docs.ringsurf353y"
+# ==== 第353便y の塊(ここまで)====
+# ==== 第353便z の塊(ここから)====
+# 第353便z(原仮定者の回答(2026-11-25 —— 第151報)AN1045・AN1039・統括の検証項目 R490 —— 診断だけ・html は変えない): 枝 z の新設 2 本
+#   (behavior.obpower353z —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・n★ と冪と候補の n を QA の中で別に照合・呼ぶだけ /
+#   docs.obpower353z —— 原文と表と数の文が PHYSICS〔第353便z〕に逐語・文書)と、新しい段 obpower-353z
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obpower353z docs.obpower353z"
+# ==== 第353便z の塊(ここまで)====
+# ==== 第353便za の塊(ここから)====
+# 第353便za(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R491 —— 診断だけ・html は変えない): 枝 za の新設 2 本
+#   (behavior.ktilt353za —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・窓と達する年と 2 つの軸と寄る割合の窓を QA の中で別に照合・呼ぶだけ /
+#   docs.ktilt353za —— 原文と表と数の文が PHYSICS〔第353便za〕に逐語・文書)と、新しい段 ktilt-353za
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ktilt353za docs.ktilt353za"
+# ==== 第353便za の塊(ここまで)====
+# ==== 第353便zb の塊(ここから)====
+# 第353便zb(原仮定者の回答(2026-11-25 —— 第151報)AN1045・AN1039・統括の検証項目 R492 —— 診断だけ・html は変えない): 枝 zb の新設 2 本
+#   (behavior.massradius353zb —— 零試験 7・器を走らせ直して第338便c の recheckRun で正本と照合・自分の重みと c_R と k の線を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.massradius353zb —— 原文と表と数の文が PHYSICS〔第353便zb〕に逐語・文書)と、新しい段 massradius-353zb
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.massradius353zb docs.massradius353zb"
+# ==== 第353便zb の塊(ここまで)====
+# ==== 第353便zc の塊(ここから)====
+# 第353便zc(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R493 —— 診断だけ・html は変えない): 枝 zc の新設 2 本
+#   (behavior.dirgeo353zc —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.dirgeo353zc —— 原文と表と数の文が PHYSICS〔第353便zc〕に逐語・文書)と、新しい段 dirgeo-353zc
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dirgeo353zc docs.dirgeo353zc"
+# ==== 第353便zc の塊(ここまで)====
+# ==== 第353便ze の塊(ここから)====
+# 第353便ze(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R494 —— 診断だけ・html は変えない): 枝 ze の新設 2 本
+#   (behavior.formwave353ze —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と組の数と揺れ 0 の行を QA の中で別に照合・呼ぶだけ /
+#   docs.formwave353ze —— 原文と表と数の文が PHYSICS〔第353便ze〕に逐語・文書)と、新しい段 formwave-353ze
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.formwave353ze docs.formwave353ze"
+# ==== 第353便ze の塊(ここまで)====
+# ==== 第353便zg の塊(ここから)====
+# 第353便zg(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・AN1034・統括の検証項目 R495 —— 診断だけ・html は変えない): 枝 zg の新設 2 本
+#   (behavior.equalradius353zg —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・a★ の冪と閉じた形と見込みを QA の中で別に照合・呼ぶだけ /
+#   docs.equalradius353zg —— 原文と表と数の文が PHYSICS〔第353便zg〕に逐語・文書)と、新しい段 equalradius-353zg
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.equalradius353zg docs.equalradius353zg"
+# ==== 第353便zg の塊(ここまで)====
+# ==== 第353便zf の塊(ここから)====
+# 第353便zf(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1046・AN1058・統括の検証項目 R496 —— 診断だけ・html は変えない): 枝 zf の新設 2 本
+#   (behavior.threecols353zf —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・列の数と比と数を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.threecols353zf —— 原文と表と数の文が PHYSICS〔第353便zf〕に逐語・文書)と、新しい段 threecols-353zf
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.threecols353zf docs.threecols353zf"
+# ==== 第353便zf の塊(ここまで)====
+# ==== 第353便zh の塊(ここから)====
+# 第353便zh(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R497 —— 診断だけ・html は変えない): 枝 zh の新設 2 本
+#   (behavior.comove353zh —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と窓の年数を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.comove353zh —— 原文と表と数の文が PHYSICS〔第353便zh〕に逐語・文書)と、新しい段 comove-353zh
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.comove353zh docs.comove353zh"
+# ==== 第353便zh の塊(ここまで)====
+# ==== 第353便zi の塊(ここから)====
+# 第353便zi(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・統括の検証項目 R498 —— 診断だけ・html は変えない): 枝 zi の新設 2 本
+#   (behavior.eqthird353zi —— 零試験 7・器を走らせ直して第338便c の recheckRun で正本と照合・照合の比と見込みと冪を QA の中で別に照合・呼ぶだけ /
+#   docs.eqthird353zi —— 原文と表と数の文が PHYSICS〔第353便zi〕に逐語・文書)と、新しい段 eqthird-353zi
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.eqthird353zi docs.eqthird353zi"
+# ==== 第353便zi の塊(ここまで)====
+# ==== 第353便zj の塊(ここから)====
+# 第353便zj(原仮定者の回答(2026-11-25 —— 第151報)・AN721・統括の検証項目 R499 —— 診断だけ・html は変えない): 枝 zj の新設 2 本
+#   (behavior.orbitk353zj —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・比と上限と寄る下限を QA の中で別に照合・呼ぶだけ /
+#   docs.orbitk353zj —— 原文と表と数の文が PHYSICS〔第353便zj〕に逐語・文書)と、新しい段 orbitk-353zj
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.orbitk353zj docs.orbitk353zj"
+# ==== 第353便zj の塊(ここまで)====
+# ==== 第353便zz の塊(ここから)====
+# 第353便zz(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R500 —— 文書と照合の鍵だけ・html は変えない): 枝 zz の新設 1 本(docs.equations353zz —— 計算式の一覧の EQ-150〜EQ-182・主の列の印・訂正の文)と、
+#   EQ-149 までの写しで読み・主の列の印を回答の印か未定の印で受ける形にした既存の照合(docs.equations352z)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations353zz docs.equations352z"
+# ==== 第353便zz の塊(ここまで)====
+# ==== 第353便zk の塊(ここから)====
+# 第353便zk(原仮定者の補足(2026-11-25 —— 第152報)・AN1034・統括の検証項目 R501 —— 診断だけ・html は変えない): 枝 zk の新設 2 本
+#   (behavior.lockdef353zk —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・X を QA の中で別に書いた式で照合・呼ぶだけ /
+#   docs.lockdef353zk —— 原文と表と数の文が PHYSICS〔第353便zk〕に逐語・文書)と、新しい段 lockdef-353zk
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.lockdef353zk docs.lockdef353zk"
+# ==== 第353便zk の塊(ここまで)====
+# ==== 第353便zl の塊(ここから)====
+# 第353便zl(原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第153報)・統括の検証項目 R502 —— 文書と照合の鍵だけ・html は変えない): 枝 zl の新設 1 本
+#   (docs.report153_353zl —— 第152報・第153報の文書と枝 zf の正本の列を (ウ)(ア)(イ) に並べる表)(第153報の印で受ける形に直した既存の照合 docs.equations353zz・docs.equations352z は第353便zz の塊が足す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
+# ==== 第353便zl の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
@@ -1709,7 +1941,7 @@ S3W_SCOPE="指定の一覧(POST_MERGE_WAVE_IDS)"
 if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   if [ $ALLW -eq 1 ]; then S3W_SCOPE="全部の便の積み上げ(--all-waves)"
   else
-    [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>/dev/null || true)
+    E353I=$(pmerr353i wave-of); [ -n "$PMWAVE" ] || PMWAVE=$(node tests/lib-w324c-postmerge.mjs --wave-of CHANGELOG.md 2>"$E353I" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $E353I)" >&2; true; })
     if [ -n "$PMWAVE" ]; then
       NALLW=$(echo "$WAVE_IDS" | tr -s ' ' '\n' | sort -u | grep -c .)   # 重複を除いた名の数
       WAVE_IDS="$(node tests/lib-w324c-postmerge.mjs --wave-ids "$ROOT/tools/post-merge-qa.sh" "$PMWAVE" 2>/dev/null) ${POST_MERGE_PHYS_SCAN_IDS-$PHYS_SCAN_IDS}"
@@ -1719,7 +1951,7 @@ if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   fi
 fi
 # ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
-qsum324c() { node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>/dev/null || echo "要約が読めない"; }
+qsum324c() { local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i sum); node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>"${e353i:-/dev/null}" || echo "要約が読めない(stderr は $e353i)"; }
 # ==== 第324便c の塊(ここまで)====
 # ==== 第352便g の塊(--since と --dry —— ここから)====
 # 第352便g(R444): --since <rev> のときだけ ③′ の一覧を差し替える・--dry のときだけ一覧を出して終わる(どちらも付けなければ何もしない —— 既定の動きは不変)
@@ -1790,7 +2022,7 @@ const unIds = un.slice(0, 12).map((z) => z[0] + (z[1] === "stamp" ? "〔刻印�
 const unText = un.length ? "・‼ 印のない FAIL " + un.length + " 件(" + unIds + " —— 種類を数えていない・理由の文を読んで分ける)" : "";
 if (!r.byLint.length) { console.log(unText); process.exit(0); }
 const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
-console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>/dev/null || echo ""
+console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>"${E353K:=$([ -z "$(type -t pmerr353i)" ] && echo /dev/null || pmerr353i kinds)}" || echo "・‼ 違反の種類が数えられない(道具の stderr は $E353K)"
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====
@@ -1830,7 +2062,7 @@ else S2="$S2・roster FAIL(統合で段が増えた —— node tools/regen-plan
 
 # ③ 前回失敗項
 if [ -z "$FAILED" ] && [ -f tests/out/qa-results-full-beta.json ]; then
-  FAILED=$(node -e 'const j=JSON.parse(require("fs").readFileSync("tests/out/qa-results-full-beta.json","utf8"));const src=require("fs").readFileSync("tests/qa.mjs","utf8");console.log([...new Set((j.results||[]).filter(r=>!r.pass).map(r=>r.id))].filter(id=>src.includes("add(\x27"+id+"\x27")).join(" "))' 2>/dev/null || true)
+  FAILED=$(node -e 'const j=JSON.parse(require("fs").readFileSync("tests/out/qa-results-full-beta.json","utf8"));const src=require("fs").readFileSync("tests/qa.mjs","utf8");console.log([...new Set((j.results||[]).filter(r=>!r.pass).map(r=>r.id))].filter(id=>src.includes("add(\x27"+id+"\x27")).join(" "))' 2>"${E353F:=$(pmerr353i failed)}" || { echo "post-merge-qa: 前回失敗項が読めない(stderr は $E353F)" >&2; true; })
 fi
 S3="前回失敗 0"
 if [ -n "$FAILED" ]; then
@@ -1843,7 +2075,7 @@ fi
 # ③′ 本便の新設ブロック(名前 → qa.mjs の id: 完全一致か末尾一致。無い名は未統合として数える)
 S3W="本便 なし"
 if [ -n "$WAVE_IDS" ]; then
-  RES=$(node -e 'const src=require("fs").readFileSync("tests/qa.mjs","utf8");const ids=[...new Set([...src.matchAll(/add\(\x27([\w.\-]+)\x27/g)].map(m=>m[1]))];const got=[],miss=[];for(const n of process.argv.slice(1)){if(ids.includes(n)){got.push(n);continue;}const h=ids.filter(i=>i.endsWith("."+n));if(h.length)got.push(...h);else miss.push(n);}console.log(got.join(" ")+"|"+miss.join(" "))' $WAVE_IDS 2>/dev/null || echo "|$WAVE_IDS")
+  RES=$(node -e 'const src=require("fs").readFileSync("tests/qa.mjs","utf8");const ids=[...new Set([...src.matchAll(/add\(\x27([\w.\-]+)\x27/g)].map(m=>m[1]))];const got=[],miss=[];for(const n of process.argv.slice(1)){if(ids.includes(n)){got.push(n);continue;}const h=ids.filter(i=>i.endsWith("."+n));if(h.length)got.push(...h);else miss.push(n);}console.log(got.join(" ")+"|"+miss.join(" "))' $WAVE_IDS 2>"${E353R:=$(pmerr353i wave-res)}" || { echo "post-merge-qa: ③′ の鍵の名を tests/qa.mjs と照らせない(stderr は $E353R)" >&2; echo "|$WAVE_IDS"; })
   WGOT="${RES%%|*}"; WMISS="${RES#*|}"
   nmiss=$(echo "$WMISS" | wc -w)
   if [ -n "$WGOT" ]; then
@@ -1891,7 +2123,7 @@ if [ -n "$BASE" ]; then
   else
     say "⑤ bitsame $BASE → beta/index.html → $LOG/5-bitsame.json"
     node tests/exp-w258c-bitsame.mjs "$BASE" beta/index.html >"$LOG/5-bitsame.json" 2>"$LOG/5-bitsame.err"; rc=$?
-    if [ $rc -gt 1 ] || ! node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$LOG/5-bitsame.json" 2>/dev/null; then S5="bitsame FAIL(器 rc $rc)"; fail=1
+    if [ $rc -gt 1 ] || ! node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$LOG/5-bitsame.json" 2>"${E353B:=$(pmerr353i bitsame-json)}"; then S5="bitsame FAIL(器 rc $rc —— 結果の JSON の読みの stderr は $E353B)"; fail=1
     else S5=$(node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));const ids=j.diff.map(s=>s.split(":")[0]);const pe=(j.pageErrorsBase||[]).length+(j.pageErrorsNow||[]).length;console.log("bitsame "+(j.n-ids.length)+"/"+j.n+(ids.length?"(差分 ID "+ids.slice(0,8).join(",")+(ids.length>8?" 他 "+(ids.length-8):"")+" —— 情報)":"")+(pe?" pageErrors "+pe:""))' "$LOG/5-bitsame.json")
     fi
   fi

@@ -1,0 +1,337 @@
+{
+ "version": "w353i-versions-1",
+ "tool": "tools/versions-registry.mjs",
+ "note": "第353便以降の lib・器(tests/lib-w353*.mjs・tests/exp-w353*.mjs など —— 波の番号 ≥ 353)と第352便za の lib・器の期待する版の字。統合のたびに node tools/versions-registry.mjs --write で引き直す(名簿と同じ運用)。QA lint.versionRegistry353i が木と比べる",
+ "waveFrom": 353,
+ "extra": [
+  "tests/lib-w352za-sconseq.mjs",
+  "tests/lib-w352za-sconseqdoc.mjs",
+  "tests/exp-w352za-sconseq.mjs"
+ ],
+ "files": {
+  "tests/exp-w352za-sconseq.mjs": {
+   "HARNESS_VERSION": "w352za-sconseq-1"
+  },
+  "tests/exp-w353b-maincol.mjs": {
+   "HARNESS_VERSION": "w353b-maincol-1"
+  },
+  "tests/exp-w353c-recvradius.mjs": {
+   "HARNESS_VERSION": "w353c-recvradius-1"
+  },
+  "tests/exp-w353d-srcoblate.mjs": {
+   "HARNESS_VERSION": "w353d-srcoblate-1"
+  },
+  "tests/exp-w353e-focus098.mjs": {
+   "HARNESS_VERSION": "w353e-focus098-1"
+  },
+  "tests/exp-w353f-ratesum.mjs": {
+   "HARNESS_VERSION": "w353f-ratesum-1"
+  },
+  "tests/exp-w353g-venuslock.mjs": {
+   "HARNESS_VERSION": "w353g-venuslock-1"
+  },
+  "tests/exp-w353h-ringdisk.mjs": {
+   "HARNESS_VERSION": "w353h-ringdisk-1"
+  },
+  "tests/exp-w353j-venus098.mjs": {
+   "HARNESS_VERSION": "w353j-venus098-1"
+  },
+  "tests/exp-w353k-ringstd.mjs": {
+   "HARNESS_VERSION": "w353k-ringstd-1"
+  },
+  "tests/exp-w353l-earthonvenus.mjs": {
+   "HARNESS_VERSION": "w353l-earthonvenus-1"
+  },
+  "tests/exp-w353m-residsign.mjs": {
+   "HARNESS_VERSION": "w353m-residsign-1"
+  },
+  "tests/exp-w353n-watch098.mjs": {
+   "HARNESS_VERSION": "w353n-watch098-1"
+  },
+  "tests/exp-w353o-suntiltmain.mjs": {
+   "HARNESS_VERSION": "w353o-suntiltmain-1"
+  },
+  "tests/exp-w353p-cancelstd.mjs": {
+   "HARNESS_VERSION": "w353p-cancelstd-1"
+  },
+  "tests/exp-w353q-onek.mjs": {
+   "HARNESS_VERSION": "w353q-onek-1"
+  },
+  "tests/exp-w353r-residfit.mjs": {
+   "HARNESS_VERSION": "w353r-residfit-1"
+  },
+  "tests/exp-w353s-srcinterp.mjs": {
+   "HARNESS_VERSION": "w353s-srcinterp-1"
+  },
+  "tests/exp-w353t-dirmatch.mjs": {
+   "HARNESS_VERSION": "w353t-dirmatch-1"
+  },
+  "tests/exp-w353u-nearrecv.mjs": {
+   "HARNESS_VERSION": "w353u-nearrecv-1"
+  },
+  "tests/exp-w353v-recvscale.mjs": {
+   "HARNESS_VERSION": "w353v-recvscale-1"
+  },
+  "tests/exp-w353w-formstage.mjs": {
+   "HARNESS_VERSION": "w353w-formstage-1"
+  },
+  "tests/exp-w353x-twoaxis.mjs": {
+   "HARNESS_VERSION": "w353x-twoaxis-1"
+  },
+  "tests/exp-w353y-ringsurf.mjs": {
+   "HARNESS_VERSION": "w353y-ringsurf-1"
+  },
+  "tests/exp-w353z-obpower.mjs": {
+   "HARNESS_VERSION": "w353z-obpower-1"
+  },
+  "tests/exp-w353za-ktilt.mjs": {
+   "HARNESS_VERSION": "w353za-ktilt-1"
+  },
+  "tests/exp-w353zb-massradius.mjs": {
+   "HARNESS_VERSION": "w353zb-massradius-1"
+  },
+  "tests/exp-w353zc-dirgeo.mjs": {
+   "HARNESS_VERSION": "w353zc-dirgeo-1"
+  },
+  "tests/exp-w353ze-formwave.mjs": {
+   "HARNESS_VERSION": "w353ze-formwave-1"
+  },
+  "tests/exp-w353zf-threecols.mjs": {
+   "HARNESS_VERSION": "w353zf-threecols-1"
+  },
+  "tests/exp-w353zg-equalradius.mjs": {
+   "HARNESS_VERSION": "w353zg-equalradius-1"
+  },
+  "tests/exp-w353zh-comove.mjs": {
+   "HARNESS_VERSION": "w353zh-comove-1"
+  },
+  "tests/exp-w353zi-eqthird.mjs": {
+   "HARNESS_VERSION": "w353zi-eqthird-1"
+  },
+  "tests/exp-w353zj-orbitk.mjs": {
+   "HARNESS_VERSION": "w353zj-orbitk-1"
+  },
+  "tests/exp-w353zk-lockdef.mjs": {
+   "HARNESS_VERSION": "w353zk-lockdef-1"
+  },
+  "tests/lib-w352za-sconseq.mjs": {
+   "LIB_VERSION": "w352za-sconseq-lib-1"
+  },
+  "tests/lib-w352za-sconseqdoc.mjs": {
+   "DOC_VERSION": "w352za-sconseqdoc-1"
+  },
+  "tests/lib-w353a-report151.mjs": {
+   "LIB_VERSION": "w353a-report151-lib-1"
+  },
+  "tests/lib-w353b-maincol.mjs": {
+   "LIB_VERSION": "w353b-maincol-lib-1"
+  },
+  "tests/lib-w353b-maincoldoc.mjs": {
+   "DOC_VERSION": "w353b-maincoldoc-1"
+  },
+  "tests/lib-w353c-recvradius.mjs": {
+   "LIB_VERSION": "w353c-recvradius-lib-1"
+  },
+  "tests/lib-w353c-recvradiusdoc.mjs": {
+   "DOC_VERSION": "w353c-recvradiusdoc-1"
+  },
+  "tests/lib-w353d-srcoblate.mjs": {
+   "LIB_VERSION": "w353d-srcoblate-lib-1"
+  },
+  "tests/lib-w353d-srcoblatedoc.mjs": {
+   "DOC_VERSION": "w353d-srcoblatedoc-1"
+  },
+  "tests/lib-w353e-focus098.mjs": {
+   "LIB_VERSION": "w353e-focus098-lib-1"
+  },
+  "tests/lib-w353e-focus098doc.mjs": {
+   "DOC_VERSION": "w353e-focus098doc-1"
+  },
+  "tests/lib-w353f-ratesum.mjs": {
+   "LIB_VERSION": "w353f-ratesum-lib-1"
+  },
+  "tests/lib-w353f-ratesumdoc.mjs": {
+   "DOC_VERSION": "w353f-ratesumdoc-1"
+  },
+  "tests/lib-w353g-venuslock.mjs": {
+   "LIB_VERSION": "w353g-venuslock-lib-1"
+  },
+  "tests/lib-w353g-venuslockdoc.mjs": {
+   "DOC_VERSION": "w353g-venuslockdoc-1"
+  },
+  "tests/lib-w353h-ringdisk.mjs": {
+   "LIB_VERSION": "w353h-ringdisk-lib-1"
+  },
+  "tests/lib-w353h-ringdiskdoc.mjs": {
+   "DOC_VERSION": "w353h-ringdiskdoc-1"
+  },
+  "tests/lib-w353i-qatemp.mjs": {
+   "LIB_VERSION": "w353i-qatemp-lib-1"
+  },
+  "tests/lib-w353j-venus098.mjs": {
+   "LIB_VERSION": "w353j-venus098-lib-1"
+  },
+  "tests/lib-w353j-venus098doc.mjs": {
+   "DOC_VERSION": "w353j-venus098doc-1"
+  },
+  "tests/lib-w353k-ringstd.mjs": {
+   "LIB_VERSION": "w353k-ringstd-lib-1"
+  },
+  "tests/lib-w353k-ringstddoc.mjs": {
+   "DOC_VERSION": "w353k-ringstddoc-1"
+  },
+  "tests/lib-w353l-earthonvenus.mjs": {
+   "LIB_VERSION": "w353l-earthonvenus-lib-1"
+  },
+  "tests/lib-w353l-earthonvenusdoc.mjs": {
+   "DOC_VERSION": "w353l-earthonvenusdoc-1"
+  },
+  "tests/lib-w353m-residsign.mjs": {
+   "LIB_VERSION": "w353m-residsign-lib-1"
+  },
+  "tests/lib-w353m-residsigndoc.mjs": {
+   "DOC_VERSION": "w353m-residsigndoc-1"
+  },
+  "tests/lib-w353n-watch098.mjs": {
+   "LIB_VERSION": "w353n-watch098-lib-1"
+  },
+  "tests/lib-w353n-watch098doc.mjs": {
+   "DOC_VERSION": "w353n-watch098doc-1"
+  },
+  "tests/lib-w353o-suntiltmain.mjs": {
+   "LIB_VERSION": "w353o-suntiltmain-lib-1"
+  },
+  "tests/lib-w353o-suntiltmaindoc.mjs": {
+   "DOC_VERSION": "w353o-suntiltmaindoc-1"
+  },
+  "tests/lib-w353p-cancelstd.mjs": {
+   "LIB_VERSION": "w353p-cancelstd-lib-1"
+  },
+  "tests/lib-w353p-cancelstddoc.mjs": {
+   "DOC_VERSION": "w353p-cancelstddoc-1"
+  },
+  "tests/lib-w353q-onek.mjs": {
+   "LIB_VERSION": "w353q-onek-lib-1"
+  },
+  "tests/lib-w353q-onekdoc.mjs": {
+   "DOC_VERSION": "w353q-onekdoc-1"
+  },
+  "tests/lib-w353r-residfit.mjs": {
+   "LIB_VERSION": "w353r-residfit-lib-1"
+  },
+  "tests/lib-w353r-residfitdoc.mjs": {
+   "DOC_VERSION": "w353r-residfitdoc-1"
+  },
+  "tests/lib-w353s-srcinterp.mjs": {
+   "LIB_VERSION": "w353s-srcinterp-lib-1"
+  },
+  "tests/lib-w353s-srcinterpdoc.mjs": {
+   "DOC_VERSION": "w353s-srcinterpdoc-1"
+  },
+  "tests/lib-w353t-dirmatch.mjs": {
+   "LIB_VERSION": "w353t-dirmatch-lib-1"
+  },
+  "tests/lib-w353t-dirmatchdoc.mjs": {
+   "DOC_VERSION": "w353t-dirmatchdoc-1"
+  },
+  "tests/lib-w353u-nearrecv.mjs": {
+   "LIB_VERSION": "w353u-nearrecv-lib-1"
+  },
+  "tests/lib-w353u-nearrecvdoc.mjs": {
+   "DOC_VERSION": "w353u-nearrecvdoc-1"
+  },
+  "tests/lib-w353v-recvscale.mjs": {
+   "LIB_VERSION": "w353v-recvscale-lib-1"
+  },
+  "tests/lib-w353v-recvscaledoc.mjs": {
+   "DOC_VERSION": "w353v-recvscaledoc-1"
+  },
+  "tests/lib-w353w-formstage.mjs": {
+   "LIB_VERSION": "w353w-formstage-lib-1"
+  },
+  "tests/lib-w353w-formstagedoc.mjs": {
+   "DOC_VERSION": "w353w-formstagedoc-1"
+  },
+  "tests/lib-w353x-twoaxis.mjs": {
+   "LIB_VERSION": "w353x-twoaxis-lib-1"
+  },
+  "tests/lib-w353x-twoaxisdoc.mjs": {
+   "DOC_VERSION": "w353x-twoaxisdoc-1"
+  },
+  "tests/lib-w353y-ringsurf.mjs": {
+   "LIB_VERSION": "w353y-ringsurf-lib-1"
+  },
+  "tests/lib-w353y-ringsurfdoc.mjs": {
+   "DOC_VERSION": "w353y-ringsurfdoc-1"
+  },
+  "tests/lib-w353z-obpower.mjs": {
+   "LIB_VERSION": "w353z-obpower-lib-1"
+  },
+  "tests/lib-w353z-obpowerdoc.mjs": {
+   "DOC_VERSION": "w353z-obpowerdoc-1"
+  },
+  "tests/lib-w353za-ktilt.mjs": {
+   "LIB_VERSION": "w353za-ktilt-lib-1"
+  },
+  "tests/lib-w353za-ktiltdoc.mjs": {
+   "DOC_VERSION": "w353za-ktiltdoc-1"
+  },
+  "tests/lib-w353zb-massradius.mjs": {
+   "LIB_VERSION": "w353zb-massradius-lib-1"
+  },
+  "tests/lib-w353zb-massradiusdoc.mjs": {
+   "DOC_VERSION": "w353zb-massradiusdoc-1"
+  },
+  "tests/lib-w353zc-dirgeo.mjs": {
+   "LIB_VERSION": "w353zc-dirgeo-lib-1"
+  },
+  "tests/lib-w353zc-dirgeodoc.mjs": {
+   "DOC_VERSION": "w353zc-dirgeodoc-1"
+  },
+  "tests/lib-w353ze-formwave.mjs": {
+   "LIB_VERSION": "w353ze-formwave-lib-1"
+  },
+  "tests/lib-w353ze-formwavedoc.mjs": {
+   "DOC_VERSION": "w353ze-formwavedoc-1"
+  },
+  "tests/lib-w353zf-threecols.mjs": {
+   "LIB_VERSION": "w353zf-threecols-lib-1"
+  },
+  "tests/lib-w353zf-threecolsdoc.mjs": {
+   "DOC_VERSION": "w353zf-threecolsdoc-1"
+  },
+  "tests/lib-w353zg-equalradius.mjs": {
+   "LIB_VERSION": "w353zg-equalradius-lib-1"
+  },
+  "tests/lib-w353zg-equalradiusdoc.mjs": {
+   "DOC_VERSION": "w353zg-equalradiusdoc-1"
+  },
+  "tests/lib-w353zh-comove.mjs": {
+   "LIB_VERSION": "w353zh-comove-lib-1"
+  },
+  "tests/lib-w353zh-comovedoc.mjs": {
+   "DOC_VERSION": "w353zh-comovedoc-1"
+  },
+  "tests/lib-w353zi-eqthird.mjs": {
+   "LIB_VERSION": "w353zi-eqthird-lib-1"
+  },
+  "tests/lib-w353zi-eqthirddoc.mjs": {
+   "DOC_VERSION": "w353zi-eqthirddoc-1"
+  },
+  "tests/lib-w353zj-orbitk.mjs": {
+   "LIB_VERSION": "w353zj-orbitk-lib-1"
+  },
+  "tests/lib-w353zj-orbitkdoc.mjs": {
+   "DOC_VERSION": "w353zj-orbitkdoc-1"
+  },
+  "tests/lib-w353zk-lockdef.mjs": {
+   "LIB_VERSION": "w353zk-lockdef-lib-1"
+  },
+  "tests/lib-w353zk-lockdefdoc.mjs": {
+   "DOC_VERSION": "w353zk-lockdefdoc-1"
+  },
+  "tests/lib-w353zl-report153doc.mjs": {
+   "LIB_VERSION": "w353zl-report153doc-lib-1"
+  }
+ }
+}
