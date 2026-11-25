@@ -1756,6 +1756,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.residfit353r docs.residfit353r"
 #   docs.srcinterp353s —— 原文と表と数の文が PHYSICS〔第353便s〕に逐語・文書)と、新しい段 srcinterp-353s
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.srcinterp353s docs.srcinterp353s"
 # ==== 第353便s の塊(ここまで)====
+# ==== 第353便t の塊(ここから)====
+# 第353便t(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R484 —— 診断だけ・html は変えない): 枝 t の新設 2 本
+#   (behavior.dirmatch353t —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.dirmatch353t —— 原文と表と数の文が PHYSICS〔第353便t〕に逐語・文書)と、新しい段 dirmatch-353t
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dirmatch353t docs.dirmatch353t"
+# ==== 第353便t の塊(ここまで)====
 # ==== 第353便u の塊(ここから)====
 # 第353便u(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R485 —— 診断だけ・html は変えない): 枝 u の新設 2 本
 #   (behavior.nearrecv353u —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・揺れの幅と率と要る c の式を QA の中で別に照合・仮の値の印・呼ぶだけ /
