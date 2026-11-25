@@ -125,8 +125,73 @@ export function sepTable(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
   return SEP_CONDS.map((C) => {
     const vals = Object.fromEntries(DECL.dirs.map((dir) => [dir, us.map((u) => C.fn(T1, GEO, dir, u, cache))]));
     const all = classify(vals, C.kind), win = classify({ Np: iWin.map((i) => vals.Np[i]), Gm: iWin.map((i) => vals.Gm[i]) }, C.kind);
-    return { id: C.id, label: C.label, kind: C.kind, obs: C.obs, prov: C.prov === true, us, vals, all, win };
+    const row = { id: C.id, label: C.label, kind: C.kind, obs: C.obs, us, vals, all, win };
+    if (C.prov !== true) return row;
+    const R = Y.residualOf(T1, GEO, 'Earth', cache);   // 仮の値の印と鍵は第352便y の residualOf(第352便b の tagProv)から写す
+    return { ...row, provisional: true, provMark: R.provMark, provKeys: R.provKeys.slice() };
   });
+}
+
+
+/* ───────── 表 1: 0.98 を (N+) に置いた列(受け手 = 8 惑星 + 太陽)と比べる列 ───────── */
+/** 列: 注目の列 (N+) × 0.98(主)・比べる列 (G−) × 0.98・(N+) × 窓の上端(第352便y の condKeep —— f 1e-3)・(N+) × 倍率 1 */
+export function colsOf(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
+  const top = uMaxAt('Earth|Sun', { dir: 'Np', f: DECL.fWin, T1, GEO, cache }).u;
+  return [
+    { id: 'NpF', dir: 'Np', u: DECL.uFocus, main: true, label: '(N+) × 0.98(注目の列)' },
+    { id: 'GmF', dir: 'Gm', u: DECL.uFocus, main: false, label: '(G−) × 0.98(比べる列)' },
+    { id: 'NpTop', dir: 'Np', u: top, main: false, label: '(N+) × 窓の上端(比べる列)' },
+    { id: 'Np1', dir: 'Np', u: 1, main: false, label: '(N+) × 倍率 1(比べる列)' },
+  ];
+}
+/** 表 1 の行: 受け手 × 列 —— 合成と基準軸の角・円錐・合成と背景の角・f の上限・一周の年数(k₂ 1)・年齢の内の周の数・f_輪 の下限 ÷ f の上限 */
+export function table1Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [];
+  for (const c of colsOf(T1, GEO, cache)) {
+    const fR = fRingAt(c.u);
+    for (const key of DECL.keys) {
+      const st = focusState(T1, GEO, key, { dir: c.dir, u: c.u }, cache), fm = W.fKeep({ thDeg: st.thDeg, W: st.W, crit: DECL.crit });
+      out.push({ col: c.id, key, dir: c.dir, u: c.u, omAxisDeg: st.omAxisDeg, thDeg: st.thDeg, omBgDeg: st.omBgDeg, locOverBg: st.locOverBg, fMax: fm.fMax, noLimit: fm.noLimit,
+        periodYr: st.periodYr, turnsAge: st.turnsAge, fRing: fR, ringOverF: fR !== null ? fR / fm.fMax : null });
+    }
+  }
+  return out;
+}
+/** 表 1 のまとめ: 列ごとに最小の受け手(太陽を除く・太陽を含む)と、その f の上限 */
+export function table1Min(rows) {
+  const ids = [...new Set(rows.map((r) => r.col))];
+  return ids.map((col) => {
+    const R = rows.filter((r) => r.col === col), P = R.filter((r) => r.key !== 'Sun|-');
+    const mP = P.reduce((a, b) => (b.fMax < a.fMax ? b : a)), mA = R.reduce((a, b) => (b.fMax < a.fMax ? b : a));
+    return { col, u: R[0].u, minKey: mP.key, minF: mP.fMax, minKeyAll: mA.key, minFAll: mA.fMax, fRing: R[0].fRing, ringOverMin: R[0].fRing !== null ? R[0].fRing / mA.fMax : null };
+  });
+}
+/** 窓の上端を向きと f で(第352便y の condKeep —— 地球): 「上端が向きで変わる」の行 */
+export function topRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [];
+  for (const f of [1e-2, 1e-3, 1e-4]) for (const dir of DECL.dirs) out.push({ f, dir, u: uMaxAt('Earth|Sun', { dir, f, T1, GEO, cache }).u });
+  return out;
+}
+
+/* ───────── 表 3: 金星の条件と 0.98 ───────── */
+/** 題(第352便za の TOPICS)を u 0.98 で k 1 と k = 金星で等大の k に —— 背景 (N+) L(主)・(G−)(比べる列)・(S) 規則の半径 */
+export const T3_BGS = Object.freeze(['NpL', 'Gm']);
+export function table3Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const u = DECL.uFocus, kV = kVenusAt(u, T1, GEO, cache), out = [];
+  for (const topic of Z.DECL.topics) for (const bg of T3_BGS) {
+    const c1 = Z.topicCell(T1, GEO, topic, 'Srule', bg, u, { k: 1 }, cache), cK = Z.topicCell(T1, GEO, topic, 'Srule', bg, u, { k: kV }, cache);
+    out.push({ topic, bg, u, kV, v1: c1.v, vK: cK.v, ratio: c1.v !== 0 ? cK.v / c1.v : null, over1: c1.v > 1 + 1e-6, overK: cK.v > 1 + 1e-6 });
+  }
+  return out;
+}
+/** 表 3 の受け手ごと: k = 金星で等大の k を全部の受け手に掛けたときの、局所 ÷ 背景・合成と背景の角・円錐・f の上限(k 1 と並べる)—— (N+) 0.98 */
+export function table3Recv(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const u = DECL.uFocus, kV = kVenusAt(u, T1, GEO, cache), out = [];
+  for (const key of DECL.keys) for (const k of [1, kV]) {
+    const st = focusState(T1, GEO, key, { dir: 'Np', u, k }, cache), fm = W.fKeep({ thDeg: st.thDeg, W: st.W, crit: DECL.crit });
+    out.push({ key, k, locOverBg: st.locOverBg, omOverBg: st.W / st.Wb, omBgDeg: st.omBgDeg, thDeg: st.thDeg, fMax: fm.fMax, noLimit: fm.noLimit });
+  }
+  return out;
 }
 
 /* ───────── 零試験 ───────── */
