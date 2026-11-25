@@ -1798,6 +1798,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringsurf353y docs.ringsurf353y"
 #   docs.obpower353z —— 原文と表と数の文が PHYSICS〔第353便z〕に逐語・文書)と、新しい段 obpower-353z
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obpower353z docs.obpower353z"
 # ==== 第353便z の塊(ここまで)====
+# ==== 第353便za の塊(ここから)====
+# 第353便za(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R491 —— 診断だけ・html は変えない): 枝 za の新設 2 本
+#   (behavior.ktilt353za —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・窓と達する年と 2 つの軸と寄る割合の窓を QA の中で別に照合・呼ぶだけ /
+#   docs.ktilt353za —— 原文と表と数の文が PHYSICS〔第353便za〕に逐語・文書)と、新しい段 ktilt-353za
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ktilt353za docs.ktilt353za"
+# ==== 第353便za の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

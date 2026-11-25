@@ -129725,6 +129725,215 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第353便z の塊(ここまで)====
 
+// ==== 第353便za の塊(ここから —— behavior.ktilt353za・docs.ktilt353za の 2 ブロック。root は SKIP)====
+// ---- 第353便za(原仮定者の回答(2026-11-25 —— 第151報)AN1046・AN1033・AN1052・統括の検証項目 R491):
+// ----   **換算の係数 k を置いた列の傾きの題を「見ている時間」の物差しで読み直す(表 3 窓 4 × 受け手 7 × 組 9/表 4 2 つの軸 —— 重力の側の列は比べる列・仮の値は印つき/
+// ----   表 5 寄る割合の窓/表 6 1 枚のまとめ)**
+// ----   (新設 —— 器 tests/exp-w353za-ktilt.mjs〔html を読まない〕・lib tests/lib-w353za-ktilt.mjs・文書の lib tests/lib-w353za-ktiltdoc.mjs・正本 tests/out/ktilt-353za.json・
+// ----   入力のファイルは無い。html・本の宣言・エンジン・受理器・既存の lib の本文は変えない)。世代切替 = beta 対象 ∧ 器・lib・文書の lib がある。
+// ----   behavior.ktilt353za(正本と照合 —— html を読まない・照合は第338便c の recheckRun):
+// ----     ① 版・宣言・零試験 12 を作り直して全部真 ② 器の runAll を走らせ直して正本と同じ
+// ----     ③ QA の中で別に書いた式: 揺れの幅 = 最大 − 最小・窓の内の最大は窓が長いほど小さくならない・0.1° の印 = 達する年 ≤ 窓・0.1° より 1° が遅い・一周の内の最大の上限・
+// ----        2 つの軸の一周 ≈ 重力の側の一周・縮みの比・f_輪 の下限の閉じた形・同じ f の窓・まとめの欄と印を値から作り直す
+// ----     ④ 作り直した門が全部真・仮の値の印(最上位と 2 つの軸の仮の値の行・回る向きの欄)・呼ぶだけ
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w353za-ktilt.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w353za-ktilt.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w353za-ktiltdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'ktilt-353za.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP behavior.ktilt353za(第353便za の換算の係数を置いた列の傾きを見ている時間で読み直す表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, R338 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc);
+    R338 = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/ktilt-353za.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        // ① 版・宣言・零試験
+        if (!((L.LIB_VERSION === J.libVersion && /^w353za-ktilt-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w353za-ktilt-\d+$/.test(X.HARNESS_VERSION)) && /^w353za-ktiltdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0   // 版は正本の記録と名の型で見る(第344便f の形)
+          && J.meta && J.meta.recheck && J.meta.recheck.version === R338.LIB_VERSION)) bad.push('① 版(lib・器・文書の lib・版の履歴・照合の lib)');
+        const DL = L.DECL;
+        if (!(DL.uFocus === 0.98 && DL.omegaG === 9.09e-16 && DL.ageYr === 4.5e9 && js(DL.recvs) === js(['Mercury', 'Venus', 'Earth', 'Mars', 'Moon', 'Io', 'Sun']) && DL.comboIds.length === 9 && DL.comboIds[0] === 'k1'
+          && js(DL.windowsYr) === js([100, 1e4, 1e6, 4.5e9]) && DL.mainWindowYr === 1e4 && js(DL.thrDeg) === js([0.1, 1]) && js(DL.modes) === js(['fixed', 'two', 'co']) && DL.mainSense === 'g2m'))
+          bad.push('① 宣言(0.98・ω_G・年齢・受け手 7・組 9・窓 4・主の窓 1 万年・物差し 0.1° と 1°・読み 3・(g2−))');
+        const PS = L.pureScenes(), PG = L.pureGates(PS);
+        for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
+        if (Object.keys(PG).length !== 12) bad.push('① 零試験の数 ' + Object.keys(PG).length);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(第353便n の達する年と窓の終わり・第353便u の揺れの幅・第353便x の 2 つの軸・共回り・寄る割合の窓・太陽・月の数なし・k・基準軸・拒否)`);
+        // ② 器を走らせ直して正本と同じ
+        const parts = ['pure', 't1', 't1over', 't2', 't3', 't4'];
+        const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k].n + ' 葉・最大 ' + diffs[k].worst + '・' + diffs[k].first + '・' + JSON.stringify(diffs[k].hits[0])).join('・') + ')—— 器を走らせ直す');
+        if (RC.unstable.length) bad.push('② 尺度の走り直しで構造が変わる葉 ' + RC.unstable.length + '(' + RC.unstable.slice(0, 3).join('・') + ')');
+        cases.push(`② 器を走らせ直して ${parts.length} 部分が正本と同じ(第338便c の量ごとの尺度の照合 —— 葉 ${RC.nLeaves}・0 と書いた葉 ${RC.nZero})`);
+        // ③ QA の中で別に書いた式
+        const D2R = Math.PI / 180, Ts = 4.5e9 * 365.25 * 86400, near = (a, b, t) => Math.abs(a / b - 1) <= t, k1OfF = (f) => f / Math.sqrt((1 - f) * (1 - f) + f * f);
+        let n3 = 0;
+        for (const b of J.t1) for (const r of b.rows) {
+          n3++;
+          const tol = 1e-9 * Math.max(1, r.swingDeg), top = Math.max(r.epsMaxDeg - r.eps0Deg, r.eps0Deg - r.epsMinDeg), r01 = r.reach['0.1'], r1 = r.reach['1'];
+          if (!(Math.abs(r.swingDeg - (r.epsMaxDeg - r.epsMinDeg)) <= tol)) bad.push('③ 揺れの幅 = 最大 − 最小 ' + b.key + ' ' + r.combo);
+          if (!r.win.every((w, i) => i === 0 || w.winDeg >= r.win[i - 1].winDeg - 1e-12)) bad.push('③ 窓の内の最大が窓とともに減る ' + b.key + ' ' + r.combo);
+          if (!r.win.every((w) => w.winDeg <= top + 1e-9 && w.over01 === (w.winDeg > 0.1))) bad.push('③ 一周の内の最大の上限・0.1° の印 ' + b.key + ' ' + r.combo);
+          if (!r.win.every((w) => Math.abs(w.winDeg - 0.1) < 1e-6 || w.over01 === (r01 !== null && r01 <= w.years))) bad.push('③ 0.1° の印 = 達する年 ≤ 窓 ' + b.key + ' ' + r.combo);
+          if (!((r1 === null || (r01 !== null && r01 < r1)) && ((r01 === null) === !(top >= 0.1)) && ((r1 === null) === !(top >= 1)))) bad.push('③ 0.1° と 1° の達する年の順と有無 ' + b.key + ' ' + r.combo);
+        }
+        const over2 = J.t1.flatMap((b) => b.rows.filter((r) => r.win[1].winDeg > 0.1).map((r) => b.key + '|' + r.combo));
+        if (js(over2) !== js(J.t1over.map((x) => x.key + '|' + x.combo))) bad.push('③ 1 万年で 0.1° を越える行の一覧を値から作り直して違う');
+        for (const r of J.t2.rows) {
+          if (!(near(r.periodYr * r.gravAsYr, 1296000, 2e-3) && near(r.shrink, r.swingDeg / r.dragSwingDeg, 1e-12) && r.swingDeg < r.dragSwingDeg && r.win1e4 <= r.winAge + 1e-12 && r.provisional === (r.grav === 'prov') && r.comparison === true))
+            bad.push('③ 2 つの軸の一周・縮み・窓・仮の値の印 ' + r.key + ' ' + r.grav + ' ' + r.combo);
+        }
+        if (!J.t2.none.every((n) => ['Moon', 'Io'].includes(n.key) && n.none === true && n.winDeg === null)) bad.push('③ 月・イオの数なし');
+        const xR = Math.log(Math.tan(15 * D2R) / Math.tan(3.5 * D2R)), k1R = xR / (0.98 * 9.09e-16 * Ts);
+        for (const r of J.t3) {
+          if (!(near(k1OfF(r.fRingBg), k1R, 1e-9) && near(r.gapBg, r.fRingBg / r.fMax, 1e-12) && r.windowBg === (r.fRingBg <= r.fMax) && (r.fRingW === null || r.windowW === (r.fRingW <= r.fMax)))) bad.push('③ f_輪 の下限の閉じた形・比・窓 ' + r.key + ' ' + r.combo);
+        }
+        const mk = (ratio, per) => (ratio === null ? '物差しなし' : ratio <= 1 ? '無し' : per !== null && per > 1e4 ? '物差しなし' : '有り');
+        for (const row of J.t4.rows) for (const c of row.cells) {
+          let ok = true;
+          if (row.topic === 'tilt1e4') { const m = Math.max(...J.t1.map((b) => b.rows.find((r) => r.combo === c.combo).win[1].winDeg)); ok = near(c.value, m, 1e-12) && near(c.ratio, m / 0.1, 1e-12) && c.mark === mk(c.ratio, null); }
+          else if (row.topic === 'swing') { const r = J.t1.find((b) => b.key === 'Earth').rows.find((x) => x.combo === c.combo); ok = near(c.value, r.swingDeg, 1e-12) && c.mark === mk(c.ratio, r.periodYr); }
+          else if (row.topic === 'sense') ok = c.mark === (c.value === c.of ? '無し' : '有り') && c.provisional === true;
+          else { const w = J.t3.find((r) => r.key === 'Earth' && r.combo === c.combo); ok = near(c.ratio, w.gapBg, 1e-12) && c.mark === mk(c.ratio, null); }
+          if (!ok) bad.push('③ まとめの欄と印を値から作り直して違う ' + row.topic + ' ' + c.combo);
+        }
+        cases.push(`③ 揺れの幅・窓の単調・0.1° の印 = 達する年 ≤ 窓・達する年の順と有無 ${n3} 行・1 万年で越える行 ${J.t1over.length}・2 つの軸 ${J.t2.rows.length} 行・f_輪 の閉じた形と窓 ${J.t3.length} 行・まとめ ${J.t4.rows.length} × ${J.t4.cols.length} を値から作り直して同じ`);
+        // ④ 門・仮の値の印・呼ぶだけ
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const pk = [...new Set([...J.t2.rows.flatMap((r) => r.provKeys), ...J.t4.rows.find((r) => r.topic === 'sense').cells.flatMap((c) => c.provKeys)])].sort();
+        if (!(J.provisional === true && js(J.provKeys) === js(['earth.precSense', 'earth.psiA.rate', 'mars.prec.rate']) && js(pk) === js(J.provKeys) && js(J.provKeysUsed) === js(J.provKeys) && typeof J.provMark === 'string' && J.provMark.length > 0
+          && J.t2.rows.filter((r) => r.grav === 'prov').length === 18 && J.t2.rows.filter((r) => r.grav === 'prov').every((r) => r.provisional === true && r.provKeys.length === 2)))
+          bad.push('④ 仮の値の印(最上位の provisional・provKeys・provMark と 2 つの軸の仮の値の行・回る向きの欄)');
+        const tl = rd('tests/lib-w353za-ktilt.mjs'), th = rd('tests/exp-w353za-ktilt.mjs'), td = rd('tests/lib-w353za-ktiltdoc.mjs');
+        const imps = [...tl.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort(), impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+        const wantImps = ['lib-w347e-spintorque.mjs', 'lib-w351d-r3step.mjs', 'lib-w352i-stableprec.mjs', 'lib-w352l-suntilt.mjs', 'lib-w352w-keepcone.mjs',
+          'lib-w353b-maincol.mjs', 'lib-w353e-focus098.mjs', 'lib-w353n-watch098.mjs', 'lib-w353u-nearrecv.mjs', 'lib-w353x-twoaxis.mjs'];
+        const wantH = ['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w347e-spintorque.mjs', 'lib-w353u-nearrecv.mjs', 'lib-w353za-ktilt.mjs'];
+        if (!(js(imps) === js(wantImps) && js(impsH) === js(wantH) && !/loadHtml|index\.html/.test(tl + td + th)
+          && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b|readFileSync/.test(tl + td) && !/\bfetch\(|https?\.get\(|child_process|\bcurl\b/.test(th) && !/from '/.test(td) && !/Math\.random/.test(tl + th)
+          && !/w353za/.test(wantImps.map((f) => rd('tests/' + f)).join(''))))
+          bad.push('④ 呼ぶだけ(lib の import は 10 本・器は 5 本・html を読まない・lib はファイルを読まない・ネットへ取りに行かない・文書の lib は import しない・Math.random なし・呼ぶ lib の本文は不変)');
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・仮の値の印(最上位と 2 つの軸の仮の値 18 行・回る向きの欄)・lib の import は 10 本の lib だけ・html を読まない`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.ktilt353za', bad.length === 0,
+      `**換算の係数 k を置いた列の傾きを見ている時間で読み直す表(窓 4 × 受け手 7 × 組 9・2 つの軸・寄る割合の窓・まとめ)の作り直し**(第353便za・原仮定者の回答(2026-11-25 —— 第151報)・R491 —— html を読まない): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ---- 第353便za: docs.ktilt353za は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.ktilt353za(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
+// ----     ② 原文 5 つと表 1・表 5 本・数の文 5 つが PHYSICS〔第353便za〕に逐語 ③ 節の位置(〔第353便z〕の節の後・第328便の統括の節の前)・必須の語・
+// ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §383(§382 の後)・CHANGELOG(第353便za の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名・変異 2
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w353za-ktilt.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w353za-ktilt.mjs'), wDoc = path.join(ROOT, 'tests', 'lib-w353za-ktiltdoc.mjs');
+  const wOut = path.join(ROOT, 'tests', 'out', 'ktilt-353za.json');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && fs.existsSync(wDoc))) {
+    console.log('SKIP docs.ktilt353za(第353便za の換算の係数を置いた列の傾きを見ている時間で読み直す表の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, D0 = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); D0 = await import('file://' + wDoc); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const i0 = PH.indexOf('〔第353便za — '), i7 = PH.indexOf('\n## 7. 論文'), ig = PH.indexOf('〔第353便z — '), iu = PH.indexOf('〔第328便 — 統括');
+    const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ig >= 0 && ig < i0 && iu > i0)) bad.push('PHYSICS〔第353便za〕が無いか〔第353便z〕の節の前か第328便の統括の節・「## 7.」の後ろ');
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/ktilt-353za.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'ktilt'
+        && J.target === 'tests/lib-w353za-ktilt.mjs' && J.meta.scope === undefined && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 0 && J.meta.recheck && J.meta.recheck.unstable === 0))
+        bad.push('① 版・来歴(html を読まない —— target は lib・領域の宣言なし・入力のファイルは無い・settleRun の尺度で構造が変わる葉 0)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL) || JSON.stringify(J.plan) !== JSON.stringify(X.PLAN)) bad.push('① 正本の宣言が lib と器と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      if (!(D0.ORIGINAL.length === 5 && D0.READINGS.length === 5)) bad.push('② 原文の数(5)・読みの数');
+      for (const [, o] of D0.ORIGINAL) if (sec.indexOf('「' + o + '」') < 0) bad.push('② 原文が節に逐語で無い: ' + o.slice(0, 20));
+      if (!(D0.ORIGINAL[0][1] === 'AN1046: C' && D0.ORIGINAL[1][1] === 'AN1033: 「太陽系の基準軸の向き」。「観測値は釣り合った結果」なので、観測値に沿った方式を採用する' && D0.ORIGINAL[4][1] === 'AN1052: イ'
+        && D0.ORIGINAL.every(([s]) => s === '原仮定者の回答(2026-11-25 —— 第151報)'))) bad.push('② 原文(第151報の AN1046・AN1033・AN1052 —— 出どころの名)');
+      if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表 1(原文と読み)が節に逐語で無い');
+      const T = D0.tablesOf(J), F = D0.factsOf(J);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便za〕に表 ' + k + ' が逐語で無い');
+      if (Object.keys(T).length !== 5) bad.push('② 表の数 ' + Object.keys(T).length);
+      for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便za〕に数の文 ' + k + ' が逐語で無い');
+      if (Object.keys(F).length !== 5) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第353便za〕に逐語(文書の lib ${D0.DOC_VERSION})`);
+    }
+    const want = ['原仮定者の回答(2026-11-25 —— 第151報)', 'R491', 'AN1046', 'AN1033', 'AN1052', 'tests/exp-w353za-ktilt.mjs', 'tests/out/ktilt-353za.json', 'tests/lib-w353za-ktilt.mjs', 'ktilt-353za',
+      '注目の列', '(N+)', '(P-場)', '(P-応)', '規則の半径', '基準軸 L', '換算の係数 k', '金星の条件', '(g2−)', '見ている時間', '観測の歴史の長さ', '0.1°', '2 つの軸', 'f の上限', 'f_輪',
+      '比べる列', 'DFM の式ではない', '▲', '※', '○', '仮の値', '未照合', '物差しなし', '数なし',
+      '〔第353便j〕', '〔第353便n〕', '〔第353便q〕', '〔第353便u〕', '〔第353便x〕', 'ノブの表', '何を満たすために足したか', '既定と振った範囲', '効いた量', '効かなかった量', '状態',
+      '題カードの恒久の条件との照合', '決断事項の候補', '原文の文', '読み', '推奨', '次点', '次の便へ', 'behavior.ktilt353za', 'docs.ktilt353za', '書かないこと'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第353便za〕に「' + w + '」が無い');
+    const kt = sec.indexOf('| ノブの名 |'), ktabAll = kt >= 0 ? sec.slice(kt).split('\n\n')[0].split('\n') : [], ktab = ktabAll.slice(2);
+    const states = ktab.map((l) => l.split('|').map((c) => c.trim()).filter((c, k, a) => k > 0 && k < a.length - 1).pop());
+    if (!(ktabAll.length >= 2 && ktabAll[0] === '| ノブの名 | 何を満たすために足したか | 既定と振った範囲 | 効いた量 | 効かなかった量 | 状態 |' && ktab.length >= 3
+      && ktab.every((l) => l.split('|').length === 8 && l.indexOf('\\|') < 0) && states.every((x) => ['候補', '対照', '不用の見込み'].includes(x))))
+      bad.push('③ ノブの表(6 列・縦棒の逃がしなし・状態の欄が 1 語 —— ' + states.filter((x) => !['候補', '対照', '不用の見込み'].includes(x)).join('・') + ')');
+    const a0 = AS.indexOf('\n## 383. 第353便za'), ai = secUntilNext329c(AS, a0, '\n## ');
+    if (!(a0 >= 0 && AS.indexOf('\n## 382. 第353便z') >= 0 && AS.indexOf('\n## 382. 第353便z') < a0 && ai.indexOf('tests/out/ktilt-353za.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('候補') >= 0 && ai.indexOf('R491') >= 0))
+      bad.push('③ AI_SPEC §383(§382 の後・正本・SYSTEM_PROMPT・候補・R491)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第353便za**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('tests/exp-w353za-ktilt.mjs') >= 0 && clz.indexOf('ktilt-353za') >= 0 && clz.indexOf('R491') >= 0))
+      bad.push('③ CHANGELOG の第353便za の行(見出しより後・器と段の名・R491)');
+    if (!(/S\('ktilt-353za', 'node tests\/exp-w353za-ktilt\.mjs', \['tests\/out\/ktilt-353za\.json'\]/.test(RT) && RT.indexOf('// ==== 第353便za の塊(ここから)====') > RT.indexOf('// ==== 第353便z の塊(ここまで)====') && RT.indexOf('// ==== 第353便z の塊(ここまで)====') >= 0)) bad.push('③ 段の行 ktilt-353za(第353便z の塊の後)');
+    if (!(GI.indexOf('!tests/out/ktilt-353za.json') >= 0 && GI.indexOf('# ==== 第353便za の塊(ここから)====') > GI.indexOf('# ==== 第353便z の塊(ここまで)===='))) bad.push('③ .gitignore の例外(第353便z の塊の後)');
+    if (!(PM.indexOf('# ==== 第353便za の塊(ここから)====') > PM.indexOf('# ==== 第353便z の塊(ここまで)====') && PM.indexOf('# ==== 第353便z の塊(ここまで)====') >= 0 && /behavior\.ktilt353za docs\.ktilt353za/.test(PM))) bad.push('③ post-merge に第353便za の塊(第353便z の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・ノブの表(6 列・状態の欄)・AI_SPEC §383(次の見出しまで)・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, ''), stripCode = (t) => t.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
+    const dropOrig = (t) => (D0 ? D0.ORIGINAL.reduce((s, [, o]) => s.split(o).join(''), t) : t);   // 原文(言葉を変えずに引く)は書かない語の照合から外す
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /法則を確かめた/, /検証が完了した/, /一致した/, /係数が決/, /法則が見付/, /算出できた/, /原因が分か/, /出どころが決ま/, /軸引きずりの外と決/,
+      /0\.98 は \(N\+\) の窓の内/, /窓の内に在る/, /k が決ま/, /c_R が決ま/, /組が決ま/, /食い違いが無い/, /保たれた/, /保たれる/, /金星はロックしている/];
+    const NOT338 = [/\d\s*km\/s/, /κ₀/, /\bD_bg\b/, /\bm_d\b/];
+    const CODEN = /W_bg|(?<![A-Za-z0-9_$])Wbg2?(?![A-Za-z0-9_$])|D_bg/;   // コードの名前はコードの書式の中だけ(lint.symbols333e の型)
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    // 第344便・第347便・第351便の書かない語(逆さの字で持つ)+ 書かない結論(決まった・導けた・分かった・合った・近付いた・釣り合った・説明できない・ロックした)
+    const W351 = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'た出が熱部内', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'た出が熱部内', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たしクッロ'].map(rvC);
+    const OLDNAME = cpC([0x56de, 0x8ee2, 0x5f15, 0x304d, 0x305a, 0x308a]);   // 旧い呼び名(第346便b —— 文字で持たない)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));   // 禁句(文字で持たない)
+    const texts = [['PHYSICS〔第353便za〕', sec], ['AI_SPEC §383', ai], ['器', rd('tests/exp-w353za-ktilt.mjs')], ['lib', rd('tests/lib-w353za-ktilt.mjs')], ['文書の lib', rd('tests/lib-w353za-ktiltdoc.mjs')]];
+    if (kz >= 0) texts.push(['CHANGELOG の第353便za の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropOrig(tx0);
+      for (const w of NGC.concat(W351)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (tx.indexOf(OLDNAME) >= 0) bad.push('④ ' + nm + ' に旧い呼び名(第346便b)');
+      for (const re of NOT338) if (re.test(tx)) bad.push('④ ' + nm + ' に書かない語・旧い記号 ' + re.source);
+      if (CODEN.test(stripCode(tx))) bad.push('④ ' + nm + ' にコードの書式の外のコードの名前(背景の旧い名)');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm)) for (const re of NOT) if (re.test(strip(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+      if (/(^|[^_A-Za-z])κ(?!_)/.test(tx)) bad.push('④ ' + nm + ' に裸の係数記号');
+      if (/PHYSICS|AI_SPEC|CHANGELOG/.test(nm) && /κ(?!_D)/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+    }
+    // 変異の自己試験(壊した写しで落ちる): 原文の 1 字・表の 1 字(見出しの字は決め打ちせず、正本から作った表で受ける)
+    { const s2 = D0 ? sec.split(D0.ORIGINAL[1][1]).join(D0.ORIGINAL[1][1].replace('。', '。 ')) : '', T0 = J && D0 ? D0.tablesOf(J) : {}, k0 = Object.keys(T0)[1];
+      if (D0 && s2.indexOf('「' + D0.ORIGINAL[1][1] + '」') >= 0) bad.push('④ 変異(原文の 1 字)で落ちない');
+      if (k0 && sec.replace(T0[k0], T0[k0].replace('|', '¦')).indexOf(T0[k0]) >= 0) bad.push('④ 変異(表の 1 字)で落ちない'); }
+    cases.push('④ 書かない語・禁句・旧い呼び名・旧い記号・コードの名前・裸の係数記号(節・AI_SPEC・器・lib・文書の lib —— 原文は外す)・「保たれた」「食い違いが無い」「k が決まった」と書かない・変異 2 つで落ちる');
+    add('docs.ktilt353za', bad.length === 0,
+      `**PHYSICS〔第353便za〕(換算の係数を置いた列の傾きを見ている時間で読み直す表 —— 原文と読み・表と数の文)**(第353便za・原仮定者の回答(2026-11-25 —— 第151報)・R491): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第353便za の塊(ここまで)====
+
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
 // ----   **背景軸引きずりの大きさの窓(条件の一覧・前提の組ごとの窓・重力の側の列の入力の感度・離心率のある軌道の (M) の歪みの平均 —— 仮の値の行は印つき)**
