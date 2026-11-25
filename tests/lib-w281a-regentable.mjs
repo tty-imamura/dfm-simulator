@@ -3272,7 +3272,7 @@ export const REGEN_STEPS = [
   S('venus098-353j', 'node tests/exp-w353j-venus098.mjs', ['tests/out/venus098-353j.json'], 4, { secSource: 'w353j-branch', node: true,
     after: ['ringdisk-353h'],
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
-    volatilePaths: { 'tests/out/venus098-353j.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    volatilePaths: { 'tests/out/venus098-353j.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便j: 零試験 11/組 8 × 受け手 12/題 3/金星とイオ 8' }),
   // ==== 第353便j の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
