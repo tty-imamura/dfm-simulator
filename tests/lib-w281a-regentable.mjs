@@ -3562,6 +3562,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgrange-355b.json': ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
     note: '第355便b: 零試験 13/範囲の照合 6/X 作り 6 × 置き方 3 × k₂/Q 2/範囲 72 行と k₂/Q 走査 18 と比べる読み 15/共通部分 36/代表の値 6/全体の係数の題 3/比べる列 (ア)(ウ)' }),
   // ==== 第355便b の塊(ここまで)====
+  // ==== 第355便c の塊(ここから)====
+  // ---- 第355便c(原仮定者の回答(2026-11-25)・原仮定者の指示(2026-11-25)・統括の検証項目 R506): **第353便zf の 35 の題を主の作り(換算の係数 = 金星で等大になる値)で、背景の大きさの範囲の内の代表の値ごとに並べ直す表(題 35 × u 6・形と切り替わる u・比べる列 (ウ)(ア))**
+  //   (段 rangecols-355c —— 正本 tests/out/rangecols-355c.json・lib tests/lib-w355c-rangecols.mjs —— 第353便zf・zg・u・za・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に threecols-353zf)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第355便c の枝の実測 35 s
+  S('rangecols-355c', 'node tests/exp-w355c-rangecols.mjs', ['tests/out/rangecols-355c.json'], 35, { secSource: 'w355c-branch', node: true,
+    after: ['threecols-353zf'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数十 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/rangecols-355c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第355便c: 零試験 5/題 35 × u の列 6(主の作り)/形・切り替わる u/比べる列 (ウ)(ア)' }),
+  // ==== 第355便c の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
