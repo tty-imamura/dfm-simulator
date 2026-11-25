@@ -1896,6 +1896,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rangecols355c docs.rangecols355c"
 #   EQ-182 までの写し(view353zzOf355d)で読む形にした既存の照合(docs.equations353zz)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355d docs.equations353zz"
 # ==== 第355便d の塊(ここまで)====
+# ==== 第355便f の塊(ここから)====
+# 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)・統括の検証項目 R509 —— 診断と文書だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.g4cols355f —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合 / docs.g4cols355f —— 表 5c と PHYSICS〔第355便f〕の表が文書の lib の出力と逐語)と、新しい段 g4cols-355f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.g4cols355f docs.g4cols355f"
+# ==== 第355便f の塊(ここまで)====
 # ==== 第355便h の塊(ここから)====
 # 第355便h(原仮定者の指示(2026-11-25)・統括の検証項目 R511 —— 文書と道具と検査だけ・html は変えない): 枝 h の新設 2 本(docs.aichat355h —— 対話の入口のページ・
 #   仕様の頭の短いページと写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書/behavior.aichatIntake355h —— 返答の検査の器の自己試験 7 本)。段は足していない
