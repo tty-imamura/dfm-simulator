@@ -3501,6 +3501,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/equalradius-353zg.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zg: 零試験 10/a★ 2 母天体 × 扁平の倍 3 と入力の幅 6/閉じた形 10 行・ほかの母天体 4/偶然の並びの見込み/合成の軸の格子 11・構造・環の縁' }),
   // ==== 第353便zg の塊(ここまで)====
+  // ==== 第353便zj の塊(ここから)====
+  // ---- 第353便zj(原仮定者の回答(2026-11-25 —— 第151報)・原仮定者の回答(2026-11-14 —— 第138報の回答)AN721・統括の検証項目 R499): **換算の係数 k を置いた列で公転の道が合成の回転に応えるとしたときの率と、暦表の参考の幅との比(受け手 4 × 組 9・c_輪 の上限・寄る下限・在位の組)**
+  //   (段 orbitk-353zj —— 正本 tests/out/orbitk-353zj.json・lib tests/lib-w353zj-orbitk.mjs —— 第353便u・x・e・第351便d・第352便d・第337便b・第335便c・第333便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に nearrecv-353u・twoaxis-353x)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zj の枝の実測 7 s
+  S('orbitk-353zj', 'node tests/exp-w353zj-orbitk.mjs', ['tests/out/orbitk-353zj.json'], 7, { secSource: 'w353zj-branch', node: true,
+    after: ['nearrecv-353u', 'twoaxis-353x'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/orbitk-353zj.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zj: 零試験 14/率 4 × 9(全部・共通の分・差)/参考の幅との比と c_輪 の上限・寄る下限の窓 4 × 9/在位の組 9/言えること 3 × 4' }),
+  // ==== 第353便zj の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

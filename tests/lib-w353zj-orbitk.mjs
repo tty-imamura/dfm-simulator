@@ -16,7 +16,7 @@
 //   近点の面内の回り apsW = σ c_輪 k₂ (Ω·n̂)(寄る分は n̂ に垂直な軸のまわりの回転で、面内の回りを持たない)。黄道の交点 Ω_node・傾き i・近点経度 ϖ の率は第337便b の anglesRates
 //   (dϖ = apsW − cos i dΩ_node + dΩ_node)。率は Ω に一次 —— 全部 = 共通の分(背景だけ)+ 差(k × 局所)。σ を替えると率の符号だけが替わる(大きさは同じ)。
 // ■ 比べる尺度: 第335便c の ratioNote の作り —— 比 = abs(率) ÷ (abs(値) + 幅)。地球の追加の交点の値は LIT に無い(null)・地球の黄道の交点は傾き 1.5e-5° で定まらない —— 交点の比は「数なし」。
-// ■ 言わないこと: 水星の近点が説明できた・暦表と合った・食い違った、と書かない(参考の幅との比の表 —— 幅は 1σ ではない・文献の値・未照合)。在位の組(1PN の値に当たる組)を動かさない。k・c_輪 を決めない。
+// ■ 言わないこと: 水星の近点の値を出したとは書かない・暦表との比を結論として書かない(参考の幅との比の表 —— 幅は 1σ ではない・文献の値・未照合)。在位の組(1PN の値に当たる組)を動かさない。k・c_輪 を決めない。
 import * as U from './lib-w353u-nearrecv.mjs';
 import * as X from './lib-w353x-twoaxis.mjs';
 import * as FE from './lib-w353e-focus098.mjs';
@@ -131,7 +131,25 @@ export function gatherRow(id, combo, { u = DECL.uFocus, sense = DECL.mainSense, 
   return { id, combo: A.combo, kMin: need.kMin, fRingAt1: need.fRing, thetaLDeg: th, alignCy: cy(x * Math.sin(th * D2R) / (DECL.ageYr * 365.25 * 86400)),
     A: { rates: A.full, ratio: rr(A.full) }, B: { rates: B.full, ratio: rr(B.full) } };
 }
-/** 在位の組(1PN の値に当たる組)の水星の面内の近点の率(″/世紀 —— 正本の記録の数を文字で持つ・動かさない)と、第337便i の環で絞った回転引きずりの水星の比 */
+/**
+ * windowRow(id, combo, { u, sense, nF = 61 }) —— 上限と下限の間の窓(2 つのノブ c_輪・f_輪 —— 寄る分 c_輪 k₁ が下限 kMin ちょうどの線の上で f_輪 を 1e-3〜1 の対数の格子で振る):
+ *   各点で道の率(歳差の分 c_輪 k₂ は Ω・寄る分は背景へ)の比の大きい方。返す { kMin, best{ fRing, cRing, ratio{ varpi, node }, max }, atF1(f_輪 1 の点), open(best.max ≤ 1), grid[{ fRing, cRing, max }] }。
+ *   寄る分を下限より大きく置くと率は増えるだけ(寄る分の比は c_輪 k₁ に比例)—— 窓は下限の線の上で探せば足りる。
+ */
+export function windowRow(id, combo, { u = DECL.uFocus, sense = DECL.mainSense, nF = 61, T1, GEO, cache } = {}) {
+  const need = X.ringNeed(1, { u }), L = litOf(id), C = ctx({ T1, GEO, cache });
+  const rr = (p) => ({ varpi: Math.abs(p.dvarpi) / L.scaleVarpi, node: p.dnode === null || L.scaleNode === null ? null : Math.abs(p.dnode) / L.scaleNode });
+  const mx = (q) => Math.max(q.varpi, q.node === null ? 0 : q.node);
+  const grid = [];
+  for (let i = 0; i < nF; i++) {
+    const f = i === nF - 1 ? 1 : Math.min(1, Math.pow(10, -3 + 3 * i / (nF - 1))), k1 = R3.r3Coeffs(f, 'N1').kTilt, c = need.kMin / k1;
+    const R = orbRate(id, combo, { u, cRing: c, fRing: f, sense, alignTo: 'bg', ...C }), q = rr(R.full);
+    grid.push({ fRing: f, cRing: c, ratio: q, max: mx(q) });
+  }
+  const best = grid.reduce((a, b) => (b.max < a.max ? b : a)), atF1 = grid[grid.length - 1];
+  return { id, combo: typeof combo === 'string' ? combo : null, kMin: need.kMin, best, atF1, open: best.max <= 1, grid };
+}
+/** 在位の組(1PN の値に当たる組)の水星の面内の近点の率(″/世紀 —— 正本の記録の数を文字で持つ・動かさない)と、第337便i の環で絞った円盤引きずりの水星の比 */
 export const INPOS = Object.freeze({
   w333c: Object.freeze({ value: '42.9805', what: '第333便c の G_loc(受け手 n = 2)+ K1 の面内の近点の和(sumApsIn)' }),
   w335c: Object.freeze({ value: '42.9805', what: '第335便c の分解の 1PN の率(q1cy —— 基準の列 G_loc + 統合した並進の並進の分の和と同じ桁)' }),
