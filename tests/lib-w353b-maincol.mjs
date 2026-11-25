@@ -183,6 +183,15 @@ export function uDepRow(T1, GEO, id, { us = DECL.uGrid } = {}, cache = null) {
     coneDeg: sts[0].coneDeg, omToAxisDeg: sts[0].omToAxisDeg };
 }
 
+/** 受け手の半径の置き方(cR —— 枝 c が候補を数える)で、局所 ÷ 背景と向き・円錐がどれだけ動くか(倍率 u・主の列)。cR null の行との差 */
+export function cRDepRow(T1, GEO, id, { u = DECL.window.lo, cRs = [1e-2, 0.1, 1] } = {}, cache = null) {
+  if (id === 'Sun') throw new RangeError('cRDepRow: 太陽の行は規則の半径だけ');
+  const s0 = mainState(T1, GEO, id, { u }, cache);
+  return { id, u, base: { locOverBg: s0.locOverBg, omToAxisDeg: s0.omToAxisDeg, coneDeg: s0.coneDeg },
+    rows: cRs.map((cR) => { const st = mainState(T1, GEO, id, { u, cR }, cache);
+      return { cR, locOverBg: st.locOverBg, omToAxisDeg: st.omToAxisDeg, dConeDeg: st.coneDeg - s0.coneDeg, relOm: st.senseAboutOm.rel, kEq: st.locOverBg > 0 ? 1 / st.locOverBg : null }; }) };
+}
+
 /* ───────── 零試験・変異 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const cache = {}, A = DECL.anchor, AX = axesOf(T1, GEO, cache);
@@ -253,7 +262,7 @@ export function pureGates(S) {
     anchorAxis: S.L.every((x, i) => Math.abs(x - A.L[i]) < 5e-7) && p(S.angLEq, A.angLEq, 5) && p(S.omegaG, A.omegaG, 3),
     anchorVenus: S.venus.length === 6 && S.venus.every((r) => p(r.uEq, r.want[0], 6) && p(r.phi, r.want[1], 4) && p(r.res, r.want[2], 5)) && p(S.venus[5].floor, A.venusFloorCR1, 5),
     anchorPhi: S.phis.length === 8 && S.phis.every((r) => [0, 1].every((i) => Math.abs([r.rule, r.obs][i] - r.want[i]) < 0.6 * Math.pow(10, Math.floor(Math.log10(Math.max(1, r.want[i]))) - 2))),   // 表の桁(小数 2 桁か有効数字 3 桁)の 0.6 単位の床(表は 5 桁を丸めた数)
-    g2Flip: S.flip < 1e-12,
+    g2Flip: S.flip < 1e-9,   // 床 1e-9: 尺度の走り直し(ulp の揺すり)で (g2−) と (g2+) の 2 回の呼び出しの丸めが別になる(第352便j の sameAsD と同じ床)
     unitResp: S.unitErr < 1e-12 && S.relAll,
     kLocal: S.kErr < 1e-12,
     sunCone: Math.abs(S.sunCone - A.sunConeL) < 5e-4,
