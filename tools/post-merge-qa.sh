@@ -1642,6 +1642,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ratesum353f docs.ratesum353f"
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 # ==== 第352便z の塊(ここまで)====
+# ==== 第353便a の塊(ここから)====
+# 第353便a(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R465 —— 文書だけ・html は変えない): 枝 a の新設 1 本
+#   (docs.report151_353a —— 第151報の文書〔15 行・24 文の当たり所・主の列の切り替え 11 題・新しい句 13・訂正の鎖 3〕の戻り止め)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report151_353a"
+# ==== 第353便a の塊(ここまで)====
 # ==== 第353便b の塊(ここから)====
 # 第353便b(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R466 —— 診断だけ・html は変えない): 枝 b の新設 2 本
 #   (behavior.maincol353b —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・回る向きと率の式を QA の中で別に照合・呼ぶだけ /

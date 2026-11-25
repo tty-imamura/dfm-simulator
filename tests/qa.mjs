@@ -125375,6 +125375,81 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ==== 第353便e の塊(ここまで)====
 
 
+// ==== 第353便a の塊(ここから —— docs.report151_353a の 1 ブロック。root は SKIP)====
+// ---- 第353便a(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R465 —— 文書だけ・html は変えない):
+// ----   **第151報の文書(決断事項の 15 行〔24 文〕の当たり所・主の列の切り替え 11 題・新しい句 13・訂正の鎖 3・統括の数え直しの写し)の戻り止め**(新設 —— 文書の表の lib
+// ----   tests/lib-w353a-report151.mjs〔純関数 —— ファイルを読まない。原文と表と照合の関数を持つ〕。器・段・正本は無い)。世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第353便a〕が在る。
+// ----   docs.report151_353a: PHYSICS〔第353便a〕(位置・見出し・表 1 の 24 文の原文の字〔文を継ぐと原文の行に戻る〕・原文の 15 行が逐語・文の種類・公開に引かない行・
+// ----     表 2 の主の列と比べる列が lib の出力と逐語・表 3 の 13 句とこれまでの文が当時の節に在る・表 4 の訂正の鎖と当時の文が第352便の節に残る・表 5・用語の定義の文 5 つ・
+// ----     (g2+) を「これまでの向き」とだけ書かない)・AI_SPEC §357・post-merge の塊・禁句と書かない語・lib の零試験・変異の自己試験
+{
+  await (async () => {
+  const rd353a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w353a-report151.mjs');
+  const PH0 = rd353a('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第353便a — ') >= 0)) {
+    console.log('SKIP docs.report151_353a(第353便a の第151報の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, err0 = null;
+  try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const AS0 = rd353a('docs/AI_SPEC.md') || '', PM0 = rd353a('tools/post-merge-qa.sh') || '';
+  const iS = PH0.indexOf('\n〔第353便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
+  const inOther = (ph, head, a, z) => { const i = ph.indexOf('\n' + head), s = W.physSecOf(ph, head); return ph.slice(0, i + 1) + s.split(a).join(z) + ph.slice(i + 1 + s.length); };
+  const runMut = (bad, MUT, fn) => { const sc = [];
+    for (const [nm, args, re] of MUT) {
+      const r = fn(...args);
+      if (re === null) { if (r.bad.length) bad.push('⑩ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+      const hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑩ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    return sc; };
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const g = W.libGates(); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
+      cases.push(`⓪ lib の零試験 ${g.n}(文の分け方〔『』「」の中では分けない〕・15 行の継ぎ・表 2 の題の数・表 5 の閉じた形)`);
+      const R = W.checkReport151(PH0, AS0, PM0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
+      const rK2 = (s0.split('\n').find((l) => l.startsWith('| 金 2 | ')) || '');
+      const rH4 = (s0.split('\n').find((l) => l.startsWith('| 半 4 | ')) || '');
+      const SD = ['| 金 2 | ', '| 半 4 | ', '**(g2−) = −Ω×ŝ**', 'の窓の上端 0.835 より上に在る)', '| 句 4 | 「金星の自転がロックした状態」', '| 1 | 6.45938e-7 | 52.06 | 0.87772 |', '**ロックの判定の量** = ', '**⑤ 決断事項の候補。** '];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑩ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const MUT = [
+        ['表 1 の金 2 の原文を 1 字変える', [inSec(PH0, rK2, rK2.replace('地球の影響であり', '地球の影響で')), AS0, PM0], /^② 表 1 の 金 2 の原文の字/],
+        ['表 1 から半 4 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace('\n' + rH4, ''), AS0, PM0], /^② 表 1 の行の並び/],
+        ['表 1 の金 2 の文の種類を定義の文にする', [inSec(PH0, rK2, rK2.replace(' | 予想の文 | ', ' | 定義の文 | ')), AS0, PM0], /^② 表 1 の 金 2 の文の種類/],
+        ['表 2 の歳差の式の主の列を (g2+) に入れ替える', [inSec(PH0, '**(g2−) = −Ω×ŝ**', '**(g2+) = +Ω×ŝ**'), AS0, PM0], /^③ 表 2 の歳差の式の主の列が \(g2−\) でない/],
+        ['表 2 の背景の大きさに「窓の内」と書く', [inSec(PH0, 'の窓の上端 0.835 より上に在る)', 'の窓の上端 0.835 の窓の内)'), AS0, PM0], /^③ 表 2 の背景の大きさの行/],
+        ['表 3 の句 4 の新しい語を変える', [inSec(PH0, '| 句 4 | 「金星の自転がロックした状態」', '| 句 4 | 「金星の自転のロック」'), AS0, PM0], /^④ 表 3 の 句 4 の新しい語/],
+        ['〔第352便d〕の当時の文を書き換える', [inOther(PH0, '〔第352便d — ', '向きの読み (g2+)「これまでの向き」', '向きの読み (g2+)「記号の向き」'), AS0, PM0], /^⑤ 表 4 の 鎖 1 の当時の文/],
+        ['〔第352便a〕の決 3-1 の読みを書き換える', [inOther(PH0, '〔第352便a — ', '伺いの「規則どおり」= (g2−) は並べる列', '伺いの「規則どおり」は並べる列'), AS0, PM0], /^⑤ 〔第352便a〕の 決 3-1 の当たり所の文/],
+        ['表 5 の写しの値を変える', [inSec(PH0, '| 1 | 6.45938e-7 | 52.06 | 0.87772 |', '| 1 | 6.45938e-7 | 52.06 | 0.8777 |'), AS0, PM0], /^⑥ 表 5 が lib の出力と違う/],
+        ['用語の段の「ロックの判定の量」の定義の文を変える', [inSec(PH0, '**ロックの判定の量** = ', '**ロックの判定の量** := '), AS0, PM0], /^⑦ .*「ロックの判定の量」の定義の文/],
+        ['(g2+) を「これまでの向き」とだけ書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** (g2+) は「これまでの向き」。'), AS0, PM0], /^⑦ \(g2\+\) を「これまでの向き」とだけ/],
+        ['地の文に書かない語「正しい」を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 主の列 (g2−) が正しい。'), AS0, PM0], /^⑨ PHYSICS〔第353便a〕 に書かない語 正しい/],
+        ['地の文に書かない語「ロックした」を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 金星の自転はロックした。'), AS0, PM0], /^⑨ PHYSICS〔第353便a〕 に書かない語「ロックした」/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「金星はロックしている」の文は無い。'), AS0, PM0], null],
+        ['節に外部の名を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「' + W.EXT_NAMES[0] + '」。'), AS0, PM0], /^⑨ PHYSICS〔第353便a〕 に禁句/],
+        ['節に private の文書の名の形を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** REPORT151_' + 'original。'), AS0, PM0], /^⑨ PHYSICS〔第353便a〕 に private の文書の名の形/],
+        ['節に統括の節の見出しの字を書く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 〔第352便 — 統括' + '〕を見る。'), AS0, PM0], /^① 本節に統括の節の見出しの字/],
+        ['公開に引かない行を引く', [inSec(PH0, '**⑤ 決断事項の候補。** ', '**⑤ 決断事項の候補。** 「他の予定と並行しつつ」。'), AS0, PM0], /^② 公開に引かない行/],
+        ['AI_SPEC の §357 を消す', [PH0, AS0.replace(/\n## 357\. 第353便a/, '\n## 3570. 第353便a'), PM0], /^⑧ AI_SPEC §357/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第353便a の塊(ここから)====', '# ==== 第353便a の塊====')], /^⑧ post-merge/],
+      ];
+      const sc = runMut(bad, MUT, W.checkReport151);
+      cases.push(`⑩ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report151_353a', bad.length === 0,
+      `**第151報の文書(24 文の当たり所・主の列の切り替え 11 題・新しい句 13・訂正の鎖 3)**(第353便a・原仮定者の回答(2026-11-25 —— 第151報)・R465 —— 原文は言葉を変えずに引く・主の列は回答で主に置いた列・比べる列と当時の文は消さずに並べる・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第353便a の塊(ここまで)====
+
 // ==== 第353便c の塊(ここから —— behavior.recvradius353c・docs.recvradius353c の 2 ブロック。root は SKIP)====
 // ---- 第353便c(原仮定者の回答(2026-11-25 —— 第151報)AN1045・向きと幾何・統括の検証項目 R467):
 // ----   **受け手(引きずられる側)の半径 = 観測半径 × 構造の係数 —— 入れ方の候補 3 つ((P-場)・(P-応)・(P-平))と、金星・イオの打ち消し・全部の受け手・主の表への影響・応答の率の倍**
