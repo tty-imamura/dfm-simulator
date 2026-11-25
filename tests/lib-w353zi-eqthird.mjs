@@ -178,10 +178,74 @@ export function respRatio(id, cR = 1) {
 }
 /** 構造の半径 r が a★ と同じになる扁平の倍の冪 n(対数の二分 ——〔第353便zg〕aStar の n を連続に) */
 export function nForRadius(T1, GEO, src, rTarget) {
-  const g = (n) => ZG.aStar(T1, GEO, src, { n }) / rTarget - 1;
-  const [lo, hi] = DECL.nRange; let L = lo, H = hi, gL = g(L); if (!(gL * g(H) < 0)) return null;
-  for (let i = 0; i < 50; i++) { const mid = 0.5 * (L + H), gm = g(mid); if (gL * gm <= 0) H = mid; else { L = mid; gL = gm; } }
+  // 冪の見当 n₀ = −9 ln(r ÷ a★(n 0)) ÷ ln(1 − f)(a★ ∝ σ^(1/3))の ±0.05 で二分(見当が外れたら DECL.nRange 全部で)
+  const g = (n) => ZG.aStar(T1, GEO, src, { n }) / rTarget - 1, f = Z.fOf(src), n0 = -9 * Math.log(rTarget / ZG.aStar(T1, GEO, src, { n: 0 })) / Math.log(1 - f);
+  let [L, H] = [n0 - 0.05, n0 + 0.05], gL = g(L);
+  if (!(gL * g(H) < 0)) { [L, H] = DECL.nRange; gL = g(L); if (!(gL * g(H) < 0)) return null; }
+  for (let i = 0; i < 30; i++) { const mid = 0.5 * (L + H), gm = g(mid); if (gL * gm <= 0) H = mid; else { L = mid; gL = gm; } }
   return 0.5 * (L + H);
+}
+
+/* ───────── 表 ───────── */
+const HOSTS = Object.freeze(['Jupiter', 'Saturn']);
+const HSTRUCT = Object.freeze({ Jupiter: 'io', Saturn: 'satCD' });
+const loOf = (src) => (src === 'Pluto' || src === 'Charon' ? DECL.aLo : 1e-3);   // 冥王星・カロンは a★ が観測の半径の 1e-3 倍より内(ほかは源の規則の半径より外に置くため 1e-3)
+const strR = (src, key) => ZG.structRows(src).find((q) => q.key === key).r;
+/** 表 1(3 組目): 木星 → イオ・土星 → カッシーニの間隙(扁平の倍 3 通り)・冥王星 ⇄ カロン・地球 → 月・火星 → フォボスとダイモス・天王星 → ε 環・海王星(行なし) */
+export function table1(T1, GEO) {
+  const rows = [];
+  for (const src of HOSTS) { const r = strR(src, HSTRUCT[src]), Ro = C.radiusOf(src);
+    for (const n of DECL.nList) { const a = ZG.aStar(T1, GEO, src, { n }), q = r / a;
+      rows.push({ pair: src + '>' + HSTRUCT[src], src, n, aStar: a, overRo: a / Ro, inside: a < Ro, r, ratio: q, x: ZG.xAtRadius(T1, GEO, src, r, { n }), in5: Math.abs(q - 1) <= 0.05, in50: Math.abs(q - 1) <= 0.5 }); } }
+  for (const pr of DECL.pairs) { const P0 = aStarPair(T1, GEO, pr.key);
+    for (const rd of P0.reads) rows.push({ pair: pr.key + ':' + rd.read, src: pr.src, n: 0, aStar: P0.aStar, overRo: P0.overRo, inside: P0.inside, r: rd.r, ratio: rd.ratio, x: rd.x, in5: rd.in5, in50: rd.in50 }); }
+  for (const src of DECL.others) { const Ro = C.radiusOf(src), a = ZG.aStar(T1, GEO, src, { lo: loOf(src), hi: DECL.aHi }), items = ZG.structRows(src);
+    if (!items.length) rows.push({ pair: src + '>none', src, n: 0, aStar: a, overRo: a / Ro, inside: a < Ro, r: null, ratio: null, x: null, in5: false, in50: false });
+    for (const S of items) { const q = S.r / a; rows.push({ pair: src + '>' + S.key, src, n: 0, aStar: a, overRo: a / Ro, inside: a < Ro, r: S.r, ratio: q, x: ZG.xAtRadius(T1, GEO, src, S.r), in5: Math.abs(q - 1) <= 0.05, in50: Math.abs(q - 1) <= 0.5 }); } }
+  const third = rows.filter((r) => !HOSTS.includes(r.src) && r.in5).length, third50 = rows.filter((r) => !HOSTS.includes(r.src) && r.in50).length;
+  return { rows, third, third50 };
+}
+const unionLen = (iv) => { const s = [...iv].sort((p, q) => p[0] - q[0]); let L = 0, cur = null; for (const [a, b] of s) { if (!cur || a > cur[1]) { if (cur) L += cur[1] - cur[0]; cur = [a, b]; } else cur[1] = Math.max(cur[1], b); } if (cur) L += cur[1] - cur[0]; return L; };
+/** 表 2(帯として読む): a★(3 通り)の入る帯と、見込みの置き方 4 × 範囲 2 */
+export function table2(T1, GEO) {
+  const RoJ = C.radiusOf('Jupiter'), RoS = C.radiusOf('Saturn'), aJ = DECL.nList.map((n) => ZG.aStar(T1, GEO, 'Jupiter', { n })), aS = DECL.nList.map((n) => ZG.aStar(T1, GEO, 'Saturn', { n }));
+  const regions = ZG.ringEdges(), gal = LIT334A.moons.filter((m) => m.host === 'jupiter'), io = bandOf('io'), jm = bandOf('jupMain');
+  const inBand = DECL.nList.map((n, k) => { const reg = regions.find((g) => aS[k] >= g.r0 && aS[k] <= g.r1);
+    return { n, aJ: aJ[k], aS: aS[k], satBand: reg ? reg.key : null, satPos: reg ? Math.log(aS[k] / reg.r0) / Math.log(reg.r1 / reg.r0) : null, qIo: Math.abs(aJ[k] - io.rc) / io.gap, jupMainRatio: jm.rc / aJ[k] }; });
+  const ways = [
+    { id: 'rep5', jup: '代表の半径 ±5%', sat: '代表の半径 ±5%' }, { id: 'bandAny-q5', jup: 'ガリレオ衛星の道 ± 間隔の 5%', sat: '環の区分のどれか(内縁〜外縁)' },
+    { id: 'bandNamed-q5', jup: 'イオの道 ± 間隔の 5%', sat: 'カッシーニの間隙の区分だけ' }, { id: 'bandAny-q10', jup: 'ガリレオ衛星の道 ± 間隔の 10%', sat: '環の区分のどれか(内縁〜外縁)' }];
+  const ivJ = (w, lo, hi) => { if (w.id === 'rep5') return ZG.structRows('Jupiter').map((s) => [Math.log(s.r / 1.05), Math.log(s.r / 0.95)]);
+    const q = w.id.endsWith('q10') ? 0.1 : 0.05, ms = w.id.startsWith('bandNamed') ? [io] : gal.map((m) => bandOf(m.key, { q }));
+    return ms.map((b) => (b.q === q ? [Math.log(b.r0), Math.log(b.r1)] : [Math.log(b.rc - q * b.gap), Math.log(b.rc + q * b.gap)])); };
+  const ivS = (w) => { if (w.id === 'rep5') return ZG.structRows('Saturn').map((s) => [Math.log(s.r / 1.05), Math.log(s.r / 0.95)]);
+    const rs = w.id.startsWith('bandNamed') ? regions.filter((g) => g.key === 'ringCD') : regions; return rs.map((g) => [Math.log(g.r0), Math.log(g.r1)]); };
+  const clip = (iv, lo, hi) => iv.map(([a, b]) => [Math.max(a, lo), Math.min(b, hi)]).filter(([a, b]) => b > a);
+  const hit = (iv, a) => iv.some(([p, q]) => Math.log(a) >= p && Math.log(a) <= q);
+  const probs = DECL.ranges.flatMap(([g0, g1]) => ways.map((w) => { const span = Math.log(g1 / g0);
+    const IJ = ivJ(w), IS = ivS(w), pJ = unionLen(clip(IJ, Math.log(g0 * RoJ), Math.log(g1 * RoJ))) / span, pS = unionLen(clip(IS, Math.log(g0 * RoS), Math.log(g1 * RoS))) / span;
+    return { range: [g0, g1], way: w.id, jup: w.jup, sat: w.sat, pJ, pS, both: pJ * pS, hits: DECL.nList.map((n, k) => ({ n, jup: hit(IJ, aJ[k]), sat: hit(IS, aS[k]) })) }; }));
+  const bothVals = probs.map((p) => p.both);
+  return { inBand, regions, ways, probs, bothMin: Math.min(...bothVals), bothMax: Math.max(...bothVals) };
+}
+/** 表 3(受け手の置き方): イオ ← 木星・環の粒子 ← 土星(カッシーニの間隙)× 置き方 9(金星も同じ置き方)。2 組が ±5% に残るか */
+export function table3(T1, GEO) {
+  const rows = DECL.places.map((pl) => { const a = aStarRecv(T1, GEO, 'Jupiter', { recv: 'io', ...pl }), b = aStarRecv(T1, GEO, 'Saturn', { recv: 'ring', ...pl });
+    const sameSelf = pl.place === 'rule' || pl.place === 'mass' || pl.place === 'resp';
+    return { id: pl.id, place: pl.place, cR: pl.cR ?? null, r: pl.r ?? null, C0: pl.C0 ?? null, sameSelf, io: { aStar: a.aStar, ratio: a.ratio, x: a.xAt, cRr: a.cRr }, ring: { aStar: b.aStar, ratio: b.ratio, x: b.xAt, cRr: b.cRr }, cRv: a.cRv,
+      ioIn5: a.ratio !== null && Math.abs(a.ratio - 1) <= 0.05, ringIn5: b.ratio !== null && Math.abs(b.ratio - 1) <= 0.05, respIo: pl.place === 'resp' ? respRatio('Io', pl.cR) : null }; });
+  return { rows, both: rows.filter((r) => r.ioIn5 && r.ringIn5).map((r) => r.id), neither: rows.filter((r) => !r.ioIn5 && !r.ringIn5).map((r) => r.id) };
+}
+/** 表 4(a★ を作る因子): 閉じた形の因子(木星・土星 n 0・冥王星)と、構造を a★ に置く扁平の倍の冪 n(連続)と、その n での他方の比 */
+export function table4(T1, GEO) {
+  const fac = ['Jupiter', 'Saturn', 'Pluto'].map((src) => { const c = ZG.aStarClosed(T1, GEO, src, { n: 0 }), a = ZG.aStar(T1, GEO, src, { lo: loOf(src), hi: DECL.aHi });
+    return { src, aV: c.aV, massRatio: c.massRatio, spinCbrt: Math.cbrt(c.spinRatio), geoCbrt: Math.cbrt(c.gGeo), sunFac: c.aSun / c.aGeo, a0: c.a0, aStar: a, prod: c.aV * c.massRatio * Math.cbrt(c.spinRatio) * Math.cbrt(c.gGeo) * (c.aSun / c.aGeo), f: src === 'Pluto' ? null : Z.fOf(src) }; });
+  const targets = [['Jupiter', 'io'], ['Saturn', 'satCD'], ['Saturn', 'satA'], ['Saturn', 'satB']];
+  const need = targets.map(([src, key]) => { const r = strR(src, key), n = nForRadius(T1, GEO, src, r), a0 = ZG.aStar(T1, GEO, src, { n: 0 }), f = Z.fOf(src);
+    return { src, key, r, n, nApprox: -9 * Math.log(r / a0) / Math.log(1 - f), ratio0: r / a0 }; });
+  const cross = need.slice(0, 2).map((q) => { const other = q.src === 'Jupiter' ? ['Saturn', 'satCD'] : ['Jupiter', 'io'], a = ZG.aStar(T1, GEO, other[0], { n: q.n });
+    return { at: q.src, n: q.n, other: other[0], otherKey: other[1], otherRatio: strR(other[0], other[1]) / a }; });
+  return { fac, need, cross };
 }
 
 /* ───────── 零試験 ───────── */

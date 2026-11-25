@@ -3501,6 +3501,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/equalradius-353zg.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zg: 零試験 10/a★ 2 母天体 × 扁平の倍 3 と入力の幅 6/閉じた形 10 行・ほかの母天体 4/偶然の並びの見込み/合成の軸の格子 11・構造・環の縁' }),
   // ==== 第353便zg の塊(ここまで)====
+  // ==== 第353便zi の塊(ここから)====
+  // ---- 第353便zi(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・統括の検証項目 R498): **等大の半径 a★ の続き —— 3 組目の照合(冥王星 ⇄ カロン ほか)・環の区分を帯として読む見込み・受け手の半径の置き方・a★ を作る因子と扁平の倍の冪**
+  //   (段 eqthird-353zi —— 正本 tests/out/eqthird-353zi.json・lib tests/lib-w353zi-eqthird.mjs —— 第353便zg・z・p・k・c・第351便c・第348便h・c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に equalradius-353zg)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zi の枝の実測 52 s
+  S('eqthird-353zi', 'node tests/exp-w353zi-eqthird.mjs', ['tests/out/eqthird-353zi.json'], 60, { secSource: 'w353zi-branch', node: true,
+    after: ['equalradius-353zg'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/eqthird-353zi.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zi: 零試験 7/3 組目の照合 14 行/帯と見込み(置き方 4 × 範囲 2)/受け手の置き方 9/因子 3 と冪 4' }),
+  // ==== 第353便zi の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
