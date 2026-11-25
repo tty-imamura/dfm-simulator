@@ -3,7 +3,7 @@
 //   (C0 は全部の受け手に同じ 1 つの数 —— 単位 m/kg。引きずられる側の半径 = c_R × 観測半径 = C0 × 質量。C0 = Y_k〔規則の係数〕なら規則の半径の列そのもの)。
 //   器 tests/exp-w353zb-massradius.mjs と QA behavior.massradius353zb・docs.massradius353zb が読む —— html を読まない・ファイルを読まない・状態を持たない。
 //   後のラウンドの枝もこの口を import してよい。アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
-//   第353便p(localStd・stdCancel・bg1・obPlan)・第353便v(cRStarOf・cROf・stateAtR)・第353便k(axStd・recvOf)・第353便q(topicAt・kVenus・dragAz・residOf・TOPICS)・
+//   第353便p(localStd・stdCancel・bg1)・第353便v(cRStarOf・stateAtR)・第353便k(axStd・diskStd・planeStd・DECL)・第353便q(topicAt・dragAz・residOf・TOPICS)・第353便c(moiOf)・第334便a(LIT334A —— 衛星の質量・半径・軌道の半径〔文献の値・未照合〕)・
 //   第352便k(spinRot・srcRadius)・第352便v(allPairs・uForMin)・第348便h(YK)・第348便c(massOf・radiusOf)・第312便a(Kball)・第347便e(t1Table・geometry)。
 //   **第353便v・q を import するので、仮の値の lib(第352便b)が閉包に入る —— この lib を呼ぶ段の正本は最上位に provisional: true と鍵の一覧が要る。**
 //
@@ -14,6 +14,11 @@
 //   頭打ちの C0(satC0)= 自分の重み = 源の重み(場の分母の源の重みの和)となる C0 = (3/2) ÷ 源の重み。
 // ■ 構造の係数・C0・残りの換算の係数は決めない(1 つのノブの走査 —— イオの x = 1 は 1 点の照合)。この場・この置き方・このノブでは、の表。
 import * as P from './lib-w353p-cancelstd.mjs';
+import * as Vv from './lib-w353v-recvscale.mjs';
+import * as Q from './lib-w353q-onek.mjs';
+import * as KR from './lib-w353k-ringstd.mjs';
+import * as Cc from './lib-w353c-recvradius.mjs';
+import { LIT334A } from './lib-w334a-heightlaw.mjs';
 import * as V from './lib-w352v-cancelmap.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as G3 from './lib-w348h-axisgeo3.mjs';
@@ -174,4 +179,103 @@ export function pureGates(S) {
     linear: S.lin.every((g) => Math.abs(g - 1) < 1e-3),
     rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
   };
+}
+
+/* ───────── 表(T2〜T5)───────── */
+const inBand = (x, [lo, hi]) => x >= lo && x <= hi;
+const gridRatios = (ob, o) => DECL.c0Grid.map((g) => ({ g, ratio: c0Ratio(g, { ob }, o) }));
+/** 表 1: σ の有無 2 × C0 9 —— 17 組の x・金星の等大の残り・イオの x と金星の条件での残り・月の x・帯に入る組(金星を除く)・金星とイオの c_R・金星の局所の倍 */
+export function table1(o = {}) {
+  const c = ctx(o), cols = [];
+  for (const ob of [null, 'lit']) for (const { g, ratio } of gridRatios(ob, c)) {
+    const C0 = YK * ratio, st = Object.fromEntries(DECL.pairs.map((k) => [k, stdMass(k, C0, { ob }, c)]));
+    const bands = DECL.bands.map((b) => { const hit = DECL.pairs.filter((k) => k !== 'Venus|Sun' && inBand(st[k].x, b)); return { band: b, n: hit.length, keys: hit }; });
+    cols.push({ ob, g, ratio, cRV: cRMass('Venus', C0), cRIo: cRMass('Io', C0), venusRes: st['Venus|Sun'].resEq, gainV: st['Venus|Sun'].gainV, kLine: st['Venus|Sun'].kLine,
+      x: Object.fromEntries(DECL.pairs.map((k) => [k, st[k].x])), io: { x: st['Io|Jupiter'].x, resAtUV: st['Io|Jupiter'].resAtUV, gain: st['Io|Jupiter'].gain }, moonX: st['Moon|EarthHi'].x, bands });
+  }
+  return { cols };
+}
+/** 3 つの置き方の比べ(金星の c_R を同じにそろえて): (zb) c_R = C0 m ÷ R/(p) 全部同じ c_R(〔第353便p〕の stdCancel field)/(v) c_R = r × c_R★(〔第353便v〕の stateAtR)—— イオの x・月の x・金星の残り */
+export function compare3(o = {}) {
+  const c = ctx(o), sV = Vv.cRStarOf('Venus', c.T1, c.GEO, c.cache).cR;
+  return gridRatios(null, c).map(({ g, ratio }) => {
+    const C0 = YK * ratio, cRV = cRMass('Venus', C0), r = cRV / sV;
+    const zb = { io: stdMass('Io|Jupiter', C0, {}, c).x, moon: stdMass('Moon|EarthHi', C0, {}, c).x, venus: stdMass('Venus|Sun', C0, {}, c).resEq };
+    const pp = (k) => P.stdCancel(c.T1, c.GEO, k, { place: 'field', cR: cRV }, c.cache);
+    const p = { io: pp('Io|Jupiter').x, moon: pp('Moon|EarthHi').x, venus: pp('Venus|Sun').resEq };
+    const vv = (k) => Vv.stateAtR(c.T1, c.GEO, k, r, {}, c.cache);
+    const v = { io: vv('Io|Jupiter').x, moon: vv('Moon|EarthHi').x, venus: vv('Venus|Sun').venusResEq };
+    return { g, ratio, cRV, r, zb, p, v };
+  });
+}
+/** 環の粒子の受け手(〔第353便k〕の obs —— 質量 ρ(4/3)π a³・半径 c_R a)を C0 で: c_R = C0 m ÷ a(半径 = C0 m) */
+export const ringRecv = (a, C0) => { const m = KR.DECL.rho * 4 / 3 * Math.PI * a * a * a; return { kind: 'obs', a, cR: C0 * m / a }; };
+/** 環の率 ÷ 物差し(F1 軸引きずりの (S) の作り・F2 円盤引きずりの側の作り —— 〔第353便k〕の axStd・diskStd・源 = 規則の半径・球) */
+export function ringYard(key, a, C0, frame = 'F1', o = {}) {
+  const c = ctx(o), ck = ['zb|ring', key, a, C0, frame].join('|'); if (c.cache[ck] !== undefined) return c.cache[ck];
+  const rv = ringRecv(a, C0), R = frame === 'F1' ? KR.axStd(c.T1, c.GEO, key, { src: 'rule', ob: 'O0', recv: rv }) : KR.diskStd(key, { src: 'rule', ob: 'O0', recv: rv });
+  const v = { yard: R.yard, A0: R.A0, wS: R.wS, wSun: R.wSun === undefined ? 0 : R.wSun }; c.cache[ck] = v; return v;
+}
+/** 衛星(LIT334A)の頭打ちの C0(母天体の重み + 太陽の重み〔母天体の距離〕)—— 組の作りに無い衛星は閉じた形だけ */
+export function satMoon(mk, o = {}) {
+  const c = ctx(o), M = LIT334A.moons.find((x) => x.key === mk); if (!M) throw new RangeError('satMoon: 衛星 ' + mk);
+  const host = { jupiter: 'Jupiter', saturn: 'Saturn' }[M.host], wPar = C.massOf(host) * D.Kball(1, M.a, K.srcRadius(host, 0)), wSun = K.spinRot(c.T1, c.GEO, host, 'Sun', { part: 'M', read: 'W', nPhase: 1 }).wS;
+  return { key: mk, name: M.name, host, m: M.m, R: M.R, wSrc: wPar + wSun, wMain: wPar, c0Sat: 1.5 / (wPar + wSun), ratioSat: 1.5 / (wPar + wSun) / YK, mOverR: M.m / M.R };
+}
+/** 倍が線形の半分に落ちる C0 ÷ Y_k(gain ÷ (C0 ÷ Y_k) = 1/2 —— 頭打ちの閉じた形の候補を数で照合する点) */
+export function halfPoint(key, { ob = null } = {}, o = {}) {
+  const c = ctx(o); return bisectLog((r) => gainOf(key, YK * r, { ob }, c) / r - 0.5, 1e2, 1e12);
+}
+/** 表 2(頭打ち): 組の受け手 10(8 惑星・月・イオ)—— 頭打ちの C0(閉じた形)・半分の点・最大の倍とその C0/衛星 4(閉じた形だけ)/環の粒子 4 × 区分 3(自分の重み ÷ 源の重み・環の率の倍) */
+export const T2KEYS = Object.freeze(['Mercury|Sun', 'Venus|Sun', 'Earth|Sun', 'Mars|Sun', 'Jupiter|Sun', 'Saturn|Sun', 'Uranus|Sun', 'Neptune|Sun', 'Moon|EarthHi', 'Io|Jupiter']);
+export const RINGA = Object.freeze([0.01, 0.1, 1, 10]);
+export const RINGS = Object.freeze(['ringC', 'ringB', 'ringA']);
+export function table2(o = {}) {
+  const c = ctx(o), io1 = c0Ratio('io1', {}, c), v2 = c0Ratio('v2', {}, c);
+  const rows = T2KEYS.map((k) => { const s = satC0(k, c), h = halfPoint(k, {}, c), gm = gainMax(k, {}, c), mr = mrOf(k);
+    return { key: k, mOverR: mr.m / mr.R, cRrule: cRMass(k, YK), wSrc: s.wSrc, wMain: s.wMain, ratioSat: s.ratioSat, half: h, halfOverSat: h / s.ratioSat, gainMax: gm.gain, gainMaxAt: gm.ratio, gainMaxOverSat: gm.gain / s.ratioSat,
+      gIo1: gainOf(k, YK * io1, {}, c), gV2: gainOf(k, YK * v2, {}, c) }; });
+  const moons = ['europa', 'ganymede', 'callisto', 'titan'].map((m) => satMoon(m, c));
+  const rings = RINGS.map((key) => {
+    const base = ringYard(key, 1, YK, 'F1', c), kRef = KR.axStd(c.T1, c.GEO, key, { src: 'rule', ob: 'O0', recv: KR.DECL.recvMain });
+    const wSrc = base.wS + base.wSun, ratioSat = 1.5 / wSrc / YK;
+    const cells = RINGA.map((a) => ({ a, A0overW: ringYard(key, a, YK, 'F1', c).A0 / wSrc, A0overWio1: ringYard(key, a, YK * io1, 'F1', c).A0 / wSrc,
+      kA0overW: KR.recvOf({ kind: 'obs', a, cR: 1 }).A0 / (kRef.wS + kRef.wSun), g: [1e2, io1, v2, 1e7].map((r) => ringYard(key, a, YK * r, 'F1', c).yard / ringYard(key, a, YK, 'F1', c).yard) }));
+    return { key, wSrc, ratioSat, yardRule: base.yard, yardK: kRef.yard, cells };
+  });
+  return { io1, v2, rows, moons, rings };
+}
+/** 表 3(題 × (C0, 残りの換算の係数 k)の線): k(C0) = 0.98 ÷ uV(C0)。題の値 ÷ 物差し(〔第353便q〕の題 —— 局所の大きさの冪 pow の題は、規則の半径の組の値 × (gain_受け手 ÷ gain_金星)^pow で写す。
+ *  土星の環・公転面の集まり・歳差の率は、受け手の c_R を C0 で置いて直に数える) */
+export function table3(o = {}) {
+  const c = ctx(o), pts = gridRatios(null, c), b98 = DECL.uFocus;
+  const rule = Object.fromEntries(Q.TOPICS.map((t) => [t.id, Q.topicAt(t.id, 'rule', {}, c)]));
+  const recvOfTopic = { io: 'Io|Jupiter', moon: 'Moon|EarthHi', mercury: 'Mercury|Sun', tilt: 'Earth|Sun', ioHeat: 'Io|Jupiter', ioLock: 'Io|Jupiter' };
+  const R0 = Q.residOf(c);
+  const cols = pts.map(({ g, ratio }) => {
+    const C0 = YK * ratio, sv = stdMass('Venus|Sun', C0, {}, c), k = sv.kLine, gV = sv.gainV, cells = {};
+    for (const t of Q.TOPICS) {
+      let v;
+      if (t.id === 'ringAx' || t.id === 'ringDisk') v = k * ringYard(Q.DECL.ringMain, Q.DECL.particleA, C0, t.id === 'ringAx' ? 'F1' : 'F2', c).yard;
+      else if (t.id === 'plane') v = k * KR.planeStd(c.T1, c.GEO, 'Earth', { src: 'rule', ob: 'O0', recv: { cR: cRMass('Earth', C0) } }).v;
+      else if (t.id === 'precEarth' || t.id === 'precMars') { const id = t.id === 'precEarth' ? 'Earth' : 'Mars', set = { id: 'zb-' + id + '-' + ratio, place: 'field', cR: cRMass(id, C0), sig: false };
+        v = Q.dragAz(id, set, { u: b98, k }, c) / R0[id]; }
+      else v = rule[t.id].v * Math.pow(gainOf(recvOfTopic[t.id], C0, {}, c) / gV, t.pow);
+      cells[t.id] = { v, inBand: Math.abs(v) >= Q.DECL.band.lo && Math.abs(v) <= Q.DECL.band.hi };
+    }
+    return { g, ratio, k, gainV: gV, venusRes: sv.resEq, cells };
+  });
+  const moves = Q.TOPICS.map((t) => { const vs = cols.map((x) => Math.abs(x.cells[t.id].v)); return { topic: t.id, pow: t.pow, spanDec: Math.log10(Math.max(...vs) / Math.min(...vs)), first: cols[0].cells[t.id].v, ruleQ: rule[t.id].v }; });
+  return { cols, moves, provKeys: R0.provKeys };
+}
+/** 表 4(係数の読み): 受け手ごとの c_R(C0 = Y_k・イオの x = 1 の C0)・引きずられる側の半径 ÷ 観測半径・慣性モーメントの係数(〔第353便c〕の moiOf —— 文献の値・未照合)・順位の相関 */
+export const T4IDS = Object.freeze(['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Moon', 'Io', 'Europa', 'Ganymede', 'Callisto', 'Pluto', 'Charon', 'Sun']);
+export function table4(o = {}) {
+  const c = ctx(o), io1 = c0Ratio('io1', {}, c);
+  const rows = T4IDS.map((id) => { const mr = mrOf(id), moi = Cc.moiOf(id); return { id, m: mr.m, R: mr.R, mOverR: mr.m / mr.R, cRrule: cRMass(id, YK), cRio1: cRMass(id, YK * io1), Rdrag: YK * io1 * mr.m, moi }; });
+  const parts = RINGA.map((a) => { const rv = ringRecv(a, YK * io1); return { a, cRrule: ringRecv(a, YK).cR, cRio1: rv.cR }; });
+  const w = rows.filter((x) => x.moi !== null && x.moi !== undefined), rank = (f) => { const s = [...w].sort((a, b) => f(a) - f(b)).map((x) => x.id); return Object.fromEntries(s.map((id, i) => [id, i + 1])); };
+  const rA = rank((x) => x.mOverR), rB = rank((x) => x.moi), n = w.length, d2 = w.reduce((s, x) => s + (rA[x.id] - rB[x.id]) ** 2, 0);
+  return { io1, rows: rows.map((x) => ({ ...x, rankMR: rA[x.id] || null, rankMoi: rB[x.id] || null })), parts, n, rho: 1 - 6 * d2 / (n * (n * n - 1)),
+    spanDec: Math.log10(Math.max(...rows.map((x) => x.mOverR)) / Math.min(...rows.map((x) => x.mOverR))) };
 }
