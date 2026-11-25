@@ -3264,6 +3264,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/ringdisk-353h.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第353便h: 零試験 9/🛟 の率 1/環の区分 5 × 傾き 5 × 列 6/題の切り分け 9' }),
   // ==== 第353便h の塊(ここまで)====
+  // ==== 第353便k の塊(ここから)====
+  // ---- 第353便k(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R475): **回答の基準で作った円盤引きずりの側の輪の場(土星の環 5 区分 × 置き方の組 9・受け手の自分の重みの格子・公転面の集まり)**
+  //   (段 ringstd-353k —— 正本 tests/out/ringstd-353k.json・lib tests/lib-w353k-ringstd.mjs —— 第353便h・d・c・第352便s・k・za・c・第351便j・c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h・srcoblate-353d・recvradius-353c)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便k の枝の実測 1 s
+  S('ringstd-353k', 'node tests/exp-w353k-ringstd.mjs', ['tests/out/ringstd-353k.json'], 2, { secSource: 'w353k-branch', node: true,
+    after: ['ringdisk-353h', 'srcoblate-353d', 'recvradius-353c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringstd-353k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便k: 零試験 9/環の区分 5 × 置き方の組 9/受け手の自分の重み 16/公転面 8 惑星 × 6' }),
+  // ==== 第353便k の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
