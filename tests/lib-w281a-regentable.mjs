@@ -3320,6 +3320,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/watch098-353n.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便n: 零試験 10/見ている時間 5 × 受け手 9 × f 3/変わらないと言える時間の幅 27/2 つの軸 12/応答の側の率の倍 18' }),
   // ==== 第353便n の塊(ここまで)====
+  // ==== 第353便o の塊(ここから)====
+  // ---- 第353便o(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R479): **太陽の自転軸の傾きを「作る」話と、いまの円錐の読みを分ける(主の列 (N+)・(g2−) の届きと比べる列)**
+  //   (段 suntiltmain-353o —— 正本 tests/out/suntiltmain-353o.json・lib tests/lib-w353o-suntiltmain.mjs —— 第352便l・x・r・w・c・第353便e・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に ringdisk-353h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便o の枝の実測 12 s
+  S('suntiltmain-353o', 'node tests/exp-w353o-suntiltmain.mjs', ['tests/out/suntiltmain-353o.json'], 12, { secSource: 'w353o-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/suntiltmain-353o.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便o: 零試験 10/主の列 6 + ずれ 3 + 黄道の欄 1/比べる列 56 + 帯 12/分ける表 8 + 窓 12' }),
+  // ==== 第353便o の塊(ここまで)====
   // ==== 第353便p の塊(ここから)====
   // ---- 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480): **打ち消しの点の一覧を、源の扁平率((O2b) の σ)と受け手の半径の係数((P-場) の c_R)で数え直す(17 組 × 置き方 7・イオと金星の格子 70 点・衛星の自分の重み)**
   //   (段 cancelstd-353p —— 正本 tests/out/cancelstd-353p.json・lib tests/lib-w353p-cancelstd.mjs —— 第353便d・c・第352便v・k・e・c・d・第351便c・第348便h・c・第350便b・第347便h・e・第312便a・第334便a の lib を import して呼ぶ。

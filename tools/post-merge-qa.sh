@@ -1713,6 +1713,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.residsign353m docs.residsign353m"
 #   docs.watch098_353n —— 原文と表と数の文が PHYSICS〔第353便n〕に逐語・文書)と、新しい段 watch098-353n
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.watch098_353n docs.watch098_353n"
 # ==== 第353便n の塊(ここまで)====
+# ==== 第353便o の塊(ここから)====
+# 第353便o(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R479 —— 診断だけ・html は変えない): 枝 o の新設 2 本
+#   (behavior.suntiltmain353o —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.suntiltmain353o —— 原文と表と数の文が PHYSICS〔第353便o〕に逐語・文書)と、新しい段 suntiltmain-353o
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntiltmain353o docs.suntiltmain353o"
+# ==== 第353便o の塊(ここまで)====
 # ==== 第353便p の塊(ここから)====
 # 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480 —— 診断だけ・html は変えない): 枝 p の新設 2 本
 #   (behavior.cancelstd353p —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・x と残りを QA の中で別に照合・呼ぶだけ /
