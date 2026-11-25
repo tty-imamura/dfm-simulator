@@ -1738,6 +1738,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.suntiltmain353o docs.suntiltmain353
 #   docs.cancelstd353p —— 原文と表と数の文が PHYSICS〔第353便p〕に逐語・文書)と、新しい段 cancelstd-353p
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.cancelstd353p docs.cancelstd353p"
 # ==== 第353便p の塊(ここまで)====
+# ==== 第353便q の塊(ここから)====
+# 第353便q(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R481 —— 診断だけ・html は変えない): 枝 q の新設 2 本
+#   (behavior.onek353q —— 零試験 12・器を走らせ直して第338便c の recheckRun で正本と照合・値 ÷ 物差しと比を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.onek353q —— 原文と表と数の文が PHYSICS〔第353便q〕に逐語・文書)と、新しい段 onek-353q
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.onek353q docs.onek353q"
+# ==== 第353便q の塊(ここまで)====
 # ==== 第353便r の塊(ここから)====
 # 第353便r(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R482 —— 診断だけ・html は変えない): 枝 r の新設 2 本
 #   (behavior.residfit353r —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
