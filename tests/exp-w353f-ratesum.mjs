@@ -8,7 +8,7 @@
 //   1 プロセス。正本は第338便c の settleRun で書く。仮の値は第352便b の器の数だけ(正本の最上位に provisional: true と鍵の一覧)。
 //
 // ■ 探索の方針: 式の形は走行の前に決め打ちしない —— 正本の先頭(decl・plan)は、走らせた格子と判定の物差しの記録。
-// ■ 言わないこと: 歳差の率が説明できた・重力の側の列が DFM の結果、と書かない。仮の値を使う行は合否にしない。
+// ■ 言わないこと: 歳差の率の答えとは書かない・重力の側の列を DFM の結果と書かない。仮の値を使う行は合否にしない。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,7 +27,7 @@ export const AMEND = Object.freeze([]);
 const IS_MAIN = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 export const PROV_KEYS = Object.freeze(['earth.psiA.rate', 'mars.prec.rate', 'venus.prec.rate']);
 export const NOT_CLAIM = Object.freeze([
-  '符号つきの率の表 —— 歳差の率が説明できた、とは書かない(この極・この背景・この応答の係数では、の数)',
+  '符号つきの率の表 —— 歳差の率の答えとは書かない(この極・この背景・この応答の係数では、の数)',
   '重力の側の列(第352便u の (T-g))は比べる列 —— DFM の式ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)',
   '金星の仮の値は大きさだけ —— 回る向きは「重力の列と同じ回り」「逆の回り」の 2 列で持つ(どちらにも寄せない)',
   '応答の係数 c は単位の応答 1 からの倍 —— 要る c・上限の c は、残りを軸引きずりだけに割り当てたときの数(構造の係数の式は置いていない)',
