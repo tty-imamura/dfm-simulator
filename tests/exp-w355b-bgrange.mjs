@@ -37,6 +37,7 @@ export const PLAN = Object.freeze({
   t4: '表 4: 共通部分(作り × 物差しの半径 × 読み —— 6 組・k₂/Q 共通の 3 組・第337便c の 3 組)',
   t5: '表 5: 範囲の内の金星の代表の値(主の作り・R_ref 観測・観測の自転・共通 1e-2)',
   t6: '表 6: 全体の係数(= u ÷ 金星の条件の値)で読む 3 つの題',
+  cmp: '比べる列: (ア)(換算の係数 1 —— 第353便zk の格子の範囲)・(ウ)(背景 = 金星の条件の大きさ —— X の帯)',
 });
 export const PROV_KEYS = Object.freeze(['earth.precSense', 'earth.psiA.rate', 'mars.prec.rate', 'venus.prec.rate', 'venus.spin.period']);
 
@@ -55,6 +56,7 @@ export function gatesOf(J) {
     t4: J.t4.length === nC * 2 * 3 && J.t4.every((r) => r.open === (r.lo < r.hi)),
     t5: J.t5.rows.length === D.reps.length + 2 && J.t5.rows.every((r) => r.k > 0),
     t6: J.t6.uV > 0 && J.t6.b.lo < J.t6.b.hi,
+    cmp: J.cmp.A.length === 6 && J.cmp.U.length === 6,
   };
 }
 export function runAll(J353) {
@@ -99,7 +101,12 @@ export function runAll(J353) {
   const t6 = { uV: uVO, a: { u: D.uFocus, coef: D.uFocus / uVO }, b: { lo: main.lo, hi: main.hi, coefLo: main.lo / uVO, coefHi: main.hi / uVO },
     c: { tideInfUMax: cT, tideMeanUMax: cM, egUMax: cE, coefTideInf: cT / uVO, coefTideMean: cM / uVO, coefEg: cE / uVO },
     overlapTideInf: ovl(cT), overlapTideMean: ovl(cM), overlapEg: ovl(cE) }; mark('t6');
-  const J = { pure, t1, t2, t3, t4, t5, t6, timing: tm };
+  // 比べる列(第353便zk の正本から写す —— (ア) は換算の係数 1 で u を格子 1e-3〜1e2 で振った範囲〔格子の端で切る〕・(ウ) は背景を金星の条件の大きさに置いた X の帯〔u を振る列ではない〕)
+  const cmp = {
+    A: J353.t3.filter((r) => r.col === 'A').map((r) => ({ mode: r.mode, k2q: r.k2q, ranges: r.ranges, window: r.window, focus: r.focus })),
+    U: J353.t2.sep.filter((r) => r.col === 'U' && r.partAsLock).map((r) => ({ mode: r.mode, k2q: r.k2q, lockMin: r.lockMin, lockMinId: r.lockMinId, notMax: r.notMax, notMaxId: r.notMaxId, separable: r.separable, atOne: r.atOne })),
+  }; mark('cmp');
+  const J = { pure, t1, t2, t3, t4, t5, t6, cmp, timing: tm };
   J.gates = gatesOf(J); J.ok = Object.values(J.gates).every(Boolean);
   return J;
 }

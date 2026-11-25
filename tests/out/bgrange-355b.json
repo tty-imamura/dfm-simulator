@@ -124,7 +124,8 @@
   "t3": "表 3: 範囲 72 行(作り 4〔P・M は物差しの半径 2〕× 置き方 3 × k₂/Q 2 × 読み 2)と 0.98・窓・金星の条件・第353便zk の範囲との重なり/k₂/Q 走査/比べる読み/作りの動き",
   "t4": "表 4: 共通部分(作り × 物差しの半径 × 読み —— 6 組・k₂/Q 共通の 3 組・第337便c の 3 組)",
   "t5": "表 5: 範囲の内の金星の代表の値(主の作り・R_ref 観測・観測の自転・共通 1e-2)",
-  "t6": "表 6: 全体の係数(= u ÷ 金星の条件の値)で読む 3 つの題"
+  "t6": "表 6: 全体の係数(= u ÷ 金星の条件の値)で読む 3 つの題",
+  "cmp": "比べる列: (ア)(換算の係数 1 —— 第353便zk の格子の範囲)・(ウ)(背景 = 金星の条件の大きさ —— X の帯)"
  },
  "amend": [],
  "notClaim": [
@@ -6661,6 +6662,168 @@
    "hi": 1.0251319328209711
   }
  },
+ "cmp": {
+  "A": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.001784653999394144,
+      "hi": 100,
+      "loClipped": false,
+      "hiClipped": true,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": null
+     }
+    ],
+    "window": "in",
+    "focus": true
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.001,
+      "hi": 31.972488291533914,
+      "loClipped": true,
+      "hiClipped": false,
+      "loEdgeBody": null,
+      "hiEdgeBody": "Mercury"
+     }
+    ],
+    "window": "in",
+    "focus": true
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.653640880312386,
+      "hi": 100,
+      "loClipped": false,
+      "hiClipped": true,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": null
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.1960922640940198,
+      "hi": 43.40508784248133,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.2554939793881338,
+      "hi": 1.1556150065215993,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.07664819381675357,
+      "hi": 0.34668450195731493,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": false
+   }
+  ],
+  "U": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "lockMin": 39281444319322.88,
+    "lockMinId": "Mercury",
+    "notMax": 2332405332.266651,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "lockMin": 11784433295796.867,
+    "lockMinId": "Mercury",
+    "notMax": 699721599.6799955,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "lockMin": 58922171130415.445,
+    "lockMinId": "Mercury",
+    "notMax": 854258290691.405,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "lockMin": 17676651339124.637,
+    "lockMinId": "Mercury",
+    "notMax": 256277487207.4216,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "lockMin": 2689462536951.665,
+    "lockMinId": "Mercury",
+    "notMax": 342412771566.5141,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "lockMin": 806838761085.4998,
+    "lockMinId": "Mercury",
+    "notMax": 102723831469.95427,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   }
+  ]
+ },
  "gates": {
   "pure": true,
   "t1": true,
@@ -6668,42 +6831,46 @@
   "t3": true,
   "t4": true,
   "t5": true,
-  "t6": true
+  "t6": true,
+  "cmp": true
  },
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.073
+   "wallSec": 0.141
   },
   "pure": {
-   "wallSec": 0.567
+   "wallSec": 0.948
   },
   "t1": {
-   "wallSec": 0.567
+   "wallSec": 0.948
   },
   "t2": {
-   "wallSec": 0.568
+   "wallSec": 0.949
   },
   "t3": {
-   "wallSec": 0.574
+   "wallSec": 0.968
   },
   "t4": {
-   "wallSec": 0.577
+   "wallSec": 0.974
   },
   "t5": {
-   "wallSec": 0.583
+   "wallSec": 0.989
   },
   "t6": {
-   "wallSec": 0.583
+   "wallSec": 0.99
+  },
+  "cmp": {
+   "wallSec": 0.99
   }
  },
- "elapsedS": 1.505,
+ "elapsedS": 2.454,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第355便b",
   "target": "tests/lib-w355b-bgrange.mjs",
   "targetSha256": "11808ca3c9ba8d68cf1dd45f25b46bf6442573b25501b234c00647d758b478f8",
-  "generatedAt": "2026-11-25T19:45:41.325Z",
+  "generatedAt": "2026-11-25T19:46:27.622Z",
   "inputs": [
    {
     "file": "tests/out/lockdef-353zk.json",
@@ -6715,9 +6882,9 @@
   "code": [
    {
     "file": "tests/exp-w355b-bgrange.mjs",
-    "bytes": 12780,
-    "sha256": "c53c9a49e55e637e447f87a83f7f22b0e5ffb43cac6eea073305061d8bdc4fba",
-    "mtime": "2026-11-25T19:45:32.916Z"
+    "bytes": 13656,
+    "sha256": "e84cef80189950d14a13adaa4748d45c0b2d5da71d76fa3cbfdde0e2bb1fc9ee",
+    "mtime": "2026-11-25T19:46:24.808Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -7464,7 +7631,7 @@
     "mtime": "2026-11-25T19:44:14.768Z"
    }
   ],
-  "codeSha256": "e0666d3565371579539fc53a034ec7fbfd1a4f0ff50cebc54ca7886e6093d86e",
+  "codeSha256": "b8d79b67bb90387426a6c581be376bdbe2be1a2dcd26b65648313f59871fae9f",
   "harnessVersion": "w355b-bgrange-1",
   "stage": "bgrange",
   "engine": "Node(html を読まない —— 純関数の lib・第353便zk・zf・c・z・g・第352便k・第348便c・第337便c・第347便e の lib を呼ぶ)・1 プロセス",
@@ -7510,7 +7677,7 @@
     "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
    },
    "zeroed": 1,
-   "kept": 1922,
+   "kept": 1946,
    "zeroPathsHead": [
     "/t3/move/1/maxLog10"
    ],
