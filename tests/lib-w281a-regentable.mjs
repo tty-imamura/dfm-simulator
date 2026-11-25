@@ -3552,6 +3552,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/lockdef-353zk.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zk: 零試験 12/X 10 天体 × 列 3 × 置き方 3 × k₂/Q 2 と X = 1 の自転周期/線 1 で分かれるか 36 行と k₂/Q の範囲 18/u の範囲 12/金星と地球 3/整数の並び 12/言えること 3' }),
   // ==== 第353便zk の塊(ここまで)====
+  // ==== 第355便b の塊(ここから)====
+  // ---- 第355便b(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R505): **「潮汐力 ÷ 軸引きずり = 1」の線で惑星が分かれる背景の大きさ u の範囲を、主の作り(換算の係数 = 金星で等大になる値・(P-応)・(O2b))で閉じた形で数える表(範囲 72 行・共通部分・k₂/Q 走査・代表の値)**
+  //   (段 bgrange-355b —— 正本 tests/out/bgrange-355b.json・lib tests/lib-w355b-bgrange.mjs —— 第353便zk・zf・c・z・g・第352便k・第348便c・第337便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは第353便zk の正本 tests/out/lockdef-353zk.json(零試験の照合だけ)・順序 after に lockdef-353zk)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第355便b の枝の実測 3 s
+  S('bgrange-355b', 'node tests/exp-w355b-bgrange.mjs', ['tests/out/bgrange-355b.json'], 3, { secSource: 'w355b-branch', node: true,
+    after: ['lockdef-353zk'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は第353便zk の正本 1 本)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bgrange-355b.json': ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便b: 零試験 13/範囲の照合 6/X 作り 6 × 置き方 3 × k₂/Q 2/範囲 72 行と k₂/Q 走査 18 と比べる読み 15/共通部分 36/代表の値 6/全体の係数の題 3/比べる列 (ア)(ウ)' }),
+  // ==== 第355便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
