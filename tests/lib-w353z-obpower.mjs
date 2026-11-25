@@ -60,11 +60,11 @@ export const DECL = Object.freeze({
   rings: Object.freeze(['ringC', 'ringB', 'ringA']),
   /** 0.98 の列(背景の倍率 0.98 で金星を等大にする換算の係数を置いたときのイオの残り —— 比なので金星の条件での残りと同じ数) */
   u98: 0.98,
-  /** 点検の数(統括の数え直し 4 の脚本の桁・第353便d の 0.93491・第352便v の 0.89414・第353便l の φ —— 3 桁) */
+  /** 点検の数(便の始めの数え直しの桁・第353便d の 0.93491・第352便v の 0.89414・第353便l の φ —— 3 桁) */
   anchor: Object.freeze({ x0: '0.894142', mStar: '1.11875', nStar: '5.019', x5: '0.99958', x3: '0.95598', x2: '0.93491', sunOverPar: '3.00e-3', uV: '1.192817e-12',
     phiL: Object.freeze({ europa: '3.42', ganymede: '3.36', callisto: '3.10', titan: '19.2' }) }),
   main: Object.freeze({ part: 'S', tSrc: 0, read: 'C2', bg: 'Np', axis: 'L' }),
-  judge: '丸めの桁の床: 零試験は相対 1e-9(尺度の走り直しで揺れる)・点検の数は脚本の桁・逐語の表は有効数字 3〜4 桁',
+  judge: '丸めの桁の床: 零試験は相対 1e-9(尺度の走り直しで揺れる)・点検の数は便の始めの数え直しの桁・逐語の表は有効数字 3〜4 桁',
 });
 const PJh = 9.925, PSd = 25.05;
 
@@ -104,7 +104,7 @@ export function xFromParts(Pt, n, { fPar = null, sun = false, fSun = null } = {}
 export function xAtN(T1, GEO, key, n, { cR = null, place = 'rule', fOver = null, sun = false } = {}, cache = null) {
   return xFromParts(partsOf(T1, GEO, key, { cR, place }, cache), n, { fPar: fOver, sun });
 }
-/** 母天体の項の倍 m で x(m)(n と f に依らない —— 統括の数え直し 4 の m★) */
+/** 母天体の項の倍 m で x(m)(n と f に依らない —— 便の始めの数え直しの m★) */
 export const xOfM = (Pt, m) => nrm(add(Pt.sun, scl(Pt.parent, m))) / nrm(Pt.venus);
 /** x(m) = 1 の m(二分 —— 対数の区間)。無ければ null */
 export function mStarOf(Pt, { lo = 1e-3, hi = 1e6 } = {}) {

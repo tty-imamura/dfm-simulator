@@ -114,7 +114,7 @@
    "bg": "Np",
    "axis": "L"
   },
-  "judge": "丸めの桁の床: 零試験は相対 1e-9(尺度の走り直しで揺れる)・点検の数は脚本の桁・逐語の表は有効数字 3〜4 桁"
+  "judge": "丸めの桁の床: 零試験は相対 1e-9(尺度の走り直しで揺れる)・点検の数は便の始めの数え直しの桁・逐語の表は有効数字 3〜4 桁"
  },
  "plan": {
   "pure": "零試験 9",
@@ -962,32 +962,32 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.28
+   "wallSec": 0.247
   },
   "t1": {
-   "wallSec": 0.349
+   "wallSec": 0.345
   },
   "t2": {
-   "wallSec": 0.369
+   "wallSec": 0.365
   },
   "t3": {
-   "wallSec": 0.381
+   "wallSec": 0.378
   }
  },
- "elapsedS": 0.923,
+ "elapsedS": 0.83,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第353便z",
   "target": "tests/lib-w353z-obpower.mjs",
-  "targetSha256": "78b27ff51eac925acc908e587e5fea698bd02a95f3422e68a70d72e7a5ecb717",
-  "generatedAt": "2026-11-25T06:40:19.620Z",
+  "targetSha256": "258d0b9ceec7f7eb8d1fcfe4f6e0daa5471b865be2ffb645199abaa28ca498c3",
+  "generatedAt": "2026-11-25T06:47:30.590Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w353z-obpower.mjs",
-    "bytes": 7328,
-    "sha256": "66f17b6dcb5fe8b4bfbaff0bdf26b3c2e618a8954f1669ebc2da6c5fac78f0de",
-    "mtime": "2026-11-25T06:39:59.653Z"
+    "bytes": 7331,
+    "sha256": "667cac203bdd68d8235a4df8006f45b79e66b951a0b909b840bd627087ef17c0",
+    "mtime": "2026-11-25T06:47:29.546Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -1567,12 +1567,12 @@
    },
    {
     "file": "tests/lib-w353z-obpower.mjs",
-    "bytes": 30091,
-    "sha256": "78b27ff51eac925acc908e587e5fea698bd02a95f3422e68a70d72e7a5ecb717",
-    "mtime": "2026-11-25T06:40:18.356Z"
+    "bytes": 30109,
+    "sha256": "258d0b9ceec7f7eb8d1fcfe4f6e0daa5471b865be2ffb645199abaa28ca498c3",
+    "mtime": "2026-11-25T06:47:29.545Z"
    }
   ],
-  "codeSha256": "7d566b660ca82c85e226846cec15376292af2ebad503f29dd661de547a05eb7c",
+  "codeSha256": "6853079e8789a3242304eb874945d43552e38d817bb084a476529bcd875eec41",
   "harnessVersion": "w353z-obpower-1",
   "stage": "obpower",
   "engine": "Node(html を読まない —— 純関数の lib: 〔第353便p〕の localStd・rotP・〔第353便d〕の obCancel・circRot・〔第353便k〕の diskStd・planeStd を呼ぶ)・入力のファイルは無い",

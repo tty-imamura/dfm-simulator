@@ -127595,7 +127595,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         const PS = L.pureScenes(), PG = L.pureGates(PS);
         for (const [k, v] of Object.entries(PG)) if (v !== true) bad.push('① 零試験 ' + k);
         if (Object.keys(PG).length !== 9) bad.push('① 零試験の数 ' + Object.keys(PG).length);
-        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(統括の数え直し 4・第353便d の obCancel・第353便p の (ii)・入力を振らない恒等・冪の閉じた形・第353便k の O2b・第353便l の φ・0.98 の列・拒否)`);
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・零試験 ${Object.values(PG).filter(Boolean).length}/${Object.keys(PG).length}(便の始めの数え直し・第353便d の obCancel・第353便p の (ii)・入力を振らない恒等・冪の閉じた形・第353便k の O2b・第353便l の φ・0.98 の列・拒否)`);
         // ② 器を走らせ直して正本と同じ
         const parts = ['pure', 't1', 't2', 't3'];
         const RC = R338.recheckRun(() => { const q = X.runAll(); delete q.timing; return q; }, J, parts), diffs = RC.diffs, badParts = parts.filter((k) => diffs[k].n > 0);
