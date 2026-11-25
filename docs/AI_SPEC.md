@@ -5752,3 +5752,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: 傾き 0.1〜30° の輪の法線が土星の赤道面へ寄る率 ÷ 環の物差し(1e7 年で e 分の 1 —— 文献の値・未照合)を、(i) 軸引きずりの (S)・規則の半径/(ii) 同・観測の半径(比べる列)/(iii-a) 〔第351便j〕の輪 (C1)(C2)/(iii-b) 🛟 の率で並べた。器 `tests/exp-w353h-ringdisk.mjs`・lib `tests/lib-w353h-ringdisk.mjs`(口 `axialRow`・`diskRow`・`bookRow`・`cellRow`・`splitRows`・`yardOf`・`yardOfRate`)・正本 `tests/out/ringdisk-353h.json`・段 `ringdisk-353h`(Node だけ・html を読まない・入力は 🛟 の正本・仮の値の lib に届かない)。
 - **AI が読むときの要点**: どれも候補の表(この場・この列・このノブでは)。(iii-a) (C2) は (ii) の 0.809 倍で区分に依らない —— これまでの円盤引きずりの側の候補は、源を観測の半径に置いた土星の自転の分と同じ作りの量。源を規則の半径に置いた円盤引きずりの側の場は未作成。🛟 の本の「達」はその本の目的で、円盤引きずりの型を採ったことではない。
 - QA `behavior.ringdisk353h`・`docs.ringdisk353h`(本節と PHYSICS〔第353便h〕 —— root は SKIP)。
+
+## 372. 第353便p —— 打ち消しの点の一覧を、源の扁平率((O2b) の σ)と受け手の半径の係数((P-場) の c_R)で数え直す: 17 組 × 置き方 5 の x と残り・イオと金星を同じ背景で読む格子・衛星の受け手の自分の重み(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 〔第352便v〕の 17 組を、(i) これまで・(ii) 源に (O2b) の σ・(iii) 受け手に (P-場) の c_R(1e-3・0.0128)・(iv) 両方・(v) (P-応) で数え直し(金星の側も同じ置き方)、x が 0.9〜1.1・0.5〜2 に入る組を数えた。イオと金星は木星の f × c_R の 70 点の格子・衛星は c_R★。器 `tests/exp-w353p-cancelstd.mjs`・lib `tests/lib-w353p-cancelstd.mjs`(口 `stdCancel`・`localStd`・`obPlan`・`rotP`・`moonWeights`・`ioWays`・`table1`・`table2`・`table3`)・正本 `tests/out/cancelstd-353p.json`・段 `cancelstd-353p`(Node だけ・html を読まない・仮の値の lib に届かない)。
+- **AI が読むときの要点**: どれも候補の表(この場・この置き方・このノブでは)。x が 0.9〜1.1 に入る組は (ii) のイオ ← 木星(0.935)だけ。c_R を置くとイオの x は 3.9〜18 に離れ、月の 3 行が 0.5〜2 に入る。c_R を置いたときのイオの数は、衛星の組の作り(他の源の重みを分母に入れるか)で大きく違う(〔第353便c〕の 0.573 は入れない作り)。扁平率の式・受け手の係数は決めていない。
+- QA `behavior.cancelstd353p`・`docs.cancelstd353p`(本節と PHYSICS〔第353便p〕 —— root は SKIP)。
