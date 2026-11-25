@@ -10,7 +10,7 @@
 // ■ 主の列(第151報の回答): 背景の向き (N+)(太陽系の基準軸の向き —— 基準軸 L)・歳差の式 (g2−) = −Ω × ŝ(「こまの式」)。比べる列: (g2+)・(G−)・2 つの向きの項(比 ρ = b ÷ a)。
 // ■ 「作る」の届き: 初めにそろった輪の法線 n̂ と太陽の自転軸 ŝ が、年齢の間に開く角(いまの角 5.968°〔L〕・5.230°〔eq〕)といまの方位に届くか(第352便x の読み A・B)。
 //   「保つ」の読み: 初めの角(いまの円錐の半頂角)が年齢の間に 10% より縮まないこと(第352便w の q10・寄る割合 f の上限)。
-// ■ 言わないこと: 太陽の傾きの原因が分かった・作れない事が示された、とは書かない(この式・この列・この格子での届きの表)。
+// ■ 言わないこと: 太陽の傾きの原因の答え・作れない事の答えとは書かない(この式・この列・この格子での届きの表)。
 import * as SL from './lib-w352l-suntilt.mjs';
 import * as X from './lib-w352x-sunorigin.mjs';
 import * as T from './lib-w352r-twobg.mjs';
@@ -97,6 +97,27 @@ export function fWindowB({ GEO, axisVec, axn, rho, sense, q, lo = 0.5, hi = 1, s
   return { fLo: hits[0].f, fHi: hits[hits.length - 1].f, n: hits.length, mid: hits[Math.floor(hits.length / 2)] };
 }
 
+/**
+ * 角と方位を別々に数える走査(1 組 —— 第352便x の reachScan と同じ τ の格子・同じ幅): 角だけ・方位だけ(2 つの軸の角が 0.5° 以上の標本で)・同時。
+ * 戻り値 { gReach, azReach, both, tauHit | null, turnDeg | null, nearAzDeg(角が幅の内の標本での方位の差の最小)| null, nearAzAnyDeg(方位だけの差の最小)| null, nIll }
+ */
+export function scanCell({ GEO, axisVec, axn, rho, sense, f, q, read, nTau = 200, dec = 8 }) {
+  chkSense(sense);
+  const fr = frameOf(GEO, axisVec, axn, rho), tm = Math.max(200, 50 / Math.abs(q)), tol = DECL.tol;
+  const ring = X.coefOf({ f, sense, ratio: 1 }), spin = X.coefOf({ f, sense, ratio: 1 + q });
+  let gR = false, aR = false, hit = null, near = null, nearAny = null, nIll = 0;
+  for (let k = 0; k <= nTau; k++) {
+    const tau = tm * Math.pow(10, -dec + dec * k / nTau), st = X.stateAt({ GEO, axis: axisVec, w: fr.w, tau, ring, spin, read });
+    if (st.illCond) { nIll++; continue; }
+    if (st.dAzDeg === null || st.gammaDeg < tol.gammaDeg) continue;
+    const eg = Math.abs(st.gammaDeg - fr.gT), ea = Math.abs(RC.dAz(st.dAzDeg, fr.azT));
+    nearAny = nearAny === null ? ea : Math.min(nearAny, ea);
+    if (ea <= tol.azDeg) aR = true;
+    if (eg <= tol.gammaDeg) { gR = true; near = near === null ? ea : Math.min(near, ea); if (ea <= tol.azDeg && hit === null) hit = { tau, turnDeg: st.turnDeg }; }
+  }
+  return { gReach: gR, azReach: aR, both: hit !== null, tauHit: hit ? hit.tau : null, turnDeg: hit ? hit.turnDeg : null, nearAzDeg: near, nearAzAnyDeg: nearAny, nIll };
+}
+
 /* ───────── 包み 3: 第352便r の口(輪が動かない組・経路 ② だけの帯)───────── */
 /** 輪が動かない組(c_n 0)・経路 ② だけ: ŝ は Ω̂ のまわりの円 —— 届く角の上限 2θ と、方位の側(円の上の点は Ω̂ の方位の側 ±90° の内) */
 export function ringFixedBand(GEO, axisVec, axn, rho) {
@@ -133,18 +154,21 @@ export function uKeepAt({ thDeg, f }) {
 
 /* ───────── 分ける表(T4): 届いた後に、いまの角の帯に居る長さ ───────── */
 /**
- * 届いた組(τ_hit)の前後で、2 つの軸の角がいまの角の ±frac の内に居る続きの τ の長さ Δτ(τ の格子 —— 対数の刻み)と、Δτ ÷ τ_hit。
+ * 届いた組(τ_hit)の前後で、2 つの軸の角がいまの角の ±frac の内に居る続きの τ の長さ Δτ と、Δτ ÷ τ_hit。
+ * τ の刻みは一様(dτ = min(τ_hit × 2e-3, 0.01 ÷ (1 + abs(q))) —— 経路 ② の角の揺れの 1 周を 600 刻み以上で追う)・片側 nMax 刻みで帯を出なければ open(Δτ は下限)。
  * 年齢 = τ_hit に置いたとき(届くのがちょうどいま)、Δτ ÷ τ_hit は「いまの角の帯に居る時間 ÷ 年齢」。
  */
-export function dwellOf({ GEO, axisVec, axn, rho, sense, f, q, read, tauHit, frac = 0.1, nPer = 400, span = 50 }) {
+export function dwellOf({ GEO, axisVec, axn, rho, sense, f, q, read, tauHit, frac = 0.1, nMax = 4000 }) {
   if (!(fin(tauHit) && tauHit > 0)) throw new RangeError('dwellOf: τ_hit > 0');
   const fr = frameOf(GEO, axisVec, axn, rho), ring = X.coefOf({ f, sense, ratio: 1 }), spin = X.coefOf({ f, sense, ratio: 1 + q });
-  const inB = (tau) => { const st = X.stateAt({ GEO, axis: axisVec, w: fr.w, tau, ring, spin, read }); return !st.illCond && Math.abs(st.gammaDeg - fr.gT) <= frac * fr.gT; };
+  const inB = (tau) => { if (!(tau > 0)) return false; const st = X.stateAt({ GEO, axis: axisVec, w: fr.w, tau, ring, spin, read }); return !st.illCond && Math.abs(st.gammaDeg - fr.gT) <= frac * fr.gT; };
   if (!inB(tauHit)) return { dTau: 0, ratio: 0, lo: tauHit, hi: tauHit, open: false };
-  const r = Math.pow(span, 1 / nPer);
-  let lo = tauHit, hi = tauHit, open = false;
-  for (let k = 0; k < nPer; k++) { const t = lo / r; if (!inB(t)) break; lo = t; if (k === nPer - 1) open = true; }
-  for (let k = 0; k < nPer; k++) { const t = hi * r; if (!inB(t)) break; hi = t; if (k === nPer - 1) open = true; }
+  const dt = Math.min(tauHit * 2e-3, 0.01 / (1 + Math.abs(q)));
+  let lo = tauHit, hi = tauHit, open = false, k = 0;
+  for (k = 0; k < nMax; k++) { const t = lo - dt; if (!inB(t)) break; lo = t; }
+  if (k === nMax) open = true;
+  for (k = 0; k < nMax; k++) { const t = hi + dt; if (!inB(t)) break; hi = t; }
+  if (k === nMax) open = true;
   return { dTau: hi - lo, ratio: (hi - lo) / tauHit, lo, hi, open };
 }
 
@@ -186,12 +210,19 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const bLo = ringFixedBand(GEO, ax.L, 'L', 0.0605), bHi = ringFixedBand(GEO, ax.L, 'L', 0.087);
   // ⑧ 傾きを保つ f の上限(u 0.98・太陽)= 第353便e の fMaxAt
   const fk = fKeepAt({ thDeg: 5.968, u: 0.98 }).fMax, fe = FE.fMaxAt('Sun|-', { T1, GEO }).fMax, uk = uKeepAt({ thDeg: 5.968, f: fk });
-  // ⑨ 拒否
+  // ⑨ 角と方位を別々に数える走査の「同時」= 第352便x の reachScan の届き(同じ格子 —— 標本 8 組)
+  let scanSame = 0, nScan = 0;
+  for (const [axn, rho, sense, f, q, read] of [['L', Infinity, 'g2p', 0.7, -1, 'B'], ['L', Infinity, 'g2m', 0.7, -1, 'B'], ['eq', 0.075, 'g2p', 0.85, -1, 'B'], ['L', 0.075, 'g2m', 0.3, -0.5, 'A'],
+    ['L', 0.075, 'g2p', 0, 1, 'A'], ['eq', 1, 'g2m', 0.5, -0.1, 'A'], ['L', 0, 'g2m', 0.5, -1, 'B'], ['eq', Infinity, 'g2p', 0.2, 0.1, 'B']]) {
+    const a = scanCell({ GEO, axisVec: ax[axn], axn, rho, sense, f, q, read }), b = reachOne({ GEO, axisVec: ax[axn], axn, rho, sense, f, q, read });
+    nScan++; if (a.both === (b.tau !== null) && (a.tauHit === null ? b.tau === null : Math.abs(a.tauHit / b.tau - 1) < 1e-6)) scanSame++;   // τ の格子の点は pow で作る —— 尺度の走り直しで ulp の桁で揺れる
+  }
+  // ⑩ 拒否
   const rej = [() => reachOne({ GEO, axisVec: ax.L, axn: 'L', rho: 0, sense: 'x', f: 0, q: 1, read: 'A' }), () => frameOf(GEO, ax.L, 'ecl', 0),
     () => mainMake({ axisVec: ax.L, u: -1 }), () => dwellOf({ GEO, axisVec: ax.L, axn: 'L', rho: 1, sense: 'g2m', f: 0, q: 1, read: 'A', tauHit: 0 })]
     .map((fn) => { try { fn(); return false; } catch (er) { return er instanceof RangeError; } });
   return { axL, omegaG, sunL, vsX, symG, azDiff, moved, keep0, vsCone, wLinf: [wLinf.fLo, wLinf.fHi], wLinfM: wLinfM.n, wEq: [wEq.fLo, wEq.fHi], winAll,
-    band: { lo: bLo.gReach, hi: bHi.gReach, azLo: bLo.azReach, azHi: bHi.azReach }, fk, fe, ukRel: Math.abs(uk / 0.98 - 1), rejects: rej };
+    band: { lo: bLo.gReach, hi: bHi.gReach, azLo: bLo.azReach, azHi: bHi.azReach }, fk, fe, ukRel: Math.abs(uk / 0.98 - 1), scanSame, nScan, rejects: rej };
 }
 const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300);
 export function pureGates(S) {
@@ -205,6 +236,7 @@ export function pureGates(S) {
       && S.winAll[0] === ANCHOR.winAll[0] && S.winAll[1] === ANCHOR.winAll[1],
     rBand: S.band.lo === false && S.band.hi === true && S.band.azLo === false && S.band.azHi === false,
     keepVsE: rel(S.fk, S.fe) < 1e-6 && S.fk.toExponential(2) === ANCHOR.fKeepSun098 && S.ukRel < 1e-9,
+    scanVsReach: S.nScan === 8 && S.scanSame === 8,
     rejects: S.rejects.every(Boolean),
   };
 }
