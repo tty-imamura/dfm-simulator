@@ -132228,6 +132228,82 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第354便a の塊(ここまで)====
+// ==== 第355便a の塊(ここから —— docs.report155_355a の 1 ブロック。root は SKIP)====
+// ---- 第355便a(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R504 —— 文書と照合の鍵だけ・html は変えない):
+// ----   **主の列の印の置き直し(換算の係数 = 金星で等大になる値・背景の大きさ = 比 1 の線で惑星が分かれる範囲の内〔0.98 倍は範囲の内の 1 点 —— 固定しない〕)の文書と、
+// ----   計算式の一覧の主の列の印(前の印の後ろに「。」で継ぐ)の戻り止め**(新設 —— 文書の lib tests/lib-w355a-report155doc.mjs〔純関数 —— ファイルを読まない〕。器・段・正本は無い)。
+// ----   世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第355便a〕が在る。既存の docs.equations353zz・docs.report153_353zl の期待は変えていない(印は置き換えずに継ぐ)。
+// ----   docs.report155_355a: ⓪ lib の零試験・版の名の型 ① 位置(〔第353便zl〕〔第354便a〕より後・統括の節より前)・見出し・文の番号を書かない ② 原文が第353便の統括の節に同じ字で在る・
+// ----     表 1 が lib の出力と逐語(継ぐと原文に戻る) ③ 表 2(前 = 〔第353便zl〕の表 2 の字/後 = 回答の形) ④ 表 3(〔第353便zl〕の鎖を頭に持ち後ろに継ぐ・前の文が当時の節に残る)
+// ----     ⑤ 計算式の一覧の印(lib の remark155 で冪等・継いだ印の題と字・欄の外に無い・表 4 と ② の数の文) ⑥ 〔第353便zl〕の表 1〜3 が当時の lib の出力のまま
+// ----     ⑦ AI_SPEC §396・post-merge の塊 ⑧ 書かない語 ⑨ 変異の自己試験
+{
+  await (async () => {
+  const rd355a = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w355a-report155doc.mjs');
+  const PH0 = rd355a('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第355便a — ') >= 0)) {
+    console.log('SKIP docs.report155_355a(第355便a の主の列の印の置き直しの前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, err0 = null;
+  try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const AS0 = rd355a('docs/AI_SPEC.md') || '', PM0 = rd355a('tools/post-merge-qa.sh') || '', EQ0 = rd355a('docs/EQUATIONS.md') || '';
+  const iS = PH0.indexOf('\n〔第355便a — '), inSec = (ph, a, z) => ph.slice(0, iS) + ph.slice(iS).replace(a, z);
+  const inOther = (ph, head, a, z) => { const i = ph.indexOf('\n' + head), s = W.physSecOf(ph, head); return ph.slice(0, i + 1) + s.split(a).join(z) + ph.slice(i + 1 + s.length); };
+  const blk = (id) => new RegExp('(### ' + id + ' [\\s\\S]*?)(?=\\n### |\\n## )');
+  const inItem = (id, a, z) => EQ0.replace(blk(id), (m) => m.replace(a, z));
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const g = W.libGates(); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
+      if (!/^w355a-report155doc-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ 版の名の型');
+      cases.push(`⓪ lib の零試験 ${g.n}(文の分け方・継ぎ・表の行の数・鎖の頭・印の継ぎと外し・冪等)・版の名の型`);
+      const R = W.checkReport155(PH0, AS0, PM0, EQ0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      const s0 = W.physSecOf(PH0, W.HEAD), one = (t, a) => t.split(a).length === 2;
+      const rK = s0.split('\n').find((l) => l.startsWith('| 換算の係数 | ')) || '', r3 = s0.split('\n').find((l) => l.startsWith('| 鎖 1 | ')) || '', r4 = s0.split('\n').find((l) => l.startsWith('| EQ-160 | ')) || '';
+      const stepI = ' → ' + W.SRC_I + ' 「' + W.LINES.respect + '」';
+      const SD = ['| 換算の係数 | **', '| 鎖 1 | ', '| EQ-160 | ', '**④ 決断事項の候補。** ', '「AN1113: 推奨」', stepI];
+      for (const sd of SD) if (!one(s0, sd)) bad.push('⑨ 変異の種「' + sd.slice(0, 20) + '」が本節で 1 回でない');
+      const seg157 = W.seg155Of(['mag', 'k', 'recv'].filter((k) => k !== 'recv'));
+      const MUT = [
+        ['EQ-157 の継いだ印を外す(印を 1 つ前の形に戻す)', [PH0, AS0, PM0, inItem('EQ-157', seg157, '')], /^⑤ 計算式の一覧の印に、継いでいない項/],
+        ['EQ-153 の継いだ印の背景の大きさの字を 1 字変える', [PH0, AS0, PM0, inItem('EQ-153', '範囲の内(0.98 倍', '範囲の外(0.98 倍')], /^⑤ EQ-153 の継いだ印/],
+        ['EQ-170 の解説の行に継いだ印の頭を書く(欄の外)', [PH0, AS0, PM0, inItem('EQ-170', '\n- **解説**: ', '\n- **解説**: ' + W.MA155)], /^⑤ 継いだ印が主の列の印の欄の外/],
+        ['表 4 の EQ-160 の行を消す', [PH0.slice(0, iS) + PH0.slice(iS).replace('\n' + r4, ''), AS0, PM0, EQ0], /^⑤ 表 4 /],
+        ['表 3 の鎖 1 の指示の段を消す(鎖の段を消す)', [inSec(PH0, r3, r3.replace(stepI, '')), AS0, PM0, EQ0], /^④ 表 3 /],
+        ['表 1 の回 1 の原文を 1 字変える', [inSec(PH0, '「AN1113: 推奨」', '「AN1113: 推薦」'), AS0, PM0, EQ0], /^② 表 1 /],
+        ['第353便の統括の節の原文を 1 字変える(本節は変えない)', [inOther(PH0, W.ORIG_HEAD, W.LINES.d1113, W.LINES.d1113.replace('必ず', '必ずしも')), AS0, PM0, EQ0], /^② 原文 d1113 が第353便の統括の節に同じ字で無い/],
+        ['表 2 の換算の係数の後を前の字 (ウ) に戻す', [inSec(PH0, rK, rK.replace('**金星で等大になる値**', '**(ウ) 換算の係数 1**')), AS0, PM0, EQ0], /^③ 表 2 /],
+        ['〔第353便zl〕の表 2 の換算の係数の行を書き換える(前の節の本文)', [inOther(PH0, '〔第353便zl — ', '(AN1082 の「ウ」) | 選択肢(採否は置いていない): ', '(AN1082 の「ウ」) | 選択肢: '), AS0, PM0, EQ0], /^⑥ 〔第353便zl〕の表 1〜3/],
+        ['地の文で 0.98 倍を「固定」と書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 背景の大きさは 0.98 倍に固定する。'), AS0, PM0, EQ0], /^⑧ PHYSICS〔第355便a〕 に書かない語 固定/],
+        ['地の文に「主の列が決まった」を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 主の列が決まった。'), AS0, PM0, EQ0], /^⑧ PHYSICS〔第355便a〕 に書かない語/],
+        ['引用の中に「再現した」を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 「表の数を再現した」の文は無い。'), AS0, PM0, EQ0], /^⑧ PHYSICS〔第355便a〕 に引用の中でも書かない語「再現した」/],
+        ['「」の中に引用の外の書かない語を置く(落ちない)', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 「主の列が決まった」の文は無い。'), AS0, PM0, EQ0], null],
+        ['本節に原仮定者の文の番号を書く', [inSec(PH0, '**④ 決断事項の候補。** ', '**④ 決断事項の候補。** 第155報の回答。'), AS0, PM0, EQ0], /^① 本節に原仮定者の文の番号/],
+        ['本節を〔第354便a〕の前に移す', [(() => { const s = W.physSecOf(PH0, W.HEAD), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第354便a — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), AS0, PM0, EQ0], /^① PHYSICS〔第355便a〕の位置/],
+        ['AI_SPEC の §396 を消す', [PH0, AS0.replace(/\n## 396\. 第355便a/, '\n## 3960. 第355便a'), PM0, EQ0], /^⑦ AI_SPEC §396/],
+        ['post-merge の塊を消す', [PH0, AS0, PM0.replace('# ==== 第355便a の塊(ここから)====', '# ==== 第355便a の塊===='), EQ0], /^⑦ post-merge/],
+      ];
+      const sc = [];
+      for (const [nm, args, re] of MUT) {
+        if (args[0] === PH0 && args[1] === AS0 && args[2] === PM0 && args[3] === EQ0) { bad.push('⑨ 変異「' + nm + '」が入力を変えていない'); continue; }
+        const r = W.checkReport155(...args);
+        if (re === null) { if (r.bad.length) bad.push('⑨ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑨ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑨ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.report155_355a', bad.length === 0,
+      `**主の列の印の置き直し(換算の係数 = 金星で等大になる値・背景の大きさ = 比 1 の線で惑星が分かれる範囲の内 —— 0.98 倍は範囲の内の 1 点〔固定しない〕)の文書と、計算式の一覧の主の列の印の継ぎ**(第355便a・原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・R504 —— 原文は言葉を変えずに引く・主の列は回答で主に置いた列・前の印と前の節は残す・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第355便a の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
