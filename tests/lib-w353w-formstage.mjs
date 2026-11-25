@@ -39,6 +39,12 @@ export const DECL = Object.freeze({
 const chk = (c, m) => { if (!c) throw new RangeError(m); };
 
 /* ───────── 背景の時間の形 ───────── */
+/** 第352便r の bgTwo の 2 つの項の向き(a 1・b 0 と a 0・b 1)—— 軸ごとに 1 回だけ作る(bgTwo は a・b の 1 次) */
+const BASIS = new WeakMap();
+function basisOf(axisVec) { let B = BASIS.get(axisVec); if (!B) { B = { np: T.bgTwo({ a: 1, b: 0, axis: axisVec }), gm: T.bgTwo({ a: 0, b: 1, axis: axisVec }) }; BASIS.set(axisVec, B); } return B; }
+/** 方位の基準((G+) の方位 —— 第352便r の dAzAround と同じ式)—— GEO ごとに銀河の向きを 1 回だけ作る */
+const GAL = new WeakMap();
+function dAzOf(GEO, n, s) { let g = GAL.get(GEO); if (!g) { g = RC.galDirs(GEO); GAL.set(GEO, g); } const a = RC.azimuthDeg(n, s).az; return a === null ? null : RC.dAz(a, RC.azimuthDeg(n, g.Gp).az); }
 /** 替わりの割合 s(t)(0 = 始めの背景・1 = いまの (N+)) */
 export function sOf(t, { tSwitch, width = 0, shape = 'step' }) {
   if (tSwitch === Infinity) return 0;
@@ -63,17 +69,17 @@ export function bgOf(t, { axisVec, rho0, u0, u1, tSwitch, width = 0, shape = 'st
   chk(tSwitch === Infinity || (fin(tSwitch) && tSwitch >= 0), 'bgOf: t_sw ≥ 0 か ∞');
   chk(fin(width) && width >= 0, 'bgOf: 幅 ≥ 0');
   const s = sOf(t, { tSwitch, width, shape }), ab1 = T.abOf(rho0, u0);
-  const a = (1 - s) * ab1.a + s * u1, b = (1 - s) * ab1.b;
-  const Om = T.bgTwo({ a, b, axis: axisVec });
+  const a = (1 - s) * ab1.a + s * u1, b = (1 - s) * ab1.b, B = basisOf(axisVec);
+  const Om = add(scl(B.np, a), scl(B.gm, b));   // = 第352便r の bgTwo({ a, b, axis })(2 つの項の和 —— 零試験 ⑧)
   return { Om, s, rho: a > 0 ? b / a : (b > 0 ? Infinity : 0), u: Math.hypot(a, b) };
 }
 
 /* ───────── 1 本の時間の列を進める ───────── */
 const AGE_S = () => DECL.ageYr * YR;
 /** 係数(第352便x の coefOf —— 輪 c_n 1・太陽 1 + q)。f は数か { f1, f2 }(f2 は替わった後 —— 形 step だけ) */
-function coefsAt(f, sense, q, s) {
-  const ff = typeof f === 'number' ? f : (s >= 0.5 ? f.f2 : f.f1);
-  return { ring: X.coefOf({ f: ff, sense, ratio: 1 }), spin: X.coefOf({ f: ff, sense, ratio: 1 + q }) };
+function coefsOf(f, sense, q) {
+  const one = (ff) => ({ ring: X.coefOf({ f: ff, sense, ratio: 1 }), spin: X.coefOf({ f: ff, sense, ratio: 1 + q }) });
+  return typeof f === 'number' ? { c1: one(f), c2: one(f) } : { c1: one(f.f1), c2: one(f.f2) };
 }
 /** 1 つの軸を t₀ → t₁(負の向きも)進める(一定の区間は閉じた形 1 回・窓の中は刻む —— 刻みの中は中点の背景で閉じた形) */
 function adv1(Xv, t0, t1, o, which) {
@@ -90,7 +96,7 @@ function adv1(Xv, t0, t1, o, which) {
     for (let k = 0; k < n; k++) {
       const tm = a + (k + 0.5) * h, B = bgOf(tm, o.bg), om = nrm(B.Om);
       if (!(om > 0)) continue;
-      const c = coefsAt(o.f, o.sense, o.q, B.s)[which];
+      const c = (B.s >= 0.5 ? o.coefs.c2 : o.coefs.c1)[which];
       x = X.mapAxis(x, scl(B.Om, 1 / om), om * h * AGE_S(), c);
     }
   }
@@ -103,7 +109,7 @@ function optsOf(o) {
   chk(fin(q) && q >= -1, 'runForm: q ≥ −1(−1 は太陽の係数 0 —— 枝 o の格子)');
   chk(typeof f === 'number' ? (fin(f) && f >= 0 && f <= 1) : (shape === 'step' && fin(f.f1) && fin(f.f2) && f.f1 >= 0 && f.f1 <= 1 && f.f2 >= 0 && f.f2 <= 1), 'runForm: 0 ≤ f ≤ 1(時間で替わる f は形 step だけ)');
   bgOf(0, { axisVec, rho0, u0, u1, tSwitch, width, shape });
-  return { bg: { axisVec, rho0, u0, u1, tSwitch, width, shape }, win: windowOf({ tSwitch, width, shape }), sense, f, q, read };
+  return { bg: { axisVec, rho0, u0, u1, tSwitch, width, shape }, win: windowOf({ tSwitch, width, shape }), sense, f, q, read, coefs: coefsOf(f, sense, q) };
 }
 /** 始まりの向き X₀(読み A: いまの基準軸・読み B: t = 1 に輪の法線がいまの基準軸に来るよう輪だけを後ろへ解く)と、条件の悪さの印 */
 export function startOf(o) {
@@ -123,7 +129,7 @@ export function trajOf(o) {
   for (const t of ts) {
     n = adv1(n, tp, t, op, 'ring'); s = adv1(s, tp, t, op, 'spin'); tp = t;
     const g = angDeg(n, s);
-    rows.push({ t, s: sOf(t, op.bg), n, sv: s, gammaDeg: g, dAzDeg: g > 1e-9 ? T.dAzAround(o.GEO, n, s) : null, coneDeg: angDeg(s, N), ringOffDeg: angDeg(n, N) });
+    rows.push({ t, s: sOf(t, op.bg), n, sv: s, gammaDeg: g, dAzDeg: g > 1e-9 ? dAzOf(o.GEO, n, s) : null, coneDeg: angDeg(s, N), ringOffDeg: angDeg(n, N) });
   }
   return { ts, rows, X0: st.X0, illCond: st.illCond };
 }
@@ -136,22 +142,22 @@ export function gridOf({ nT = 1000, nLog = 60, tSwitch = Infinity, width = 0, sh
   for (const c of [w.ta, w.tb]) if (fin(c) && c > 0 && c <= 1) set.add(c);
   return [...set].sort((a, b) => a - b);
 }
-/** 標本の数の目安(歳差の 1 周を 40 点以上で —— 上限 nMax) */
-export function nTFor(o, { perTurn = 40, nMin = 400, nMax = 4000 } = {}) {
+/** 標本の数の目安(歳差の 1 周を 16 点以上で —— 上限 nMax・下限 nMin) */
+export function nTFor(o, { perTurn = 16, nMin = 400, nMax = 1600 } = {}) {
   const om = Math.max(nrm(bgOf(0, o).Om), nrm(bgOf(1, o).Om)), turns = om * (1 + Math.abs(o.q)) * AGE_S() / (2 * Math.PI);
   return Math.max(nMin, Math.min(nMax, Math.ceil(turns * perTurn)));
 }
 /**
  * 作る段 → 保つ段(T1 の約束の口): runForm({ GEO, axisVec, axn, rho0, u0, u1, tSwitch, width, shape, sense, f, q, read, nT? })
  * 戻り値 { gReach, azReach, both(角と方位に同時に届いた —— 標本のどれか), tHit, hitStage('form' = 替わる前・'after' = 替わった後), keep(届いた後で窓の後の標本が全部いまの角 ±10%),
- *   make(both かつ keep), coneEndDeg(t = 1 の ŝ と基準軸 —— 移った後の (N+) での円錐の角), gammaEndDeg, ringOffEndDeg, azEndReach(t = 1 の方位が幅の内), dwell(一様の標本でいまの角 ±10% に居る割合 = 長さ ÷ 年齢), nearAzDeg, nIll }
+ *   keepSw(窓の後の標本が全部いまの角 ±10%)・nowBoth(t = 1 に角と方位が幅の内 かつ keepSw —— いまの姿)・turnsAfter(替わった後の (N+) での太陽の歳差の周の数)・keepDev(届いた後・窓の後の標本でのいまの角からの外れの最大 ÷ いまの角), make(both かつ keep), coneEndDeg(t = 1 の ŝ と基準軸 —— 移った後の (N+) での円錐の角), gammaEndDeg, ringOffEndDeg, azEndReach(t = 1 の方位が幅の内), dwell(一様の標本でいまの角 ±10% に居る割合 = 長さ ÷ 年齢), nearAzDeg, nIll }
  */
 export function runForm(o) {
   chk(o && o.GEO && DECL.axes.includes(o.axn), 'runForm: GEO・基準軸 L・eq');
   const gT = DECL.tiltDeg[o.axn], azT = T.nowDAz(o.GEO, o.axisVec), tol = DECL.tol, kf = DECL.keepFrac * gT;
   const nT = o.nT ?? nTFor(o), ts = gridOf({ nT, tSwitch: o.tSwitch, width: o.width ?? 0, shape: o.shape ?? 'step' });
   const st = startOf(o);
-  if (st.illCond) return { illCond: true, nIll: 1, gReach: false, azReach: false, both: false, make: false, keep: false, tHit: null, hitStage: null, coneEndDeg: null, gammaEndDeg: null, ringOffEndDeg: null, azEndReach: false, dwell: 0, nearAzDeg: null, nT };
+  if (st.illCond) return { illCond: true, nIll: 1, gReach: false, azReach: false, both: false, make: false, keep: false, keepDev: null, keepSw: false, nowBoth: false, turnsAfter: null, tHit: null, hitStage: null, coneEndDeg: null, gammaEndDeg: null, ringOffEndDeg: null, azEndReach: false, dwell: 0, nearAzDeg: null, nT };
   const R = trajOf({ ...o, ts }), w = windowOf({ tSwitch: o.tSwitch, width: o.width ?? 0, shape: o.shape ?? 'step' });
   let gR = false, aR = false, hit = null, near = null, inU = 0;
   const uni = new Set(); for (let k = 1; k <= nT; k++) uni.add(k / nT);
@@ -162,13 +168,14 @@ export function runForm(o) {
     if (ea <= tol.azDeg) aR = true;
     if (eg <= tol.gammaDeg) { gR = true; near = near === null ? ea : Math.min(near, ea); if (ea <= tol.azDeg && hit === null) hit = r.t; }
   }
-  let keep = false;
-  if (hit !== null) { const t0 = Math.max(hit, fin(w.tb) ? w.tb : 1); keep = R.rows.filter((r) => r.t >= t0).every((r) => Math.abs(r.gammaDeg - gT) <= kf); }
+  let keep = false, keepDev = null;
+  if (hit !== null) { const t0 = Math.max(hit, fin(w.tb) ? w.tb : 1), after = R.rows.filter((r) => r.t >= t0); keepDev = Math.max(...after.map((r) => Math.abs(r.gammaDeg - gT) / gT)); keep = keepDev <= DECL.keepFrac; }
+  const tAfter = fin(w.tb) ? w.tb : 1, afterSw = R.rows.filter((r) => r.t >= tAfter), keepSw = afterSw.every((r) => Math.abs(r.gammaDeg - gT) <= kf);
   const end = R.rows[R.rows.length - 1];
-  const azEnd = end.dAzDeg === null ? null : Math.abs(RC.dAz(end.dAzDeg, azT));
-  return { illCond: false, nIll: 0, gReach: gR, azReach: aR, both: hit !== null, tHit: hit, hitStage: hit === null ? null : (hit < w.ta ? 'form' : 'after'), keep, make: hit !== null && keep,
-    coneEndDeg: end.coneDeg, gammaEndDeg: end.gammaDeg, ringOffEndDeg: end.ringOffDeg, azEndReach: azEnd !== null && azEnd <= tol.azDeg && Math.abs(end.gammaDeg - gT) <= tol.gammaDeg,
-    dwell: inU / nT, nearAzDeg: near, nT };
+  const azEnd = end.dAzDeg === null ? null : Math.abs(RC.dAz(end.dAzDeg, azT)), azEndR = azEnd !== null && azEnd <= tol.azDeg && Math.abs(end.gammaDeg - gT) <= tol.gammaDeg;
+  return { illCond: false, nIll: 0, gReach: gR, azReach: aR, both: hit !== null, tHit: hit, hitStage: hit === null ? null : (hit < w.ta ? 'form' : 'after'), keep, keepDev, make: hit !== null && keep,
+    keepSw, nowBoth: azEndR && keepSw, coneEndDeg: end.coneDeg, gammaEndDeg: end.gammaDeg, ringOffEndDeg: end.ringOffDeg, azEndReach: azEndR,
+    dwell: inU / nT, nearAzDeg: near, nT, turnsAfter: o.tSwitch === Infinity ? 0 : nrm(bgOf(1, o).Om) * (1 + o.q) * coefsOf(typeof o.f === 'number' ? o.f : o.f.f2, o.sense, o.q).c2.ring.kPrec * AGE_S() * Math.max(0, 1 - tAfter) / (2 * Math.PI) };
 }
 
 /* ───────── 替わり方の急さ(T3)———— 1 つの軸が背景に付いて回るか ───────── */
@@ -264,11 +271,18 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const pTanh = retainOf({ axisVec: ax.L, rho0: 0.0605, u0: 1, u1: 1, width: 1.4 / (nrm(bgOf(0.5, { axisVec: ax.L, rho0: 0.0605, u0: 1, u1: 1, tSwitch: 0.5, width: 0.01, shape: 'tanh' }).Om) * AGE_S()), shape: 'tanh' });
   const cT = retainClosed('tanh', pTanh.x), cTRel = Math.abs(pTanh.ratio / cT - 1);
   const xHalf = { exp: xForRetain('exp', 0.5), tanh: xForRetain('tanh', 0.5) };
+  // ⑧ 背景の和 = 第352便r の bgTwo・方位 = 第352便r の dAzAround(相対 1e-12)
+  let vsBg = 0;
+  for (const [rho0, u0, u1, t] of [[0.087, 3.1, 0.98, 0.1], [Infinity, 2.4, 0.0487, 0.6], [1, 3.7, 0.835, 0.3]]) {
+    const B = bgOf(t, { axisVec: ax.L, rho0, u0, u1, tSwitch: 0.3, width: 0.05, shape: 'tanh' }), s = B.s, ab = T.abOf(rho0, u0), ref = T.bgTwo({ a: (1 - s) * ab.a + s * u1, b: (1 - s) * ab.b, axis: ax.L });
+    vsBg = Math.max(vsBg, nrm(sub(B.Om, ref)) / nrm(ref));
+  }
+  const nT = unit([0.1, 0.2, 0.97]), sT = unit([0.2, -0.1, 0.95]), vsAz = Math.abs(dAzOf(GEO, nT, sT) - T.dAzAround(GEO, nT, sT));
   // ⑦ 拒否
   const rej = [() => bgOf(0, { axisVec: ax.L, rho0: 1, u0: 1, u1: 1, tSwitch: 0.5, shape: 'box' }), () => runForm({ GEO, axisVec: ax.L, axn: 'ecl', rho0: 1, u0: 1, u1: 1, tSwitch: 0.5, sense: 'g2m', q: 0 }),
     () => runForm({ GEO, axisVec: ax.L, axn: 'L', rho0: 1, u0: 1, u1: 1, tSwitch: 0.5, shape: 'tanh', width: 0.01, sense: 'g2m', f: { f1: 0.8, f2: 0 }, q: 0 }), () => retainClosed('step', -1)]
     .map((fn) => { try { fn(); return false; } catch (er) { return er instanceof RangeError; } });
-  return { axL, omegaG, sunL, nA, nB, same, nCell, moved, make0, vsTB, dwVs, r0: r0.ratio, cT, cTRel, xTanh: pTanh.x, xHalf, rejects: rej };
+  return { axL, omegaG, sunL, nA, nB, same, nCell, moved, make0, vsTB, dwVs, r0: r0.ratio, cT, cTRel, xTanh: pTanh.x, xHalf, vsBg, vsAz, rejects: rej };
 }
 export function pureGates(S) {
   return {
@@ -278,6 +292,7 @@ export function pureGates(S) {
     stepVsTwoAxis: S.vsTB < 1e-9,
     dwellVsO: S.dwVs !== null && S.dwVs < 1e-9,
     retainLimits: Math.abs(S.r0 - 1) < 1e-9 && S.cTRel < 0.02 && S.xHalf.exp > 1.73 && S.xHalf.exp < 1.7321 && S.xHalf.tanh > 1.38 && S.xHalf.tanh < 1.39,
+    bgAzVsR: S.vsBg < 1e-12 && S.vsAz < 1e-9,
     rejects: S.rejects.every(Boolean),
   };
 }
