@@ -201,6 +201,64 @@ export function conjAngles(T1, GEO, d) {
   return Array.from({ length: DECL.nConj }, (_, k) => { const lam = d + k * c.stepDeg; return Math.acos(Math.max(-1, Math.min(1, cb * Math.cos(lam * D2R)))) / D2R; });
 }
 
+/* ───────── 表(器が呼ぶ)───────── */
+/** 表 2((E-S) ÷ 残り の走査): 受け手の半径(規則の半径 + (P-場) c_R の格子)× 源の半径の組 × (uV) の置き方。各行に (L2)(同じ置き方の等大)と φ も */
+export function scanRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [];
+  for (const cR of [null, ...DECL.cRGrid]) {
+    const row = { cR, place: cR === null ? 'rule' : 'field' };
+    for (const sc of DECL.srcCols) for (const um of DECL.uModes) { const r = ratioOf(T1, GEO, { cR, tSrc: sc.tSrc, tSun: sc.tSun, uMode: um }, cache); row[sc.id + '|' + um] = r.ratio; if (um === 'same') { row['L2|' + sc.id] = r.L2; row['phi|' + sc.id] = r.phiDeg; } }
+    out.push(row);
+  }
+  return out;
+}
+/** 表 2 の最大と、1 に届くのに要る地球の源の半径(規則の半径の倍 —— (S) は源の半径の p 乗: p は規則と観測の 2 点から)と換算の係数 */
+export function scanMax(rows, T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = {};
+  for (const sc of DECL.srcCols) for (const um of DECL.uModes) { const k = sc.id + '|' + um; let best = null; for (const r of rows) if (best === null || r[k] > best.v) best = { v: r[k], cR: r.cR }; out[k] = best; }
+  const a = ratioOf(T1, GEO, {}, cache).ratio, b = ratioOf(T1, GEO, { tSrc: 1, tSun: 0 }, cache).ratio, Rq = K.srcRadius('Earth', 1) / K.srcRadius('Earth', 0), p = Math.log(b / a) / Math.log(Rq);
+  const m = out['rule|same'].v, need = Math.pow(1 / m, 1 / p);
+  return { max: out, pow: p, RobsOverRule: Rq, needR: need, needT: Math.log(need) / Math.log(Rq), needK: 1 / m, reach1: Object.fromEntries(Object.entries(out).map(([k, v]) => [k, v.v >= 1])) };
+}
+/** 表 3: 成分 × 位相の (E-x) ÷ 残り(主の置き方) */
+export function partRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  return DECL.parts.map((part) => ({ part, ...Object.fromEntries(['inf', 'sup', 'mean', 'mag'].map((ph) => [ph, ratioOf(T1, GEO, { part, phase: ph }, cache).ratio])) }));
+}
+/** 表 4: 内合の前後の (E-M)・(E-S) —— 金星の自転軸 ŝ に沿う成分(符号つき)と直交する成分(どれも ÷ 残り) */
+export function phaseRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const g = synGeom(T1, GEO), s = unit(g.V.sHat), res = venusRes(T1, GEO, {}, cache).res;
+  return DECL.phases.map((d) => { const o = { phaseDeg: d };
+    for (const part of ['M', 'S']) { const v = earthPart(T1, GEO, { part, phase: d * D2R }).vec, ax = dot(v, s); o[part] = nrm(v) / res; o[part + 'ax'] = ax / res; o[part + 'perp'] = nrm(sub(v, scl(s, ax))) / res; }
+    return o; });
+}
+/** (E-M) の ŝ に沿う成分が符号を替える会合の位相(内合から ° —— 3°〜60° の間を二分) */
+export function emZeroDeg(T1 = E.t1Table(), GEO = E.geometry()) {
+  const s = unit(synGeom(T1, GEO).V.sHat), f = (d) => dot(earthPart(T1, GEO, { part: 'M', phase: d * D2R }).vec, s);
+  let a = 3, b = 60; if (Math.sign(f(a)) === Math.sign(f(b))) return null;
+  for (let i = 0; i < 50; i++) { const m = 0.5 * (a + b); if (Math.sign(f(m)) === Math.sign(f(a))) a = m; else b = m; }
+  return 0.5 * (a + b);
+}
+/** 表 5: 1 会合の平均と太陽由来の列 —— ÷ 残り・ŝ との cos・公転の法線 n̂ との cos */
+export function meanRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const g = synGeom(T1, GEO), s = unit(g.V.sHat), res = venusRes(T1, GEO, {}, cache).res;
+  const row = (id, v, note) => ({ id, ratio: nrm(v) / res, cosS: dot(unit(v), s), cosN: dot(unit(v), g.n), note });
+  return [row('EM_mean', earthPart(T1, GEO, { part: 'M', phase: 'mean' }).vec, '地球 (E-M) 1 会合の平均(比べる列)'), row('ES_mean', earthPart(T1, GEO, { part: 'S', phase: 'mean' }).vec, '地球 (E-S) 1 会合の平均'),
+    row('SunM', K.spinRot(T1, GEO, 'Venus', 'Sun', { part: 'M' }).Om, '太陽 (M) 1 公転の平均(比べる列)'), row('SunS', K.spinRot(T1, GEO, 'Venus', 'Sun', { part: 'S' }).Om, '太陽 (S) 1 公転の平均(主の列)')];
+}
+/** 表 6: 受け手 × 背景の倍率の (L2)・φ・受け手ごとの等大の残り・x・順位((uV) の (L2) の小さい順) */
+export function l2Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const rows = DECL.recvs.map((key) => { const a = DECL.uCols.map((u) => residOf(key, { T1, GEO, u }, cache)), o = { key, kind: a[0].kind, phiDeg: a[0].phiDeg, own: a[0].own, lowest: a[0].lowest, x: a[0].x, cosLB: a[0].cosLB };
+    DECL.uCols.forEach((u, i) => { o['L2_' + u] = a[i].L2; o['dL2_' + u] = a[i].dL2; }); return o; });
+  const rk = (k) => [...rows].sort((p, q) => p[k] - q[k]).map((r) => r.key);
+  const byUV = rk('L2_uV'), byOwn = rk('own'), by098 = [...rows].sort((p, q) => Math.abs(q['dL2_0.98']) - Math.abs(p['dL2_0.98'])).map((r) => r.key);
+  rows.forEach((r) => { r.rankUV = byUV.indexOf(r.key) + 1; r.rankOwn = byOwn.indexOf(r.key) + 1; r.rank098 = by098.indexOf(r.key) + 1; });
+  return rows;
+}
+/** 表 7: 残りの軸と内合の時の地球の向き —— d の格子ごとに 5 回の内合の角と最小 */
+export function conjRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  return DECL.dGrid.map((d) => { const a = conjAngles(T1, GEO, d); return { d, angles: a, min: Math.min(...a), max: Math.max(...a) }; });
+}
+
 /* ───────── 零試験・変異 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const cache = {}, gc = {}, rel = (a, b) => Math.abs(a / b - 1);

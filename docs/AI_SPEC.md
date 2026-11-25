@@ -5747,3 +5747,8 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何をしたか**: 傾き 0.1〜30° の輪の法線が土星の赤道面へ寄る率 ÷ 環の物差し(1e7 年で e 分の 1 —— 文献の値・未照合)を、(i) 軸引きずりの (S)・規則の半径/(ii) 同・観測の半径(比べる列)/(iii-a) 〔第351便j〕の輪 (C1)(C2)/(iii-b) 🛟 の率で並べた。器 `tests/exp-w353h-ringdisk.mjs`・lib `tests/lib-w353h-ringdisk.mjs`(口 `axialRow`・`diskRow`・`bookRow`・`cellRow`・`splitRows`・`yardOf`・`yardOfRate`)・正本 `tests/out/ringdisk-353h.json`・段 `ringdisk-353h`(Node だけ・html を読まない・入力は 🛟 の正本・仮の値の lib に届かない)。
 - **AI が読むときの要点**: どれも候補の表(この場・この列・このノブでは)。(iii-a) (C2) は (ii) の 0.809 倍で区分に依らない —— これまでの円盤引きずりの側の候補は、源を観測の半径に置いた土星の自転の分と同じ作りの量。源を規則の半径に置いた円盤引きずりの側の場は未作成。🛟 の本の「達」はその本の目的で、円盤引きずりの型を採ったことではない。
 - QA `behavior.ringdisk353h`・`docs.ringdisk353h`(本節と PHYSICS〔第353便h〕 —— root は SKIP)。
+
+## 368. 第353便l —— 「金星は、自転に地球の影響が出るほどに釣り合っている」(原仮定者の文)を DFM の側で読めるか: 地球を源にした金星への項の置き方(受け手の半径・源の半径・(uV) の置き方)の走査と、軸の拘束 (L2) を全部の受け手で数えた表・残りの軸と内合の時の地球の向き(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R476・**診断だけ** —— html・本の宣言・エンジン・受理器・アプリの引きずりと自転とジャイロの步・`S._core`・physics の鍵は不変・**SYSTEM_PROMPT には載せない**)
+- **何をしたか**: 地球の自転の分 (E-S) ÷ 金星の残りを、受け手(金星)の半径 c_R((P-場)・(P-応))× 源の半径の組(地球・太陽)× (uV) の置き方で走査し、(E-M)(比べる列)の向きと会合の平均を太陽由来の (M) と並べ、(L2) を 8 惑星・月・ガリレオ衛星・タイタンで数えた。器 `tests/exp-w353l-earthonvenus.mjs`・lib `tests/lib-w353l-earthonvenus.mjs`(口 `earthPart`・`venusRes`・`ratioOf`・`residOf`・`localOf`・`pointRotR`・`resAxis`・`conjStep`・`conjAngles`)・正本 `tests/out/earthonvenus-353l.json`(最上位に仮の値の印)・段 `earthonvenus-353l`(Node だけ・html を読まない)。
+- **AI が読むときの要点**: どれも候補の表(この場・この置き方・このノブでは)。主の置き方では (E-S) ÷ 残り は 1.2e-12 の桁が最大で 1 に届かない —— 届くのは地球だけを観測の半径に置いた比べる列だけ。(uV) では (L2) は金星が一番小さいが、背景が窓の内と 0.98 では全部ほぼ 1。背景に依らない 2 sin(φ/2) は金星が一番小さい。「地球の影響で逆回転した」「ロックした」とは書かない。
+- QA `behavior.earthonvenus353l`・`docs.earthonvenus353l`(本節と PHYSICS〔第353便l〕 —— root は SKIP)。
