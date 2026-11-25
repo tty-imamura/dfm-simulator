@@ -124950,7 +124950,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む
   const rd352z = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
-  const EQ0 = rd352z('docs/EQUATIONS.md') || '';
+  const EQ0 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'))).eqFixedView350h(rd352z('docs/EQUATIONS.md') || '', 149);   // 第353便zz: 世代の写し(EQ-150 以降の項と §2a の EQ-150 以降の参照を外す —— 照合の中身は変えない)
   if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-130 ') >= 0)) {
     console.log('SKIP docs.equations352z(第352便z の EQ-130 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
@@ -124967,6 +124967,10 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   const SRC148 = '原仮定者の回答(2026-11-24 —— 第148報)', ORG148 = '原仮定者の整理(2026-11-24 —— 第148報)', ORG1111 = '原仮定者の整理(2026-11-11)';
   const MARK = '主の列: 未定(伺っている)—— 2 つの列を並べる';
   const ASK = { prec: '歳差の向き (g2−)・(g2+)', bg: '背景の向き (N+)・(G−)', axis: '基準軸 L・eq', rad: '源の半径 規則の半径・観測の半径', venus: '金星の条件 大きさが同じ・合成が最小' };
+  // 第353便zz: 原仮定者の回答(2026-11-25 —— 第151報)の後の欄の形(回答の印 + 主の列 —— 比べる列。金星の条件はまだ伺っている読みの未定の印も持つ)
+  const ANS353 = (() => { const h = '**主の列(原仮定者の回答 2026-11-25 —— 第151報)**: ';
+    return { head: h, prec: [h, '歳差の向き (g2−) —— 比べる列: (g2+)'], bg: [h, '背景の向き (N+) 太陽系の基準軸の向き —— 比べる列: (G−)'], axis: [h, '基準軸 L 角運動量の重み —— 比べる列: eq・黄道の極'],
+      rad: [h, '源の半径 規則の半径(+ 扁平率)—— 比べる列: 観測の半径'], venus: [h, '金星の条件 原仮定者の文「金星の自転がロックした状態」', MARK, '金星の条件の読み 大きさの一致・向きの一致'] }; })();
   const GRAV = '比べる列(DFM の式ではない)';
   const P = (s, lib) => ['tests/exp-w352' + s + '-' + lib + '.mjs', 'tests/lib-w352' + s + '-' + lib + '.mjs', 'tests/out/' + lib + '-352' + s + '.json'];
   const ANCHOR = {
@@ -125066,8 +125070,8 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (ex.indexOf(AN0.src) < 0) bad.push('② ' + id + ' の解説に出どころ(' + AN0.src + ')が無い');
       const mkl = (/\n- \*\*主の列の印\*\*: ([^\n]+)/.exec(it.text) || [])[1] || null, nMark = (it.text.match(/\n- \*\*主の列の印\*\*: /g) || []).length;
       if (AN0.ask.length) { nM++;
-        const want = AN0.ask.map((k) => ASK[k]), got = Object.keys(ASK).filter((k) => mkl && mkl.indexOf(ASK[k]) >= 0);
-        if (!(nMark === 1 && mkl.indexOf(MARK) === 0 && got.join('|') === Object.keys(ASK).filter((k) => AN0.ask.includes(k)).join('|'))) bad.push('② ' + id + ' の主の列の印の欄(1 行・「' + MARK + '」で始まる・並べる 2 つの列の名 ' + want.join('/') + ' —— 在るのは ' + (got.join('・') || '無し') + ')'); }
+        const want = AN0.ask.map((k) => ASK[k]), got = Object.keys(ASK).filter((k) => !!mkl && ((mkl.indexOf(MARK) >= 0 && mkl.indexOf(ASK[k]) >= 0) || ANS353[k].every((w) => mkl.indexOf(w) >= 0)));   // 第353便zz: 未定の印と並べる 2 つの列の名か、回答の印と主の列・比べる列(まだ伺っている項は未定の印も)
+        if (!(nMark === 1 && (mkl.indexOf(MARK) === 0 || mkl.indexOf(ANS353.head) === 0) && got.join('|') === Object.keys(ASK).filter((k) => AN0.ask.includes(k)).join('|'))) bad.push('② ' + id + ' の主の列の印の欄(1 行・「' + MARK + '」か回答の印で始まる・並べる列の名 ' + want.join('/') + ' —— 在るのは ' + (got.join('・') || '無し') + ')'); }
       else if (nMark) bad.push('② ' + id + ' は伺っている項に係らない式なのに主の列の印の欄が在る');
       const fm = (/\n- \*\*数式版\*\*: ([^\n]+)/.exec(it.text) || [])[1] || '';
       if (AN0.grav) { if (!(fm.indexOf(GRAV) >= 0 && ex.indexOf(GRAV) >= 0 && /\(T-g\)/.test(fm))) bad.push('② ' + id + ' の重力の側の列(数式版と解説に「' + GRAV + '」)'); }
@@ -125139,7 +125143,10 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         ['EQ-130 の台帳の欄の状態を対照に(台帳は候補)', inItem('EQ-130', '「f の置き方((N1)・(N2)・(N3))(第351便d)」(候補)', '「f の置き方((N1)・(N2)・(N3))(第351便d)」(対照)'), PH, AS, /^② EQ-130 の台帳の行「f の置き方/],
         ['EQ-132 の主の列の印の欄を消す', EQ0.replace(/(### EQ-132 [\s\S]*?)\n- \*\*主の列の印\*\*: [^\n]*/, '$1'), PH, AS, /^② EQ-132 の主の列の印の欄/],
         ['EQ-134(伺っている項に係らない式)に主の列の印を置く', EQ0.replace(/(### EQ-134 [\s\S]*?\n- \*\*ノブの台帳\*\*: [^\n]*)/, '$1\n- **主の列の印**: ' + MARK + '(' + ASK.bg + ')'), PH, AS, /^② EQ-134 は伺っている項に係らない式なのに主の列の印/],
-        ['EQ-131 の主の列の印から並べる列の名を欠く', EQ0.replace('(基準軸 L・eq —— 黄道の極は比べる列)', '(基準軸 L —— 黄道の極は比べる列)'), PH, AS, /^② EQ-131 の主の列の印の欄/],
+        ['EQ-131 の主の列の印から並べる列の名を欠く', EQ0.replace('基準軸 L 角運動量の重み —— 比べる列: eq・黄道の極', '基準軸 L 角運動量の重み'), PH, AS, /^② EQ-131 の主の列の印の欄/],   // 第353便zz: 回答の後の欄の字
+        ['EQ-135 の未定の印(金星の条件の読み)を消す(第353便zz)', inItem('EQ-135', '。主の列: 未定(伺っている)—— 2 つの列を並べる(金星の条件の読み 大きさの一致・向きの一致)', ''), PH, AS, /^② EQ-135 の主の列の印の欄/],
+        ['EQ-132 の回答の印を消して並べる列だけにする(第353便zz)', inItem('EQ-132', '**主の列(原仮定者の回答 2026-11-25 —— 第151報)**: ', ''), PH, AS, /^② EQ-132 の主の列の印の欄/],
+        ['EQ-133 の欄を基点の未定の印の形に戻す(通る —— 第353便zz)', inItem('EQ-133', /\n- \*\*主の列の印\*\*: [^\n]*/, '\n- **主の列の印**: ' + MARK + '(' + ASK.bg + '/' + ASK.axis + ')'), PH, AS, null],
         ['EQ-146 の数式版から重力の側の列の印を消す', EQ0.replace('—— **比べる列(DFM の式ではない)**: 重力の側の', '—— 重力の側の'), PH, AS, /^② EQ-146 の重力の側の列/],
         ['EQ-139 の原文の字を 1 つ変える', inItem('EQ-139', '波打つ様に上下する', '波打つように上下する'), PH, AS, /^② EQ-139 の解説に原文の句か列の語/],
         ['§2a の第352便z の行を消す', EQ0.replace(/\n- \*\*第352便の式\*\*\(第352便z[^\n]*/, ''), PH, AS, /^③ §2a の第352便z の行の位置/],
