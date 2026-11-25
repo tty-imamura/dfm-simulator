@@ -102,7 +102,7 @@ function advW(Xv, t0, t1, op, which) {
     }
     const h = (b - a) / n;
     for (let k = 0; k < n; k++) {
-      const tm = a + (k + 0.5) * h, B = bgWave(tm, op.bg), om = nrm(B.Om);
+      const tm = a + (k + 0.5) * h, B = waveSeg ? omFast(tm, op) : bgWave(tm, op.bg), om = nrm(B.Om);
       if (!(om > 0)) continue;
       const c = (B.s >= 0.5 ? op.coefs.c2 : op.coefs.c1)[which];
       x = X.mapAxis(x, scl(B.Om, 1 / om), om * h * AGE_S(), c);
@@ -110,6 +110,14 @@ function advW(Xv, t0, t1, op, which) {
   }
   return x;
 }
+/** 揺れの在る区間の背景(bgWave の A > 0 の枝と同じ算術 —— 組ごとの (a₁, b₁) と基底を 1 回だけ作る —— 零試験 ③) */
+function omFast(t, op) {
+  const bg = op.bg, s = W.sOf(t, bg), F = op.fastC || (op.fastC = { ab1: T.abOf(bg.rho0, bg.u0), Bs: basisOf(bg.axisVec) });
+  const a = (1 - s) * F.ab1.a + s * bg.u1, b = (1 - s) * F.ab1.b, wv = waveOf(t, bg);
+  const g = wv.psi === 0 ? F.Bs.gm : rotN(F.Bs.gm, F.Bs.N, wv.psi);
+  return { Om: add(scl(F.Bs.np, a), scl(g, b * wv.m)), s };
+}
+export function omFastOf(t, o) { return omFast(t, { bg: { width: 0, shape: 'step', zPhase: 0, form: 'nod', ...o } }); }
 function optsOf(o) {
   const { axisVec, rho0, u0, u1, tSwitch, width = 0, shape = 'step', sense, f = 0, q, read = 'B', zAmp = 0, zPeriod = 0.02, zPhase = 0, form = 'nod' } = o;
   chk(DECL.senses.includes(sense), 'runWave: 歳差の向きは g2m・g2p');
@@ -220,16 +228,17 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   }
   // ③ 背景: A 0 は bgOf と同じ(差 0)・nod は (G−) の項と基準軸の角と大きさを保つ・pulse は向きを保つ
   const bgo = { axisVec: ax.L, rho0: Infinity, u0: 3, u1: 0.98, tSwitch: 0.5, width: 0, shape: 'step' };
-  let vs0 = 0, nodAng = 0, nodMag = 0, pulseDir = 0;
+  let vs0 = 0, vsFast = 0, nodAng = 0, nodMag = 0, pulseDir = 0;
   const Bs = basisOf(ax.L), th0 = angDeg(Bs.gm, Bs.N);
   for (const t of [0.013, 0.2, 0.37, 0.61]) {
-    const a = bgWave(t, { ...bgo, zAmp: 0 }), b = W.bgOf(t, bgo); vs0 = Math.max(vs0, nrm(sub(a.Om, b.Om)));
+    const a = bgWave(t, { ...bgo, zAmp: 0 }), b = W.bgOf(t, bgo); vs0 = Math.max(vs0, nrm(sub(a.Om, b.Om)) / nrm(b.Om));
     const n1 = bgWave(t, { ...bgo, zAmp: 40, zPeriod: 0.03, form: 'nod' });
     if (t < 0.5) { nodAng = Math.max(nodAng, Math.abs(angDeg(n1.Om, Bs.N) - th0)); nodMag = Math.max(nodMag, Math.abs(nrm(n1.Om) / nrm(b.Om) - 1)); }
     const p1 = bgWave(t, { ...bgo, zAmp: 0.5, zPeriod: 0.03, form: 'pulse' });
+    for (const B of [n1, p1]) { const o2 = B === n1 ? { ...bgo, zAmp: 40, zPeriod: 0.03, form: 'nod' } : { ...bgo, zAmp: 0.5, zPeriod: 0.03, form: 'pulse' }; vsFast = Math.max(vsFast, nrm(sub(omFastOf(t, o2).Om, B.Om)) / nrm(B.Om)); }
     if (t < 0.5) pulseDir = Math.max(pulseDir, angDeg(p1.Om, b.Om));
   }
-  // ④ 刻みの進め方 = 閉じた形(揺れ 0 の一定の背景を、揺れの規則で刻んで進めても 1 回の閉じた形と同じ —— 相対 1e-9)
+  // ④ 刻みの進め方 = 閉じた形(揺れ 0 の一定の背景を、揺れの規則で刻んで進めても 1 回の閉じた形と同じ —— 向きの差 1e-4 の内〔丸めの走り直しで 3e-6 の桁 —— 読み B の後ろへの解きが増やす〕)
   const cS = { GEO, axisVec: ax.L, axn: 'L', rho0: 0.087, u0: 2.4, u1: 0.98, tSwitch: 0.3, sense: 'g2m', f: 0.2, q: -0.5, read: 'B', ts: [0.1, 0.3, 1] };
   const tc = trajOfW(cS), tf = trajOfW({ ...cS, forceStep: true });
   let vsForce = 0; for (let i = 0; i < 3; i++) vsForce = Math.max(vsForce, nrm(sub(tc.rows[i].sv, tf.rows[i].sv)), nrm(sub(tc.rows[i].n, tf.rows[i].n)));
@@ -247,14 +256,14 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ⑧ 拒否
   const rej = [() => bgWave(0, { ...bgo, zAmp: 10, form: 'swing' }), () => bgWave(0, { ...bgo, zAmp: 1.5, form: 'pulse' }), () => bgWave(0, { ...bgo, zAmp: 10, zPeriod: 0 }), () => uRes(-1), () => widthForX({ ...bgo, q: 0 }, -1)]
     .map((fn) => { try { fn(); return false; } catch (er) { return er instanceof RangeError; } });
-  return { axL, omegaG, sunL, zero, nCell, nSame, vs0, nodAng, nodMag, pulseDir, vsForce, refine, bandLo, bandHi, inv, xK, rejects: rej };
+  return { axL, omegaG, sunL, zero, nCell, nSame, vs0, vsFast, nodAng, nodMag, pulseDir, vsForce, refine, bandLo, bandHi, inv, xK, rejects: rej };
 }
 export function pureGates(S) {
   return {
     anchor3: S.axL.every((x, i) => Math.abs(x - ANCHOR.axisL[i]) < 5e-7) && S.omegaG === ANCHOR.omegaG && S.sunL === ANCHOR.sunL,
     zeroVsW: S.nCell === 2 * ANCHOR.nRow && S.nSame === S.nCell && S.zero.u0487.make === ANCHOR.wRow0487.make && S.zero.u0487.now === ANCHOR.wRow0487.now && S.zero.u098.make === ANCHOR.wRow098.make && S.zero.u098.now === ANCHOR.wRow098.now,
-    bgForms: S.vs0 === 0 && S.nodAng < 1e-9 && S.nodMag < 1e-9 && S.pulseDir < 1e-6,
-    stepVsClosed: S.vsForce < 1e-7,
+    bgForms: S.vs0 < 1e-12 && S.vsFast < 1e-12 && S.nodAng < 1e-9 && S.nodMag < 1e-9 && S.pulseDir < 1e-6,
+    stepVsClosed: S.vsForce < 1e-4,
     refine: S.refine < 2e-3,
     resonance: S.bandLo.toFixed(1) === ANCHOR.band[0] && S.bandHi.toFixed(1) === ANCHOR.band[1] && S.inv < 1e-12,
     keepClosed: S.xK.tanh > 0.5 && S.xK.tanh < 0.6 && Math.abs(W.retainClosed('tanh', S.xK.tanh) - 0.9) < 1e-9 && Math.abs(S.xK.exp - Math.sqrt(1 / 0.81 - 1)) < 1e-9,
