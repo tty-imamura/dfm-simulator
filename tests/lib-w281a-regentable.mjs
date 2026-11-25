@@ -3341,6 +3341,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cancelstd-353p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便p: 零試験 9/17 組 × 置き方 7/イオと金星の格子 70/衛星の自分の重み 5 + 実在の組 3' }),
   // ==== 第353便p の塊(ここまで)====
+  // ==== 第353便u の塊(ここから)====
+  // ---- 第353便u(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R485): **注目の列 u = 0.98 で金星を打ち消す換算の係数 k を置いたときの、局所の項が背景に並ぶ受け手(水星・地球・火星・月・イオ)の状態 ——
+  //   受け手 5 × 組 9 の円錐・回る向き・f の上限・傾きの揺れ/観測の当たり所との並べ(仮の値は印つき)/並びを決める量(8 惑星 × 組 9)**
+  //   (段 nearrecv-353u —— 正本 tests/out/nearrecv-353u.json・lib tests/lib-w353u-nearrecv.mjs —— 第353便j・e・n・f・m・c・第352便w・d・k・q・第351便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に venus098-353j〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib に届く(正本の最上位に provisional: true)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便u の枝の実測 3 s
+  S('nearrecv-353u', 'node tests/exp-w353u-nearrecv.mjs', ['tests/out/nearrecv-353u.json'], 4, { secSource: 'w353u-branch', node: true,
+    after: ['venus098-353j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/nearrecv-353u.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便u: 零試験 12/受け手 5 × 組 9/観測の当たり所 2 × 9 + 3 × 9/並び 8 惑星 × 組 9' }),
+  // ==== 第353便u の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
