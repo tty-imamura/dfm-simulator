@@ -3470,6 +3470,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/massradius-353zb.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zb: 零試験 7/表 1 σ 2 × C0 9 の 17 組/3 つの置き方の比べ 9/頭打ち 10 + 衛星 4 + 環 3 × 粒子 4/題 11 × C0 9/c_R の読み 16 + 粒子 4' }),
   // ==== 第353便zb の塊(ここまで)====
+  // ==== 第353便zc の塊(ここから)====
+  // ---- 第353便zc(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R493): **向きの一致の幾何 —— 金星の公転の法線は基準軸から太陽の自転軸へ 1/3 の所(n★)の近く: 法線の並び・1/3 の由来・太陽の円錐の位相と交点の百分位と時間の窓・受け手の半径の置き方と衛星の道の面**
+  //   (段 dirgeo-353zc —— 正本 tests/out/dirgeo-353zc.json・lib tests/lib-w353zc-dirgeo.mjs —— 第353便t・v・第352便h・k・c・第351便c・j・第348便h・c・第337便c・第334便a・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便t・v の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zc の枝の実測 5 s
+  S('dirgeo-353zc', 'node tests/exp-w353zc-dirgeo.mjs', ['tests/out/dirgeo-353zc.json'], 8, { secSource: 'w353zc-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/dirgeo-353zc.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zc: 零試験 8/法線の並び 3 × 8/1/3 の由来 3/太陽の位相 2 × 3600/交点 5 × 3600・時間 11/見込み 8 + 3/置き方 24・端 3/衛星の道 11' }),
+  // ==== 第353便zc の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
