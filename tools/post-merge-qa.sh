@@ -1636,6 +1636,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 # ==== 第352便z の塊(ここまで)====
+# ==== 第353便a の塊(ここから)====
+# 第353便a(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R465 —— 文書だけ・html は変えない): 枝 a の新設 1 本
+#   (docs.report151_353a —— 第151報の文書〔15 行・24 文の当たり所・主の列の切り替え 11 題・新しい句 13・訂正の鎖 3〕の戻り止め)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report151_353a"
+# ==== 第353便a の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
