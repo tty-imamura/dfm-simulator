@@ -76,6 +76,8 @@ export const DECL = Object.freeze({
   crit: FE.DECL.crit,
   /** 要る k の走査(歳差の率 —— 線形でない題):log10 k の範囲と点の数 */
   kScan: Object.freeze({ lo: 0, hi: 16, n: 161 }),
+  /** (P-応) の率の倍の物差し(第353便c の rateMult の ref —— 'obs' を主・'rule' は表 1 の添えの列) */
+  respRef: 'obs',
   judge: '丸めの桁の床: 逐語の表は有効数字 3 桁・零試験は相対 1e-9 の床(第353便j の衛星の局所は 1e-7)',
 });
 const OBSRC = Object.freeze({ EarthHi: 'Earth' });
@@ -139,12 +141,12 @@ export function planeUnit(set, { id = 'Earth' } = {}, o = {}) {
   const v = KR.planeStd(C.T1, C.GEO, id, { src: 'rule', ob: s.sig ? 'O2b' : 'O0', recv: s.place === 'field' ? { cR: cROf(s, o) } : 'rule' }).v;
   return v;
 }
-/** 軸引きずりの方位の率(″/年 —— 経路 ② (g2−)・c 1・f 0・極 pole)を、組の局所(k × 単位)と背景 u で */
-export function dragAz(id, set, { u = DECL.uFocus, k = 1, pole = null } = {}, o = {}) {
+/** 軸引きずりの方位の率(″/年 —— 経路 ② (g2−)・c 1・f 0・極 pole)を、組の局所(k × 単位)と背景 u で。(P-応) は第353便c の rateMult(ref 既定 'obs' —— 観測半径の物差しの倍 1.0〜1.9。'rule' は規則の半径の物差しで 1e-17 の桁)を掛ける */
+export function dragAz(id, set, { u = DECL.uFocus, k = 1, pole = null, respRef = DECL.respRef } = {}, o = {}) {
   const s = typeof set === 'string' ? setOf(set) : set, Lu = localUnit(id, s, o), ax = F.axesOf(id, o), Om = add(F.bgOf({ u }, o), scl(Lu.loc, k));
   const cf = R3.r3Coeffs(0, 'N1'), ds = D.r3Ds(ax.sHat, Om, { sense: 'g2m', kTilt: cf.kTilt, kPrec: cf.kPrec });
   const pr = F.project(F.poleVec(id, pole || F.DECL.homePole[id], { om: Om }, o), ax.sHat, ds);
-  const mult = s.place === 'resp' ? CC.rateMult(id, { cR: 1, ref: 'rule' }) : 1;
+  const mult = s.place === 'resp' ? CC.rateMult(id, { cR: 1, ref: respRef }) : 1;
   return pr.az * mult;
 }
 /** 歳差の率の残り(仮の値 − 重力の側の列 —— 仮・未照合の印つき): 地球は月の道の 18.6 年の平均('avg')・火星は第353便f の sumRow */
@@ -152,7 +154,7 @@ let RESID = null;
 export function residOf(o = {}) {
   if (RESID) return RESID;
   const e = M.earthGrav({ moon: 'avg' }, o), m = F.sumRow('Mars', { u: DECL.uFocus }, o);
-  RESID = Object.freeze({ Earth: e.resid, Mars: m.resid, provKeys: Object.freeze([...new Set([...(e.provKeys || []), ...(m.provKeys || [])])]) });
+  RESID = Object.freeze({ Earth: e.resid, Mars: m.resid, provKeys: Object.freeze([...new Set([...(e.provKeys || []), ...(m.provKeys || [])])].sort()), provMark: e.provMark || m.provMark || null });
   return RESID;
 }
 /** 地球の傾き・イオの内部熱・潮汐ロックの局所の量(第352便za の topicCell と同じ式 —— 局所を組で作り直す)。bgU = 背景の倍率(0 なら局所だけ) */
@@ -204,7 +206,8 @@ export function topicAt(topic, set, { u = DECL.uFocus, key = DECL.ringMain, recv
     const id = topic === 'precEarth' ? 'Earth' : 'Mars', R = residOf(o)[id], f = (kk) => dragAz(id, s, { u, k: kk }, o) / R;
     unit1 = f(1); v = f(k); vComp = v; kReq = kReqScan(f);
     const d0 = f(0);
-    extra = { resid: R, cNeed: 1 / v, cNeed1: 1 / unit1, cNeedBg: 1 / d0, fill: v > 0, provisional: true, provKeys: residOf(o).provKeys };
+    extra = { resid: R, cNeed: 1 / v, cNeed1: 1 / unit1, cNeedBg: 1 / d0, fill: v > 0, provisional: true, provKeys: residOf(o).provKeys,
+      vRespRule: s.place === 'resp' ? dragAz(id, s, { u, k, respRef: 'rule' }, o) / R : null };
   } else if (topic === 'tilt' || topic === 'ioHeat' || topic === 'ioLock') {
     const a = zaTopic(topic, s, k, 0, o), b = zaTopic(topic, s, k, u, o); unit1 = zaTopic(topic, s, 1, 0, o).v; v = a.v; vComp = b.v;
     if (topic === 'tilt') extra = { fMax: b.fMax, noLimit: b.noLimit, fMax1: zaTopic('tilt', s, 1, u, o).fMax };
