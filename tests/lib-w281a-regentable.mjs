@@ -3341,6 +3341,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cancelstd-353p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便p: 零試験 9/17 組 × 置き方 7/イオと金星の格子 70/衛星の自分の重み 5 + 実在の組 3' }),
   // ==== 第353便p の塊(ここまで)====
+  // ==== 第353便t の塊(ここから)====
+  // ---- 第353便t(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R484): **「金星で釣り合う」を選び出す量の候補 —— 背景の大きさに依らない向きの一致 2 sin(φ/2) の順位の頑健さ(置き方の組 180)・φ を決める幾何(閉じた形と n★)・相対の運動の分を入れたとき**
+  //   (段 dirmatch-353t —— 正本 tests/out/dirmatch-353t.json・lib tests/lib-w353t-dirmatch.mjs —— 第353便l・c・d・p・第352便h・k・c・第351便c・j・第348便h・c・第350便b・第347便h・e・第337便c・第334便a・第312便a の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に cancelstd-353p)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便l の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便t の枝の実測 8 s
+  S('dirmatch-353t', 'node tests/exp-w353t-dirmatch.mjs', ['tests/out/dirmatch-353t.json'], 10, { secSource: 'w353t-branch', node: true,
+    after: ['cancelstd-353p'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/dirmatch-353t.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便t: 零試験 8/置き方の組 180/14 の受け手 × 列 7/c_R の上端 6/8 惑星の幾何/公転の法線を回す 3/基準軸の定義 11/成分 × 背景の向き 6 + 8' }),
+  // ==== 第353便t の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

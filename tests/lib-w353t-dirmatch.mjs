@@ -15,7 +15,7 @@
 //   衛星の自転軸と道の面の置き方 moonAx: 'repo'(第353便l と同じ —— 月とイオはリポジトリの組・ほかは母天体の赤道の円の道で自転軸 = 母天体の自転軸)/
 //   'eq'(6 つとも母天体の赤道の円の道)/'orb'(6 つとも母天体の公転面の円の道 —— 自転軸 = 母天体の公転の法線)。
 //   成分 part: 'S'(主の列)/'M'・'MS'(比べる列 —— 相対の運動の分を入れた形)。
-// ■ 言わないこと: 金星が釣り合っている・金星が選ばれた理由が分かった、とは書かない(順位の表)。置き方を決めない。この場・この置き方・このノブでは、の表。
+// ■ 言わないこと: 金星が釣り合っている・金星が選ばれた理由を言い当てる表ではない(順位の表)。置き方を決めない。この場・この置き方・このノブでは、の表。
 import * as L from './lib-w353l-earthonvenus.mjs';
 import * as RC from './lib-w353c-recvradius.mjs';
 import * as DD from './lib-w353d-srcoblate.mjs';
@@ -48,6 +48,8 @@ export const DECL = Object.freeze({
   host: Object.freeze({ Moon: 'Earth', Io: 'Jupiter', Europa: 'Jupiter', Ganymede: 'Jupiter', Callisto: 'Jupiter', Titan: 'Saturn' }),
   pairKey: Object.freeze({ Moon: 'Moon|EarthHi', Io: 'Io|Jupiter' }),
   axes: Object.freeze(['L', 'eq', 'ecl']),
+  /** 背景の向き: (N+) 基準軸の向き(主の列)/(N−) 逆向き(比べる列 —— 表 3 の (MS) でだけ使う) */
+  bgs: Object.freeze(['Np', 'Nm']),
   axisNames: Object.freeze({ L: 'L(角運動量の重み —— 主の列)', eq: 'eq(等重み —— 比べる列)', ecl: '黄道の極(比べる列)' }),
   parts: Object.freeze(['S', 'M', 'MS']),
   places: Object.freeze(['rule', 'field', 'resp']),
@@ -65,6 +67,8 @@ export const DECL = Object.freeze({
     cR: Object.freeze([[1e-3, 0.013106], [1e-2, 0.017295], [1, 0.87772]]), mOverS: '2.13e+13' }),
   /** 第352便n の報告の「いまの金星の公転面の向きは、残りが最小の近く(最小から 4〜13°)」・統括の 0.576°(eq の φ の見込み) */
   refText: Object.freeze({ n352: [4, 13], eqPhi: 0.576 }),
+  /** 仮の値の台帳の鍵(第353便l の lib の閉包に入る —— 本 lib の数には使わない) */
+  provKeys: Object.freeze(['venus.spin.period']),
   judge: '丸めの桁の床: φ は atan2 の形で直接に数える(打ち消しの残りは差で作らない —— 2 sin(φ/2))・零試験は相対 1e-9・表の照合は有効数字 5 桁(φ・own)/3 桁(比)',
 });
 
@@ -147,10 +151,11 @@ export function localT(T1, GEO, key, { part = 'S', tSrc = 0, place = 'rule', cR 
  * 向きの一致: dirMatch(key, { axis, part, tSrc, cR, place, ob, moonAx, T1, GEO }) → { key, phiDeg, own(2 sin(φ/2)), lowest(sin φ —— φ ≥ 90° は 1), rank(14 の受け手の own の小さい順), cosLB, kind }。
  * 既定の引数で第353便l の residOf(key).own・phiDeg と同じ数(零試験)。
  */
-export function dirMatch(key, { axis = 'L', part = 'S', tSrc = 0, cR = null, place = null, ob = null, moonAx = 'repo', T1 = E.t1Table(), GEO = E.geometry() } = {}, cache = null) {
+export function dirMatch(key, { axis = 'L', part = 'S', tSrc = 0, cR = null, place = null, ob = null, moonAx = 'repo', bg = 'Np', T1 = E.t1Table(), GEO = E.geometry() } = {}, cache = null) {
   if (!DECL.axes.includes(axis)) throw new RangeError('dirMatch: 基準軸は ' + DECL.axes.join('・'));
+  if (!DECL.bgs.includes(bg)) throw new RangeError('dirMatch: 背景の向きは Np・Nm');
   const pl = place === null ? (cR === null ? 'rule' : 'field') : place, o = { part, tSrc, place: pl, cR, ob, moonAx };
-  const b = unit(RA.refAxis(axis, T1, GEO));
+  const b = scl(unit(RA.refAxis(axis, T1, GEO)), bg === 'Nm' ? -1 : 1);
   const one = (k) => { const l = localT(T1, GEO, k, o, cache).loc, ph = angDeg(scl(l, -1), b); return { key: k, phiDeg: ph, own: 2 * Math.sin(ph * D2R / 2), lowest: ph >= 90 ? 1 : Math.sin(ph * D2R), cosLB: dot(unit(l), b), kind: localT(T1, GEO, k, o, cache).kind }; };
   const all = DECL.recvs.map(one), sorted = [...all].sort((p, q) => p.own - q.own).map((r) => r.key), me = all.find((r) => r.key === key);
   if (!me) throw new RangeError('dirMatch: 受け手は ' + DECL.recvs.join('・'));
@@ -158,7 +163,7 @@ export function dirMatch(key, { axis = 'L', part = 'S', tSrc = 0, cR = null, pla
 }
 /** 1 つの置き方の 14 の受け手の表(own の小さい順の順位つき) */
 export function rankAll(T1, GEO, opt = {}, cache = null) {
-  const d = dirMatch('Venus', { ...opt, T1, GEO }, cache), b = unit(RA.refAxis(opt.axis || 'L', T1, GEO));
+  const d = dirMatch('Venus', { ...opt, T1, GEO }, cache), b = scl(unit(RA.refAxis(opt.axis || 'L', T1, GEO)), opt.bg === 'Nm' ? -1 : 1);
   return d.order.map((k, i) => { const l = localT(T1, GEO, k, { part: opt.part || 'S', tSrc: opt.tSrc || 0, place: opt.place || (opt.cR ? 'field' : 'rule'), cR: opt.cR === undefined ? null : opt.cR, ob: opt.ob === undefined ? null : opt.ob, moonAx: opt.moonAx || 'repo' }, cache).loc, ph = angDeg(scl(l, -1), b);
     return { key: k, rank: i + 1, phiDeg: ph, own: 2 * Math.sin(ph * D2R / 2) }; });
 }
@@ -203,6 +208,75 @@ export function partGeom(T1, GEO, { id = 'Venus', axis = 'L' } = {}, cache = nul
   return { id, axis, mOverS: o.M.mag / o.S.mag, ...o };
 }
 
+/** 基準軸 b のまわりに金星の公転の法線を ψ° 回したときの閉じた形の φ(第352便n の turnRow と同じ向きの動かし方 —— 法線と b の角を保つ)・φ が最小の ψ とそのときの φ */
+export function turnScan(T1, GEO, { axis = 'L', id = 'Venus', step = 0.25 } = {}) {
+  const Q = SP.pairInput(T1, GEO, id, 'Sun'), s = unit(Q.sAx), n = unit(Q.nHat), b = unit(RA.refAxis(axis, T1, GEO));
+  const rot = (v, a) => { const c = Math.cos(a), sn = Math.sin(a); return add(add(scl(v, c), scl(crs(b, v), sn)), scl(b, dot(b, v) * (1 - c))); };
+  let best = null; for (let p = -180; p < 180; p += step) { const ph = angDeg(H.sDirClosed(s, rot(n, p * D2R)), b); if (best === null || ph < best.phi) best = { psi: p, phi: ph }; }
+  let a = best.psi - step, c = best.psi + step; const f = (p) => angDeg(H.sDirClosed(s, rot(n, p * D2R)), b);
+  for (let i = 0; i < 80; i++) { const m1 = a + (c - a) / 3, m2 = c - (c - a) / 3; if (f(m1) < f(m2)) c = m2; else a = m1; }
+  const psi = 0.5 * (a + c);
+  return { id, axis, phi0: f(0), psiMin: psi, phiMin: f(psi), phi180: f(180) };
+}
+/** 金星が 1 番を保つ c_R の上端((P-場)・log10 の二分 —— 1 番でなくなる最初の c_R)と、そのとき 1 番になる受け手 */
+export function cRCross(T1, GEO, { axis = 'L', tSrc = 0, ob = null, moonAx = 'repo', lo = 0.0128, hi = 1 } = {}, cache = null) {
+  const top = (cR) => rankAll(T1, GEO, { axis, tSrc, place: 'field', cR, ob, moonAx }, cache)[0].key;
+  if (top(lo) !== 'Venus' || top(hi) === 'Venus') return { cR: null, next: null };
+  let a = Math.log10(lo), b = Math.log10(hi);
+  for (let i = 0; i < 30; i++) { const m = 0.5 * (a + b); if (top(Math.pow(10, m)) === 'Venus') a = m; else b = m; }
+  return { cR: Math.pow(10, b), next: top(Math.pow(10, b)) };
+}
+
+/* ───────── 表(器が呼ぶ)───────── */
+/** 表 1a: 置き方の組 180(基準軸 3 × 源の半径 2 × 受け手の半径 5 × 源の扁平 2 × 衛星の置き方 3)ごとの金星の順位・own・1 番と 2 番 */
+export function table1(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [];
+  for (const axis of DECL.axes) for (const tSrc of DECL.tSrcs) for (const rc of DECL.recvCols) for (const ob of DECL.obs) for (const moonAx of DECL.moonAxes) {
+    const r = rankAll(T1, GEO, { axis, tSrc, place: rc.place, cR: rc.cR, ob, moonAx }, cache), v = r.find((x) => x.key === 'Venus'), w = r.find((x) => x.key !== 'Venus');
+    out.push({ axis, tSrc, recv: rc.id, ob: ob === null ? 'sphere' : 'O2b', moonAx, venusRank: v.rank, venusOwn: v.own, venusPhi: v.phiDeg, first: r[0].key, firstOwn: r[0].own, second: r[1].key, secondOwn: r[1].own, bestOther: w.key, margin: w.own / v.own });
+  }
+  return out;
+}
+/** 表 1a の数える欄: 金星が 1 番の組の数・入れ替わる組の数(入れ替わる組の受け手の半径の列)・2 番との比の最小 */
+export function table1Sum(rows) {
+  const keep = rows.filter((r) => r.venusRank === 1), lose = rows.filter((r) => r.venusRank !== 1);
+  const byRecv = Object.fromEntries(DECL.recvCols.map((c) => [c.id, { keep: keep.filter((r) => r.recv === c.id).length, lose: lose.filter((r) => r.recv === c.id).length }]));
+  const r4 = (x) => Number(x.toPrecision(4)), minMargin = keep.reduce((m, r) => (m === null || r4(r.margin) < r4(m.margin) ? r : m), null); // 4 桁で同じ組は先の組(並びは固定 —— 源の半径・扁平で 4 桁より下だけ違う組を選び直さない)
+  return { n: rows.length, keep: keep.length, lose: lose.length, byRecv, loseRanks: [...new Set(lose.map((r) => r.venusRank))].sort((a, b) => a - b), loseFirst: [...new Set(lose.map((r) => r.first))].sort(),
+    minMargin: minMargin && { axis: minMargin.axis, tSrc: minMargin.tSrc, recv: minMargin.recv, ob: minMargin.ob, moonAx: minMargin.moonAx, margin: minMargin.margin, other: minMargin.bestOther } };
+}
+/** 表 1b: 14 の受け手の φ・own・順位(基準軸 L・源 規則・球・衛星 repo)を受け手の半径の 4 列で + 衛星の置き方の 3 列(規則の半径) */
+export function table1b(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const cols = [...DECL.recvCols.filter((c) => c.id !== 'resp').map((c) => ({ id: c.id, opt: { place: c.place, cR: c.cR } })), { id: 'mEq', opt: { moonAx: 'eq' } }, { id: 'mOrb', opt: { moonAx: 'orb' } }, { id: 'O2b', opt: { ob: 'lit' } }];
+  const R = Object.fromEntries(cols.map((c) => [c.id, rankAll(T1, GEO, c.opt, cache)]));
+  return DECL.recvs.map((k) => { const o = { key: k }; for (const c of cols) { const x = R[c.id].find((y) => y.key === k); o['phi_' + c.id] = x.phiDeg; o['own_' + c.id] = x.own; o['rank_' + c.id] = x.rank; } return o; });
+}
+/** 表 1c: 金星が 1 番を保つ c_R の上端(基準軸 3 × 源の半径 2 —— 球・衛星 repo) */
+export function table1c(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = []; for (const axis of DECL.axes) for (const tSrc of DECL.tSrcs) { const c = cRCross(T1, GEO, { axis, tSrc }, cache); out.push({ axis, tSrc, cRcross: c.cR, next: c.next }); } return out;
+}
+/** 表 2a: 8 惑星の幾何(基準軸 L)と n★(φ が 0 になる公転の法線 —— 小さい角で b̂ + (ŝ☉ − b̂) ÷ 3)からの角 */
+export function table2a(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const b = unit(RA.refAxis('L', T1, GEO)), s = unit(SP.pairInput(T1, GEO, 'Venus', 'Sun').sAx), nS = unit(add(scl(b, 2 / 3), scl(s, 1 / 3)));
+  return DECL.planets.map((id) => { const g = geomRow(T1, GEO, id, {}, cache), n = unit(SP.pairInput(T1, GEO, id, 'Sun').nHat); return { ...g, toNstar: angDeg(n, nS), ratio: g.phiClosed / angDeg(n, nS) }; });
+}
+/** 表 2b: 金星の公転の法線を回したとき(δ と ψ)・基準軸ごと */
+export function table2b(T1 = E.t1Table(), GEO = E.geometry()) { return DECL.axes.map((axis) => ({ axis, tilt: tiltScan(T1, GEO, { axis }), turn: turnScan(T1, GEO, { axis }) })); }
+/** 表 3: 成分 S・M・MS × 背景の向き (N+)・(N−) の 14 の受け手の順位と金星の打ち消し(基準軸 L・規則の半径)—— (uV) のまま (MS) を入れたときの (L2) も */
+export function table3(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const b = unit(RA.refAxis('L', T1, GEO)), uV = L.uRuleOf(T1, GEO, {}) * H.b1(), cols = [];
+  for (const part of DECL.parts) for (const bg of DECL.bgs) {
+    const r = rankAll(T1, GEO, { part, bg }, cache), v = r.find((x) => x.key === 'Venus'), lv = localT(T1, GEO, 'Venus', { part }, cache).loc, bb = scl(b, (bg === 'Nm' ? -1 : 1) * uV);
+    cols.push({ part, bg, venusRank: v.rank, venusOwn: v.own, venusPhi: v.phiDeg, first: r[0].key, firstOwn: r[0].own, second: r[1].key, secondOwn: r[1].own, L2uV: nrm(add(lv, bb)) / uV, order: r.map((x) => x.key) });
+  }
+  return cols;
+}
+/** 表 3b: (MS) + (N−) の φ と公転の法線と基準軸の角(8 惑星) */
+export function table3b(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const b = unit(RA.refAxis('L', T1, GEO));
+  return DECL.planets.map((id) => { const l = localT(T1, GEO, id, { part: 'MS' }, cache).loc, n = unit(SP.pairInput(T1, GEO, id, 'Sun').nHat); return { id, phiNm: angDeg(l, b), nToB: angDeg(n, b) }; });
+}
+
 /* ───────── 零試験・変異 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const cache = {}, lc = {}, rel = (a, b) => Math.abs(a / b - 1), relv = (a, b) => nrm(sub(a, b)) / nrm(b);
@@ -227,7 +301,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const b = unit(A.L), mFlip = angDeg(localT(T1, GEO, 'Venus', {}, cache).loc, b) > 170;
   const Q = SP.pairInput(T1, GEO, 'Venus', 'Sun'), alt = sub(scl(unit(Q.nHat), dot(unit(Q.sAx), unit(Q.nHat))), unit(Q.sAx)), mClosed = Math.abs(angDeg(alt, b) - closedPhi(unit(Q.sAx), unit(Q.nHat), b).phiDeg) > 0.1;
   const rej = [() => dirMatch('Pluto'), () => dirMatch('Venus', { axis: 'La' }), () => dirMatch('Venus', { part: 'X' }), () => dirMatch('Venus', { tSrc: 0.5 }), () => dirMatch('Venus', { place: 'field' }),
-    () => dirMatch('Venus', { ob: 'O3' }), () => dirMatch('Venus', { moonAx: 'host' }), () => avgRot({ Ms: 1, Rs: 1, spin: [0, 0, 0], m: 1, Rr: 0, pts: [{ p: [1, 0, 0], v: [0, 0, 0] }] })]
+    () => dirMatch('Venus', { ob: 'O3' }), () => dirMatch('Venus', { moonAx: 'host' }), () => dirMatch('Venus', { bg: 'Gm' }), () => avgRot({ Ms: 1, Rs: 1, spin: [0, 0, 0], m: 1, Rr: 0, pts: [{ p: [1, 0, 0], v: [0, 0, 0] }] })]
     .map((fn) => { try { fn(); return false; } catch (er) { return er instanceof RangeError; } });
   return { rows, venusOwn: v.own, venusRank: v.rank, venusPhi: v.phi, saturnOwn: s.own, saturnRank: s.rank, cRrows, respSame, dObV, dObI, dPI, dPM, dCirc, Lvec: A.L, eqDeg, gmax, mOverS: pg.mOverS, mCosN: pg.M.cosN,
     mFlip, mClosed, rejects: rej };
@@ -244,6 +318,6 @@ export function pureGates(S) {
     axisL: A.L.every((c, i) => Math.abs(S.Lvec[i] - c) < 5e-7) && Math.abs(S.eqDeg - A.eqDeg) < 5e-4,
     closed: S.gmax < 0.05 && p3(S.mOverS, A.mOverS) && S.mCosN > 0.9999,
     mutants: S.mFlip && S.mClosed,
-    rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
+    rejects: S.rejects.length === 9 && S.rejects.every(Boolean),
   };
 }
