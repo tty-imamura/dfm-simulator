@@ -3501,6 +3501,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/equalradius-353zg.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zg: 零試験 10/a★ 2 母天体 × 扁平の倍 3 と入力の幅 6/閉じた形 10 行・ほかの母天体 4/偶然の並びの見込み/合成の軸の格子 11・構造・環の縁' }),
   // ==== 第353便zg の塊(ここまで)====
+  // ==== 第353便zh の塊(ここから)====
+  // ---- 第353便zh(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R497): **向きの一致が時間の間保たれる条件 —— 公転面の応える比の走査・換算の係数を置いた組・破れる条件の順・水星・月・イオの 2 つの軸**
+  //   (段 comove-353zh —— 正本 tests/out/comove-353zh.json・lib tests/lib-w353zh-comove.mjs —— 第353便zc・x・b・n・za・第352便w・l・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に dirgeo-353zc・ktilt-353za)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便zc・x・b・n・za の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便zh の枝の実測 34 s
+  S('comove-353zh', 'node tests/exp-w353zh-comove.mjs', ['tests/out/comove-353zh.json'], 40, { secSource: 'w353zh-branch', node: true,
+    after: ['dirgeo-353zc', 'ktilt-353za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/comove-353zh.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zh: 零試験 9/比 8 × 8 惑星・窓・位相の割合・年齢の帯/組 9 × 公転面 3/破れる条件 5・8・6 と順/水星 9 × 窓 4・月とイオ 2 × 9 × 向き 2' }),
+  // ==== 第353便zh の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
