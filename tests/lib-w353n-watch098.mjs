@@ -181,6 +181,71 @@ export function twoAxisSteps(st, { omG, signG = -1, f = 0, sense = DECL.mainSens
 /** 受け手 key の (P-応) の率の倍(第353便c の rateMult —— ref 'obs' 主・'rule' 比べる列・文献の慣性モーメントの係数)。係数が無ければ null */
 export function multOf(key, { ref = 'obs', cR = 1 } = {}) { return C.rateMult(idOf(key), { ref, cR }); }
 
+
+/* ───────── 表の口 ───────── */
+/** f の格子の数('fMin' は第353便e の fMaxAt の受け手 9 つの最小) */
+export function fGridNum(T1 = E.t1Table(), GEO = E.geometry(), cache = null) {
+  const fm = Math.min(...DECL.keys.map((k) => F.fMaxAt(k, { T1, GEO, cache }).fMax));
+  return DECL.fGrid.map((x) => (x === 'fMin' ? fm : x));
+}
+const brief1 = (r) => ({ key: r.key, f: r.f, sense: r.sense, years: r.years, chi0Deg: r.chi0Deg, dChiDeg: r.dChiDeg, phaseTurns: r.phaseTurns, eps0Deg: r.eps0Deg,
+  epsMinDeg: r.epsMinDeg, epsMaxDeg: r.epsMaxDeg, swingDeg: r.swingDeg, dEpsEndDeg: r.dEpsEndDeg, coRotDeg: r.coRotDeg });
+/** 表 1: 受け手 9 × f 3 × 見ている時間 5(主 (g2−) —— 揺れの幅は (g2+) も)。返す [{ ...brief1, swingP(比べる列 (g2+)) }] */
+export function table1Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const fs = fGridNum(T1, GEO, cache), out = [];
+  for (const key of DECL.keys) for (const f of fs) for (const years of DECL.windowsYr) {
+    const m = watchRow(key, { f, years, T1, GEO, cache }), p = watchRow(key, { f, sense: 'g2p', years, T1, GEO, cache });
+    out.push({ ...brief1(m), swingP: p.swingDeg, dEpsEndP: p.dEpsEndDeg });
+  }
+  return out;
+}
+/** 表 1b: 変わらないと言える時間の幅 —— 受け手 9 × f 3: ε の変化が 0.1°・1° に達する時間((g2−)・(g2+))・χ の変化が 0.1°・1° に達する時間・一周の幅(coneRange)・公転の位相ごとの揺れ */
+export function table1bRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const fs = fGridNum(T1, GEO, cache), out = [];
+  for (const key of DECL.keys) {
+    const st = watchState(T1, GEO, key, {}, cache), cr = W.coneRange(st.Om, st.sHat, st.nRing), id = idOf(key);
+    const pw = id === 'Sun' ? null : phaseWobble(T1, GEO, id, {}, cache);
+    for (const f of fs) {
+      const tE = Object.fromEntries(DECL.senses.map((sense) => [sense, DECL.thrDeg.map((thrDeg) => tReach(key, { f, sense, thrDeg, T1, GEO, cache }))]));
+      out.push({ key, f, chi0Deg: st.chi0Deg, eps0Deg: st.eps0Deg, alphaDeg: st.alphaDeg, periodYr: st.periodYr / I.kOf(f, 'g2m').k2, cone: { minDeg: cr.oblMinDeg, maxDeg: cr.oblMaxDeg, swingDeg: cr.swingDeg },
+        tEps: tE, tChi: DECL.thrDeg.map((thrDeg) => tChi(st, { f, thrDeg })), wobble: pw ? { ampAs: pw.ampAs, m2As: pw.m2As, orbitYr: pw.orbitYr } : null });
+    }
+  }
+  return out;
+}
+/** 表 2(2 つの軸の合成 —— 重力の側は比べる列・率は仮の値): 受け手(地球・火星)× f 3 × 歳差の向き 2 */
+export function table2Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const fs = fGridNum(T1, GEO, cache), out = [];
+  for (const g of DECL.gravBodies) {
+    const st = watchState(T1, GEO, g.key, {}, cache), gr = gravRate(g.rateKey), dragOnly = W.coneRange(st.Om, st.sHat, st.nRing);
+    for (const sense of DECL.senses) for (const f of fs) {
+      const cl = twoAxisClosed(st, { omG: gr.radS, signG: gr.sign, sense });
+      // 照らしの步: 4 周(重力の歳差)を 1 周あたり 800 刻み —— 閉じた形(f 0)との差
+      const Tchk = 4 * gr.periodYr, stp = twoAxisSteps(st, { omG: gr.radS, signG: gr.sign, f, sense, Tyr: Tchk, steps: 3200 });
+      const ex = L.closedAxis(st.sHat, cl.Oc, Tchk * YR, { sense: 'g2p', kTilt: 0, kPrec: 1 });
+      const co = twoAxisSteps(st, { omG: gr.radS, signG: gr.sign, f: 0, sense, Tyr: Tchk, steps: 3200, nMode: 'co' });
+      out.push({ id: g.id, sense, f, gravPeriodYr: gr.periodYr, dragPeriodYr: st.periodYr, ratio: st.W / gr.radS, tiltDeg: cl.tiltDeg, combPeriodYr: cl.periodYr,
+        combEps: { minDeg: cl.cone.oblMinDeg, maxDeg: cl.cone.oblMaxDeg, swingDeg: cl.cone.swingDeg }, dragEps: { minDeg: dragOnly.oblMinDeg, maxDeg: dragOnly.oblMaxDeg, swingDeg: dragOnly.swingDeg },
+        stepVsClosedDeg: f === 0 ? angDeg(stp.s, ex) : null, stepSwingDeg: stp.epsMaxDeg - stp.epsMinDeg, coSwingDeg: co.epsMaxDeg - co.epsMinDeg,
+        avgDEps: DECL.windowsYr.map((t) => epsAvg(st, t, { f }) - st.eps0Deg), dragDEps: DECL.windowsYr.map((t) => epsAt(st, t, { f, sense }) - st.eps0Deg),
+        provisional: true, provKeys: gr.provKeys });
+    }
+  }
+  return out;
+}
+/** 表 3(応答の側の構造の係数): 受け手 9 × R_ref 2 —— 倍 m・一周の年数・年齢の内の周の数・f の上限(W に m を掛けた fKeep)・ε が 0.1° 変わる時間(f 0) */
+export function table3Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [];
+  for (const key of DECL.keys) for (const ref of DECL.refs) {
+    const m = multOf(key, { ref });
+    if (m === null) { out.push({ key, ref, mult: null }); continue; }
+    const st = watchState(T1, GEO, key, { mult: m }, cache), fk = W.fKeep({ thDeg: st.chi0Deg, W: st.W, crit: F.DECL.crit });
+    out.push({ key, ref, mult: m, moi: C.moiOf(idOf(key)), periodYr: st.periodYr, turnsAge: DECL.ageYr / st.periodYr, fMax: fk.fMax, noLimit: fk.noLimit,
+      t01Yr: ref === 'obs' ? tReach(key, { thrDeg: 0.1, mult: m, T1, GEO, cache }) : null });
+  }
+  return out;
+}
+
 /* ───────── 零試験 ───────── */
 /** 統括の数え直し 3 の共通の点検の数(5 桁)と第353便e の数(3 桁) */
 export const ANCHOR = Object.freeze({ Lvec: Object.freeze(['0.026257', '0.008317', '0.999621']), eqLDeg: '1.1207', omegaG: '9.09e-16',
