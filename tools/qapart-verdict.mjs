@@ -52,6 +52,8 @@ export function verdictOf(text, opt) {
     if (ends.length && counts.pass + counts.fail + counts.skip + counts.notRun !== batch.keys) bad.push('束の終わりの数の和 ' + (counts.pass + counts.fail + counts.skip + counts.notRun) + ' ≠ 要求した鍵 ' + batch.keys);
   } else {
     if (!sums.length) bad.push('要約の行(# qapart-summary)が無い(走行の本文が落ちた・途中で止まった)');
+    // 第353便i(R473): 束でない走行の要約の行は 1 本 —— 2 本以上は、2 つ以上の走行の出力を重ねて読んでいる(足し合わせない形の読み違いの戻り止め)
+    if (sums.length > 1) bad.push('束でない走行(--batch の頭の行が無い)に要約の行が ' + sums.length + ' 本(1 本の走行は 1 本 —— 2 つ以上の走行の出力を重ねて読んでいる)');
     for (const s of sums) if (s && s.counts) for (const k of Object.keys(counts)) counts[k] += s.counts[k] || 0;
   }
   const requested = counts.pass + counts.fail + counts.skip + counts.notRun;
@@ -101,6 +103,9 @@ export const SELF_CASES_351I = [
     text: ['# --batch 2: 鍵 3 本を 2 束に(束ごとに子の Node と Chromium を作り直す)', sumLine({ pass: 2, fail: 0, skip: 0, notRun: 0 }, { pass: 0, fail: 0 }, 0, 0, {}),
       '# 束 1/2 の終わり: PASS 2・FAIL 0・SKIP 0・未実行 0(add の行 PASS 2・FAIL 0)・rc 0(3.0 s)'].join('\n') },
   { name: '空の出力(要求した鍵 0)', strict: false, want: 1, wantToolRc: null, text: '' },
+  // 第353便i(R473): 束でない走行に要約の行が 2 本(2 つの走行の出力を重ねた —— 足し合わせずに NG)
+  { name: '束でない走行に要約の行が 2 本(出力を重ねた)', strict: false, want: 1, wantToolRc: null,
+    text: ['PASS a.x  …', sumLine({ pass: 1, fail: 0, skip: 0, notRun: 0 }, { pass: 0, fail: 0 }, 0, 0, {}), 'PASS b.y  …', sumLine({ pass: 1, fail: 0, skip: 0, notRun: 0 }, { pass: 0, fail: 0 }, 0, 0, {})].join('\n') },
 ];
 /** 自己試験(QA lint.changelogHeadRe351i ⑤ と同じ関数) */
 export function selfTest351i() {
