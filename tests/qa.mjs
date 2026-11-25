@@ -117866,11 +117866,13 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
   const rd348f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
   const RUNNER348F = 'ubuntu-24.04';
   // 宣言の一覧(TeX を使う検査 = 論文の 4 本 —— 固定の版 / 使わない検査 = 今の値のまま)
+  // 第354便a: 論文の 4 本に組版の段だけの job `<名>-tl2025`(ubuntu-latest)を足した —— 最初の job(固定)は ubuntu-24.04 のまま。
+  //   jobs348 = 第348便f の当時の job の一覧(PHYSICS〔第348便f〕の表 1 の 2 列目はこれで照らす —— 過去の節は書き換えない)。
   const DECL348F = {
-    'paper1.yml': { tex: true, jobs: { paper1: RUNNER348F } },
-    'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F } },
-    'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F } },
-    'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F } },
+    'paper1.yml': { tex: true, jobs: { paper1: RUNNER348F, 'paper1-tl2025': 'ubuntu-latest' }, jobs348: { paper1: RUNNER348F } },
+    'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F, 'paper2-tl2025': 'ubuntu-latest' }, jobs348: { paper2: RUNNER348F } },
+    'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F, 'paper3-tl2025': 'ubuntu-latest' }, jobs348: { paper3: RUNNER348F } },
+    'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F, 'paper45-tl2025': 'ubuntu-latest' }, jobs348: { paper45: RUNNER348F } },
     'ci.yml': { tex: false, jobs: { qa: 'ubuntu-latest', perf: 'ubuntu-latest' } },
     'nightly.yml': { tex: false, jobs: { 'pages-collate': 'ubuntu-latest', 'frozen-baseline': 'ubuntu-latest', 'paper2-figures': 'ubuntu-latest' } },
   };
@@ -117912,7 +117914,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
       if (ln < 0) bad.push('② ' + f + ' の頭の注に第348便f の理由の行が無い');
       else { const nt = hd.split('\n').slice(ln, ln + 2).join('\n'); for (const w of NOTE348F) if (nt.indexOf(w) < 0) bad.push('② ' + f + ' の頭の注に「' + w + '」が無い'); }
     }
-    cases.push(`① 論文の検査 ${TEX.length} 本(${TEX.join('・')})の job の runs-on = ${RUNNER348F} / ② 頭の注(${NOTE348F.length} 語 —— 決定・項目・版・いつ・見直す時)`);
+    cases.push(`① 論文の検査 ${TEX.length} 本(${TEX.join('・')})の固定の job の runs-on = ${RUNNER348F}・第354便a の組版だけの job(<名>-tl2025)= ubuntu-latest / ② 頭の注(${NOTE348F.length} 語 —— 決定・項目・版・いつ・見直す時)`);
     // ③ TeX を使わない検査は今の値のまま
     for (const f of NOTEX) { if (W[f] == null) { bad.push('③ ' + f + ' が無い'); continue; } sameJobs(f, jobsOf(W[f]), DECL348F[f].jobs, '③'); }
     cases.push('③ ' + NOTEX.map((f) => f + '(' + Object.entries(DECL348F[f].jobs).map(([j, v]) => j + ' ' + v).join('・') + ')').join(' / '));
@@ -117931,7 +117933,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
       const want = Object.keys(DECL348F);
       if (T.map((c) => c[0]).join('|') !== want.map((f) => '`' + f + '`').join('|')) bad.push('⑤ 表 1 の行の並び ' + T.map((c) => c[0]).join('・'));
       for (const c of T) { const f = c[0].replace(/`/g, ''), d = DECL348F[f]; if (!d) continue;
-        if (c[1] !== Object.keys(d.jobs).join('・')) bad.push('⑤ 表 1 の ' + f + ' の job');
+        if (c[1] !== Object.keys(d.jobs348 || d.jobs).join('・')) bad.push('⑤ 表 1 の ' + f + ' の job');
         if (c[3].split('(')[0] !== Object.values(d.jobs)[0]) bad.push('⑤ 表 1 の ' + f + ' の runs-on(本枝の後)' + c[3]);
         if (c[4] !== (d.tex ? '使う' : '使わない')) bad.push('⑤ 表 1 の ' + f + ' の TeX の欄'); } }
     const a306 = as.search(/\n## 306\. 第348便f/), a300 = as.search(/\n## 300\. 第347便i/);
@@ -117977,7 +117979,7 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     cases.push(`⑥ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
   } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
   add('lint.paperRunner348f', bad.length === 0,
-    `**論文の組版の検査の実行環境の固定**(第348便f・原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・R414 —— 論文の検査 4 本を ${RUNNER348F}〔TeX Live 2023〕に固定・ci.yml と nightly.yml は今の値のまま・論文の tex は変えていない・効き目は PR の走行で見る): ${cases.join(' / ')}`
+    `**論文の組版の検査の実行環境の固定**(第348便f・原仮定者の回答(2026-11-23 —— 第145報の回答 10)「AN981: 推奨で進める」・R414 —— 論文の検査 4 本の固定の job は ${RUNNER348F}〔TeX Live 2023〕のまま・第354便a で組版の段だけの job を ubuntu-latest に足した・ci.yml と nightly.yml は今の値のまま・論文の tex は第348便f では変えていない〔第354便a で論文 2・3 の前置きに 1 塊〕・効き目は PR の走行で見る): ${cases.join(' / ')}`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   })();
 }
