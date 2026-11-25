@@ -126227,7 +126227,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ---- 第353便n: docs.watch098_353n は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.watch098_353n(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 4 つと表 1・表 7 本・数の文 7 つが PHYSICS〔第353便n〕に逐語 ③ 節の位置(〔第353便h〕の節の後・第328便の統括の節の前)・必須の語・
+// ----     ② 原文 4 つと表 1・表 6 本・数の文 6 つが PHYSICS〔第353便n〕に逐語 ③ 節の位置(〔第353便h〕の節の後・第328便の統括の節の前)・必須の語・
 // ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §370(§364 の後)・CHANGELOG(第353便n の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名・
 // ----     「安定している」「保たれた」と結論を書かない・「0.98 は (N+) の窓の内」と書かない・変異 2
 {
@@ -126264,9 +126264,9 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表 1(原文と読み)が節に逐語で無い');
       const T = D0.tablesOf(J), F = D0.factsOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便n〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 7) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便n〕に数の文 ' + k + ' が逐語で無い');
-      if (Object.keys(F).length !== 7) bad.push('② 数の文の数 ' + Object.keys(F).length);
+      if (Object.keys(F).length !== 6) bad.push('② 数の文の数 ' + Object.keys(F).length);
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第353便n〕に逐語(文書の lib ${D0.DOC_VERSION})`);
     }
     const want = ['原仮定者の回答(2026-11-25 —— 第151報)', 'R478', 'AN1046', 'tests/exp-w353n-watch098.mjs', 'tests/out/watch098-353n.json', 'tests/lib-w353n-watch098.mjs', 'watch098-353n',
