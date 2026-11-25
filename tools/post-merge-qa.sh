@@ -1891,6 +1891,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgrange355b docs.bgrange355b"
 #   docs.rangecols355c —— 原文と表と数の文が PHYSICS〔第355便c〕に逐語・文書)と、新しい段 rangecols-355c
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rangecols355c docs.rangecols355c"
 # ==== 第355便c の塊(ここまで)====
+# ==== 第355便d の塊(ここから)====
+# 第355便d(統括の検証項目 R507 —— 文書と照合の鍵だけ・html は変えない): 枝 d の新設 1 本(docs.equations355d —— 計算式の一覧の EQ-183〜EQ-189〔第353便zk の式〕・§3 の 7 行・§6 の件数の文)と、
+#   EQ-182 までの写し(view353zzOf355d)で読む形にした既存の照合(docs.equations353zz)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355d docs.equations353zz"
+# ==== 第355便d の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

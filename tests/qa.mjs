@@ -131511,7 +131511,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 {
   await (async () => {   // 第310便c(heap): 本文を関数で包む
   const rd353zz = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
-  const EQ0 = rd353zz('docs/EQUATIONS.md') || '';
+  const EQ0 = (await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'))).eqFixedView350h(rd353zz('docs/EQUATIONS.md') || '', 182);   // 第355便d: 世代の写し view353zzOf355d(EQ-183 以降の項と §2a の EQ-183 以降の参照を外す —— 照合の中身は変えない)
   if (!(TARGET.startsWith('beta/') && EQ0.indexOf('\n### EQ-150 ') >= 0)) {
     console.log('SKIP docs.equations353zz(第353便zz の EQ-150 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
     return;
@@ -132721,6 +132721,40 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便c の塊(ここまで)====
+// ==== 第355便d の塊(ここから —— docs.equations355d の 1 ブロック。root は SKIP)====
+// ---- 第355便d(統括の検証項目 R507): **文書と照合の鍵だけ**(docs/EQUATIONS.md の EQ-183〜EQ-189〔第353便zk の潮汐ロックの定義の不等式を読む式〕・§3 の 7 行・§6 の件数の文・
+// ----   PHYSICS〔第355便d〕・AI_SPEC §399・post-merge・照合の lib tests/lib-w355d-equations.mjs〔純関数 —— ファイルを読まない〕—— html・エンジン・内蔵の本・受理器・physics の鍵・
+// ----   既存の lib の本文・既存の項 EQ-01〜EQ-182 の行は変えない・器と段と正本は足さない)。世代切替 = beta 対象 ∧ lib がある ∧ 計算式の一覧に「### EQ-183 」がある。項は第350便h の共通の読み手で読む。
+// ----   docs.equations355d: ⓪ lib の版の名の型 ① 番号の連続と重複(4 桁まで)・EQ-183 以降は EQ-183〜EQ-189 だけ ② 欄(ラベル 診断・実装の印なし・時間の単位・実装か診断か・正本を作る関数の名の実在)・
+// ----     出どころの節〔第353便zk〕と同じ字の式・出どころの経路の実在・抜粋が lib の名指しの定義の範囲に在る(6 行・320 字まで)・ノブの台帳の状態・列の印(列に係る 5 項だけ)・
+// ----     比べる列(DFM の式ではない)の印・仮の値の印 ③ §3 の 7 行・§6 の件数の文(項 189) ④ 第353便zz の照合へ渡す世代の写し view353zzOf355d(EQ-01〜EQ-182 が元の項と同じ・EQ-183 以降と §2a の参照が無い)
+// ----     ⑤ PHYSICS〔第355便d〕(〔第354便a〕より後・統括の節より前・表 1・表 2)・AI_SPEC §399・post-merge の塊 ⑥ 書かない語 ⑦ 変異の自己試験(lib の selfTest355d —— 23 種)。
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd355d = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib355d = path.join(ROOT, 'tests', 'lib-w355d-equations.mjs');
+  const EQ0 = rd355d('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib355d) && EQ0.indexOf('\n### EQ-183 ') >= 0)) {
+    console.log('SKIP docs.equations355d(第355便d の EQ-183 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let bad = [], cases = [];
+  try {
+    const W = await import('file://' + wLib355d);
+    if (!/^w355d-equations-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ lib の版の名の型(w355d-equations-lib-<数>)');
+    cases.push('⓪ lib の版の名の型');
+    const inp = { eq: EQ0, ph: rd355d('docs/PHYSICS.md') || '', as: rd355d('docs/AI_SPEC.md') || '', pm: rd355d('tools/post-merge-qa.sh') || '', rd: rd355d, exists: (p) => fs.existsSync(path.join(ROOT, p)) };
+    const R = W.check355d(inp); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const S = W.selfTest355d(inp); bad = bad.concat(S.bad);
+    if (S.lines.length < 12) bad.push('⑦ 変異の自己試験が 12 種より少ない(' + S.lines.length + ')');
+    cases.push(`⑦ 変異の自己試験 ${S.lines.length} 種: ` + S.lines.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('docs.equations355d', bad.length === 0,
+    `**計算式の一覧の EQ-183〜EQ-189(第353便zk の潮汐ロックの定義の不等式を読む式 —— 出どころの節と同じ字の式・時間の単位・実装か診断か・正本を作る関数の欄・抜粋は lib の定義の範囲・番号の連続と重複〔4 桁〕・比べる列の印)と、第353便zz の照合へ渡す EQ-182 までの世代の写し**(第355便d・R507 —— 既存の項の行は書き換えない・文書): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第355便d の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
