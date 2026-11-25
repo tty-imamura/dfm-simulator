@@ -1683,6 +1683,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslock353g docs.venuslock353g"
 #   docs.ringdisk353h —— 原文と表と数の文が PHYSICS〔第353便h〕に逐語・文書)と、新しい段 ringdisk-353h
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringdisk353h docs.ringdisk353h"
 # ==== 第353便h の塊(ここまで)====
+# ==== 第353便m の塊(ここから)====
+# 第353便m(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477 —— 診断だけ・html は変えない): 枝 m の新設 2 本
+#   (behavior.residsign353m —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.residsign353m —— 原文と表と数の文が PHYSICS〔第353便m〕に逐語・文書)と、新しい段 residsign-353m
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.residsign353m docs.residsign353m"
+# ==== 第353便m の塊(ここまで)====
 # ==== 第353便p の塊(ここから)====
 # 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480 —— 診断だけ・html は変えない): 枝 p の新設 2 本
 #   (behavior.cancelstd353p —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・x と残りを QA の中で別に照合・呼ぶだけ /

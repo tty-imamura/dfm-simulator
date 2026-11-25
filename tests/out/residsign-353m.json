@@ -1,0 +1,2215 @@
+{
+ "version": "w353m-residsign-1",
+ "libVersion": "w353m-residsign-lib-1",
+ "generator": "tests/exp-w353m-residsign.mjs",
+ "target": "tests/lib-w353m-residsign.mjs",
+ "ruling": "原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477",
+ "provisional": true,
+ "provKeys": [
+  "earth.psiA.rate",
+  "mars.prec.rate",
+  "venus.prec.rate"
+ ],
+ "provMark": "仮・未照合",
+ "decl": {
+  "moonModes": [
+   "fixed",
+   "ecl",
+   "node",
+   "avg"
+  ],
+  "moonLabels": {
+   "fixed": "リポジトリの月の公転の北極(固定)",
+   "ecl": "黄道の面(傾き 0)",
+   "node": "傾きのまま交点を回す",
+   "avg": "交点の 1 巡(18.6 年)の平均の閉じた形"
+  },
+  "hModes": [
+   "repo",
+   "lit"
+  ],
+  "hLit": 0.0032737,
+  "hLitFrom": "tests/exp-w330b-dragweight.mjs の earthPrec.H(文献の値・未照合)",
+  "eModes": [
+   "none",
+   "repo"
+  ],
+  "ecc": {
+   "Moon": 0.0549,
+   "Sun": 0.0167
+  },
+  "nodeGrid": [
+   0,
+   30,
+   60,
+   90,
+   120,
+   150,
+   180,
+   210,
+   240,
+   270,
+   300,
+   330
+  ],
+  "aLast": {
+   "Sun": 100000000,
+   "Moon": 100000
+  },
+  "venusPoles": [
+   "orbN",
+   "orbS",
+   "eclN",
+   "eclS",
+   "L"
+  ],
+  "venusPoleLabels": {
+   "orbN": "金星の公転の北極",
+   "orbS": "金星の公転の南極",
+   "eclN": "黄道の北極",
+   "eclS": "黄道の南極",
+   "L": "基準軸 L"
+  },
+  "axisModes": [
+   "L",
+   "N"
+  ],
+  "axisLabels": {
+   "L": "有向の角運動量",
+   "N": "北半球の極"
+  },
+  "venusSenses": [
+   "tide",
+   "anti"
+  ],
+  "uMain": 0.98,
+  "uGrid": [
+   0.0487,
+   0.98
+  ],
+  "cBodies": [
+   "Mars",
+   "Venus",
+   "Earth"
+  ],
+  "anchorF": {
+   "resid": {
+    "Earth": "5.50",
+    "Mars": "-0.142",
+    "Venus": "-1.54"
+   },
+   "cNeed": {
+    "Mars": "24.4",
+    "Venus": "1.58e+3",
+    "Earth": "-967"
+   },
+   "pertSum": {
+    "Earth": "0.0347",
+    "Mars": "0.00303",
+    "Venus": "1.45"
+   },
+   "venusAz": {
+    "ecl": "-45.5",
+    "orb": "46.1",
+    "L": "258"
+   }
+  },
+  "anchor3": {
+   "L": [
+    0.026257,
+    0.008317,
+    0.999621
+   ],
+   "Ltol": 5e-7,
+   "omegaG": 9.09e-16,
+   "phiVenusDeg": 0.7606
+  },
+  "floor": 1e-12,
+  "judge": "丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "rowDecl": {
+  "moons": [
+   "fixed",
+   "ecl",
+   "avg"
+  ],
+  "hs": [
+   "repo",
+   "lit"
+  ],
+  "eccs": [
+   "none",
+   "repo"
+  ],
+  "senses": [
+   "g2m",
+   "g2p"
+  ],
+  "uMain": 0.98,
+  "nodeGrid": [
+   0,
+   30,
+   60,
+   90,
+   120,
+   150,
+   180,
+   210,
+   240,
+   270,
+   300,
+   330
+  ],
+  "venusPoles": [
+   "orbN",
+   "orbS",
+   "eclN",
+   "eclS",
+   "L"
+  ],
+  "axisModes": [
+   "L",
+   "N"
+  ],
+  "venusSenses": [
+   "tide",
+   "anti"
+  ],
+  "uGrid": [
+   0.0487,
+   0.98
+  ],
+  "t3Rows": [
+   [
+    "Mars",
+    "tide",
+    null
+   ],
+   [
+    "Venus",
+    "tide",
+    null
+   ],
+   [
+    "Venus",
+    "anti",
+    null
+   ],
+   [
+    "Earth",
+    "tide",
+    "fixed"
+   ],
+   [
+    "Earth",
+    "tide",
+    "avg"
+   ]
+  ]
+ },
+ "plan": {
+  "pure": "零試験 10(既定 = 第353便f の重力の列・18.6 年の平均の閉じた形 = 交点 72 点の平均・tideOfNN = 第352便u の tideAvg・金星の既定 = 第353便f・極の反転と ŝ の反転・幅と要る c = 第353便f・統括の数え直し 3・振れの算術・拒否)",
+  "t1": "表 1: 地球 × 月の道の置き方 3(fixed・ecl・avg)× 慣性モーメントの係数の置き方 2(repo・lit)× 離心率の倍 2(none・repo)—— 黄道の極の重力の列・太陽の項・月の項・残り・符号の反転・最後の桁の振れ・(g2−)(g2+) の軸引きずり(u 0.98・c 1)で埋める向きか・要る c・幅の内か",
+  "t1node": "表 1b: 交点の経度 12 点(傾きはリポジトリの 5.145° のまま)の重力の列と残り・残りが 0 になる交点の経度(二分)",
+  "t2": "表 2: 金星 × 極 5(公転の北極・南極・黄道の北極・南極・基準軸 L)× ŝ の向き 2(有向の角運動量・北半球の極)× 仮の値の回る向き 2(重力の列と同じ・逆)—— 重力の列・軸引きずり (g2−)・残り・埋める向きか・要る c・幅の内か・話が閉じるか",
+  "t3": "表 3: 要る応答の係数(u 0.0487・0.98)× 火星・金星(同じ回り・逆の回り)・地球(固定の月の道・18.6 年の平均)—— 構造の量の式の候補 (ウ′)(ウ)(イ) との比・(P-応) の率の倍(観測半径・規則の半径)・上限としてだけ読む行"
+ },
+ "amend": [],
+ "notClaim": [
+  "残りの符号の表 —— 歳差の率の答えとは書かない・地球の残りが何から来るかは数えていない(読み切ったとは書かない)(この入力・この定義・このノブでは、の数)",
+  "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の式ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+  "月の道の置き方・慣性モーメントの係数の置き方・離心率の倍は、リポジトリに在る数とその定義の候補 —— 外の数は使っていない(力学的偏平率・離心率は第330便b の器の入力 —— 文献の値・未照合)",
+  "金星の仮の値は大きさだけ —— 回る向きは「重力の列と同じ回り」「逆の回り」の 2 列で持つ(どちらにも寄せない)",
+  "要る応答の係数 c は単位の応答 1 からの倍 —— 残りが幅の内の天体は上限としてだけ読む",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "scenes": {
+   "gravErr": 0,
+   "avgErr": 0,
+   "node0": 0,
+   "avg0": 0,
+   "tr": [
+    0,
+    0,
+    0
+   ],
+   "tideErr": 0,
+   "vErr": 0,
+   "flipPole": 0,
+   "flipAxis": 0,
+   "vAz": {
+    "ecl": -45.54530324531618,
+    "orb": 46.12370413417875,
+    "L": 258.38181165417507
+   },
+   "pert": {
+    "Earth": 0.03470891607786797,
+    "Mars": 0.003032882432724371,
+    "Venus": 1.452083580525347
+   },
+   "cNeed": {
+    "Mars": 24.4027904660289,
+    "Venus": 1577.5545096889616,
+    "Earth": -967.3485880147193
+   },
+   "resid": {
+    "Earth": 5.499479958896153,
+    "Mars": -0.14169040468885186,
+    "Venus": -1.5437041341787534
+   },
+   "Lerr": 3.724557846584986e-7,
+   "omegaG": 9.090000000000002e-16,
+   "phiV": 0.7605683783317145,
+   "arith": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "hLin": 0,
+   "iMoon": 5.145000000000013,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "gravIsF": true,
+   "avgIsMean": true,
+   "tideIsU": true,
+   "venusIsF": true,
+   "poleAxisSym": true,
+   "widthIsF": true,
+   "cNeedIsF": true,
+   "anchor3": true,
+   "pertArith": true,
+   "rejects": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "moon": "fixed",
+    "h": "repo",
+    "ecc": "none",
+    "H": 0.003273752645902631,
+    "az": -55.88429502889616,
+    "sun": -15.942147754131152,
+    "moonTerm": -39.942147274765006,
+    "prov": -50.38481507,
+    "resid": 5.49947995889616,
+    "flip": false,
+    "digit": 0.0694428367946145,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -967.3485880147206,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 967.3485880147206,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "h": "repo",
+    "ecc": "repo",
+    "H": 0.003273752645902631,
+    "az": -56.07222829419072,
+    "sun": -15.948819238220565,
+    "moonTerm": -40.12340905597016,
+    "prov": -50.38481507,
+    "resid": 5.6874132241907205,
+    "flip": false,
+    "digit": 0.06962279422985063,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -1000.4057098121385,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 1000.4057098121385,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "h": "lit",
+    "ecc": "none",
+    "H": 0.0032737,
+    "az": -55.88339634183183,
+    "sun": -15.9418913851109,
+    "moonTerm": -39.941504956720934,
+    "prov": -50.38481507,
+    "resid": 5.498581271831831,
+    "flip": false,
+    "digit": 0.06944172006980409,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -967.1905105839012,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 967.1905105839012,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "h": "lit",
+    "ecc": "repo",
+    "H": 0.0032737,
+    "az": -56.07132658493215,
+    "sun": -15.948562761914772,
+    "moonTerm": -40.12276382301738,
+    "prov": -50.38481507,
+    "resid": 5.68651151493215,
+    "flip": false,
+    "digit": 0.06962167461109914,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -1000.2471007828126,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 1000.2471007828126,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "h": "repo",
+    "ecc": "none",
+    "H": 0.003273752645902631,
+    "az": -50.638215598618785,
+    "sun": -15.942147754131152,
+    "moonTerm": -34.69606784448764,
+    "prov": -50.38481507,
+    "resid": 0.2534005286187835,
+    "flip": false,
+    "digit": 0.06463194092545876,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -44.57269512638885,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 44.57269512638885,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "h": "repo",
+    "ecc": "repo",
+    "H": 0.003273752645902631,
+    "az": -50.802341588472345,
+    "sun": -15.948819238220565,
+    "moonTerm": -34.85352235025178,
+    "prov": -50.38481507,
+    "resid": 0.4175265184723429,
+    "flip": false,
+    "digit": 0.06479006599524695,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -73.44216018999576,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 73.44216018999576,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "h": "lit",
+    "ecc": "none",
+    "H": 0.0032737,
+    "az": -50.63740127485761,
+    "sun": -15.9418913851109,
+    "moonTerm": -34.69550988974671,
+    "prov": -50.38481507,
+    "resid": 0.2525862048576073,
+    "flip": false,
+    "digit": 0.06463090156564988,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -44.42945704816177,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 44.42945704816177,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "h": "lit",
+    "ecc": "repo",
+    "H": 0.0032737,
+    "az": -50.80152462536671,
+    "sun": -15.948562761914772,
+    "moonTerm": -34.85296186345194,
+    "prov": -50.38481507,
+    "resid": 0.4167095553667082,
+    "flip": false,
+    "digit": 0.06478902409260456,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": false,
+    "cNeedM": -73.29845785584733,
+    "dragP": 0.005685106720611114,
+    "fillP": true,
+    "cNeedP": 73.29845785584733,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "h": "repo",
+    "ecc": "none",
+    "H": 0.003273752645902631,
+    "az": -50.219682912639925,
+    "sun": -15.942147754131152,
+    "moonTerm": -34.277535158508776,
+    "prov": -50.38481507,
+    "resid": -0.1651321573600768,
+    "flip": true,
+    "digit": 0.0642481272229034,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": true,
+    "cNeedM": 29.046448110005947,
+    "dragP": 0.005685106720611114,
+    "fillP": false,
+    "cNeedP": -29.046448110005947,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "h": "repo",
+    "ecc": "repo",
+    "H": 0.003273752645902631,
+    "az": -50.38190955593029,
+    "sun": -15.948819238220565,
+    "moonTerm": -34.43309031770973,
+    "prov": -50.38481507,
+    "resid": -0.002905514069709625,
+    "flip": true,
+    "digit": 0.06440451050460894,
+    "signStable": false,
+    "dragM": -0.005685106720611114,
+    "fillM": true,
+    "cNeedM": 0.5110746750233917,
+    "dragP": 0.005685106720611114,
+    "fillP": false,
+    "cNeedP": -0.5110746750233917,
+    "width": 0.03470891607786797,
+    "inWidth": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "h": "lit",
+    "ecc": "none",
+    "H": 0.0032737,
+    "az": -50.21887531939062,
+    "sun": -15.9418913851109,
+    "moonTerm": -34.27698393427972,
+    "prov": -50.38481507,
+    "resid": -0.16593975060938249,
+    "flip": true,
+    "digit": 0.06424709403525952,
+    "signStable": true,
+    "dragM": -0.005685106720611114,
+    "fillM": true,
+    "cNeedM": 29.188502303356056,
+    "dragP": 0.005685106720611114,
+    "fillP": false,
+    "cNeedP": -29.188502303356056,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "h": "lit",
+    "ecc": "repo",
+    "H": 0.0032737,
+    "az": -50.381099353880316,
+    "sun": -15.948562761914772,
+    "moonTerm": -34.432536591965544,
+    "prov": -50.38481507,
+    "resid": -0.003715716119685908,
+    "flip": true,
+    "digit": 0.06440347480216957,
+    "signStable": false,
+    "dragM": -0.005685106720611114,
+    "fillM": true,
+    "cNeedM": 0.6535877516977362,
+    "dragP": 0.005685106720611114,
+    "fillP": false,
+    "cNeedP": -0.6535877516977362,
+    "width": 0.03470891607786797,
+    "inWidth": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   }
+  ],
+  "iMoonDeg": 5.145000000000013,
+  "lastDigit": {
+   "dMsun": 0.00005028916268544128,
+   "dMmoon": 0.00013620266957232362,
+   "daSun": 0.0006684491978609625,
+   "daMoon": 0.00026014568158168577
+  },
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate"
+  ]
+ },
+ "t1node": {
+  "rows": [
+   {
+    "nodeDeg": 0,
+    "az": -55.884295028896176,
+    "moonTerm": -39.94214727476502,
+    "resid": 5.499479958896174,
+    "flip": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 30,
+    "az": -55.17644543969709,
+    "moonTerm": -39.23429768556594,
+    "resid": 4.7916303696970886,
+    "flip": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 60,
+    "az": -53.19149986609433,
+    "moonTerm": -37.249352111963184,
+    "resid": 2.8066847960943306,
+    "flip": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 90,
+    "az": -50.35919380796622,
+    "moonTerm": -34.417046053835065,
+    "resid": -0.025621262033780567,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 120,
+    "az": -47.387376854511814,
+    "moonTerm": -31.445229100380658,
+    "resid": -2.997438215488188,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 150,
+    "az": -45.12340949025649,
+    "moonTerm": -29.181261736125336,
+    "resid": -5.26140557974351,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 180,
+    "az": -44.27604900573111,
+    "moonTerm": -28.33390125159996,
+    "resid": -6.108766064268892,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 210,
+    "az": -45.12340949025649,
+    "moonTerm": -29.181261736125336,
+    "resid": -5.26140557974351,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 240,
+    "az": -47.387376854511814,
+    "moonTerm": -31.445229100380658,
+    "resid": -2.997438215488188,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 270,
+    "az": -50.35919380796622,
+    "moonTerm": -34.417046053835065,
+    "resid": -0.025621262033780567,
+    "flip": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 300,
+    "az": -53.19149986609433,
+    "moonTerm": -37.24935211196318,
+    "resid": 2.8066847960943306,
+    "flip": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "nodeDeg": 330,
+    "az": -55.17644543969709,
+    "moonTerm": -39.23429768556594,
+    "resid": 4.7916303696970886,
+    "flip": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   }
+  ],
+  "zeros": [
+   89.74702352064858,
+   270.25297647935133
+  ],
+  "zerosEcc": [
+   91.34724005359678,
+   268.6527599464031
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate"
+  ]
+ },
+ "t2": {
+  "rows": [
+   {
+    "pole": "orbN",
+    "axis": "L",
+    "sense": "tide",
+    "grav": 46.12370413417875,
+    "drag": -0.0009785425002417937,
+    "prov": 44.58,
+    "resid": -1.5437041341787534,
+    "fill": true,
+    "cNeed": 1577.5545096889616,
+    "cNeed0": 31745.45009361927,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbN",
+    "axis": "L",
+    "sense": "anti",
+    "grav": 46.12370413417875,
+    "drag": -0.0009785425002417937,
+    "prov": -44.58,
+    "resid": -90.70370413417875,
+    "fill": true,
+    "cNeed": 92692.65679494374,
+    "cNeed0": 1865273.175827717,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbN",
+    "axis": "N",
+    "sense": "tide",
+    "grav": 46.12370413417875,
+    "drag": -0.0009785425002417937,
+    "prov": 44.58,
+    "resid": -1.5437041341787534,
+    "fill": true,
+    "cNeed": 1577.5545096889616,
+    "cNeed0": 31745.45009361927,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbN",
+    "axis": "N",
+    "sense": "anti",
+    "grav": 46.12370413417875,
+    "drag": -0.0009785425002417937,
+    "prov": -44.58,
+    "resid": -90.70370413417875,
+    "fill": true,
+    "cNeed": 92692.65679494374,
+    "cNeed0": 1865273.175827717,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbS",
+    "axis": "L",
+    "sense": "tide",
+    "grav": -46.12370413417875,
+    "drag": 0.0009785425002417937,
+    "prov": -44.58,
+    "resid": 1.5437041341787534,
+    "fill": true,
+    "cNeed": 1577.5545096889616,
+    "cNeed0": 31745.45009361927,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbS",
+    "axis": "L",
+    "sense": "anti",
+    "grav": -46.12370413417875,
+    "drag": 0.0009785425002417937,
+    "prov": 44.58,
+    "resid": 90.70370413417875,
+    "fill": true,
+    "cNeed": 92692.65679494374,
+    "cNeed0": 1865273.175827717,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbS",
+    "axis": "N",
+    "sense": "tide",
+    "grav": -46.12370413417875,
+    "drag": 0.0009785425002417937,
+    "prov": -44.58,
+    "resid": 1.5437041341787534,
+    "fill": true,
+    "cNeed": 1577.5545096889616,
+    "cNeed0": 31745.45009361927,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "orbS",
+    "axis": "N",
+    "sense": "anti",
+    "grav": -46.12370413417875,
+    "drag": 0.0009785425002417937,
+    "prov": 44.58,
+    "resid": 90.70370413417875,
+    "fill": true,
+    "cNeed": 92692.65679494374,
+    "cNeed0": 1865273.175827717,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.04601848871347536,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclN",
+    "axis": "L",
+    "sense": "tide",
+    "grav": -45.54530324531618,
+    "drag": 0.0014097744950394666,
+    "prov": -44.58,
+    "resid": 0.9653032453161785,
+    "fill": true,
+    "cNeed": 684.7217400462014,
+    "cNeed0": 13778.794768751024,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclN",
+    "axis": "L",
+    "sense": "anti",
+    "grav": -45.54530324531618,
+    "drag": 0.0014097744950394666,
+    "prov": 44.58,
+    "resid": 90.12530324531618,
+    "fill": true,
+    "cNeed": 63928.879095513155,
+    "cNeed0": 1286453.8298344924,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclN",
+    "axis": "N",
+    "sense": "tide",
+    "grav": -45.54530324531618,
+    "drag": 0.0014097744950394666,
+    "prov": -44.58,
+    "resid": 0.9653032453161785,
+    "fill": true,
+    "cNeed": 684.7217400462014,
+    "cNeed0": 13778.794768751024,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclN",
+    "axis": "N",
+    "sense": "anti",
+    "grav": -45.54530324531618,
+    "drag": 0.0014097744950394666,
+    "prov": 44.58,
+    "resid": 90.12530324531618,
+    "fill": true,
+    "cNeed": 63928.879095513155,
+    "cNeed0": 1286453.8298344924,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclS",
+    "axis": "L",
+    "sense": "tide",
+    "grav": 45.54530324531618,
+    "drag": -0.0014097744950394666,
+    "prov": 44.58,
+    "resid": -0.9653032453161785,
+    "fill": true,
+    "cNeed": 684.7217400462014,
+    "cNeed0": 13778.794768751024,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclS",
+    "axis": "L",
+    "sense": "anti",
+    "grav": 45.54530324531618,
+    "drag": -0.0014097744950394666,
+    "prov": -44.58,
+    "resid": -90.12530324531618,
+    "fill": true,
+    "cNeed": 63928.879095513155,
+    "cNeed0": 1286453.8298344924,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclS",
+    "axis": "N",
+    "sense": "tide",
+    "grav": 45.54530324531618,
+    "drag": -0.0014097744950394666,
+    "prov": 44.58,
+    "resid": -0.9653032453161785,
+    "fill": true,
+    "cNeed": 684.7217400462014,
+    "cNeed0": 13778.794768751024,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "closes": true,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "eclS",
+    "axis": "N",
+    "sense": "anti",
+    "grav": 45.54530324531618,
+    "drag": -0.0014097744950394666,
+    "prov": -44.58,
+    "resid": -90.12530324531618,
+    "fill": true,
+    "cNeed": 63928.879095513155,
+    "cNeed0": 1286453.8298344924,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.02162309606539894,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "L",
+    "axis": "L",
+    "sense": "tide",
+    "grav": 258.38181165417507,
+    "drag": -0.005798545364399662,
+    "prov": 44.58,
+    "resid": -213.80181165417508,
+    "fill": true,
+    "cNeed": 36871.628696192936,
+    "cNeed0": 741975.2797420981,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.007987185815963938,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "L",
+    "axis": "L",
+    "sense": "anti",
+    "grav": 258.38181165417507,
+    "drag": -0.005798545364399662,
+    "prov": -44.58,
+    "resid": -302.96181165417505,
+    "fill": true,
+    "cNeed": 52247.89884618614,
+    "cNeed0": 1051395.0897519893,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.007987185815963938,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "L",
+    "axis": "N",
+    "sense": "tide",
+    "grav": 258.38181165417507,
+    "drag": -0.005798545364399662,
+    "prov": 44.58,
+    "resid": -213.80181165417508,
+    "fill": true,
+    "cNeed": 36871.628696192936,
+    "cNeed0": 741975.2797420981,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.007987185815963938,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "pole": "L",
+    "axis": "N",
+    "sense": "anti",
+    "grav": 258.38181165417507,
+    "drag": -0.005798545364399662,
+    "prov": -44.58,
+    "resid": -302.96181165417505,
+    "fill": true,
+    "cNeed": 52247.89884618614,
+    "cNeed0": 1051395.0897519893,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "closes": false,
+    "sinPole": 0.007987185815963938,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   }
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "venus.prec.rate"
+  ]
+ },
+ "t3": {
+  "rows": [
+   {
+    "id": "Mars",
+    "venusSense": null,
+    "moon": null,
+    "u": 0.0487,
+    "resid": -0.14169040468885186,
+    "cNeed": 491.062313280777,
+    "fill": true,
+    "width": 0.006032882432724371,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 581326573596742.5,
+    "overU": 3106017405514.436,
+    "overI": 0.03480755934544299,
+    "mObs": 1.0922992900054616,
+    "mRule": 3.037414467908514e-18,
+    "uJ": 8.447271044956901e-13,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Mars",
+    "venusSense": null,
+    "moon": null,
+    "u": 0.98,
+    "resid": -0.14169040468885186,
+    "cNeed": 24.4027904660289,
+    "fill": true,
+    "width": 0.006032882432724371,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 28888371565391.633,
+    "overU": 154350048620.54962,
+    "overI": 0.001729722591957581,
+    "mObs": 1.0922992900054616,
+    "mRule": 3.037414467908514e-18,
+    "uJ": 8.447271044956901e-13,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "venusSense": "tide",
+    "moon": null,
+    "u": 0.0487,
+    "resid": -1.5437041341787534,
+    "cNeed": 31745.45009361927,
+    "fill": true,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "upperOnly": true,
+    "overUJ": 6713010555172221,
+    "overU": 90686669863.50838,
+    "overI": 0.009499410668676034,
+    "mObs": 1.2121212121212122,
+    "mRule": 6.086999844987228e-17,
+    "uJ": 4.728943866945081e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "venusSense": "tide",
+    "moon": null,
+    "u": 0.98,
+    "resid": -1.5437041341787534,
+    "cNeed": 1577.5545096889616,
+    "fill": true,
+    "width": 4.752083580525347,
+    "inWidth": true,
+    "upperOnly": true,
+    "overUJ": 333595524513609.6,
+    "overU": 4506572267.520217,
+    "overI": 0.00047206255055647853,
+    "mObs": 1.2121212121212122,
+    "mRule": 6.086999844987228e-17,
+    "uJ": 4.728943866945081e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "venusSense": "anti",
+    "moon": null,
+    "u": 0.0487,
+    "resid": -90.70370413417875,
+    "cNeed": 1865273.175827717,
+    "fill": true,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 394437580210207000,
+    "overU": 5328493129021.524,
+    "overI": 0.5581585976635595,
+    "mObs": 1.2121212121212122,
+    "mRule": 6.086999844987228e-17,
+    "uJ": 4.728943866945081e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "venusSense": "anti",
+    "moon": null,
+    "u": 0.98,
+    "resid": -90.70370413417875,
+    "cNeed": 92692.65679494374,
+    "fill": true,
+    "width": 4.752083580525347,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 19601132811674420,
+    "overU": 264793485074.07446,
+    "overI": 0.027737065005192584,
+    "mObs": 1.2121212121212122,
+    "mRule": 6.086999844987228e-17,
+    "uJ": 4.728943866945081e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "venusSense": null,
+    "moon": "fixed",
+    "u": 0.0487,
+    "resid": 5.499479958896153,
+    "cNeed": -19466.152284652624,
+    "fill": false,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 10938335200302686,
+    "overU": 35809403803760.805,
+    "overI": 1.4194942211692536,
+    "mObs": 1.2095554883580286,
+    "mRule": 8.245848299657664e-17,
+    "uJ": 1.7796266002265096e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "venusSense": null,
+    "moon": "fixed",
+    "u": 0.98,
+    "resid": 5.499479958896153,
+    "cNeed": -967.3485880147193,
+    "fill": false,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 543568290051180.4,
+    "overU": 1779508127783.8206,
+    "overI": 0.07054017201055895,
+    "mObs": 1.2095554883580286,
+    "mRule": 8.245848299657664e-17,
+    "uJ": 1.7796266002265096e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "venusSense": null,
+    "moon": "avg",
+    "u": 0.0487,
+    "resid": -0.1651321573600768,
+    "cNeed": 584.5075800421106,
+    "fill": true,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 328443944346367.3,
+    "overU": 1075244231834.6166,
+    "overI": 0.0426229652355875,
+    "mObs": 1.2095554883580286,
+    "mRule": 8.245848299657664e-17,
+    "uJ": 1.7796266002265096e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "venusSense": null,
+    "moon": "avg",
+    "u": 0.98,
+    "resid": -0.1651321573600768,
+    "cNeed": 29.046448110005947,
+    "fill": true,
+    "width": 0.03470891607786797,
+    "inWidth": false,
+    "upperOnly": false,
+    "overUJ": 16321653152582.084,
+    "overU": 53433055193.77062,
+    "overI": 0.002118100415260458,
+    "mObs": 1.2095554883580286,
+    "mRule": 8.245848299657664e-17,
+    "uJ": 1.7796266002265096e-12,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   }
+  ],
+  "spread": {
+   "0.0487": {
+    "c": 64.64648016160838,
+    "uJ": 11.547744176974328,
+    "u": 34.24998856159646,
+    "i": 3.664180922319704,
+    "mObs": 58.25597611504852
+   },
+   "0.98": {
+    "c": 64.64648015910613,
+    "uJ": 11.547744176527354,
+    "u": 34.24998856292216,
+    "i": 3.6641809224615316,
+    "mObs": 58.255976112793626
+   }
+  },
+  "spread3": {
+   "0.0487": {
+    "c": 64.64648016160838,
+    "uJ": 20.438831863780315,
+    "u": 34.24998856159646,
+    "i": 4.4869062642101785,
+    "mObs": 58.25597611504852
+   },
+   "0.98": {
+    "c": 64.64648015910613,
+    "uJ": 20.43883186310909,
+    "u": 34.24998856292216,
+    "i": 4.486906264357533,
+    "mObs": 58.255976112793626
+   }
+  },
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate",
+   "mars.prec.rate",
+   "venus.prec.rate"
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "provTop": true,
+  "t1": true,
+  "t1node": true,
+  "t2": true,
+  "t3": true
+ },
+ "ok": true,
+ "timing": {
+  "input": {
+   "wallSec": 0.052
+  },
+  "pure": {
+   "wallSec": 0.115
+  },
+  "t1": {
+   "wallSec": 0.125
+  },
+  "t1node": {
+   "wallSec": 0.153
+  },
+  "t2": {
+   "wallSec": 0.159
+  },
+  "t3": {
+   "wallSec": 0.198
+  }
+ },
+ "elapsedS": 0.512,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第353便m",
+  "target": "tests/lib-w353m-residsign.mjs",
+  "targetSha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+  "generatedAt": "2026-11-25T05:42:45.192Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w353m-residsign.mjs",
+    "bytes": 14237,
+    "sha256": "7d56627248d838dc20e7b9420ef4bb83ce82a2138769749c2f287001563a6828",
+    "mtime": "2026-11-25T05:39:06.574Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-25T05:30:09.235Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-25T05:30:09.235Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-25T05:30:09.235Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-25T05:30:09.243Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-25T05:30:09.243Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w318d-dragest.mjs",
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-11-25T05:30:09.247Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-25T05:30:09.251Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-25T05:30:09.255Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-25T05:30:09.259Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-25T05:30:09.263Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-25T05:30:09.267Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351g-r3energy.mjs",
+    "bytes": 26339,
+    "sha256": "4bde20de253d5e8bcf9b3e53587fba5dcebe6ba4f52f58482af36808d201842f",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-25T05:30:09.271Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352i-stableprec.mjs",
+    "bytes": 23435,
+    "sha256": "fb799e95727ceac3b5eebe0421f94ee026a516e79480f3e557bb8dedf0e0ecb2",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352n-venuslong.mjs",
+    "bytes": 25425,
+    "sha256": "b964fdbc2c93b26466d4d76ef2a7a65bfea07e67493ce9e27378baa2028a655c",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352o-obsradius.mjs",
+    "bytes": 19068,
+    "sha256": "27f44ff076d17fdc0dfc9212e52223889c6dd14b52463c35677ca54c2f988112",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352p-coprec.mjs",
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352u-tidaldrag.mjs",
+    "bytes": 25911,
+    "sha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
+    "mtime": "2026-11-25T05:30:09.275Z"
+   },
+   {
+    "file": "tests/lib-w352w-keepcone.mjs",
+    "bytes": 30717,
+    "sha256": "57adb0c0b4f55dee929bb0f3c1bc693fe2d0f9e442e54ded1bb6abb53acaffc6",
+    "mtime": "2026-11-25T05:30:09.279Z"
+   },
+   {
+    "file": "tests/lib-w352y-bgwindow.mjs",
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-25T05:30:09.279Z"
+   },
+   {
+    "file": "tests/lib-w353c-recvradius.mjs",
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T05:30:09.279Z"
+   },
+   {
+    "file": "tests/lib-w353f-ratesum.mjs",
+    "bytes": 21288,
+    "sha256": "24e003450ac21b263edfa23c33a2fb671bab7f56cc498d8362a0d70a3ef15073",
+    "mtime": "2026-11-25T05:30:09.279Z"
+   },
+   {
+    "file": "tests/lib-w353m-residsign.mjs",
+    "bytes": 22856,
+    "sha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+    "mtime": "2026-11-25T05:39:06.573Z"
+   }
+  ],
+  "codeSha256": "043721e35c880f40522c5623202a2e46a8af7ec679d5548208977776106191e5",
+  "harnessVersion": "w353m-residsign-1",
+  "stage": "residsign",
+  "engine": "Node(html を読まない —— 純関数の lib・第353便f・c・第352便u・y・q・d・c・b の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "残りの符号の表 —— 歳差の率の答えとは書かない・地球の残りが何から来るかは数えていない(読み切ったとは書かない)(この入力・この定義・このノブでは、の数)",
+   "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の式ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+   "月の道の置き方・慣性モーメントの係数の置き方・離心率の倍は、リポジトリに在る数とその定義の候補 —— 外の数は使っていない(力学的偏平率・離心率は第330便b の器の入力 —— 文献の値・未照合)",
+   "金星の仮の値は大きさだけ —— 回る向きは「重力の列と同じ回り」「逆の回り」の 2 列で持つ(どちらにも寄せない)",
+   "要る応答の係数 c は単位の応答 1 からの倍 —— 残りが幅の内の天体は上限としてだけ読む",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 6,
+   "kept": 496,
+   "zeroPathsHead": [
+    "/pure/scenes/gravErr",
+    "/pure/scenes/node0",
+    "/pure/scenes/tr/0",
+    "/pure/scenes/arith/1",
+    "/pure/scenes/arith/2",
+    "/pure/scenes/arith/3"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
