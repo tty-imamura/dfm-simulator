@@ -1816,6 +1816,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.massradius353zb docs.massradius353z
 #   docs.dirgeo353zc —— 原文と表と数の文が PHYSICS〔第353便zc〕に逐語・文書)と、新しい段 dirgeo-353zc
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dirgeo353zc docs.dirgeo353zc"
 # ==== 第353便zc の塊(ここまで)====
+# ==== 第353便ze の塊(ここから)====
+# 第353便ze(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R494 —— 診断だけ・html は変えない): 枝 ze の新設 2 本
+#   (behavior.formwave353ze —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形と組の数と揺れ 0 の行を QA の中で別に照合・呼ぶだけ /
+#   docs.formwave353ze —— 原文と表と数の文が PHYSICS〔第353便ze〕に逐語・文書)と、新しい段 formwave-353ze
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.formwave353ze docs.formwave353ze"
+# ==== 第353便ze の塊(ここまで)====
 # ==== 第353便zg の塊(ここから)====
 # 第353便zg(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・AN1034・統括の検証項目 R495 —— 診断だけ・html は変えない): 枝 zg の新設 2 本
 #   (behavior.equalradius353zg —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・a★ の冪と閉じた形と見込みを QA の中で別に照合・呼ぶだけ /

@@ -3481,6 +3481,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/dirgeo-353zc.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zc: 零試験 8/法線の並び 3 × 8/1/3 の由来 3/太陽の位相 2 × 3600/交点 5 × 3600・時間 11/見込み 8 + 3/置き方 24・端 3/衛星の道 11' }),
   // ==== 第353便zc の塊(ここまで)====
+  // ==== 第353便ze の塊(ここから)====
+  // ---- 第353便ze(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R494): **形成の段階の題の続き —— 始めの背景が上下の揺れで回る形と、替わる幅のノブ 1 つで作る段と保つ段をつなぐ条件のノブの走査の表**
+  //   (段 formwave-353ze —— 正本 tests/out/formwave-353ze.json・lib tests/lib-w353ze-formwave.mjs —— 第353便w・第352便x・r・c・b・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に obpower-353z)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便ze の枝の実測 174〜196 s(settleRun で 3 回・nice 15 で並行の枝と同時 —— 札の待ちを除く)
+  S('formwave-353ze', 'node tests/exp-w353ze-formwave.mjs', ['tests/out/formwave-353ze.json'], 190, { secSource: 'w353ze-branch', node: true,
+    after: ['obpower-353z'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/formwave-353ze.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便ze: 零試験 8/替わる幅 12 行 × x 12/上下の揺れ 51 列 × 24 組/方位の位相 6 × 240 組/2 つのノブの面 40 × 24 組' }),
+  // ==== 第353便ze の塊(ここまで)====
   // ==== 第353便zg の塊(ここから)====
   // ---- 第353便zg(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・AN1034・統括の検証項目 R495): **局所の項が金星の局所の項と同じ大きさになる半径 a★(等大の半径)—— 木星・土星の衛星と環の半径と並べる・入力の幅・閉じた形・偶然の並びの見込み・a★ の内と外の合成の軸**
   //   (段 equalradius-353zg —— 正本 tests/out/equalradius-353zg.json・lib tests/lib-w353zg-equalradius.mjs —— 第353便z・p・d・第352便v・k・第351便c・第348便h・c・第338便d・第337便c・第312便a・第334便a・第347便e の lib を import して呼ぶ。
