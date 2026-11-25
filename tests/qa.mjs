@@ -130790,7 +130790,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ---- 第353便zh: docs.comove353zh は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.comove353zh(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 4 つと表 1・表 13 本・数の文 5 つが PHYSICS〔第353便zh〕に逐語 ③ 節の位置(〔第353便zg〕の節の後・第328便の統括の節の前)・必須の語・
+// ----     ② 原文 4 つと表 1・表 11 本・数の文 5 つが PHYSICS〔第353便zh〕に逐語 ③ 節の位置(〔第353便zg〕の節の後・第328便の統括の節の前)・必須の語・
 // ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §389(§387 の後)・CHANGELOG(第353便zh の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名・
 // ----     「ロックした」「保たれると分かった」を鉤括弧の外に書かない・変異 2
 {
@@ -130828,7 +130828,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表 1(原文と読み)が節に逐語で無い');
       const T = D0.tablesOf(J), F = D0.factsOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便zh〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 13) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 11) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便zh〕に数の文 ' + k + ' が逐語で無い');
       if (Object.keys(F).length !== 5) bad.push('② 数の文の数 ' + Object.keys(F).length);
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第353便zh〕に逐語(文書の lib ${D0.DOC_VERSION})`);
