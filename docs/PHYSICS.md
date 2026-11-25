@@ -80750,7 +80750,7 @@ a★ を観測の半径の 1〜30 倍に対数で一様に置くと、或る構�
 
 〔第354便a — 論文 2・3 の前置きの 1 塊と、論文の検査 4 本に組版の段だけを ubuntu-latest で回す job: 原仮定者の指示(2026-11-25 —— 第156報)「TeX Live 2025対応の修正を先行して進める」・統括の検証項目 R503(**論文 2・3 の前置きと検査の設定と戻り止めと文書だけ —— html・計算・論文の本文は 1 字も変えていない・beta/index.html と root の index.html は 1 byte も変えていない・既存の job と `runs-on: ubuntu-24.04`〔第348便f〕と図の再生成と照合は変えていない・器と段と正本は足していない**)〕
 
-**① 事実。** (i) 2026-11-22 の走行で、`ubuntu-latest` に入る TeX が TeX Live 2025(LaTeX2e 2025-11-01)になり、論文 2・3 の英語版(`dfm-paper2.tex`・`dfm-paper3.tex`)の pdflatex が最初の p 列の表で止まった(`! Extra \or.` —— 〔第348便f〕で検査 4 本を `ubuntu-24.04` に固定した件)。(ii) 手元の 2 つの TeX の木(Ubuntu 24.04 の TeX Live 2023 のマクロ・Ubuntu 26.04 の TeX Live 2025 のマクロ —— 実行ファイルはどちらも TeX Live 2023 のもの)で再現した: 新しい版の木では、直しの前の論文 2 が 161 行・論文 3 が 311 行(直しの前の行番号)の `\begin{tabular}` で、CI と同じ字面で止まる。前の版の木では通る。(iii) 止まる条件: `revtex4-2` のクラスで `array` を読み(`tabularx` も内で `array` を読む)、p・m 列か X 列の表がある文書。論文 1・4・5 の英語版は `array` を読まないので当たらない。日本語版 5 本は `ltjsarticle` で当たらない。
+**① 事実。** (i) 2026-11-22 の走行で、`ubuntu-latest` に入る TeX が TeX Live 2025(LaTeX2e 2025-11-01)になり、論文 2・3 の英語版(`dfm-paper2.tex`・`dfm-paper3.tex`)の pdflatex が最初の p 列の表で止まった(`! Extra \or.` —— 〔第348便f〕で検査 4 本を `ubuntu-24.04` に固定した件)。(ii) 手元の 2 つの TeX の木(Ubuntu 24.04 の TeX Live 2023 のマクロ・Ubuntu 26.04 の TeX Live 2025 のマクロ —— 実行ファイルはどちらも TeX Live 2023 のもの)で同じ止まり方を確かめた: 新しい版の木では、直しの前の論文 2 が 161 行・論文 3 が 311 行(直しの前の行番号)の `\begin{tabular}` で、CI と同じ字面で止まる。前の版の木では通る。(iii) 止まる条件: `revtex4-2` のクラスで `array` を読み(`tabularx` も内で `array` を読む)、p・m 列か X 列の表がある文書。論文 1・4・5 の英語版は `array` を読まないので当たらない。日本語版 5 本は `ltjsarticle` で当たらない。
 **版の表(手元の木の .log の頭と `\Provides…` の行から読んだ)。**
 
 | | TeX Live 2023(Ubuntu 24.04) | TeX Live 2025(Ubuntu 26.04 のマクロ) |
