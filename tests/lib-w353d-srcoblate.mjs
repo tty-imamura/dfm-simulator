@@ -5,7 +5,7 @@
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
 //   第352便k(spinRot・srcRadius・recvRadius・DECL —— 扁平率 0 で同じ数になることを零試験で見る)・第352便s(ringRot・satParts・cancelRow・uVt・saturnSpin)・
 //   第352便c(refAxis)・第352便d(bgVec)・第351便c(pairInput・PARENT_ROWS)・第348便h(rot3・YK)・第350便b(equivR)・第347便h(gaussLegendre)・第348便c(massOf・radiusOf)・
-//   第312便a(Kball・KballDr・Mball・MballDr)・第334a(LIT334A —— 天体の扁平率 f と赤道半径・衛星の軌道の半径〔文献の値・未照合〕)・第330便a(DECL.lit.J2・J2Ref〔文献の値・未照合〕)・
+//   第312便a(Kball・KballDr・Mball・MballDr)・第334便a(LIT334A —— 天体の扁平率 f と赤道半径・衛星の軌道の半径〔文献の値・未照合〕)・第330便a(DECL.lit.J2・J2Ref〔文献の値・未照合〕)・
 //   第338便d(centerKm —— 土星の環の区分の中心)・第348便d(DECL.C.centers)・第347便e(t1Table・geometry)。
 //
 // ■ 場(第348便h の makeField3 と同じ式 —— 源の項だけに扁平の因子を足す。因子が 1・勾配が 0 なら同じ数): 源の項 T_j = s_j(r)(Ω_j × ρ)・重み w_j = m_j K(r)。
@@ -62,7 +62,7 @@ export const DECL = Object.freeze({
   rings: DA.DECL.C.centers,
   /** 点検の数(共通ブリーフ 353 の統括の数え直し 3・第352便s の DECL.anchor) */
   anchor: Object.freeze({ uV: 1.19282e-12, venusPhiRuleDeg: '0.7606', venusResRule: '0.013274', venusPhiCR1Deg: '52.06', venusResCR1: '0.87772', ioNpRes: 0.120, ioEqOverUV: '0.894' }),
-  litSrc: '扁平率 f と赤道半径 = 第334a の lib の LIT334A(文献の値・未照合)・J2 と参照の半径 = 第330便a の lib の DECL.lit(文献の値・未照合)',
+  litSrc: '扁平率 f と赤道半径 = 第334便a の lib の LIT334A(文献の値・未照合)・J2 と参照の半径 = 第330便a の lib の DECL.lit(文献の値・未照合)',
   judge: '丸めの桁の床: 逐語の表は有効数字 3 桁・扁平の項 ÷ 球の項は直接に数える(大きい数の差で作らない)',
 });
 export const ringR = (key) => RB.centerKm(key) * 1e3;
@@ -226,19 +226,101 @@ export function obSatParts(T1, GEO, key, { tSrc = 0, part = 'S', read = 'C2', ob
 }
 /**
  * 打ち消し(第352便s の cancelRow と同じ式 —— 局所の (S) と背景)+ 扁平。key 'Venus|Sun' は太陽由来だけ(ob = obSun)。
- * 返す { uV, uEq, eqOverUV, resEq(大きさが同じ倍率での残り), resMin, resAtUV(倍率 = 球の (uV) での残り —— 共通ブリーフ 353 のイオの「残り 0.120」), cosLocBg, phiDeg(−局所と背景の向きの角)}。uV は球の (uV)(t)を使う(扁平で物差しを動かさない)。
+ * 返す { uV, uEq, eqOverUV, resEq(大きさが同じ倍率での残り), resMin, resAtUV(倍率 = 球の (uV) での残り —— 共通ブリーフ 353 のイオの「残り 0.120」), cosLocBg, phiDeg(−局所と背景の向きの角)}。uV は球の (uV)(t・c_R —— 金星の球の (S) と大きさが同じ倍率)を使う(扁平で物差しを動かさない)。
  */
 export function obCancel(T1, GEO, key, { tSrc = 0, bg = 'Np', axis = 'L', part = 'S', cR = null, obPar = null, obSun = null } = {}) {
   let loc;
   if (key.endsWith('|Sun')) { const [id] = key.split('|'); loc = obRot(T1, GEO, id, 'Sun', { part, tSrc, cR, ob: obSun }).Om; }
   else { const P = obSatParts(T1, GEO, key, { tSrc, part, obPar, obSun }); loc = add(P.sun, P.parent); }
-  const b1 = S.bgOf(T1, GEO, bg, axis, 1), uV = S.uVt(T1, GEO, tSrc), uEq = nrm(loc) / nrm(b1), uMin = S.uForMin(b1, loc);
+  const b1 = S.bgOf(T1, GEO, bg, axis, 1), uV = cR === null ? S.uVt(T1, GEO, tSrc) : nrm(K.spinRot(T1, GEO, 'Venus', 'Sun', { part: 'S', tSrc, cR }).Om) / nrm(PS.bgVec('Gm', { u: 1 })), uEq = nrm(loc) / nrm(b1), uMin = S.uForMin(b1, loc);
   const resEq = nrm(add(scl(b1, uEq), loc)) / (uEq * nrm(b1)), resMin = nrm(add(scl(b1, uMin), loc)) / nrm(loc), cosLB = dot(unit(loc), unit(b1));
   const phiDeg = Math.atan2(nrm(crs(scl(loc, -1), b1)), dot(scl(loc, -1), b1)) / D2R, resAtUV = nrm(add(scl(b1, uV), loc)) / (uV * nrm(b1));
   return { key, tSrc, bg, axis, uV, uEq, eqOverUV: uEq / uV, resEq, resMin, resAtUV, cosLocBg: cosLB, phiDeg, loc };
 }
 /** 扁平の項 ÷ 球の項(直接に数える: abs(Ω_扁平 − Ω_球) ÷ abs(Ω_球))と向きの変化(°) */
 export function obRatio(Om1, Om0) { return { ratio: rel(Om1, Om0), dirDeg: Math.atan2(nrm(crs(Om1, Om0)), dot(Om1, Om0)) / D2R }; }
+
+/* ───────── 表(T2〜T4)───────── */
+/** 一次の係数: 四重極の項 ÷ 球の項 = c_lin × ε × (R_q ÷ a)²・向きの変化(°)= d_lin × ε × (R_q ÷ a)²。ε (R_q/a)² = AMP で数えて割る(差の丸めを避ける —— 一次の比例は零試験 ⑦)。 */
+export const AMP = 1e-6;
+const ampSpec = (model, a) => { const Rq = 0.1 * a, e = AMP / 0.01; return model === 'O3' ? { model: 'O3x', epsW: 0, epsS: e, sigma: 1, Rq } : { model: 'O1x', epsW: e, epsS: e, sigma: 1, Rq }; };
+/** 受け手の行の素: 実在の組(obRot)か円の道(circRot)。fn(ob) → Om */
+function linOf(fn, a, model = 'O1') { const O0 = fn(null), r = obRatio(fn(ampSpec(model, a)), O0); return { cLin: r.ratio / AMP, dLin: r.dirDeg / AMP, O0 }; }
+/** 源の数: 規則の半径・観測の赤道半径・扁平率 f・J2(リポジトリの数 —— 無ければ null) */
+export function srcRow(src) { const L = litOf(src); return { src, Rrule: K.srcRadius(src, 0), Req: L.Req, ruleOverObs: K.srcRadius(src, 0) / L.Req, f: L.f, J2: L.J2, j2Geo: L.f === null ? null : j2Geo(L.f) }; }
+/**
+ * 受け手の 1 行(源 src・距離 a・fn): c_lin(重みと回転の分子の四重極 —— (O1) の形)・c_lin3(回転の分子だけ —— (O3) の形)・(R_q/a)²(規則・観測)・
+ * 四重極の項 ÷ 球の項(O1 の J2 = リポジトリの J2/幾何の J2〔f〕/ノブ 0.1 × 規則・観測)・(O2b) の σ − 1(f)・向きの変化。
+ */
+function recvRow(base, src, a, fn) {
+  const sr = srcRow(src), l1 = linOf(fn, a, 'O1'), l3 = linOf(fn, a, 'O3'), x2 = { rule: (sr.Rrule / a) ** 2, obs: (sr.Req / a) ** 2 };
+  const q = (eps, rq) => (eps === null ? null : l1.cLin * eps * x2[rq]);
+  const sig = (f) => (f === null ? null : Math.pow(1 - f, -2 / 3) - 1);
+  return { ...base, src, a, cLin: l1.cLin, dLin: l1.dLin, cLin3: l3.cLin, x2rule: x2.rule, x2obs: x2.obs,
+    quad: { J2obs: q(sr.J2, 'obs'), J2rule: q(sr.J2, 'rule'), geoObs: q(sr.j2Geo, 'obs'), geoRule: q(sr.j2Geo, 'rule'), k01obs: q(0.1, 'obs'), k01rule: q(0.1, 'rule') },
+    dirDeg: { J2obs: sr.J2 === null ? null : l1.dLin * sr.J2 * x2.obs, geoObs: sr.j2Geo === null ? null : l1.dLin * sr.j2Geo * x2.obs, k01obs: l1.dLin * 0.1 * x2.obs },
+    sigma: { lit: sig(sr.f), k01: sig(0.1) }, magAsYr: nrm(l1.O0) * ASYR };
+}
+/** 表 1(遠い場 —— 太陽 → 8 惑星)。太陽の J2 はリポジトリに無い —— ノブ 0.1 と幾何の J2(f 9e-6)の列 */
+export function farRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  return DECL.planets.map((id) => { const a = SP.pairInput(T1, GEO, id, 'Sun').a; return recvRow({ id, kind: 'pair' }, 'Sun', a, (ob) => obRot(T1, GEO, id, 'Sun', { ob }).Om); });
+}
+/** 表 2(近い場): 実在の組(イオ ← 木星・月 ← 地球)と円の道(ガリレオ衛星 4・タイタン —— LIT334A の軌道の半径・公転面 = 母天体の赤道面)と土星の環 5 区分 */
+export function nearRows(T1 = E.t1Table(), GEO = E.geometry()) {
+  const out = [];
+  for (const key of DECL.nearPairs) { const [id, src] = key.split('|'), a = SP.pairInput(T1, GEO, id, src).a; out.push(recvRow({ id: key, kind: 'pair' }, src, a, (ob) => obRot(T1, GEO, id, src, { ob }).Om)); }
+  const host = { jupiter: 'Jupiter', saturn: 'Saturn' }, spinOf = (src) => { const r2 = T1.find((r) => r.id === src && r.src === 'Sun' && r.mag === 'm2'), ax = unit(GEO[src + '|Sun'].w); return { ax, vec: scl(ax, Math.abs(r2.omega)) }; };
+  const wSunOf = (src) => K.spinRot(T1, GEO, src, 'Sun', { part: 'M', read: 'W', nPhase: 1 }).wS;
+  for (const mk of DECL.circMoons) {
+    const M = LIT334A.moons.find((x) => x.key === mk), src = host[M.host], sp = spinOf(src), Ms = C.massOf(src), Rs = K.srcRadius(src, 0), ex = wSunOf(src);
+    out.push(recvRow({ id: mk, kind: 'circ', name: M.name }, src, M.a, (ob) => circRot({ Ms, Rs, spinVec: sp.vec, L: sp.ax, r: M.a, m: M.m, extraW: ex, ob }).Om));
+  }
+  { const src = 'Saturn', sp = spinOf(src), Ms = C.massOf(src), Rs = K.srcRadius(src, 0), ex = wSunOf(src);
+    for (const rk of DECL.rings) { const r = ringR(rk); out.push(recvRow({ id: rk, kind: 'ring' }, src, r, (ob) => circRot({ Ms, Rs, spinVec: sp.vec, L: sp.ax, r, extraW: ex, ob }).Om)); } }
+  return out;
+}
+/** 打ち消しの候補の列(源ごとの扁平の仕様 —— obSun・obPar の引数) */
+export const CANCEL_COLS = Object.freeze([
+  Object.freeze({ id: 'O0', label: '(O0) 球(対照)', sun: null, par: null }),
+  Object.freeze({ id: 'O1litObs', label: '(O1) J2 = リポジトリの値・観測の赤道半径', sun: null, par: { model: 'O1', J2: 'lit', rq: 'obs' } }),
+  Object.freeze({ id: 'O1k01Obs', label: '(O1) J2 = 0.1(ノブ)・観測の赤道半径', sun: { model: 'O1', J2: 0.1, rq: 'obs' }, par: { model: 'O1', J2: 0.1, rq: 'obs' } }),
+  Object.freeze({ id: 'O1k01Rule', label: '(O1) J2 = 0.1(ノブ)・規則の半径', sun: { model: 'O1', J2: 0.1, rq: 'rule' }, par: { model: 'O1', J2: 0.1, rq: 'rule' } }),
+  Object.freeze({ id: 'O2bLitRule', label: '(O2b) f = リポジトリの値(太陽 9e-6・木星 0.0649)・規則の半径', sun: { model: 'O2b', f: 'lit', rq: 'rule' }, par: { model: 'O2b', f: 'lit', rq: 'rule' } }),
+  Object.freeze({ id: 'O2bLitObs', label: '(O2b) f = リポジトリの値・観測の赤道半径', sun: { model: 'O2b', f: 'lit', rq: 'obs' }, par: { model: 'O2b', f: 'lit', rq: 'obs' } }),
+  Object.freeze({ id: 'O2bK01Par', label: '(O2b) f = 0.1(ノブ)を母天体だけ・規則の半径', sun: null, par: { model: 'O2b', f: 0.1, rq: 'rule' } }),
+  Object.freeze({ id: 'O3e01Par', label: '(O3) η = 0.1(ノブ)を母天体だけ・規則の半径', sun: null, par: { model: 'O3', eta: 0.1, rq: 'rule' } }),
+  Object.freeze({ id: 'O3e1Both', label: '(O3) η = 1(ノブ)を全部の源に・規則の半径', sun: { model: 'O3', eta: 1, rq: 'rule' }, par: { model: 'O3', eta: 1, rq: 'rule' } }),
+]);
+/**
+ * 表 3(金星とイオの打ち消し —— (N+)・基準軸 L): 列ごとに、金星(太陽の扁平 = sun)の φ・等大の残り・(uV) での残り と、
+ * イオ(母天体の扁平 = par・太陽の扁平 = sun)の x = 等大の倍率 ÷ 金星の条件の倍率(金星の側も同じ太陽の扁平で数え直す)・等大の残り・金星の条件での残り。
+ */
+export function cancelRows(T1 = E.t1Table(), GEO = E.geometry(), { axis = 'L' } = {}) {
+  return CANCEL_COLS.map((c) => {
+    const v = obCancel(T1, GEO, 'Venus|Sun', { axis, obSun: c.sun }), io = obCancel(T1, GEO, 'Io|Jupiter', { axis, obSun: c.sun, obPar: c.par });
+    const b1 = nrm(S.bgOf(T1, GEO, 'Np', axis, 1)), uVob = nrm(v.loc) / b1, resIoAtV = nrm(add(scl(unit(S.bgOf(T1, GEO, 'Np', axis, 1)), uVob * b1), io.loc)) / (uVob * b1);
+    return { id: c.id, label: c.label, venus: { phiDeg: v.phiDeg, resEq: v.resEq, resAtUV: v.resAtUV, overUV: v.eqOverUV }, io: { phiDeg: io.phiDeg, xSph: io.eqOverUV, x: io.uEq / uVob, resEq: io.resEq, resAtVenus: resIoAtV } };
+  });
+}
+/**
+ * 表 3b(範囲): イオの母天体由来 (S) だけを倍 m(σ の形 —— 向きは変えない)にしたとき、金星の条件(球)での残りが球の値以下に留まる m の範囲と、残りが最小の m。
+ * その m を (O2b) の f(σ = (1 − f)^(−2/3))・(O3) の η(σ = 1 + 1.5 η —— 四重極の分を除く)に読み替える。
+ */
+export function ioRange(T1 = E.t1Table(), GEO = E.geometry(), { axis = 'L', lo = 0.5, hi = 2, n = 301 } = {}) {
+  const base = obCancel(T1, GEO, 'Io|Jupiter', { axis }), res0 = base.resAtUV, pts = [];
+  for (let i = 0; i < n; i++) { const m = lo + (hi - lo) * i / (n - 1), c = obCancel(T1, GEO, 'Io|Jupiter', { axis, obPar: { model: 'O1x', epsW: 0, epsS: 0, sigma: m, Rq: 1 } }); pts.push({ m, res: c.resAtUV }); }
+  const inside = pts.filter((p) => p.res <= res0 * (1 + 1e-12)), best = pts.reduce((b, p) => (p.res < b.res ? p : b), pts[0]);
+  const fOf = (m) => (m >= 1 ? 1 - Math.pow(m, -1.5) : null), etaOf = (m) => (m >= 1 ? (m - 1) / 1.5 : null);
+  const mLo = Math.min(...inside.map((p) => p.m)), mHi = Math.max(...inside.map((p) => p.m));
+  return { res0, mLo, mHi, mBest: best.m, resBest: best.res, mPred: 1 / base.eqOverUV, f: { lo: fOf(Math.max(1, mLo)), hi: fOf(mHi), best: fOf(best.m) }, eta: { lo: etaOf(Math.max(1, mLo)), hi: etaOf(mHi), best: etaOf(best.m) },
+    jupF: litOf('Jupiter').f, jupSigma: Math.pow(1 - litOf('Jupiter').f, -2 / 3), quadIoJ2: null, step: (hi - lo) / (n - 1), n };
+}
+/** 表 4(四重極の項の半径): 源 4 つの規則の半径と観測の赤道半径・その比、代表の受け手での (R_q/a)² と項(J2 = リポジトリの値か幾何の J2) */
+export const T4_ROWS = Object.freeze([['Sun', 'Venus'], ['Sun', 'Earth'], ['Jupiter', 'Io|Jupiter'], ['Earth', 'Moon|EarthHi'], ['Saturn', 'ringB']]);
+export function radiusRows(far, near) {
+  return T4_ROWS.map(([src, at]) => { const r = far.find((x) => x.id === at) || near.find((x) => x.id === at), sr = srcRow(src), eps = sr.J2 !== null ? sr.J2 : sr.j2Geo;
+    return { src, at, Rrule: sr.Rrule, Req: sr.Req, ruleOverObs: sr.ruleOverObs, eps, epsKind: sr.J2 !== null ? 'J2' : 'j2Geo', x2rule: r.x2rule, x2obs: r.x2obs, termRule: r.cLin * eps * r.x2rule, termObs: r.cLin * eps * r.x2obs, cLin: r.cLin }; });
+}
 
 /* ───────── 零試験 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
@@ -281,11 +363,17 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const ident = a.epsW === b1.epsW && a.epsS === b1.epsS && a.sigma === 1 && Math.abs(b.sigma / Math.pow(1 - f, -2 / 3) - 1) < 1e-15 && o3.epsS === 0.5 && o3.sigma === 2.5 && o3.epsW === 0;
   // ⑨ リポジトリの数: LIT334A と第330便a の値と同じ・太陽の J2 は無い(null)
   const lit = { sunF: litOf('Sun').f === 9e-6, jupF: litOf('Jupiter').f === 0.06487, jupJ2: litOf('Jupiter').J2 === W330.DECL.lit.J2.jupiter, sunJ2: litOf('Sun').J2 === null, earthHi: litOf('EarthHi').f === litOf('Earth').f };
-  // ⑩ 拒否
+  // ⑩ 一次の係数の照合: イオの実在の組(obRot)と赤道の円の道(circRot)で c_lin が同じ(相対 1e-4)・赤道の円の道の c_lin が 1.5(相対 1e-5)・
+  //    一次の予測(c_lin × J2 × (R_eq/a)²)と、扁平の項を直接に数えた値(イオ・木星の J2・観測の赤道半径)が相対 1e-2 で同じ(二次の分は J2 (R/a)² の桁)
+  const aIo = SP.pairInput(T1, GEO, 'Io', 'Jupiter').a, spJ = (() => { const r2 = T1.find((r) => r.id === 'Jupiter' && r.src === 'Sun' && r.mag === 'm2'), ax = unit(GEO['Jupiter|Sun'].w); return { ax, vec: scl(ax, Math.abs(r2.omega)) }; })();
+  const fPair = (o) => obRot(T1, GEO, 'Io', 'Jupiter', { ob: o }).Om, fCirc = (o) => circRot({ Ms: C.massOf('Jupiter'), Rs: K.srcRadius('Jupiter', 0), spinVec: spJ.vec, L: spJ.ax, r: aIo, m: C.massOf('Io'), ob: o }).Om;
+  const lp = linOf(fPair, aIo), lc = linOf(fCirc, aIo), spIo = specFor('Jupiter', { model: 'O1', J2: 'lit', rq: 'obs' }), direct = obRatio(fPair(spIo), fPair(null)).ratio, pred = lp.cLin * spIo.epsW * (spIo.Rq / aIo) ** 2;
+  const linChk = { circVsPair: Math.abs(lc.cLin / lp.cLin - 1), eq15: Math.abs(lc.cLin / 1.5 - 1), direct: Math.abs(direct / pred - 1) };
+  // ⑪ 拒否
   const rejects = [() => obSpec({ model: 'O9' }), () => obSpec({ f: 1 }), () => obSpec({ eta: 2 }), () => obSpec({ J2: -1 }), () => specFor('Sun', { J2: 'lit' }), () => specFor('Sun', { rq: 'x' }),
     () => obRot(T1, GEO, 'Earth', 'Sun', { part: 'X' }), () => makeFieldOb({ sources: [{ m: 1, R: 1, p: [2, 0, 0], v: [0, 0, 0], spin: [0, 0, 1], ob: obSpec({ model: 'O1', J2: 0.1 }) }], recv: { m: 1, R: 1, p: [0, 0, 0], v: [0, 0, 0] }, kernel: { kind: 'ball', al: 2 } })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { vsSpin, zeroOb, vsT, vsRing, vsSat, vsCancel, venus: { phiRule: vR.phiDeg, resRule: vR.resEq, phiCR1: v1.phiDeg, resCR1: v1.resEq, ioRes: c0.resAtUV, ioEq: c0.eqOverUV }, uV, fd, lin, ident, lit, rejects };
+  return { vsSpin, zeroOb, vsT, vsRing, vsSat, vsCancel, venus: { phiRule: vR.phiDeg, resRule: vR.resEq, phiCR1: v1.phiDeg, resCR1: v1.resEq, ioRes: c0.resAtUV, ioEq: c0.eqOverUV }, uV, fd, lin, ident, lit, linChk, rejects };
 }
 export function pureGates(Sx) {
   const A = DECL.anchor;
@@ -298,6 +386,7 @@ export function pureGates(Sx) {
     linear: Sx.lin.eps < 1e-4 && Sx.lin.rq < 1e-4,
     identities: Sx.ident === true,
     litValues: Object.values(Sx.lit).every(Boolean),
+    linCoeff: Sx.linChk.circVsPair < 1e-4 && Sx.linChk.eq15 < 1e-5 && Sx.linChk.direct < 1e-2,
     rejects: Sx.rejects.length === 8 && Sx.rejects.every(Boolean),
   };
 }

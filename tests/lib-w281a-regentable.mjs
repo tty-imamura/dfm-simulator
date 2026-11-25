@@ -3187,6 +3187,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/sconseq-352za.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第352便za: 零試験 14/内部熱と供給 84/慣性回転 63/題ごとのまとめ 162/k を金星の条件で置いたとき 81' }),
   // ==== 第352便za の塊(ここまで)====
+  // ==== 第353便d の塊(ここから)====
+  // ---- 第353便d(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R468): **源(引きずる側)の扁平率を (S) に入れる式の候補 (O0)〜(O3)(遠い場・近い場・金星とイオの打ち消し・四重極の項の半径)**
+  //   (段 srcoblate-353d —— 正本 tests/out/srcoblate-353d.json・lib tests/lib-w353d-srcoblate.mjs —— 第352便k・s・c・d・第351便c・j・第348便h・c・d・第334便a・第330便a ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便d の枝の実測 3 s
+  S('srcoblate-353d', 'node tests/exp-w353d-srcoblate.mjs', ['tests/out/srcoblate-353d.json'], 4, { secSource: 'w353d-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcoblate-353d.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便d: 零試験 9/遠い場 8/近い場 12/打ち消し 9/範囲 301 点/半径 5' }),
+  // ==== 第353便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
