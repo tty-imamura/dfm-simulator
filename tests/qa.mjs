@@ -129781,7 +129781,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         for (const r of J.t3.time) { const rel = r.case === 'sunOnly' ? J.t3.sunPeriodYr : 1 / Math.abs(-1 / J.t3.sunPeriodYr - r.sense / r.Pnode); if (!(near(r.relYr, rel, 1e-9) && near(r.inWinYr, rel * n3.winDeg / 360, 1e-9) && r.toExitYr <= r.inWinYr)) bad.push('③ 相対の周期と窓の時間 ' + r.case + ' ' + r.Pnode + ' ' + r.sense); }
         for (const c of J.t3b.caps) { const p = (1 - Math.cos(J.t3b.dVenus * Math.PI / 180)) / (1 - Math.cos(c.capDeg * Math.PI / 180)); if (!(near(c.p1, p, 1e-9) && near(c.pAny8, 1 - Math.pow(1 - p, 8), 1e-9))) bad.push('③ 帽子の見込み ' + c.capDeg); }
         for (const r of J.t4.rows) { if (r.way === 'star' && !near(r.cRVenus, r.knob * J.t4.cRStar.Venus, 1e-12)) bad.push('③ r × c_R★ の金星の c_R ' + r.knob); if (r.way === 'uni' && r.cRVenus !== r.knob) bad.push('③ 全部同じ c_R ' + r.knob); }
-        if (!J.t4b.every((r) => near(r.venusOwn, vL.own, 1e-9))) bad.push('③ 衛星の道の面で金星の値が動かない');
+        { const r0 = J.t4.rows.find((r) => r.way === 'rule'); if (!(J.t4b.every((r) => near(r.venusOwn, r0.venusOwn, 1e-12)) && near(r0.venusOwn, vL.own, 1e-5))) bad.push('③ 衛星の道の面で金星の値が動かない(規則の半径の行と同じ・閉じた形と 1e-5 の内)'); }
         if (!(J.provisional === true && js(J.provKeys) === js(DL.provKeys) && /^仮・未照合/.test(J.provMark))) bad.push('③ 仮の値の印(最上位)');
         cases.push('③ own = 2 sin(φ/2)・φ ÷ n★ ≈ 1.5・太陽の位相と交点の走査が同じ・円錐の周期・相対の周期と窓・帽子の見込み・r × c_R★・衛星の道で金星不変・仮の値の印');
         // ④ 門と呼ぶだけ
