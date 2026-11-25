@@ -3369,38 +3369,38 @@
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.062
+   "wallSec": 0.058
   },
   "pure": {
-   "wallSec": 0.169
+   "wallSec": 0.156
   },
   "t1": {
-   "wallSec": 3.556
+   "wallSec": 3.58
   },
   "t2": {
-   "wallSec": 3.641
+   "wallSec": 3.665
   },
   "t3": {
-   "wallSec": 4.748
+   "wallSec": 4.781
   },
   "t4": {
-   "wallSec": 4.748
+   "wallSec": 4.781
   }
  },
- "elapsedS": 15.283,
+ "elapsedS": 15.676,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第353便c",
   "target": "tests/lib-w353c-recvradius.mjs",
-  "targetSha256": "2732e9331c0e3d19919d4a808b7893228c52f2ffc8080a5bff1c2f151fddbcea",
-  "generatedAt": "2026-11-25T05:02:13.445Z",
+  "targetSha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+  "generatedAt": "2026-11-25T05:14:26.227Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w353c-recvradius.mjs",
-    "bytes": 7489,
-    "sha256": "7c4a467211094c456b6806f5b92ebdf3f3e156680c77c598313f2cc7d51e6abe",
-    "mtime": "2026-11-25T04:56:27.254Z"
+    "bytes": 7474,
+    "sha256": "5d95fc71bd28ed0a31022a2f608731f5b6d1e26359f4ab1b7f8ccf9ae36fa4cd",
+    "mtime": "2026-11-25T05:14:00.503Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -3812,12 +3812,12 @@
    },
    {
     "file": "tests/lib-w353c-recvradius.mjs",
-    "bytes": 24401,
-    "sha256": "2732e9331c0e3d19919d4a808b7893228c52f2ffc8080a5bff1c2f151fddbcea",
-    "mtime": "2026-11-25T04:56:27.253Z"
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T05:14:00.500Z"
    }
   ],
-  "codeSha256": "a31ce231a5277073d01ee827defe9df02ccf794cc5df6df3903f7a6f82dc9343",
+  "codeSha256": "27d006b74f9d1da93b5e930848895e5970a295448df9abe97b1c358ddaa7bf5a",
   "harnessVersion": "w353c-recvradius-1",
   "stage": "recvradius",
   "engine": "Node(html を読まない —— 純関数の lib・第352便k・c・d・第351便k ほかの lib を呼ぶ)・1 プロセス",

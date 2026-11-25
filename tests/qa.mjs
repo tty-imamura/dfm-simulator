@@ -125260,7 +125260,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ---- 第353便c: docs.recvradius353c は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.recvradius353c(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは無い・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 2 つと表 1・表 9 本・数の文 5 つが PHYSICS〔第353便c〕に逐語 ③ 節の位置(〔第352便za〕の節の後・第328便の統括の節の前)・必須の語・
+// ----     ② 原文 2 つと表 1・表 8 本・数の文 5 つが PHYSICS〔第353便c〕に逐語 ③ 節の位置(〔第352便za〕の節の後・第328便の統括の節の前)・必須の語・
 // ----     ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §359(§356 の後)・CHANGELOG(第353便c の行が在れば見出しより後)・段の行・.gitignore・post-merge ④ 書かない語・禁句・裸の係数記号・旧い記号・旧い呼び名・変異 2
 {
   await (async () => {   // 第310便c(heap)
@@ -125296,7 +125296,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (sec.indexOf(D0.originalTable()) < 0) bad.push('② 表 1(原文と読み)が節に逐語で無い');
       const T = D0.tablesOf(J), F = D0.factsOf(J);
       for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便c〕に表 ' + k + ' が逐語で無い');
-      if (Object.keys(T).length !== 9) bad.push('② 表の数 ' + Object.keys(T).length);
+      if (Object.keys(T).length !== 8) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第353便c〕に数の文 ' + k + ' が逐語で無い');
       if (Object.keys(F).length !== 5) bad.push('② 数の文の数 ' + Object.keys(F).length);
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが PHYSICS〔第353便c〕に逐語(文書の lib ${D0.DOC_VERSION})`);
