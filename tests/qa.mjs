@@ -120220,10 +120220,12 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       const j = jobsOf(t);
       if (!j.jobs) bad.push('③ ' + f + ' に jobs: が無い');
       else {
-        const gk = Object.keys(j.jobs);
-        if (gk.join('|') !== d.job) bad.push('③ ' + f + ' の job の並び ' + gk.join('・') + ' ≠ ' + d.job);
+        // 第354便a: 組版の段だけの job `<名>-tl2025`(ubuntu-latest)を固定の job の後に足した —— 並び・各 job の runs-on・行の数で照らす(固定の job は ubuntu-24.04 のまま)
+        const gk = Object.keys(j.jobs), wantJ = [d.job, d.job + '-tl2025'];
+        if (gk.join('|') !== wantJ.join('|')) bad.push('③ ' + f + ' の job の並び ' + gk.join('・') + ' ≠ ' + wantJ.join('・'));
         const v = j.jobs[d.job] || []; if (v.length !== 1 || v[0] !== RUN350I) bad.push('③ ' + f + ' の job ' + d.job + ' の runs-on ' + (v.join('・') || 'なし') + ' ≠ ' + RUN350I);
-        if (j.all !== 1) bad.push('③ ' + f + ' の runs-on の行が ' + j.all + ' 行');
+        const v2 = j.jobs[wantJ[1]] || []; if (v2.length !== 1 || v2[0] !== 'ubuntu-latest') bad.push('③ ' + f + ' の job ' + wantJ[1] + ' の runs-on ' + (v2.join('・') || 'なし') + ' ≠ ubuntu-latest');
+        if (j.all !== wantJ.length) bad.push('③ ' + f + ' の runs-on の行が ' + j.all + ' 行');
       }
     }
     const F = Object.keys(DECL350I);
@@ -132169,7 +132171,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const a395 = as.search(/\n## 395\. 第354便a/), a394 = as.search(/\n## 394\. 第353便zl/);
     const ai = a395 >= 0 ? (() => { const r = as.slice(a395 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
     if (!(a395 >= 0 && a394 >= 0 && a394 < a395 && ['第156報', 'R503', 'ubuntu-latest', 'SYSTEM_PROMPT には載せない', 'lint.paperTex354a', 'PR の走行で見る'].every((w) => ai.indexOf(w) >= 0))) bad.push('④ AI_SPEC §395(§394 の後・必須の語)');
-    if (!(pm.indexOf('# ==== 第354便a の塊(ここから)====') > pm.indexOf('# ==== 第353便zl の塊(ここまで)====') && pm.indexOf('# ==== 第353便zl の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.paperTex354a lint\.paperRunner348f"/.test(pm))) bad.push('④ post-merge に第354便a の塊(第353便zl の塊の後)');
+    if (!(pm.indexOf('# ==== 第354便a の塊(ここから)====') > pm.indexOf('# ==== 第353便zl の塊(ここまで)====') && pm.indexOf('# ==== 第353便zl の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.paperTex354a lint\.paperRunner348f lint\.paperDispatch350i"/.test(pm))) bad.push('④ post-merge に第354便a の塊(第353便zl の塊の後)');
     const rmi = rm.indexOf('**組版の注記(第354便a)**'), rmn = rmi >= 0 ? rm.slice(rmi, (rm.indexOf('\n\n', rmi) + 1 || rm.length + 1) - 1) : '';
     if (!rmn || ['dfm-paper2.tex', 'dfm-paper3.tex', '\\@endpefalse', '版の表記・本文・数・図・参考文献は変えていない', '-tl2025'].some((w) => rmn.indexOf(w) < 0)) bad.push('④ paper/README.md に組版の注記(第354便a)の項(語)が無い');
     for (const [nm, tx] of [['PHYSICS〔第354便a〕', sec], ['AI_SPEC §395', ai], ['paper/README.md の注記', rmn], ...Object.keys(DECL354A).map((f) => [f + ' の頭の注', headOf(W[f] || '').split('\n').filter((x, n, A) => x.startsWith('# 第354便a(') || (n > 0 && A[n - 1].startsWith('# 第354便a('))).join('\n')])]) {

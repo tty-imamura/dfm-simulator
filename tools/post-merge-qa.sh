@@ -1870,8 +1870,8 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
 # ==== 第353便zl の塊(ここまで)====
 # ==== 第354便a の塊(ここから)====
 # 第354便a(原仮定者の指示(2026-11-25 —— 第156報)・統括の検証項目 R503 —— 論文 2・3 の前置きと検査の設定と戻り止めと文書だけ・html は変えない): 枝 a の新設 1 本(lint.paperTex354a ——
-#   前置きの塊・論文の検査 4 本の job <名>-tl2025 と組版の行・頭の注・文書)と、宣言を更新した既存の lint.paperRunner348f。段は足していない
-DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperTex354a lint.paperRunner348f"
+#   前置きの塊・論文の検査 4 本の job <名>-tl2025 と組版の行・頭の注・文書)と、宣言を更新した既存の lint.paperRunner348f・job の並びを更新した既存の lint.paperDispatch350i。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperTex354a lint.paperRunner348f lint.paperDispatch350i"
 # ==== 第354便a の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
