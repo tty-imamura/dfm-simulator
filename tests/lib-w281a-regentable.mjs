@@ -3209,6 +3209,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/focus098-353e.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便e: 零試験 11/0.98 を (N+) に置いた列 36 + 最小 4 + 上端 6/向きと大きさを分ける表 8 × 2 × 9/金星の条件と 0.98 18 + 18' }),
   // ==== 第353便e の塊(ここまで)====
+  // ==== 第353便g の塊(ここから)====
+  // ---- 第353便g(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R471): **「金星の自転がロックした状態」の判定の量の候補と、地球の影響の大きさ**
+  //   (段 venuslock-353g —— 正本 tests/out/venuslock-353g.json・lib tests/lib-w353g-venuslock.mjs —— 第352便k・c・d・h・u・b・第351便c・第337便c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib を使う(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便g の枝の実測 16 s
+  S('venuslock-353g', 'node tests/exp-w353g-venuslock.mjs', ['tests/out/venuslock-353g.json'], 16, { secSource: 'w353g-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venuslock-353g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便g: 零試験 10/残りの列 6/大きさの比べ 11/共鳴の幅 3 + 捕まる範囲 18/釣り合いが外れたとき 2' }),
+  // ==== 第353便g の塊(ここまで)====
   // ==== 第353便h の塊(ここから)====
   // ---- 第353便h(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R472): **土星の環を円盤引きずりの側で(環の区分 5 × 傾き 5 × 列 6 の率 ÷ 物差し・第352便za の題の切り分け)**
   //   (段 ringdisk-353h —— 正本 tests/out/ringdisk-353h.json・lib tests/lib-w353h-ringdisk.mjs —— 第352便s・k・c・za・第351便j・第350便g・第348便d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。

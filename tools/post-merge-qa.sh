@@ -1648,6 +1648,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maincol353b docs.maincol353b"
 #   docs.focus098_353e —— 原文と表と数の文が PHYSICS〔第353便e〕に逐語・文書)と、新しい段 focus098-353e
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.focus098_353e docs.focus098_353e"
 # ==== 第353便e の塊(ここまで)====
+# ==== 第353便g の塊(ここから)====
+# 第353便g(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R471 —— 診断だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.venuslock353g —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.venuslock353g —— 原文と表と数の文が PHYSICS〔第353便g〕に逐語・文書)と、新しい段 venuslock-353g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.venuslock353g docs.venuslock353g"
+# ==== 第353便g の塊(ここまで)====
 # ==== 第353便h の塊(ここから)====
 # 第353便h(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R472 —— 診断だけ・html は変えない): 枝 h の新設 2 本
 #   (behavior.ringdisk353h —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・率 ÷ 物差しの換算を QA の中で別に照合・呼ぶだけ /
