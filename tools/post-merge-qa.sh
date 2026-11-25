@@ -1774,6 +1774,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.nearrecv353u docs.nearrecv353u"
 #   docs.recvscale353v —— 原文と表と数の文が PHYSICS〔第353便v〕に逐語・文書)と、新しい段 recvscale-353v
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.recvscale353v docs.recvscale353v"
 # ==== 第353便v の塊(ここまで)====
+# ==== 第353便w の塊(ここから)====
+# 第353便w(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R487 —— 診断だけ・html は変えない): 枝 w の新設 2 本
+#   (behavior.formstage353w —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.formstage353w —— 原文と表と数の文が PHYSICS〔第353便w〕に逐語・文書)と、新しい段 formstage-353w
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.formstage353w docs.formstage353w"
+# ==== 第353便w の塊(ここまで)====
 # ==== 第353便x の塊(ここから)====
 # 第353便x(原仮定者の回答(2026-11-25 —— 第151報)AN1046・AN1052・統括の検証項目 R488 —— 診断だけ・html は変えない): 枝 x の新設 2 本
 #   (behavior.twoaxis353x —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・閉じた形を QA の中で別に照合・仮の値の印・呼ぶだけ /

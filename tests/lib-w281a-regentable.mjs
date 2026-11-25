@@ -3408,6 +3408,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/recvscale-353v.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便v: 零試験 8/表 1 σ 2 × r 9/走査 181 × 2/r → 0 の極限 16 組/表 2 0.98 の r 9 × 受け手 6・水星の下限/表 3 c_R★ 12' }),
   // ==== 第353便v の塊(ここまで)====
+  // ==== 第353便w の塊(ここから)====
+  // ---- 第353便w(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R487): **形成の段階の題の入口 —— 背景が時間で替わる模型で、太陽の傾きを「作る段」と「保つ段」を 1 本の時間の列でつなぐノブの走査の表**
+  //   (段 formstage-353w —— 正本 tests/out/formstage-353w.json・lib tests/lib-w353w-formstage.mjs —— 第353便o・第352便x・r・l・c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便w の枝の実測 109 s(settleRun で 3 回 —— 札の待ちを除く)
+  S('formstage-353w', 'node tests/exp-w353w-formstage.mjs', ['tests/out/formstage-353w.json'], 110, { secSource: 'w353w-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/formstage-353w.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便w: 零試験 8/主の式 (g2−) 4800 組 + 幅 240 + 第353便o の読み A の組 36/残る角 52 + 条件 4/比べる式 (g2+) 576 + 第353便o の読み B の組 144' }),
+  // ==== 第353便w の塊(ここまで)====
   // ==== 第353便x の塊(ここから)====
   // ---- 第353便x(原仮定者の回答(2026-11-25 —— 第151報)AN1046・AN1052・統括の検証項目 R488): **2 つの軸(重力の側の歳差 —— 比べる列 —— と軸引きずりの歳差)を金星・天王星・火星ほかで・
   //   公転面が背景に応える係数の比 c_輪 ÷ c を振る表(天体 6 × 率の列 3 × 向き 2/c_輪 ÷ c 11/帯 36/見ている時間 3 × 受け手 9)**
