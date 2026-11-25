@@ -132747,7 +132747,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const W = await import('file://' + wLib355d);
     if (!/^w355d-equations-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ lib の版の名の型(w355d-equations-lib-<数>)');
     cases.push('⓪ lib の版の名の型');
-    const inp = { eq: EQ0, ph: rd355d('docs/PHYSICS.md') || '', as: rd355d('docs/AI_SPEC.md') || '', pm: rd355d('tools/post-merge-qa.sh') || '', rd: rd355d, exists: (p) => fs.existsSync(path.join(ROOT, p)) };
+    const inp = { eq: (await import('file://' + path.join(ROOT, 'tests', 'lib-w350h-eqreader.mjs'))).eqFixedView350h(EQ0, 189), ph: rd355d('docs/PHYSICS.md') || '', as: rd355d('docs/AI_SPEC.md') || '', pm: rd355d('tools/post-merge-qa.sh') || '', rd: rd355d, exists: (p) => fs.existsSync(path.join(ROOT, p)) };   // 第355便e: 世代の写し view355dOf355e(EQ-189 まで)
     const R = W.check355d(inp); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
     const S = W.selfTest355d(inp); bad = bad.concat(S.bad);
     if (S.lines.length < 12) bad.push('⑦ 変異の自己試験が 12 種より少ない(' + S.lines.length + ')');
@@ -132759,6 +132759,38 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便d の塊(ここまで)====
+// ==== 第355便e の塊(ここから —— docs.equations355e・behavior.kqopen355e・docs.kqopen355e の 3 ブロック。root は SKIP)====
+// ---- 第355便e(統括の検証項目 R508 —— 継ぎ目・計算式の一覧・共通部分が開く k₂/Q の表・html は変えない):
+// ----   docs.equations355e: **計算式の一覧の EQ-190〜EQ-194(〔第355便b〕の式)・冒頭の 1 行・§2a の 1 行・§7 の規則 24(第355便 a・d・e の分をまとめて)と、第355便d の照合へ渡す EQ-189 までの世代の写し**
+// ----     (照合の lib tests/lib-w355e-equations.mjs〔純関数 —— ファイルを読まない〕)。世代切替 = beta 対象 ∧ lib がある ∧ 計算式の一覧に「### EQ-190 」がある。
+// ----     ⓪ lib の版の名の型 ① 番号の連続と重複・EQ-190 以降は EQ-190〜EQ-194 だけ ② 欄・出どころの節〔第355便b〕と同じ字の式・経路・抜粋・台帳・比べる列・仮の値・主の列の印の欄なし
+// ----     ③ §3 の 5 行・§6 の件数の文 ④ 世代の写し view355dOf355e ⑤ 冒頭・§2a・§7 の規則 24 ⑥ PHYSICS〔第355便e〕の表・AI_SPEC §400・post-merge ⑦ 書かない語 ⑧ 変異の自己試験
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む
+  const rd355e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib355e = path.join(ROOT, 'tests', 'lib-w355e-equations.mjs');
+  const EQ0 = rd355e('docs/EQUATIONS.md') || '';
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib355e) && EQ0.indexOf('\n### EQ-190 ') >= 0)) {
+    console.log('SKIP docs.equations355e(第355便e の EQ-190 以降の項の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let bad = [], cases = [];
+  try {
+    const W = await import('file://' + wLib355e);
+    if (!/^w355e-equations-lib-\d+$/.test(W.LIB_VERSION)) bad.push('⓪ lib の版の名の型(w355e-equations-lib-<数>)');
+    cases.push('⓪ lib の版の名の型');
+    const inp = { eq: EQ0, ph: rd355e('docs/PHYSICS.md') || '', as: rd355e('docs/AI_SPEC.md') || '', pm: rd355e('tools/post-merge-qa.sh') || '', rd: rd355e, exists: (p) => fs.existsSync(path.join(ROOT, p)) };
+    const R = W.check355e(inp); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const S = W.selfTest355e(inp); bad = bad.concat(S.bad);
+    if (S.lines.length < 15) bad.push('⑧ 変異の自己試験が 15 種より少ない(' + S.lines.length + ')');
+    cases.push(`⑧ 変異の自己試験 ${S.lines.length} 種: ` + S.lines.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('docs.equations355e', bad.length === 0,
+    `**計算式の一覧の EQ-190〜EQ-194(第355便b の背景の大きさの範囲を主の作りで数える式 —— 出どころの節と同じ字の式・欄・抜粋は lib の定義の範囲・比べる列と仮の値の印)・冒頭の 1 行・§2a・§7 の規則 24 と、第355便d の照合へ渡す EQ-189 までの世代の写し**(第355便e・R508 —— 既存の項の行は書き換えない・文書): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ==== 第355便e の塊(ここまで)====
 // ==== 第355便h の塊(ここから —— docs.aichat355h・behavior.aichatIntake355h の 2 ブロック。beta・root の両方で走る)====
 // ---- 第355便h(原仮定者の指示(2026-11-25)「AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと
 // ----   考えている。対話式はDFMについてのQ&Aも兼ねる」・統括の検証項目 R511): **AI チャットとの対話の入口**(文書と道具と検査だけ —— html は変えない)。

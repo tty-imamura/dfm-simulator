@@ -1896,6 +1896,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rangecols355c docs.rangecols355c"
 #   EQ-182 までの写し(view353zzOf355d)で読む形にした既存の照合(docs.equations353zz)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355d docs.equations353zz"
 # ==== 第355便d の塊(ここまで)====
+# ==== 第355便e の塊(ここから)====
+# 第355便e(統括の検証項目 R508 —— 継ぎ目・計算式の一覧・診断だけ・html は変えない): 枝 e の新設(docs.equations355e —— 計算式の一覧の EQ-190〜EQ-194〔第355便b の式〕・冒頭の 1 行・§2a・§7 の規則 24)と、
+#   EQ-189 までの写し(view355dOf355e)で読む形にした第355便d の照合(docs.equations355d)・範囲の数を正本から作る第355便a の照合(docs.report155_355a)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355e docs.equations355d"
+# ==== 第355便e の塊(ここまで)====
 # ==== 第355便h の塊(ここから)====
 # 第355便h(原仮定者の指示(2026-11-25)・統括の検証項目 R511 —— 文書と道具と検査だけ・html は変えない): 枝 h の新設 2 本(docs.aichat355h —— 対話の入口のページ・
 #   仕様の頭の短いページと写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書/behavior.aichatIntake355h —— 返答の検査の器の自己試験 7 本)。段は足していない
