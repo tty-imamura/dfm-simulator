@@ -3308,6 +3308,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/residsign-353m.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便m: 零試験 10/地球の残り 12/交点 12/金星 20/要る c 10' }),
   // ==== 第353便m の塊(ここまで)====
+  // ==== 第353便n の塊(ここから)====
+  // ---- 第353便n(原仮定者の回答(2026-11-25 —— 第151報)AN1046・統括の検証項目 R478): **注目の列 u = 0.98 での「見ている時間の間は変わらない」(見ている時間 5 × 受け手 9 × 寄る割合 3 の傾きの揺れ・
+  //   達する時間・重力の側の歳差との 2 つの軸の合成・応答の側の構造の係数を入れた率)**
+  //   (段 watch098-353n —— 正本 tests/out/watch098-353n.json・lib tests/lib-w353n-watch098.mjs —— 第353便e・b・c・第352便w・l・i・c・b・第351便d・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に sconseq-352za〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便n の枝の実測 3 s
+  S('watch098-353n', 'node tests/exp-w353n-watch098.mjs', ['tests/out/watch098-353n.json'], 4, { secSource: 'w353n-branch', node: true,
+    after: ['sconseq-352za'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/watch098-353n.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便n: 零試験 10/見ている時間 5 × 受け手 9 × f 3/変わらないと言える時間の幅 27/2 つの軸 12/応答の側の率の倍 18' }),
+  // ==== 第353便n の塊(ここまで)====
   // ==== 第353便p の塊(ここから)====
   // ---- 第353便p(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R480): **打ち消しの点の一覧を、源の扁平率((O2b) の σ)と受け手の半径の係数((P-場) の c_R)で数え直す(17 組 × 置き方 7・イオと金星の格子 70 点・衛星の自分の重み)**
   //   (段 cancelstd-353p —— 正本 tests/out/cancelstd-353p.json・lib tests/lib-w353p-cancelstd.mjs —— 第353便d・c・第352便v・k・e・c・d・第351便c・第348便h・c・第350便b・第347便h・e・第312便a・第334便a の lib を import して呼ぶ。
