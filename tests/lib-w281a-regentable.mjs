@@ -3419,6 +3419,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/twoaxis-353x.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便x: 零試験 10/2 つの軸 20/c_輪 ÷ c 66/帯 36/見ている時間 27' }),
   // ==== 第353便x の塊(ここまで)====
+  // ==== 第353便y の塊(ここから)====
+  // ---- 第353便y(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R489): **土星の環の「受け手の重み」—— 輪の周りの粒子の重み(面密度)を場の分母に足す形・受け手の読み 3 つ・公転面の集まりを内側の惑星と巨大な惑星に分けて**
+  //   (段 ringsurf-353y —— 正本 tests/out/ringsurf-353y.json・lib tests/lib-w353y-ringsurf.mjs —— 第353便k・d・h・第352便s・k・za・c・第351便j・c・第348便h・d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringstd-353k)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便y の枝の実測 2 s
+  S('ringsurf-353y', 'node tests/exp-w353y-ringsurf.mjs', ['tests/out/ringsurf-353y.json'], 2, { secSource: 'w353y-branch', node: true,
+    after: ['ringstd-353k'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/ringsurf-353y.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便y: 零試験 10/区分 5 × 面密度 11 × 読みと作り 3/受け手の読み 3/公転面 8 惑星 × 基準軸 2' }),
+  // ==== 第353便y の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
