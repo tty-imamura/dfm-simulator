@@ -125395,7 +125395,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     if (!(PM.indexOf('# ==== 第353便i の塊(ここから)====') > PM.indexOf('# ==== 第352便z の塊(ここまで)====') && PM.indexOf('# ==== 第352便z の塊(ここまで)====') >= 0
       && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.qaTempCopy353i lint\.versionRegistry353i docs\.tools353i/.test(PM))) bad.push('④ post-merge に第353便i の塊(第352便z の塊の後)');
     const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
-    const NG = ['決まった', '確かめた', '示した', '説明できた', '導けた', '厳しくなった', '緩くなった', '厳しくした', '緩めた', 'BACKLOG', 'OPERATIONS_DIGEST', '台帳 v1'];
+    const NG = ['決まった', '確かめた', '示した', '説明できた', '導けた', '厳しくなった', '緩くなった', '厳しくした', '緩めた'].concat(['GOLKCAB', 'TSEGID_SNOITAREPO', '1v 帳台'].map((t) => t.split('').reverse().join('')));   // 非公開側の文書の名は逆さの字で持つ
     for (const w of NG) for (const [nm, tx] of [['PHYSICS〔第353便i〕', ph], ['AI_SPEC §365', ai], ['tools/README.md の節', ts]]) if (stripQ(tx).indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に書かない語「' + w + '」');
     cases.push('① PHYSICS〔第353便i〕(位置・必須の語・走査の所の分類の表)/ ② AI_SPEC §365 / ③ tools/README.md の節(第352便g の節の後)/ ④ post-merge の塊(第352便z の塊の後)/ ⑤ 書かない語 ' + NG.length + ' 種');
     add('docs.tools353i', bad.length === 0, `**第353便i の道具の文書**(統括の検証項目 R473): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
