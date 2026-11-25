@@ -1648,6 +1648,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 #   docs.maincol353b —— 原文と表と数の文が PHYSICS〔第353便b〕に逐語・文書)と、新しい段 maincol-353b
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.maincol353b docs.maincol353b"
 # ==== 第353便b の塊(ここまで)====
+# ==== 第353便c の塊(ここから)====
+# 第353便c(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R467 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.recvradius353c —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合・等大の残りと cR★ の式を QA の中で別に照合・呼ぶだけ /
+#   docs.recvradius353c —— 原文と表と数の文が PHYSICS〔第353便c〕に逐語・文書)と、新しい段 recvradius-353c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.recvradius353c docs.recvradius353c"
+# ==== 第353便c の塊(ここまで)====
 # ==== 第353便d の塊(ここから)====
 # 第353便d(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R468 —— 診断だけ・html は変えない): 枝 d の新設 2 本
 #   (behavior.srcoblate353d —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・一次の係数と σ の式を QA の中で別に照合・呼ぶだけ /
