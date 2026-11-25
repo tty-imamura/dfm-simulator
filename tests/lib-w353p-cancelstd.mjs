@@ -5,7 +5,7 @@
 //   後のラウンドの枝もこの口を import してよい)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
 //   第353便d(obRot・obSatParts・obCancel・specFor・litOf・makeFieldOb・cancelRows)・第353便c(cancelOf・cRStar・ioRows)・第352便v(cancelPoint・allPairs・uVt・localOf)・
-//   第352便k(spinRot・srcRadius・recvRadius・formOf)・第352便e(sunInput・rotOf)・第352便c(refAxis)・第352便d(bgVec)・第351便c(pairInput・PARENT_ROWS)・
+//   第352便k(spinRot・srcRadius・formOf)・第352便e(sunInput・rotOf)・第351便c(pairInput・PARENT_ROWS)・
 //   第348便h(rot3・YK)・第350便b(equivR)・第347便h(gaussLegendre)・第348便c(massOf・radiusOf)・第312便a(Kball)・第334便a(LIT334A —— 衛星の質量・半径・軌道の半径〔文献の値・未照合〕)・
 //   第347便e(t1Table・geometry)。仮の値の lib(第352便b)には届かない(import の閉包に入れない)。
 //
@@ -24,8 +24,6 @@ import * as Cc from './lib-w353c-recvradius.mjs';
 import * as V from './lib-w352v-cancelmap.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as SE from './lib-w352e-sunrecv.mjs';
-import * as CR from './lib-w352c-refaxis.mjs';
-import * as PS from './lib-w352d-precsense.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
 import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as SC from './lib-w350b-sphereconv.mjs';
@@ -173,6 +171,51 @@ export function moonWeights(T1, GEO, mk) {
   let lo = -30, hi = 10, cRs = null;
   if (f(lo) > 0 && f(hi) < 0) { for (let i = 0; i < 200; i++) { const mid = 0.5 * (lo + hi); if (f(mid) > 0) lo = mid; else hi = mid; } cRs = Math.pow(10, 0.5 * (lo + hi)); }
   return { key: mk, name: M.name, src, m: M.m, R: M.R, a: M.a, wS, wSun, A0rule: A0(null), A0cR1: A0(1), cRStar: cRs, wSoverA0rule: wS / A0(null), wSoverA0cR1: wS / A0(1), closed: A0(1) / wS };
+}
+
+
+/* ───────── 表(T2〜T4)───────── */
+/** 表 1 の列: 置き方 × c_R */
+export const T1COLS = Object.freeze([
+  Object.freeze({ id: 'i', place: 'rule', cR: null }), Object.freeze({ id: 'ii', place: 'ob', cR: null }),
+  Object.freeze({ id: 'iii-1e-3', place: 'field', cR: 1e-3 }), Object.freeze({ id: 'iii-0.0128', place: 'field', cR: 0.0128 }),
+  Object.freeze({ id: 'iv-1e-3', place: 'both', cR: 1e-3 }), Object.freeze({ id: 'iv-0.0128', place: 'both', cR: 0.0128 }),
+  Object.freeze({ id: 'v', place: 'resp', cR: 1 })]);
+const inBand = (x, [lo, hi]) => x >= lo && x <= hi;
+/** 表 1(17 組 × 置き方 7): x・等大の残り・金星の条件での残り・打ち消すか・ノブの源/比べる列 (G−) の等大の残り。帯ごとの組の数(金星を除く)と組の名 */
+export function table1(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const rows = DECL.pairs.map((key) => ({ key, cells: Object.fromEntries(T1COLS.map((c) => { const r = stdCancel(T1, GEO, key, { place: c.place, cR: c.cR }, cache), g = stdCancel(T1, GEO, key, { place: c.place, cR: c.cR, bg: 'Gm' }, cache);
+    return [c.id, { x: r.x, resEq: r.resEq, resAtUV: r.resAtUV, mode: r.mode, knob: r.knob, resEqGm: g.resEq, modeGm: g.mode }]; })) }));
+  const counts = T1COLS.map((c) => ({ col: c.id, bands: DECL.bands.map((b) => { const hit = rows.filter((r) => r.key !== 'Venus|Sun' && inBand(r.cells[c.id].x, b)).map((r) => r.key); return { band: b, n: hit.length, keys: hit }; }) }));
+  return { cols: T1COLS, rows, counts };
+}
+/** イオの x の 3 つの数え方(c_R・木星の f): 全部(太陽由来 + 母天体由来・他の源の重みを分母に —— 第352便v・第353便d の作り)/母天体由来だけ(他の源の重みを分母に)/母天体由来だけ(他の源の重みなし —— 第353便c の ioRows の作り) */
+export function ioWays(T1, GEO, { cR = null, fJ = null } = {}, cache = {}) {
+  const ob = fJ === null ? null : { base: 'lit', f: { Jupiter: fJ } }, L = localStd(T1, GEO, 'Io|Jupiter', { ob, cR }, cache), Lv = localStd(T1, GEO, 'Venus|Sun', { ob, cR }, cache), v = nrm(Lv.loc);
+  const spJ = ob === null ? null : obPlan(ob).spec('Jupiter'), bare = nrm(Dd.obRot(T1, GEO, 'Io', 'Jupiter', { cR, ob: spJ }).Om);
+  return { full: nrm(L.loc) / v, parOnly: nrm(L.parts.parent) / v, parBare: bare / v, sunOverPar: nrm(L.parts.sun) / nrm(L.parts.parent) };
+}
+/** 表 2(イオと金星): 木星の f × c_R の格子 —— イオの x(3 つの数え方)・等大の残り・金星の条件での残り・金星の等大の残り。x が 1 に一番近い格子点(全部・金星の残り 2% 以下の内) */
+export function table2(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const cells = [];
+  for (const fJ of DECL.fGrid) for (const cR of DECL.cRGrid) {
+    const place = cR === null ? 'ob' : 'both', ob = { base: 'lit', f: { Jupiter: fJ } };
+    const io = stdCancel(T1, GEO, 'Io|Jupiter', { place, cR, ob }, cache), v = stdCancel(T1, GEO, 'Venus|Sun', { place, cR, ob }, cache), w = ioWays(T1, GEO, { cR, fJ }, cache);
+    cells.push({ fJ, cR, sigmaJ: Math.pow(1 - fJ, -2 / 3), x: io.x, xParOnly: w.parOnly, xParBare: w.parBare, sunOverPar: w.sunOverPar, ioResEq: io.resEq, ioResAtUV: io.resAtUV, venusResEq: v.resEq });
+  }
+  const dist = (c) => Math.abs(Math.log(c.x)), best = (arr) => arr.reduce((b, c) => (dist(c) < dist(b) ? c : b), arr[0]);
+  const keep = cells.filter((c) => c.venusResEq <= DECL.venusBand);
+  return { cells, best: best(cells), bestKeep: keep.length ? best(keep) : null, nKeep: keep.length, bestBare: cells.reduce((b, c) => (Math.abs(Math.log(c.xParBare)) < Math.abs(Math.log(b.xParBare)) ? c : b), cells[0]) };
+}
+/** 表 3(衛星の受け手の自分の重み): 円の道の 5 衛星(moonWeights)+ 実在の組 2(イオ ← 木星・月 ← 地球 —— 第353便c の cRStar)と、(P-場) の c_R でのイオ・月の等大の残り */
+export function table3(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const moons = DECL.moons.map((m) => moonWeights(T1, GEO, m));
+  const pairs = [['Io', 'Jupiter'], ['Moon', 'EarthHi'], ['Venus', 'Sun']].map(([id, src]) => { const cs = Cc.cRStar(id, src, T1, GEO), R = K.spinRot(T1, GEO, id, src, { part: 'S', cR: null });
+    return { id, src, cRStar: cs.cR, wS: cs.wS, A0rule: R.A0, wSoverA0rule: cs.wS / R.A0, wSoverA0cR1: 1 / cs.closed }; });
+  const cRs = [null, 1e-3, 0.0128, 0.1, 1];
+  const scan = ['Io|Jupiter', 'Moon|EarthHi'].map((key) => ({ key, cells: cRs.map((cR) => { const r = stdCancel(T1, GEO, key, cR === null ? { place: 'rule' } : { place: 'field', cR }, cache), L = localStd(T1, GEO, key, { cR }, cache);
+    return { cR, x: r.x, resEq: r.resEq, phiDeg: r.phiDeg, sunOverPar: nrm(L.parts.sun) / nrm(L.parts.parent) }; }) }));
+  return { moons, pairs, scan };
 }
 
 /* ───────── 零試験 ───────── */
