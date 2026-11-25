@@ -14,7 +14,7 @@
 //   列: 'A' (ア) k 1・u 0.98/'I' (イ) k = 0.98 で金星を打ち消す換算の係数(第353便j の kFor —— 規則の半径)・u 0.98/'U' (ウ) k 1・u = 金星の条件 (uV)。
 //   置き方 mode: 'obs' 観測の自転の率・直交成分 abs(Ω × ŝ)/'sync' 自転の率 = 公転の率・abs(Ω × ŝ)/'syncAbs' 自転の率 = 公転の率・直交成分を abs(Ω)(傾きに依らない)。
 //   k₂/Q の置き方: 'common'(共通 1e-2)/'c337'(第337便c の既定 —— 固体 3e-3・気体 1e-5)。
-// ■ 言わないこと: ロックが説明できた・定義と合った・背景の大きさが決まった、と書かない(比の表 —— 候補)。潮汐のトルクを DFM の式と書かない(比べる列)。
+// ■ 言わないこと: ロックの由来・定義との当否・背景の大きさを結論にしない(比の表 —— 候補)。潮汐のトルクを DFM の式と書かない(比べる列)。
 import * as TL from './lib-w337c-tidelock.mjs';
 import * as ZF from './lib-w353zf-threecols.mjs';
 import * as J from './lib-w353j-venus098.mjs';
@@ -23,6 +23,7 @@ import * as Q2 from './lib-w352q-response.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as SP from './lib-w351c-srcparts.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
+import * as ZP from './lib-w353z-obpower.mjs';
 
 export const LIB_VERSION = 'w353zk-lockdef-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -32,12 +33,14 @@ const DAY = 86400;
 
 /* ───────── 宣言(走らせたノブの格子と物差しの記録 —— 式の形の宣言ではない)───────── */
 export const COLS = Object.freeze([
-  Object.freeze({ id: 'A', label: '(ア)', u: 0.98, k: 1, text: '規則の係数そのまま・背景 0.98' }),
-  Object.freeze({ id: 'I', label: '(イ)', u: 0.98, k: 'venus', text: '0.98 で金星を打ち消す換算の係数を局所の項に置く・背景 0.98' }),
-  Object.freeze({ id: 'U', label: '(ウ)', u: 'uV', k: 1, text: '規則の係数そのまま・背景を金星の条件の大きさに' }),
+  Object.freeze({ id: 'U', label: '(ウ)', u: 'uV', k: 1, main: true, text: '主の列(原仮定者の回答(2026-11-25 —— 第153報))—— 規則の係数そのまま・背景を金星の条件の大きさに' }),
+  Object.freeze({ id: 'A', label: '(ア)', u: 0.98, k: 1, main: false, text: '0.98 倍(選択肢)—— 規則の係数そのまま・背景 0.98' }),
+  Object.freeze({ id: 'I', label: '(イ)', u: 0.98, k: 'venus', main: false, text: '0.98 倍(選択肢)—— 0.98 で金星を打ち消す換算の係数を局所の項に置く・背景 0.98' }),
 ]);
 export const DECL = Object.freeze({
-  cols: Object.freeze(COLS.map((c) => c.id)), mainCols: Object.freeze(['A', 'I', 'U']),
+  cols: Object.freeze(COLS.map((c) => c.id)), mainCol: 'U', optionCols: Object.freeze(['A', 'I']),
+  /** 母天体の扁平の倍(衛星の母天体の項 —— (O2b) σ = (1 − f)^(−2/3) が主・倍なしは比べる列。惑星 ← 太陽は σ − 1 が 1e-5 以下なので倍を置かない) */
+  obs: Object.freeze(['O2b', 'none']), obMain: 'O2b', obN: 2,
   modes: Object.freeze(['obs', 'sync', 'syncAbs']),
   modeLabel: Object.freeze({ obs: '観測の自転の率・abs(Ω × ŝ)', sync: '自転の率 = 公転の率・abs(Ω × ŝ)', syncAbs: '自転の率 = 公転の率・abs(Ω)' }),
   k2qModes: Object.freeze(['common', 'c337']), k2qCommon: 1e-2,
@@ -68,7 +71,12 @@ export const DECL = Object.freeze({
  *   'lock' 潮汐ロック(月・イオ)/'part' ある程度ロック(水星 —— 3:2・金星 —— 太陽と地球に同時)/'not' ロックしない(地球・火星・木星・土星・天王星・海王星)
  */
 export const lockStates = Object.freeze({ Moon: 'lock', Io: 'lock', Mercury: 'part', Venus: 'part', Earth: 'not', Mars: 'not', Jupiter: 'not', Saturn: 'not', Uranus: 'not', Neptune: 'not' });
-const CACHE = { T1: null, GEO: null, kI: {}, om: {}, body: {} };
+const CACHE = { T1: null, GEO: null, kI: {}, om: {}, body: {}, loc: {} };
+/** 母天体の扁平の倍(衛星だけ —— 第353便z の sigmaN・fOf。惑星は 1) */
+export function sigmaHost(id, ob = DECL.obMain) {
+  if (!DECL.obs.includes(ob)) throw new RangeError('sigmaHost: ob は ' + DECL.obs.join('・'));
+  return ob === 'none' || !(id in DECL.host) ? 1 : ZP.sigmaN(ZP.fOf(DECL.host[id]), DECL.obN);
+}
 const ctx = (o = {}) => ({ T1: o.T1 || (CACHE.T1 || (CACHE.T1 = E.t1Table())), GEO: o.GEO || (CACHE.GEO || (CACHE.GEO = E.geometry())) });
 const val = (id, k) => (TL.BODY_SRC[id] && TL.BODY_SRC[id][k] ? TL.BODY_SRC[id][k][0] : null);
 
@@ -120,22 +128,26 @@ export function colParams(col, { u = null } = {}, o = {}) {
   return { col, label: c.label, u: uu, k };
 }
 /** 合成の回転 Ω(rad/s のベクトル)と自転軸 ŝ・背景のベクトル(第353便zf の作り: u × bgUnit + k × localSumAt(λ 1)) */
-export function omOf(id, col, { u = null } = {}, o = {}) {
-  const p = colParams(col, { u }, o), ck = id + '|' + p.u + '|' + p.k;
+export function omOf(id, col, { u = null, ob = DECL.obMain } = {}, o = {}) {
+  const p = colParams(col, { u }, o), sg = sigmaHost(id, ob), ck = id + '|' + p.u + '|' + p.k + '|' + sg;
   if (CACHE.om[ck]) return CACHE.om[ck];
-  const { T1, GEO } = ctx(o), bg = scl(ZF.bgUnit(o), p.u), loc = ZF.localSumAt(id, 1, o), Om = add(bg, scl(loc, p.k));
-  const srcs = ZF.DECL.sats[id] || ['Sun'], sHat = unit(K.spinRot(T1, GEO, id, srcs[srcs.length - 1], { part: 'S' }).sHat);
-  return (CACHE.om[ck] = { ...p, Om, bg, loc, sHat, W: nrm(Om), perp: nrm(crs(Om, sHat)), bgMag: nrm(bg) });
+  const { T1, GEO } = ctx(o), bg = scl(ZF.bgUnit(o), p.u);
+  const lk = id + '|' + sg;
+  if (!CACHE.loc[lk]) { const srcs = ZF.DECL.sats[id] || ['Sun'];   // 局所と ŝ は u と k に依らない。衛星は母天体の項に扁平の倍 σ
+    const loc = sg === 1 ? ZF.localSumAt(id, 1, o) : add(ZF.localAtLam(id, srcs[0], 1, o), scl(ZF.localAtLam(id, srcs[1], 1, o), sg));
+    CACHE.loc[lk] = { loc, sHat: unit(K.spinRot(T1, GEO, id, srcs[srcs.length - 1], { part: 'S' }).sHat) }; }
+  const { loc, sHat } = CACHE.loc[lk], Om = add(bg, scl(loc, p.k));
+  return (CACHE.om[ck] = { ...p, sigma: sg, Om, bg, loc, sHat, W: nrm(Om), perp: nrm(crs(Om, sHat)), bgMag: nrm(bg) });
 }
 /** 軸引きずりの直交成分のトルク N m: C M R² × 自転の率 × 直交成分(mode 'obs'・'sync'・'syncAbs') */
-export function dragTorque(id, col, { mode = 'obs', u = null } = {}, o = {}) {
+export function dragTorque(id, col, { mode = 'obs', u = null, ob = DECL.obMain } = {}, o = {}) {
   if (!DECL.modes.includes(mode)) throw new RangeError('dragTorque: mode は ' + DECL.modes.join('・'));
-  const b = bodyOf(id, o), w = omOf(id, col, { u }, o), rate = mode === 'obs' ? Math.abs(b.spin) : b.nOrb, comp = mode === 'syncAbs' ? w.W : w.perp;
+  const b = bodyOf(id, o), w = omOf(id, col, { u, ob }, o), rate = mode === 'obs' ? Math.abs(b.spin) : b.nOrb, comp = mode === 'syncAbs' ? w.W : w.perp;
   return b.I * rate * comp;
 }
 /** X = 潮汐のトルク ÷ 軸引きずりの直交成分のトルク */
-export function xOf(id, col, { mode = 'obs', k2q = 'common', u = null } = {}, o = {}) {
-  return tideTorque(id, null, { k2q }) / dragTorque(id, col, { mode, u }, o);
+export function xOf(id, col, { mode = 'obs', k2q = 'common', u = null, ob = DECL.obMain } = {}, o = {}) {
+  return tideTorque(id, null, { k2q }) / dragTorque(id, col, { mode, u, ob }, o);
 }
 /** X = 1 になる自転周期(日)と公転の周期との比(直交成分は perpMode 'perp' = abs(Ω × ŝ)・'abs' = abs(Ω))。比 > 1 なら「同期の自転でも軸引きずりが上回る」 */
 export function pCrit(id, col, { k2q = 'common', perpMode = 'perp', u = null } = {}, o = {}) {
@@ -155,8 +167,8 @@ export function separateAt(rows, { partAsLock = true } = {}) {
     outLock: L.filter((r) => !(r.X > 1)).map((r) => r.id), outNot: N.filter((r) => !(r.X < 1)).map((r) => r.id) };
 }
 /** 列 × 置き方 × k₂/Q の X の行(10 天体) */
-export function xRows(col, { mode = 'obs', k2q = 'common', u = null } = {}, o = {}) {
-  return DECL.bodies.map((id) => ({ id, state: lockStates[id], X: xOf(id, col, { mode, k2q, u }, o) }));
+export function xRows(col, { mode = 'obs', k2q = 'common', u = null, ob = DECL.obMain } = {}, o = {}) {
+  return DECL.bodies.map((id) => ({ id, state: lockStates[id], X: xOf(id, col, { mode, k2q, u, ob }, o) }));
 }
 /** k₂/Q を共通で振ったとき線(比 1)で分かれる k₂/Q の範囲(X は k₂/Q に比例 —— 閉じた形): [1 ÷ 単位の lockMin, 1 ÷ 単位の notMax](空なら null)と格子 [lo, hi] に切ったもの */
 export function k2qBand(col, { mode = 'obs', partAsLock = true, u = null } = {}, o = {}) {
@@ -186,6 +198,21 @@ export function uBand(col, { mode = 'obs', k2q = 'common', partAsLock = true } =
 }
 /** u の点が範囲の内か */
 export const inRanges = (u, ranges) => ranges.some((r) => u >= r.lo && u <= r.hi);
+
+/* ───────── 表 2c: ロックへ入る時間 ÷ 年齢(第337便c の bodyRow —— 比べる列。k₂/Q と初めの自転の周期はノブ)───────── */
+/** 天体ごとの第337便c の tDespinYr・ageRatio・kqReq(初めの自転 10 時間 —— 第337便c の表に無い天体は null —— 数なし)と第337便c の状態 */
+export function despinRows() {
+  return DECL.bodies.map((id) => { const row = TL.BODY_ROWS.find((r) => r.id === id);
+    if (!row) return { id, state: lockStates[id], state337: null, tDespinYr: null, ageRatio: null, kqReq: null, Ntide: null };
+    const br = TL.bodyRow(row); return { id, state: lockStates[id], state337: row.state, tDespinYr: br.tDespinYr, ageRatio: br.ageRatio, kqReq: br.kqReq.find((q) => q.p0h === TL.DECL.bodies.p0Main).kq, Ntide: br.Ntide }; });
+}
+/** 分かれ方(値が小さい側 = ロックの側): reading '337c'(第337便c の状態 —— 金星はロックしない・水星は外す)/'zk'(本節のロックの側 —— 水星・金星をロックの側) */
+export function despinSep(rows, key, reading) {
+  const rr = rows.filter((r) => r[key] !== null).map((r) => ({ ...r, state: reading === '337c' ? (r.state337 === 'locked' ? 'locked' : r.state337 === 'notLocked' ? 'notLocked' : 'other') : (r.state === 'not' ? 'notLocked' : 'locked') }));
+  const s = TL.separate(rr, key, 'low'), L = rr.filter((r) => r.state === 'locked'), N = rr.filter((r) => r.state === 'notLocked');
+  return { reading, key, separable: s.separable, band: s.band, lockIds: L.map((r) => r.id), notIds: N.map((r) => r.id),
+    lockMaxId: L.reduce((a, r) => (r[key] > a[key] ? r : a), L[0]).id, notMinId: N.reduce((a, r) => (r[key] < a[key] ? r : a), N[0]).id, noData: rows.filter((r) => r[key] === null).map((r) => r.id) };
+}
 
 /* ───────── 金星 —— 地球の影響(表 4)───────── */
 /** 金星と地球の道の半径(第337便c の BODY_SRC —— 統括の数え直し 8 と同じ)と 1 会合の平均 ⟨1/d⁶⟩(円の同じ面の道・会合の位相で一様)・内合の 1/d⁶ */
@@ -256,7 +283,11 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const nNow = solarDaysN();
   const lin = xOf('Earth', 'A', { k2q: 2e-2 }, o) / xOf('Earth', 'A', { k2q: 1e-2 }, o);
   const st = bodyOf('Saturn', o);
-  return { anchor, eos, eosLib, tide, uV: cs.u, uVlib: ZF.uVenus(o), kI: colParams('I', {}, o).k, kj, om, g, venusUW: wU.W, nNow, lin, saturn: { M: st.M, C: st.C, src: st.src } };
+  const ioNone = omOf('Io', 'A', { ob: 'none' }, o), ioSum = ZF.localSumAt('Io', 1, o), sigJ = sigmaHost('Io');
+  const dr = despinRows().find((r) => r.id === 'Earth'), bE = bodyOf('Earth', o), brE = TL.bodyRow(TL.BODY_ROWS.find((r) => r.id === 'Earth'));
+  const ageE = bE.I * Math.abs(2 * Math.PI / (TL.DECL.bodies.p0Main * 3600) - bE.nOrb) / (1.5 * TL.DECL.bodies.k2qSolid * brE.tide.reduce((q, t) => q + t.N, 0)) / (TL.DECL.bodies.ageYr * TL.YR);
+  return { obNone: nrm([ioNone.loc[0] - ioSum[0], ioNone.loc[1] - ioSum[1], ioNone.loc[2] - ioSum[2]]) / nrm(ioSum), sigJ, sigSun: ZP.sigmaN(ZP.fOf('Sun'), DECL.obN), despinE: dr.ageRatio, despinEown: ageE,
+    anchor, eos, eosLib, tide, uV: cs.u, uVlib: ZF.uVenus(o), kI: colParams('I', {}, o).k, kj, om, g, venusUW: wU.W, nNow, lin, saturn: { M: st.M, C: st.C, src: st.src } };
 }
 export function pureGates(S) {
   return {
@@ -269,6 +300,8 @@ export function pureGates(S) {
     gRes: rel(S.g.res, ANCHOR.gRes) <= 1e-2 && rel(S.g.esOverRes, ANCHOR.gEsOverRes) <= 1e-2 && rel(S.venusUW, S.g.res) <= 1e-6,
     nNow: Math.abs(S.nNow.N - ANCHOR.nNow) < 0.1,
     k2qLinear: rel(S.lin, 2) <= 1e-12,
+    obO2b: S.obNone <= 1e-9 && Math.abs(S.sigJ / 1.045728 - 1) <= 1e-5 && S.sigSun - 1 <= 1e-5,
+    despin337c: rel(S.despinE, S.despinEown) <= 1e-9,
     struct: S.saturn.C > 0 && S.saturn.M > 0 && /structOf/.test(S.saturn.src),
   };
 }

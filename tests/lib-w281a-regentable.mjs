@@ -3542,6 +3542,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/orbitk-353zj.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zj: 零試験 14/率 4 × 9(全部・共通の分・差)/参考の幅との比と c_輪 の上限・寄る下限の窓 4 × 9/在位の組 9/言えること 3 × 4' }),
   // ==== 第353便zj の塊(ここまで)====
+  // ==== 第353便zk の塊(ここから)====
+  // ---- 第353便zk(原仮定者の補足(2026-11-25 —— 第152報)・原仮定者の回答(2026-11-25 —— 第151報)AN1034・原仮定者の指示(2026-11-14 —— 第138報)・統括の検証項目 R501): **潮汐ロックの定義の不等式を、主の列の候補 3 本で比 X = 潮汐のトルク ÷ 軸引きずりの直交成分のトルク として数える表(天体 10 × 列 3 × 置き方 3 × k₂/Q 2・線 1 で分かれるか・k₂/Q と u の範囲・金星と地球・整数の並び)**
+  //   (段 lockdef-353zk —— 正本 tests/out/lockdef-353zk.json・lib tests/lib-w353zk-lockdef.mjs —— 第337便c・第353便zf・j・g・第352便q・k・第351便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に threecols-353zf・venus098-353j・venuslock-353g)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第353便zk の枝の実測 2 s(第353便z の扁平の倍の lib も呼ぶ)
+  S('lockdef-353zk', 'node tests/exp-w353zk-lockdef.mjs', ['tests/out/lockdef-353zk.json'], 2, { secSource: 'w353zk-branch', node: true,
+    after: ['threecols-353zf', 'venus098-353j', 'venuslock-353g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/lockdef-353zk.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便zk: 零試験 12/X 10 天体 × 列 3 × 置き方 3 × k₂/Q 2 と X = 1 の自転周期/線 1 で分かれるか 36 行と k₂/Q の範囲 18/u の範囲 12/金星と地球 3/整数の並び 12/言えること 3' }),
+  // ==== 第353便zk の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv
