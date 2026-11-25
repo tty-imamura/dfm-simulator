@@ -1631,6 +1631,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgwindow352y docs.bgwindow352y"
 #   docs.sconseq352za —— 原文と表と数の文が PHYSICS〔第352便za〕に逐語・文書)と、新しい段 sconseq-352za
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
 # ==== 第352便za の塊(ここまで)====
+# ==== 第353便f の塊(ここから)====
+# 第353便f(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R470 —— 診断だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.ratesum353f —— 零試験 11・器を走らせ直して第338便c の recheckRun で正本と照合・QA の中で別に書いた式・仮の値の印・呼ぶだけ /
+#   docs.ratesum353f —— 原文と表と数の文が PHYSICS〔第353便f〕に逐語・文書)と、新しい段 ratesum-353f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ratesum353f docs.ratesum353f"
+# ==== 第353便f の塊(ここまで)====
 # ==== 第352便z の塊(ここから)====
 # 第352便z(統括の検証項目 R464 —— 文書と照合の鍵だけ・html は変えない): 枝 z の新設 1 本(docs.equations352z —— 計算式の一覧の EQ-130〜EQ-149)と、
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
