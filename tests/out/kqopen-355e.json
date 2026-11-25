@@ -674,7 +674,7 @@
    },
    {
     "id": "cTideInf",
-    "name": "地球の潮汐(内合)が金星の釣り合った残りに届く",
+    "name": "地球の潮汐(内合)が金星に残るトルクに届く",
     "uLo": 0,
     "uHi": 2.236617133951574e-7,
     "coefLo": 0,
@@ -826,37 +826,37 @@
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.079
+   "wallSec": 0.054
   },
   "pure": {
-   "wallSec": 0.176
+   "wallSec": 0.159
   },
   "t1": {
-   "wallSec": 0.176
+   "wallSec": 0.159
   },
   "t2": {
-   "wallSec": 0.176
+   "wallSec": 0.159
   },
   "t3": {
-   "wallSec": 0.176
+   "wallSec": 0.159
   },
   "t4": {
-   "wallSec": 0.177
+   "wallSec": 0.159
   },
   "t5": {
-   "wallSec": 0.177
+   "wallSec": 0.16
   },
   "t6": {
-   "wallSec": 0.177
+   "wallSec": 0.16
   }
  },
- "elapsedS": 0.478,
+ "elapsedS": 0.287,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第355便e",
   "target": "tests/lib-w355e-kqopen.mjs",
-  "targetSha256": "7b0c663880b10185efcdc4c351de2d255006501d807fce8479d99a1097734fc2",
-  "generatedAt": "2026-11-25T20:15:43.502Z",
+  "targetSha256": "ea18e809eaab04c45f4617aaf9c1d810bd800d1fbaf76b50f1a68019bd7d9cf7",
+  "generatedAt": "2026-11-25T20:19:41.880Z",
   "inputs": [
    {
     "file": "tests/out/bgrange-355b.json",
@@ -1624,12 +1624,12 @@
    },
    {
     "file": "tests/lib-w355e-kqopen.mjs",
-    "bytes": 13333,
-    "sha256": "7b0c663880b10185efcdc4c351de2d255006501d807fce8479d99a1097734fc2",
-    "mtime": "2026-11-25T20:14:50.772Z"
+    "bytes": 13321,
+    "sha256": "ea18e809eaab04c45f4617aaf9c1d810bd800d1fbaf76b50f1a68019bd7d9cf7",
+    "mtime": "2026-11-25T20:19:34.207Z"
    }
   ],
-  "codeSha256": "03ee7ca42cfd5997fa6227ddbba956592fa35f4eaaafd56088e99c39a9517f69",
+  "codeSha256": "49e41114afa61b7245c92bb42c052202ad60f62e7693feb3aeac36fe2e3c7f81",
   "harnessVersion": "w355e-kqopen-1",
   "stage": "kqopen",
   "engine": "Node(html を読まない —— 純関数の lib・〔第355便b〕の lib を呼ぶ)・1 プロセス",

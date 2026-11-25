@@ -1900,6 +1900,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355d docs.equations353zz"
 # 第355便e(統括の検証項目 R508 —— 継ぎ目・計算式の一覧・診断だけ・html は変えない): 枝 e の新設(docs.equations355e —— 計算式の一覧の EQ-190〜EQ-194〔第355便b の式〕・冒頭の 1 行・§2a・§7 の規則 24)と、
 #   EQ-189 までの写し(view355dOf355e)で読む形にした第355便d の照合(docs.equations355d)・範囲の数を正本から作る第355便a の照合(docs.report155_355a)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355e docs.equations355d"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.kqopen355e docs.kqopen355e docs.report155_355a"
 # ==== 第355便e の塊(ここまで)====
 # ==== 第355便h の塊(ここから)====
 # 第355便h(原仮定者の指示(2026-11-25)・統括の検証項目 R511 —— 文書と道具と検査だけ・html は変えない): 枝 h の新設 2 本(docs.aichat355h —— 対話の入口のページ・

@@ -110,7 +110,7 @@ export function seamC(Jb, Jc) {
 }
 
 /* ───────── 全体の係数(= u ÷ 金星の条件の値)で読む 3 つの題 ───────── */
-/** (a) 0.98 倍 (b) 線 1 の範囲(主の行)(c) 金星の釣り合った残りに地球の項が届く u の上端(〔第355便b〕の正本の表 6 —— 比は u に反比例)(d) 共通部分(k₂/Q 共通の 3 組・6 組を開いた所) */
+/** (a) 0.98 倍 (b) 線 1 の範囲(主の行)(c) 金星に残るトルクに地球の項が届く u の上端(〔第355便b〕の正本の表 6 —— 比は u に反比例)(d) 共通部分(k₂/Q 共通の 3 組・6 組を開いた所) */
 export function coefTopics(Jb, U, Bd, o = {}) {
   const uV = B.uVOf(true, o), m = B.uRange(DECL.build, { mode: 'obs', k2q: 'common', ref: DECL.ref }, o), c = Jb.t6.c;
   const cm3 = B.commonPart(DECL.build, { ref: DECL.ref, partAsLock: DECL.partAsLock, sets: DECL.modes.map((q) => ({ mode: q, k2q: 'common' })) }, o);
@@ -118,7 +118,7 @@ export function coefTopics(Jb, U, Bd, o = {}) {
   const T = [
     { id: 'a', name: '0.98 倍', uLo: DECL.uFocus, uHi: DECL.uFocus },
     { id: 'b', name: '線 1 で分かれる範囲(主の行)', uLo: m.lo, uHi: m.hi },
-    { id: 'cTideInf', name: '地球の潮汐(内合)が金星の釣り合った残りに届く', uLo: 0, uHi: c.tideInfUMax },
+    { id: 'cTideInf', name: '地球の潮汐(内合)が金星に残るトルクに届く', uLo: 0, uHi: c.tideInfUMax },
     { id: 'cTideMean', name: '地球の潮汐(1 会合の平均)が届く', uLo: 0, uHi: c.tideMeanUMax },
     { id: 'cEg', name: '(E-g) の最大((B − A)/C 1e-5)が届く', uLo: 0, uHi: c.egUMax },
     { id: 'dCommon3', name: '共通部分(k₂/Q 共通の 3 組)', uLo: cm3.lo, uHi: cm3.hi },
