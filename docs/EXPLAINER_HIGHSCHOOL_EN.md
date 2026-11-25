@@ -75,9 +75,11 @@ One D0 slider is a miniature of the 300-year dispute.
 ### 3-3. Frame dragging and galactic rotation curves (🌌 Galaxy / 🌀 rotor solo)
 
 Because the inner stars drag space around, outer stars ride the rotating space and keep
-their speed with little gravity — **the rotation curve flattens with no dark matter**.
+their speed with little gravity — **the outer stars move faster than in the no-drag control**
+(a model-internal comparison — it does not say the whole curve becomes flat).
 The suggested A/B runs drag-on vs drag-off side by side.
-- ✅ A mechanism demo: *if* dragging were strong, this too would flatten curves. Momentum
+- ✅ A mechanism demo: *if* dragging were strong, the outer disc would move faster (stage "partial"
+  in the phenomena status page — the yardstick is the speed ratio to the no-drag control). Momentum
   and angular momentum are conserved exactly, reaction included (see the conservation monitor)
 - ⚠️ **Not a claim about the real universe.** Real dragging (Lense-Thirring) is tiny, and
   dark matter has many independent lines of evidence
@@ -86,10 +88,13 @@ The suggested A/B runs drag-on vs drag-off side by side.
 
 Set the knob — the spacetime coefficient X_k (the reciprocal of the older Kt) — to its real value (reference gravity G_0 ÷ reference light speed c_0², the "correspondence lock"; when loaded values already satisfy it the lock switches on by itself and the values stay as they are) and:
 - ✅ GPS clock gain **+38.5 μs/day**, starlight deflection at the Sun's limb **1.75″**, and
-  Shapiro delay **≈281 μs** all match simultaneously, from the single scalar psi
+  Shapiro delay **≈281 μs** — the values from the single scalar psi all fall inside a ±1% window
+  around the weak-field GR formula values (the yardstick is the formula value, not a run that
+  copies an observation)
 - ⚠️ The base rules do **not** produce Mercury's perihelion precession (43″/century). Only
   the explicit E12 geodesic extension — promoting the clock's psi into the law of motion —
-  reproduces it. A model that states plainly where it works and where it fails
+  produces it; the yardstick is the two-body 1PN formula value (not an observation), and the
+  coefficient is set by a rule. A model that states plainly where it is inside the window and where it is not
 
 ### 3-5. The basics of thermodynamics (🔥 equilibrium, 📏 conduction, 🌈 radiative cooling, ♨️ convection, 🧪 buoyancy)
 
@@ -142,8 +147,8 @@ remaining one; partners are set by geometry alone, every instant).
 - ✅ Galaxies separate; light waves stretch (redshift); bound systems do not expand. In 🧭,
   **measuring the same universe two different ways splits the expansion-rate answer by ~8%**
   — because one estimator assumes a formula that differs from this universe's actual law.
-  Calibrated to the same level as the real **Hubble tension** (~9%)
-- ⚠️ That match is by calibration, not an explanation of the real tension (the on-screen
+  Its size is set to the same level as the real **Hubble tension** (~9%)
+- ⚠️ That closeness is by setting the size, not an explanation of the real tension (the on-screen
   note says so itself)
 
 ### 3-10. Igniting a star (⭐ star core)
@@ -160,8 +165,8 @@ remaining one; partners are set by geometry alone, every instant).
 | Inverse-square gravity | Given as law / derived from GR | Emerges from the determinant's slope ◎ |
 | Standard of inertia | Absolute space … partially Machian | Pure majority vote; D0 interpolates the two |
 | Frame dragging | Real (Lense-Thirring) but tiny | A free knob (this is the "assumption") |
-| Flat rotation curves | Dark matter (much independent evidence) | Strong dragging (model-internal only) |
-| Time dilation / light bending | Established GR | Same-shaped formulas from one scalar (weak-field match) |
+| Galactic rotation curves (outer disc) | Flat — explained by dark matter (much independent evidence) | Strong dragging makes the outer speed exceed the control (model-internal only; stage "partial") |
+| Time dilation / light bending | Established GR | Same-shaped formulas from one scalar (inside a ±1% window around the weak-field formula values) |
 | Heat and pressure | Translational molecular motion | Internal temperature + thermal pressure (assumed rule) |
 | Latent heat / phase change | Intermolecular forces + statistical mechanics | Emerges from enthalpy bookkeeping + intermolecular forces |
 | Molecules | Quantum chemical bonds | Look-alike structures from classical bond-budget/valence rules |
@@ -179,7 +184,7 @@ remaining one; partners are set by geometry alone, every instant).
    momentum and energy ledgers live — the audit that keeps "emergence" honest.
 4. Every parameter is editable; reset with ⏮ if things blow up. Phase-change samples have
    their own knobs (melting point, latent heats, bonds, …).
-5. Every claim is checked by a machine QA suite (300+ items) on every build (`tests/`).
+5. Every claim is put through the machine QA suite on every build (`tests/`).
 
 ## 6. To go further
 

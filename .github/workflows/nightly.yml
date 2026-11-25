@@ -67,6 +67,11 @@ jobs:
           tests/ci-pages-collate.sh --path beta/index.html --scan 20 | tee beta.json
           echo "exit=$?" >> "$GITHUB_OUTPUT"
         continue-on-error: true
+      # 第355便h(R511): 公開のサイトが対話の入口(docs/AI_CHAT.md)・仕様の頭の短いページ(docs/AI_SPEC_CORE.md)・仕様のページ(docs/AI_SPEC.md)と、
+      #   その .html の形を配っているかを記録する(HTTP の状態と大きさ —— 情報のみ。下の判定には入れない・取れなくてもジョブは緑)。
+      - name: 文書のページの配信の記録(情報のみ)
+        run: tests/ci-pages-docs.sh | tee docs-pages.jsonl
+        continue-on-error: true
       - name: 判定(取得できた不一致だけを FAIL にする)
         run: |
           fail=0
@@ -91,6 +96,7 @@ jobs:
           path: |
             root.json
             beta.json
+            docs-pages.jsonl
 
   frozen-baseline:
     name: 凍結基準 html の部分 clone(informational)
