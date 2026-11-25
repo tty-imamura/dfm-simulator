@@ -1798,6 +1798,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringsurf353y docs.ringsurf353y"
 #   docs.obpower353z —— 原文と表と数の文が PHYSICS〔第353便z〕に逐語・文書)と、新しい段 obpower-353z
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obpower353z docs.obpower353z"
 # ==== 第353便z の塊(ここまで)====
+# ==== 第353便zg の塊(ここから)====
+# 第353便zg(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・AN1045・AN1039・AN1034・統括の検証項目 R495 —— 診断だけ・html は変えない): 枝 zg の新設 2 本
+#   (behavior.equalradius353zg —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・a★ の冪と閉じた形と見込みを QA の中で別に照合・呼ぶだけ /
+#   docs.equalradius353zg —— 原文と表と数の文が PHYSICS〔第353便zg〕に逐語・文書)と、新しい段 equalradius-353zg
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.equalradius353zg docs.equalradius353zg"
+# ==== 第353便zg の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

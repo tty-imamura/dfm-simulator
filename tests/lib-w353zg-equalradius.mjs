@@ -4,7 +4,7 @@
 //   (器 tests/exp-w353zg-equalradius.mjs と QA behavior.equalradius353zg・docs.equalradius353zg が読む —— html を読まない・ファイルを読まない・状態を持たない。後のラウンドの枝もこの口を import してよい)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
 //   第353便z(moonParts・xFromParts・sigmaN・fOf)・第353便p(localStd・rotP・bg1)・第353便d(circRot・litOf)・第352便v(uVt)・第352便k(spinRot・srcRadius)・第351便c(pairInput)・
-//   第348便h(YK)・第348便c(massOf)・第337便c(BODY_SRC —— 月の道の半径)・第312便a(Kball)・第334便a(LIT334A —— 衛星と環の半径〔文献の値・未照合〕)・第347便e(t1Table・geometry)。
+//   第348便h(YK)・第348便c(massOf)・第338便d(LIT.regions —— 土星の環の区分の内縁と外縁〔文献の値・未照合〕)・第337便c(BODY_SRC —— 月・フォボス・ダイモスの道の半径)・第312便a(Kball)・第334便a(LIT334A —— 衛星と環の半径〔文献の値・未照合〕)・第347便e(t1Table・geometry)。
 //   仮の値の lib(第352便b)には届かない(import の閉包に入れない —— 枝 j・l・t の lib は呼ばない)。
 //
 // ■ 量: x(a) = abs(局所の太陽由来 + σ × 局所の母天体由来) ÷ abs(金星 ← 太陽の (S))(〔第353便z〕の moonParts と同じ作り —— 母天体の赤道の円の道の半径 a を振る)。
@@ -22,6 +22,7 @@ import * as SP from './lib-w351c-srcparts.mjs';
 import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
 import * as TL from './lib-w337c-tidelock.mjs';
+import * as RB from './lib-w338d-ringbook.mjs';
 import * as D from './lib-w312a-decay.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
 import { LIT334A } from './lib-w334a-heightlaw.mjs';
@@ -157,6 +158,16 @@ export function aHalf(T1, GEO, src, { n = 0, bg = 'Np', axis = 'L' } = {}) {
   return Math.sqrt(L * H);
 }
 
+/** 合成と基準軸の角が、局所と基準軸の角の frac 倍になる半径(対数の二分 —— 0.9 と 0.1 で「替わる幅」)。o: { n, bg, axis } */
+export function aFrac(T1, GEO, src, frac, { n = 0, bg = 'Np', axis = 'L' } = {}) {
+  if (!(fin(frac) && frac > 0 && frac < 1)) throw new RangeError('aFrac: 0 < frac < 1');
+  const Ro = K.srcRadius(src, 1), g = (a) => { const r = axisAt(T1, GEO, src, a, { n, bg, axis }); return r.angRef / r.angLocRef - frac; };
+  let L = 1.01 * Ro, H = 200 * Ro, gL = g(L), gH = g(H);
+  if (!(gL * gH < 0)) return null;
+  for (let i = 0; i < 70; i++) { const mid = Math.sqrt(L * H), gm = g(mid); if (gL * gm <= 0) { H = mid; gH = gm; } else { L = mid; gL = gm; } }
+  return Math.sqrt(L * H);
+}
+
 /* ───────── 構造(リポジトリの衛星と環の半径 —— 文献の値・未照合)───────── */
 const HOST_OF = Object.freeze({ Jupiter: 'jupiter', Saturn: 'saturn', Uranus: 'uranus', Neptune: 'neptune', Earth: 'earth', Mars: 'mars' });
 /** 約束の口: 母天体 src の構造の行 [{ key, name, kind('moon'|'ring'), r }](LIT334A の衛星と環・地球は第337便c の BODY_SRC の月・火星はフォボスとダイモス) */
@@ -179,6 +190,74 @@ export function pertScale(src, id, sgn) {
   return { s: { M: r } };
 }
 
+/* ───────── 土星の環の区分の内縁・外縁(第338便d の LIT.regions —— 文献の値・未照合)───────── */
+export function ringEdges() {
+  return RB.LIT.regions.map((g) => ({ key: g.key, r0: g.r0 * 1e3, r1: g.r1 * 1e3, rc: RB.centerKm(g.key) * 1e3 }));
+}
+
+/* ───────── 表 ───────── */
+/** 表 1: 木星・土星 × 扁平の倍 3 通りの a★・入力の幅・構造の半径 ÷ a★ と x */
+export function table1(T1, GEO) {
+  return Object.values(DECL.hosts).map((src) => {
+    const Ro = K.srcRadius(src, 1), f = Z.fOf(src), ins = [...DECL.inputs[src], ...DECL.inputs.common];
+    const cols = DECL.nList.map((n) => {
+      const a = aStar(T1, GEO, src, { n });
+      const widths = ins.map((I) => { const up = pertScale(src, I.id, 1), dn = pertScale(src, I.id, -1);
+        const ap = n === 0 && I.id === 'f' ? a : aStar(T1, GEO, src, { n, ...up }), am = n === 0 && I.id === 'f' ? a : aStar(T1, GEO, src, { n, ...dn });
+        return { id: I.id, name: I.name, lit: I.lit, relUnit: I.unit / Number(I.lit), aPlus: ap, aMinus: am, dPlus: ap / a - 1, dMinus: am / a - 1 }; });
+      const half = widths.map((w) => 0.5 * Math.abs(w.aPlus - w.aMinus)), rss = Math.sqrt(half.reduce((s, h) => s + h * h, 0));
+      const all = widths.flatMap((w) => [w.aPlus, w.aMinus]);
+      return { n, sigma: sigOf(src, n), aStar: a, overRo: a / Ro, widths, rss, relRss: rss / a, min: Math.min(...all), max: Math.max(...all) };
+    });
+    const structs = structRows(src).map((S) => { const Pt = partsAt(T1, GEO, src, S.r);
+      return { ...S, overRo: S.r / Ro, cells: cols.map((c) => { const x = xOfParts(Pt, { n: c.n }), q = S.r / c.aStar;
+        return { n: c.n, ratio: q, x, inRss: Math.abs(S.r - c.aStar) <= c.rss, inOne: S.r >= c.min && S.r <= c.max, in5: Math.abs(q - 1) <= 0.05, in2: Math.abs(q - 1) <= 0.02 }; }) }; });
+    return { src, Ro, f, cols, structs };
+  });
+}
+/** 表 2: 閉じた形と数の差(木星・土星 × n 3 通り・ほかの母天体は n 0)・地球の a★ と月の道 */
+export function table2(T1, GEO) {
+  const row = (src, n) => { const c = aStarClosed(T1, GEO, src, { n }), a = aStar(T1, GEO, src, { n });
+    return { src, n, a, overRo: a / c.Ro, inside: a < c.Ro, ...c, d0: c.a0 / a - 1, dGeo: c.aGeo / a - 1, dSun: c.aSun === null ? null : c.aSun / a - 1 }; };
+  const rows = [...Object.values(DECL.hosts).flatMap((src) => DECL.nList.map((n) => row(src, n))), ...DECL.others.map((src) => row(src, 0))];
+  const structs = DECL.others.map((src) => { const r = rows.find((q) => q.src === src);
+    return { src, items: structRows(src).map((S) => { const Pt = partsAt(T1, GEO, src, S.r); return { ...S, overRo: S.r / r.Ro, ratio: S.r / r.a, x: xOfParts(Pt), sunOverPar: nrm(Pt.sun) / nrm(Pt.parent) }; }) }; });
+  return { rows, structs };
+}
+/** 区間の和の長さ(対数) */
+const unionLen = (iv) => { const s = [...iv].sort((p, q) => p[0] - q[0]); let L = 0, cur = null; for (const [a, b] of s) { if (!cur || a > cur[1]) { if (cur) L += cur[1] - cur[0]; cur = [a, b]; } else cur[1] = Math.max(cur[1], b); } if (cur) L += cur[1] - cur[0]; return L; };
+/** 表 3: 偶然の並びの見込み(概算 —— a★ を観測の半径の 1〜30 倍に対数で一様に置く)。構造の置き方 2 つ(代表の半径・土星は区分の縁を足す) */
+export function table3(T1, GEO, t1 = null) {
+  const T = t1 || table1(T1, GEO), [g0, g1] = DECL.probRange, span = Math.log(g1 / g0);
+  const hosts = T.map((h) => {
+    const rep = h.structs.map((S) => S.r).filter((r) => r >= g0 * h.Ro && r <= g1 * h.Ro);
+    const edges = h.src === 'Saturn' ? ringEdges().flatMap((e) => [e.r0, e.r1]).filter((r) => r >= g0 * h.Ro && r <= g1 * h.Ro) : [];
+    const sets = { rep, repEdges: [...new Set([...rep, ...edges])].sort((p, q) => p - q) };
+    const probs = DECL.probTol.map((tol) => { const out = { tol };
+      for (const [k, rs] of Object.entries(sets)) { const lo = Math.log(g0 * h.Ro), hi = Math.log(g1 * h.Ro);
+        const iv = rs.map((r) => [Math.max(lo, Math.log(r / (1 + tol))), Math.min(hi, Math.log(r / (1 - tol)))]).filter(([a, b]) => b > a);
+        out[k] = { n: rs.length, p: unionLen(iv) / span, pSum: rs.length * Math.log((1 + tol) / (1 - tol)) / span }; }
+      out.hits = h.cols.map((c) => ({ n: c.n, rep: rep.some((r) => Math.abs(r / c.aStar - 1) <= tol), repEdges: sets.repEdges.some((r) => Math.abs(r / c.aStar - 1) <= tol) }));
+      return out; });
+    return { src: h.src, Ro: h.Ro, sets, probs };
+  });
+  const both = DECL.probTol.map((tol, k) => ({ tol, rep: hosts[0].probs[k].rep.p * hosts[1].probs[k].rep.p, repEdges: hosts[0].probs[k].repEdges.p * hosts[1].probs[k].repEdges.p }));
+  return { range: DECL.probRange, span, hosts, both };
+}
+/** 表 4: a★ の内と外の合成の軸(格子・構造・土星の環の縁)と、軸が半分替わる半径 ÷ a★ */
+export function table4(T1, GEO, t1 = null) {
+  const T = t1 || table1(T1, GEO);
+  return T.map((h) => {
+    const src = h.src, Ro = h.Ro, at = (a) => { const Pt = partsAt(T1, GEO, src, a), A = axisAt(T1, GEO, src, a, { Pt }), B = axisAt(T1, GEO, src, a, { Pt, u: DECL.u98 });
+      return { a, overRo: a / Ro, x: A.x, angSpin: A.angSpin, angAnti: A.angAnti, angRef: A.angRef, angRef098: B.angRef, angLocRef: A.angLocRef, angSpinRef: A.angSpinRef, magOverBg: A.magOverBg, mag098: B.magOverBg, k098: B.k }; };
+    const grid = DECL.axisGrid.map((g) => at(g * Ro));
+    const structs = h.structs.map((S) => ({ key: S.key, name: S.name, ...at(S.r) }));
+    const edges = src === 'Saturn' ? ringEdges().flatMap((e) => [{ key: e.key + '-in', ...at(e.r0) }, { key: e.key + '-out', ...at(e.r1) }]) : [];
+    const halves = DECL.nList.map((n) => { const ah = aHalf(T1, GEO, src, { n }), as = h.cols.find((c) => c.n === n).aStar; const a9 = aFrac(T1, GEO, src, 0.9, { n }), a1 = aFrac(T1, GEO, src, 0.1, { n }); return { n, aHalf: ah, aStar: as, ratio: ah / as, a90: a9, a10: a1, r90: a9 / as, r10: a1 / as }; });
+    return { src, Ro, grid, structs, edges, halves };
+  });
+}
+
 /* ───────── 零試験 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const io = LIT334A.moons.find((m) => m.key === 'io'), cd = LIT334A.rings.find((g) => g.key === 'satCD');
@@ -195,10 +274,13 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const A1 = axisAt(T1, GEO, 'Saturn', cd.r), A2 = axisAt(T1, GEO, 'Saturn', cd.r, { u: DECL.u98 }), col098 = Math.max(rel(A1.angRef, A2.angRef), rel(A1.angSpin, A2.angSpin), rel(A1.magOverBg, A2.magOverBg));
   // 金星の局所 ÷ 背景の倍率 = 〔第352便v〕の uV
   const uV = nrm(PtIo.venus) / nrm(P.bg1(T1, GEO, 'Np', 'L'));
+  // 閉じた形(太陽由来の分の 2 次の式まで)= 二分の a★・土星の環の区分の中央 = LIT334A の半径
+  const cJ = aStarClosed(T1, GEO, 'Jupiter'), cS = aStarClosed(T1, GEO, 'Saturn', { n: 5 }), closed = Math.max(rel(cJ.aSun, jup0), rel(cS.aSun, sat5));
+  const EG = ringEdges(), edges = ['C', 'B', 'CD', 'A'].map((k) => rel(EG.find((e) => e.key === 'ring' + k).rc, LIT334A.rings.find((g) => g.key === 'sat' + k).r));
   const rj = (fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } };
   const rejects = [rj(() => partsAt(T1, GEO, 'Jupiter', -1)), rj(() => partsAt(T1, GEO, 'Jupiter', 1e9, { m: 0 })), rj(() => partsAt(T1, GEO, 'Ceres', 1e9)), rj(() => partsAt(T1, GEO, 'Jupiter', 1e9, { via: 'xx' })),
     rj(() => axisAt(T1, GEO, 'Jupiter', 1e9, { u: -1 })), rj(() => structRows('Venus')), rj(() => pertScale('Jupiter', 'xx', 1)), rj(() => partsAt(T1, GEO, 'Jupiter', 1e9, { s: { M: 1 }, via: 'lib' }))];
-  return { jup0, jup5, sat0, sat5, io0: io.a / jup0, cd0: cd.r / sat0, x0, x5, zx0, zx5, xm, vsPert, vsPertS, p3, col098, uV, uVv: V.uVt(T1, GEO, 0), rejects };
+  return { jup0, jup5, sat0, sat5, io0: io.a / jup0, cd0: cd.r / sat0, x0, x5, zx0, zx5, xm, vsPert, vsPertS, p3, col098, uV, uVv: V.uVt(T1, GEO, 0), closed, gGeoJ: cJ.gGeo, gGeoS: cS.gGeo, edges, rejects };
 }
 export function pureGates(S) {
   const A = DECL.anchor, pe = (x, s) => x.toExponential(4) === Number(s).toExponential(4), pf = (x, s) => x.toFixed(3) === s;
@@ -210,6 +292,8 @@ export function pureGates(S) {
     power3: S.p3 < 1e-6,
     col098: S.col098 < 1e-9,
     uV352v: rel(S.uV, S.uVv) < 1e-9,
+    closed: S.closed < 1e-8 && rel(S.gGeoJ, S.gGeoS) < 1e-6,
+    edges338d: S.edges.length === 4 && S.edges.slice(1).every((e) => e < 1e-12) && S.edges[0] > 1e-4 && S.edges[0] < 1e-3,   // C 環だけ中央が 0.089% 違う(内縁の字が 74 510 km と 74 658 km —— リポジトリの 2 つの表)
     rejects: S.rejects.length === 8 && S.rejects.every(Boolean),
   };
 }
