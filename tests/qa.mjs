@@ -114653,7 +114653,8 @@ function view343aOf344a(eq) {
       const jq = ci.search(/^  qa:\s*$/m), jp = ci.search(/^  perf:\s*$/m);
       const qa = jq >= 0 && jp > jq ? ci.slice(jq, jp) : '', perf = jp >= 0 ? ci.slice(jp) : '';
       const tq = qa.match(/^    timeout-minutes:\s*(\d+)\s*$/m), tp = perf.match(/^    timeout-minutes:\s*(\d+)\s*$/m);
-      if (!tq || tq[1] !== '180') b.push('② qa ジョブの timeout-minutes が 180 でない: ' + (tq ? tq[1] : 'なし'));
+      if (!tq || tq[1] !== '240') b.push('② qa ジョブの timeout-minutes が 240 でない: ' + (tq ? tq[1] : 'なし'));   // 第354便: 180 → 240 分
+      if (!/# 第354便: 180→240 分 —— /.test(qa)) b.push('② 第354便のコメント(180→240 分)が無い');
       if (!/# 第345便: 120→180 分 —— /.test(qa)) b.push('② 第345便のコメント(120→180 分)が無い');
       if (!/# 第335便: 90→120 分/.test(qa)) b.push('② 前の便のコメント(第335便)が消えた');
       if (!tp || tp[1] !== '15') b.push('② perf ジョブの timeout-minutes が 15 でない: ' + (tp ? tp[1] : 'なし'));
@@ -114665,10 +114666,11 @@ function view343aOf344a(eq) {
     const pkgT = rd('package.json'), lockT = rd('package-lock.json'), ciT = rd('.github/workflows/ci.yml');
     for (const x of check(pkgT, lockT, ciT)) bad.push(x);
     cases.push(`① package.json の playwright = ${PW_VER}(固定)・lock の playwright と playwright-core = ${PW_VER}(resolved・integrity・項は根と 2 つ)`);
-    cases.push('② ci.yml: qa の上限 180 分(第345便のコメント・前の便のコメントは残る)・perf 15 分・npm ci と npx playwright install --with-deps chromium が 2 ジョブ・版の固定の書き方なし');
+    cases.push('② ci.yml: qa の上限 240 分(第354便のコメント・第345便と前の便のコメントは残る)・perf 15 分・npm ci と npx playwright install --with-deps chromium が 2 ジョブ・版の固定の書き方なし');
     // ③ 変異
     const mut = [
-      ['上限 120', pkgT, lockT, ciT.replace(/^    timeout-minutes: 180$/m, '    timeout-minutes: 120')],
+      ['上限 180', pkgT, lockT, ciT.replace(/^    timeout-minutes: 240$/m, '    timeout-minutes: 180')],
+      ['第354便のコメントを消す', pkgT, lockT, ciT.replace(/^    # 第354便: 180→240 分 —— .*$/m, '    #')],
       ['範囲 ^1.63.0', pkgT.replace('"playwright": "1.63.0"', '"playwright": "^1.63.0"'), lockT, ciT],
       ['lock の playwright-core だけ 1.61.1', pkgT, (() => { try { const L = JSON.parse(lockT); L.packages['node_modules/playwright-core'].version = '1.61.1'; return JSON.stringify(L); } catch (e) { return lockT; } })(), ciT],
       ['install の行を消す', pkgT, lockT, ciT.replace(/^          npx playwright install --with-deps chromium\s*$/m, '')],
@@ -114677,7 +114679,7 @@ function view343aOf344a(eq) {
     if (caught.length !== mut.length) bad.push('③ 変異が落ちない: ' + mut.map(([n]) => n).filter((n) => !caught.includes(n)).join(','));
     cases.push(`③ 変異 ${caught.length}/${mut.length} で落ちる(${caught.join('・')})`);
     add('lint.ciEngine345e', bad.length === 0,
-      `**CI の版**(第345便e・原仮定者の回答 第145報 AN921・R396 —— Playwright を ${PW_VER} に固定・beta の上限 120 → 180 分): ${cases.join(' / ')}`
+      `**CI の版**(第345便e・原仮定者の回答 第145報 AN921・R396 —— Playwright を ${PW_VER} に固定・beta の上限 120 → 180 分。第354便で 180 → 240 分 —— 検査の数と性能の門は変えない): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
