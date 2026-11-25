@@ -925,7 +925,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.emRecord336a behavior.emRecord336a docs
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.unmarkedFail336b docs.unmarkedFail336b lint.violationKinds320 lint.postMergeQaScript lint.postMergeCounts324c lint.symbols333e lint.kappaSymbol315 docs.w320d lint.sectionLookup313"
 unmarked336b() {   # $1 = ログ・$2 = 一覧のファイル・$3 = 段の印(① か ④)→ 要約に足す句(0 件なら空)
   [ -f "$1" ] || { echo ""; return; }
-  local e353i; e353i=$(pmerr353i unmarked); node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>"$e353i" || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと —— 道具の stderr は $e353i)"
+  local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i unmarked); node "$ROOT/tests/lib-w336b-unmarked.mjs" --unmarked "$1" --out "$2" --label "$3" 2>"${e353i:-/dev/null}" || echo "・‼ $3 の印のない FAIL の一覧が作れない(ログ $1 を 1 行ずつ読むこと —— 道具の stderr は $e353i)"
 }
 # ==== 第336便b の塊(ここまで)====
 # ==== 第337便a の塊(ここから)====
@@ -982,10 +982,10 @@ rootadd337h() {   # $1 = 便の基点(空なら便の番号から引く)→ 1 �
   local rev="$1"
   [ "${POST_MERGE_ROOT_AUTO:-1}" = "0" ] && { echo ""; echo "本便で直した鍵は足さない(POST_MERGE_ROOT_AUTO=0)"; return; }
   local wv="${PMWAVE:-}"
-  local e353i; e353i=$(pmerr353i wave-of-root); [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>"$e353i" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $e353i)" >&2; true; })
+  local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i wave-of-root); [ -n "$wv" ] || wv=$(node "$ROOT/tests/lib-w324c-postmerge.mjs" --wave-of "$ROOT/CHANGELOG.md" 2>"${e353i:-/dev/null}" || { echo "post-merge-qa: 便の番号が CHANGELOG.md から引けない(stderr は $e353i)" >&2; true; })
   [ -n "$rev" ] || { [ -n "$wv" ] && rev=$(node "$ROOT/tests/lib-w337h-postmerge.mjs" --wave-base "$wv" 2>/dev/null); }
   [ -n "$rev" ] || { echo ""; echo "本便で直した鍵は拾えなかった(便の基点が引けない —— --base-rev で渡す)"; return; }
-  e353i=$(pmerr353i changed-ids); node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>"$e353i" || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り —— stderr は $e353i)"; }
+  e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i changed-ids); node "$ROOT/tests/lib-w337h-postmerge.mjs" --changed-ids "$rev" 2>"${e353i:-/dev/null}" || { echo ""; echo "本便で直した鍵は拾えなかった(道具の誤り —— stderr は $e353i)"; }
 }
 # ==== 第337便h の塊(ここまで)====
 # ==== 第337便i の塊(ここから)====
@@ -1642,6 +1642,7 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 #   外からの点検で指摘された点: 道具の中で stderr を捨てて「落ちたら文だけ出す」形が 9 か所 → stderr を下の置き場のファイルへ流し、落ちたときの文にそのファイルの道を書く。
 #   置き場: POST_MERGE_ERR_DIR(既定 ${TMPDIR:-/tmp}/post-merge-qa-<pid>/)・ファイルは <印>.XXXXXX(pmerr353i <印> が道を返す)。
 #   終わるときに空のファイルを消し、置き場が空なら置き場も消す(--dry でも何も残さない —— 落ちたときのファイルだけが残る)。
+#   関数の中の 5 か所は、pmerr353i が無いとき(既存の鍵が関数だけを切り出して走らせるとき)は今までどおり stderr を /dev/null へ。
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.qaTempCopy353i lint.versionRegistry353i docs.tools353i lint.changelogHeadRe351i lint.provisionalScope352b lint.preflightResume337h lint.tools352g"
 PMERR_DIR="${POST_MERGE_ERR_DIR:-${TMPDIR:-/tmp}/post-merge-qa-$$}"
 pmerr353i() { mkdir -p "$PMERR_DIR" || :; mktemp "$PMERR_DIR/$1.XXXXXX" || printf '%s/%s.err' "$PMERR_DIR" "$1"; }
@@ -1731,7 +1732,7 @@ if [ -z "${POST_MERGE_WAVE_IDS+x}" ]; then
   fi
 fi
 # ③〜④ の数: qapart の `# qapart-summary` の行を読んで PASS・FAIL・SKIP・未実行の 4 つの数(未実行の鍵の名つき —— beta で root でだけ走る鍵の未実行は正常と注記)
-qsum324c() { local e353i; e353i=$(pmerr353i sum); node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>"$e353i" || echo "要約が読めない(stderr は $e353i)"; }
+qsum324c() { local e353i; e353i=$([ -z "$(type -t pmerr353i)" ] || pmerr353i sum); node tests/lib-w324c-postmerge.mjs --sum "$1" --target "${2:-beta}" ${3:+--requested "$3"} 2>"${e353i:-/dev/null}" || echo "要約が読めない(stderr は $e353i)"; }
 # ==== 第324便c の塊(ここまで)====
 # ==== 第352便g の塊(--since と --dry —— ここから)====
 # 第352便g(R444): --since <rev> のときだけ ③′ の一覧を差し替える・--dry のときだけ一覧を出して終わる(どちらも付けなければ何もしない —— 既定の動きは不変)
@@ -1802,7 +1803,7 @@ const unIds = un.slice(0, 12).map((z) => z[0] + (z[1] === "stamp" ? "〔刻印�
 const unText = un.length ? "・‼ 印のない FAIL " + un.length + " 件(" + unIds + " —— 種類を数えていない・理由の文を読んで分ける)" : "";
 if (!r.byLint.length) { console.log(unText); process.exit(0); }
 const by = r.byLint.filter((z) => z[1] > 0).map((z) => z[0] + " " + z[1]).join("・");
-console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>"${E353K:=$(pmerr353i kinds)}" || echo "・‼ 違反の種類が数えられない(道具の stderr は $E353K)"
+console.log((r.other > 0 ? "・‼ 刻印の型以外の違反 " + r.other + " 件(" + by + ")・刻印の型 " + r.stamp + " 件" : "・刻印の型以外の違反 0 件(刻印の型 " + r.stamp + " 件 —— 鎖で直る)") + unText);' "$ROOT/tests/lib-w320d-lintkinds.mjs" "$1" 2>"${E353K:=$([ -z "$(type -t pmerr353i)" ] && echo /dev/null || pmerr353i kinds)}" || echo "・‼ 違反の種類が数えられない(道具の stderr は $E353K)"
 }
 [ "$S1" = "skip" ] || S1="$S1$(kinds320 "$LOG/1-preflight.log")"
 # ==== 第320便d の塊(ここまで)====

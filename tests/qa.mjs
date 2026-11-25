@@ -125314,7 +125314,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       cases.push(`④ 包みの自己試験 ${vs.rows.length} 通り ${vs.ok ? '全部期待どおり' : 'NG'}(束でない走行の要約の行 1 本 → rc ${v1.rc}・2 本 → rc ${v2.rc}・--batch の 2 本は rc 0 のまま)`);
       // ⑤ post-merge の stderr の置き場
       const PMS = rd353i('tools/post-merge-qa.sh') || '';
-      const nCall = (PMS.match(/\$\(pmerr353i [a-z-]+\)/g) || []).length;
+      const nCall = (PMS.match(/pmerr353i [a-z-]+\)/g) || []).length;   // 関数を切り出して走らせる既存の鍵のため、関数の中では pmerr353i が無いとき〔関数だけを切り出して走らせたとき〕は今までどおり /dev/null
       if (nCall !== 9) bad.push('⑤ post-merge の置き場のファイルへ流す所 ' + nCall + '(9 か所)');
       const leftNode = PMS.split('\n').filter((l) => !/^\s*#/.test(l) && /2>\/dev\/null\s*(?:\|\||;\s*then)/.test(l) && !/^count\(\) \{ grep -c/.test(l));
       if (leftNode.length) bad.push('⑤ stderr を捨てて落ちたら文だけ出す形が残る ' + leftNode.length + ': ' + leftNode.map((l) => l.trim().slice(0, 50)).join(' | '));
