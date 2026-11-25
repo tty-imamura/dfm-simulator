@@ -132228,6 +132228,86 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第354便a の塊(ここまで)====
+// ==== 第355便h の塊(ここから —— docs.aichat355h・behavior.aichatIntake355h の 2 ブロック。beta・root の両方で走る)====
+// ---- 第355便h(原仮定者の指示(2026-11-25)「AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと
+// ----   考えている。対話式はDFMについてのQ&Aも兼ねる」・統括の検証項目 R511): **AI チャットとの対話の入口**(文書と道具と検査だけ —— html は変えない)。
+// ----   docs.aichat355h(本体は tests/lib-w355h-aichatdoc.mjs の checkAiChat —— 純関数): ① 入口のページ docs/AI_CHAT.md ② 立場の文 ③ ページが指す docs のファイルが全部在る
+// ----     ④ 入口のページ・プロンプト・README の節に便の番号と統括の書類の語が無い ⑤ README のプロンプト = 入口のページの頭のプロンプト(主のリンク 2・生の文の形・全体の仕様は指さない)
+// ----     ⑥ docs/AI_SPEC_CORE.md = 頭 2 行 + 空行 + AI_SPEC.md の頭(「# 6.」の行の前まで —— 道具 tools/aispec-core.mjs とは別に書いた切り方)⑦ AI_SPEC.md の見出し「## 5. The preset specification」「## 6.」
+// ----     ⑧ AI_SPEC_CORE.md < 6 万字・廃止の予定の 1 行・高校生向けの解説の古い言い方が無い・夜の CI の記録の段・PHYSICS〔第355便h〕・AI_SPEC §403・post-merge の塊・書かない語・変異の自己試験。
+// ----   behavior.aichatIntake355h: 器 tests/exp-w355h-aichat-validate.mjs の自己試験 7 本(受理 2・拒否 3・読めない 1・括弧の取り違え 1)を走らせる html に対して(Node だけ —— vm)。
+{
+  await (async () => {
+  const rd355h = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  // ───── docs.aichat355h ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const D = await import('file://' + path.join(ROOT, 'tests', 'lib-w355h-aichatdoc.mjs'));
+      if (!/^w355h-aichatdoc-lib-\d+$/.test(D.DOC_LIB_VERSION)) bad.push('文書の lib の版の名の型');
+      const F = { chat: rd355h('docs/AI_CHAT.md') || '', readme: rd355h('README.md') || '', spec: rd355h('docs/AI_SPEC.md') || '', core: rd355h('docs/AI_SPEC_CORE.md') || '',
+        physics: rd355h('docs/PHYSICS.md') || '', aispec: rd355h('docs/AI_SPEC.md') || '', postmerge: rd355h('tools/post-merge-qa.sh') || '', nightly: rd355h('.github/workflows/nightly.yml') || '',
+        explJa: rd355h('docs/EXPLAINER_HIGHSCHOOL.md') || '', explEn: rd355h('docs/EXPLAINER_HIGHSCHOOL_EN.md') || '',
+        docsExist: new Set(fs.readdirSync(path.join(ROOT, 'docs')).filter((f) => /\.md$/.test(f))) };
+      const R = D.checkAiChat(F);
+      for (const b of R.bad) bad.push(b);
+      for (const c of R.cases) cases.push(c);
+      // 写しの道具が同じ字を作る(道具の版の名の型も)
+      const T = await import('file://' + path.join(ROOT, 'tools', 'aispec-core.mjs'));
+      if (!/^w355h-aispec-core-\d+$/.test(T.CORE_TOOL_VERSION)) bad.push('写しの道具の版の名の型');
+      if (T.buildCore(F.spec) !== F.core) bad.push('写しの道具 tools/aispec-core.mjs の作る字が AI_SPEC_CORE.md と違う');
+      // 変異の自己試験(種が無い変異は空振りとして落とす)
+      const w = (k, a, b) => Object.assign({}, F, { [k]: F[k].replace(a, b) });
+      const MUT = [
+        ['立場の文を消す', Object.assign({}, F, { chat: F.chat.split(D.STANCE).join('現実の宇宙は扱いません') }), /^② /],
+        ['指すファイルの名を無いものに', w('chat', '`docs/BOX_UNIVERSE.md`', '`docs/BOX_UNIVERSE_X.md`'), /^③ /],
+        ['入口のページに便の番号', w('chat', '## 4. よく訊かれること', '## 4. よく訊かれること(第355便)'), /^④ /],
+        ['README のプロンプトだけ変える', w('readme', '私と対話します。\nまず次の', '私と対話します。\n最初に次の'), /^⑤ /],
+        ['プロンプトを全体の仕様のページに', Object.assign({}, F, { chat: F.chat.split(D.PAGES + 'AI_SPEC_CORE.md').join(D.PAGES + 'AI_SPEC.md'), readme: F.readme.split(D.PAGES + 'AI_SPEC_CORE.md').join(D.PAGES + 'AI_SPEC.md') }), /^⑤ /],
+        ['短いページの 1 字を変える', w('core', 'The preset specification', 'The preset spec'), /^⑥ /],
+        ['短いページを 6 万字より長く', Object.assign({}, F, { core: F.core + 'x'.repeat(D.CORE_MAX) }), /^⑥ |^⑧ /],
+        ['仕様の見出し「## 5.」を変える', Object.assign({}, F, { spec: F.spec.replace('\n## 5. The preset specification', '\n## 5. Preset spec'), core: F.core.replace('\n## 5. The preset specification', '\n## 5. Preset spec') }), /^⑦ /],
+        ['解説に古い言い方を戻す', w('explJa', '5. すべての主張は、毎版、機械の検査(QA)にかけています', '5. すべての主張は機械QA(300項目超)で毎版検証されています'), /^解説/],
+        ['夜の CI の段を消す', w('nightly', 'tests/ci-pages-docs.sh', 'tests/ci-pages-none.sh'), /^夜の CI/],
+        ['本節に製品の名', w('physics', '**⑦ 言わないこと。** 対話の入口', '**⑦ 言わないこと。** ' + ['Son', 'net'].join('') + ' 対話の入口'), /^書かない語/],
+      ];
+      const sc = [];
+      for (const [nm, Fm, re] of MUT) {
+        if (JSON.stringify(Object.keys(Fm).filter((k) => k !== 'docsExist').map((k) => Fm[k])) === JSON.stringify(Object.keys(F).filter((k) => k !== 'docsExist').map((k) => F[k]))) { bad.push('変異「' + nm + '」の種が無い(空振り)'); sc.push(nm + ' → 空振り'); continue; }
+        const r = D.checkAiChat(Fm), hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.aichat355h', bad.length === 0,
+      `**AI チャットとの対話の入口**(第355便h・原仮定者の指示(2026-11-25)・R511 —— 入口のページ docs/AI_CHAT.md・仕様の頭の短いページ docs/AI_SPEC_CORE.md と写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書 —— html は変えていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── behavior.aichatIntake355h ─────
+  {
+    const bad = [], cases = [];
+    try {
+      const X = await import('file://' + path.join(ROOT, 'tests', 'exp-w355h-aichat-validate.mjs'));
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w355h-aichat-validate.mjs'));
+      if (!(/^w355h-aichat-validate-\d+$/.test(X.HARNESS_VERSION) && /^w355h-aichat-validate-lib-\d+$/.test(L.LIB_VERSION))) bad.push('器と lib の版の名の型');
+      const R = X.runSelftest(path.join(ROOT, TARGET), { steps: 200 });
+      if (R.missing.length) bad.push('アプリの関数が見つからない: ' + R.missing.join(', '));
+      const want = { 0: 2, 2: 3, 3: 2 }, got = { 0: 0, 2: 0, 3: 0 };
+      for (const c of R.cases) { got[c.expect] = (got[c.expect] || 0) + 1; if (!c.pass) bad.push(`${c.id}: 期待 ${c.expect}・実 ${c.got}`); }
+      if (JSON.stringify(got) !== JSON.stringify(want)) bad.push('自己試験の組(受理 2・拒否 3・読めない/括弧 2)' + JSON.stringify(got));
+      const z7 = R.cases.find((c) => c.id === 'z7-bracket-before-fence');
+      if (!(z7 && z7.res.candidates >= 2 && z7.res.intake && z7.res.intake.stage === 'shape')) bad.push('括弧の取り違えの 1 本(前の文の括弧を拾って形の段で断る)');
+      for (const c of R.cases) if (!(typeof c.res.aiReply === 'string' && c.res.aiReply.length > 10)) bad.push(c.id + ': AI に返す文が無い');
+      cases.push(`自己試験 ${R.pass}/${R.total}(${R.cases.map((c) => c.id.split('-')[0] + '=' + c.got).join('・')})・試走 ${R.cases.filter((c) => c.res.run && c.res.run.ok).map((c) => c.res.run.steps + ' 步 粒子 ' + c.res.run.n).join('・')}`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.aichatIntake355h', bad.length === 0,
+      `**AI チャットの返答の検査の器の自己試験**(第355便h・R511 —— アプリの「検証のみ」の道にそのまま通す・Node だけ・対象 ${TARGET}): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第355便h の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

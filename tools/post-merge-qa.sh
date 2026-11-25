@@ -1873,6 +1873,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
 #   前置きの塊・論文の検査 4 本の job <名>-tl2025 と組版の行・頭の注・文書)と、宣言を更新した既存の lint.paperRunner348f・job の並びを更新した既存の lint.paperDispatch350i。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperTex354a lint.paperRunner348f lint.paperDispatch350i"
 # ==== 第354便a の塊(ここまで)====
+# ==== 第355便h の塊(ここから)====
+# 第355便h(原仮定者の指示(2026-11-25)・統括の検証項目 R511 —— 文書と道具と検査だけ・html は変えない): 枝 h の新設 2 本(docs.aichat355h —— 対話の入口のページ・
+#   仕様の頭の短いページと写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書/behavior.aichatIntake355h —— 返答の検査の器の自己試験 7 本)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
+# ==== 第355便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
