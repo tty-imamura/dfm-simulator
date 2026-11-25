@@ -149,7 +149,8 @@ export function nStar(T1, GEO, key = DECL.key, { pert = null, cR = null, place =
   if (pert) { if (key !== DECL.key || place === 'field') throw new RangeError('nStar: 入力の幅はイオ ← 木星・規則の半径だけ'); const s = pertScale(pert[0], pert[1]); Pt = pertParts(T1, GEO, s); if (s.fJ !== undefined) fPar = s.fJ; }
   else Pt = partsOf(T1, GEO, key, { cR, place }, cache);
   const f = fPar === null ? fOf(Pt.src) : fPar;
-  return { key, pert, cR, place, f, x0: xOfM(Pt, 1), mStar: mStarOf(Pt), nStar: nStarFromParts(Pt, { fPar: f, sun }), sunOverPar: nrm(Pt.sun) / nrm(Pt.parent) };
+  const ms = mStarOf(Pt);
+  return { key, pert, cR, place, f, x0: xOfM(Pt, 1), mStar: ms, nStar: nStarFromParts(Pt, { fPar: f, sun }), nFromM: ms === null ? null : nOfSigma(ms, f), sunOverPar: nrm(Pt.sun) / nrm(Pt.parent) };
 }
 
 /* ───────── 式の冪(源の質量 M・半径 R・自転の率 ω)───────── */
@@ -239,6 +240,52 @@ export function venusAtN(T1, GEO, n, { bg = 'Np', axis = 'L' } = {}, cache = nul
   const Lv = P.localStd(T1, GEO, 'Venus|Sun', { ob: null, cR: null }, cache).loc, b1 = P.bg1(T1, GEO, bg, axis), nb = nrm(b1), uV = nrm(Lv) / nb, s = sigmaN(fOf('Sun'), n), loc = scl(Lv, s);
   const res = nrm(add(scl(b1, uV), loc)) / (uV * nb), res0 = nrm(add(scl(b1, uV), Lv)) / (uV * nb);
   return { n, sigma: s, sigmaM1: Math.expm1(-n / 3 * Math.log1p(-fOf('Sun'))), res, res0, dRes: res - res0 };
+}
+
+/* ───────── 表 ───────── */
+/** dn ÷ d(ln x) の増幅(n★ の近くで x が 1% 動くと n★ は約 0.45 動く —— 3 ÷ (−ln(1 − f)) の桁) */
+export const nGain = (f) => 3 / (-Math.log(1 - f));
+/** 表 1: イオ ← 木星の n の走査・n★ と入力の幅・置き方で n★ が動くか */
+export function table1(T1, GEO, cache = null) {
+  const Pt = partsOf(T1, GEO, DECL.key, {}, cache), f = fOf('Jupiter');
+  const ns = [...new Set([...DECL.nScan, ...DECL.nProbe])].sort((a, b) => a - b);
+  const scan = ns.map((n) => { const r = resOf(T1, GEO, Pt, n); return { n, sigma: sigmaN(f, n), x: r.x, dx: r.x - 1, resAtUV: r.resAtUV, resEq: r.resEq, phiDeg: r.phiDeg }; });
+  const base = nStar(T1, GEO, DECL.key, {}, cache);
+  const widths = DECL.inputs.map((I) => { const up = nStar(T1, GEO, DECL.key, { pert: [I.id, 1] }), dn = nStar(T1, GEO, DECL.key, { pert: [I.id, -1] });
+    return { id: I.id, name: I.name, lit: I.lit, unit: I.unit, relUnit: I.unit / Number(I.lit), nPlus: up.nStar, nMinus: dn.nStar, dnPlus: up.nStar - base.nStar, dnMinus: dn.nStar - base.nStar, xPlus: up.x0, xMinus: dn.x0 }; });
+  const all = widths.flatMap((w) => [w.nPlus, w.nMinus]), half = widths.map((w) => 0.5 * Math.abs(w.nPlus - w.nMinus));
+  const rss = Math.sqrt(half.reduce((s, h) => s + h * h, 0)), lin = half.reduce((s, h) => s + h, 0);
+  const range = { min: Math.min(...all), max: Math.max(...all), rss, lin, rssLo: base.nStar - rss, rssHi: base.nStar + rss, linLo: base.nStar - lin, linHi: base.nStar + lin };
+  const probes = DECL.nProbe.map((n) => ({ n, inOne: n >= range.min && n <= range.max, inRss: Math.abs(n - base.nStar) <= rss, inLin: Math.abs(n - base.nStar) <= lin, sigmas: (n - base.nStar) / rss }));
+  const xAt = (bg, axis) => resOf(T1, GEO, Pt, 5, { bg, axis }).x;
+  const places = [
+    { id: 'NpL', name: '(N+)・L・規則の半径(主の列)', nStar: base.nStar, x5: xAt('Np', 'L') },
+    { id: 'Npeq', name: '(N+)・eq・規則の半径(比べる列)', nStar: nStarFromParts(Pt), x5: xAt('Np', 'eq') },
+    { id: 'GmL', name: '(G−)・L・規則の半径(比べる列)', nStar: nStarFromParts(Pt), x5: xAt('Gm', 'L') },
+    { id: 'resp', name: '(P-応)(場の式は規則の半径)', nStar: nStar(T1, GEO, DECL.key, { place: 'resp' }, cache).nStar, x5: xAtN(T1, GEO, DECL.key, 5, { place: 'resp' }, cache) },
+    { id: 'sun', name: '太陽由来と金星にも σ_n(太陽の f)', nStar: nStar(T1, GEO, DECL.key, { sun: true }, cache).nStar, x5: xAtN(T1, GEO, DECL.key, 5, { sun: true }, cache) },
+    ...DECL.cRs.map((cR) => { const r = nStar(T1, GEO, DECL.key, { cR, place: 'field' }, cache); return { id: 'field-' + cR, name: '(P-場) c_R ' + cR, nStar: r.nStar, nFromM: r.nFromM, mStar: r.mStar, x0: r.x0, x5: xAtN(T1, GEO, DECL.key, 5, { cR, place: 'field' }, cache) }; }),
+  ];
+  return { f, gain: nGain(f), scan, base, widths, range, probes, places };
+}
+/** 表 2: (S) の冪と読み替えの候補の n */
+export function table2(T1, GEO, cache = null) {
+  const Pw = formPowers(T1, GEO), Pt = partsOf(T1, GEO, DECL.key, {}, cache), f = fOf('Jupiter');
+  const forms = FORMS.map((F) => { const r = formN(T1, GEO, F, Pw); return { id: F.id, name: F.name, p: F.p === undefined ? null : F.p, q: F.q === undefined ? null : F.q, w: F.w === undefined ? null : F.w, tie: !!F.tie, nonPow: F.nonPow || null, ...r, xIo: xOfM(Pt, r.sigma) }; });
+  const hits = forms.filter((x) => Math.abs(x.nClosed - 5) < 1e-9).map((x) => x.id);
+  const near = forms.reduce((b, x) => (Math.abs(x.nNum - 5) < Math.abs(b.nNum - 5) - 1e-6 ? x : b));   // 同じ n の候補は先の行(尺度の走り直しで入れ替わらない)
+  return { f, powers: Pw, forms, hits5: hits, nearest: near.id };
+}
+/** 表 3: 同じ n をほかの題に(n 2・5・n★) */
+export function table3(T1, GEO, nS, cache = null) {
+  const cols = [...DECL.nCols, nS];
+  const moons = DECL.moons.map((mk) => { const M = moonParts(T1, GEO, mk, cache), f = fOf(M.src), ms = mStarOf(M);
+    return { key: mk, name: M.name, src: M.src, f, sunOverPar: nrm(M.sun) / nrm(M.parent), cells: cols.map((n) => { const r = resOf(T1, GEO, M, n); return { n, x: r.x, resAtUV: r.resAtUV, phiDeg: r.phiDeg }; }),
+      x0: xOfM(M, 1), nStar: nStarFromParts(M), mStar: ms, nFromM: ms === null ? null : nOfSigma(ms, f) }; });
+  const rings = DECL.rings.map((k) => ({ key: k, yard0: ringAtN(k, 0).yard, cells: cols.map((n) => { const r = ringAtN(k, n); return { n, sigma: r.sigma, yard: r.yard }; }) }));
+  const plane = cols.map((n) => planeAtN(T1, GEO, 'Earth', n)), venus = cols.map((n) => venusAtN(T1, GEO, n, {}, cache));
+  const Pt = partsOf(T1, GEO, DECL.key, {}, cache), io098 = cols.map((n) => ({ n, ...res098(T1, GEO, Pt, n), resAtUV: resOf(T1, GEO, Pt, n).resAtUV }));
+  return { cols, moons, rings, plane, venus, io098, ioPairVsCirc: { pair: nStarFromParts(Pt), circ: moons[0].nStar } };
 }
 
 /* ───────── 零試験 ───────── */
