@@ -3362,6 +3362,18 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/residfit-353r.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便r: 零試験 9/要る c の区間 20/重なり 24/共通の値 6/式の候補 8/基準の列 6' }),
   // ==== 第353便r の塊(ここまで)====
+  // ==== 第353便s の塊(ここから)====
+  // ---- 第353便s(原仮定者の回答(2026-11-25 —— 第151報)AN1045・統括の検証項目 R483): **源(引きずる側)の半径を規則の半径と観測の半径の間で振る(第352便k の srcRadius の t)——
+  //   4 つの題(土星の環・0.98 の金星・イオ・地球の項)で量が 1 になる t・源ごとの t と源の量の式の候補・金星の φ は t で動くか**
+  //   (段 srcinterp-353s —— 正本 tests/out/srcinterp-353s.json・lib tests/lib-w353s-srcinterp.mjs —— 第353便k・d・l・j・第352便k・s・c・d・第351便j・c・第348便h・d・c・第338便d・第312便a・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringstd-353k・earthonvenus-353l・venus098-353j)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。
+  //   正本は第338便c の settleRun で書く(lib の閉包に仮の値の lib が入る —— 最上位に provisional の印)。所要は第353便s の枝の実測 2 s
+  S('srcinterp-353s', 'node tests/exp-w353s-srcinterp.mjs', ['tests/out/srcinterp-353s.json'], 2, { secSource: 'w353s-branch', node: true,
+    after: ['ringstd-353k', 'earthonvenus-353l', 'venus098-353j'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/srcinterp-353s.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便s: 零試験 9/題ごとの t 14 行/源 4 と候補 3/金星の φ 5 列 × t 11・イオの φ' }),
+  // ==== 第353便s の塊(ここまで)====
   // ==== 第353便u の塊(ここから)====
   // ---- 第353便u(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R485): **注目の列 u = 0.98 で金星を打ち消す換算の係数 k を置いたときの、局所の項が背景に並ぶ受け手(水星・地球・火星・月・イオ)の状態 ——
   //   受け手 5 × 組 9 の円錐・回る向き・f の上限・傾きの揺れ/観測の当たり所との並べ(仮の値は印つき)/並びを決める量(8 惑星 × 組 9)**
