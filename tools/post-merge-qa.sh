@@ -1846,6 +1846,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.comove353zh docs.comove353zh"
 #   docs.eqthird353zi —— 原文と表と数の文が PHYSICS〔第353便zi〕に逐語・文書)と、新しい段 eqthird-353zi
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.eqthird353zi docs.eqthird353zi"
 # ==== 第353便zi の塊(ここまで)====
+# ==== 第353便zj の塊(ここから)====
+# 第353便zj(原仮定者の回答(2026-11-25 —— 第151報)・AN721・統括の検証項目 R499 —— 診断だけ・html は変えない): 枝 zj の新設 2 本
+#   (behavior.orbitk353zj —— 零試験 14・器を走らせ直して第338便c の recheckRun で正本と照合・比と上限と寄る下限を QA の中で別に照合・呼ぶだけ /
+#   docs.orbitk353zj —— 原文と表と数の文が PHYSICS〔第353便zj〕に逐語・文書)と、新しい段 orbitk-353zj
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.orbitk353zj docs.orbitk353zj"
+# ==== 第353便zj の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
