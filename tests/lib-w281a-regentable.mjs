@@ -3286,6 +3286,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/ringstd-353k.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便k: 零試験 9/環の区分 5 × 置き方の組 9/受け手の自分の重み 16/公転面 8 惑星 × 6' }),
   // ==== 第353便k の塊(ここまで)====
+  // ==== 第353便l の塊(ここから)====
+  // ---- 第353便l(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R476): **「金星は、自転に地球の影響が出るほどに釣り合っている」を DFM の側で(地球を源にした項の置き方の走査・(L2) を全部の受け手で)**
+  //   (段 earthonvenus-353l —— 正本 tests/out/earthonvenus-353l.json・lib tests/lib-w353l-earthonvenus.mjs —— 第353便g・c・d・第352便h・k・v・c・d・第351便c ほかの lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に venuslock-353g〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。第353便g の lib を通して仮の値の lib に届く(正本の最上位に印)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便l の枝の実測 1 s
+  S('earthonvenus-353l', 'node tests/exp-w353l-earthonvenus.mjs', ['tests/out/earthonvenus-353l.json'], 2, { secSource: 'w353l-branch', node: true,
+    after: ['venuslock-353g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/earthonvenus-353l.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便l: 零試験 10/(E-S) ÷ 残り の走査 10 × 6/成分 × 位相 3 × 4/内合の前後 12/会合の平均 4/(L2) 14 × 4/内合の角 6 × 5' }),
+  // ==== 第353便l の塊(ここまで)====
   // ==== 第353便m の塊(ここから)====
   // ---- 第353便m(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477): **歳差の率の残りの符号(地球の残りが重力の列の入力と定義の幅で替わるか・金星の極 × ŝ の向き × 仮の値の回る向き・要る応答の係数の並び)**
   //   (段 residsign-353m —— 正本 tests/out/residsign-353m.json・lib tests/lib-w353m-residsign.mjs —— 第353便f・c・第352便u・y・q・d・c・b・第348便c・第347便e の lib を import して呼ぶ。
