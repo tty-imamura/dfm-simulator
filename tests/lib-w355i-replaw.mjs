@@ -53,6 +53,8 @@ export function specId(sp) {
 /** 二次元へ落とすと今の式に戻るか(式の上で —— 形が今の形・切らない・割らない) */
 export const reducesTo2D = (sp) => (sp.shape === 'G' || (sp.shape === 'P1' && sp.s === 3)) && sp.cut === 'none' && sp.p === 0;
 
+/** 冪(整数の冪は掛け算で —— 走行の時間のため。整数でない冪は Math.pow) */
+export function ipow(t, n) { if (Number.isInteger(n) && n >= 0 && n <= 16) { let r = 1; for (let k = 0; k < n; k++) r *= t; return r; } return Math.pow(t, n); }
 /** 切る因子 */
 export function cutFac(cut, d, rc) {
   if (cut === 'none') return 1;
@@ -78,8 +80,8 @@ export function pairF(o) {
   let shp;
   if (sp.shape === 'G') { const gi = H.gOf(Ri, d, q), gj = H.gOf(Rj, d, q); shp = gi * gi + gj * gj; }
   else { const Rb = 0.5 * (Ri + Rj), t = Rb / (Rb + d);
-    if (sp.shape === 'P1') shp = 2 * Math.pow(t, sp.s + 1);
-    else if (sp.shape === 'P2') shp = 2 * (Rb / d) * Math.pow(t, sp.s);
+    if (sp.shape === 'P1') shp = 2 * ipow(t, sp.s + 1);
+    else if (sp.shape === 'P2') shp = 2 * (Rb / d) * ipow(t, sp.s);
     else throw new Error('pairF: shape ' + sp.shape); }
   let fac = cutFac(sp.cut, d, rc);
   if (sp.p > 0) { const z = 2 / (ni + nj); fac *= sp.p === 1 ? z : Math.pow(z, sp.p); }
