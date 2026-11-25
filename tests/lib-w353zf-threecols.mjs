@@ -1,11 +1,11 @@
 // 第353便zf(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1034・AN1039・AN1045・AN1046・AN1058・統括の検証項目 R496):
-//   **主の列の候補を 3 本に並べた 1 枚の純関数 —— (ア) 規則の係数そのまま・背景 0.98/(イ) 規則の係数を λ 倍(源と受け手に同じ)・背景 0.98/
+//   **主の列の候補を 3 本に並べた 1 枚の純関数 —— (ア) 規則の係数そのまま・背景 0.98/(イ) 換算の係数 8.22e11 を局所の項に置く・背景 0.98(数え方は規則の係数の倍 λ —— 局所の項について同じ働きの言い換え)/
 //   (ウ) 規則の係数そのまま・背景を金星の条件の大きさに —— 診断だけ**
 //   (器 tests/exp-w353zf-threecols.mjs と QA behavior.threecols353zf・docs.threecols353zf が読む —— html を読まない・ファイルを読まない・状態を持たない。後のラウンドの枝もこの口を import してよい)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。既存の lib は呼ぶだけ(本文は変えない):
 //   第353便q(topicAt・kVenus・localUnit・sideOf・dragAz・residOf —— 換算の係数の作り)・第353便d(obRot —— 源の半径 tSrc・受け手の半径 cR の口)・
 //   第353便k(axStd・planeStd・ringStdOm —— 輪の場)・第353便u(obsRow —— 歳差の回る向きと仮の値)・第353便za(kState・kWatch・fWindow —— 見ている時間)・
-//   第353便zg(aStar・structRows —— 等大の半径)・第353便p(bg1)・第352便s(saturnSpin・tiltedNormal・ringRates)・第352便k(srcRadius・spinRot)・第351便c(pairInput・perpOf)・
+//   第353便zg(aStar・structRows —— 等大の半径)・第353便c(sOf —— 自分の重みと源の重み)・第353便p(bg1)・第352便s(saturnSpin・tiltedNormal・ringRates)・第352便k(srcRadius・spinRot)・第351便c(pairInput・perpOf)・
 //   第352便c(refAxis)・第348便h(YK)・第348便c(massOf・radiusOf)・第338便d(centerKm)・第353便h(DECL.tYardYr)・第347便e(t1Table・geometry)。
 //   **第353便q・u・za は仮の値の lib(第352便b)を import する —— この lib を呼ぶ段の正本は最上位に provisional: true と使った鍵の一覧を持つ。**
 //
@@ -29,6 +29,10 @@ import * as G3 from './lib-w348h-axisgeo3.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
 import * as RB from './lib-w338d-ringbook.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
+import * as U from './lib-w353u-nearrecv.mjs';
+import * as ZA from './lib-w353za-ktilt.mjs';
+import * as ZG from './lib-w353zg-equalradius.mjs';
+import * as CC from './lib-w353c-recvradius.mjs';
 
 export const LIB_VERSION = 'w353zf-threecols-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -39,7 +43,7 @@ export const rel = (a, b) => Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b)
 /* ───────── 宣言(走らせたノブの格子と物差しの記録 —— 式の形の宣言ではない)───────── */
 export const COLS = Object.freeze([
   Object.freeze({ id: 'A', label: '(ア)', lam: 1, u: 0.98, text: '規則の係数そのまま・背景 0.98' }),
-  Object.freeze({ id: 'I', label: '(イ)', lam: 'venus', u: 0.98, text: '規則の係数を λ 倍(源と受け手に同じ)・背景 0.98' }),
+  Object.freeze({ id: 'I', label: '(イ)', lam: 'venus', u: 0.98, text: '換算の係数 8.22e11 を局所の項に置く(規則の半径はそのまま)・背景 0.98 —— 規則の係数を λ 倍にする言い換えは局所の項について同じ働き(表 2)' }),
   Object.freeze({ id: 'U', label: '(ウ)', lam: 1, u: 'uV', text: '規則の係数そのまま・背景を金星の条件の大きさに' }),
 ]);
 export const DECL = Object.freeze({
@@ -168,6 +172,78 @@ export function topicRow(topic, col, o = {}) {
   }
   const av = Math.abs(v), band = !fin(av) ? null : av > DECL.band.hi ? 'over' : av < DECL.band.lo ? 'under' : 'in';
   return { topic, col: cs.id, lam: cs.lam, u: cs.u, v, vComp, vK, vLam, lamOverK: fin(vK) && fin(vLam) ? vLam / vK : null, how, band, ...extra };
+}
+
+/* ───────── 表 ───────── */
+/** 見ている時間・向き・寄る割合の題は第353便u・za の口(換算の係数の組)で数える —— (イ) は組 'rule'(k の作り)で、λ の作りとの差は表 2 の局所の倍の比(0.5% の内) */
+const COMBO = Object.freeze({ A: 'k1', I: 'rule', U: 'k1' });
+const sigN = (f, n) => Math.pow(1 - f, -n / 3);
+/** イオの x(太陽由来 + 木星由来 × σ_n)÷ 金星の局所 —— 列の λ で */
+export function ioX(n, lam, o = {}) {
+  const f = OB.litOf('Jupiter').f, s = add(localAtLam('Io', 'Sun', lam, o), scl(localAtLam('Io', 'Jupiter', lam, o), n === 0 ? 1 : sigN(f, n)));
+  return nrm(s) / nrm(localSumAt('Venus', lam, o));
+}
+/** 向きの一致 2 sin(φ/2)(φ = −局所 と基準軸 L の角)と金星の順位 */
+export function dirRank(lam, o = {}) {
+  const Lh = unit(bgUnit(o)), rows = DECL.dirRecvs.map((id) => { const v = localSumAt(id, lam, o), c = -dot(unit(v), Lh), phi = Math.acos(Math.max(-1, Math.min(1, c))); return { id, phiDeg: phi / D2R, res: 2 * Math.sin(phi / 2) }; });
+  const sorted = rows.slice().sort((a, b) => a.res - b.res);
+  return { rows, venusRank: sorted.findIndex((r) => r.id === 'Venus') + 1, second: sorted[1].id === 'Venus' ? sorted[0].id : sorted[1].id };
+}
+const RULER_TOPICS = Object.freeze(Q.TOPICS.map((t) => t.id));
+/** 表 1: 題 × 3 列(値と、物差しが在る題は値 ÷ 物差し)と、列ごとの数 */
+export function table1(o = {}) {
+  const C3 = COLS.map((c) => colState(c, o)), rows = [];
+  const push = (g, id, label, ruler, f) => rows.push({ g, id, label, ruler, cells: C3.map((cs) => { const r = f(cs); return { col: cs.id, ...r }; }) });
+  const b1 = bgUnit(o), nb = nrm(b1);
+  const vRes = (cs) => { const v = localSumAt('Venus', cs.lam, o); return nrm(add(scl(b1, cs.u), v)) / (cs.u * nb); };
+  push(1, 'venusResid', '金星の合成 ÷ 背景(等大の残り)', null, (cs) => ({ v: vRes(cs) }));
+  push(1, 'venusRank', '向きの一致 2 sin(φ/2) の金星の順位(受け手 10)', null, (cs) => { const d = dirRank(cs.lam, o); return { v: d.venusRank, res: d.rows.find((r) => r.id === 'Venus').res, second: d.second }; });
+  for (const n of [0, 2, 5]) push(2, 'ioX' + n, 'イオの x(' + (n === 0 ? '扁平率なし' : n === 2 ? '体積を保つ扁平 (1 − f)^(−2/3)' : '赤道の球 (1 − f)^(−5/3)') + ')', null, (cs) => ({ v: ioX(n, cs.lam, o) }));
+  const aS = {}, aJ = {}; for (const n of [0, 2, 5]) { const { T1, GEO } = ctx(o); aS[n] = ZG.aStar(T1, GEO, 'Saturn', { n }); aJ[n] = ZG.aStar(T1, GEO, 'Jupiter', { n }); }
+  const rCD = ZG.structRows('Saturn').find((s) => s.key === 'satCD').r, rIo = ZG.structRows('Jupiter').find((s) => s.key === 'io').r;
+  const aMul = (cs, which) => (cs.lam === 1 ? 1 : Math.cbrt((which === 'S' ? ringGain(cs.lam, o) : gainLam('Io', cs.lam, o)) / gainLam('Venus', cs.lam, o)));
+  for (const n of [0, 2, 5]) push(3, 'cassini' + n, 'カッシーニの間隙 ÷ 土星の a★(' + ['倍なし', '', 'n 2', '', '', 'n 5'][n] + ')', null, (cs) => ({ v: rCD / (aS[n] * aMul(cs, 'S')), aStar: aS[n] * aMul(cs, 'S') }));
+  for (const n of [0, 2, 5]) push(3, 'ioOrb' + n, 'イオの道 ÷ 木星の a★(' + ['倍なし', '', 'n 2', '', '', 'n 5'][n] + ')', null, (cs) => ({ v: rIo / (aJ[n] * aMul(cs, 'J')), aStar: aJ[n] * aMul(cs, 'J') }));
+  const tr = (t) => (cs) => { const r = topicRow(t, cs.id, o); return { v: r.v, vComp: r.vComp, band: r.band, vK: r.vK, cNeed: r.cNeed === undefined ? null : r.cNeed, fMax: r.fMax === undefined ? null : r.fMax }; };
+  push(4, 'ringAx', '土星の環 (F1) の率 ÷ 物差し(B 環)', '環の物差しの率', tr('ringAx'));
+  push(4, 'ringDisk', '土星の環 (F2) の率 ÷ 物差し(B 環)', '環の物差しの率', tr('ringDisk'));
+  push(5, 'plane', '公転面の集まり ÷ 物差し', '30° → 7° の 23°', tr('plane'));
+  push(6, 'mercury', '水星の局所 ÷ 背景', '背景の大きさ', tr('mercury'));
+  for (const id of ['Earth', 'Mars']) push(6, 'side' + id, (id === 'Earth' ? '地球' : '火星') + 'の局所 ÷ 背景', null, (cs) => ({ v: nrm(localSumAt(id, cs.lam, o)) / (cs.u * nb) }));
+  push(6, 'moon', '月の局所 ÷ 背景', '背景の大きさ', tr('moon'));
+  push(6, 'io', 'イオの局所 ÷ 背景', '背景の大きさ', tr('io'));
+  for (const id of ['Earth', 'Mars']) push(6, 'sense' + id, (id === 'Earth' ? '地球' : '火星') + 'の歳差の回る向きが仮の値と同じか(1 = 同じ —— 仮・未照合)', null, (cs) => { const r = U.obsRow(id, COMBO[cs.id], { u: cs.u }); return { v: r.provSame ? 1 : 0, drag: r.drag, provisional: true }; });
+  push(7, 'tilt', '地球の傾き(局所だけで年齢の間に動き得る角 ÷ いまの傾き)', 'いまの傾き', tr('tilt'));
+  for (const y of [1e4, 1e6, 4.5e9]) push(7, 'watch' + y, '地球の傾きの変化 °(公転の極を固定・' + (y === 1e4 ? '1 万年' : y === 1e6 ? '100 万年' : '45 億年') + ')', null, (cs) => { const w = ZA.kWatch('Earth', COMBO[cs.id], { years: y, mode: 'fixed', u: cs.u }); return { v: w.winDeg, provisional: true }; });
+  push(7, 'watchTurn', '地球の傾きの一周の揺れの幅 °', null, (cs) => { const w = ZA.kWatch('Earth', COMBO[cs.id], { years: 1e4, mode: 'fixed', u: cs.u }); return { v: w.swingDeg, periodYr: w.periodYr }; });
+  push(8, 'fMax', '傾きを保つ寄る割合の上限(地球)', null, (cs) => { const w = ZA.fWindow('Earth', COMBO[cs.id], { u: cs.u }); return { v: w.fMax, noLimit: w.noLimit }; });
+  push(8, 'fRing', '公転面が寄る割合の下限(地球の道の輪)', null, (cs) => { const w = ZA.fWindow('Earth', COMBO[cs.id], { u: cs.u }); return { v: w.fRingW, gap: w.gapW }; });
+  for (const k of ['Sun', 'Earth']) push(9, 'period' + k, (k === 'Sun' ? '太陽' : '地球') + 'の歳差の 1 周(年)', null, (cs) => ({ v: ZA.kState(k, COMBO[cs.id], { u: cs.u }).periodYr }));
+  push(9, 'turnsSun', '太陽の円錐の年齢の内の周の数', null, (cs) => ({ v: DECL.ageYr / ZA.kState('Sun', COMBO[cs.id], { u: cs.u }).periodYr }));
+  push(10, 'precEarth', '地球の歳差の率の残りの埋まる割合(1 ÷ 要る応答の係数 —— 仮・未照合)', '残り(仮の値 − 重力の側の列)', tr('precEarth'));
+  push(10, 'precMars', '火星の歳差の率の残りの埋まる割合(同上)', '残り(同上)', tr('precMars'));
+  push(11, 'ioHeat', 'イオの内部熱 ÷ 物差し', '熱の物差し', tr('ioHeat'));
+  push(11, 'ioLock', '潮汐ロック(直交成分のトルク ÷ 潮汐のトルク)', '潮汐のトルク(比べる列(DFM の式ではない))', tr('ioLock'));
+  const count = C3.map((cs, i) => { const R = rows.filter((r) => r.ruler !== null), b = R.map((r) => r.cells[i].band);
+    return { col: cs.id, inBand: b.filter((x) => x === 'in').length, over: b.filter((x) => x === 'over').length, under: b.filter((x) => x === 'under').length, noRuler: rows.length - R.length,
+      inIds: R.filter((r) => r.cells[i].band === 'in').map((r) => r.id) }; });
+  return { cols: C3, rows, count, rulerTopics: RULER_TOPICS };
+}
+/** 表 2: (イ) を換算の係数(局所の (S) の項だけ)で書くか、規則の係数の倍 λ(源と受け手の半径)で書くかで動く所 */
+export function table2(o = {}) {
+  const cs = colState('I', o), lam = cs.lam, gV = gainLam('Venus', lam, o), lam3 = Math.pow(lam, 3);
+  const recv = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Moon', 'Io'].map((id) => ({ id, gainOverLam3: gainLam(id, lam, o) / lam3, lamOverK: gainLam(id, lam, o) / gV }));
+  recv.push({ id: 'ringB', gainOverLam3: ringGain(lam, o) / lam3, lamOverK: ringGain(lam, o) / gV }, { id: 'plane', gainOverLam3: planeGain(lam, o) / lam3, lamOverK: planeGain(lam, o) / gV });
+  const topics = DECL.topics.map((t) => { const r = topicRow(t, 'I', o); return { topic: t, vK: r.vK, vLam: r.vLam, lamOverK: r.lamOverK, how: r.how }; });
+  const { T1, GEO } = ctx(o);
+  const cap = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'].map((id) => { const s = CC.sOf(T1, GEO, id, 'Sun', { place: 'rule' }), r0 = s.A0 / s.wS; return { id, selfOverSrc1: r0, selfOverSrcLam: r0 / lam, lamCap: r0 }; });
+  const dObs = KR.diskStd(DECL.ringMain, { src: 'rule', recv: { kind: 'obs', a: 1, cR: 1 } }).yard;
+  const lam2 = lam * lam, ioRr = lam * G3.YK * C.massOf('Io') / C.radiusOf('Io');
+  const differ = [
+    { id: 'ringDiskObs', label: '円盤引きずりの側の輪の場 (F2)・受け手 = 粒子の観測半径 × 構造の係数(回答の基準)', vK: dObs * cs.kQ, vLam: dObs * lam2, lamOverK: lam2 / cs.kQ, how: '受け手の半径は λ で替わらない —— 源の半径の 2 乗だけ(λ²)' },
+    { id: 'ioLockI', label: '潮汐ロックで慣性モーメントを規則の半径 × λ に読む(応答の側の率の倍 —— 半径の 2 乗)', vK: topicRow('ioLock', 'I', o).vK, vLam: topicRow('ioLock', 'I', o).vLam * ioRr * ioRr, lamOverK: topicRow('ioLock', 'I', o).lamOverK * ioRr * ioRr, how: '(λ × 規則の半径 ÷ 観測半径)² = ' + (ioRr * ioRr).toExponential(3) },
+  ];
+  return { lam, kQ: cs.kQ, lam3OverK: lam3 / cs.kQ, cbrtK: lamOf(cs.kQ), recv, topics, cap, capAny: cap.some((c) => c.selfOverSrcLam < 1), capMin: cap.reduce((m, c) => (c.selfOverSrcLam < m.selfOverSrcLam ? c : m)), differ };
 }
 
 /* ───────── 零試験 ───────── */

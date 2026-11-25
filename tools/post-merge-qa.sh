@@ -1828,6 +1828,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.formwave353ze docs.formwave353ze"
 #   docs.equalradius353zg —— 原文と表と数の文が PHYSICS〔第353便zg〕に逐語・文書)と、新しい段 equalradius-353zg
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.equalradius353zg docs.equalradius353zg"
 # ==== 第353便zg の塊(ここまで)====
+# ==== 第353便zf の塊(ここから)====
+# 第353便zf(原仮定者の回答(2026-11-25 —— 第151報)「向きと幾何」・「銀河由来の背景軸引きずりの大きさ」・AN1046・AN1058・統括の検証項目 R496 —— 診断だけ・html は変えない): 枝 zf の新設 2 本
+#   (behavior.threecols353zf —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・列の数と比と数を QA の中で別に照合・仮の値の印・呼ぶだけ /
+#   docs.threecols353zf —— 原文と表と数の文が PHYSICS〔第353便zf〕に逐語・文書)と、新しい段 threecols-353zf
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.threecols353zf docs.threecols353zf"
+# ==== 第353便zf の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
