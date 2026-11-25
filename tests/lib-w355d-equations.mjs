@@ -7,14 +7,17 @@
 import * as ER from './lib-w350h-eqreader.mjs';
 import * as T34 from './lib-w334f-terms.mjs';
 import * as T37 from './lib-w337g-equations.mjs';
+import * as LA from './lib-w355a-report155doc.mjs';   // 第355便e: 主の列の印の置き直しの口(seg155Of)
 
-export const LIB_VERSION = 'w355d-equations-lib-1';
+export const LIB_VERSION = 'w355d-equations-lib-2';
 export const FIRST = 183, LAST = 189, PREV_LAST = 182;
 export const SEC = 'zk', LIBNAME = 'lockdef';
 export const PATHS = Object.freeze(['tests/exp-w353zk-lockdef.mjs', 'tests/lib-w353zk-lockdef.mjs', 'tests/out/lockdef-353zk.json']);
 export const GRAV = '比べる列(DFM の式ではない)', PROV = '仮・未照合';
-/** 列に係る項の印(出どころの節の時点の列の名 —— 主の列の置き直しで式とラベルは変わらない) */
-export const MARK = '**出どころの節の時点の列の名(〔第353便zk〕)**: (ウ) 換算の係数 1・背景の大きさ = 金星の条件 (uV)〔当時の主の列〕/(ア) 換算の係数 1・u 0.98〔選択肢〕/(イ) 0.98 で金星を打ち消す換算の係数・u 0.98〔選択肢〕—— 主の列の置き直し(原仮定者の回答 2026-11-25)は、この項の式とラベルを変えない';
+/** 列に係る項の印(出どころの節の時点の列の名 —— 主の列の置き直しで式とラベルは変わらない)。第355便e: この字(MARK0)の後ろに、第355便a の置き直した印を「。」で継ぐ(LA.seg155Of —— EQ-130〜EQ-182 と同じ字) */
+export const MARK0 = '**出どころの節の時点の列の名(〔第353便zk〕)**: (ウ) 換算の係数 1・背景の大きさ = 金星の条件 (uV)〔当時の主の列〕/(ア) 換算の係数 1・u 0.98〔選択肢〕/(イ) 0.98 で金星を打ち消す換算の係数・u 0.98〔選択肢〕—— 主の列の置き直し(原仮定者の回答 2026-11-25)は、この項の式とラベルを変えない';
+export const MARK_KEYS355 = Object.freeze(['mag', 'k']);
+export const MARK = MARK0 + LA.seg155Of(MARK_KEYS355);
 const KQ = '潮汐の k₂/Q(潮汐ロックの定義の比 X)(第353便zk)', KM = '自転の率と直交成分の置き方(第353便zk)', KS = '衛星の母天体の扁平の倍 σ(第353便zk)', KC = '主の列の候補 3 本((ア)(イ)(ウ))の並べ方(第353便zf)',
   KB = '(B − A)/C(ノブ —— 値は未照合)(第353便g)', KL = 'ロックの判定の量 (L1) 内合の位相・(L2) 軸の拘束・(L3) 率 ÷ 共鳴の幅(第353便g)';
 /** 項ごとの錨: fns = 正本を作る関数(lib の名指しの定義)・eqs = 出どころの節と同じ字の式(数式版にも在る)・knobs = 台帳の行の名と状態・mark = 列の印の欄を持つ・grav = 比べる列の印・prov = 仮の値の印 */
@@ -175,6 +178,8 @@ export function mutations355d(inp) {
     ['EQ-189 の抜粋の断片の 1 字違い', E(inItem('EQ-189', 'f = 1 / P.orbV + N / S;', 'f = 1 / P.orbV - N / S;')), /^② EQ-189 の抜粋 2\(tests\/lib-w353zk-lockdef\.mjs · nRow\) の断片 1 が定義の範囲に無い/],
     ['EQ-187 の台帳の欄の状態を対照に', E(inItem('EQ-187', '値は未照合)(第353便g)」(候補)', '値は未照合)(第353便g)」(対照)')), /^② EQ-187 の台帳の行「\(B − A\)\/C/],
     ['EQ-185 の列の印を消す', E(inItem('EQ-185', /\n- \*\*主の列の印\*\*: [^\n]*/, '')), /^② EQ-185 の列の印の欄/],
+    ['EQ-185 の継いだ印(第355便a の置き直し)を外す(第355便e)', E(inItem('EQ-185', LA.seg155Of(MARK_KEYS355), '')), /^② EQ-185 の列の印の欄/],
+    ['EQ-186 の継いだ印の背景の大きさの字を 1 字変える(第355便e)', E(inItem('EQ-186', '範囲の内(0.98 倍', '範囲の外(0.98 倍')), /^② EQ-186 の列の印の欄/],
     ['EQ-188(列に係らない式)に列の印を足す', E(inItem('EQ-188', '\n- **プログラム版 1**', '\n- **主の列の印**: ' + MARK + '\n- **プログラム版 1**')), /^② EQ-188 は列に係らない式なのに印の欄が在る/],
     ['EQ-184 の数式版から比べる列の印を消す', E(inItem('EQ-184', '潮汐のトルクは **' + GRAV + '**', '潮汐のトルクは重力の側')), /^② EQ-184 の比べる列の印/],
     ['EQ-189 の数式版から仮の値の印を消す', E(inItem('EQ-189', '(金星の自転周期は ' + PROV + ')', '')), /^② EQ-189 の数式版に仮の値の印/],

@@ -157,6 +157,18 @@ export function marksOf(eq) {
   }
   return R;
 }
+/** 第355便e: EQ-183 以降の項で、主の列の印の欄に置き直した印(MA155)を持つ項(枝 d の項 —— 前の印は出どころの節の時点の列の名。継ぐ字は seg155Of(['mag', 'k']) と同じ) */
+export const LATE_FIRST = MARK_LAST + 1, LATE_KEYS = Object.freeze(['mag', 'k']);
+export function lateMarksOf(eq) {
+  eq = String(eq || ''); const R = [];
+  for (const it of itemsOf(eq)) {
+    if (it.num < LATE_FIRST) continue;
+    const blk = eq.slice(it.start, it.end), m = MK_RE.exec(blk); if (!m) continue;
+    const line = m[0], n155 = line.split(MA155).length - 1; if (!n155) continue;
+    R.push({ id: it.id, num: it.num, n155, tail: line.endsWith(seg155Of(LATE_KEYS)), inText: blk.split(MA155).length - 1 });
+  }
+  return R;
+}
 export function countsOf(eq) {
   const R = marksOf(eq), c = { items: R.length, mag: 0, k: 0, seg: 0 };
   for (const r of R) for (const k of r.pre) { c[k]++; c.seg++; }
@@ -257,11 +269,13 @@ export function checkReport155(ph, as, pm, eq, J) {
       if (r.seg155 !== seg155Of(r.pre).slice(1)) bad.push('⑤ ' + r.id + ' の継いだ印の字が lib の口と違う'); }
     if (!(c.items >= 1 && c.seg === c.mag + c.k)) bad.push('⑤ 印の数え');
     const u = unremark155(eq);
-    if (u.indexOf(MA155) >= 0 || eq.split(MA155).length - 1 !== c.items) bad.push('⑤ 継いだ印が主の列の印の欄の外に在る');
+    const LT = lateMarksOf(eq);
+    for (const r of LT) if (!(r.n155 === 1 && r.tail && r.inText === 1)) bad.push('⑤ ' + r.id + ' の継いだ印(EQ-183 以降 —— 欄の行末に 1 つ・字は背景の大きさ・換算の係数の順)');
+    if (u.indexOf(MA155) >= 0 || eq.split(MA155).length - 1 !== c.items + LT.length) bad.push('⑤ 継いだ印が主の列の印の欄の外に在る');
     const T = tabIn(sec, '**表 4 ');
     if (T.join('\n') !== table4Md(eq).split('\n').slice(2).join('\n')) bad.push('⑤ 表 4 が計算式の一覧から作った行と違う');
     if (para(sec, '**② 印の置き方。**').indexOf(countLine(eq)) < 0) bad.push('⑤ ② の数の文が一覧の数と違う');
-    cases.push(`⑤ 計算式の一覧の印 —— 項 ${c.items}・継いだ印の字 ${c.seg}(背景の大きさ ${c.mag}・換算の係数 ${c.k})が lib の口と同じ(冪等)・継いだ印は主の列の印の欄の中だけ・表 4 と ② の数の文が一覧と逐語`); }
+    cases.push(`⑤ 計算式の一覧の印 —— 項 ${c.items}・継いだ印の字 ${c.seg}(背景の大きさ ${c.mag}・換算の係数 ${c.k})が lib の口と同じ(冪等)・継いだ印は主の列の印の欄の中だけ・表 4 と ② の数の文が一覧と逐語・EQ-183 以降で継いだ項 ${lateMarksOf(eq).length}(欄の行末に 1 つ —— 第355便e)`); }
   // ⑥ 前の節(〔第353便zl〕)の本文が変わっていない(lib の表と逐語のまま)
   { const zs = physSecOf(ph, ZL.HEAD);
     if (tabIn(zs, '**表 2 ').join('\n') !== ZL.table2Md().split('\n').slice(2).join('\n') || tabIn(zs, '**表 3 ').join('\n') !== ZL.table3Md().split('\n').slice(2).join('\n') || tabIn(zs, '**表 1 ').join('\n') !== ZL.table1Md().split('\n').slice(2).join('\n')) bad.push('⑥ 〔第353便zl〕の表 1〜3 が当時の lib の出力と違う(前の節の本文を書き換えない)');
