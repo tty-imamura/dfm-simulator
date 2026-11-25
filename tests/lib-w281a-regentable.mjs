@@ -3341,6 +3341,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cancelstd-353p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便p: 零試験 9/17 組 × 置き方 7/イオと金星の格子 70/衛星の自分の重み 5 + 実在の組 3' }),
   // ==== 第353便p の塊(ここまで)====
+  // ==== 第353便r の塊(ここから)====
+  // ---- 第353便r(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R482): **歳差の率の残りを軸引きずりで読む列(要る応答の係数の区間・地球と火星の重なり・共通の値 c × u の帰結・基準の列の置き方ごとの余地)**
+  //   (段 residfit-353r —— 正本 tests/out/residfit-353r.json・lib tests/lib-w353r-residfit.mjs —— 第353便m・f・e・c・第352便q・y・u・c・b・第299便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い〔順序だけ after に ringdisk-353h〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便r の枝の実測 1 s
+  S('residfit-353r', 'node tests/exp-w353r-residfit.mjs', ['tests/out/residfit-353r.json'], 2, { secSource: 'w353r-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/residfit-353r.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便r: 零試験 9/要る c の区間 20/重なり 24/共通の値 6/式の候補 8/基準の列 6' }),
+  // ==== 第353便r の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

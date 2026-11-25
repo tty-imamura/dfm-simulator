@@ -1,0 +1,2893 @@
+{
+ "provisional": true,
+ "provKeys": [
+  "earth.psiA.rate",
+  "mars.prec.rate",
+  "venus.prec.rate"
+ ],
+ "provMark": "仮・未照合",
+ "version": "w353r-residfit-1",
+ "libVersion": "w353r-residfit-lib-1",
+ "generator": "tests/exp-w353r-residfit.mjs",
+ "target": "tests/lib-w353r-residfit.mjs",
+ "ruling": "原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R482",
+ "decl": {
+  "bodies": [
+   "Earth",
+   "Mars",
+   "Venus"
+  ],
+  "moonModes": [
+   "fixed",
+   "ecl",
+   "avg"
+  ],
+  "eModes": [
+   "none",
+   "repo"
+  ],
+  "pertModes": [
+   "digit",
+   "all",
+   "none"
+  ],
+  "pertLabels": {
+   "digit": "最後の桁 ±1 + 仮の値の 1σ",
+   "all": "最後の桁 + 宣言の角の幅 0.01° + 仮の値の 1σ",
+   "none": "幅なし(中心だけ)"
+  },
+  "ecc": {
+   "Mars": 0.0933941,
+   "Venus": 0.00677672
+  },
+  "eccFrom": "tests/lib-w299c-planets3d.mjs の PLANETS の el.e(文献の値・未照合)",
+  "uMain": 0.98,
+  "uWin": [
+   0.0487,
+   0.835
+  ],
+  "previewBodies": [
+   "Mercury",
+   "Jupiter",
+   "Saturn"
+  ],
+  "fKeys": [
+   "Sun|-",
+   "Earth|Sun",
+   "Mars|Sun",
+   "Jupiter|Sun"
+  ],
+  "fAnchor": {
+   "Sun|-": "8.34e-4",
+   "Earth|Sun": "8.53e-4",
+   "Mars|Sun": "8.57e-4",
+   "Jupiter|Sun": "8.33e-4"
+  },
+  "cands": [
+   "i",
+   "u",
+   "uJ"
+  ],
+  "candLabels": {
+   "i": "(イ) 1 ÷ ω",
+   "u": "(ウ) n² ÷ ω",
+   "uJ": "(ウ′) n² J2 ÷ (ω × 慣性モーメントの係数)"
+  },
+  "anchorM": {
+   "cNeed": {
+    "fixed": "-967",
+    "ecl": "-44.6",
+    "avg": "29.0",
+    "avgE": "0.511"
+   },
+   "resid": {
+    "fixed": "5.50",
+    "ecl": "0.253",
+    "avg": "-0.165",
+    "avgE": "-0.00291"
+   },
+   "cMars": "24.4",
+   "cVenus": "1.58e+3",
+   "pert": {
+    "Earth": "0.0347",
+    "Mars": "0.00303",
+    "Venus": "1.45"
+   }
+  },
+  "anchor3": {
+   "L": [
+    0.026257,
+    0.008317,
+    0.999621
+   ],
+   "Ltol": 5e-7,
+   "omegaG": 9.09e-16,
+   "phiVenusDeg": 0.7606
+  },
+  "floor": 1e-12,
+  "judge": "区間の端は上下の振れの大きい方の和で置く(片側ずつの和 —— 振れどうしの相関は入れない)"
+ },
+ "rowDecl": {
+  "moons": [
+   "fixed",
+   "ecl",
+   "avg"
+  ],
+  "eccs": [
+   "none",
+   "repo"
+  ],
+  "perts": [
+   "digit",
+   "all"
+  ],
+  "u": 0.98,
+  "mainPairs": [
+   [
+    "avg",
+    "none",
+    "none"
+   ],
+   [
+    "avg",
+    "repo",
+    "repo"
+   ]
+  ],
+  "xPick": [
+   "lo",
+   "mid",
+   "hi"
+  ],
+  "previews": [
+   "Mercury",
+   "Jupiter",
+   "Saturn"
+  ]
+ },
+ "plan": {
+  "pure": "零試験 9(要る c = 第353便m の earthFill〔4 つの置き方〕・第353便f の sumRow〔火星・金星〕・幅 = 第353便m の widthParts と digitSwing・離心率 = 第299便c・区間の算術・上限 = 第353便f の cUpper・重なり・統括の数え直し 3・傾きを保つ f の上限 = 第353便e・拒否)",
+  "t1": "表 1: 地球 × 月の道 3(fixed・ecl・avg)× 離心率の倍 2(none・repo)/火星・金星 × 離心率の倍 2 —— それぞれ入力の幅の置き方 2(digit・all)。u 0.98・(g2−)・(N+) L・(S) 規則の半径・c 1 の方位の率で、残り・幅の内訳・要る c とその区間・X = c × u の区間・区間が 0 を含むか",
+  "t1pair": "表 1b: 地球の 6 行 × 火星の 2 行 × 幅の置き方 2 —— X の区間の重なり・要る c の比(地球 ÷ 火星)の中心と区間",
+  "t2": "表 2: 共通の値 X(主の 2 組〔18.6 年の平均 × 円・18.6 年の平均 + 離心率の倍 × 離心率の倍〕の重なりの下端・中・上端)—— c 1 のときの背景の倍率と窓の上端との比・傾きを保つ f の上限(太陽・地球・火星・木星)・太陽の歳差の一周と年齢の内の周の数・u 0.98 のときの要る c・金星の X の区間に入るか・予告の率(水星・木星・土星 —— 比べる数なし)",
+  "t2cand": "表 2b: 構造の量の式の候補 (イ)(ウ)(ウ′) と (P-応) の率の倍で、地球 ÷ 火星の比が要る c の比の区間に入るか(主の 2 組 × 幅 digit)",
+  "t3": "表 3: 地球の残り × 重力の側の基準の列の置き方 6(月の道 3 × 離心率の倍 2)—— 幅・0 と区別できるか・軸引きずりに残る余地(abs(残り) + 幅)・要る c の上限"
+ },
+ "amend": [],
+ "notClaim": [
+  "要る応答の係数の区間の表 —— 歳差の率の残りが軸引きずりで読み切れたとは書かない・応答の係数の値を 1 つに置かない(この入力・この置き方・このノブでは、の数)",
+  "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の式ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+  "入力の幅は、リポジトリの数の最後の桁 ±1 と仮の値の 1σ(と宣言の角の幅 0.01°)の上下の振れの大きい方の和 —— 外の数は使っていない(離心率は第299便c・第330便b の器の入力 —— 文献の値・未照合)",
+  "共通の値 X = c × u は 2 天体の区間の重なりの数え上げ —— 背景の倍率と応答の係数のどちらにも寄せない",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "scenes": {
+   "cErr": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "residE": {
+    "fixed": "5.50",
+    "ecl": "0.253",
+    "avg": "-0.165",
+    "avgE": "-0.00291"
+   },
+   "cE": {
+    "fixed": "-967",
+    "ecl": "-44.6",
+    "avg": "29.0",
+    "avgE": "0.511"
+   },
+   "cM": "24.4",
+   "cV": "1.58e+3",
+   "fErr": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "wErr": [
+    0,
+    0,
+    0
+   ],
+   "dErr": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "pert": {
+    "Earth": "0.0347",
+    "Mars": "0.00303",
+    "Venus": "1.45"
+   },
+   "eErr": [
+    0,
+    0
+   ],
+   "facErr": [
+    0,
+    0
+   ],
+   "ar": [
+    true,
+    true,
+    true
+   ],
+   "upErr": [
+    0,
+    0,
+    0
+   ],
+   "ov": [
+    [
+     1,
+     2
+    ],
+    null,
+    [
+     2,
+     2
+    ]
+   ],
+   "Lerr": 3.724557846584986e-7,
+   "omegaG": 9.090000000000002e-16,
+   "phiV": 0.7605683783317145,
+   "fA": {
+    "Sun|-": "8.34e-4",
+    "Earth|Sun": "8.53e-4",
+    "Mars|Sun": "8.57e-4",
+    "Jupiter|Sun": "8.33e-4"
+   },
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "cIsM": true,
+   "cIsF": true,
+   "widthIsM": true,
+   "eccRepo": true,
+   "interval": true,
+   "overlap": true,
+   "anchor3": true,
+   "fMaxIsE": true,
+   "rejects": true
+  }
+ },
+ "t1": {
+  "rows": [
+   {
+    "id": "Earth",
+    "moon": "fixed",
+    "ecc": "none",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -55.88429502889616,
+    "prov": -50.38481507,
+    "resid": 5.49947995889616,
+    "drag1": -0.005685106720611114,
+    "cNeed": -967.3485880147206,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06944283679462926,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.08686292744490542,
+    "cLo": -982.6276200036872,
+    "cHi": -952.0695560257541,
+    "x": -948.0016162544262,
+    "xLo": -962.9750676036134,
+    "xHi": -933.028164905239,
+    "inWidth": false,
+    "cUpper": 982.6276200036872,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "fixed",
+    "ecc": "none",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -55.88429502889616,
+    "prov": -50.38481507,
+    "resid": 5.49947995889616,
+    "drag1": -0.005685106720611114,
+    "cNeed": -967.3485880147206,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06944283679462926,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.10415175287249723,
+    "cLo": -985.6686931580242,
+    "cHi": -949.028482871417,
+    "x": -948.0016162544262,
+    "xLo": -965.9553192948637,
+    "xHi": -930.0479132139887,
+    "inWidth": false,
+    "cUpper": 985.6686931580242,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "fixed",
+    "ecc": "repo",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -56.07222829419072,
+    "prov": -50.38481507,
+    "resid": 5.6874132241907205,
+    "drag1": -0.005685106720611114,
+    "cNeed": -1000.4057098121385,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06962279422983214,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.0870428848801083,
+    "cLo": -1015.7163959888004,
+    "cHi": -985.0950236354767,
+    "x": -980.3975956158957,
+    "xLo": -995.4020680690244,
+    "xHi": -965.3931231627671,
+    "inWidth": false,
+    "cUpper": 1015.7163959888004,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "fixed",
+    "ecc": "repo",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -56.07222829419072,
+    "prov": -50.38481507,
+    "resid": 5.6874132241907205,
+    "drag1": -0.005685106720611114,
+    "cNeed": -1000.4057098121385,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06962279422983214,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.10433171030770011,
+    "cLo": -1018.7574691431375,
+    "cHi": -982.0539504811395,
+    "x": -980.3975956158957,
+    "xLo": -998.3823197602748,
+    "xHi": -962.4128714715167,
+    "inWidth": false,
+    "cUpper": 1018.7574691431375,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "ecl",
+    "ecc": "none",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -50.638215598618785,
+    "prov": -50.38481507,
+    "resid": 0.2534005286187835,
+    "drag1": -0.005685106720611114,
+    "cNeed": -44.57269512638885,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06463194092544325,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.08205203157571941,
+    "cLo": -59.005499224549965,
+    "cHi": -30.139891028227726,
+    "x": -43.68124122386107,
+    "xLo": -57.82538924005897,
+    "xHi": -29.537093207663172,
+    "inWidth": false,
+    "cUpper": 59.005499224549965,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "ecl",
+    "ecc": "none",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -50.638215598618785,
+    "prov": -50.38481507,
+    "resid": 0.2534005286187835,
+    "drag1": -0.005685106720611114,
+    "cNeed": -44.57269512638885,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06463194092544325,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.09934085700331122,
+    "cLo": -62.04657237888705,
+    "cHi": -27.098817873890642,
+    "x": -43.68124122386107,
+    "xLo": -60.805640931309306,
+    "xHi": -26.556841516412828,
+    "inWidth": false,
+    "cUpper": 62.04657237888705,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "ecl",
+    "ecc": "repo",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -50.802341588472345,
+    "prov": -50.38481507,
+    "resid": 0.4175265184723429,
+    "drag1": -0.005685106720611114,
+    "cNeed": -73.44216018999576,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06479006599523918,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.08221015664551534,
+    "cLo": -87.90277820222514,
+    "cHi": -58.981542177766386,
+    "x": -71.97331698619584,
+    "xLo": -86.14472263818062,
+    "xHi": -57.801911334211056,
+    "inWidth": false,
+    "cUpper": 87.90277820222514,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "ecl",
+    "ecc": "repo",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -50.802341588472345,
+    "prov": -50.38481507,
+    "resid": 0.4175265184723429,
+    "drag1": -0.005685106720611114,
+    "cNeed": -73.44216018999576,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06479006599523918,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.09949898207310715,
+    "cLo": -90.94385135656222,
+    "cHi": -55.9404690234293,
+    "x": -71.97331698619584,
+    "xLo": -89.12497432943097,
+    "xHi": -54.82165964296072,
+    "inWidth": false,
+    "cUpper": 90.94385135656222,
+    "fill": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "avg",
+    "ecc": "none",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -50.219682912639925,
+    "prov": -50.38481507,
+    "resid": -0.1651321573600768,
+    "drag1": -0.005685106720611114,
+    "cNeed": 29.046448110005947,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06424812722287632,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.08166821787315248,
+    "cLo": 14.681156148631183,
+    "cHi": 43.41174007138071,
+    "x": 28.46551914780583,
+    "xLo": 14.38753302565856,
+    "xHi": 42.5435052699531,
+    "inWidth": false,
+    "cUpper": 43.41174007138071,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "avg",
+    "ecc": "none",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -50.219682912639925,
+    "prov": -50.38481507,
+    "resid": -0.1651321573600768,
+    "drag1": -0.005685106720611114,
+    "cNeed": 29.046448110005947,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06424812722287632,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.09895704330074429,
+    "cLo": 11.640082994294099,
+    "cHi": 46.4528132257178,
+    "x": 28.46551914780583,
+    "xLo": 11.407281334408218,
+    "xHi": 45.52375696120344,
+    "inWidth": false,
+    "cUpper": 46.4528132257178,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "avg",
+    "ecc": "repo",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -50.38190955593029,
+    "prov": -50.38481507,
+    "resid": -0.002905514069709625,
+    "drag1": -0.005685106720611114,
+    "cNeed": 0.5110746750233917,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06440451050460813,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.0818246011548843,
+    "cLo": -13.881724823046305,
+    "cHi": 14.903874173093088,
+    "x": 0.5008531815229238,
+    "xLo": -13.604090326585379,
+    "xHi": 14.605796689631227,
+    "inWidth": true,
+    "cUpper": 14.903874173093088,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Earth",
+    "moon": "avg",
+    "ecc": "repo",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -50.38190955593029,
+    "prov": -50.38481507,
+    "resid": -0.002905514069709625,
+    "drag1": -0.005685106720611114,
+    "cNeed": 0.5110746750233917,
+    "parts": {
+     "digitY": 0.017420090650276165,
+     "digitMD": 0.06440451050460813,
+     "angle": 0.017288825427591803,
+     "sig": 0
+    },
+    "width": 0.0991134265824761,
+    "cLo": -16.92279797738339,
+    "cHi": 17.944947327430175,
+    "x": 0.5008531815229238,
+    "xLo": -16.58434201783572,
+    "xHi": 17.58604838088157,
+    "inWidth": true,
+    "cUpper": 17.944947327430175,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "id": "Mars",
+    "moon": null,
+    "ecc": "none",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -7.463309595311149,
+    "prov": -7.605,
+    "resid": -0.14169040468885186,
+    "drag1": -0.005806319768474795,
+    "cNeed": 24.4027904660289,
+    "parts": {
+     "digitY": 0.0024200414212423027,
+     "digitMD": 0.0013576826969920054,
+     "angle": 0.0006128410114820682,
+     "sig": 0.003
+    },
+    "width": 0.006777724118234308,
+    "cLo": 23.235489251405188,
+    "cHi": 25.570091680652613,
+    "x": 23.914734656708323,
+    "xLo": 22.770779466377082,
+    "xHi": 25.05868984703956,
+    "inWidth": false,
+    "cUpper": 25.570091680652613,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Mars",
+    "moon": null,
+    "ecc": "none",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -7.463309595311149,
+    "prov": -7.605,
+    "resid": -0.14169040468885186,
+    "drag1": -0.005806319768474795,
+    "cNeed": 24.4027904660289,
+    "parts": {
+     "digitY": 0.0024200414212423027,
+     "digitMD": 0.0013576826969920054,
+     "angle": 0.0006128410114820682,
+     "sig": 0.003
+    },
+    "width": 0.0073905651297163765,
+    "cLo": 23.129942013926215,
+    "cHi": 25.675638918131586,
+    "x": 23.914734656708323,
+    "xLo": 22.66734317364769,
+    "xHi": 25.162126139768954,
+    "inWidth": false,
+    "cUpper": 25.675638918131586,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Mars",
+    "moon": null,
+    "ecc": "repo",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": -7.562032801527495,
+    "prov": -7.605,
+    "resid": -0.042967198472505075,
+    "drag1": -0.005806319768474795,
+    "cNeed": 7.400074433687572,
+    "parts": {
+     "digitY": 0.0024200414212423027,
+     "digitMD": 0.0013756418593662576,
+     "angle": 0.0006128410114820682,
+     "sig": 0.003
+    },
+    "width": 0.00679568328060856,
+    "cLo": 6.229680181978344,
+    "cHi": 8.5704686853968,
+    "x": 7.25207294501382,
+    "xLo": 6.105086578338777,
+    "xHi": 8.399059311688864,
+    "inWidth": false,
+    "cUpper": 8.5704686853968,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Mars",
+    "moon": null,
+    "ecc": "repo",
+    "pert": "all",
+    "u": 0.98,
+    "grav": -7.562032801527495,
+    "prov": -7.605,
+    "resid": -0.042967198472505075,
+    "drag1": -0.005806319768474795,
+    "cNeed": 7.400074433687572,
+    "parts": {
+     "digitY": 0.0024200414212423027,
+     "digitMD": 0.0013756418593662576,
+     "angle": 0.0006128410114820682,
+     "sig": 0.003
+    },
+    "width": 0.007408524292090628,
+    "cLo": 6.12413294449937,
+    "cHi": 8.676015922875775,
+    "x": 7.25207294501382,
+    "xLo": 6.001650285609382,
+    "xHi": 8.50249560441826,
+    "inWidth": false,
+    "cUpper": 8.676015922875775,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "moon": null,
+    "ecc": "none",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": 46.12370413417875,
+    "prov": 44.58,
+    "resid": -1.5437041341787534,
+    "drag1": -0.0009785425002417937,
+    "cNeed": 1577.5545096889616,
+    "parts": {
+     "digitY": 1.4517120314775838,
+     "digitMD": 0.0035982973198661772,
+     "angle": 0.00037154904776315334,
+     "sig": 3.3
+    },
+    "width": 4.755310328797449,
+    "cLo": -3282.030360280848,
+    "cHi": 6437.139379658771,
+    "x": 1546.0034194951822,
+    "xLo": -3216.389753075231,
+    "xHi": 6308.3965920655955,
+    "inWidth": true,
+    "cUpper": 6437.139379658771,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "moon": null,
+    "ecc": "none",
+    "pert": "all",
+    "u": 0.98,
+    "grav": 46.12370413417875,
+    "prov": 44.58,
+    "resid": -1.5437041341787534,
+    "drag1": -0.0009785425002417937,
+    "cNeed": 1577.5545096889616,
+    "parts": {
+     "digitY": 1.4517120314775838,
+     "digitMD": 0.0035982973198661772,
+     "angle": 0.00037154904776315334,
+     "sig": 3.3
+    },
+    "width": 4.755681877845213,
+    "cLo": -3282.4100566636534,
+    "cHi": 6437.519076041576,
+    "x": 1546.0034194951822,
+    "xLo": -3216.76185553038,
+    "xHi": 6308.768694520744,
+    "inWidth": true,
+    "cUpper": 6437.519076041576,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "moon": null,
+    "ecc": "repo",
+    "pert": "digit",
+    "u": 0.98,
+    "grav": 46.12688158949348,
+    "prov": 44.58,
+    "resid": -1.5468815894934806,
+    "drag1": -0.0009785425002417937,
+    "cNeed": 1580.8016403081651,
+    "parts": {
+     "digitY": 1.4517120314775838,
+     "digitMD": 0.003598545206048729,
+     "angle": 0.00037154904776315334,
+     "sig": 3.3
+    },
+    "width": 4.755310576683632,
+    "cLo": -3278.78348298348,
+    "cHi": 6440.38676359981,
+    "x": 1549.1856075020019,
+    "xLo": -3213.2078133238106,
+    "xHi": 6311.579028327814,
+    "inWidth": true,
+    "cUpper": 6440.38676359981,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "id": "Venus",
+    "moon": null,
+    "ecc": "repo",
+    "pert": "all",
+    "u": 0.98,
+    "grav": 46.12688158949348,
+    "prov": 44.58,
+    "resid": -1.5468815894934806,
+    "drag1": -0.0009785425002417937,
+    "cNeed": 1580.8016403081651,
+    "parts": {
+     "digitY": 1.4517120314775838,
+     "digitMD": 0.003598545206048729,
+     "angle": 0.00037154904776315334,
+     "sig": 3.3
+    },
+    "width": 4.755682125731395,
+    "cLo": -3279.1631793662855,
+    "cHi": 6440.766459982616,
+    "x": 1549.1856075020019,
+    "xLo": -3213.5799157789597,
+    "xHi": 6311.951130782963,
+    "inWidth": true,
+    "cUpper": 6440.766459982616,
+    "fill": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "venus.prec.rate"
+    ]
+   }
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate",
+   "mars.prec.rate",
+   "venus.prec.rate"
+  ]
+ },
+ "t1pair": {
+  "rows": [
+   {
+    "moon": "fixed",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     -962.9750676036134,
+     -933.028164905239
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": null,
+    "ratio": -39.640900468385595,
+    "ratioLo": -42.28994747525112,
+    "ratioHi": -37.233716950108914,
+    "gapRel": 39.96694749458594,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     -965.9553192948637,
+     -930.0479132139887
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": null,
+    "ratio": -39.640900468385595,
+    "ratioLo": -42.614403986165065,
+    "ratioHi": -36.96221487992782,
+    "gapRel": 39.83800238905809,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     -962.9750676036134,
+     -933.028164905239
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": null,
+    "ratio": -130.7214672883602,
+    "ratioLo": -157.7332369077792,
+    "ratioHi": -111.08722182813443,
+    "gapRel": 129.4985942094365,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     -965.9553192948637,
+     -930.0479132139887
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": null,
+    "ratio": -130.7214672883602,
+    "ratioLo": -160.94828477610716,
+    "ratioHi": -109.38528597776589,
+    "gapRel": 129.07337951463674,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     -995.4020680690244,
+     -965.3931231627671
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": null,
+    "ratio": -40.995545620276594,
+    "ratioLo": -43.714009418905356,
+    "ratioHi": -38.52528320736684,
+    "gapRel": 41.320295492049475,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     -998.3823197602748,
+     -962.4128714715167
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": null,
+    "ratio": -40.995545620276594,
+    "ratioLo": -44.04496425152116,
+    "ratioHi": -38.24847177561895,
+    "gapRel": 41.19135038652163,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     -995.4020680690244,
+     -965.3931231627671
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": null,
+    "ratio": -135.18860097649326,
+    "ratioLo": -163.0447095706672,
+    "ratioHi": -114.94062457914087,
+    "gapRel": 133.96145034766394,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     -998.3823197602748,
+     -962.4128714715167
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": null,
+    "ratio": -135.18860097649326,
+    "ratioLo": -166.35129876763608,
+    "ratioHi": -113.19181052812377,
+    "gapRel": 133.53623565286415,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     -57.82538924005897,
+     -29.537093207663172
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": null,
+    "ratio": -1.8265409109027286,
+    "ratioLo": -2.5394558550550665,
+    "ratioHi": -1.1787165804740862,
+    "gapRel": 2.18726544220165,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     -60.805640931309306,
+     -26.556841516412828
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": null,
+    "ratio": -1.8265409109027286,
+    "ratioLo": -2.682521743527488,
+    "ratioHi": -1.0554291544719472,
+    "gapRel": 2.0583203366738023,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     -57.82538924005897,
+     -29.537093207663172
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": null,
+    "ratio": -6.023276593473072,
+    "ratioLo": -9.471673906349995,
+    "ratioHi": -3.516714445218499,
+    "gapRel": 4.914757484686887,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     -60.805640931309306,
+     -26.556841516412828
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": null,
+    "ratio": -6.023276593473072,
+    "ratioLo": -10.131486847393901,
+    "ratioHi": -3.123417259117754,
+    "gapRel": 4.489542789887115,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     -86.14472263818062,
+     -57.801911334211056
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": null,
+    "ratio": -3.0095804122169763,
+    "ratioLo": -3.7831257715784545,
+    "ratioHi": -2.306661349297948,
+    "gapRel": 3.369165159354452,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     -89.12497432943097,
+     -54.82165964296072
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": null,
+    "ratio": -3.0095804122169763,
+    "ratioLo": -3.9318668115037294,
+    "ratioHi": -2.1787371758030663,
+    "gapRel": 3.2402200538266044,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     -86.14472263818062,
+     -57.801911334211056
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": null,
+    "ratio": -9.924516415086705,
+    "ratioLo": -14.11031957250654,
+    "ratioHi": -6.88195060770304,
+    "gapRel": 8.81223870707054,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     -89.12497432943097,
+     -54.82165964296072
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": null,
+    "ratio": -9.924516415086705,
+    "ratioLo": -14.850077909926336,
+    "ratioHi": -6.447713964647397,
+    "gapRel": 8.387024012270768,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     14.38753302565856,
+     42.5435052699531
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "ratio": 1.1902920754264343,
+    "ratioLo": 0.5741534419190039,
+    "ratioHi": 1.868337679558667,
+    "gapRel": 0,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     11.407281334408218,
+     45.52375696120344
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "ratio": 1.1902920754264343,
+    "ratioLo": 0.45335124985240866,
+    "ratioHi": 2.0083411016659363,
+    "gapRel": 0,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     14.38753302565856,
+     42.5435052699531
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": null,
+    "ratio": 3.925156208939868,
+    "ratioLo": 1.7129933831560888,
+    "ratioHi": 6.968534307261109,
+    "gapRel": 0.8257602701151929,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     11.407281334408218,
+     45.52375696120344
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": null,
+    "ratio": 3.925156208939868,
+    "ratioLo": 1.3416391922014648,
+    "ratioHi": 7.5852065340026975,
+    "gapRel": 0.4005455753154208,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "digit",
+    "xE": [
+     -13.604090326585379,
+     14.605796689631227
+    ],
+    "xM": [
+     22.770779466377082,
+     25.05868984703956
+    ],
+    "both": null,
+    "ratio": 0.020943288257744875,
+    "ratioLo": -0.5974363041314826,
+    "ratioHi": 0.6414271725391694,
+    "gapRel": 0.34142058835076794,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "none",
+    "pert": "all",
+    "xE": [
+     -16.58434201783572,
+     17.58604838088157
+    ],
+    "xM": [
+     22.66734317364769,
+     25.162126139768954
+    ],
+    "both": null,
+    "ratio": 0.020943288257744875,
+    "ratioLo": -0.7316403113848884,
+    "ratioHi": 0.7758319202281516,
+    "gapRel": 0.21247548282292,
+    "main": false,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "digit",
+    "xE": [
+     -13.604090326585379,
+     14.605796689631227
+    ],
+    "xM": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "both": [
+     6.105086578338777,
+     8.399059311688864
+    ],
+    "ratio": 0.0690634505913632,
+    "ratioLo": -2.2283206228153305,
+    "ratioHi": 2.3923979622915574,
+    "gapRel": 0,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pert": "all",
+    "xE": [
+     -16.58434201783572,
+     17.58604838088157
+    ],
+    "xM": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "both": [
+     6.001650285609382,
+     8.50249560441826
+    ],
+    "ratio": 0.0690634505913632,
+    "ratioLo": -2.763296964770052,
+    "ratioHi": 2.9302021184154947,
+    "gapRel": 0,
+    "main": true,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   }
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate",
+   "mars.prec.rate"
+  ]
+ },
+ "t2": {
+  "rows": [
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "pick": "lo",
+    "X": 22.770779466377082,
+    "inWin": false,
+    "overWinTop": 27.270394570511478,
+    "fMax": {
+     "Sun|-": 0.000035901489948939554,
+     "Earth|Sun": 0.00003672663624762974,
+     "Mars|Sun": 0.00003691450139309491,
+     "Jupiter|Sun": 0.000035862471543439444
+    },
+    "sunPeriodYr": 9619092.938391246,
+    "sunTurnsAge": 467.819578085146,
+    "cAtU098": 23.235489251405188,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -24.1712550987218,
+      "grav": -782.3075523297365,
+      "ratio": 0.030897381760842068
+     },
+     "Jupiter": {
+      "drag": -0.14881541710016824,
+      "grav": -0.9020551134564433,
+      "ratio": 0.16497375257920308
+     },
+     "Saturn": {
+      "drag": -0.1375346772211113,
+      "grav": -0.18607498998538816,
+      "ratio": 0.7391357496883995
+     },
+     "Venus": {
+      "drag": -0.022736913746411357,
+      "grav": 46.12370413417875,
+      "ratio": -0.0004929550688354791
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "pick": "mid",
+    "X": 23.91473465670832,
+    "inWin": false,
+    "overWinTop": 28.64040078647703,
+    "fMax": {
+     "Sun|-": 0.00003418421010154282,
+     "Earth|Sun": 0.000034969888468371,
+     "Mars|Sun": 0.000035148767762938453,
+     "Jupiter|Sun": 0.000034147058003919495
+    },
+    "sunPeriodYr": 9158966.098135268,
+    "sunTurnsAge": 491.32183172030557,
+    "cAtU098": 24.402790466028897,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -25.385567185307675,
+      "grav": -782.3075523297365,
+      "ratio": 0.03244960004503172
+     },
+     "Jupiter": {
+      "drag": -0.15629158492500778,
+      "grav": -0.9020551134564433,
+      "ratio": 0.17326168057086735
+     },
+     "Saturn": {
+      "drag": -0.14444412483531952,
+      "grav": -0.18607498998538816,
+      "ratio": 0.7762683466846471
+     },
+     "Venus": {
+      "drag": -0.02387916759550452,
+      "grav": 46.12370413417875,
+      "ratio": -0.000517720075691178
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "pick": "hi",
+    "X": 25.05868984703956,
+    "inWin": false,
+    "overWinTop": 30.010407002442587,
+    "fMax": {
+     "Sun|-": 0.00003262371635277773,
+     "Earth|Sun": 0.00003337353005401288,
+     "Mars|Sun": 0.00003354424386961766,
+     "Jupiter|Sun": 0.0000325882601763607
+    },
+    "sunPeriodYr": 8740849.793173399,
+    "sunTurnsAge": 514.824085355465,
+    "cAtU098": 25.570091680652613,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -26.599879271893553,
+      "grav": -782.3075523297365,
+      "ratio": 0.03400181832922138
+     },
+     "Jupiter": {
+      "drag": -0.1637677527498473,
+      "grav": -0.9020551134564433,
+      "ratio": 0.1815496085625316
+     },
+     "Saturn": {
+      "drag": -0.15135357244952782,
+      "grav": -0.18607498998538816,
+      "ratio": 0.8134009436808951
+     },
+     "Venus": {
+      "drag": -0.025021421444597694,
+      "grav": 46.12370413417875,
+      "ratio": -0.000542485082546877
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pick": "lo",
+    "X": 6.105086578338777,
+    "inWin": false,
+    "overWinTop": 7.311480932142248,
+    "fMax": {
+     "Sun|-": 0.00013389241831605252,
+     "Earth|Sun": 0.00013696944269973171,
+     "Mars|Sun": 0.00013767000214766025,
+     "Jupiter|Sun": 0.00013374691579310722
+    },
+    "sunPeriodYr": 35877336.2434923,
+    "sunTurnsAge": 125.42737201723676,
+    "cAtU098": 6.229680181978344,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -6.4805688932478045,
+      "grav": -782.3075523297365,
+      "ratio": 0.008283914521786817
+     },
+     "Jupiter": {
+      "drag": -0.03989898575626909,
+      "grav": -0.9020551134564433,
+      "ratio": 0.04423120623238466
+     },
+     "Saturn": {
+      "drag": -0.03687450019875651,
+      "grav": -0.18607498998538816,
+      "ratio": 0.19817010443828126
+     },
+     "Venus": {
+      "drag": -0.006096006820979839,
+      "grav": 46.12370413417875,
+      "ratio": -0.0001321664626771065
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pick": "mid",
+    "X": 7.25207294501382,
+    "inWin": false,
+    "overWinTop": 8.68511729941775,
+    "fMax": {
+     "Sun|-": 0.0001127184076256408,
+     "Earth|Sun": 0.00011530888141766263,
+     "Mars|Sun": 0.00011589866614056566,
+     "Jupiter|Sun": 0.00011259591256764802
+    },
+    "sunPeriodYr": 30202984.11605052,
+    "sunTurnsAge": 148.9919003602231,
+    "cAtU098": 7.400074433687572,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -7.698098583199588,
+      "grav": -782.3075523297365,
+      "ratio": 0.009840245770700293
+     },
+     "Jupiter": {
+      "drag": -0.04739496343314176,
+      "grav": -0.9020551134564433,
+      "ratio": 0.052541095024157054
+     },
+     "Saturn": {
+      "drag": -0.043802256007493705,
+      "grav": -0.18607498998538816,
+      "ratio": 0.23540109291922223
+     },
+     "Venus": {
+      "drag": -0.0072412873383160105,
+      "grav": 46.12370413417875,
+      "ratio": -0.00015699709020009184
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "pick": "hi",
+    "X": 8.399059311688864,
+    "inWin": false,
+    "overWinTop": 10.058753666693251,
+    "fMax": {
+     "Sun|-": 0.00009732693457041461,
+     "Earth|Sun": 0.00009956371956323766,
+     "Mars|Sun": 0.00010007297860072122,
+     "Jupiter|Sun": 0.00009722116434151813
+    },
+    "sunPeriodYr": 26078425.671058774,
+    "sunTurnsAge": 172.55642870320943,
+    "cAtU098": 8.5704686853968,
+    "venusIn": true,
+    "venusXHi": 6308.3965920655955,
+    "prev": {
+     "Mercury": {
+      "drag": -8.915628273151372,
+      "grav": -782.3075523297365,
+      "ratio": 0.01139657701961377
+     },
+     "Jupiter": {
+      "drag": -0.05489094111001443,
+      "grav": -0.9020551134564433,
+      "ratio": 0.06085098381592944
+     },
+     "Saturn": {
+      "drag": -0.050730011816230894,
+      "grav": -0.18607498998538816,
+      "ratio": 0.2726320814001632
+     },
+     "Venus": {
+      "drag": -0.008386567855652182,
+      "grav": 46.12370413417875,
+      "ratio": -0.00018182771772307717
+     }
+    },
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate",
+     "venus.prec.rate"
+    ]
+   }
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate",
+   "mars.prec.rate",
+   "venus.prec.rate"
+  ]
+ },
+ "t2cand": {
+  "rows": [
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "cand": "i",
+    "label": "(イ) 1 ÷ ω",
+    "vE": 13713.442432064381,
+    "vM": 14107.921454856816,
+    "ratio": 0.9720384732751237,
+    "inside": true,
+    "ratioLo": 0.5741534419190039,
+    "ratioHi": 1.868337679558667,
+    "scaleE": 0.002118100415260458,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "cand": "u",
+    "label": "(ウ) n² ÷ ω",
+    "vE": 5.436044786260371e-10,
+    "vM": 1.5810030955040463e-10,
+    "ratio": 3.4383517664949816,
+    "inside": false,
+    "ratioLo": 0.5741534419190039,
+    "ratioHi": 1.868337679558667,
+    "scaleE": 53433055193.77062,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "cand": "uJ",
+    "label": "(ウ′) n² J2 ÷ (ω × 慣性モーメントの係数)",
+    "vE": 1.7796266002265096e-12,
+    "vM": 8.447271044956901e-13,
+    "ratio": 2.1067473634446277,
+    "inside": false,
+    "ratioLo": 0.5741534419190039,
+    "ratioHi": 1.868337679558667,
+    "scaleE": 16321653152582.084,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "none",
+    "eccM": "none",
+    "cand": "Presp",
+    "label": "(P-応) の率の倍(観測半径の物差し)",
+    "vE": 1.2095554883580286,
+    "vM": 1.0922992900054616,
+    "ratio": 1.1073480495917751,
+    "inside": true,
+    "ratioLo": 0.5741534419190039,
+    "ratioHi": 1.868337679558667,
+    "scaleE": 24.014150974947412,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "cand": "i",
+    "label": "(イ) 1 ÷ ω",
+    "vE": 13713.442432064381,
+    "vM": 14107.921454856816,
+    "ratio": 0.9720384732751237,
+    "inside": true,
+    "ratioLo": -2.2283206228153305,
+    "ratioHi": 2.3923979622915574,
+    "scaleE": 0.00003726815331418254,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "cand": "u",
+    "label": "(ウ) n² ÷ ω",
+    "vE": 5.436044786260371e-10,
+    "vM": 1.5810030955040463e-10,
+    "ratio": 3.4383517664949816,
+    "inside": false,
+    "ratioLo": -2.2283206228153305,
+    "ratioHi": 2.3923979622915574,
+    "scaleE": 940159058.8715076,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "cand": "uJ",
+    "label": "(ウ′) n² J2 ÷ (ω × 慣性モーメントの係数)",
+    "vE": 1.7796266002265096e-12,
+    "vM": 8.447271044956901e-13,
+    "ratio": 2.1067473634446277,
+    "inside": true,
+    "ratioLo": -2.2283206228153305,
+    "ratioHi": 2.3923979622915574,
+    "scaleE": 287180847352.1032,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "eccE": "repo",
+    "eccM": "repo",
+    "cand": "Presp",
+    "label": "(P-応) の率の倍(観測半径の物差し)",
+    "vE": 1.2095554883580286,
+    "vM": 1.0922992900054616,
+    "ratio": 1.1073480495917751,
+    "inside": true,
+    "ratioLo": -2.2283206228153305,
+    "ratioHi": 2.3923979622915574,
+    "scaleE": 0.422530987575589,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate",
+     "mars.prec.rate"
+    ]
+   }
+  ],
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate",
+   "mars.prec.rate"
+  ]
+ },
+ "t3": {
+  "rows": [
+   {
+    "moon": "fixed",
+    "ecc": "none",
+    "resid": 5.49947995889616,
+    "width": 0.08686292744490542,
+    "distinct": true,
+    "room": 5.586342886341066,
+    "cUpper": 982.6276200036872,
+    "fill": false,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "fixed",
+    "ecc": "repo",
+    "resid": 5.6874132241907205,
+    "width": 0.0870428848801083,
+    "distinct": true,
+    "room": 5.774456109070829,
+    "cUpper": 1015.7163959888004,
+    "fill": false,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "ecc": "none",
+    "resid": 0.2534005286187835,
+    "width": 0.08205203157571941,
+    "distinct": true,
+    "room": 0.33545256019450287,
+    "cUpper": 59.005499224549965,
+    "fill": false,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "ecl",
+    "ecc": "repo",
+    "resid": 0.4175265184723429,
+    "width": 0.08221015664551534,
+    "distinct": true,
+    "room": 0.49973667511785824,
+    "cUpper": 87.90277820222514,
+    "fill": false,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "ecc": "none",
+    "resid": -0.1651321573600768,
+    "width": 0.08166821787315248,
+    "distinct": true,
+    "room": 0.24680037523322929,
+    "cUpper": 43.41174007138071,
+    "fill": true,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   },
+   {
+    "moon": "avg",
+    "ecc": "repo",
+    "resid": -0.002905514069709625,
+    "width": 0.0818246011548843,
+    "distinct": false,
+    "room": 0.08473011522459392,
+    "cUpper": 14.903874173093088,
+    "fill": true,
+    "drag1": -0.005685106720611114,
+    "provisional": true,
+    "provMark": "仮・未照合",
+    "provKeys": [
+     "earth.psiA.rate"
+    ]
+   }
+  ],
+  "roomSpread": 68.15116554208018,
+  "residSpread": 1957.4550622496613,
+  "provisional": true,
+  "provMark": "仮・未照合",
+  "provKeys": [
+   "earth.psiA.rate"
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "provTop": true,
+  "t1": true,
+  "t1pair": true,
+  "t2": true,
+  "t2cand": true,
+  "t3": true
+ },
+ "ok": true,
+ "timing": {
+  "input": {
+   "wallSec": 0.049
+  },
+  "pure": {
+   "wallSec": 0.103
+  },
+  "t1": {
+   "wallSec": 0.109
+  },
+  "t1pair": {
+   "wallSec": 0.11
+  },
+  "t2": {
+   "wallSec": 0.133
+  },
+  "t2cand": {
+   "wallSec": 0.148
+  },
+  "t3": {
+   "wallSec": 0.149
+  }
+ },
+ "elapsedS": 0.371,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第353便r",
+  "target": "tests/lib-w353r-residfit.mjs",
+  "targetSha256": "1fa99177c23d4d02cba1dd6374f4c08887e38f60c8a251bd4c0d53c1dd749182",
+  "generatedAt": "2026-11-25T06:23:37.915Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w353r-residfit.mjs",
+    "bytes": 14178,
+    "sha256": "01ffd9970f803c4e1bce3cae9fd2ef71a52b1853ec7919919c58a52b8d0559a1",
+    "mtime": "2026-11-25T06:18:57.863Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-25T06:11:50.919Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-25T06:11:50.919Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-25T06:11:50.919Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-25T06:11:50.931Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w318d-dragest.mjs",
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-11-25T06:11:50.935Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-25T06:11:50.943Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-25T06:11:50.947Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-25T06:11:50.951Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-25T06:11:50.955Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-25T06:11:50.959Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-25T06:11:50.963Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-25T06:11:50.967Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w351g-r3energy.mjs",
+    "bytes": 26339,
+    "sha256": "4bde20de253d5e8bcf9b3e53587fba5dcebe6ba4f52f58482af36808d201842f",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352i-stableprec.mjs",
+    "bytes": 23435,
+    "sha256": "fb799e95727ceac3b5eebe0421f94ee026a516e79480f3e557bb8dedf0e0ecb2",
+    "mtime": "2026-11-25T06:11:50.971Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352n-venuslong.mjs",
+    "bytes": 25425,
+    "sha256": "b964fdbc2c93b26466d4d76ef2a7a65bfea07e67493ce9e27378baa2028a655c",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352o-obsradius.mjs",
+    "bytes": 19068,
+    "sha256": "27f44ff076d17fdc0dfc9212e52223889c6dd14b52463c35677ca54c2f988112",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352p-coprec.mjs",
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352s-satring.mjs",
+    "bytes": 27009,
+    "sha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352u-tidaldrag.mjs",
+    "bytes": 25911,
+    "sha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352w-keepcone.mjs",
+    "bytes": 30717,
+    "sha256": "57adb0c0b4f55dee929bb0f3c1bc693fe2d0f9e442e54ded1bb6abb53acaffc6",
+    "mtime": "2026-11-25T06:11:50.975Z"
+   },
+   {
+    "file": "tests/lib-w352y-bgwindow.mjs",
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w352za-sconseq.mjs",
+    "bytes": 25293,
+    "sha256": "19b9b7539509eab2484ae191fe14970a9385bdc076c9ba341d92032257e95ed5",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w353c-recvradius.mjs",
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w353e-focus098.mjs",
+    "bytes": 20594,
+    "sha256": "932081452c5512c862e1fd5b238e2bfec9ef13269000b631a104b2ab4b920f2a",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w353f-ratesum.mjs",
+    "bytes": 21288,
+    "sha256": "24e003450ac21b263edfa23c33a2fb671bab7f56cc498d8362a0d70a3ef15073",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w353m-residsign.mjs",
+    "bytes": 22856,
+    "sha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+    "mtime": "2026-11-25T06:11:50.979Z"
+   },
+   {
+    "file": "tests/lib-w353r-residfit.mjs",
+    "bytes": 19637,
+    "sha256": "1fa99177c23d4d02cba1dd6374f4c08887e38f60c8a251bd4c0d53c1dd749182",
+    "mtime": "2026-11-25T06:18:04.903Z"
+   }
+  ],
+  "codeSha256": "dbde00890f00f725ad598092953d524b9d076605419000fb9b3010673e2fb6f7",
+  "harnessVersion": "w353r-residfit-1",
+  "stage": "residfit",
+  "engine": "Node(html を読まない —— 純関数の lib・第353便m・f・e・c・第352便q・y・u・c・b・第299便c の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "要る応答の係数の区間の表 —— 歳差の率の残りが軸引きずりで読み切れたとは書かない・応答の係数の値を 1 つに置かない(この入力・この置き方・このノブでは、の数)",
+   "重力の側の列(第352便u の (T-g))は比べる列 —— DFM の式ではない。残り(仮の値 − 重力の列)は仮・未照合(較正・サンプルの状況・ノブの採否に入れない)",
+   "入力の幅は、リポジトリの数の最後の桁 ±1 と仮の値の 1σ(と宣言の角の幅 0.01°)の上下の振れの大きい方の和 —— 外の数は使っていない(離心率は第299便c・第330便b の器の入力 —— 文献の値・未照合)",
+   "共通の値 X = c × u は 2 天体の区間の重なりの数え上げ —— 背景の倍率と応答の係数のどちらにも寄せない",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 6,
+   "kept": 743,
+   "zeroPathsHead": [
+    "/pure/scenes/dErr/0",
+    "/pure/scenes/dErr/1",
+    "/pure/scenes/dErr/2",
+    "/pure/scenes/dErr/3",
+    "/pure/scenes/dErr/4",
+    "/pure/scenes/dErr/5"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}

@@ -46,7 +46,9 @@ export const DECL = Object.freeze({
   /** 予告の天体(比べる数なし) */
   previewBodies: Object.freeze(['Mercury', 'Jupiter', 'Saturn']),
   /** 傾きを保つ f の上限を数える受け手(第353便e の fMaxAt の key) */
-  fKeys: Object.freeze(['Sun', 'Earth', 'Mars', 'Jupiter']),
+  fKeys: Object.freeze(['Sun|-', 'Earth|Sun', 'Mars|Sun', 'Jupiter|Sun']),
+  /** u 0.98 の傾きを保つ f の上限(統括の数え直し 3 —— 零試験の相手) */
+  fAnchor: Object.freeze({ 'Sun|-': '8.34e-4', 'Earth|Sun': '8.53e-4', 'Mars|Sun': '8.57e-4', 'Jupiter|Sun': '8.33e-4' }),
   /** 構造の量の式の候補(第352便q の candOf の欄): (イ) 1 ÷ ω・(ウ) n² ÷ ω・(ウ′) n² J2 ÷ (ω C/MR²) */
   cands: Object.freeze(['i', 'u', 'uJ']), candLabels: Object.freeze({ i: '(イ) 1 ÷ ω', u: '(ウ) n² ÷ ω', uJ: '(ウ′) n² J2 ÷ (ω × 慣性モーメントの係数)' }),
   /** 第353便m・f の数(文字で持つ —— 零試験の相手) */
@@ -133,7 +135,7 @@ export function pairOf(e, m) {
 export function atCommon(X, o = {}) {
   if (!(fin(X) && X > 0)) throw new RangeError('atCommon: X > 0');
   const Cx = ctx(o), fk = Object.fromEntries(DECL.fKeys.map((k) => [k, EF.fMaxAt(k, { u: X, T1: Cx.T1, GEO: Cx.GEO, cache: Cx.cache }).fMax]));
-  const sun = EF.focusState(Cx.T1, Cx.GEO, 'Sun', { dir: 'Np', u: X }, Cx.cache);
+  const sun = EF.focusState(Cx.T1, Cx.GEO, 'Sun|-', { dir: 'Np', u: X }, Cx.cache);
   return { X, uAtC1: X, inWin: X >= DECL.uWin[0] && X <= DECL.uWin[1], overWinTop: X / DECL.uWin[1], fMax: fk, sunPeriodYr: sun.periodYr, sunTurnsAge: sun.turnsAge, cAtU098: X / DECL.uMain };
 }
 /**
@@ -180,11 +182,13 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ⑦ 統括の数え直し 3
   const L = RC.refAxis('L', T1, GEO), Lerr = Math.max(...L.map((x, i) => Math.abs(x - DECL.anchor3.L[i]))), omegaG = nrm(F.bgOf({ u: 1 }, o));
   const phiV = Math.acos(Math.max(-1, Math.min(1, dot(scl(unit(F.localOf('Venus', {}, o)), -1), L)))) / D2R;
-  // ⑧ 拒否
+  // ⑧ 傾きを保つ f の上限(u 0.98)= 統括の数え直し 3 の数(第353便e の fMaxAt)
+  const fA = Object.fromEntries(Object.entries(atCommon(0.98, o).fMax).map(([k, v]) => [k, Number(v).toExponential(2)]));
+  // ⑨ 拒否
   const rej = [() => needC('Pluto', {}, o), () => needC('Earth', { pert: 'x' }, o), () => needC('Earth', { u: 0 }, o), () => gravRow('Earth', { moon: 'node' }, o), () => gravRow('Mars', { ecc: 'x' }, o), () => atCommon(-1, o)]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
   return { cErr, residE: Object.fromEntries(Object.entries(residE).map(([k, v]) => [k, p3(v)])), cE: Object.fromEntries(Object.entries(cE).map(([k, v]) => [k, p3(v)])), cM: p3(nM.cNeed), cV: p3(nV.cNeed),
-    fErr, wErr, dErr, pert: Object.fromEntries(DECL.bodies.map((id) => [id, p3(M.widthParts(id, o).pert)])), eErr, facErr, ar, upErr, ov, Lerr, omegaG, phiV, rejects: rej };
+    fErr, wErr, dErr, pert: Object.fromEntries(DECL.bodies.map((id) => [id, p3(M.widthParts(id, o).pert)])), eErr, facErr, ar, upErr, ov, Lerr, omegaG, phiV, fA, rejects: rej };
 }
 export function pureGates(S) {
   const A = DECL.anchorM;
@@ -196,6 +200,7 @@ export function pureGates(S) {
     interval: S.ar.every(Boolean) && S.upErr.every((e) => e < 1e-9),
     overlap: JSON.stringify(S.ov) === JSON.stringify([[1, 2], null, [2, 2]]),
     anchor3: S.Lerr < DECL.anchor3.Ltol && Math.abs(S.omegaG / DECL.anchor3.omegaG - 1) < 1e-9 && Number(S.phiV).toFixed(4) === DECL.anchor3.phiVenusDeg.toFixed(4),
+    fMaxIsE: Object.entries(DECL.fAnchor).every(([k, v]) => S.fA[k] === v),
     rejects: S.rejects.length === 6 && S.rejects.every(Boolean),
   };
 }
