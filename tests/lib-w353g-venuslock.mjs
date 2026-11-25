@@ -134,13 +134,13 @@ export const boundClosed = (x, nu, OmP) => nu * nu < OmP * OmP * Math.cos(x / 2)
 export const sepRatio = (x, nu, OmP) => (nu * nu) / Math.max(OmP * OmP * Math.cos(x / 2) ** 2, 1e-300);
 /**
  * 振り子の形の步(内合ごとに 1 步): ν ← ν − (Ω_p²/2) S sin x・x ← x + 2 ν S。走らせる長さ = runPeriods × 小振幅の秤動の周期。
- * 戻り値 { bound(x の幅が 2π より小さい), span(x の幅 rad), steps, crossT(初めの 0 交差までの步の数 —— 周期の照合に) }。mut 'flip' はトルクの符号を逆に(変異)
+ * 戻り値 { bound(x の幅が 2π より小さい), span(x の幅 rad —— 2π に届いて 0 交差も見たら止める), steps, crossT(初めの 0 交差までの步の数 —— 周期の照合に) }。mut 'flip' はトルクの符号を逆に(変異)
  */
 export function pendStep({ x0, nu0, OmP, Sd, periods: np = DECL.runPeriods, mut = null }) {
   if (!(fin(x0) && fin(nu0) && fin(OmP) && OmP > 0 && fin(Sd) && Sd > 0)) throw new RangeError('pendStep: 入力');
   const steps = Math.ceil(np * 2 * Math.PI / OmP / Sd), g = (mut === 'flip' ? -1 : 1) * 0.5 * OmP * OmP * Sd;
   let x = x0, nu = nu0, lo = x0, hi = x0, cross = null;
-  for (let k = 1; k <= steps; k++) { const prev = x; nu -= g * Math.sin(x); x += 2 * nu * Sd; if (x < lo) lo = x; if (x > hi) hi = x; if (cross === null && prev !== 0 && Math.sign(prev) !== Math.sign(x)) cross = k; }
+  for (let k = 1; k <= steps; k++) { const prev = x; nu -= g * Math.sin(x); x += 2 * nu * Sd; if (x < lo) lo = x; if (x > hi) hi = x; if (cross === null && prev !== 0 && Math.sign(prev) !== Math.sign(x)) cross = k; if (hi - lo >= 2 * Math.PI && cross !== null) break; }
   return { bound: hi - lo < 2 * Math.PI, span: hi - lo, steps, crossT: cross };
 }
 /** 捕まる範囲の表: q ごとに x₀ の格子 × ν₀ の格子(÷ Ω_p)+ いまのずれ ν_now → 步と閉じた条件の数え */
@@ -154,7 +154,7 @@ export function captureRows(T1, GEO, Z = null) {
       for (let j = 0; j < DECL.nX0; j++) {
         const x0 = -Math.PI + (j + 0.5) * 2 * Math.PI / DECL.nX0, cl = boundClosed(x0, N.nu, eg.OmP), sr = sepRatio(x0, N.nu, eg.OmP);
         if (Math.abs(sr - 1) < DECL.sepGuard) { near++; continue; }
-        const st = N.id === 'now' && Math.abs(N.f) > 10 ? { bound: false } : pendStep({ x0, nu0: N.nu, OmP: eg.OmP, Sd });
+        const st = pendStep({ x0, nu0: N.nu, OmP: eg.OmP, Sd });
         if (st.bound) nb++; else nc++; if (st.bound === cl) agree++;
       }
       out.push({ q, nuId: N.id, nuOverOmP: N.f, bound: nb, circ: nc, near, agree, n: DECL.nX0 });
@@ -190,6 +190,30 @@ export function candidates(T1, GEO, cache = null, Z = null) {
   return out;
 }
 
+
+/* ───────── 表(器が呼ぶ)───────── */
+/** 表 0: 残りの列(基準軸 × 大きさ)—— (L2) を含む */
+export function resRows(T1, GEO, cache = null) {
+  return DECL.axes.flatMap((axis) => DECL.mags.map((m) => { const r = residualOf(T1, GEO, { axis, magId: m.id }, cache);
+    return { axis, magId: m.id, u: r.u, bgMag: r.bgMag, res: r.res, L2: r.resOverBg, phiDeg: r.phiDeg, main: axis === DECL.mainAxis }; }));
+}
+/** 表 1: 大きさの比べ —— 候補 × 大きさ(基準軸 L)の 地球の作用 ÷ 残り */
+export function ratioRows(T1, GEO, cache = null, Z = null) {
+  const C = candidates(T1, GEO, cache, Z), R = Object.fromEntries(DECL.mags.map((m) => [m.id, residualOf(T1, GEO, { axis: DECL.mainAxis, magId: m.id }, cache).res]));
+  return C.map((c) => ({ ...c, ...Object.fromEntries(DECL.mags.map((m) => ['over_' + m.id, c.v / R[m.id]])) }));
+}
+/** 表 2: 共鳴の幅といまの周期 —— (B − A)/C の格子ごとの (E-g) の行 + (L1)(L3) の印(仮の値の自転周期) */
+export function widthRows(T1, GEO, Z = null) {
+  const z = Z || zAvg(T1, GEO), Lp = lockPhase();
+  return DECL.qGrid.map((q) => { const g = egRow(T1, GEO, q, z); return { ...g, nuNow: Lp.nu, dPnow: Lp.dP, inside: Math.abs(g.L3) < 1, prov: true }; });
+}
+/** 表 3: 釣り合いが外れたとき —— 基準軸ごとに 残り(u 0.98)÷ 残り(uV)・(L2) の変化・(E-S) ÷ 残り の変化・(L3) は背景に依らない */
+export function offRows(T1, GEO, cache = null) {
+  const e = earthDrag(T1, GEO, cache);
+  return DECL.axes.map((axis) => { const a = residualOf(T1, GEO, { axis, magId: 'uV' }, cache), b = residualOf(T1, GEO, { axis, magId: 'u098' }, cache);
+    return { axis, resUV: a.res, res098: b.res, gain: b.res / a.res, L2uV: a.resOverBg, L2_098: b.resOverBg, esUV: e.infS / a.res, es098: e.infS / b.res, main: axis === DECL.mainAxis }; });
+}
+
 /* ───────── 零試験・変異 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const cache = {}, A = DECL.anchor, ax = RA.refAxes(T1, GEO), Lv = unit(ax.L);
@@ -208,7 +232,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const cap = captureRows(T1, GEO, z), capAgree = cap.every((r) => r.agree === r.n - r.near);
   // ⑥ (E-S)(E-M) は第352便h の otherSrc と同じ・(E-潮) は第352便u の rateOf と同じ(″/年 → rad/s)
   const e = earthDrag(T1, GEO, cache), o = H.otherSrc(T1, GEO, 'Earth'), t = sunTide(T1, GEO), r352u = U.rateOf(T1, GEO, 'Venus', 'sun', 'Tg', 'nat');
-  const eSame = e.infS === nrm(o.inf.S) && e.meanM === nrm(o.mean.M), tSame = Math.abs(t.rate * ASYR / r352u.mag - 1) < 1e-12;
+  const eSame = Math.abs(e.infS / nrm(o.inf.S) - 1) < 1e-9 && Math.abs(e.meanM / nrm(o.mean.M) - 1) < 1e-9, tSame = Math.abs(t.rate * ASYR / r352u.mag - 1) < 1e-12;
   // 変異: トルクの符号を逆にすると x₀ ≈ 0 は不安定の点になり、1/4 周期で 0 を横切らない(中心が π に移る)
   const fl = pendStep({ x0: 0.05, nu0: 0, OmP: eg.OmP, Sd, periods: 1, mut: 'flip' }), mFlip = fl.crossT === null || Math.abs(fl.crossT / quarter - 1) > 0.1;
   const rej = [() => uOf(T1, GEO, 'uX'), () => residualOf(T1, GEO, { axis: 'ecl', magId: 'uV' }), () => lockPhase(0), () => zAvg(T1, GEO, { n: 3 }), () => egRow(T1, GEO, 0), () => pendStep({ x0: 0, nu0: 0, OmP: 0, Sd: 1 })]
