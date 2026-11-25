@@ -1636,6 +1636,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.sconseq352za docs.sconseq352za"
 #   EQ-129 までの写しで読む形にした既存の照合(docs.equations352m)
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations352z docs.equations352m"
 # ==== 第352便z の塊(ここまで)====
+# ==== 第353便h の塊(ここから)====
+# 第353便h(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R472 —— 診断だけ・html は変えない): 枝 h の新設 2 本
+#   (behavior.ringdisk353h —— 零試験 9・器を走らせ直して第338便c の recheckRun で正本と照合・率 ÷ 物差しの換算を QA の中で別に照合・呼ぶだけ /
+#   docs.ringdisk353h —— 原文と表と数の文が PHYSICS〔第353便h〕に逐語・文書)と、新しい段 ringdisk-353h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.ringdisk353h docs.ringdisk353h"
+# ==== 第353便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

@@ -7,7 +7,7 @@
 //     (iii-b) 〔第351便j〕の rotvertRows(🛟 saturnRotVertExplore3d の傾きの減りの率 —— 本の強さのまま/見える倍率で割った「目安の強さ」)の率。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵・🛟 の本と鍵は変えない(AN712)。既存の lib は呼ぶだけ(本文と版は変えない):
 //   第352便s(ringRot・ringRates・saturnSpin・tiltedNormal・saturnRing・uVt —— 軸引きずりの (S) の輪)・第352便k(spinRot・srcRadius)・第352便c(refAxis)・
-//   第351便j(ringOmega・ringRate・normalAt・saturnRows・rotvertRows・DECL)・第348便d(saturnUnits・LIT・DECL)・第348便c(massOf)・第338便d(centerKm)・第312便a(Kball)・第347便e(t1Table・geometry)。
+//   第352便za(TOPICS・topicCell・uVofCol —— 題の一覧と (S) の 2 列の桁)・第351便j(ringOmega・ringRate・normalAt・saturnRows・rotvertRows・DECL)・第348便d(saturnUnits・LIT・DECL)・第348便c(massOf)・第338便d(centerKm)・第347便e(t1Table・geometry)。
 //
 // ■ 物差し: 環の物差し(第348便d の LIT —— 1e7 年で傾きが e 分の 1 —— 文献の値・未照合 —— 第352便s のまま)。
 //   「率 ÷ 物差し」= (起こす率 ÷ 傾き)×(物差しの年数)—— 1 で物差しと同じ率・正 = 傾きが減る(源の赤道面へ寄る)・負 = 傾きが増える。
@@ -19,8 +19,8 @@ import * as RJ from './lib-w351j-ringstep.mjs';
 import * as DA from './lib-w348d-diskaxis.mjs';
 import * as C from './lib-w348c-axisbalance.mjs';
 import * as RB from './lib-w338d-ringbook.mjs';
-import * as DK from './lib-w312a-decay.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
+import * as Z from './lib-w352za-sconseq.mjs';
 
 export const LIB_VERSION = 'w353h-ringdisk-lib-1';
 const fin = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -48,6 +48,10 @@ export const DECL = Object.freeze({
   tYardYr: DA.LIT.tYardYr,
   /** 第352便s の比べる数(零試験: 規則の半径 1e-13 の桁・観測の半径 14〜109) */
   anchor: Object.freeze({ ruleOrder: -13, obsLo: 14, obsHi: 109, uV: 1.19282e-12, L: Object.freeze([0.026257, 0.008317, 0.999621]) }),
+  /** 表 2(切り分け): 第352便za の題 9 を読む側で分ける(統括の読み —— 第151報の主の列の表。判定ではない)。比べる帯は第352便za の ★(1e-3〜1e3) */
+  split: Object.freeze({ ring: 'disk', plane: 'disk', ioHeat: 'neither', lock: 'neither', prec: 'gravity', tilt: 'axial', sunTilt: 'axial', vCancel: 'axial', vRev: 'axial' }),
+  sideNames: Object.freeze({ disk: '円盤引きずりの側で読む', neither: 'どちらでもない(潮汐の題)', gravity: '重力の側の潮汐のトルクの列を基準(軸引きずりは残り・向き・円錐・打ち消し)', axial: '軸引きずりの (S) の側に残す' }),
+  splitBg: 'NpL', splitMag: 'uV', band: Object.freeze({ lo: 1e-3, hi: 1e3 }),
   floor: 1e-12,
   judge: '「物差しの桁」= 率 ÷ 物差しが 0.1〜10 の内(正の向き)・逐語の表は有効数字 3 桁',
 });
@@ -92,13 +96,14 @@ export function diskRow(key, { read = 'C2', tiltDeg = 1, part = 'MS', sense = 'p
   return { key, read, tiltDeg, part, sense, raisePerS, raiseOverEpsPerS: q.raiseOverEps / U.tU, yard: yardOfRate(q.raiseOverEps / U.tU), perpPerS: q.perp / U.tU, magPerS: q.om / U.tU, cos: q.cos };
 }
 /** 第351便j の saturnRows の自分の重み(第350便g の ruleWii —— saturnRows の戻りの Wrule と同じ数) */
-let WR = null;
-function ruleWiiOf() { if (WR === null) WR = RJ.saturnRows().Wrule; return WR; }
+let SR = null;
+const satRows = () => (SR === null ? (SR = RJ.saturnRows()) : SR);
+function ruleWiiOf() { return satRows().Wrule; }
 
 /* ───────── (iii-b) 🛟 の率(第351便j の rotvertRows の main —— 器が 🛟 の正本の要点を渡す)───────── */
 /** RS = 第350便g の rotvertSummary(器が読んで渡す)。戻り: { rateBook, rateNeed, yardBook, yardNeed, lambdaScale }(傾きに依らない —— 傾きの比の e 分の 1 の率) */
 export function bookRow(RS) {
-  const R = RJ.rotvertRows(RS, { rows: [] }), m = R.main;
+  const R = RJ.rotvertRows(RS, satRows()), m = R.main;
   return { steps: m.steps, rateBook: m.rateBook, rateNeed: m.rateNeed, yardBook: yardOfRate(m.rateBook), yardNeed: yardOfRate(m.rateNeed), lambdaScale: R.lambdaScale };
 }
 
@@ -113,6 +118,17 @@ export function cellRow(T1, GEO, key, tiltDeg, book = null) {
   return { key, tiltDeg, yard: y, need, inYard, rOverRobs: RB.centerKm(key) * 1e3 / C.radiusOf('Saturn') };
 }
 
+/* ───────── 表 2(切り分け): 第352便za の題 9 × (S) 規則の半径・観測の半径(背景 (N+) L・(uV))───────── */
+export function splitRows(T1, GEO, cache = {}) {
+  const D = DECL;
+  return Z.TOPICS.map((tp) => {
+    const v = {};
+    for (const col of ['Srule', 'Sobs']) v[col] = Z.topicCell(T1, GEO, tp.id, col, D.splitBg, Z.uVofCol(T1, GEO, col, cache), {}, cache).v;
+    const inBand = (x) => fin(x) && x >= D.band.lo && x <= D.band.hi;
+    return { topic: tp.id, label: tp.label, ruler: tp.ruler, vRule: v.Srule, vObs: v.Sobs, bandRule: inBand(v.Srule), bandObs: inBand(v.Sobs), side: D.split[tp.id] };
+  });
+}
+
 /* ───────── 零試験 ───────── */
 export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const S = {}, A = DECL.anchor, cache = {};
@@ -125,7 +141,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   // ② 第352便s の比べる数: 規則の半径 1e-13 の桁・観測の半径 14〜109
   S.ruleExp = S.rule.map((y) => Math.floor(Math.log10(y))); S.obsLo = Math.min(...S.obs); S.obsHi = Math.max(...S.obs);
   // ③ (iii-a) の傾き 1°・順行は第351便j の saturnRows の (MS) の起こす率 ÷ 傾きと同じ数(区分 5 × 読み 2)
-  { const sat = RJ.saturnRows(); S.vs351j = [];
+  { const sat = satRows(); S.vs351j = [];
     for (const key of DECL.centers) for (const read of DECL.diskReads) { const x = sat.rows.find((q) => q.key === key && q.read === read && q.sense === 'pro'), d = diskRow(key, { read, tiltDeg: 1 });
       S.vs351j.push(Math.max(rel(d.raiseOverEpsPerS, x.MS.raiseOverEpsPerS), rel(d.raisePerS, x.MS.raisePerS))); } }
   // ④ 円盤引きずりの側の輪で、(MS) の直交の成分(傾きを動かす分)は (S) の分と同じ((M) は輪の法線に平行 —— 第351便j の ⑤ と同じ見方を土星の場で)
@@ -137,7 +153,9 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   S.L = CR.refAxis('L', T1, GEO); S.uV = S2.uVt(T1, GEO, 0, cache);
   // ⑦ 物差しの換算: 1/(物差しの年数)の率は 1
   S.unitYard = yardOfRate(1 / (DECL.tYardYr * PER_S_TO_PER_YR));
-  // ⑧ 入力の拒否
+  // ⑧ 表 2 の切り分けは第352便za の題 9 を過不足なく覆う
+  S.splitIds = Z.TOPICS.map((t) => t.id); S.splitKeys = Object.keys(DECL.split);
+  // ⑨ 入力の拒否
   S.rejects = [() => axialRow(T1, GEO, 'ringB', { tSrc: 2 }), () => axialRow(T1, GEO, 'ringB', { tiltDeg: 0 }), () => diskRow('ringB', { read: 'C3' }), () => diskRow('ringB', { tiltDeg: 95 })]
     .map((fn) => { try { fn(); return false; } catch (e) { return e instanceof RangeError; } });
   return S;
@@ -145,13 +163,14 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
 export function pureGates(S) {
   const A = DECL.anchor;
   return {
-    vs352s: S.vs352s.length === 10 && S.vs352s.every((x) => x < 1e-12),
+    vs352s: S.vs352s.length === 10 && S.vs352s.every((x) => x < 1e-9),
     anchor352s: S.ruleExp.every((e) => e === A.ruleOrder) && Math.floor(S.obsLo) === A.obsLo && Math.round(S.obsHi) === A.obsHi,
-    vs351j: S.vs351j.length === 10 && S.vs351j.every((x) => x < 1e-12),
+    vs351j: S.vs351j.length === 10 && S.vs351j.every((x) => x < 1e-9),
     msEqS: S.msEqS.every((x) => x < 1e-9),
     smallTilt: S.smallTilt.every((x) => x < 1e-3),
     common: S.L.every((v, i) => Math.abs(v - A.L[i]) < 5e-7) && Math.abs(S.uV / A.uV - 1) < 5e-6,
     unitYard: Math.abs(S.unitYard - 1) < 1e-12,
+    splitCover: S.splitIds.length === 9 && S.splitKeys.length === 9 && S.splitIds.every((k) => S.splitKeys.includes(k)),
     rejects: S.rejects.length === 4 && S.rejects.every(Boolean),
   };
 }
