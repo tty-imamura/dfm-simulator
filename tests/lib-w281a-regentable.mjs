@@ -3264,6 +3264,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/ringdisk-353h.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第353便h: 零試験 9/🛟 の率 1/環の区分 5 × 傾き 5 × 列 6/題の切り分け 9' }),
   // ==== 第353便h の塊(ここまで)====
+  // ==== 第353便j の塊(ここから)====
+  // ---- 第353便j(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R474): **金星の条件と注目の列 u = 0.98 を同時に置く道(k × c_R の組 8 つ・受け手 12 の副作用・題 3・金星とイオ)**
+  //   (段 venus098-353j —— 正本 tests/out/venus098-353j.json・lib tests/lib-w353j-venus098.mjs —— 第353便b・c・d・e・第352便w・za・d・k・j・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に ringdisk-353h)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。仮の値の lib に届く(正本の最上位に provisional: true)。
+  //   1 プロセス。正本は第338便c の settleRun で書く。所要は第353便j の枝の実測 2 s
+  S('venus098-353j', 'node tests/exp-w353j-venus098.mjs', ['tests/out/venus098-353j.json'], 4, { secSource: 'w353j-branch', node: true,
+    after: ['ringdisk-353h'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 分の内で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/venus098-353j.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便j: 零試験 11/組 8 × 受け手 12/題 3/金星とイオ 8' }),
+  // ==== 第353便j の塊(ここまで)====
   // ==== 第353便m の塊(ここから)====
   // ---- 第353便m(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R477): **歳差の率の残りの符号(地球の残りが重力の列の入力と定義の幅で替わるか・金星の極 × ŝ の向き × 仮の値の回る向き・要る応答の係数の並び)**
   //   (段 residsign-353m —— 正本 tests/out/residsign-353m.json・lib tests/lib-w353m-residsign.mjs —— 第353便f・c・第352便u・y・q・d・c・b・第348便c・第347便e の lib を import して呼ぶ。
