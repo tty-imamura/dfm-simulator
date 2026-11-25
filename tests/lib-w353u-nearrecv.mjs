@@ -16,7 +16,7 @@
 //     公転の極に対する傾き ε₀ と揺れの幅(〔第353便n〕の形 = coneRange)・合成と公転の極の角。
 //   obsRow(key, combo) —— 観測の当たり所との並べ(地球・火星: 軸引きずり ÷ 重力の側の列・残り〔仮の値 − 重力の列〕を埋める c・仮の値の回る向きと同じか/水星・月・イオ: リポジトリに在る自転 ÷ 公転・傾き)。
 //   orderRow(key, combo) —— 並びを決める量: 距離の比の 3 乗・自分の重み ÷ 源の重み・(S) の大きさの倍とその閉じた形の候補 (A0_規則 + wS) ÷ (A0 + wS)。
-// ■ 言わないこと: k・c_R を決めない。水星の歳差が説明できたとも、食い違いが無いとも書かない(状態の表 —— この場・この入れ方・この係数では)。
+// ■ 言わないこと: k・c_R を決めない。水星の歳差を説明する表ではない・食い違いが無いとも書かない(状態の表 —— この場・この入れ方・この係数では)。
 import * as J from './lib-w353j-venus098.mjs';
 import * as FE from './lib-w353e-focus098.mjs';
 import * as N from './lib-w353n-watch098.mjs';
@@ -27,6 +27,7 @@ import * as W from './lib-w352w-keepcone.mjs';
 import * as D from './lib-w352d-precsense.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as Q from './lib-w352q-response.mjs';
+import * as SP from './lib-w351c-srcparts.mjs';
 import * as E from './lib-w347e-spintorque.mjs';
 
 export const LIB_VERSION = 'w353u-nearrecv-lib-1';
@@ -46,6 +47,8 @@ export const DECL = Object.freeze({
   comboIds: Object.freeze(['k1', 'rule', 'field-0.0001', 'field-0.001', 'field-0.003', 'field-e2', 'field-e5', 'field-0.1', 'resp']),
   /** 観測の当たり所の家の極(第353便f の homePole と同じ: 地球 黄道の極・火星と水星 自分の公転の北極) */
   homePole: Object.freeze({ Earth: 'ecl', Mars: 'orb', Mercury: 'orb' }),
+  /** 自転 ÷ 公転の公転の相手(〔第352便q〕の SRCOF と同じ・イオは木星) */
+  orbSrc: Object.freeze({ Mercury: 'Sun', Moon: 'EarthHi', Io: 'Jupiter' }),
   /** 並びの表(表 3)の受け手: 8 惑星(太陽が源) */
   orderRecvs: Object.freeze(['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']),
   sideTol: J.DECL.sideTol, crit: J.DECL.crit,
@@ -125,8 +128,15 @@ export function obsRow(key, combo, { u = DECL.uFocus, T1 = E.t1Table(), GEO = E.
     if (key === 'Earth') { const g = M.earthGrav({ moon: 'avg' }, fo); out.residAvg = g.resid; out.cNeedAvg = g.resid / d; out.provKeys = [...new Set([...out.provKeys, ...g.provKeys])].sort(); }
     return out;
   }
-  const s = Q.structOf(T1, GEO, key);
-  return { ...base, kind: 'spin', spinOverOrbit: s.omega / s.n, spinPeriodDay: 2 * Math.PI / s.omega / 86400, orbitPeriodDay: 2 * Math.PI / s.n / 86400 };
+  const s = spinOrbit(key, { T1, GEO });
+  return { ...base, kind: 'spin', src: s.src, spinOverOrbit: s.omega / s.n, spinPeriodDay: 2 * Math.PI / s.omega / 86400, orbitPeriodDay: 2 * Math.PI / s.n / 86400 };
+}
+/** リポジトリに在る自転の率と公転の率(〔第352便q〕の structOf と同じ作り —— 公転の相手: 水星 太陽・月 地球・イオ 木星): { src, omega, n }(rad/s) */
+export function spinOrbit(key, { T1 = E.t1Table(), GEO = E.geometry() } = {}) {
+  const src = DECL.orbSrc[key];
+  if (!src) throw new RangeError('spinOrbit: 受け手は ' + Object.keys(DECL.orbSrc).join('・'));
+  const P = SP.pairInput(T1, GEO, key, src), r2 = T1.find((r) => r.id === key && r.src === src && r.mag === 'm2');
+  return { src, omega: Math.abs(r2.omega), n: P.vOrb / P.a };
 }
 /**
  * 並びを決める量(8 惑星・源 = 太陽): 金星の距離 ÷ 距離 の 3 乗(第352便v の x の近似)・自分の重み ÷ 源の重み(A0 ÷ wS)・
@@ -137,9 +147,12 @@ export function orderRow(key, combo, { u = DECL.uFocus, T1 = E.t1Table(), GEO = 
   const c = comboOf(combo, T1, GEO), pl = c.place === 'field' ? 'field' : 'rule', cRv = c.place === 'field' ? c.cR : 1;
   const r0 = CC.sOf(T1, GEO, key, 'Sun', { place: 'rule' }), r1 = CC.sOf(T1, GEO, key, 'Sun', { place: pl, cR: cRv });
   const v0 = CC.sOf(T1, GEO, 'Venus', 'Sun', { place: 'rule' }), aK = K.spinRot(T1, GEO, key, 'Sun', { part: 'S' }).a, aV = K.spinRot(T1, GEO, 'Venus', 'Sun', { part: 'S' }).a;
-  const g = nrm(r1.Om) / nrm(r0.Om), gStar = (r0.A0 + r0.wS) / (r1.A0 + r1.wS), st = nearState(key, c, { u, T1, GEO, cache });
-  return { key, combo: c.id || null, dRatio3: Math.pow(aV / aK, 3), sRuleOverVenus: nrm(r0.Om) / nrm(v0.Om), selfOverSrc: r1.A0 / r1.wS, g, gStar, gOverStar: g / gStar,
-    locOverBg: st.locOverBg, over: st.locOverBg > DECL.sideTol };
+  const v1 = CC.sOf(T1, GEO, 'Venus', 'Sun', { place: pl, cR: cRv }), gV = nrm(v1.Om) / nrm(v0.Om), gStarV = (v0.A0 + v0.wS) / (v1.A0 + v1.wS);
+  const g = nrm(r1.Om) / nrm(r0.Om), gStar = (r0.A0 + r0.wS) / (r1.A0 + r1.wS), st = nearState(key, c, { u, T1, GEO, cache }), dRatio3 = Math.pow(aV / aK, 3);
+  // 金星の条件の組では局所 ÷ 背景 = (abs(S_受け手) ÷ abs(S_金星))(k 1 の列は × k ω ÷ 背景)—— 閉じた形の候補: (金星の距離 ÷ 距離)³ × g*(受け手) ÷ g*(金星)
+  const closedLoc = c.k1 ? null : dRatio3 * gStar / gStarV;
+  return { key, combo: c.id || null, dRatio3, sRuleOverVenus: nrm(r0.Om) / nrm(v0.Om), selfOverSrc: r1.A0 / r1.wS, g, gStar, gOverStar: g / gStar, gV, gStarV,
+    locOverBg: st.locOverBg, over: st.locOverBg > DECL.sideTol, closedLoc, closedOverLoc: closedLoc === null ? null : closedLoc / st.locOverBg };
 }
 
 /* ───────── 零試験 ───────── */
@@ -180,10 +193,11 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const dragVs = Math.max(...['Earth', 'Mars'].flatMap((key) => [0, 1].map((i) => rel(dragAz(rows[key][i], DECL.homePole[key], { T1, GEO }), F.dragRate(key, { u: 0.98, k: rows[key][i].k }, fo).az))));
   // 並びの閉じた形の候補: A0 ≫ wS の側(木星・土星 c_R ≤ 1e-2)で g ÷ g* が 1 の近く
   const closed = ['Jupiter', 'Saturn'].flatMap((key) => C.filter((c) => c.place === 'field' && c.cR <= 1e-2).map((c) => orderRow(key, c, { T1, GEO, cache }).gOverStar));
+  const soVs = Math.max(...['Mercury', 'Moon'].map((key) => { const a = spinOrbit(key, { T1, GEO }), b = Q.structOf(T1, GEO, key); return Math.max(rel(a.omega, b.omega), rel(a.n, b.n)); }));
   const kr = kOf('rule', { T1, GEO }), ax = axisL(T1, GEO);
-  const rej = [() => nearState('Ceres', 'k1'), () => nearState('Earth', 'x'), () => nearState('Earth', 'k1', { u: 0 }), () => orderRow('Moon', 'k1'), () => dragAz(rows.Earth[0], 'eq')]
+  const rej = [() => nearState('Ceres', 'k1'), () => nearState('Earth', 'x'), () => nearState('Earth', 'k1', { u: 0 }), () => orderRow('Moon', 'k1'), () => dragAz(rows.Earth[0], 'eq'), () => spinOrbit('Earth')]
     .map((g) => { try { g(); return false; } catch (e) { return e instanceof RangeError; } });
-  return { t4, t5, satVs, rateVs, fmVs, wobVs, dragVs, closed, kr, ax, omegaG: DECL.omegaG, rejects: rej };
+  return { t4, t5, satVs, rateVs, fmVs, wobVs, dragVs, soVs, closed, kr, ax, omegaG: DECL.omegaG, rejects: rej };
 }
 export function pureGates(S) {
   const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
@@ -195,6 +209,7 @@ export function pureGates(S) {
     fMaxE: S.fmVs <= 1e-9,
     wobN: S.wobVs <= 1e-9,
     dragF: S.dragVs <= 1e-9,
+    spinOrbitQ: S.soVs <= 1e-12,
     closedLarge: S.closed.length === 6 && S.closed.every((x) => Math.abs(x - 1) <= 1e-2),
     kRule: Number(S.kr).toExponential(2) === ANCHOR.kRule,
     axisL: S.ax.every((x, i) => Math.abs(x - ANCHOR.axisL[i]) <= 1e-6) && S.omegaG === ANCHOR.omegaG,
