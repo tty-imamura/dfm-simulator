@@ -1,6 +1,6 @@
 // 第353便x(原仮定者の回答(2026-11-25 —— 第151報)「AN1046: C」「AN1052: イ」・統括の検証項目 R488):
 //   **2 つの軸(重力の側の歳差 —— 比べる列・DFM の式ではない —— と軸引きずりの歳差)の合成を、逆行の金星・横倒しの天王星・火星ほか 9 天体で数え、
-//   公転面(輪の法線)が背景に応える係数の比 κ_輪 を振って、公転の極に対する観測の傾き ε の幅が「固定」から「共回り」へ移る所を数える純関数 —— 診断だけ**
+//   公転面(輪の法線)が背景に応える係数の比 c_輪 ÷ c を振って、公転の極に対する観測の傾き ε の幅が「固定」から「共回り」へ移る所を数える純関数 —— 診断だけ**
 //   (器 tests/exp-w353x-twoaxis.mjs と QA behavior.twoaxis353x・docs.twoaxis353x が読む —— html を読まない・ファイルを読まない・状態を持たない。後のラウンドの枝もこの口を import してよい)。
 //   アプリの引きずり・自転・ジャイロの步・内蔵の本・受理器・physics の鍵は変えない。
 //   既存の lib は呼ぶだけ(本文は変えない): 第353便n(watchState・gravRate・twoAxisClosed・twoAxisSteps・epsAvg・epsAt・coefOf)・第353便f(tideRate —— 零試験・DECL.srcSet)・
@@ -12,12 +12,12 @@
 //   ε = ŝ と n̂ の角(公転の極に対する観測の傾き)。歳差の向き (g2−) = −Ω × ŝ(主)・(g2+) = +Ω × ŝ(比べる列)。
 //   重力の側の歳差: dŝ/dt = σ_g ω_g (n̂ × ŝ)(比べる列 —— 率は 仮の値〔印〕/重力の側の潮汐のトルクの列(第352便u の (T-g) の公転の北極のまわりの方位の率)/地球は月の道の 18.6 年の平均の列(第353便m))。
 //   σ_g(公転の北極のまわりの回り): 仮の値は「順行なら逆回り」(earth.precSense)× ŝ·n̂ の符号(金星・天王星は ŝ·n̂ < 0 で替わる)・潮汐の列は方位の率の符号のまま。
-// ■ κ_輪 = 公転面(輪の法線)が背景に応える係数 ÷ 自転軸が応える係数(経路 ② の比 —— 0 = 公転の極を固定(第353便n の主)・1 = 同じ係数で共回り(第353便n の比べる列))。
-//   閉じた形(f 0・一定の Ω): Ω の向きのまわりに κ_輪 k₂ W で回る枠では n̂ が止まり、ŝ は 2 つの回転の和 Ω_c(κ_輪) = σ_g ω_g n̂ + σ_d (1 − κ_輪) Ω のまわりの剛体の回転
-//   (重力の側の項も経路 ② の項も、Ω のまわりの回転について共変 —— 枠の回転で形が替わらない)。ε の幅 = 第352便w の coneRange(Ω_c(κ_輪), ŝ, n̂)。
-//   軸引きずりだけ(ω_g 0)は Ω_c = σ_d (1 − κ_輪) Ω —— 幅は κ_輪 ≠ 1 なら κ_輪 に依らず同じで、一周が 1 ÷ abs(1 − κ_輪) 倍に延びるだけ。
+// ■ c_輪 ÷ c = 公転面(輪の法線)が背景に応える係数 ÷ 自転軸が応える係数(経路 ② の比 —— 0 = 公転の極を固定(第353便n の主)・1 = 同じ係数で共回り(第353便n の比べる列))。
+//   閉じた形(f 0・一定の Ω): Ω の向きのまわりに c_輪 ÷ c k₂ W で回る枠では n̂ が止まり、ŝ は 2 つの回転の和 Ω_c(c_輪 ÷ c) = σ_g ω_g n̂ + σ_d (1 − c_輪 ÷ c) Ω のまわりの剛体の回転
+//   (重力の側の項も経路 ② の項も、Ω のまわりの回転について共変 —— 枠の回転で形が替わらない)。ε の幅 = 第352便w の coneRange(Ω_c(c_輪 ÷ c), ŝ, n̂)。
+//   軸引きずりだけ(ω_g 0)は Ω_c = σ_d (1 − c_輪 ÷ c) Ω —— 幅は c_輪 ÷ c ≠ 1 なら c_輪 ÷ c に依らず同じで、一周が 1 ÷ abs(1 − c_輪 ÷ c) 倍に延びるだけ。
 //   見ている時間 T の内の ε の変化 = 剛体の回転を T まで(一周を越えれば幅の全部)。
-// ■ 公転面が寄る(第352便w の fRingMin —— 散らばり 30° → 7° を年齢の内に): 輪の係数が κ_輪 倍なら要る k₁_輪 は 1 ÷ κ_輪 倍 —— κ_輪 < k₁(f_輪 1)では寄れない。
+// ■ 公転面が寄る(第352便w の fRingMin —— 散らばり 30° → 7° を年齢の内に): 輪の係数が c_輪 ÷ c 倍なら要る k₁_輪 は 1 ÷ c_輪 ÷ c 倍 —— c_輪 ÷ c < k₁(f_輪 1)では寄れない。
 //   軸引きずりだけでは、輪の法線と自転軸を一定の Ω のもとで別の係数で閉じた形に進める(第352便l の twoAxisStep の 1 步は一定の Ω で厳密)。
 //   2 つの軸では、重力の側の速い歳差の平均で ε は断熱の不変量(n̂ のゆっくりした動きは一次で ε を替えない —— 候補の式・刻みの步で照らす)。
 // ■ 言わないこと: 傾きが安定している・保たれた、と結論を書かない(幅の表)。重力の側の列は比べる列(DFM の式ではない)・仮の値は未照合(合否に使わない)。
@@ -57,14 +57,14 @@ export const DECL = Object.freeze({
   /** 潮汐の列の源の組(第353便f の DECL.srcSet —— 無い天体は太陽だけ) */
   srcSetOf: (id) => Fr.DECL.srcSet[id] || 'sun',
   senses: Object.freeze(['g2m', 'g2p']), mainSense: 'g2m',
-  /** κ_輪 の格子(主)と、共回りの近くの補い */
+  /** c_輪 ÷ c の格子(主)と、共回りの近くの補い */
   kappas: Object.freeze([0, 0.01, 0.1, 0.5, 1, 2]), kappasNear: Object.freeze([0.9, 0.99, 0.999, 1.001, 1.01]),
   /** 見ている時間(年)と主の物差し(度) */
   windowsYr: Object.freeze([1e4, 1e6, F.DECL.ageYr]), thrDeg: 0.1,
   /** 公転面が寄る: 散らばり 30° → 7°(第353便e の spread) */
   spread: F.DECL.spread,
   /** 窓の内の格子の点の数・二分の回数 */
-  nGrid: 4000, bisect: 60,
+  nGrid: 4000, bandBisect: 40, bandSpan: 1e3,
   floor: 1e-12, judge: '丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く',
 });
 const idOf = (key) => key.split('|')[0];
@@ -100,9 +100,9 @@ export function gravOf(key, kind, o = {}) {
 }
 
 /* ───────── 閉じた形 ───────── */
-/** Ω_c(κ_輪) = σ_g ω_g n̂ + σ_d (1 − κ_輪) Ω(f 0 —— Ω のまわりに κ_輪 k₂ W で回る枠) */
+/** Ω_c(c_輪 ÷ c) = σ_g ω_g n̂ + σ_d (1 − c_輪 ÷ c) Ω(f 0 —— Ω のまわりに c_輪 ÷ c k₂ W で回る枠) */
 export function ocOf(st, { omG = 0, signG = -1, sense = DECL.mainSense, kRing = 0 }) {
-  if (!(fin(omG) && omG >= 0 && fin(kRing))) throw new RangeError('ocOf: ω_g ≥ 0・κ_輪 は有限の数');
+  if (!(fin(omG) && omG >= 0 && fin(kRing))) throw new RangeError('ocOf: ω_g ≥ 0・c_輪 ÷ c は有限の数');
   return add(scl(unit(st.nRing), signG * omG), scl(st.Om, sdOf(sense) * (1 - kRing)));
 }
 /** 剛体の回転 Ω_c のもとで、T 年の内の abs(ε(t) − ε₀) の最大(一周を越えれば幅の全部 —— 閉じた形)。Ω_c 0 なら 0 */
@@ -119,13 +119,13 @@ export function winSwing(Oc, s, n, Tyr, nGrid = DECL.nGrid) {
 /**
  * twoRow(key, { u, f, sense, signG, rateKey | omG | kind, nMode, kRing, Tyr, T1, GEO, cache }) —— 2 つの軸の 1 行:
  *   rateKey(仮の値の鍵)か omG(rad/s —— signG と組む)か kind('prov'・'tide'・'moonAvg')で重力の側の率を置く(どれも無ければ軸引きずりだけ)。
- *   nMode 'fixed'(κ_輪 0)・'co'(κ_輪 1)・'kappa'(kRing)。
+ *   nMode 'fixed'(c_輪 ÷ c 0)・'co'(c_輪 ÷ c 1)・'kappa'(kRing)。
  * 返す { key, u, f, sense, kRing, grav, ratio(W ÷ ω_g), sameSense(重力の側と軸引きずりの歳差が公転の北極のまわりで同じ回りか), tiltDeg(合成の軸と σ_g n̂ の角), cone{min,max,swing},
  *        periodYr(合成の一周), dragOnly{swing, periodYr}, winDeg(T 年の内の abs(ε − ε₀) の最大), dragWinDeg, avgDEps(平均した形の縮み —— f > 0), eps0Deg, provisional, provKeys }
  */
 export function twoRow(key, { u = DECL.uFocus, f = 0, sense = DECL.mainSense, signG = null, rateKey = null, omG = null, kind = null, nMode = 'fixed', kRing = null, Tyr = DECL.ageYr, T1, GEO, cache } = {}) {
   if (!['fixed', 'co', 'kappa'].includes(nMode)) throw new RangeError('twoRow: 公転の極の置き方は fixed・co・kappa');
-  if (nMode === 'kappa' && !fin(kRing)) throw new RangeError('twoRow: kappa には κ_輪');
+  if (nMode === 'kappa' && !fin(kRing)) throw new RangeError('twoRow: kappa には c_輪 ÷ c');
   if (!(fin(f) && f >= 0 && f <= 1)) throw new RangeError('twoRow: 0 ≤ f ≤ 1');
   if (!(fin(Tyr) && Tyr >= 0)) throw new RangeError('twoRow: 見ている時間 ≥ 0');
   const C = ctx({ T1, GEO, cache }), st = N.watchState(C.T1, C.GEO, key, { u }, C.cache), sd = sdOf(sense);
@@ -150,15 +150,15 @@ export function twoRow(key, { u = DECL.uFocus, f = 0, sense = DECL.mainSense, si
     provisional: !!(g && g.provisional), provKeys: g ? g.provKeys : [] };
 }
 
-/* ───────── 刻みの步(照らし —— κ_輪 と f_輪 つき)───────── */
+/* ───────── 刻みの步(照らし —— c_輪 ÷ c と f_輪 つき)───────── */
 /**
  * ringSteps(st, { omG, signG, kRing, fRing, f, sense, Tyr, steps }) —— Strang の分けた步: 重力の半步(n̂ のまわり・閉じた形)→ 軸引きずりの 1 步
- * (第352便l の twoAxisStep —— 輪の係数 = κ_輪 × (N1)(f_輪)・自転の係数 = (N1)(f))→ 重力の半步。κ_輪 0 = 第353便n の twoAxisSteps 'fixed'・κ_輪 1 & f_輪 0 = 'co'。
+ * (第352便l の twoAxisStep —— 輪の係数 = c_輪 ÷ c × (N1)(f_輪)・自転の係数 = (N1)(f))→ 重力の半步。c_輪 ÷ c 0 = 第353便n の twoAxisSteps 'fixed'・c_輪 ÷ c 1 & f_輪 0 = 'co'。
  * 返す { s, n, epsDeg, epsMinDeg, epsMaxDeg, ringMoveDeg(輪の法線と Ω の角の変化) }
  */
 export function ringSteps(st, { omG = 0, signG = -1, kRing = 0, fRing = 0, f = 0, sense = DECL.mainSense, Tyr, steps, Om = null }) {
   if (!(Number.isInteger(steps) && steps >= 1 && fin(Tyr) && Tyr > 0)) throw new RangeError('ringSteps: 刻み ≥ 1・T > 0');
-  if (!(fin(kRing) && kRing >= 0 && fin(fRing) && fRing >= 0 && fRing <= 1)) throw new RangeError('ringSteps: κ_輪 ≥ 0・0 ≤ f_輪 ≤ 1');
+  if (!(fin(kRing) && kRing >= 0 && fin(fRing) && fRing >= 0 && fRing <= 1)) throw new RangeError('ringSteps: c_輪 ÷ c ≥ 0・0 ≤ f_輪 ≤ 1');
   const Od = Om || st.Om, dt = Tyr * YR / steps, gC = { sense: signG < 0 ? 'g2m' : 'g2p', kTilt: 0, kPrec: 1 };
   const k = I.kOf(fRing, 'g2m'), ring = { sense, kTilt: kRing * k.k1, kPrec: kRing * k.k2 }, spin = N.coefOf(f, sense);
   let s = st.sHat, n = st.nRing, mn = Infinity, mx = -Infinity;
@@ -171,7 +171,7 @@ export function ringSteps(st, { omG = 0, signG = -1, kRing = 0, fRing = 0, f = 0
   }
   return { s, n, epsDeg: angDeg(s, n), epsMinDeg: mn, epsMaxDeg: mx, ringMoveDeg: angDeg(n, Od) - a0 };
 }
-/** 軸引きずりだけ(ω_g 0)で、輪と自転軸を一定の Ω のもとで閉じた形に進めたときの T 年の内の abs(ε − ε₀) の最大と輪の動き(κ_輪・f_輪・f) */
+/** 軸引きずりだけ(ω_g 0)で、輪と自転軸を一定の Ω のもとで閉じた形に進めたときの T 年の内の abs(ε − ε₀) の最大と輪の動き(c_輪 ÷ c・f_輪・f) */
 export function dragRingWin(st, { kRing, fRing = 0, f = 0, sense = DECL.mainSense, Tyr, nGrid = DECL.nGrid }) {
   const k = I.kOf(fRing, 'g2m'), ring = { sense, kTilt: kRing * k.k1, kPrec: kRing * k.k2 }, spin = N.coefOf(f, sense), e0 = st.eps0Deg;
   let mx = 0, n = st.nRing;
@@ -182,24 +182,24 @@ export function dragRingWin(st, { kRing, fRing = 0, f = 0, sense = DECL.mainSens
   return { winDeg: mx, ringMoveDeg: angDeg(n, st.Om) - angDeg(st.nRing, st.Om) };
 }
 
-/* ───────── κ_輪 の帯 ───────── */
-/** 公転面が寄るのに要る κ_輪 の下限(f_輪 1 で k₁ = 1)と、κ_輪 での f_輪 の下限(第352便w の fRingMin を Wb κ_輪 で) */
+/* ───────── c_輪 ÷ c の帯 ───────── */
+/** 公転面が寄るのに要る c_輪 ÷ c の下限(f_輪 1 で k₁ = 1)と、c_輪 ÷ c での f_輪 の下限(第352便w の fRingMin を Wb c_輪 ÷ c で) */
 export function ringNeed(kRing, { u = DECL.uFocus } = {}) {
   const Wb = u * DECL.omegaG, base = W.fRingMin({ th0Deg: DECL.spread[0], th1Deg: DECL.spread[1], Wb });
   if (!(fin(kRing) && kRing > 0)) return { kMin: base.k1, fRing: null, base: base.f };
   return { kMin: base.k1, fRing: W.fRingMin({ th0Deg: DECL.spread[0], th1Deg: DECL.spread[1], Wb: Wb * kRing }).f, base: base.f };
 }
-/** κ_輪 の帯: ε の変化(T 年の内)が thr 以下の κ_輪 の範囲 [lo, hi](1 のまわり —— 二分)。kind null = 軸引きずりだけ。上下とも届かなければ ±Infinity */
-export function kappaBand(key, { kind = null, rateKey = null, sense = DECL.mainSense, Tyr, thrDeg = DECL.thrDeg, span = 1e4, T1, GEO, cache } = {}) {
+/** c_輪 ÷ c の帯: ε の変化(T 年の内)が thr 以下の c_輪 ÷ c の範囲 [lo, hi](1 のまわり —— 二分・下は 0 まで・上は 1 + span まで)。kind null = 軸引きずりだけ。
+ *  下の端 0 でも物差しの内なら lo = 0・上の端でも内なら hi = Infinity */
+export function kappaBand(key, { kind = null, rateKey = null, sense = DECL.mainSense, Tyr, thrDeg = DECL.thrDeg, span = DECL.bandSpan, T1, GEO, cache } = {}) {
   const sw = (kr) => twoRow(key, { kind, rateKey, sense, nMode: 'kappa', kRing: kr, Tyr, T1, GEO, cache }).winDeg;
-  const side = (dir) => {
-    const far = 1 + dir * span;
-    if (sw(far) <= thrDeg) return dir * Infinity;
+  const side = (far, edge) => {
+    if (sw(far) <= thrDeg) return edge;
     let a = 1, b = far;
-    for (let j = 0; j < DECL.bisect; j++) { const m = 0.5 * (a + b); if (sw(m) <= thrDeg) a = m; else b = m; }
+    for (let j = 0; j < DECL.bandBisect; j++) { const m = 0.5 * (a + b); if (sw(m) <= thrDeg) a = m; else b = m; }
     return a;
   };
-  return { lo: side(-1), hi: side(1) };
+  return { lo: side(0, 0), hi: side(1 + span, Infinity) };
 }
 
 /* ───────── 零試験 ───────── */
@@ -216,7 +216,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
     const cl = N.twoAxisClosed(st, { omG: gr.radS, signG: gr.sign }), dragOnly = W.coneRange(st.Om, st.sHat, st.nRing);
     return { id, r, err: Math.max(rel(r.cone.swingDeg, cl.cone.swingDeg), rel(r.tiltDeg, cl.tiltDeg), rel(r.dragOnly.swingDeg, dragOnly.swingDeg), rel(r.periodYr, cl.periodYr)) };
   });
-  // ② κ_輪 0・1 の刻みの步 = 第353便n の twoAxisSteps 'fixed'・'co'(誇張した比 W ÷ ω_g = 0.05・5 周)・κ_輪 0.5 の閉じた形 = 刻みの步の幅
+  // ② c_輪 ÷ c 0・1 の刻みの步 = 第353便n の twoAxisSteps 'fixed'・'co'(誇張した比 W ÷ ω_g = 0.05・5 周)・c_輪 ÷ c 0.5 の閉じた形 = 刻みの步の幅
   const sE = N.watchState(T1, GEO, 'Earth|Sun', {}, cache), omG = sE.W / 0.05, Tg = 5 * 2 * Math.PI / omG / YR;
   const nF = N.twoAxisSteps(sE, { omG, Tyr: Tg, steps: 4000 }), xF = ringSteps(sE, { omG, kRing: 0, Tyr: Tg, steps: 4000 });
   const nC = N.twoAxisSteps(sE, { omG, Tyr: Tg, steps: 4000, nMode: 'co' }), xC = ringSteps(sE, { omG, kRing: 1, Tyr: Tg, steps: 4000 });
@@ -224,7 +224,7 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   const h = twoRow('Earth|Sun', { omG, signG: -1, nMode: 'kappa', kRing: 0.5, Tyr: Tg, ...o }), xH = ringSteps(sE, { omG, kRing: 0.5, Tyr: Tg, steps: 8000 });
   const kapErr = Math.abs((xH.epsMaxDeg - xH.epsMinDeg) - h.cone.swingDeg) / h.cone.swingDeg;
   const coSw = twoRow('Earth|Sun', { rateKey: DECL.provKeyOf.Earth, nMode: 'co', ...o }).cone.swingDeg;
-  // ③ 軸引きずりだけ: κ_輪 ≠ 1 で幅は同じ・一周は 1 ÷ abs(1 − κ_輪) 倍(閉じた形 = dragRingWin の閉じた形の格子)
+  // ③ 軸引きずりだけ: c_輪 ÷ c ≠ 1 で幅は同じ・一周は 1 ÷ abs(1 − c_輪 ÷ c) 倍(閉じた形 = dragRingWin の閉じた形の格子)
   const d0 = twoRow('Earth|Sun', { nMode: 'fixed', ...o }), d5 = twoRow('Earth|Sun', { nMode: 'kappa', kRing: 0.5, ...o });
   const dragErr = Math.max(rel(d5.dragOnly.swingDeg, d0.dragOnly.swingDeg), rel(d5.dragOnly.periodYr, 2 * d0.dragOnly.periodYr));
   const dw = dragRingWin(sE, { kRing: 0.5, Tyr: 1e8, nGrid: 4000 }), dwErr = Math.abs(dw.winDeg - twoRow('Earth|Sun', { nMode: 'kappa', kRing: 0.5, Tyr: 1e8, ...o }).dragWinDeg);
@@ -234,9 +234,9 @@ export function pureScenes(T1 = E.t1Table(), GEO = E.geometry()) {
   let tideErr = 0;
   for (const id of ['Mars', 'Venus', 'Jupiter', 'Saturn']) { const a = gravOf(id + '|Sun', 'tide', o), b = Fr.tideRate(id, { pole: 'orb' }, o); tideErr = Math.max(tideErr, rel(a.asYr * a.signG, b.az)); }
   const mAvg = gravOf('Earth|Sun', 'moonAvg', o), mErr = rel(-mAvg.asYr, M.earthGrav({ moon: 'avg' }, o).az);
-  // ⑥ 公転面が寄る f_輪 の下限 = 第353便e の fRingAt(0.98)・κ_輪 1 で同じ・κ_輪 が下限より小さいと寄れない
+  // ⑥ 公転面が寄る f_輪 の下限 = 第353便e の fRingAt(0.98)・c_輪 ÷ c 1 で同じ・c_輪 ÷ c が下限より小さいと寄れない
   const rn = ringNeed(1), rnLow = ringNeed(rn.kMin * 0.9), fRingErr = rel(rn.fRing, F.fRingAt(DECL.uFocus));
-  // ⑦ 2 つの軸で輪が寄るとき ε は断熱の不変量(誇張: W ÷ ω_g = 0.01・κ_輪 1・f_輪 0.2・輪が 1 回 寄る時間)—— ε の変化 ≪ 輪の動き
+  // ⑦ 2 つの軸で輪が寄るとき ε は断熱の不変量(誇張: W ÷ ω_g = 0.01・c_輪 ÷ c 1・f_輪 0.2・輪が 1 回 寄る時間)—— ε の変化 ≪ 輪の動き
   const omA = sE.W / 0.01, Tad = 1 / (I.kOf(0.2, 'g2m').k1 * sE.W) / YR, ad = ringSteps(sE, { omG: omA, kRing: 1, fRing: 0.2, Tyr: Tad, steps: 40000 });
   const adRatio = Math.abs(ad.epsDeg - sE.eps0Deg) / Math.abs(ad.ringMoveDeg);
   // 拒否
@@ -260,4 +260,66 @@ export function pureGates(S) {
     adiabatic: S.adRatio < 0.05 && Math.abs(S.adMove) > 0.1,
     rejects: S.rejects.length === 7 && S.rejects.every(Boolean),
   };
+}
+
+/* ───────── 表の口 ───────── */
+/** 寄る割合 f の上限の最小(第353便e の fMaxAt の受け手 9 つの最小 —— 第353便n の fGridNum の 2 つ目と同じ) */
+export function fMinOf(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) { return Math.min(...DECL.keys.map((k) => F.fMaxAt(k, { T1, GEO, cache }).fMax)); }
+/** 照らしの步(f 0): 合成の一周の 4 周を 1 周あたり 800 刻み —— 刻みの步の ε の幅 */
+function stepSwing(key, r, kRing, T1, GEO, cache) {
+  if (!r.grav || !r.periodYr) return null;
+  const st = N.watchState(T1, GEO, key, {}, cache), x = ringSteps(st, { omG: r.grav.omG, signG: r.grav.signG, kRing, sense: r.sense, Tyr: 4 * r.periodYr, steps: 3200 });
+  return x.epsMaxDeg - x.epsMinDeg;
+}
+/** 表 1(2 つの軸 —— 天体ごと): 天体 6 × 重力の側の率の列 3(在るものだけ)× 歳差の向き 2。f 0 の閉じた形・照らしの步・f の上限の最小での平均した形の縮み(45 億年) */
+export function table1Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const fm = fMinOf(T1, GEO, cache), out = [], o = { T1, GEO, cache };
+  for (const key of DECL.t1Keys) for (const kind of DECL.kinds) {
+    if (!gravOf(key, kind, o)) continue;
+    for (const sense of DECL.senses) {
+      const r = twoRow(key, { kind, sense, ...o }), a = twoRow(key, { kind, sense, f: fm, ...o }), d = twoRow(key, { sense, f: fm, ...o });
+      const sw = stepSwing(key, r, 0, T1, GEO, cache);
+      out.push({ key, kind, sense, eps0Deg: r.eps0Deg, gravAsYr: r.grav.asYr, signG: r.grav.signG, gravPeriodYr: r.grav.periodYr, dragSense: r.dragSense, sameSense: r.sameSense,
+        ratio: r.ratio, tiltDeg: r.tiltDeg, combPeriodYr: r.periodYr, combSwingDeg: r.cone.swingDeg, combMinDeg: r.cone.minDeg, combMaxDeg: r.cone.maxDeg, dragSwingDeg: r.dragOnly.swingDeg,
+        stepSwingDeg: sw, stepErrRel: Math.abs(sw - r.cone.swingDeg) / r.cone.swingDeg, fMin: fm, avgDEpsAge: a.avgDEps, dragDEpsAge: d.avgDEps,
+        provisional: r.provisional, provKeys: r.provKeys.slice() });
+    }
+  }
+  return out;
+}
+/** 表 2(公転面の共回り): 天体 6(潮汐の列)× c_輪 ÷ c(主の格子 + 共回りの近く)。2 つの軸の ε の幅(閉じた形・照らしの步)・軸引きずりだけの幅と一周・年齢の内の変化・公転面が寄る f_輪 の下限と、そのときの軸引きずりだけの変化と輪の動き */
+export function table2Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [], o = { T1, GEO, cache }, age = DECL.ageYr;
+  for (const key of DECL.t1Keys) {
+    const st = N.watchState(T1, GEO, key, {}, cache);
+    for (const kr of DECL.kappas.concat(DECL.kappasNear)) {
+      const main = DECL.kappas.includes(kr), r = twoRow(key, { kind: 'tide', nMode: 'kappa', kRing: kr, Tyr: age, ...o });
+      const rn = ringNeed(kr), dr = rn.fRing === null ? null : dragRingWin(st, { kRing: kr, fRing: rn.fRing, Tyr: age });
+      out.push({ key, kRing: kr, main, twoSwingDeg: r.cone.swingDeg, twoWinAgeDeg: r.winDeg, stepSwingDeg: main ? stepSwing(key, r, kr, T1, GEO, cache) : null,
+        dragSwingDeg: r.dragOnly.swingDeg, dragPeriodYr: r.dragOnly.periodYr, dragWinAgeDeg: r.dragWinDeg, fRing: rn.fRing, ringDragWinDeg: dr ? dr.winDeg : null, ringMoveDeg: dr ? dr.ringMoveDeg : null });
+    }
+  }
+  return out;
+}
+/** 表 2b(c_輪 ÷ c の帯): 天体 6 × 見ている時間 3 × 列 2(軸引きずりだけ・2 つの軸〔潮汐の列〕)—— ε の変化が 0.1° 以下の c_輪 ÷ c の範囲と、公転面が寄る下限との重なり */
+export function table2bRows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [], kMin = ringNeed(1).kMin;
+  for (const key of DECL.t1Keys) for (const Tyr of DECL.windowsYr) for (const kind of [null, 'tide']) {
+    const b = kappaBand(key, { kind, Tyr, T1, GEO, cache });
+    const lo = Math.max(b.lo, kMin), open = !fin(b.hi), both = lo <= b.hi ? { lo, hi: open ? null : b.hi, hiOpen: open } : null;
+    out.push({ key, Tyr, kind: kind || 'drag', lo: b.lo, hi: open ? null : b.hi, hiOpen: open, kMin, both });
+  }
+  return out;
+}
+/** 表 3(見ている時間): 受け手 9 × 見ている時間 3 —— 軸引きずりだけ/2 つの軸(潮汐の列・地球と火星と金星は仮の値の列も)/共回り(c_輪 ÷ c 1)の ε の変化(f 0・(g2−)) */
+export function table3Rows(T1 = E.t1Table(), GEO = E.geometry(), cache = {}) {
+  const out = [], o = { T1, GEO, cache };
+  for (const key of DECL.keys) for (const Tyr of DECL.windowsYr) {
+    const d = twoRow(key, { Tyr, ...o }), hasT = !!gravOf(key, 'tide', o), hasP = !!gravOf(key, 'prov', o);
+    const t = hasT ? twoRow(key, { kind: 'tide', Tyr, ...o }) : null, p = hasP ? twoRow(key, { kind: 'prov', Tyr, ...o }) : null;
+    const c = twoRow(key, { kind: hasT ? 'tide' : null, nMode: 'co', Tyr, ...o });
+    out.push({ key, Tyr, eps0Deg: d.eps0Deg, dragDeg: d.winDeg, twoDeg: t ? t.winDeg : null, twoProvDeg: p ? p.winDeg : null, coDeg: c.winDeg, overThr: d.winDeg >= DECL.thrDeg,
+      provisional: !!p, provKeys: p ? p.provKeys.slice() : [] });
+  }
+  return out;
 }

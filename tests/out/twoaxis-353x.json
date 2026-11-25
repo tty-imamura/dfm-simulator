@@ -1,0 +1,3256 @@
+{
+ "version": "w353x-twoaxis-1",
+ "libVersion": "w353x-twoaxis-lib-1",
+ "generator": "tests/exp-w353x-twoaxis.mjs",
+ "target": "tests/lib-w353x-twoaxis.mjs",
+ "ruling": "原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R488",
+ "provisional": true,
+ "provKeys": [
+  "earth.precSense",
+  "earth.psiA.rate",
+  "mars.prec.rate",
+  "venus.prec.rate"
+ ],
+ "provMark": "仮・未照合",
+ "decl": {
+  "omegaG": 9.09e-16,
+  "ageYr": 4500000000,
+  "uFocus": 0.98,
+  "dir": "Np",
+  "axis": "L",
+  "keys": [
+   "Mercury|Sun",
+   "Venus|Sun",
+   "Earth|Sun",
+   "Mars|Sun",
+   "Jupiter|Sun",
+   "Saturn|Sun",
+   "Uranus|Sun",
+   "Neptune|Sun",
+   "Sun|-"
+  ],
+  "t1Keys": [
+   "Earth|Sun",
+   "Mars|Sun",
+   "Venus|Sun",
+   "Jupiter|Sun",
+   "Saturn|Sun",
+   "Uranus|Sun"
+  ],
+  "kinds": [
+   "prov",
+   "tide",
+   "moonAvg"
+  ],
+  "provKeyOf": {
+   "Earth": "earth.psiA.rate",
+   "Mars": "mars.prec.rate",
+   "Venus": "venus.prec.rate"
+  },
+  "senseKey": "earth.precSense",
+  "provKeys": [
+   "earth.psiA.rate",
+   "earth.precSense",
+   "mars.prec.rate",
+   "venus.prec.rate"
+  ],
+  "senses": [
+   "g2m",
+   "g2p"
+  ],
+  "mainSense": "g2m",
+  "kappas": [
+   0,
+   0.01,
+   0.1,
+   0.5,
+   1,
+   2
+  ],
+  "kappasNear": [
+   0.9,
+   0.99,
+   0.999,
+   1.001,
+   1.01
+  ],
+  "windowsYr": [
+   10000,
+   1000000,
+   4500000000
+  ],
+  "thrDeg": 0.1,
+  "spread": [
+   30,
+   7
+  ],
+  "nGrid": 4000,
+  "bandBisect": 40,
+  "bandSpan": 1000,
+  "floor": 1e-12,
+  "judge": "丸めの桁の床: 打ち消しで 0 になる量は尺度の 1e-12 倍以下を 0 と書く"
+ },
+ "plan": {
+  "pure": "零試験 10(共通の点検の数・第353便n の表(地球 3.157° → 3.63e-4°・火星 3.358° → 2.56e-3°)・刻みの步 = 第353便n の fixed・co・c_輪 ÷ c の閉じた形・軸引きずりだけの幅と一周・金星の回り・潮汐の列 = 第353便f・月の道の平均 = 第353便m・公転面が寄る f_輪 の下限・断熱の不変量・拒否)",
+  "t1": "表 1: 天体 6 × 重力の側の率の列(仮の値・潮汐のトルク・月の道の平均 —— 在るもの)× 歳差の向き 2 —— 合成の軸の傾き・回り・ε の幅・照らしの步・平均した形の縮み",
+  "t2": "表 2: 天体 6(潮汐の列)× c_輪 ÷ c 11 —— 2 つの軸の ε の幅・軸引きずりだけの幅と一周と年齢の内の変化・公転面が寄る f_輪 の下限と輪の動き",
+  "t2b": "表 2b: 天体 6 × 見ている時間 3 × 列 2 —— ε の変化が 0.1° 以下の c_輪 ÷ c の帯と、公転面が寄る下限との重なり",
+  "t3": "表 3: 受け手 9 × 見ている時間 3 —— 軸引きずりだけ/2 つの軸(潮汐の列・仮の値の列)/共回り の ε の変化"
+ },
+ "amend": [],
+ "notClaim": [
+  "幅の表 —— 傾きが安定している・保たれた、とは書かない。「変わらない」と言えるかは物差し(0.1°)と見ている時間の置き方による",
+  "重力の側の歳差は比べる列(DFM の式ではない)。率は 仮の値(未照合・印)/重力の側の潮汐のトルクの列/地球の月の道の 18.6 年の平均の列 —— 合否にしない",
+  "天王星・海王星・水星・木星・土星の重力の側の列は太陽だけ(衛星の分なし)—— 列の作り方の限り",
+  "c_輪 ÷ c は公転面が背景に応える係数の比のノブ(値は未照合 —— 格子で振る)。閉じた形は f 0・一定の Ω の候補の式(刻みの步で照らす)",
+  "0.98 は注目の列(背景の大きさを 0.98 に置いたとは書かない・(N+) の窓の内とは書かない)",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "scenes": {
+   "L": [
+    0.02625689205713563,
+    0.008317247598171621,
+    0.9996206275442153
+   ],
+   "eqL": 1.1207008729907952,
+   "omegaG": 9.09e-16,
+   "rows": [
+    {
+     "id": "Earth",
+     "drag": 3.156561496711788,
+     "two": 0.0003631857175605546,
+     "err": 0
+    },
+    {
+     "id": "Mars",
+     "drag": 3.358057508213733,
+     "two": 0.0025580848357549257,
+     "err": 0
+    }
+   ],
+   "stepErr": 0,
+   "kapErr": 1.047611663961297e-7,
+   "coSw": 0,
+   "dragErr": 0,
+   "dwErr": 0,
+   "venusSignG": 1,
+   "venusTideSign": 1,
+   "venusSame": false,
+   "tideErr": 0,
+   "mErr": 0,
+   "rn": {
+    "kMin": 0.011677525923413961,
+    "fRing": 0.011543513337360294,
+    "base": 0.011543513337360294
+   },
+   "rnLow": {
+    "kMin": 0.011677525923413961,
+    "fRing": null,
+    "base": 0.011543513337360294
+   },
+   "fRingErr": 0,
+   "adRatio": 0.004487077990466834,
+   "adMove": -0.9976319614115621,
+   "rejects": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "gates": {
+   "anchor": true,
+   "table353n": true,
+   "stepsAsN": true,
+   "kappaClosed": true,
+   "dragOnly": true,
+   "venus": true,
+   "sameAsF_M": true,
+   "ringNeed": true,
+   "adiabatic": true,
+   "rejects": true
+  }
+ },
+ "fMin": 0.0008326184143760511,
+ "ring": {
+  "kMin": 0.011677525923413961,
+  "fRing": 0.011543513337360294,
+  "base": 0.011543513337360294
+ },
+ "t1": [
+  {
+   "key": "Earth|Sun",
+   "kind": "prov",
+   "sense": "g2m",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 50.38481507,
+   "signG": -1,
+   "gravPeriodYr": 25722.035462459422,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.00011508517707866705,
+   "tiltDeg": 0.00018159285878209343,
+   "combPeriodYr": 25719.076700732483,
+   "combSwingDeg": 0.0003631857175605546,
+   "combMinDeg": 23.43905467099617,
+   "combMaxDeg": 23.43941785671373,
+   "dragSwingDeg": 3.156561496711788,
+   "stepSwingDeg": 0.0003631866183333443,
+   "stepErrRel": 0.000002480198824286876,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -1.2715324345898829,
+   "provisional": true,
+   "provKeys": [
+    "earth.psiA.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Earth|Sun",
+   "kind": "prov",
+   "sense": "g2p",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 50.38481507,
+   "signG": -1,
+   "gravPeriodYr": 25722.035462459422,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.00011508517707866705,
+   "tiltDeg": 0.00018163464502512266,
+   "combPeriodYr": 25724.994904767096,
+   "combSwingDeg": 0.000363269290005519,
+   "combMinDeg": 23.4391643153252,
+   "combMaxDeg": 23.439527584615206,
+   "dragSwingDeg": 3.156561496711767,
+   "stepSwingDeg": 0.0003632701849660691,
+   "stepErrRel": 0.0000024636284286496076,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -3.5243478832299218,
+   "provisional": true,
+   "provKeys": [
+    "earth.psiA.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Earth|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 55.884295028896155,
+   "signG": -1,
+   "gravPeriodYr": 23190.7729949868,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.0001037598373820155,
+   "tiltDeg": 0.00016372446273932816,
+   "combPeriodYr": 23188.367886389275,
+   "combSwingDeg": 0.0003274489254749824,
+   "combMinDeg": 23.439077935112294,
+   "combMaxDeg": 23.43940538403777,
+   "dragSwingDeg": 3.156561496711788,
+   "stepSwingDeg": 0.0003274497377923069,
+   "stepErrRel": 0.000002480745121818274,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -1.2715324345898829,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Earth|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 55.884295028896155,
+   "signG": -1,
+   "gravPeriodYr": 23190.7729949868,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.0001037598373820155,
+   "tiltDeg": 0.00016375842942005029,
+   "combPeriodYr": 23193.178602364664,
+   "combSwingDeg": 0.00032751685881748926,
+   "combMinDeg": 23.43917679323357,
+   "combMaxDeg": 23.43950431009239,
+   "dragSwingDeg": 3.156561496711767,
+   "stepSwingDeg": 0.0003275176663031232,
+   "stepErrRel": 0.0000024654780728814505,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -3.5243478832299218,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Earth|Sun",
+   "kind": "moonAvg",
+   "sense": "g2m",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 50.219682912639925,
+   "signG": -1,
+   "gravPeriodYr": 25806.614554983706,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.00011546359969045905,
+   "tiltDeg": 0.00018218990277200768,
+   "combPeriodYr": 25803.636304415417,
+   "combSwingDeg": 0.0003643798055463776,
+   "combMinDeg": 23.439053893662958,
+   "combMaxDeg": 23.439418273468505,
+   "dragSwingDeg": 3.156561496711788,
+   "stepSwingDeg": 0.0003643807060136339,
+   "stepErrRel": 0.0000024712326056732753,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -1.2715324345898829,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Earth|Sun",
+   "kind": "moonAvg",
+   "sense": "g2p",
+   "eps0Deg": 23.4392911,
+   "gravAsYr": 50.219682912639925,
+   "signG": -1,
+   "gravPeriodYr": 25806.614554983706,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.00011546359969045905,
+   "tiltDeg": 0.00018223196426955235,
+   "combPeriodYr": 25809.593492868476,
+   "combSwingDeg": 0.00036446392857669707,
+   "combMinDeg": 23.439163898386198,
+   "combMaxDeg": 23.439528362314775,
+   "dragSwingDeg": 3.156561496711767,
+   "stepSwingDeg": 0.000364464830624911,
+   "stepErrRel": 0.0000024749999744140307,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.288591309867847,
+   "dragDEpsAge": -3.5243478832299218,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Mars|Sun",
+   "kind": "prov",
+   "sense": "g2m",
+   "eps0Deg": 25.191842165359763,
+   "gravAsYr": 7.605,
+   "signG": -1,
+   "gravPeriodYr": 170414.20118343196,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.0007624648736895118,
+   "tiltDeg": 0.0012790424178887737,
+   "combPeriodYr": 170284.42099626522,
+   "combSwingDeg": 0.0025580848357549257,
+   "combMinDeg": 25.19059950019073,
+   "combMaxDeg": 25.193157585026484,
+   "dragSwingDeg": 3.358057508213733,
+   "stepSwingDeg": 0.0025580803030891275,
+   "stepErrRel": 0.000001771898154000725,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.4503443312131523,
+   "dragDEpsAge": -3.685903002117602,
+   "provisional": true,
+   "provKeys": [
+    "mars.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Mars|Sun",
+   "kind": "prov",
+   "sense": "g2p",
+   "eps0Deg": 25.191842165359763,
+   "gravAsYr": 7.605,
+   "signG": -1,
+   "gravPeriodYr": 170414.20118343196,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.0007624648736895118,
+   "tiltDeg": 0.0012809935173023984,
+   "combPeriodYr": 170544.17925705924,
+   "combSwingDeg": 0.0025619870345963136,
+   "combMinDeg": 25.190524799892216,
+   "combMaxDeg": 25.193086786926813,
+   "dragSwingDeg": 3.3580575082137685,
+   "stepSwingDeg": 0.002561981767399857,
+   "stepErrRel": 0.000002055902854169089,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.4503443312131523,
+   "dragDEpsAge": -1.185961442586077,
+   "provisional": true,
+   "provKeys": [
+    "mars.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Mars|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 25.191842165359763,
+   "gravAsYr": 7.463309595311149,
+   "signG": -1,
+   "gravPeriodYr": 173649.50273725973,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.0007769402153773301,
+   "tiltDeg": 0.0013033061043603137,
+   "combPeriodYr": 173514.74998582964,
+   "combSwingDeg": 0.0026066122086945143,
+   "combMinDeg": 25.190575927174024,
+   "combMaxDeg": 25.19318253938272,
+   "dragSwingDeg": 3.358057508213733,
+   "stepSwingDeg": 0.002606607594369592,
+   "stepErrRel": 0.0000017702383602621317,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.4503443312131523,
+   "dragDEpsAge": -3.685903002117602,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Mars|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 25.191842165359763,
+   "gravAsYr": 7.463309595311149,
+   "signG": -1,
+   "gravPeriodYr": 173649.50273725973,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.0007769402153773301,
+   "tiltDeg": 0.0013053319900181146,
+   "combPeriodYr": 173784.4648610617,
+   "combSwingDeg": 0.0026106639800218545,
+   "combMinDeg": 25.19049977095284,
+   "combMaxDeg": 25.193110434932862,
+   "dragSwingDeg": 3.3580575082137685,
+   "stepSwingDeg": 0.0026106586076686256,
+   "stepErrRel": 0.0000020578493709116118,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.4503443312131523,
+   "dragDEpsAge": -1.185961442586077,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Venus|Sun",
+   "kind": "prov",
+   "sense": "g2m",
+   "eps0Deg": 177.36240331763807,
+   "gravAsYr": 44.58,
+   "signG": 1,
+   "gravPeriodYr": 29071.332436069988,
+   "dragSense": -1,
+   "sameSense": false,
+   "ratio": 0.00013007055550476521,
+   "tiltDeg": 0.00028550378355312787,
+   "combPeriodYr": 29075.111476134876,
+   "combSwingDeg": 0.0005710075670890546,
+   "combMinDeg": 177.36183264935505,
+   "combMaxDeg": 177.36240365692214,
+   "dragSwingDeg": 0.9152738067281234,
+   "stepSwingDeg": 0.000571008277375995,
+   "stepErrRel": 0.0000012439186121406511,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.29288616805015977,
+   "dragDEpsAge": -0.0031783057672214454,
+   "provisional": true,
+   "provKeys": [
+    "venus.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Venus|Sun",
+   "kind": "prov",
+   "sense": "g2p",
+   "eps0Deg": 177.36240331763807,
+   "gravAsYr": 44.58,
+   "signG": 1,
+   "gravPeriodYr": 29071.332436069988,
+   "dragSense": 1,
+   "sameSense": true,
+   "ratio": 0.00013007055550476521,
+   "tiltDeg": 0.0002854295764343922,
+   "combPeriodYr": 29067.554377518074,
+   "combSwingDeg": 0.000570859152844605,
+   "combMinDeg": 177.36240297836886,
+   "combMaxDeg": 177.3629738375217,
+   "dragSwingDeg": 0.9152738067281234,
+   "stepSwingDeg": 0.0005708598517912833,
+   "stepErrRel": 0.0000012243767570855738,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.29288616805015977,
+   "dragDEpsAge": 0.1801259871526213,
+   "provisional": true,
+   "provKeys": [
+    "venus.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Venus|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 177.36240331763807,
+   "gravAsYr": 46.12370413417875,
+   "signG": 1,
+   "gravPeriodYr": 28098.350388984338,
+   "dragSense": -1,
+   "sameSense": false,
+   "ratio": 0.00012571725261990773,
+   "tiltDeg": 0.00027594711950481264,
+   "combPeriodYr": 28101.880687102483,
+   "combSwingDeg": 0.0005518942389812764,
+   "combMinDeg": 177.3618517513275,
+   "combMaxDeg": 177.36240364556647,
+   "dragSwingDeg": 0.9152738067281234,
+   "stepSwingDeg": 0.000551894924797125,
+   "stepErrRel": 0.0000012426581038815948,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.29288616805015977,
+   "dragDEpsAge": -0.0031783057672214454,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Venus|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 177.36240331763807,
+   "gravAsYr": 46.12370413417875,
+   "signG": 1,
+   "gravPeriodYr": 28098.350388984338,
+   "dragSense": 1,
+   "sameSense": true,
+   "ratio": 0.00012571725261990773,
+   "tiltDeg": 0.00027587779650602905,
+   "combPeriodYr": 28094.82097709059,
+   "combSwingDeg": 0.0005517555929941409,
+   "combMinDeg": 177.36240298972353,
+   "combMaxDeg": 177.36295474531653,
+   "dragSwingDeg": 0.9152738067281234,
+   "stepSwingDeg": 0.00055175627034032,
+   "stepErrRel": 0.0000012276199602612475,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.29288616805015977,
+   "dragDEpsAge": 0.1801259871526213,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 3.1199170266435576,
+   "gravAsYr": 0.9020551134564433,
+   "signG": -1,
+   "gravPeriodYr": 1436719.3097925703,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.0064281497637000634,
+   "tiltDeg": 0.0020853521970531992,
+   "combPeriodYr": 1427542.9976475039,
+   "combSwingDeg": 0.004170704394084623,
+   "combMinDeg": 3.119917025939259,
+   "combMaxDeg": 3.1240877303333434,
+   "dragSwingDeg": 0.6529929675899098,
+   "stepSwingDeg": 0.0041707137062299005,
+   "stepErrRel": 0.0000022327512087202305,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.31201594154509005,
+   "dragDEpsAge": -0.22581228839833445,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 3.1199170266435576,
+   "gravAsYr": 0.9020551134564433,
+   "signG": -1,
+   "gravPeriodYr": 1436719.3097925703,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.0064281497637000634,
+   "tiltDeg": 0.002112335121671579,
+   "combPeriodYr": 1446014.3547315062,
+   "combSwingDeg": 0.00422467024333173,
+   "combMinDeg": 3.1156923571145967,
+   "combMaxDeg": 3.1199170273579284,
+   "dragSwingDeg": 0.6529929675899222,
+   "stepSwingDeg": 0.004224679671815501,
+   "stepErrRel": 0.0000022317679791417763,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -0.31201594154509005,
+   "dragDEpsAge": -0.22542412930183842,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Saturn|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 26.73006478971909,
+   "gravAsYr": 0.18607498998538816,
+   "signG": -1,
+   "gravPeriodYr": 6964933.869413458,
+   "dragSense": -1,
+   "sameSense": true,
+   "ratio": 0.031162411266902806,
+   "tiltDeg": 0.02815685274365787,
+   "combPeriodYr": 6754475.127827486,
+   "combSwingDeg": 0.056313705487298193,
+   "combMinDeg": 26.720170255957157,
+   "combMaxDeg": 26.776483961444455,
+   "dragSwingDeg": 1.8634921398543156,
+   "stepSwingDeg": 0.05631383410528912,
+   "stepErrRel": 0.0000022839553854851634,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.5915125953548745,
+   "dragDEpsAge": -2.966502989528088,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Saturn|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 26.73006478971909,
+   "gravAsYr": 0.18607498998538816,
+   "signG": -1,
+   "gravPeriodYr": 6964933.869413458,
+   "dragSense": 1,
+   "sameSense": false,
+   "ratio": 0.031162411266902806,
+   "tiltDeg": 0.029967921040358253,
+   "combPeriodYr": 7188927.614205292,
+   "combSwingDeg": 0.05993584208073344,
+   "combMinDeg": 26.680677402881145,
+   "combMaxDeg": 26.740613244961878,
+   "dragSwingDeg": 1.8634921398543156,
+   "stepSwingDeg": 0.05993583916877654,
+   "stepErrRel": 4.858456637533648e-8,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -2.5915125953548745,
+   "dragDEpsAge": -1.914875915485819,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Uranus|Sun",
+   "kind": "tide",
+   "sense": "g2m",
+   "eps0Deg": 97.77000815491995,
+   "gravAsYr": 0.0010866628914236616,
+   "signG": 1,
+   "gravPeriodYr": 1192642180.2276518,
+   "dragSense": -1,
+   "sameSense": false,
+   "ratio": 5.3361032295974375,
+   "tiltDeg": 178.7356861165124,
+   "combPeriodYr": 275036756.5215186,
+   "combSwingDeg": 2.5286277669752053,
+   "combMinDeg": 95.47458009057692,
+   "combMaxDeg": 98.00320785755213,
+   "dragSwingDeg": 2.0547932741715584,
+   "stepSwingDeg": 2.5286070238526577,
+   "stepErrRel": 0.000008203312017111075,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -6.0153737491556285,
+   "dragDEpsAge": -5.859210874507241,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Uranus|Sun",
+   "kind": "tide",
+   "sense": "g2p",
+   "eps0Deg": 97.77000815491995,
+   "gravAsYr": 0.0010866628914236616,
+   "signG": 1,
+   "gravPeriodYr": 1192642180.2276518,
+   "dragSense": 1,
+   "sameSense": true,
+   "ratio": 5.3361032295974375,
+   "tiltDeg": 0.8652520400727035,
+   "combPeriodYr": 188233622.8612828,
+   "combSwingDeg": 1.7305040801454084,
+   "combMinDeg": 96.1992250483231,
+   "combMaxDeg": 97.92972912846851,
+   "dragSwingDeg": 2.054793274171601,
+   "stepSwingDeg": 1.7304938008449113,
+   "stepErrRel": 0.000005940061404625149,
+   "fMin": 0.0008326184143760511,
+   "avgDEpsAge": -6.0153737491556285,
+   "dragDEpsAge": -6.744857212447968,
+   "provisional": false,
+   "provKeys": []
+  }
+ ],
+ "t2": [
+  {
+   "key": "Earth|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 0.0003274489254749824,
+   "twoWinAgeDeg": 0.0002131648877039538,
+   "stepSwingDeg": 0.0003274497377923069,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 223504330.5783593,
+   "dragWinAgeDeg": 2.0084164153855184,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 0.0003241747724018751,
+   "twoWinAgeDeg": 0.00021103346251294397,
+   "stepSwingDeg": 0.0003241755776315358,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 225761950.07915083,
+   "dragWinAgeDeg": 2.0084164153855184,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 0.00029470708932421985,
+   "twoWinAgeDeg": 0.00019185043272074154,
+   "stepSwingDeg": 0.00029470782190443856,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 248338145.0870659,
+   "dragWinAgeDeg": 2.0084164153855184,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 1.9196202145783907,
+   "ringMoveDeg": -1.2179976239232035
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 0.0001637329530694842,
+   "twoWinAgeDeg": 0.00010658809353714105,
+   "stepSwingDeg": 0.0001637333575885691,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 447008661.1567186,
+   "dragWinAgeDeg": 2.0084164153855184,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 1.852465440564103,
+   "ringMoveDeg": -1.2179976239232035
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 0.3372512724275367,
+   "ringMoveDeg": -1.2179976239232035
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 0.00032751685881748926,
+   "twoWinAgeDeg": 0.0002132100923901703,
+   "stepSwingDeg": 0.0003275176669603752,
+   "dragSwingDeg": 3.156561496711767,
+   "dragPeriodYr": 223504330.5783593,
+   "dragWinAgeDeg": 2.0084164153855077,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 1.9754006397057147,
+   "ringMoveDeg": -1.2179976239232038
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 0.00003274794920571367,
+   "twoWinAgeDeg": 0.000021318522762214798,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 2235043305.7835937,
+   "dragWinAgeDeg": 2.0084164153855184,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 1.3734240264003041,
+   "ringMoveDeg": -1.2179976239232035
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.0000032748254739090044,
+   "twoWinAgeDeg": 0.00000213187261266512,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 22350433057.835915,
+   "dragWinAgeDeg": 1.1454086939750034,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 0.18010135748825817,
+   "ringMoveDeg": -1.2179976239232033
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 3.274828372923366e-7,
+   "twoWinAgeDeg": 2.1318744103382414e-7,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.156561496711788,
+   "dragPeriodYr": 223504330578.35916,
+   "dragWinAgeDeg": 0.18610518663932396,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 0.29417150171697415,
+   "ringMoveDeg": -1.2179976239232033
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 3.274828941357555e-7,
+   "twoWinAgeDeg": 2.131874836663883e-7,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.156561496711767,
+   "dragPeriodYr": 223504330578.38394,
+   "dragWinAgeDeg": 0.1935675695878274,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 0.3818490854456691,
+   "ringMoveDeg": -1.2179976239232033
+  },
+  {
+   "key": "Earth|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.0000032748322951192677,
+   "twoWinAgeDeg": 0.0000021318771175060647,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.156561496711767,
+   "dragPeriodYr": 22350433057.835915,
+   "dragWinAgeDeg": 1.7601676543811635,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 0.7617808183272743,
+   "ringMoveDeg": -1.2179976239232038
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 0.0026066122086945143,
+   "twoWinAgeDeg": 0.001340374022955615,
+   "stepSwingDeg": 0.002606607594369592,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 223504330.5782863,
+   "dragWinAgeDeg": 1.7788472624753489,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 0.0025805661119306933,
+   "twoWinAgeDeg": 0.001326980268711253,
+   "stepSwingDeg": 0.002580561539360815,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 225761950.07907706,
+   "dragWinAgeDeg": 1.7788472624753489,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 0.0023461330487748455,
+   "twoWinAgeDeg": 0.0012064274081033943,
+   "stepSwingDeg": 0.0023461288620829635,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 248338145.08698472,
+   "dragWinAgeDeg": 1.7788472624753489,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 1.6813114065931671,
+   "ringMoveDeg": -1.295744282480794
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 0.0013038119861903397,
+   "twoWinAgeDeg": 0.0006704392746677001,
+   "stepSwingDeg": 0.0013038095846233944,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 447008661.1565726,
+   "dragWinAgeDeg": 1.7788472624753489,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 1.6075207141833268,
+   "ringMoveDeg": -1.2957442824807939
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 0.06458413017038822,
+   "ringMoveDeg": -1.295744282480794
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 0.0026106639800218545,
+   "twoWinAgeDeg": 0.0013423944069224092,
+   "stepSwingDeg": 0.002610658607913763,
+   "dragSwingDeg": 3.3580575082137685,
+   "dragPeriodYr": 223504330.5782863,
+   "dragWinAgeDeg": 1.7788472624753808,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 1.7466960947762757,
+   "ringMoveDeg": -1.295744282480794
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 0.00026084339486942554,
+   "twoWinAgeDeg": 0.00013412824435121706,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 2235043305.782863,
+   "dragWinAgeDeg": 1.7788472624753489,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 1.3219986024784518,
+   "ringMoveDeg": -1.2957442824807939
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.000026086162620231335,
+   "twoWinAgeDeg": 0.000013413733537248618,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 22350433057.82861,
+   "dragWinAgeDeg": 1.5379165924487879,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 0.4268398113523659,
+   "ringMoveDeg": -1.295744282480794
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 0.0000026086344746545365,
+   "twoWinAgeDeg": 0.0000013413824113683859,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.358057508213733,
+   "dragPeriodYr": 223504330578.28604,
+   "dragWinAgeDeg": 0.21133534441042556,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 0.019815123329873785,
+   "ringMoveDeg": -1.2957442824807939
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 0.0000026086385673806944,
+   "twoWinAgeDeg": 0.0000013413844932586017,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.3580575082137685,
+   "dragPeriodYr": 223504330578.3109,
+   "dragWinAgeDeg": 0.2121055320833456,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 0.11303056784684529,
+   "ringMoveDeg": -1.2957442824807939
+  },
+  {
+   "key": "Mars|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.000026086567800120974,
+   "twoWinAgeDeg": 0.000013413935565864676,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 3.3580575082137685,
+   "dragPeriodYr": 22350433057.82861,
+   "dragWinAgeDeg": 1.6560631960324912,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 0.5316560540908561,
+   "ringMoveDeg": -1.295744282480794
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 0.0005518942389812764,
+   "twoWinAgeDeg": 0.0005515663105768454,
+   "stepSwingDeg": 0.000551894924797125,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 223504330.5785293,
+   "dragWinAgeDeg": 0.8999901714786063,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 0.0005463746101668221,
+   "twoWinAgeDeg": 0.0005460499610876468,
+   "stepSwingDeg": 0.0005463752888488216,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 225761950.07932252,
+   "dragWinAgeDeg": 0.8999901714786063,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 0.0004966985745227248,
+   "twoWinAgeDeg": 0.0004964034395698036,
+   "stepSwingDeg": 0.0004966991915296148,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 248338145.08725473,
+   "dragWinAgeDeg": 0.8999901714786063,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 2.5694243034654676,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 0.00027592978551638225,
+   "twoWinAgeDeg": 0.00027576582303368014,
+   "stepSwingDeg": 0.000275930127401125,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 447008661.1570586,
+   "dragWinAgeDeg": 0.8999901714786063,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 2.5540391081094924,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 1.6879087296981936,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 0.0005517555929941409,
+   "twoWinAgeDeg": 0.000551427678459504,
+   "stepSwingDeg": 0.0005517562692602951,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 223504330.5785293,
+   "dragWinAgeDeg": 0.8999901714785778,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 2.5683914188601022,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 0.00005518318397434996,
+   "twoWinAgeDeg": 0.00005515039177339531,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 2235043305.7852936,
+   "dragWinAgeDeg": 0.8999901714786063,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 2.3906996753991336,
+   "ringMoveDeg": -1.6940946358084494
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.000005518255989045429,
+   "twoWinAgeDeg": 0.000005514976777476477,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 22350433057.85291,
+   "dragWinAgeDeg": 0.15828581941929087,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 1.793443056450144,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 5.518249963643029e-7,
+   "twoWinAgeDeg": 5.514970382591855e-7,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 223504330578.52905,
+   "dragWinAgeDeg": 0.010553534205797632,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 1.6814831655441083,
+   "ringMoveDeg": -1.6940946358084494
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 5.518248258340464e-7,
+   "twoWinAgeDeg": 5.514969245723478e-7,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 223504330578.55392,
+   "dragWinAgeDeg": 0.01646899616221731,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 1.6981250530140528,
+   "ringMoveDeg": -1.6940946358084497
+  },
+  {
+   "key": "Venus|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.0000055182421192512265,
+   "twoWinAgeDeg": 0.000005514962907682275,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.9152738067281234,
+   "dragPeriodYr": 22350433057.85291,
+   "dragWinAgeDeg": 0.3857477283212347,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 1.9489952029213384,
+   "ringMoveDeg": -1.69409463580845
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 0.004170704394084623,
+   "twoWinAgeDeg": 0.004170703689785782,
+   "stepSwingDeg": 0.0041707137062299005,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 223504330.57825804,
+   "dragWinAgeDeg": 0.6529928676895249,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 0.004129261085665803,
+   "twoWinAgeDeg": 0.004129260388358702,
+   "stepSwingDeg": 0.004129270304755739,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 225761950.0790485,
+   "dragWinAgeDeg": 0.6529928676895249,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 0.003756032929345565,
+   "twoWinAgeDeg": 0.0037560322950209724,
+   "stepSwingDeg": 0.0037560413151664918,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 248338145.08695334,
+   "dragWinAgeDeg": 0.6529928676895249,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 0.6399833711920833,
+   "ringMoveDeg": -0.25196955031281043
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 0.00209203309447048,
+   "twoWinAgeDeg": 0.0020920327410660633,
+   "stepSwingDeg": 0.0020920377657547284,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 447008661.1565161,
+   "dragWinAgeDeg": 0.6529928676895249,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 0.6299856551265295,
+   "ringMoveDeg": -0.2519695503128103
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 0.2519718161308697,
+   "ringMoveDeg": -0.2519695503128101
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 0.00422467024333173,
+   "twoWinAgeDeg": 0.004224669528960945,
+   "stepSwingDeg": 0.004224679671816389,
+   "dragSwingDeg": 0.6529929675899222,
+   "dragPeriodYr": 223504330.57825804,
+   "dragWinAgeDeg": 0.6529928676895285,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 0.6412567643252589,
+   "ringMoveDeg": -0.2519695503128104
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 0.0004194817425400288,
+   "twoWinAgeDeg": 0.0004194816716758254,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 2235043305.7825804,
+   "dragWinAgeDeg": 0.6529928676895249,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 0.5544159948259662,
+   "ringMoveDeg": -0.25196955031281026
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.000041972440669724165,
+   "twoWinAgeDeg": 0.00004197243358383673,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 22350433057.82578,
+   "dragWinAgeDeg": 0.24240904322169632,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 0.3053703413415225,
+   "ringMoveDeg": -0.2519695503128104
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 0.00000419748687363608,
+   "twoWinAgeDeg": 0.00000419748618263327,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.6529929675899098,
+   "dragPeriodYr": 223504330578.2578,
+   "dragWinAgeDeg": 0.002846588695845309,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 0.2526562531894525,
+   "ringMoveDeg": -0.2519695503128103
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 0.000004197540874883998,
+   "twoWinAgeDeg": 0.000004197540173223047,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.6529929675899222,
+   "dragPeriodYr": 223504330578.28262,
+   "dragWinAgeDeg": 0.002914259640817818,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 0.25250478543756705,
+   "ringMoveDeg": -0.2519695503128103
+  },
+  {
+   "key": "Jupiter|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.000041977837099693716,
+   "twoWinAgeDeg": 0.00004197783000314814,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 0.6529929675899213,
+   "dragPeriodYr": 22350433057.82578,
+   "dragWinAgeDeg": 0.24288409222388418,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 0.30424285283676733,
+   "ringMoveDeg": -0.2519695503128103
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 0.056313705487298193,
+   "twoWinAgeDeg": 0.046419171725364805,
+   "stepSwingDeg": 0.05631383410528912,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 223504330.57825738,
+   "dragWinAgeDeg": 1.5443318152238028,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 0.05576741964171106,
+   "twoWinAgeDeg": 0.04596879399354137,
+   "stepSwingDeg": 0.05576754671162476,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 225761950.07904786,
+   "dragWinAgeDeg": 1.5443318152238028,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 0.05083594558971072,
+   "twoWinAgeDeg": 0.04190317682567368,
+   "stepSwingDeg": 0.05083605881821285,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 248338145.08695263,
+   "dragWinAgeDeg": 1.5443318152238028,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 1.497470849364234,
+   "ringMoveDeg": -0.7190594000433869
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 0.028588785045940313,
+   "twoWinAgeDeg": 0.023563637562080686,
+   "stepSwingDeg": 0.02858884061237532,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 447008661.15651476,
+   "dragWinAgeDeg": 1.5443318152238028,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 1.4618205701015334,
+   "ringMoveDeg": -0.7190594000433865
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 0.46990795032644783,
+   "ringMoveDeg": -0.7190594000433864
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 0.05993584208073344,
+   "twoWinAgeDeg": 0.04938738683794597,
+   "stepSwingDeg": 0.059935839169739324,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 223504330.57825738,
+   "dragWinAgeDeg": 1.5443318152237993,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 1.5196473366306797,
+   "ringMoveDeg": -0.7190594000433866
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 0.005788797987520411,
+   "twoWinAgeDeg": 0.004770950065381641,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 2235043305.782574,
+   "dragWinAgeDeg": 1.5443318152238028,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 1.2020628505899182,
+   "ringMoveDeg": -0.7190594000433864
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.000580502615093792,
+   "twoWinAgeDeg": 0.000478424889980289,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 22350433057.825718,
+   "dragWinAgeDeg": 0.31916031360333363,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 0.41960369484090876,
+   "ringMoveDeg": -0.7190594000433866
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 0.000058066539736501,
+   "twoWinAgeDeg": 0.00004785582861543958,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 223504330578.25714,
+   "dragWinAgeDeg": 0.08455780666694679,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 0.45110140243560437,
+   "ringMoveDeg": -0.7190594000433864
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 0.00005807015833170226,
+   "twoWinAgeDeg": 0.00004785879395896586,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 223504330578.28195,
+   "dragWinAgeDeg": 0.09441271500932302,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 0.4909993213631161,
+   "ringMoveDeg": -0.7190594000433865
+  },
+  {
+   "key": "Saturn|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.0005808644772287153,
+   "twoWinAgeDeg": 0.0004787214267985007,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 1.8634921398543156,
+   "dragPeriodYr": 22350433057.825718,
+   "dragWinAgeDeg": 1.0988118299478913,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 0.7201469140571675,
+   "ringMoveDeg": -0.7190594000433866
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0,
+   "main": true,
+   "twoSwingDeg": 2.5286277669752053,
+   "twoWinAgeDeg": 2.295428064343028,
+   "stepSwingDeg": 2.5286070238526577,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 223504330.5782573,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.01,
+   "main": true,
+   "twoSwingDeg": 2.534531240456616,
+   "twoWinAgeDeg": 2.3007884540699592,
+   "stepSwingDeg": 2.5345104358459736,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 225761950.07904777,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": null,
+   "ringDragWinDeg": null,
+   "ringMoveDeg": null
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.1,
+   "main": true,
+   "twoSwingDeg": 2.595118034437732,
+   "twoWinAgeDeg": 2.355801976934231,
+   "stepSwingDeg": 2.5950965863506497,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 248338145.08695254,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": 0.10520922750591802,
+   "ringDragWinDeg": 1.816336472867519,
+   "ringMoveDeg": -0.7928750632662142
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.5,
+   "main": true,
+   "twoSwingDeg": 3.2864134614043365,
+   "twoWinAgeDeg": 2.9835503634535883,
+   "stepSwingDeg": 3.28638274482401,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 447008661.1565146,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": 0.022828126514944848,
+   "ringDragWinDeg": 1.7791517800588963,
+   "ringMoveDeg": -0.7928750632662144
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 1,
+   "main": true,
+   "twoSwingDeg": 0,
+   "twoWinAgeDeg": 0,
+   "stepSwingDeg": 0,
+   "dragSwingDeg": 0,
+   "dragPeriodYr": null,
+   "dragWinAgeDeg": 0,
+   "fRing": 0.011543513337360294,
+   "ringDragWinDeg": 0.6453298212510816,
+   "ringMoveDeg": -0.7928750632662144
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 2,
+   "main": true,
+   "twoSwingDeg": 1.7305040801454084,
+   "twoWinAgeDeg": 1.5707831065968492,
+   "stepSwingDeg": 1.7304938008447266,
+   "dragSwingDeg": 2.054793274171601,
+   "dragPeriodYr": 223504330.5782573,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": 0.005804968078964216,
+   "ringDragWinDeg": 1.8353101703378627,
+   "ringMoveDeg": -0.7928750632662142
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.9,
+   "main": false,
+   "twoSwingDeg": 2.350062369889372,
+   "twoWinAgeDeg": 2.1321885564055094,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 2235043305.782573,
+   "dragWinAgeDeg": 1.865203242446995,
+   "fRing": 0.012809898331339449,
+   "ringDragWinDeg": 1.5049917249434657,
+   "ringMoveDeg": -0.7928750632662142
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.99,
+   "main": false,
+   "twoSwingDeg": 0.1158192165504488,
+   "twoWinAgeDeg": 0.10510867142502889,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 22350433057.825703,
+   "dragWinAgeDeg": 0.1895900262132102,
+   "fRing": 0.01165877101214221,
+   "ringDragWinDeg": 0.6521496777669,
+   "ringMoveDeg": -0.7928750632662142
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 0.999,
+   "main": false,
+   "twoSwingDeg": 0.011022810815603634,
+   "twoWinAgeDeg": 0.01000357655853179,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 2.0547932741715584,
+   "dragPeriodYr": 223504330578.25705,
+   "dragWinAgeDeg": 0.06839044839038877,
+   "fRing": 0.011554936447732669,
+   "ringDragWinDeg": 0.6299589754984822,
+   "ringMoveDeg": -0.7928750632662138
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 1.001,
+   "main": false,
+   "twoSwingDeg": 0.010905816210396324,
+   "twoWinAgeDeg": 0.00989742386249759,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 2.054793274171601,
+   "dragPeriodYr": 223504330578.28186,
+   "dragWinAgeDeg": 0.08179763846004562,
+   "fRing": 0.01153211279181187,
+   "ringDragWinDeg": 0.6637782098072194,
+   "ringMoveDeg": -0.7928750632662139
+  },
+  {
+   "key": "Uranus|Sun",
+   "kRing": 1.01,
+   "main": false,
+   "twoSwingDeg": 0.10408670331204917,
+   "twoWinAgeDeg": 0.09446342649793849,
+   "stepSwingDeg": null,
+   "dragSwingDeg": 2.054793274171601,
+   "dragPeriodYr": 22350433057.825703,
+   "dragWinAgeDeg": 1.1530601111599168,
+   "fRing": 0.01143051236339538,
+   "ringDragWinDeg": 0.9076842636411584,
+   "ringMoveDeg": -0.7928750632662143
+  }
+ ],
+ "t2b": [
+  {
+   "key": "Earth|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 235.21654095727718,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 235.21654095727718,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 805.9113740426037,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 805.9113740426037,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 3.3421654095727718,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 3.3421654095727718,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 447.849511497021,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 447.849511497021,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9994686339086911,
+   "hi": 1.000520481080457,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9994686339086911,
+    "hi": 1.000520481080457,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 447.849511497021,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 447.849511497021,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 212.92132974101696,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 212.92132974101696,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 217.1316605634056,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 217.1316605634056,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 3.119213297191891,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 3.119213297191891,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 71.58720004988572,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 71.58720004988572,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9995282609133938,
+   "hi": 1.0004709354470833,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9995282609133938,
+    "hi": 1.0004709354470833,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 71.58720004988572,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 71.58720004988572,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": null,
+   "hiOpen": true,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": null,
+    "hiOpen": true
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 220.8602788230346,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 220.8602788230346,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 19.0579497364306,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 19.0579497364306,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 186.5535382146627,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 186.5535382146627,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9914869629837995,
+   "hi": 1.004012877070636,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9914869629837995,
+    "hi": 1.004012877070636,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 186.5535382146627,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 186.5535382146627,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": null,
+   "hiOpen": true,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": null,
+    "hiOpen": true
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": null,
+   "hiOpen": true,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": null,
+    "hiOpen": true
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 28.345854312443407,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 28.345854312443407,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 21.659806004005077,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 21.659806004005077,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9939113756790903,
+   "hi": 1.0060768561525038,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9939113756790903,
+    "hi": 1.0060768561525038,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 21.659805487412086,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 21.659805487412086,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 476.3835706897007,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 476.3835706897007,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 477.858923601867,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 477.858923601867,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 5.753835706651444,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 5.753835706651444,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 8.750826086521556,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 8.750826086521556,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9988020387017968,
+   "hi": 1.0010564071999397,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9988020387017968,
+    "hi": 1.0010564071999397,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 2.962500707122672,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 2.962500707122672,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 10000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 542.7210132627588,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 542.7210132627588,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 10000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 542.7056173218953,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 542.7056173218953,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 1000000,
+   "kind": "drag",
+   "lo": 0,
+   "hi": 6.417210131781758,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 6.417210131781758,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 1000000,
+   "kind": "tide",
+   "lo": 0,
+   "hi": 6.401873831942794,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.011677525923413961,
+    "hi": 6.401873831942794,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 4500000000,
+   "kind": "drag",
+   "lo": 0.9984477918387711,
+   "hi": 1.001203824467666,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9984477918387711,
+    "hi": 1.001203824467666,
+    "hiOpen": false
+   }
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 4500000000,
+   "kind": "tide",
+   "lo": 0.9904613079743285,
+   "hi": 1.0106193065221305,
+   "hiOpen": false,
+   "kMin": 0.011677525923413961,
+   "both": {
+    "lo": 0.9904613079743285,
+    "hi": 1.0106193065221305,
+    "hiOpen": false
+   }
+  }
+ ],
+ "t3": [
+  {
+   "key": "Mercury|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 0.03506731274643337,
+   "dragDeg": 0.00031638532062892855,
+   "twoDeg": 0.00009329778814182871,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Mercury|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 0.03506731274643337,
+   "dragDeg": 0.15197653676018366,
+   "twoDeg": 0.00009329778814182871,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Mercury|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 0.03506731274643337,
+   "dragDeg": 12.687304658309303,
+   "twoDeg": 0.00009329778814182871,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 177.36240331763807,
+   "dragDeg": 0.000030056913772114058,
+   "twoDeg": 0.00045629659206269935,
+   "twoProvDeg": 0.00045544145476128506,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "venus.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 177.36240331763807,
+   "dragDeg": 0.002860752546951062,
+   "twoDeg": 0.0005515663105768454,
+   "twoProvDeg": 0.0005706682830179943,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "venus.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Venus|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 177.36240331763807,
+   "dragDeg": 0.8999901714786063,
+   "twoDeg": 0.0005515663105768454,
+   "twoProvDeg": 0.0005706682830179943,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": true,
+   "provKeys": [
+    "venus.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 23.4392911,
+   "dragDeg": 0.00042290314303983223,
+   "twoDeg": 0.00011428403778879215,
+   "twoProvDeg": 0.00012675670943096407,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "earth.psiA.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 23.4392911,
+   "dragDeg": 0.04210230641285051,
+   "twoDeg": 0.0002131648877039538,
+   "twoProvDeg": 0.0002364290038272543,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "earth.psiA.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Earth|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 23.4392911,
+   "dragDeg": 2.0084164153855184,
+   "twoDeg": 0.0002131648877039538,
+   "twoProvDeg": 0.0002364290038272543,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": true,
+   "provKeys": [
+    "earth.psiA.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 25.191842165359763,
+   "dragDeg": 0.00047175089081008537,
+   "twoDeg": 0.0004591084015679314,
+   "twoProvDeg": 0.00045867424352863395,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "mars.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 25.191842165359763,
+   "dragDeg": 0.04715015395092692,
+   "twoDeg": 0.001340374022955615,
+   "twoProvDeg": 0.001315419666720885,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": true,
+   "provKeys": [
+    "mars.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Mars|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 25.191842165359763,
+   "dragDeg": 1.7788472624753489,
+   "twoDeg": 0.001340374022955615,
+   "twoProvDeg": 0.001315419666720885,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": true,
+   "provKeys": [
+    "mars.prec.rate",
+    "earth.precSense"
+   ]
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 3.1199170266435576,
+   "dragDeg": 6.121052997798415e-8,
+   "twoDeg": 0.000001945489279897572,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 3.1199170266435576,
+   "dragDeg": 0.00013494136693559255,
+   "twoDeg": 0.004170703654462482,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Jupiter|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 3.1199170266435576,
+   "dragDeg": 0.6529928676895249,
+   "twoDeg": 0.004170703689785782,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 26.73006478971909,
+   "dragDeg": 0.0001993971236444736,
+   "twoDeg": 0.00019862832295203248,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 26.73006478971909,
+   "dragDeg": 0.019695723676498744,
+   "twoDeg": 0.009894533730825827,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Saturn|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 26.73006478971909,
+   "dragDeg": 1.5443318152238028,
+   "twoDeg": 0.046419171725364805,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 97.77000815491995,
+   "dragDeg": 0.00016729105291801716,
+   "twoDeg": 0.00016729725440711718,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 97.77000815491995,
+   "dragDeg": 0.016398740855819938,
+   "twoDeg": 0.016461489065278556,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Uranus|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 97.77000815491995,
+   "dragDeg": 1.865203242446995,
+   "twoDeg": 2.295428064343028,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Neptune|Sun",
+   "Tyr": 10000,
+   "eps0Deg": 28.31809070305011,
+   "dragDeg": 0.00010445495058419851,
+   "twoDeg": 0.00010444765584338711,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Neptune|Sun",
+   "Tyr": 1000000,
+   "eps0Deg": 28.31809070305011,
+   "dragDeg": 0.010204933847113296,
+   "twoDeg": 0.010131104830794158,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Neptune|Sun",
+   "Tyr": 4500000000,
+   "eps0Deg": 28.31809070305011,
+   "dragDeg": 1.3486854888788642,
+   "twoDeg": 1.0413501145491821,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": true,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Sun|-",
+   "Tyr": 10000,
+   "eps0Deg": 5.9684624754699245,
+   "dragDeg": 0,
+   "twoDeg": null,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Sun|-",
+   "Tyr": 1000000,
+   "eps0Deg": 5.9684624754699245,
+   "dragDeg": 0,
+   "twoDeg": null,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  },
+  {
+   "key": "Sun|-",
+   "Tyr": 4500000000,
+   "eps0Deg": 5.9684624754699245,
+   "dragDeg": 0,
+   "twoDeg": null,
+   "twoProvDeg": null,
+   "coDeg": 0,
+   "overThr": false,
+   "provisional": false,
+   "provKeys": []
+  }
+ ],
+ "gates": {
+  "pure": true,
+  "t1": true,
+  "t2": true,
+  "t2b": true,
+  "t3": true
+ },
+ "ok": true,
+ "timing": {
+  "input": {
+   "wallSec": 0.09
+  },
+  "pure": {
+   "wallSec": 0.363
+  },
+  "t1": {
+   "wallSec": 0.557
+  },
+  "t2": {
+   "wallSec": 1.137
+  },
+  "t2b": {
+   "wallSec": 8.291
+  },
+  "t3": {
+   "wallSec": 8.545
+  }
+ },
+ "elapsedS": 36.663,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第353便x",
+  "target": "tests/lib-w353x-twoaxis.mjs",
+  "targetSha256": "007c3d567f77e212cf0dcefd2b44718d070f5cde742d111b7f7785d41367abb1",
+  "generatedAt": "2026-11-25T06:37:17.583Z",
+  "inputs": [],
+  "code": [
+   {
+    "file": "tests/exp-w353x-twoaxis.mjs",
+    "bytes": 8359,
+    "sha256": "8f69c49b67ad2176a905091ff186de7d3fbf2eb53b06ec27425707da0544bdc1",
+    "mtime": "2026-11-25T06:30:06.763Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-25T06:21:10.959Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-25T06:21:10.959Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-25T06:21:10.963Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-25T06:21:10.971Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-25T06:21:10.971Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-25T06:21:10.971Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-25T06:21:10.975Z"
+   },
+   {
+    "file": "tests/lib-w318d-dragest.mjs",
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-11-25T06:21:10.979Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-25T06:21:10.983Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-25T06:21:10.987Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-25T06:21:10.991Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-25T06:21:10.995Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-25T06:21:10.999Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-25T06:21:11.003Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-25T06:21:11.007Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w351g-r3energy.mjs",
+    "bytes": 26339,
+    "sha256": "4bde20de253d5e8bcf9b3e53587fba5dcebe6ba4f52f58482af36808d201842f",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-25T06:21:11.011Z"
+   },
+   {
+    "file": "tests/lib-w352i-stableprec.mjs",
+    "bytes": 23435,
+    "sha256": "fb799e95727ceac3b5eebe0421f94ee026a516e79480f3e557bb8dedf0e0ecb2",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352n-venuslong.mjs",
+    "bytes": 25425,
+    "sha256": "b964fdbc2c93b26466d4d76ef2a7a65bfea07e67493ce9e27378baa2028a655c",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352o-obsradius.mjs",
+    "bytes": 19068,
+    "sha256": "27f44ff076d17fdc0dfc9212e52223889c6dd14b52463c35677ca54c2f988112",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352p-coprec.mjs",
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-25T06:21:11.015Z"
+   },
+   {
+    "file": "tests/lib-w352s-satring.mjs",
+    "bytes": 27009,
+    "sha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w352u-tidaldrag.mjs",
+    "bytes": 25911,
+    "sha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w352w-keepcone.mjs",
+    "bytes": 30717,
+    "sha256": "57adb0c0b4f55dee929bb0f3c1bc693fe2d0f9e442e54ded1bb6abb53acaffc6",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w352y-bgwindow.mjs",
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w352za-sconseq.mjs",
+    "bytes": 25293,
+    "sha256": "19b9b7539509eab2484ae191fe14970a9385bdc076c9ba341d92032257e95ed5",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w353b-maincol.mjs",
+    "bytes": 24104,
+    "sha256": "56fc229c55e418ed7f1d61645a58af5848e5aaa556b38ff1e8fce2190de428fe",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w353c-recvradius.mjs",
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T06:21:11.019Z"
+   },
+   {
+    "file": "tests/lib-w353e-focus098.mjs",
+    "bytes": 20594,
+    "sha256": "932081452c5512c862e1fd5b238e2bfec9ef13269000b631a104b2ab4b920f2a",
+    "mtime": "2026-11-25T06:21:11.023Z"
+   },
+   {
+    "file": "tests/lib-w353f-ratesum.mjs",
+    "bytes": 21288,
+    "sha256": "24e003450ac21b263edfa23c33a2fb671bab7f56cc498d8362a0d70a3ef15073",
+    "mtime": "2026-11-25T06:21:11.023Z"
+   },
+   {
+    "file": "tests/lib-w353m-residsign.mjs",
+    "bytes": 22856,
+    "sha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+    "mtime": "2026-11-25T06:21:11.023Z"
+   },
+   {
+    "file": "tests/lib-w353n-watch098.mjs",
+    "bytes": 26992,
+    "sha256": "22ea47ab31ac9fde56397d080aae39dd81340a183609a6f7466e65f746cbb944",
+    "mtime": "2026-11-25T06:21:11.023Z"
+   },
+   {
+    "file": "tests/lib-w353x-twoaxis.mjs",
+    "bytes": 28920,
+    "sha256": "007c3d567f77e212cf0dcefd2b44718d070f5cde742d111b7f7785d41367abb1",
+    "mtime": "2026-11-25T06:30:06.761Z"
+   }
+  ],
+  "codeSha256": "7691c280b2addb50a19c09c47c41f00287319e5cd496d45be2ec6bbb7d784a25",
+  "harnessVersion": "w353x-twoaxis-1",
+  "stage": "twoaxis",
+  "engine": "Node(html を読まない —— 純関数の lib・第353便n・f・m・e・第352便u・w・l・i・c・b・第351便d の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "幅の表 —— 傾きが安定している・保たれた、とは書かない。「変わらない」と言えるかは物差し(0.1°)と見ている時間の置き方による",
+   "重力の側の歳差は比べる列(DFM の式ではない)。率は 仮の値(未照合・印)/重力の側の潮汐のトルクの列/地球の月の道の 18.6 年の平均の列 —— 合否にしない",
+   "天王星・海王星・水星・木星・土星の重力の側の列は太陽だけ(衛星の分なし)—— 列の作り方の限り",
+   "c_輪 ÷ c は公転面が背景に応える係数の比のノブ(値は未照合 —— 格子で振る)。閉じた形は f 0・一定の Ω の候補の式(刻みの步で照らす)",
+   "0.98 は注目の列(背景の大きさを 0.98 に置いたとは書かない・(N+) の窓の内とは書かない)",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 36,
+   "kept": 1207,
+   "zeroPathsHead": [
+    "/pure/scenes/rows/0/err",
+    "/pure/scenes/rows/1/err",
+    "/pure/scenes/dwErr",
+    "/t2/4/twoWinAgeDeg",
+    "/t2/4/stepSwingDeg",
+    "/t2/15/twoWinAgeDeg",
+    "/t2/15/stepSwingDeg",
+    "/t2/26/stepSwingDeg",
+    "/t2/37/twoWinAgeDeg",
+    "/t2/37/stepSwingDeg",
+    "/t2/48/twoWinAgeDeg",
+    "/t2/48/stepSwingDeg",
+    "/t2/59/stepSwingDeg",
+    "/t3/0/coDeg",
+    "/t3/1/coDeg",
+    "/t3/2/coDeg",
+    "/t3/6/coDeg",
+    "/t3/7/coDeg",
+    "/t3/8/coDeg",
+    "/t3/9/coDeg"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
