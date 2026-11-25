@@ -3341,6 +3341,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cancelstd-353p.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便p: 零試験 9/17 組 × 置き方 7/イオと金星の格子 70/衛星の自分の重み 5 + 実在の組 3' }),
   // ==== 第353便p の塊(ここまで)====
+  // ==== 第353便q の塊(ここから)====
+  // ---- 第353便q(原仮定者の回答(2026-11-25 —— 第151報)・統括の検証項目 R481): **1 つの換算の係数で全部の題を並べる(組 6 の金星の k × 題 11 の値 ÷ 物差し・環の要る k ÷ 金星の k・食い違う題)**
+  //   (段 onek-353q —— 正本 tests/out/onek-353q.json・lib tests/lib-w353q-onek.mjs —— 第353便j・k・h・c・d・f・m・e・第352便w・za・d・k・第351便d・c・f・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に venus098-353j・ringstd-353k・residsign-353m)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。所要は第353便q の枝の実測 2 s
+  S('onek-353q', 'node tests/exp-w353q-onek.mjs', ['tests/out/onek-353q.json'], 2, { secSource: 'w353q-branch', node: true,
+    after: ['venus098-353j', 'ringstd-353k', 'residsign-353m'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/onek-353q.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第353便q: 零試験 12/組 6 の k × 題 11/環の要る k ÷ 金星の k(区分 5 × 作り 2 × 当て方 2)/食い違う題' }),
+  // ==== 第353便q の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -2700,35 +2700,35 @@
  "ok": true,
  "timing": {
   "input": {
-   "wallSec": 0.05
+   "wallSec": 0.106
   },
   "pure": {
-   "wallSec": 0.366
+   "wallSec": 0.631
   },
   "t1": {
-   "wallSec": 0.452
+   "wallSec": 0.828
   },
   "t2": {
-   "wallSec": 0.499
+   "wallSec": 0.928
   },
   "t3": {
-   "wallSec": 0.562
+   "wallSec": 1.121
   }
  },
- "elapsedS": 1.309,
+ "elapsedS": 2.146,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第353便q",
   "target": "tests/lib-w353q-onek.mjs",
-  "targetSha256": "2fded038f8eacb2ceaa8689aa132f571ed7bff39bd2d00cfd5846e77afbd904e",
-  "generatedAt": "2026-11-25T06:20:25.329Z",
+  "targetSha256": "2acd6449dc5ac41741afb4a9cff1602fbc888f08377d5f72b3c68a2b4ec1ba1d",
+  "generatedAt": "2026-11-25T06:25:21.043Z",
   "inputs": [],
   "code": [
    {
     "file": "tests/exp-w353q-onek.mjs",
     "bytes": 7700,
-    "sha256": "d1aa72f894df584c2651590ae3d13b848a286ab639e51f0a9420784c26e79216",
-    "mtime": "2026-11-25T06:20:18.723Z"
+    "sha256": "36c212b99dcf0d573a296917d333ef493661dc6e9cc29d81c5df348c6a72f159",
+    "mtime": "2026-11-25T06:25:08.711Z"
    },
    {
     "file": "tests/lib-w270b-obscsv.mjs",
@@ -3392,12 +3392,12 @@
    },
    {
     "file": "tests/lib-w353q-onek.mjs",
-    "bytes": 27296,
-    "sha256": "2fded038f8eacb2ceaa8689aa132f571ed7bff39bd2d00cfd5846e77afbd904e",
-    "mtime": "2026-11-25T06:19:50.093Z"
+    "bytes": 27248,
+    "sha256": "2acd6449dc5ac41741afb4a9cff1602fbc888f08377d5f72b3c68a2b4ec1ba1d",
+    "mtime": "2026-11-25T06:25:08.707Z"
    }
   ],
-  "codeSha256": "2332fe7ef4732e11343d879922d396d72feb6088cffa21e10bbb2c437370d88a",
+  "codeSha256": "e2a51943d66929cdb422d23f272b0b59780a190eeee375ed139eb3c2ae60ff16",
   "harnessVersion": "w353q-onek-1",
   "stage": "onek",
   "engine": "Node(html を読まない —— 純関数の lib・第353便j・k・h・c・d・f・m・e・第352便w・za・d・k・第351便d・c・f の lib を呼ぶ)・1 プロセス",

@@ -17,7 +17,7 @@
 // ■ 口:
 //   kVenus(set) —— 組の k と金星の残り。topicAt(topic, set) —— 題 1 つの { v(主の値), vComp(背景を含む合成の値 —— 在れば), kReq(値 1 になる k), ratio(kReq ÷ kVenus), … }。
 //   table1()・table2()・table3() —— 器の表。
-// ■ 言わないこと: 係数が決まった・環が説明できた・計算が合った、と書かない(同じ k を掛けたときの桁の表)。重力の側の潮汐のトルクの列は「比べる列(DFM の式ではない)」。
+// ■ 言わないこと: 係数の値・環の出どころ・計算の当たりを結論として書かない(同じ k を掛けたときの桁の表)。重力の側の潮汐のトルクの列は「比べる列(DFM の式ではない)」。
 import * as J from './lib-w353j-venus098.mjs';
 import * as KR from './lib-w353k-ringstd.mjs';
 import * as H from './lib-w353h-ringdisk.mjs';
@@ -30,7 +30,6 @@ import * as W from './lib-w352w-keepcone.mjs';
 import * as Z from './lib-w352za-sconseq.mjs';
 import * as D from './lib-w352d-precsense.mjs';
 import * as R3 from './lib-w351d-r3step.mjs';
-import * as SP from './lib-w351c-srcparts.mjs';
 import * as FS from './lib-w351f-satlock.mjs';
 import * as K from './lib-w352k-spinform.mjs';
 import * as E from './lib-w347e-spintorque.mjs';

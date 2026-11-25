@@ -6,7 +6,7 @@
 // Node だけ・**html を読まない**(来歴の対象は純関数 tests/lib-w353q-onek.mjs —— 領域の宣言なし)。入力のファイルは無い(lib を呼んで作り直す)。
 //   1 プロセス。正本は第338便c の settleRun で書く。仮の値は第352便b の器の数だけ(歳差の率の残り —— 正本の最上位に provisional: true と鍵の一覧)。
 //
-// ■ 言わないこと: 係数が決まった・環が説明できた・計算が合った、と書かない(同じ k を掛けたときの桁の表)。物差しは文献の値・未照合。
+// ■ 言わないこと: 係数の値・環の出どころ・計算の当たりを結論として書かない(同じ k を掛けたときの桁の表)。物差しは文献の値・未照合。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
