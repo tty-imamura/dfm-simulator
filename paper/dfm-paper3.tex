@@ -210,6 +210,18 @@
 \usepackage{tabularx}   % wave 143 (P0-3): the wide maps must wrap inside
                         % the column instead of overrunning it
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+% TeX Live 2025 (LaTeX 2025-11-01) added \@endpefalse (a \global\let to
+% \iffalse) to the kernel's \color@endgroup, which ends every p{} cell.
+% With the array package loaded, revtex4-2 (4.2f) builds the column
+% preamble inside an \xdef that expands that cell ending, and the bare
+% \iffalse then broke the \ifcase of the preamble scanner ("Extra \or" at
+% the first p{} column).  Keep \@endpefalse unexpanded while revtex4-2
+% builds the preamble (local to that group); the built preamble, and the
+% typeset output with the older kernel, are unchanged.
+\makeatletter
+\@ifundefined{@mkpream@relax}{}{%
+  \g@addto@macro\@mkpream@relax{\let\@endpefalse\relax}}
+\makeatother
 \usepackage{hyperref}
 \hypersetup{
   pdftitle={Reality Calibration of a Machian Toy Universe},
