@@ -1321,6 +1321,18 @@
     "state": "both the frozen and dissociated windows pass (E1)"
    }
   },
+  "boxone": {
+   "purpose": "天体が 1 つだけの箱で、並進が内部の相対の量に出ないかを見る",
+   "objective": "met",
+   "state": "並進ありと並進を引いた写しの 600 步の相対の量の差が門 1e-3 の内・走り直しで指紋が同じ",
+   "evidence": [
+    "tests/out/boxone-w357d.json"
+   ],
+   "en": {
+    "purpose": "See whether translation shows in the interior relative quantities of a box with a single body",
+    "state": "600-step relative quantities with and without translation within the 1e-3 gate; fingerprint same on rerun"
+   }
+  },
   "boxtrans": {
    "purpose": "並進する箱の中で共動と時計を比べる",
    "objective": "met",
@@ -2045,6 +2057,18 @@
    "en": {
     "purpose": "Apply kF1 to Sirius with the observed masses",
     "state": "the comparison runs are in the ledger"
+   }
+  },
+  "twoBodyOnly3d": {
+   "purpose": "天体が 2 つだけの宇宙で、2 つの天体が互いの引きずりと局所重力をどう決めるかを見る(思考実験の入口)",
+   "objective": "met",
+   "state": "引きずりの比と局所重力の比が質量の比 10 と同じ・共通の並進は相対の位置と速さの差 1e-14 の桁(門 1e-10)・近点の移動の比 1.1100(h/4)・1 + (4/3)η = 1.11019",
+   "evidence": [
+    "tests/out/twobody-w357e.json"
+   ],
+   "en": {
+    "purpose": "See how the two bodies of a two-body universe set each other's drag and local gravity (the entry to the thought experiment)",
+    "state": "drag and local-gravity ratios equal the mass ratio 10; common translation leaves the relative position and speed within 1e-14 (gate 1e-10); apsidal-shift ratio 1.1100 (h/4); 1 + (4/3)eta = 1.11019"
    }
   },
   "binaryCheckEqualInertial3d": {
@@ -3478,6 +3502,18 @@
    ],
    "docs.rotvert339a": [
     "saturnRotVertExplore3d"
+   ],
+   "behavior.boxone357d": [
+    "boxone"
+   ],
+   "docs.boxone357d": [
+    "boxone"
+   ],
+   "behavior.twobody357e": [
+    "twoBodyOnly3d"
+   ],
+   "docs.twobody357e": [
+    "twoBodyOnly3d"
    ]
   },
   "w311c": "第311便c(統括の検証項目 R228): 帰属なしだった 18 本(三次元の慣性決定力の本・三次元の玩具ほか)に、その本を実際に読み込み・受理・步で試験している QA の id を足した(tests/qa.mjs の本文で、その本を loadPreset・allPresets().find・代表の本の並び・本の id の定数で引く行を含む試験 —— 文書の語の照合・世代切替の門・存在だけの言及は根拠にしない。世代で本を切り替える試験は今の世代で読む本に帰属)",
@@ -3485,6 +3521,8 @@
   "w322b": "第322便b(原仮定者の回答 AN499・統括の検証項目 R271): 内蔵の 4 本(♊⚖️🌠🔶 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.binBooks322b —— allPresets().find で本を引き受理・presetSig・60 步のビットを照合・docs.binBooks322b —— 正本の表と本の文の 1 + (4/3)η)",
   "w324a": "第324便a(決断事項 AN513・統括の検証項目 R279): 内蔵の 2 本(🥞🧇 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.geo2thick324a —— allPresets().find で本を引き受理・正準形・回転共変・AN510 の門・保存と復帰・docs.geo2thick324a —— 正本の表と節)",
   "w324b": "第324便b(決断事項 AN514・AN515・統括の検証項目 R280): 内蔵の 2 本(🔸📟 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.obsSpin324b —— allPresets().find で本を引き受理・60 步のビットと源の J の読み口を照合・docs.obsSpin324b —— 正本の表と本の文の数)",
-  "w339a": "第339便a(原仮定者の回答 AN712・統括の検証項目 R355): 内蔵の 1 本(🛟 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.rotvert339a —— allPresets().find で本を引き受理・鍵 ON と鍵 OFF の写しの步・lib との点の照合・docs.rotvert339a —— 正本の表と節)"
+  "w339a": "第339便a(原仮定者の回答 AN712・統括の検証項目 R355): 内蔵の 1 本(🛟 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.rotvert339a —— allPresets().find で本を引き受理・鍵 ON と鍵 OFF の写しの步・lib との点の照合・docs.rotvert339a —— 正本の表と節)",
+  "w357d": "第357便d(統括の検証項目 R525): 内蔵の 1 本(☝️ —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.boxone357d —— allPresets().find で本を引き受理・並進ありと並進を引いた写しの 600 步・走り直しの指紋・保存・docs.boxone357d —— 正本の門と本の文と節)",
+  "w357e": "第357便e(統括の検証項目 R526): 内蔵の 1 本(👥 —— claims なし)に、その本を読み込み・受理・步で試験している QA の id を足した(behavior.twobody357e —— allPresets().find で本を引き受理・数え上げと背景のビット・共通の並進・引きずりと局所重力の比・質量比の列・走り直し・docs.twobody357e —— 正本の門と本の文と節)"
  }
 }
