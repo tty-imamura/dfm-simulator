@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便c",
   "target": "beta/index.html",
-  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-  "generatedAt": "2026-11-21T22:44:11.547Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T14:04:18.448Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708049,
-    "sha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-    "mtime": "2026-11-21T21:46:31.740Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w287c-bgtime.mjs",
     "bytes": 32663,
     "sha256": "037fea50b17960afe8dc2733a79371fb457e8a9783bde6fdc7097f09d664346a",
-    "mtime": "2026-11-19T16:19:54.532Z"
+    "mtime": "2026-11-24T05:41:44.985Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "153ca2c6ec561c5312d4bb71298d04942e0545428f42bec119dbffb784153bb6",
@@ -81,11 +81,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1342,
-   "segments": 1173,
-   "closureShare": 0.2879
+   "names": 1329,
+   "segments": 1160,
+   "closureShare": 0.2801
   },
-  "scopeSha256": "07e2f7e45f02a1e496c1c09f17f336fc0ae10728b4172785c5e5f7b0e2406ab7",
+  "scopeSha256": "8bf6edf0f1c501d349a9eb9b2567bbccb9292e09cd987440b3504d31b3bd0207",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -804,7 +804,7 @@
   "ok": true
  },
  "census": {
-  "nPresets": 187,
+  "nPresets": 189,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -1188,5 +1188,5 @@
   "maxAbsDiff": 0,
   "ok": true
  },
- "elapsedS": 59.353
+ "elapsedS": 40.269
 }
