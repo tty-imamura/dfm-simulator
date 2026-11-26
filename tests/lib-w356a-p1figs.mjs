@@ -3,7 +3,7 @@
 //   (器 tests/exp-w356a-p1figs.mjs が呼ぶ —— html を読まない・ファイルを読まない・状態を持たない)。
 //
 // ■ 何を呼ぶか(在る純関数の lib —— 書き直さない)
-//   第289便a の lib tests/lib-w289a-weakfield.mjs(弱場の係数の検査 —— 法則 (i) 現行 E7R/E8R: 時計 N = e^{−ψ}・屈折率 n = e^{2ψ}・ψ = κW):
+//   第289便a の lib tests/lib-w289a-weakfield.mjs(弱場の係数の検査 —— 法則 (i) 現行 E7R/E8R: 時計 N = e^{−ψ}・屈折率 n = e^{2ψ}・ψ = X_k W):
 //     lawFn('e7r').rate(U)        静止時計の率 N(図 1 の重力の分)
 //     bornDeflectionCoeff('e7r', U_b, θ0, θ1)   直線経路(Born)の偏向の係数 —— θ の範囲を切ると、光が x までに受けた分(図 2)
 //     shapiroCoeff('e7r', U_b, { L1, L2 })      片道のシャピロ遅延の係数と Λ = ∫dx/r(図 3 —— 端点は b を単位に)
@@ -70,7 +70,7 @@ export function dz(x, scale = 1) {
   return Number(x.toFixed(d));
 }
 export const relOf = (a, b) => (b === 0 ? Math.abs(a - b) : Math.abs(a - b) / Math.abs(b));   // b = 0 のときは差そのもの(地上の点の重力の分 0)
-export function logGrid(a, b, n) { const out = []; const la = Math.log(a), lb = Math.log(b); for (let i = 0; i < n; i++) out.push(Math.exp(la + (lb - la) * i / (n - 1))); return out; }
+export function logGrid(a, b, n) { const out = []; const la = Math.log(a), lb = Math.log(b); for (let i = 0; i < n; i++) out.push(i === 0 ? a : i === n - 1 ? b : Math.exp(la + (lb - la) * i / (n - 1))); return out; }   // 端は字のまま(走り直しの尺度で端の点が動かない)
 
 /* ───── 図 1: 時計の遅れの 2 成分(重力と運動)───── */
 /** ψ = GM/(c² r)(点質量・時計の自分の場を除く —— 原稿の A7′) */
@@ -83,14 +83,19 @@ export const A_of = (psi) => Math.exp(psi);
 export function rateOf(psi, v) { const N = N_of(psi), A = A_of(psi); return Math.sqrt(N * N - A * A * v * v / sq(C.c)); }
 /**
  * 衛星(半径 r・速さ v)と地上の時計(R⊕・速さ vg)の 1 日あたりの差 [μs/日]。
- * 重力の分 = (N_衛/N_地 − 1)・運動の分 = ((率_衛/N_衛)/(率_地/N_地) − 1)・合計 = (率_衛/率_地 − 1)。合計 − 重力 − 運動 = 掛け算の交差の項(重力 × 運動)。
+ * 重力の分 g = N_衛/N_地 − 1・運動の分 m = (率_衛/N_衛)/(率_地/N_地) − 1・合計 = 率_衛/率_地 − 1 = (1 + g)(1 + m) − 1・交差の項 = g·m。
+ * **打ち消しを避けて直接に数える**(比 − 1 は 4e-11 の桁 —— 比を作ってから 1 を引くと倍精度で相対 3e-6 を失う):
+ *   g = −oneMinusRate(ψ_衛 − ψ_地)(第289便a の法則 (i) の口 —— N = e^{−ψ} は掛け算で閉じるので N_衛/N_地 = e^{−(ψ_衛 − ψ_地)})・
+ *   ψ_衛 − ψ_地 = −(GM/c²)(1/R − 1/r)(差を式のまま)・m = expm1(½[log1p(−a_衛) − log1p(−a_地)])・a = (A/N)² v²/c² = e^{4ψ} v²/c²。
  */
 export function clockSplit(r, { v = null, vg = I.v_ground, GM = C.G * I.M_E, R = I.R_E } = {}) {
   const vs = v === null ? Math.sqrt(GM / r) : v;
-  const ps = psiOf(GM, r), pg = psiOf(GM, R);
-  const Ns = N_of(ps), Ng = N_of(pg), Rs = rateOf(ps, vs), Rg = rateOf(pg, vg);
-  const k = C.day * 1e6, grav = (Ns / Ng - 1) * k, motion = ((Rs / Ns) / (Rg / Ng) - 1) * k, net = (Rs / Rg - 1) * k;
-  return { r, v: vs, grav, motion, net, cross: net - grav - motion };
+  const ps = psiOf(GM, r), pg = psiOf(GM, R), dpsi = -(GM / sq(C.c)) * (1 / R - 1 / r);
+  const as = Math.exp(4 * ps) * vs * vs / sq(C.c), ag = Math.exp(4 * pg) * vg * vg / sq(C.c);
+  const lnG = -dpsi, lnM = 0.5 * (Math.log1p(-as) - Math.log1p(-ag));
+  const gr = -W.lawFn('e7r').oneMinusRate(dpsi), mr = Math.expm1(lnM), nr = Math.expm1(lnG + lnM);
+  const k = C.day * 1e6;
+  return { r, v: vs, grav: gr * k, motion: mr * k, net: nr * k, cross: gr * mr * k, ratio: { Ns: N_of(ps), Ng: N_of(pg), Rs: rateOf(ps, vs), Rg: rateOf(pg, vg), net1: 1 + nr, grav1: 1 + gr } };
 }
 /** 一次の閉じた形(重力 GM/c²(1/R − 1/r)・運動 −(v² − vg²)/(2c²))[μs/日] */
 export function clockFirst(r, { v = null, vg = I.v_ground, GM = C.G * I.M_E, R = I.R_E } = {}) {
@@ -107,12 +112,13 @@ export function zeroRadius({ vg = I.v_ground, GM = C.G * I.M_E, R = I.R_E } = {}
 export function fig1Data() {
   const D = DECL.fig1, xs = logGrid(D.xMin, D.xMax, D.n);
   const row = (x, vg) => { const r = x * I.R_E, s = clockSplit(r, { vg }), f = clockFirst(r, { vg });
-    return { x, rKm: r / 1e3, vKmS: s.v / 1e3, grav: s.grav, motion: s.motion, net: s.net, cross: dz(s.cross, 1e-6 * 50), relGravFirst: dz(relOf(s.grav, f.grav)), relMotionFirst: dz(relOf(s.motion, f.motion)) }; };
+    return { x, rKm: r / 1e3, vKmS: s.v / 1e3, grav: s.grav, motion: s.motion, net: s.net, cross: s.cross, relGravFirst: dz(relOf(s.grav, f.grav)), relMotionFirst: dz(relOf(s.motion, f.motion)) }; };
   const series = [
-    { id: 'withGround', label: '地上の時計が自転で動く(v_ground = 0.465 km/s —— 入力の表)', vg: I.v_ground, rows: xs.map((x) => row(x, I.v_ground)) },
+    { id: 'withGround', label: '地上の時計が自転で動く(v_ground = 0.465 km/秒 —— 入力の表)', vg: I.v_ground, rows: xs.map((x) => row(x, I.v_ground)) },
     { id: 'groundAtRest', label: '地上の時計を止めて読む(v_ground = 0 —— 照合の表の GPS の行の運動の分 −7.2 の読み)', vg: 0, rows: xs.map((x) => row(x, 0)) },
   ];
-  const gps = { withGround: clockSplit(I.r_GPS), groundAtRest: clockSplit(I.r_GPS, { vg: 0 }), firstWithGround: clockFirst(I.r_GPS), firstGroundAtRest: clockFirst(I.r_GPS, { vg: 0 }) };
+  const strip = (o) => { const { ratio, ...rest } = o; return rest; };
+  const gps = { withGround: strip(clockSplit(I.r_GPS)), groundAtRest: strip(clockSplit(I.r_GPS, { vg: 0 })), firstWithGround: clockFirst(I.r_GPS), firstGroundAtRest: clockFirst(I.r_GPS, { vg: 0 }) };
   const z = { withGround: zeroRadius(), groundAtRest: zeroRadius({ vg: 0 }) };
   return { axes: { x: 'r ÷ R⊕(円の軌道の半径)', y: '衛星 − 地上の時計の進み [μs/日]' }, units: { x: '1', y: 'μs/日' },
     formula: 'dτ/dt = √(N² − A² v²/c²)・N = e^{−ψ}・A = e^{+ψ}・ψ = GM⊕/(c² r)・v = √(GM⊕/r)(原稿の A7′・u = 0)—— N は第289便a の lawFn(\'e7r\').rate',
@@ -185,7 +191,7 @@ export function figGates(F1, F2, F3) {
   add('p1fig.limb.path', 2, '直線からのずれの終点: lib の α の台形の積みが閉じた形と相対 1e-3 の内(格子 61 点の台形 —— 図 4 の門 fig4.analytic の幅 1e-3 にそろえる)', relOf(F2.yTrapEndKm, F2.yClosedEndKm), 1e-3, 'fig4', relOf(F2.yTrapEndKm, F2.yClosedEndKm) <= 1e-3);
   // 図 3
   const s3max = Math.max(...F3.rows.map((r) => r.relLibClosed)), rt = F3.rows.every((r) => r.roundTripUs === 2 * r.oneWayUs);
-  add('p1fig.shapiro.closed', 3, '片道(lib の求積)が閉じた形 (2μ/c)(asinh(x₂/b) + asinh(|x₁|/b)) と相対 1e-6 の内(格子の全点)', s3max, FL, 'floor289a', s3max <= FL);
+  add('p1fig.shapiro.closed', 3, '片道(lib の求積)が閉じた形 (2μ/c)(asinh(x₂/b) + asinh(abs(x₁)/b)) と相対 1e-6 の内(格子の全点)', s3max, FL, 'floor289a', s3max <= FL);
   add('p1fig.shapiro.roundTrip', 3, '往復 = 片道の 2 倍(作りで等しい —— 全点で厳密に)', null, 0, 'exact', rt);
   add('p1fig.shapiro.printed', 3, 'b = R☉ の往復(原稿の式)が原稿の印字 ≈281 μs の最後の桁の半分の内', F3.rows[0].printedFormUs, P.shapiro.half, 'cand', Math.abs(F3.rows[0].printedFormUs - P.shapiro.v) <= P.shapiro.half);
   add('p1fig.shapiro.mono', 3, '往復は b とともに単調に減る(格子の全点)', null, null, 'exact', F3.rows.every((r, i) => i === 0 || r.roundTripUs < F3.rows[i - 1].roundTripUs));
@@ -195,7 +201,7 @@ export function figGates(F1, F2, F3) {
 export function printedCheck(F1, F2, F3) {
   const P = PRINTED, row = (q, model, extra = {}) => ({ q, printed: P[q].v, unit: P[q].unit, where: P[q].where, model, relDiff: dz((model - P[q].v) / Math.abs(P[q].v)), within: Math.abs(model - P[q].v) <= P[q].half, ...extra });
   return [
-    row('gpsNet', F1.gps.groundAtRest.net, { alt: F1.gps.withGround.net, altNote: '地上の時計を自転で動かす(v_ground = 0.465 km/s —— 入力の表に在る字)と' }),
+    row('gpsNet', F1.gps.groundAtRest.net, { alt: F1.gps.withGround.net, altNote: '地上の時計を自転で動かす(v_ground = 0.465 km/秒 —— 入力の表に在る字)と' }),
     row('gpsGrav', F1.gps.withGround.grav),
     row('gpsMotion', F1.gps.groundAtRest.motion, { alt: F1.gps.withGround.motion, altNote: '地上の時計を自転で動かすと' }),
     row('limb', F2.totalArcsec),
@@ -213,7 +219,7 @@ export function pureScenes() {
     born: { mine: alphaUpTo(1e9, U) / U, lib: W.bornDeflectionCoeff('e7r', U) },
     shapiro: (() => { const P = { L1: 215, L2: 1812 }, a = W.shapiroCoeff('e7r', U, P); return { lib: a.coeff, Lambda: a.Lambda, LambdaClosed: Math.asinh(215) + Math.asinh(1812) }; })(),
     clockCoeff: W.clockCoeff('e7r'),
-    split: (() => { const s = clockSplit(I.r_GPS); return { prod: (1 + s.grav / 8.64e10) * (1 + s.motion / 8.64e10), net: 1 + s.net / 8.64e10 }; })(),
+    split: (() => { const s = clockSplit(I.r_GPS); return { rateRatio: s.ratio.Rs / s.ratio.Rg, net1: s.ratio.net1, nRatio: s.ratio.Ns / s.ratio.Ng, grav1: s.ratio.grav1, cross: s.cross, netMinus: s.net - s.grav - s.motion }; })(),
     restZero: clockSplit(I.R_E),
     floor: W.FLOOR,
   };
@@ -225,7 +231,7 @@ export function pureGates(S) {
     bornLib: r9(S.born.mine, S.born.lib) && Math.abs(S.born.lib - 4) <= 1e-9,
     shapiroLambda: r9(S.shapiro.Lambda, S.shapiro.LambdaClosed) && Math.abs(S.shapiro.lib - 2) <= 1e-5,
     clockCoeff: Math.abs(S.clockCoeff - 1) <= W.FLOOR,
-    splitProduct: r9(S.split.prod, S.split.net),
+    splitRatio: Math.abs(S.split.rateRatio - S.split.net1) <= 4e-16 && Math.abs(S.split.nRatio - S.split.grav1) <= 4e-16 && Math.abs(S.split.netMinus - S.split.cross) <= 1e-12,
     restZero: S.restZero.grav === 0 && Math.abs(S.restZero.net - S.restZero.motion) <= 1e-12,
     floor: S.floor === 1e-6,
   };
