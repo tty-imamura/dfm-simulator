@@ -1924,6 +1924,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便g の塊(ここから)====
+# 第356便g(統括の検証項目 R519 —— 文書と検査だけ・html は変えない): 枝 g の新設 1 本(docs.docfix356g —— 高校生向けの解説の水星の項を現象の状況一覧の字に・
+#   CI の時間の上限の訂正の鎖の表と ci.yml の実物・🔥 gas の「達」の読み・本節と AI_SPEC §411・書かない語・変異の自己試験 8 種)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.docfix356g"
+# ==== 第356便g の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

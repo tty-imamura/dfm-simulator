@@ -133487,6 +133487,56 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便i の塊(ここまで)====
+// ==== 第356便g の塊(ここから —— docs.docfix356g の 1 ブロック。beta・root の両方で走る)====
+// ---- 第356便g(統括の検証項目 R519): **文書の直し**(文書と検査だけ —— html は変えない)。
+// ----   docs.docfix356g(本体は tests/lib-w356g-docfix.mjs の checkDocfix —— 純関数): ① 高校生向けの解説(日本語・英語)の水星の項 —— 古い言い方
+// ----     (E12 の拡張をオンにしたときだけ出る)が無い・現象の状況一覧の P01 の字とサンプルの状況の 🌡️ ☿ の行の字が項に同じ字で在る・公転と追加の近点の移動の小項・
+// ----     結果を言う語と旧記号が無い ② CI の時間の上限の訂正の鎖の表と ci.yml の job qa(root・beta の matrix・job の上限)の実物
+// ----     ③ サンプルの状況の「読み方」の「達」の字と 🔥 gas の目的・状況の字が PHYSICS〔第356便g〕に逐語 ④ 節の位置・AI_SPEC §411・post-merge の塊・書かない語・変異の自己試験 8 種。
+{
+  await (async () => {
+  const rd356g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  {
+    const bad = [], cases = [];
+    try {
+      const D = await import('file://' + path.join(ROOT, 'tests', 'lib-w356g-docfix.mjs'));
+      if (!/^w356g-docfix-lib-\d+$/.test(D.DOC_LIB_VERSION)) bad.push('文書の lib の版の名の型');
+      let srcEn = null;
+      try { const SJ = JSON.parse(rd356g('tests/data-w279a-samplestatus-src.json') || '{}'); srcEn = { mercury: SJ.mercury && SJ.mercury.en }; } catch (e) { bad.push('サンプルの状況の原稿が読めない'); }
+      const F = { explJa: rd356g('docs/EXPLAINER_HIGHSCHOOL.md') || '', explEn: rd356g('docs/EXPLAINER_HIGHSCHOOL_EN.md') || '', phen: rd356g('docs/PHENOMENA_STATUS.md') || '',
+        status: rd356g('docs/SAMPLE_STATUS.md') || '', physics: rd356g('docs/PHYSICS.md') || '', aispec: rd356g('docs/AI_SPEC.md') || '', postmerge: rd356g('tools/post-merge-qa.sh') || '',
+        ci: rd356g('.github/workflows/ci.yml') || '', changelog: rd356g('CHANGELOG.md') || '', statusSrcEn: srcEn };
+      const R = D.checkDocfix(F);
+      for (const b of R.bad) bad.push(b);
+      for (const c of R.cases) cases.push(c);
+      // 変異の自己試験(種が無い変異は空振りとして落とす)
+      const w = (k, a, b) => Object.assign({}, F, { [k]: String(F[k]).replace(a, b) });
+      const MUT = [
+        ['解説に古い言い方を戻す', w('explJa', '- ⚠️ 水星は、', '- ⚠️ E12 測地線モードをオンにしたときだけ出ます。水星は、'), /^① 解説\(日本語\)に古い言い方/],
+        ['英語の解説に古い言い方を戻す', w('explEn', '- ⚠️ For Mercury, read', '- ⚠️ Only the explicit E12 geodesic extension produces it. For Mercury, read'), /^① 解説\(英語\)に古い言い方/],
+        ['解説の数を 1 字変える', w('explJa', 'K1 の引きずりの分 +71.63″/世紀', 'K1 の引きずりの分 +71.64″/世紀'), /^① 解説\(日本語\)の水星の項に一覧の字/],
+        ['一覧の P01 の段階を変える', w('phen', '| P01 | 水星の近点移動(1PN の約 43″/世紀) | 門の内 |', '| P01 | 水星の近点移動(1PN の約 43″/世紀) | 一部 |'), /^① 解説\(日本語\)の段階/],
+        ['解説の小項を 1 つにまとめる', w('explJa', '\n  - 追加の近点の移動: ', ' 追加の近点の移動は、'), /^① 解説\(日本語\)が公転と追加/],
+        ['ci.yml の matrix から root を外す', w('ci', '          - name: root\n            target: index.html\n', ''), /^② ci\.yml/],
+        ['節の「達」の定義の字を 1 字変える', w('physics', '「根拠に挙げた保存 QA(', '「根拠に挙げた保存の QA('), /^③ 節に「達」の定義/],
+        ['本節に製品の名', w('physics', '**⑤ 言わないこと。** 解説の直しは', '**⑤ 言わないこと。** ' + ['Son', 'net'].join('') + ' 解説の直しは'), /^④ 書かない語/],
+      ];
+      const sc = [];
+      for (const [nm, Fm, re] of MUT) {
+        if (JSON.stringify(Fm) === JSON.stringify(F)) { bad.push('変異「' + nm + '」の種が無い(空振り)'); sc.push(nm + ' → 空振り'); continue; }
+        const r = D.checkDocfix(Fm), hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.docfix356g', bad.length === 0,
+      `**文書の直し**(第356便g・R519 —— 高校生向けの解説の水星の仕組みの説明を現象の状況一覧の字に・CI の時間の上限の訂正の鎖・🔥 gas の「達」の読み): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第356便g の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
