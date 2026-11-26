@@ -1930,6 +1930,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 #   docs.drageos356d —— 原文と引きずりの口の表と表と数の文が PHYSICS〔第356便d〕に逐語・PAPER_PLAN の表 6d・文書)と、新しい段 drageos-356d
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.drageos356d docs.drageos356d"
 # ==== 第356便d の塊(ここまで)====
+# ==== 第356便i の塊(ここから)====
+# 第356便i(統括の検証項目 R521 —— 診断と文書だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.dragbox356i —— 零試験 12・零試験と周期の箱の (T) と (T+S1) の 1 点と門の 2 行を第338便c の recheckRun で作り直して正本と照合・冪と比と印を QA の中で別に書いた式で照合 /
+#   docs.dragbox356i —— 原文と表と数の文が PHYSICS〔第356便i〕に逐語・PAPER_PLAN の表 6e・文書)と、新しい段 dragbox-356i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragbox356i docs.dragbox356i"
+# ==== 第356便i の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

@@ -3618,6 +3618,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/drageos-356d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
     note: '第356便d: 零試験 12/近づく 2 粒 × 条件 8 × 衝突径数 4 × 刻み 2/箱の圧力と 3 つの冪 × 条件 8 × 刻み 2/粒 216 × 5/ノブ 13/熱を生まないことの検査 24/刻みの比べ 8/比べる列 2' }),
   // ==== 第356便d の塊(ここまで)====
+  // ==== 第356便i の塊(ここから)====
+  // ---- 第356便i(統括の検証項目 R521): **論文 5 の「斥力に見えたのは引きずり」の診断の第 2 ラウンド —— 壁の作りに依らない測り方で数え直す器**(周期の箱〔面を横切る運動量の流れ・並進の運動の圧力〕・
+  //   粒 216 の周期の箱・壁を引きずる側の源として重みに入れる箱・並進引きずりの係数・熱を生まないことの検査・種 3 本と刻み h・h/2)
+  //   (段 dragbox-356i —— 正本 tests/out/dragbox-356i.json・lib tests/lib-w356i-dragbox.mjs —— 第356便d・第355便g・第337便e の lib を呼ぶ。入力のファイルは第356便d の正本 1 つ〔壁の箱と近づく 2 粒の数を読むだけ〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・約 7〜8 分(尺度の走り直し 3 回)
+  S('dragbox-356i', 'node tests/exp-w356i-dragbox.mjs', ['tests/out/dragbox-356i.json'], 480, { secSource: 'w356i-branch', node: true,
+    after: ['drageos-356d', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // drageos-356d は壁の箱の数の入力。ほかは順序だけ(第356便d の段と同じ —— import する第337便e の lib の閉包)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/dragbox-356i.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第356便i: 零試験 12/周期の箱 × 条件 6 × 種 3 + 刻み h/2/並進引きずりの係数 2 × 種 3 + 刻み h/2/粒 216 × 3/壁を源に × 3 × 種 3 + 刻み h/2 と M_w 100 の点 2/熱を生まないことの検査 15/第356便d の壁の箱と近づく 2 粒' }),
+  // ==== 第356便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

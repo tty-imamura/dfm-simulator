@@ -138,7 +138,10 @@ export function simulatePBC(cfg) {
   }
   const tMeas = nMeas * dt, A = c.nPlane * L * L * Dm, V = L * L * L;
   const P = flux / (tMeas * A), Psigned = fluxS / (tMeas * A), Pkin = N * H.kinT(v, N, Dm, m) / V;
-  return { N, L, rho, T: c.T, k: c.k, P, Psigned, Pkin, ratio: P / Pkin, cross: nCross, vCoord: sCoord / sInert, nMeas,
+  // 芯に居る粒の割合(終わりに、最近の像で d★ × 1.05 の内に相手が居る粒 —— d★ = 1 ÷ √w_ii・2 粒の座標の相対の速さが 0 になる距離)
+  const dCore = 1.05 / Math.sqrt(prm.selfW); let nCore = 0;
+  for (let i = 0; i < N; i++) { for (let j = 0; j < N; j++) { if (j === i) continue; let dd = 0; for (let ax = 0; ax < Dm; ax++) { let t = x[3 * i + ax] - x[3 * j + ax]; t -= L * Math.round(t / L); dd += t * t; } if (dd < dCore * dCore) { nCore++; break; } } }
+  return { N, L, rho, T: c.T, k: c.k, P, Psigned, Pkin, ratio: P / Pkin, cross: nCross, vCoord: sCoord / sInert, nMeas, coreFrac: nCore / N,
     ke0, ke1: KE(), tint0, tint1: sum(Tin), es0, es1: spinE(), x: c.keepX ? Array.from(x) : undefined };
 }
 
@@ -189,7 +192,7 @@ export function simulateWallSrc(cfg) {
 export function point(box, spec, rho, T, o = {}) {
   const N = o.N || 64, L = o.L || H.boxL(N, rho, 3), hf = o.hf || 1, k = o.k || 0;
   const base = { N, L, k, steps: DECL.steps * hf, warm: DECL.warm * hf, dt: DECL.h / hf };
-  if (box === 'pbc') { const r = simulatePBC(Object.assign({}, spec, base, { T })); return { rho: r.rho, T, N, L, P: r.P, Psigned: r.Psigned, Pkin: r.Pkin, ratio: r.ratio, vCoord: r.vCoord, cross: r.cross }; }
+  if (box === 'pbc') { const r = simulatePBC(Object.assign({}, spec, base, { T })); return { rho: r.rho, T, N, L, P: r.P, Psigned: r.Psigned, Pkin: r.Pkin, ratio: r.ratio, vCoord: r.vCoord, cross: r.cross, coreFrac: r.coreFrac }; }
   const r = simulateWallSrc(Object.assign({}, spec, base, { Tint: T, Ttr: T }));
   return { rho: r.rho, T, N, L, P: r.P, Pkin: r.Pkin, ratio: r.P / r.Pkin, Ttr: r.TtrMeas };
 }
@@ -203,7 +206,7 @@ export function powers(box, spec, o = {}) {
   const L0 = H.boxL(N0, rMid, 3), pn = nScan.map((N) => point(box, spec, N / Math.pow(L0, 3), 1, { N, L: L0, hf, k }));
   const tAll = [pt[0], pr[1], pt[1]], nAll = [pn[0], pr[1], pn[1]];
   const aBox = H.slope(pr.map((p) => p.rho), pr.map((p) => p.P)), aN = H.slope(nAll.map((p) => p.rho), nAll.map((p) => p.P)), aT = H.slope(tAll.map((p) => p.T), tAll.map((p) => p.P));
-  const pk = (p) => { const q = { rho: p.rho, T: p.T, N: p.N, P: p.P, Pkin: p.Pkin, ratio: p.ratio }; if (p.Psigned !== undefined) { q.Psigned = p.Psigned; q.vCoord = p.vCoord; } return q; };
+  const pk = (p) => { const q = { rho: p.rho, T: p.T, N: p.N, P: p.P, Pkin: p.Pkin, ratio: p.ratio }; if (p.Psigned !== undefined) { q.Psigned = p.Psigned; q.vCoord = p.vCoord; q.coreFrac = p.coreFrac; } return q; };
   return { rhoPts: pr.map(pk), tPts: tAll.map(pk), nPts: nAll.map(pk), aBox, aN, aT, pMid: pr[1].P, ratioMid: pr[1].ratio };
 }
 /** 種の散り: 値の列 → { mean, half(最大 − 最小 の半分), vals } */
@@ -247,7 +250,7 @@ export function pureScenes() {
   // y9: 周期の箱で、座標変換の口は慣性の運動エネルギー・内部の温度・スピンのエネルギーを変えない(条件 5 —— 丁度 0)・初めは (T) と同じ
   { const L9 = H.boxL(27, 0.08, 3), base = simulatePBC({ N: 27, L: L9, T: 1, steps: 200, warm: 0 });
     z.y9 = [['TD', 'S1', 1], ['TS', 'S1', 1], ['TS', 'S1', -1], ['TS', 'S2', 1], ['TDS', 'S1', 1]].map(([cond, sKind, spin]) => { const r = simulatePBC({ N: 27, L: L9, T: 1, steps: 200, warm: 0, cond, sKind, spin });
-      return { dKE: r.ke1 - r.ke0, dT: r.tint1 - r.tint0, dEs: r.es1 - r.es0, keSame: r.ke0 === base.ke0 && r.es0 === base.es0 }; }); }
+      return { dKE: r.ke1 - r.ke0, dT: r.tint1 - r.tint0, dEs: r.es1 - r.es0, keSame: near(r.ke0, base.ke0, 1e-12) && near(r.es0, base.es0, 1e-12) }; }); }   // 尺度の走り直しでは Math の関数の戻り値がずれるので相対 1e-12 で(同じ走りの中では丁度同じ —— 器の門)
   // y10: 係数 0 の周期の箱は (T) と同じ数
   { const L10 = H.boxL(27, 0.08, 3); z.y10 = { a: simulatePBC({ N: 27, L: L10, T: 1, steps: 300, warm: 100, cond: 'TDS', cD: 0, cS1: 0, cS2: 0 }).P, b: simulatePBC({ N: 27, L: L10, T: 1, steps: 300, warm: 100 }).P }; }
   // y11: ガリレイの変換(周期の箱)—— 全部の速さに同じ速さを足しても (D) は変わらない
