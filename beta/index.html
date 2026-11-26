@@ -2031,6 +2031,8 @@ ja: {
   importReport:(a,s,r,b)=>"インポート: 追加"+a+"件"+(s?" / 同一パラメータのためスキップ"+s+"件":"")+(r?" / 名前重複にサフィックス"+r+"件":"")+(b?" / 不正"+b+"件":""),
   // 第86便(外部レビュー P0-3): 旧コア形式(コアv1)からの移行を伴うインポートの情報表示
   migratedNote:"⚠ この構成は旧コア形式から変換済み(初期状態は互換・軌跡は旧版と一致しない場合あり)",
+  // AN1066: 旧い視点の約束(既定の視点 θ=−90 —— +y が画面の下)の版で書き出した本で、一様重力 gravityY が 0 でないものの案内(値は変えない)
+  legacyViewNote:(n)=>"⚠ 旧い視点の約束で作られた本です"+(n>1? "("+n+" 件)" : "")+" —— 既定の視点では上下が逆に見えます(視点の傾き θ を −90° にすると当時の見え方になります。値は変えていません)",
   btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
@@ -3394,6 +3396,8 @@ en: {
   importReport:(a,s,r,b)=>"Import: "+a+" added"+(s?" / "+s+" skipped (identical parameters)":"")+(r?" / "+r+" renamed (duplicate name)":"")+(b?" / "+b+" invalid":""),
   // 第86便(外部レビュー P0-3): 旧コア形式(コアv1)からの移行を伴うインポートの情報表示
   migratedNote:"⚠ This configuration was converted from the legacy core format (initial state is compatible; the trajectory may differ from the old version)",
+  // AN1066: notice for items exported under the old view convention (default view θ=−90 —— +y pointing down) with a nonzero uniform gravity gravityY (no values change)
+  legacyViewNote:(n)=>"⚠ "+(n>1? n+" items were" : "This item was")+" made under the old view convention — it looks upside down in the default view (set View tilt θ to −90° for the original look; no values were changed)",
   btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
@@ -6962,7 +6966,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
                // cLight を全件明示しているため挙動不変 — 効くのは cLight 省略の手書き/外部 JSON のみ
   bM:1, etaRad:0, pRad:4,
   cHeat:1,   // 第36便 D(台帳4-51): 熱容量係数 C(E_int = C·m·T_int)。thermal:"tint" のときだけ効く
-  gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き —— 第346便c: 視点の既定 θ=+90 では +y は画面の上・下向きは負)
+  gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。力は +y の向きに gravityY —— 第346便c: 視点の既定 θ=+90 では +y は画面の上・画面の下向きは負〔旧注「+yは画面下向き」は θ=−90 の時の文〕)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1,   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
   dispMag:1 };   // 第118便(原仮定者指示): 粒子表示倍率(描画半径のみ×dispMag — 表示専用・力学不変)
@@ -30405,7 +30409,7 @@ function normThermalWalls(world, thermal){
 }
 // 第94便(原仮定者指示): 箱境界の壁別反発係数 — world.wallRest:{bottom,top,left,right}(各0..1)。
 // 省略した面・キー自体の省略は従来の 0.95(= 既存全プリセットの軌道は 1 ビットも変わらない)。
-// 面の並びは TWALL_SIDES と同一(bottom=y=+size が画面下)。boundary:"box" 以外では参照されない
+// 面の並びは TWALL_SIDES と同一(bottom=y=+size —— 名は θ=−90 の時の画面下・既定の視点 θ=+90 では画面の上)。boundary:"box" 以外では参照されない
 const WALL_REST_DEF=0.95;
 function normWallRest(world){
   const out=[WALL_REST_DEF,WALL_REST_DEF,WALL_REST_DEF,WALL_REST_DEF];
@@ -31972,7 +31976,8 @@ function makeSim(){
     // 第37便 C1(台帳4-70): 伝熱作用する箱 — world.thermalWalls を内部表現へ正規化する。
     // 有効条件は boundary:"box" かつ thermal:"tint" のときだけ(validatePreset も同条件で警告つき
     // 無視する。内蔵プリセットはバリデータを通らないので、ここが最終的な門番になる)。
-    // 面の向き: bottom = y=+size(画面下・+y が下向き)、top = y=−size、left = x=−size、right = x=+size。
+    // 面の向き: bottom = y=+size、top = y=−size、left = x=−size、right = x=+size。名は視点の傾き θ=−90(+y が画面の下)の時の上下で、
+    // 既定の視点 θ=+90 では bottom が画面の上・top が画面の下に見える(鍵の名と添字は変えない —— 呼び名は panel 側が画面の上下で付ける)。
     // 省略した面・mode:"adiabatic" は断熱(現行どおり反射のみ・熱交換なし)
     S.twall = normThermalWalls(S.world, S.thermal);
     // 第94便(原仮定者指示): 壁別反発係数(既定 [0.95,0.95,0.95,0.95] — 従来と bit 不変)
@@ -41619,7 +41624,7 @@ function drawThermalWallBox(S, mx, my){
     ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
   };
   // 面の向き・並びは normThermalWalls と同一(S.twall は TWALL_SIDES=[bottom,top,left,right]
-  // 順の配列。bottom=y=+size が画面下)
+  // 順の配列。bottom=y=+size —— θ=−90 で画面下・既定の θ=+90 では画面の上)
   seg(mx(-s),my(+s),mx(+s),my(+s),tw[0]);   // bottom
   seg(mx(-s),my(-s),mx(+s),my(-s),tw[1]);   // top
   seg(mx(-s),my(-s),mx(-s),my(+s),tw[2]);   // left
@@ -47173,6 +47178,32 @@ function noteMigration(fromSchema){
   try{ localStorage.setItem("hp_migration",JSON.stringify(v)); }catch(e){}
   return v;
 }
+// AN1066(原仮定者の回答(2026-11-25)「AN1066: 案内だけ出す」): **旧い視点の約束の本の案内**(表示だけ —— 本の数は 1 つも変えない・自動の鏡映はしない)。
+//   視点の既定を θ=−90 → +90 に改めた版(第346便c —— beta "v1.47-b346"・公開版 v1.47.0〔第349便〕)より前に書き出した封筒の中に、
+//   gravityY が 0 でない本(カスタムの本・セーブ)が在れば、取り込みの通知に 1 文を足す(視点の傾きは端末の保存で封筒に入らない —— 見分けは書き出しの版の印)。
+//   見分け(legacyViewEnvOf): 封筒の appBuild —— β "v<線>-b<便>" は便 <346、公開版 "v<版>" は版 <1.47 を旧いとする。appBuild が無く appVersion か
+//   schemaVersion が在る封筒(第53便より前の書き出し)も旧い。封筒の無い形(単独の本・配列・AI の返答)と、読めない形の appBuild は見分けない(案内しない)。
+const LEGACY_VIEW_BETA_WAVE=346, LEGACY_VIEW_ROOT_VER=[1,47];
+function legacyViewEnvOf(d){
+  if(!d || typeof d!=="object" || Array.isArray(d)) return false;
+  const verLt=(a,b)=> a<LEGACY_VIEW_ROOT_VER[0] || (a===LEGACY_VIEW_ROOT_VER[0] && b<LEGACY_VIEW_ROOT_VER[1]);
+  if(typeof d.appBuild==="string"){
+    const s=d.appBuild.trim();
+    let m=/^v(\d+)\.(\d+)-b(\d+)$/.exec(s); if(m) return (+m[3])<LEGACY_VIEW_BETA_WAVE;
+    m=/^v(\d+)\.(\d+)(?:\.\d+)?$/.exec(s); if(m) return verLt(+m[1], +m[2]);
+    return false;
+  }
+  if(d.appBuild!==undefined) return false;
+  return (typeof d.appVersion==="string" && d.appVersion.trim()!=="") || isNum(d.schemaVersion);
+}
+// 封筒の中の gravityY≠0 の本の数(カスタムの本の physics とセーブの physics —— 入力のまま数える。値は読むだけ)
+function legacyViewGravCount(co){
+  let n=0;
+  const g=(o)=>{ const p=(o && typeof o==="object")? o.physics : null; return !!(p && typeof p==="object" && isNum(p.gravityY) && p.gravityY!==0); };
+  for(const c of (co && co.customPresets)||[]) if(g(c)) n++;
+  for(const s of (co && co.saves)||[]) if(g(s)) n++;
+  return n;
+}
 function exportData(){
   // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
   // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
@@ -47411,11 +47442,13 @@ function doImportText(text){
   if(migFrom!==null){ noteMigration(migFrom); migNote=true; }
   else if(impMig){ noteMigration(impMig.fromSchema); migNote=true; }
   if(migNote) msg+=" / "+T("migratedNote");
+  const legacyViewN=legacyViewEnvOf(d)? legacyViewGravCount(co) : 0;   // AN1066: 旧い視点の約束の本の案内(表示だけ —— 値は変えない)
+  if(legacyViewN>0) msg+=" / "+T("legacyViewNote")(legacyViewN);
   if(corrected) msg+=" "+T("importCorrected");   // 第178便: 記号の補正で読めた場合は必ず告げる
   if(modeImp.length) msg+=" / "+T("modeWarnHeadImport")(modeImp.length, modeImp[0].name)+modeIssueText(modeImp[0].mi);   // 第295便a(R153)
   // 第327便d(原仮定者の回答(2026-11-05 —— AN544)): 物理対応ロックの告知(クランプの ⚠ を先に・他の本は件数)
   if(xkImp.length){ const xs=xkImp.slice().sort((a,b)=>(b.indexOf("⚠")===0)-(a.indexOf("⚠")===0)); msg+=" / "+xs[0]+(xs.length>1? " (+"+(xs.length-1)+")" : ""); }
-  notify(msg, (modeImp.length || xkImp.some((x)=>x.indexOf("⚠")===0))? 9000 : (bad>0||migNote||corrected||xkImp.length)?6000:3000);
+  notify(msg, (modeImp.length || xkImp.some((x)=>x.indexOf("⚠")===0))? 9000 : (bad>0||migNote||corrected||xkImp.length||legacyViewN>0)?6000:3000);
 }
 $("#btnImport").addEventListener("click",()=>doImportText($("#ioArea").value));
 // v1.17: ファイルから読込 — 選択したJSONをテキストボックスへ反映してからインポート
@@ -47443,7 +47476,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
-- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
+- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ時空係数 X_k(kappaT)で決まり、X_k が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き X_k を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
@@ -47454,7 +47487,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - 光を曲げる・ブラックホール: rays + 時空係数 X_k(kappaT)0.017〜0.025 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
 - 加熱・冷却: ヒーター=pinned 高スピン(8〜12)の列、冷却板=pinned スピン0 の列。系全体を冷やすなら etaRad 0.005〜0.05。
 - 銀河・渦巻き・円盤: 中心 single(質量500〜2000)+ disk vMode:"kepler" aroundMass=中心質量。
-- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面)。自己重力は G=0〜0.05。
+- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面。面の名は y の向きで付いていて、既定の視点では top が画面の下・bottom〔y=+size〕が画面の上に見える)。自己重力は G=0〜0.05。
 
 # スケールタグと表示換算(表示専用 — 物理は不変)
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
