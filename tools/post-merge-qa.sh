@@ -1976,6 +1976,38 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.docfix356g"
 #   docs.corot356h —— 原文と読みと量の定義と表と数の文が PHYSICS〔第356便h〕に逐語・構成案の論文 4 の ⑨)と、新しい段 corot-356h
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
 # ==== 第356便h の塊(ここまで)====
+# ==== 第357便a の塊(ここから)====
+# 第357便a(原仮定者の回答(2026-11-25)・統括の検証項目 R522 —— 説明文と注と取り込みの通知だけ・本の値は変えない): 枝 a の新設 3 本
+#   (ai.gravitySign357a —— SYSTEM_PROMPT の一様重力の目安が符号つき・面の名の 1 文・AI_SPEC §5 と短いページに逐語 /
+#   behavior.legacyViewNote357a —— 旧い封筒の見分けの表・取り込みの通知・本の値が新しい印の時と同じ・変異の自己試験 / docs.deferred357a —— PHYSICS〔第357便a〕・AI_SPEC §414・本塊)と、
+#   SYSTEM_PROMPT と I18N を読む既存の鍵(prompt.spec-sync・params.i18n316・lint.uiText316)と、短いページの写しを見る docs.aichat355h。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.gravitySign357a behavior.legacyViewNote357a docs.deferred357a prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h"
+# ==== 第357便a の塊(ここまで)====
+# ==== 第357便b の塊(ここから)====
+# 第357便b(原仮定者の回答(2026-11-25)・統括の検証項目 R523 —— 画面と結線と文書と検査だけ・エンジンと本の値は変えない): 枝 b の新設 3 本
+#   (lint.noApiRoute357b —— アプリの中の生成を外した版の戻り止め〔宛先・外へ送る呼び出し・保存領域の名・画面の口・HP の名・I18N・変異の自己試験 —— 持つ版の root では事実を書いて PASS〕 /
+#   behavior.apiKeyCleanup357b —— 保存済みのキーの掃除〔固定の 10 個・beta の道では自動で走らない・公開版の道を模すと消える〕 / docs.apiRemoval357b —— PHYSICS〔第357便b〕・AI_SPEC §415・文書・本塊)と、
+#   外した版で「無いことを見る」形に書き換えた既存の鍵 7 本と、I18N・文書を読む既存の鍵(params.i18n316・lint.uiText316・prompt.spec-sync・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.noApiRoute357b behavior.apiKeyCleanup357b docs.apiRemoval357b ai.modelList ai.schema-validation ai.ui-unified ai.payload-preview ai.help-collapsed behavior.xkClampShown327d behavior.xkExemptScope327d params.i18n316 lint.uiText316 prompt.spec-sync docs.aichat355h behavior.aichatIntake355h"
+# ==== 第357便b の塊(ここまで)====
+# ==== 第357便c の塊(ここから)====
+# 第357便c(原仮定者の指示(2026-11-25)・統括の検証項目 R524 —— 画面と文と検査と文書だけ・エンジンと本の値は変えない): 枝 c の新設 3 本
+#   (ai.chatButtons357c —— AI のタブの対話式の入口〔プロンプトの字 = README の節・リンク・並び・伝える文・クリップボードの無い所〕 /
+#   behavior.intakeText357c —— 取り込みの画面の文 3 つと取り込む値〔Node の vm〕 / docs.chatButtons357c —— PHYSICS〔第357便c〕・AI_SPEC §416・README と入口のページの段・本塊)と、
+#   書き換えた既存の鍵(ai.ui-unified・lint.noApiRoute357b)と、AI のタブを読む既存の鍵(ai.help-collapsed・ui.aitab-no-hscroll・ai.unified-prompt・prompt.spec-sync・params.i18n316・lint.uiText316・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c ai.ui-unified lint.noApiRoute357b ai.help-collapsed ui.aitab-no-hscroll ai.unified-prompt prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h behavior.aichatIntake355h"
+# ==== 第357便c の塊(ここまで)====
+# ==== 第357便g の塊(ここから)====
+# 第357便g(原仮定者の報告(2026-11-26)・統括の検証項目 R527 —— 観測レコードの道の組み立てだけ・エンジンと内蔵の本は変えない): 枝 g の新設 2 本
+#   (behavior.obsGeo3_357g —— 観測レコードの道の既定が在位の惑星の本と同じ規則の形〔族の題材 8・鍵と値・受理器の拒否 0・自己診断・合わせた値 0・前の形の道・変異 6 —— Node だけ〕 /
+#   docs.obsGeo3_357g —— PHYSICS〔第357便g〕・AI_SPEC §419・本塊・書かない語)と、前の形の道を名指しする形にした既存の鍵・観測レコードの道の既定を読む既存の鍵・SYSTEM_PROMPT の写しを見る鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsGeo3_357g docs.obsGeo3_357g behavior.alphaCenAB behavior.siriusAB behavior.psrDoubleAB ai.obs-build ai.obs-freecenter ai.obs-binary ai.obs-schema ai.obs-name-unicode ai.obs-demote ai.obs-inclination behavior.aichatIntake355h behavior.intakeText357c prompt.spec-sync prompt.schema-sync"
+# ==== 第357便g の塊(ここまで)====
+# ==== 第357便h の塊(ここから)====
+# 第357便h(原仮定者の報告(2026-11-26)・統括の検証項目 R528 —— 文と表示と検査と文書だけ): 枝 h の新設 2 本(ai.chatHints357h —— 出来た本の geoPN の 1 行・手順の 1 文 /
+#   docs.chatHints357h —— PHYSICS〔第357便h〕・AI_SPEC §420・入口のページと README の足した行・本塊)と、AI のタブと入口のページを読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatHints357h docs.chatHints357h ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c docs.aichat355h behavior.aichatIntake355h ai.ui-unified ui.aitab-no-hscroll params.i18n316 lint.uiText316"
+# ==== 第357便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

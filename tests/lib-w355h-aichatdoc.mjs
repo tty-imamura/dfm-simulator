@@ -2,9 +2,11 @@
 // 呼び手(qa.mjs)がファイルの字と docs/ のファイル名の集合を渡す。変異の自己試験も同じ関数に渡す。
 // 写しの検査は、道具 tools/aispec-core.mjs とは別に書いた切り方で比べる(同じ式の写しを 2 か所に持たない —— 道具が壊れても検査は残る)。
 
-export const DOC_LIB_VERSION = 'w355h-aichatdoc-lib-1';
+export const DOC_LIB_VERSION = 'w355h-aichatdoc-lib-3';   // 第357便b: 1 → 2(API 方式の 1 行を「廃止の予定」から「外した」へ)・第357便c: 2 → 3(本節の範囲を次の節の見出しまでに —— 後の便の節の字を本節として読まない)
 export const STANCE = '現実の宇宙を記述するとは主張しません';
-export const API_LINE = 'アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください。';
+// 第357便b(R523): アプリの中の生成を外したので、1 行を「外した」へ。第355便h の「廃止の予定」の 1 行(API_LINE_355H)は、入口のページと README の節に残っていないことを見る
+export const API_LINE = 'アプリの中の生成(API キーを入れる方式)は外しました(公開版は v1.48.0 から)。対話式をお使いください。';
+export const API_LINE_355H = 'アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください。';
 export const PAGES = 'https://tty-imamura.github.io/dfm-simulator/docs/';
 export const RAW = 'https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/';
 export const CORE_MAX = 60000;
@@ -64,9 +66,10 @@ export function checkAiChat(F) {
   // ④ 書かない語(入口のページ・プロンプト・README の節)
   const readmeSec = sec >= 0 ? readme.slice(sec, (readme.indexOf('\n## ', sec + 5) + 1 || readme.length + 1) - 1) : '';
   for (const [nm, t] of [['入口のページ', chat], ['プロンプト', P], ['README の節', readmeSec]]) for (const re of BAN_USER) if (re.test(t)) bad.push('④ ' + nm + 'に ' + re.source);
-  // API 方式の廃止の予定の 1 行
-  if (chat.indexOf(API_LINE) < 0 || chat.indexOf(API_LINE) > chat.indexOf('## 1.')) bad.push('廃止の予定の 1 行が入口のページの頭に無い');
-  if (readmeSec.indexOf(API_LINE) < 0) bad.push('廃止の予定の 1 行が README の節に無い');
+  // API 方式の 1 行(第355便h: 廃止の予定 → 第357便b: 外した)
+  if (chat.indexOf(API_LINE) < 0 || chat.indexOf(API_LINE) > chat.indexOf('## 1.')) bad.push('API 方式を外した旨の 1 行が入口のページの頭に無い');
+  if (readmeSec.indexOf(API_LINE) < 0) bad.push('API 方式を外した旨の 1 行が README の節に無い');
+  if (chat.indexOf(API_LINE_355H) >= 0 || readmeSec.indexOf(API_LINE_355H) >= 0) bad.push('「廃止の予定」の旧い 1 行が入口のページか README の節に残っている');
   // ⑥⑦⑧ 短いページ
   const spec = F.spec || '', core = F.core || '';
   if (!/\n## 5\. The preset specification/.test(spec)) bad.push('⑦ AI_SPEC.md に見出し「## 5. The preset specification」が無い');
@@ -87,7 +90,9 @@ export function checkAiChat(F) {
   // 本節・§403・post-merge
   const PH = F.physics || '', a = PH.indexOf('\n〔第355便h — '), b = PH.indexOf('\n〔第328便 — 統括'), p354 = PH.indexOf('\n〔第354便a — ');
   if (!(a >= 0 && p354 >= 0 && p354 < a && a < b)) bad.push('PHYSICS〔第355便h〕の位置(〔第354便a〕より後・〔第328便 — 統括〕より前)');
-  const S = a >= 0 && b > a ? PH.slice(a, b) : '';
+  // 第357便c: 本節は次の節の見出し(〔第N便x — 〕の行)の前まで(前は〔第328便 — 統括〕の前まで —— 後の便の節〔第357便b〕の関数の名 aiAnthropicBody を本節の書かない語と読んでいた)
+  const nx = a >= 0 ? PH.slice(a + 1).search(/\n〔第\d+便[a-z0-9]* — /) : -1;
+  const S = a >= 0 && b > a ? PH.slice(a, nx >= 0 ? Math.min(b, a + 1 + nx) : b) : '';
   for (const w of ['R511', 'docs.aichat355h', 'behavior.aichatIntake355h', '試していないこと', '別のモデル', 'AI_SPEC_URL', '1 byte も変えていない']) if (S.indexOf(w) < 0) bad.push('PHYSICS〔第355便h〕に「' + w + '」が無い');
   const AS = F.aispec || '', a403 = AS.indexOf('\n## 403. 第355便h'), a395 = AS.indexOf('\n## 395. ');
   const S403 = a403 >= 0 ? AS.slice(a403, (AS.indexOf('\n## ', a403 + 5) + 1 || AS.length + 1) - 1) : '';
