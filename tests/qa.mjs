@@ -20599,6 +20599,11 @@ if (!FAST) {
       // 第284便e: 署名の世代(4 本に testParticle の宣言)では、既定 off の本 = 4 本以外の全部(4 本は docs の履歴 —— 正本 heavy-w283c は署名前の記録)
       const signed284e = html283c.indexOf('function bgcWireState(') >= 0;   // 第284便e の世代の印(署名と同じ枝で入った関数)
       const wantFlag = signed284e ? 'saturnRingReal,saturnRingRealKF1,solarInner,uranusReal' : '';
+      // ==== 第357便(統合の後の直し)の塊(ここから)====
+      // 第357便d(R525): 世代切替 —— 天体が 1 つだけの箱の本 ☝️ boxone は、見張りの粒を試験粒子として宣言した本(宣言どおりに旗が立つ —— behavior.boxone357d の count が試験粒子 10・契約の入場を照合)。
+      //   宣言がある世代(beta)では、旗が立つことを確かめてから、署名前の 4 本の照合(wantFlag)の外に置く(root は宣言が無いので前のまま 4 本)
+      if (html283c.indexOf('{ id:"boxone", ') >= 0) { const k357 = live.flaggedIds.indexOf('boxone'); if (k357 < 0) bad.push('いまの html: ☝️ boxone に試験粒子の旗が立たない(宣言は見張りの粒 10 個)'); else live.flaggedIds.splice(k357, 1); }
+      // ==== 第357便(統合の後の直し)の塊(ここまで)====
       if (!live.same || !live.on || live.nan || live.flaggedIds.slice().sort().join(',') !== wantFlag || !live.sigMoves) bad.push('いまの html: ' + JSON.stringify(live));
       cases.push(`いまの html: 💍 の写しの源 1 bit(300 步)・内蔵 ${live.n} 本で既定 off` + (signed284e ? '(第284便e で署名した 4 本を除く —— 正本 heavy-w283c は署名前の履歴)' : '') + '・宣言は署名に入る');
       add('docs.heavyCal', bad.length === 0,
@@ -65599,6 +65604,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.enName = I18N.en.groups[G];
       return o;
     });
+    // ==== 第357便(統合の後の直し)の塊(ここから)====
+    if (r && typeof r.total === 'number') r.total -= W357D_ADD2D;   // 第357便d(R525): 後から足した二次元の本(☝️ boxone)は下の旗の和の外(三次元の 👥 は n298a の三次元の数えに入る・群の数え〔counts〕は宣言のまま)
+    // ==== 第357便(統合の後の直し)の塊(ここまで)====
     add('preset.groupAnalogies',
       r.exact && r.n === (r.has287d ? 7 : 11) && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
       && r.lfbot === r.celName && JSON.stringify(r.cross.slice().sort()) === JSON.stringify((r.w290b ? ['supernova'] : []).concat((r.w292b || r.w292c || r.has292d) ? ['earthmoon'] : []).sort()) && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)   // 第292便d: 🌜(天体の機構)が earthmoon(🌙 は現実較正)を群をまたがせる
@@ -69473,6 +69481,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 統合(第292便): 同便の c(🌛 earthMoonInertial)と d(🌜 earthMoonTide)が内蔵を足す —— 復活は本数を変えないので基点 + その 2 本の有無で見る
         // 第295便c(R155): 🌤️🟤🟣(慣性決定力版サンプル 3 本)も内蔵を足す(復活の本数は不変)
         const add292 = await page.evaluate(() => HP.allPresets().filter((p) => ['earthMoonInertial', 'earthMoonTide', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].includes(p.id) || p.referenceKind === 'observation-fit' || ((p.physics || {}).coord === '3d' && !(p.physics || {}).shapeToy)).length);   // 第296便b: フィットの派生本(🟫🟪)も内蔵を足す / 第298便a: 三次元の本(🌐🎲 —— 宣言 physics.coord:"3d" から数える)も
+        // ==== 第357便(統合の後の直し)の塊(ここから)====
+        // 第357便d(R525): 世代切替 —— 後から足した二次元・コア宣言なしの本(W357D_ADD2D —— ☝️ boxone)の分を、上の同便の新本の数えの前に内蔵の数から外す(三次元の 👥 は add292 の三次元の数えに入る)
+        if (typeof r.builtin === 'number') r.builtin -= W357D_ADD2D;
+        // ==== 第357便(統合の後の直し)の塊(ここまで)====
         if (r.builtin !== cb.builtin + add292) bad.push(`③内蔵 ${r.builtin}(基点 ${cb.builtin} + 同便の新本 ${add292})`);
       }
       // ④
@@ -71080,6 +71092,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         let nCmp = 0, nAdded = 0;
         // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も履歴の正本の後に入った本(段 geomode は role:'history' —— 再生成しない)
         const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers', 'shapeToySpiral', 'shapeToySpiralCore', 'inertialDragPair', 'earthMoonTide', 'earthMoonInertial', 'earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial', 'chainDiskToy'].concat(W296B_FITIDS, W319D_D3.fresh);   // 第319便d(AN460): 三次元の新本は受理した宣言で数える(W319D_D3.fresh —— W298A_IDS と 🗺️ の名指しを外した)   // 第318便c: 🗺️(三次元 —— 入力の宣言のまま physics の先頭が coord でないので W298A_IDS に入らない)も履歴の正本の後に入った本   // 第298便a: 🌐🎲(三次元の本)も履歴の正本の後に入った本   // 第296便c: 🔗 も   // 第296便b: 🟫🟪(フィットの派生本 —— 正本 fit-w296b.json の ID)も履歴の正本の後に入った本   // 第295便c: 🌤️🟤🟣 も履歴の正本の後に入った本   // 第292便d: 🌜・第292便c: 🌛 も履歴の正本の後に入った本   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        // ==== 第357便(統合の後の直し)の塊(ここから)====
+        // 第357便d(R525): 二次元の本 ☝️ boxone も履歴の正本の後に入った本(三次元の 👥 twoBodyOnly3d は上の三次元の新本の数えで入る)—— 導出は ① の規則で検査し、正本との照合は対象外
+        addedAfterCanon.push('boxone');
+        // ==== 第357便(統合の後の直し)の塊(ここまで)====
         // 第288便b(原仮定者の裁定(第78報)④): 在位移行した 10 本は正本(履歴)の後に宣言が動いた —— 正本の行は移行表の「前」、ページの行は「後」の導出と照合する
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));
@@ -91280,6 +91296,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
     // 第324便b(R280): 後に入った 🔸📟 も宣言の条件に当たる(器 4 本と QA 6 本は宣言の条件で外す —— 正本の欄と値は不変)。〔第322便b〕の表 1・表 2 はその便の本の列のまま(履歴)なので、照合は 🔸📟 を除いた集合で
     for (const id of ['alphaCenABInertial3dJ', 'psrDoubleABInertial3d']) { const k = ruleIds.indexOf(id); if (k >= 0) ruleIds.splice(k, 1); }
     // ==== 第324便b の塊(ここまで)====
+    // ==== 第357便(統合の後の直し)の塊(ここから)====
+    // 第357便e(R526): 後に入った 👥 twoBodyOnly3d も宣言の条件に当たる(♊⚖️ と同じ invSq の rdRule "kappaM" —— 器 4 本と QA 6 本は宣言の条件で外す・正本の欄と値は不変)。
+    //   〔第322便b〕の表 1・表 2 はその便の本の列のまま(履歴 —— 第324便b と同じ作法)なので、照合は 👥 を除いた集合で
+    { const k357 = ruleIds.indexOf('twoBodyOnly3d'); if (k357 >= 0) ruleIds.splice(k357, 1); }
+    // ==== 第357便(統合の後の直し)の塊(ここまで)====
     const nmRe = new RegExp('\\bLATER_' + 'BOOKS_[A-Za-z0-9_]+');
     const useRe = new RegExp('\\bisRuleBookW322\\(', 'g');
     const found = [];
