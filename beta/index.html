@@ -1253,7 +1253,6 @@
         <p class="note" id="aiPreviewNote">APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。</p>
         <textarea id="aiPreviewBody" readonly style="min-height:120px;"></textarea>
         <p class="note" id="aiPreviewSysNote"></p></details>
-        <div id="aiStatus"></div>
       </div>
       <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、返答をここへ貼る。
            第103便(原仮定者指示): details ごと畳まれて気付きにくい → 独立グループへ昇格し、
@@ -1271,6 +1270,8 @@
           <input type="checkbox" id="aiKeplerFix" checked></div>
         <div class="rowBtns"><button class="btn primary" id="btnAiPaste">貼り付けた内容を取り込む</button>
           <button class="btn" id="btnAiPasteCheck">検証のみ</button></div>
+        <!-- 状態の行(取り込み・検証の結果)。外部チャットの口が使うので、このグループに置く -->
+        <div id="aiStatus"></div>
         <div id="aiPasteReport"></div>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
