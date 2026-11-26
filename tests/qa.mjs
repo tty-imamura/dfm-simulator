@@ -135791,6 +135791,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ----   behavior.boxone357d: ① 版(名の型 + 正本の記録)・門の宣言・lib の自己試験(門の検出力の変異を含む)② 対象の html で器の measure を作り直して正本と同じ(相対 1e-9 か絶対 1e-9 の床)
 // ----     ③ 本の宣言の守り(壁は 📦 と同じ質点リング・physics の鍵は 📦 の鍵の内・試験粒子は列の末尾)④ 作り直した門が全部真(① 天体 1 ② 並進 ③ 走り直し ④ 保存・自己試験)
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
   const wHarn = path.join(ROOT, 'tests', 'exp-w357d-boxone.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357d-boxone.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'boxone-w357d.json');
   const htmlTx357d = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -135849,6 +135850,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
   })();   // 第310便c(heap)
+  })();   // 第310便c(heap)
 }
 
 // ---- 第357便d: docs.boxone357d は別の最上位のブロック。世代切替は上と同じ
@@ -135856,6 +135858,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ----     近似の範囲の文・アプリの中に来歴の語と旧い記号を書かない〔lint.presetText316b・316c と同じ規則 —— ☝️ は先頭の並びの照合の外に置いたので、ここで見る〕)
 // ----     ③ PHYSICS〔第357便d〕の位置と必須の語・PHYSICS §6 の本の表の行・AI_SPEC §417・構成案の論文2 の ⑤ と ⑧ の V2-1 の行・段の行・.gitignore・post-merge ④ 書かない語・禁句(節・AI_SPEC・器・lib・本の文)
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {   // 第310便c(heap)
   const wHarn = path.join(ROOT, 'tests', 'exp-w357d-boxone.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357d-boxone.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'boxone-w357d.json');
   const htmlTx357d = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -135941,6 +135944,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
   })();   // 第310便c(heap)
+  })();   // 第310便c(heap)
 }
 // ==== 第357便d の塊(ここまで)====
 // ==== 第357便e の塊(ここから —— behavior.twobody357e・docs.twobody357e の 2 ブロック。root は SKIP)====
@@ -135950,6 +135954,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ----   behavior.twobody357e: ① 版(名の型 + 正本の記録)・門の宣言・lib の自己試験(門の検出力の変異を含む)② 対象の html で器の measure を作り直して正本と同じ(相対 1e-9 か絶対 1e-9 の床)
 // ----     ③ 本の宣言の守り(⚖️ の宣言の写し —— 違うのは質量比 1:10 の 2 体の質量・位置・速度と D0 0 と説明の文だけ・♊ の直前)④ 作り直した門が全部真
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
   const wHarn = path.join(ROOT, 'tests', 'exp-w357e-twobody.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357e-twobody.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'twobody-w357e.json');
   const htmlTx357e = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -136012,6 +136017,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
   })();   // 第310便c(heap)
+  })();   // 第310便c(heap)
 }
 
 // ---- 第357便e: docs.twobody357e は別の最上位のブロック。世代切替は上と同じ
@@ -136019,6 +136025,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ----     並進は門で見た 2 つの量に限る・引きずりと局所重力の比 = 質量の比・物差しは ♊⚖️ で見る・アプリの中に来歴の語と旧い記号を書かない〔lint.presetText316c と同じ規則〕)
 // ----     ③ PHYSICS〔第357便e〕の位置と必須の語・入口の表の行が正本の数と同じ・PHYSICS §6 の本の表の行・AI_SPEC §418・構成案の論文3 の ⑤ と ⑧ の V3-1 の行・段の行・.gitignore・post-merge ④ 書かない語・禁句
 {
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す(本文は不変)
   await (async () => {   // 第310便c(heap)
   const wHarn = path.join(ROOT, 'tests', 'exp-w357e-twobody.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357e-twobody.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'twobody-w357e.json');
   const htmlTx357e = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
@@ -136112,6 +136119,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       `**天体が 2 つだけの宇宙の本 👥 twoBodyOnly3d の文書**(第357便e・原仮定者の指示(2026-11-21)・R526 —— 本の文・節・入口の表・構成案の行): ${cases.join(' / ')}`
       + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
   }
+  })();   // 第310便c(heap)
   })();   // 第310便c(heap)
 }
 // ==== 第357便e の塊(ここまで)====

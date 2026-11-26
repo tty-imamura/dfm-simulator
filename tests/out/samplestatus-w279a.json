@@ -2,7 +2,7 @@
  "meta": {
   "wave": "第279便a",
   "statusVersion": "w279a-1",
-  "betaBuild": "v1.48-b356",
+  "betaBuild": "v1.48-b357",
   "rule": "較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。",
   "doNotWrite": [
    "較正した",
@@ -13,62 +13,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "ecde6e986387a8c9f31ee3eb16ca7edd9036e035eb2598c109a4ca780b2c150a",
-  "generatedAt": "2026-11-26T09:40:00.590Z",
+  "targetSha256": "366a5048d4c0d2992657bfde9f93edeb0323efe4c473a33f1b7da58eec47d2df",
+  "generatedAt": "2026-11-26T11:01:24.902Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 128015,
-    "sha256": "2c8951424dbfa296cb998b7cbb87d1be05ba8b37e11aa63bf284895cb9abf47d",
-    "mtime": "2026-11-24T05:41:44.929Z"
+    "bytes": 130111,
+    "sha256": "0b9118577da80357e070fd877017be59c6a50c47810d0ee121f653c0a5b9cbc5",
+    "mtime": "2026-11-26T11:01:23.387Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 1734304,
     "sha256": "346359e815a323ddafc4f3292746ddcff7a097f9d468aa0456384b1ebc46d431",
-    "mtime": "2026-11-26T04:45:52.357Z"
+    "mtime": "2026-11-26T10:59:56.599Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90738,
     "sha256": "e075feeb5d6dee0137f53869fa24d9b058e27ec47ab1b9168353ddcd1b1c8574",
-    "mtime": "2026-11-24T05:41:45.161Z"
+    "mtime": "2026-11-26T10:59:56.619Z"
    },
    {
     "file": "docs/SAMPLE_STATUS.md",
-    "bytes": 118864,
-    "sha256": "39db36de964d89cb0dc3cb3bcd1831b30873812b29be5e9ad1feecff1bac9ae7",
-    "mtime": "2026-11-26T09:40:00.571Z"
+    "bytes": 120456,
+    "sha256": "c7ad1610818365fc16ac932872598db4cc2bda4431336492d0d77337f72f64c2",
+    "mtime": "2026-11-26T11:01:24.883Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-11-24T05:41:45.035Z"
+    "mtime": "2026-11-26T10:59:56.471Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-11-24T05:41:45.037Z"
+    "mtime": "2026-11-26T10:59:56.471Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-11-24T05:41:45.037Z"
+    "mtime": "2026-11-26T10:59:56.471Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-11-24T05:41:45.037Z"
+    "mtime": "2026-11-26T10:59:56.471Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-11-24T05:41:45.037Z"
+    "mtime": "2026-11-26T10:59:56.471Z"
    }
   ],
   "code": [
@@ -76,37 +76,37 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 43934,
     "sha256": "48997d8eb54cabb6fdfb008f0aaba1418ea4aaedfd8d6a7025bb2e6393d80d20",
-    "mtime": "2026-11-24T05:41:44.977Z"
+    "mtime": "2026-11-26T10:59:56.415Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 31458,
     "sha256": "16a147e300ca0dfcf28c055b791689f434a1e2fdf9a86d8dadef8eaf8c89891b",
-    "mtime": "2026-11-24T05:41:45.049Z"
+    "mtime": "2026-11-26T10:59:56.483Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-24T05:41:45.045Z"
+    "mtime": "2026-11-26T10:59:56.479Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-11-24T05:41:45.057Z"
+    "mtime": "2026-11-26T10:59:56.487Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-11-24T05:41:45.061Z"
+    "mtime": "2026-11-26T10:59:56.491Z"
    },
    {
     "file": "tests/lib-w323d-recheck.mjs",
     "bytes": 15693,
     "sha256": "1e1564a63f02875f307f20e6a061413665af7af53381ecbe52a11316b740cd46",
-    "mtime": "2026-11-24T05:41:45.073Z"
+    "mtime": "2026-11-26T10:59:56.499Z"
    }
   ],
   "codeSha256": "fd485c9c33b0ac9b2ddd4e326949679abf7a9deb8bbdbff4c0f2fb296b0b8946",
@@ -119,7 +119,7 @@
  },
  "tally": {
   "objective": {
-   "met": 85,
+   "met": 87,
    "partial": 35,
    "unmet": 2,
    "n/a": 0
@@ -130,7 +130,7 @@
    "fail": 1,
    "hold": 16,
    "hold-definition": 0,
-   "out-of-scope": 103
+   "out-of-scope": 105
   },
   "four": {
    "合": 0,
@@ -142,7 +142,7 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 9
+    "n": 10
    },
    {
     "group": "銀河の力学",
@@ -167,7 +167,7 @@
    {
     "group": "箱宇宙の実験",
     "icon": "📦",
-    "n": 10
+    "n": 11
    },
    {
     "group": "スピンと熱",
@@ -210,13 +210,13 @@
     "n": 0
    }
   ],
-  "n": 122,
+  "n": 124,
   "scope": "listed",
   "predictionEligible": 0,
   "builtin": {
-   "n": 187,
+   "n": 189,
    "objective": {
-    "met": 119,
+    "met": 121,
     "partial": 60,
     "unmet": 8,
     "n/a": 0
@@ -227,7 +227,7 @@
     "fail": 1,
     "hold": 16,
     "hold-definition": 2,
-    "out-of-scope": 166
+    "out-of-scope": 168
    },
    "four": {
     "合": 0,
@@ -2722,6 +2722,332 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "boxone",
+   "emoji": "☝️",
+   "name": "箱宇宙 — 天体が 1 つだけの箱",
+   "group": "箱宇宙の実験",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "天体が 1 つだけの箱で、並進が内部の相対の量に出ないかを見る",
+    "objective": "met",
+    "state": "並進ありと並進を引いた写しの 600 步の相対の量の差が門 1e-3 の内・走り直しで指紋が同じ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/boxone-w357d.json"
+    ],
+    "en": {
+     "purpose": "Whether translation shows inside a box with a single body",
+     "state": "relative quantities within the 1e-3 gate; same fingerprint on rerun",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Whether translation shows inside a box with a single body. Met: relative quantities within the 1e-3 gate; same fingerprint on rerun. Out of calibration scope."
+    },
+    "brief": "天体が 1 つだけの箱で、並進が内部の相対の量に出ないかを見る。達・並進ありと並進を引いた写しの 600 步の相対の量の差が門 1e-3 の内・走り直しで指紋が同じ。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 28,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 85,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 152,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 159,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 560,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 612,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 16,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 365,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 53,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 240,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 492,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 534,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 17,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1926,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 430,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 129,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 258,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 264,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 741,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 470,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 423,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 40,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "boxone-357d",
+      "sec": 6,
+      "share": 1,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -45471,6 +45797,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -46273,6 +46605,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -46982,6 +47320,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -47336,6 +47680,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -48455,6 +48805,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -49985,6 +50341,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -50429,6 +50791,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -52907,6 +53275,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -53992,6 +54366,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -54358,6 +54738,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -56618,6 +57004,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -56975,6 +57367,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -56993,6 +57391,332 @@
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "twoBodyOnly3d",
+   "emoji": "👥",
+   "name": "天体が 2 つだけの宇宙 — 互いに慣性と座標を決め合う(質量比 1:10・三次元)",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "天体が 2 つだけの宇宙で、互いの引きずりと局所重力の決まり方を見る",
+    "objective": "met",
+    "state": "引きずりと局所重力の比 = 質量の比 10・共通の並進は門 1e-10 の内・近点の比 1.1100(h/4)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/twobody-w357e.json"
+    ],
+    "en": {
+     "purpose": "How two bodies alone set each other's drag and local gravity",
+     "state": "drag and gravity ratios = mass ratio 10; translation within 1e-10; apsidal ratio 1.1100",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "How two bodies alone set each other's drag and local gravity. Met: drag and gravity ratios = mass ratio 10; translation within 1e-10; apsidal ratio 1.1100. Out of calibration scope."
+    },
+    "brief": "天体が 2 つだけの宇宙で、互いの引きずりと局所重力の決まり方を見る。達・引きずりと局所重力の比 = 質量の比 10・共通の並進は門 1e-10 の内・近点の比 1.1100(h/4)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "d0audit",
+      "sec": 28,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "qsplit",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nslockledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 85,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "presetaxes",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgpredict",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 152,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotorledger",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 4,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 159,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 560,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 612,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 16,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 365,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 53,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 240,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 7,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 492,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo4-295b",
+      "sec": 165,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fit-297b",
+      "sec": 534,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "chain-296c",
+      "sec": 17,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-297a",
+      "sec": 1926,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "timestd-297c",
+      "sec": 430,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragnorm-301a",
+      "sec": 129,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "approxmany-301b",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clone-301f",
+      "sec": 258,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "statecontract-302e",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbglaw-301g",
+      "sec": 264,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "semic-302d",
+      "sec": 741,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "wbgest-302c",
+      "sec": 470,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "refit-303a",
+      "sec": 423,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-309a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "invsq-310a",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1x3d-314d",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "symbols-315a",
+      "sec": 5,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rsexcess-315b",
+      "sec": 14,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3bin-321b",
+      "sec": 40,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "rotvert-339a",
+      "sec": 15,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
+      "key": "timing294",
+      "sec": 231,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -57317,6 +58041,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -57671,6 +58401,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -58019,6 +58755,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -58738,6 +59480,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -65486,6 +66234,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -65841,6 +66595,12 @@
       "key": "rotvert-339a",
       "sec": 15,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
       "always": false
      },
      {
@@ -69162,6 +69922,12 @@
       "always": false
      },
      {
+      "key": "twobody-357e",
+      "sec": 65,
+      "share": 20,
+      "always": false
+     },
+     {
       "key": "timing294",
       "sec": 231,
       "share": "all",
@@ -70513,8 +71279,8 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 374,
-  "regenSecSum": 80613,
+  "regenSteps": 376,
+  "regenSecSum": 80684,
   "alwaysSec": 1035,
   "undeclaredSteps": 162,
   "undeclaredSec": 5437,
@@ -70527,8 +71293,8 @@
    "date": "2026-11-26T08:06:28.657Z",
    "betaBuild": "v1.48-b356",
    "targetSha256": "ecde6e986387a8c9f31ee3eb16ca7edd9036e035eb2598c109a4ca780b2c150a",
-   "sameBuild": true,
-   "sameHtml": true,
+   "sameBuild": false,
+   "sameHtml": false,
    "rule": "鎖の常時群の段 samplestatus はゲートの QA の前に走る —— 保存 QA の時間は前の便のゲートの保存物(1 便遅れる)。版名が同じでも html の sha が違えば同じ便の中の前の html の QA"
   },
   "noHtmlSteps": {
@@ -72217,6 +72983,33 @@
      ]
     },
     {
+     "key": "twobody-357e",
+     "sec": 65,
+     "kind": "領域の宣言",
+     "presets": [
+      "alphaCenAB",
+      "alphaCenABInertial3d",
+      "binary",
+      "binaryCheckEqualInertial3d",
+      "binaryCheckRatio3Inertial3d",
+      "boxBinaryToy",
+      "compactForceToy",
+      "coord3dKeplerTilt",
+      "coord3dSpinPrecess",
+      "fig8",
+      "gw150914",
+      "inertialDragPair",
+      "psrB1534",
+      "psrDoubleAB",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "siriusAB",
+      "siriusABInertial3d",
+      "spinDipoleBinary",
+      "twoBodyOnly3d"
+     ]
+    },
+    {
      "key": "growth287",
      "sec": 60,
      "kind": "領域の宣言",
@@ -73288,6 +74081,14 @@
      "sec": 6,
      "kind": "html を読まない",
      "presets": null
+    },
+    {
+     "key": "boxone-357d",
+     "sec": 6,
+     "kind": "領域の宣言",
+     "presets": [
+      "boxone"
+     ]
     },
     {
      "key": "meshnod0",

@@ -1329,8 +1329,8 @@
     "tests/out/boxone-w357d.json"
    ],
    "en": {
-    "purpose": "See whether translation shows in the interior relative quantities of a box with a single body",
-    "state": "600-step relative quantities with and without translation within the 1e-3 gate; fingerprint same on rerun"
+    "purpose": "Whether translation shows inside a box with a single body",
+    "state": "relative quantities within the 1e-3 gate; same fingerprint on rerun"
    }
   },
   "boxtrans": {
@@ -2060,15 +2060,15 @@
    }
   },
   "twoBodyOnly3d": {
-   "purpose": "天体が 2 つだけの宇宙で、2 つの天体が互いの引きずりと局所重力をどう決めるかを見る(思考実験の入口)",
+   "purpose": "天体が 2 つだけの宇宙で、互いの引きずりと局所重力の決まり方を見る",
    "objective": "met",
-   "state": "引きずりの比と局所重力の比が質量の比 10 と同じ・共通の並進は相対の位置と速さの差 1e-14 の桁(門 1e-10)・近点の移動の比 1.1100(h/4)・1 + (4/3)η = 1.11019",
+   "state": "引きずりと局所重力の比 = 質量の比 10・共通の並進は門 1e-10 の内・近点の比 1.1100(h/4)",
    "evidence": [
     "tests/out/twobody-w357e.json"
    ],
    "en": {
-    "purpose": "See how the two bodies of a two-body universe set each other's drag and local gravity (the entry to the thought experiment)",
-    "state": "drag and local-gravity ratios equal the mass ratio 10; common translation leaves the relative position and speed within 1e-14 (gate 1e-10); apsidal-shift ratio 1.1100 (h/4); 1 + (4/3)eta = 1.11019"
+    "purpose": "How two bodies alone set each other's drag and local gravity",
+    "state": "drag and gravity ratios = mass ratio 10; translation within 1e-10; apsidal ratio 1.1100"
    }
   },
   "binaryCheckEqualInertial3d": {
