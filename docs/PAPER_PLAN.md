@@ -156,9 +156,46 @@
 | V1-2 | 局所光速で止まる標準の時計(点の時計)の数 | `verify.V12`・`verify.V13`・`verify.V16`・`new.gclock`・`paper/figures/fig4.json` | 足りる | —— | —— |
 | V1-3 | 水星の近点の一次の項を「現行の近似」の列と主の候補の列に並べる | 〔第344便b〕の器と正本・本便の枝 b | 一部 | 論文の表の形の写しの器(本便の枝 b の正本から引く) → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t3・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`(第344便b の正本 `tests/out/partyconv-344b.json` の写し —— 表は PHYSICS〔第352便t〕④) | 枝 1 本の一部 |
 | V1-4 | 照合の表(GPS・太陽縁の偏向・シャピロ遅延)の模型の値と換算の規約の列 | `grcal.calib-text`・`physlock.kt-derive` | 一部 | 照合の表の正本(本の宣言から引く器 —— 観測の値は出典と「文献の値・未照合」の列) → 〔第352便t〕 器 `tests/exp-w352t-paper1prep.mjs` の t2・正本 `tests/out/paper1prep-352t.json`・段 `paper1prep-352t`・鍵 `behavior.paper1prep352t`・`docs.paper1prep352t`(照合の表は PHYSICS〔第352便t〕③ —— 観測の列は文献の値・未照合) | 枝 1 本 |
-| V1-5 | 図データ(太陽縁の偏向・シャピロ遅延・時計の 2 成分)の再生成 | `tools/gen-figures.mjs`(図 1〜6) | 足りない | 図データの器と図のゲート(新しい図 3 枚) | 枝 1 本 |
+| V1-5 | 図データ(太陽縁の偏向・シャピロ遅延・時計の 2 成分)の再生成 | `tools/gen-figures.mjs`(図 1〜6) | 足りない | 図データの器と図のゲート(新しい図 3 枚) → 〔第356便a〕 器 `tests/exp-w356a-p1figs.mjs`・正本 `tests/out/p1figs-356a.json`・段 `p1figs-356a`(html を読まない段 —— 〔第289便a〕の弱場の lib を呼ぶ)・鍵 `behavior.p1figs356a`・`docs.p1figs356a`(図のデータと図の門は表 2b —— 埋まったのは図のデータと門まで。図そのもの〔PDF・SVG〕と tools/gen-figures.mjs への組み込みは次の便) | 枝 1 本 |
 | V1-6 | 相対性理論との差異の表の項目(構造の違い —— 本文の主張の範囲) | PHYSICS の §対応関係・〔第345便a〕 | 一部 | 文書だけ(表の行の出どころを PHYSICS の節で指す) | 文書の枝の一部 |
 | V1-7 | 末尾の未解決の一覧の AN904 の項の状態(本便の枝 c の列 —— 本文には入れない) | 本便の枝 c | 一部 | 本便の枝 c の結果を一覧の 1 行に写す(結果は書かない —— 「探索中」と節の名) | 文書の枝の一部 |
+
+**表 2b 新しい図 3 枚のデータと門(〔第356便a〕 —— 図のデータの器 `tests/exp-w356a-p1figs.mjs`・正本 `tests/out/p1figs-356a.json`・段 `p1figs-356a`。html を読まない。図そのものは作っていない)。** 数と式は PHYSICS〔第356便a〕。式との照合の門は今の論文1 の検証の許容(相対 1e-6・図 4 の門の幅 1e-3)にそろえた。原稿の印字との照合の門の幅(印字の最後の桁の半分)は候補。
+
+| 図 | 横軸 | 縦軸 | 系列 | 単位 | 式・使った lib | 門(正本 tests/out/p1figs-356a.json) |
+|---|---|---|---|---|---|---|
+| 図 A 時計の遅れの 2 成分 | r ÷ R⊕(円の軌道の半径)(1〜10・37 点) | 衛星 − 地上の時計の進み [μs/日] | 重力の分・運動の分・合計 × 地上の時計 2 通り(0.465 km/秒・0)+ GPS の軌道の点・合計 0 の半径 | μs/日 | 原稿の A7′(N は〔第289便a〕の lawFn('e7r')) | `p1fig.clock.first`・`p1fig.clock.zero`・`p1fig.clock.sign`・`p1fig.clock.gpsGrav`・`p1fig.clock.gpsMotionAtRest`・`p1fig.clock.gpsNetAtRest` |
+| 図 B 太陽縁の光の軌跡 | x ÷ R☉(光の道に沿う座標・太陽の中心の最寄りが 0)(±215・61 点) | x までに受けた偏向・直線からのずれ | 1 本(b = R☉) | ″・km | 〔第289便a〕の bornDeflectionCoeff('e7r') の範囲を切る | `p1fig.limb.total`・`p1fig.limb.partial`・`p1fig.limb.half`・`p1fig.limb.path` |
+| 図 C シャピロ遅延の往復 | b ÷ R☉(衝突径数)(1〜20・27 点) | 往復のシャピロ遅延 [μs] | 片道・往復・往復の閉じた形・原稿の式 | μs | 〔第289便a〕の shapiroCoeff('e7r') | `p1fig.shapiro.closed`・`p1fig.shapiro.roundTrip`・`p1fig.shapiro.printed`・`p1fig.shapiro.mono` |
+
+**表 2c 照合の表の写し(水星の行を含む —— 今の版の原稿 `paper/dfm-paper.tex` の照合の表の字のまま)。** 観測の側の字は文献の値・未照合(外の資料は取りに行っていない)。
+
+| 量(原稿の字) | 原稿の DFM の欄 | 原稿の実験の制約の欄 | 原稿の判定の欄 | 印 |
+|---|---|---|---|---|
+| `GPS net clock-rate difference (satellite $-$ ground)` | `$+38.5\ \mu$s/day (gravity $+45.7$, motion $-7.2$; inputs in Table~\ref{tab:inputs})` | `$\approx +38.6\ \mu$s/day (GPS system design value~\cite{Ashby2003})` | `formula-level agreement` | 文献の値・未照合 |
+| `Solar-limb light deflection` | `$4GM_\odot/(c^2R_\odot) = 1.7512''$ (no additional parameter)` | `$1.75''$ (light-deflection VLBI, percent level)` | `formula-level agreement` | 文献の値・未照合(この行に出典の字は無い) |
+| `Shapiro delay (idealized Cassini-conjunction geometry: $r_1 = 1\,$AU, $r_2 = 8.43\,$AU, $b = R_\odot$, round trip)` | `$(4GM_\odot/c^3)\ln(4r_1r_2/b^2) \approx 281\ \mu$s` | `Cassini radio links constrain the PPN coefficient of this formula: $\gamma - 1 = (2.1 \pm 2.3)\times10^{-5}$~\cite{Bertotti2003}` | `formula-level agreement` | 文献の値・未照合 |
+| `Mercury perihelion advance (main term $+42.98''$/century)` | `base dynamics: static field $0$ (Newtonian reduction), E6$'$ gives only a Lense--Thirring-sign regression; geodesic option E12: $+42.98''$/century ($\beta = \gamma = 1$, Sec.~\ref{sec:e12})` | `$+42.98''$/century` | `\textbf{not reproduced} by E1$'$--E11; recovered by E12` | 文献の値・未照合(この行に出典の字は無い) |
+
+**表 2d 入力の表の写し(今の版の原稿の付録の入力の表と SI の表の字のまま —— 原稿に字の無い値は「未」)。**
+
+| 入力(原稿の字) | 値(原稿の字) | 使う行(原稿の字) | 印 |
+|---|---|---|---|
+| `$M_\oplus$` | `$5.972\times10^{24}$ kg` | `GPS` | 文献の値・未照合 |
+| `$R_\oplus$ (ground clock)` | `$6.371\times10^{6}$ m` | `GPS` | 文献の値・未照合 |
+| `$r_{\rm GPS}$ (orbit radius)` | `$2.6562\times10^{7}$ m` | `GPS` | 文献の値・未照合 |
+| `$v_{\rm sat} = \sqrt{GM_\oplus/r_{\rm GPS}}$` | `$3.87$ km/s` | `GPS` | 文献の値・未照合 |
+| `$v_{\rm ground} = \Omega_\oplus R_\oplus$` | `$0.465$ km/s` | `GPS` | 文献の値・未照合 |
+| `$M_\odot$` | `$1.989\times10^{30}$ kg` | `deflection, Shapiro` | 文献の値・未照合 |
+| `$R_\odot$ ($=b$)` | `$6.96\times10^{8}$ m` | `deflection, Shapiro` | 文献の値・未照合 |
+| `$r_1$ (Earth)` | `$1\ {\rm AU} = 1.496\times10^{11}$ m` | `Shapiro` | 文献の値・未照合 |
+| `$r_2$ (Saturn)` | `$8.43\ {\rm AU} = 1.261\times10^{12}$ m` | `Shapiro` | 文献の値・未照合 |
+| `geometry` | `superior conjunction, round trip` | `Shapiro` | 文献の値・未照合 |
+| `$\Kt = G/c^2$` | `$\approx 7.43\times10^{-28}\ {\rm m\,kg^{-1}}$` | `clock/light coefficient`(SI の表) | 写像の値 |
+| 重力定数 G | 未(原稿は「consistent with CODATA」と書くだけ —— 図のデータの器は tests/lib-w276b-charonfactors.mjs の CODATA_G 6.67430e-11 を使う) | —— | 未 |
+| 光の速さ c | 未(原稿は「$c_0 = c$」と書くだけ —— 図のデータの器は SI の定義の値 299792458 m/秒) | —— | 未 |
+| 地球の自転の角速度 Ω⊕ | 未(v_ground の式に記号だけ) | —— | 未 |
+| 水星の軌道の値(長半径・離心率・周期) | 未(照合の表の水星の行と入力の表に字が無い —— 原稿の §E12 の本文を指す) | —— | 未 |
 
 ## 3. 論文2
 

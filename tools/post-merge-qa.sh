@@ -1924,6 +1924,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便a の塊(ここから)====
+# 第356便a(統括の検証項目 R513 —— 図のデータと文書だけ・html と論文の原稿と今の図のデータは変えない): 枝 a の新設 2 本
+#   (behavior.p1figs356a —— 零試験 7・図 3 枚と門と照合を第338便c の recheckRun で作り直して正本と照合・図の門を QA の中で別に書いた式で照合 /
+#   docs.p1figs356a —— 表と数の文が PHYSICS〔第356便a〕に逐語・PAPER_PLAN の表 2b と ⑧ の注・入力の表の写し・文書)と、新しい段 p1figs-356a
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.p1figs356a docs.p1figs356a"
+# ==== 第356便a の塊(ここまで)====
 # ==== 第356便b の塊(ここから)====
 # 第356便b(統括の検証項目 R514 —— 材料と文書だけ・html は変えない): 枝 b の新設 2 本
 #   (behavior.p2figs356b —— 零試験 8・今の図のデータから器を作り直して第338便c の recheckRun で正本と照合 /

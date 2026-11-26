@@ -3608,6 +3608,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/replaw-355i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第355便i: 零試験 10/斥力の則の族 26 組と和の 1 組の斥力だけの圧力の冪(箱・粒の数・温度)/二次元 1/並進あり 2/窓に入る組の先頭 2 組の粒 216/比べる列 B 3 列 × 倍 4/零試験の照合 9 行' }),
   // ==== 第355便i の塊(ここまで)====
+  // ==== 第356便a の塊(ここから)====
+  // ---- 第356便a(統括の検証項目 R513): **論文1 の新しい図 3 枚(時計の遅れの 2 成分・太陽縁の光の軌跡・シャピロ遅延の往復)の図のデータと図の門**
+  //   (段 p1figs-356a —— 正本 tests/out/p1figs-356a.json・lib tests/lib-w356a-p1figs.mjs —— 第289便a の lib tests/lib-w289a-weakfield.mjs を呼ぶ。入力のファイルは無い〔原稿の入力の表の字は lib に写してある〕)。
+  //   **図のデータまで**(図そのものは作らない)。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入らない。所要は第356便a の枝の実測 0.3 s
+  S('p1figs-356a', 'node tests/exp-w356a-p1figs.mjs', ['tests/out/p1figs-356a.json'], 1, { secSource: 'w356a-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/p1figs-356a.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第356便a: 零試験 7/図 1 時計の 2 成分 37 点 × 2 系列と GPS の点と合計 0 の半径/図 2 太陽縁の光 61 点/図 3 シャピロの往復 27 点/図の門 14/原稿の印字との照合 7' }),
+  // ==== 第356便a の塊(ここまで)====
   // ==== 第356便b の塊(ここから)====
   // ---- 第356便b(統括の検証項目 R514): **論文 2 の仕上げの材料 —— 図の並びの宣言(今の 22 ゲートを図ごとに数えて残す図と移す図に分ける)・模式図 2 枚の描く量・図 6 の精度の書き方**
   //   (段 p2figs-356b —— 正本 tests/out/p2figs-356b.json・lib tests/lib-w356b-p2figs.mjs —— ほかの lib を呼ばない。入力のファイルは今の図のデータ 7 つ〔paper/figures/p2figs-gates.json・p2fig1〜p2fig6.json〕と
