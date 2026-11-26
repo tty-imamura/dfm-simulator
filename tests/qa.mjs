@@ -133600,7 +133600,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const i0 = PH.indexOf('〔第356便d — '), i7 = PH.indexOf('\n## 7. 論文'), ii = PH.indexOf('〔第355便i — '), iu = PH.indexOf('〔第328便 — 統括');
     const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
     if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ii >= 0 && ii < i0 && iu > i0)) bad.push('PHYSICS〔第356便d〕が無いか〔第355便i〕の節の前か第328便の統括の節・「## 7.」の後ろ');
-    const p6 = PP.indexOf('\n## 6. 論文5'), p7 = PP.indexOf('\n## 7. 順番の案'), p10 = PP.indexOf('\n### ⑩ 表 6c'), p11 = PP.indexOf('\n### ⑪ 表 6d 斥力に見えたのは引きずり'), s6d = (p11 >= 0 && p7 > p11) ? PP.slice(p11, p7) : '';
+    const p6 = PP.indexOf('\n## 6. 論文5'), p7 = PP.indexOf('\n## 7. 順番の案'), p10 = PP.indexOf('\n### ⑩ 表 6c'), p11 = PP.indexOf('\n### ⑫ 表 6d 斥力に見えたのは引きずり'), s6d = (p11 >= 0 && p7 > p11) ? PP.slice(p11, p7) : '';
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else if (!J) bad.push('正本 tests/out/drageos-356d.json が読めない');
     else {
@@ -133773,7 +133773,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ---- 第356便i: docs.dragbox356i は別の最上位のブロック。世代切替は上と同じ
 // ----   docs.dragbox356i(正本): ① 門(器の gatesOf で作り直して同じ・全部真)・版・来歴(html を読まない —— target は lib・入力のファイルは第356便d の正本 1 つ・settleRun の meta.recheck)・宣言が lib と器と同じ
-// ----     ② 原文 3 つ(リポジトリに在る字)と表 1(原文と読み)・箱の作りの表・表 6 本・数の文 9 つが PHYSICS〔第356便i〕に逐語・表 6e が PAPER_PLAN の論文 5 の節に逐語(⑪ の後・「## 7.」の前)
+// ----     ② 原文 3 つ(リポジトリに在る字)と表 1(原文と読み)・箱の作りの表・表 6 本・数の文 9 つが PHYSICS〔第356便i〕に逐語・表 6e が PAPER_PLAN の論文 5 の節に逐語(表 6d の見出しの後・「## 7.」の前)
 // ----     ③ 節の位置(〔第356便d〕の節の後・第328便の統括の節の前)・必須の語・ノブの表(6 列・状態の欄が 1 語)・AI_SPEC §413(§408 の後)・CHANGELOG(第356便i の行が在れば見出しより後)・段の行・.gitignore・post-merge
 // ----     ④ 書かない語・禁句・報の番号・言い切りの文・変異 2
 {
@@ -133794,7 +133794,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     const i0 = PH.indexOf('〔第356便i — '), i7 = PH.indexOf('\n## 7. 論文'), id0 = PH.indexOf('〔第356便d — '), iu = PH.indexOf('〔第328便 — 統括');
     const sec = secUntilNext329c(PH, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
     if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && id0 >= 0 && id0 < i0 && iu > i0)) bad.push('PHYSICS〔第356便i〕が無いか〔第356便d〕の節の前か第328便の統括の節・「## 7.」の後ろ');
-    const p6 = PP.indexOf('\n## 6. 論文5'), p7 = PP.indexOf('\n## 7. 順番の案'), p11 = PP.indexOf('\n### ⑪ 表 6d 斥力に見えたのは引きずり'), p12 = PP.indexOf('\n### ⑫ 表 6e 斥力に見えたのは引きずり —— 箱の作りを変えた数え直し'), s6e = (p12 >= 0 && p7 > p12) ? PP.slice(p12, p7) : '';
+    const p6 = PP.indexOf('\n## 6. 論文5'), p7 = PP.indexOf('\n## 7. 順番の案'), p11 = PP.indexOf('\n### ⑫ 表 6d 斥力に見えたのは引きずり'), p12 = PP.indexOf('\n### ⑬ 表 6e 斥力に見えたのは引きずり —— 箱の作りを変えた数え直し'), s6e = (p12 >= 0 && p7 > p12) ? PP.slice(p12, p7) : '';
     if (err0) bad.push('器/lib が読めない: ' + err0);
     else if (!J) bad.push('正本 tests/out/dragbox-356i.json が読めない');
     else {
@@ -133814,7 +133814,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (Object.keys(T).length !== 6) bad.push('② 表の数 ' + Object.keys(T).length);
       for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第356便i〕に数の文 ' + k + ' が逐語で無い');
       if (Object.keys(F).length !== 9) bad.push('② 数の文の数 ' + Object.keys(F).length);
-      if (!(p6 >= 0 && p11 > p6 && p12 > p11 && s6e.indexOf(D0.table6e(J)) >= 0)) bad.push('② PAPER_PLAN の論文 5 の節に表 6e が逐語で無い(⑪ の後・「## 7.」の前)');
+      if (!(p6 >= 0 && p11 > p6 && p12 > p11 && s6e.indexOf(D0.table6e(J)) >= 0)) bad.push('② PAPER_PLAN の論文 5 の節に表 6e が逐語で無い(表 6d の見出しの後・「## 7.」の前)');
       cases.push(`② 原文 ${D0.ORIGINAL.length} つと表 1・箱の作り ${D0.BOXES.length} 行・表 ${Object.keys(T).length} 本・数の文 ${Object.keys(F).length} つが節に逐語・表 6e が PAPER_PLAN に逐語`);
     }
     const want = ['原仮定者の回答(2026-11-26)', '原仮定者の回答(2026-11-22)', '原仮定者の整理(2026-11-23)', 'R521', 'tests/exp-w356i-dragbox.mjs', 'tests/out/dragbox-356i.json', 'tests/lib-w356i-dragbox.mjs', 'tests/lib-w356d-drageos.mjs', 'dragbox-356i',
