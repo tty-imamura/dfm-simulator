@@ -13796,6 +13796,36 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 // ===== グループ: 箱宇宙の実験(第273便a で「箱宇宙」から改名)(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
+// 第357便d(原仮定者の指示 2026-11-21「もしも宇宙に天体が１つだけだったら」・統括の検証項目 R525): 天体が 1 つだけの箱(思考実験の入口)。
+//   壁は 📦 と同じ質点リング(G=0・D0=0)・箱の中の質量を持つ天体は 1 つ・見張りの粒は試験粒子(源にならない)。今のエンジンと今の physics の鍵だけ。
+//   門は behavior.boxone357d(器 tests/exp-w357d-boxone.mjs・正本 tests/out/boxone-w357d.json)
+{ id:"boxone", name:"箱宇宙 — 天体が 1 つだけの箱", emoji:"☝️", group:"箱宇宙の実験",
+  scaleTier:"cosmic",
+  sampleClass:"principle",
+  descStruct:{
+    summary:"「もしも宇宙に天体が 1 つだけだったら」の思考実験の入口。質点リングの壁(M=1440)の中に、質量を持つ天体が 1 つ(m=200)と、源にならない見張りの粒(試験粒子 10 個 —— うち 2 つは時計)を置き、全部を同じ速度 6 で並進させる(箱の中の天体の数を 1 と数え、壁の質点は数えない)。",
+    observe:"壁と天体が決定力の源で(D0=0)、見張りの粒は源にならない —— 粒は場を変えず、天体と同じ速度で天体のまわりに止まっている。箱の中から読める量は、天体と粒の相対の位置・相対の速さ・時計の比 τ/t で、検査は、全体を並進させた走行とさせない走行で、600 步の後のこの 3 つの差が門(1e-3)の内であることを見る(実測の差は状態の単精度の丸めの桁)—— この 3 つの量では、天体と箱の並進は内部から検知できない(A5・T10)。天体と同じに動く下の時計は遅れず(τ/t≈1)、天体に対して固有運動(4.5)を持つ上の時計だけが遅れる(τ/t≈0.989 —— E7R)。天体の位置の決定力は壁の分だけで、天体自身の決定力は天体に効かない(今の模型では自己の項は 0)。回転と膨張は、引きずられるフレームを通して読む量で、この本では動かさない(🌀・📈 で見る —— 天体が無い箱の中心の利得は約 1/2)。表面の時計は近似(自己の項は球の表面の値・外部の場と速さは中心の値・自転の表面の速さは含めない —— 正確には、周囲の決定力場により、表面の位置で変わる)。運動量 P はモニタで見る(A13)。",
+    control:"⏮で初期位置に戻る。"},
+  en:{name:"Box Universe — A Box with a Single Body", descStruct:{
+    summary:"The entry to the thought experiment \"what if the universe held only one body\". Inside a point-mass ring wall (M=1440) sit one massive body (m=200) and watcher particles that are not sources (10 test particles, two of them clocks); everything translates at the same velocity 6 (the body count is the number of bodies inside the box; the wall's point masses are not counted). ",
+    observe:"The wall and the body are the sources of determinacy (D0=0) and the watchers are not, so they leave the field unchanged and rest around the body, moving with it. What can be read from inside the box is the relative position and relative speed of the body and the watchers and the clock ratio τ/t; the check compares a run with the whole system translating and one without, and requires these three to differ by less than the gate (1e-3) after 600 steps (the measured difference is at the single-precision rounding of the state) — by these three quantities the translation of the body and the box is undetectable from inside (A5, T10). The lower clock moving with the body does not run slow (τ/t≈1); only the upper clock with a proper motion (4.5) relative to the body runs slow (τ/t≈0.989, E7R). The determinacy at the body's position is the wall's share only; the body's own determinacy does not act on the body (in the present model the self term is 0). Rotation and expansion are read through the dragged frame and are not driven in this sample (see 🌀 and 📈; in a box with no body the centre's response ratio is about 1/2). The surface clock is an approximation (the self term at the sphere's surface, the external field and speed at the centre, no rotational surface speed; strictly, it varies over the surface position with the surrounding determinant field). Momentum P is shown on the monitor (A13). ",
+    control:"Press ⏮ to reset."}},
+  activeParams:["kFrame","cLight"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  timeRef:{basis:"observe", tObs:3.84, note:"観察の基準 600 步 —— 箱・気体・格子の粒子群"},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
+    cLight:30, contactK:1000, contactCap:200, bM:25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:1, stepDt:0.0064, frameWeight:"share"},
+  bodies:[
+    {type:"ring", n:72, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false, bulkVx:6, bulkVy:0},
+    {type:"single", m:200, x:0, y:0, vx:6, vy:0, spin:0, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:70, rOut:70, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false, bulkVx:6, bulkVy:0, testParticle:true},
+    {type:"single", m:0.05, x:0, y:-130, vx:6, vy:0, spin:0, pinned:false, testParticle:true},
+    {type:"single", m:0.05, x:0, y:130, vx:10.5, vy:0, spin:0, pinned:false, testParticle:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
+
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙の実験",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
