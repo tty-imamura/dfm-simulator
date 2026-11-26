@@ -363,7 +363,7 @@
   "axf": "tests/out/axialfield-w333b.json",
   "axfVersion": "w333b-axialfield-1",
   "axfLibVersion": "w333b-axialfield-lib-1",
-  "axfTargetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480"
+  "axfTargetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9"
  },
  "pure": {
   "scenes": {
@@ -19983,25 +19983,25 @@
  },
  "timing": {
   "pure": {
-   "wallSec": 0.124
+   "wallSec": 0.118
   },
   "inputs": {
-   "wallSec": 0.152
+   "wallSec": 0.138
   },
   "push": {
-   "wallSec": 0.313
+   "wallSec": 0.434
   },
   "epoch": {
-   "wallSec": 0.33
+   "wallSec": 0.448
   },
   "windows": {
-   "wallSec": 26.613
+   "wallSec": 30.587
   },
   "tide": {
-   "wallSec": 26.615
+   "wallSec": 30.588
   },
   "self": {
-   "wallSec": 26.618
+   "wallSec": 30.59
   }
  },
  "gates": {
@@ -20019,19 +20019,19 @@
   "self": true
  },
  "ok": true,
- "elapsedS": 26.62,
+ "elapsedS": 30.592,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第334便b",
   "target": "tests/lib-w334b-ledger.mjs",
   "targetSha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-  "generatedAt": "2026-11-22T04:14:11.715Z",
+  "generatedAt": "2026-11-26T21:18:04.950Z",
   "inputs": [
    {
     "file": "tests/out/axialfield-w333b.json",
     "bytes": 1450945,
-    "sha256": "b40ab3549dbe3ee4df37d72282fe92c064b92852f5ed1b5ee29e3548742282e2",
-    "mtime": "2026-11-22T01:42:32.585Z"
+    "sha256": "34d3bdaae87a01705db87929d8faf98fb78392e00c0900ef2e7c0156cc911b1b",
+    "mtime": "2026-11-26T16:33:21.569Z"
    }
   ],
   "code": [
@@ -20039,109 +20039,109 @@
     "file": "tests/exp-w334b-ledger.mjs",
     "bytes": 24884,
     "sha256": "2b11bc159dab3eaba6a4123f17cf07c6f089e6b92923e2add445998b228eab3d",
-    "mtime": "2026-11-19T16:19:54.556Z"
+    "mtime": "2026-11-24T05:41:45.021Z"
    },
    {
     "file": "tests/lib-w334b-ledger.mjs",
     "bytes": 45562,
     "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.085Z"
    },
    {
     "file": "tests/lib-w333a-rotdiff.mjs",
     "bytes": 28077,
     "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.085Z"
    },
    {
     "file": "tests/lib-w333b-axialfield.mjs",
     "bytes": 34735,
     "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.085Z"
    },
    {
     "file": "tests/lib-w332a-eqband.mjs",
     "bytes": 47971,
     "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w332b-transgeo2.mjs",
     "bytes": 29461,
     "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.085Z"
    },
    {
     "file": "tests/lib-w331a-coordtwist.mjs",
     "bytes": 33003,
     "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w331b-centrifugal.mjs",
     "bytes": 36773,
     "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w331c-k1scale.mjs",
     "bytes": 37022,
     "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w330a-spinclass.mjs",
     "bytes": 34905,
     "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
-    "mtime": "2026-11-19T16:19:54.588Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w330b-dragweight.mjs",
     "bytes": 43091,
     "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
-    "mtime": "2026-11-19T16:19:54.592Z"
+    "mtime": "2026-11-24T05:41:45.081Z"
    },
    {
     "file": "tests/lib-w326d-axialheat.mjs",
     "bytes": 32001,
     "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
-    "mtime": "2026-11-19T16:19:54.588Z"
+    "mtime": "2026-11-24T05:41:45.077Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w312a-decay.mjs",
     "bytes": 26451,
     "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w310d-shell.mjs",
     "bytes": 20604,
     "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "3f34be58859f3f3147d477464d1829b34a1d78c0ab2eceefd95db7cbad36c787",
@@ -20161,7 +20161,7 @@
   "inputsStable": [
    {
     "file": "tests/out/axialfield-w333b.json",
-    "stableSha256": "e97201d8353061d3b375f7d2325ca71cf139435411cfe1b72405b859f14a995d",
+    "stableSha256": "7c2eda820d612a46d141311b8e7cd44fd503a8385dca774f84c6e2ab709b184f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
