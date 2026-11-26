@@ -2219,7 +2219,7 @@ ja: {
   btnExtCopyShort:"短縮版をコピー",
   // 第357便c(R524): 対話式の入口(AI のタブの先頭のグループ)と、取り込みの結果を AI チャットへ伝える文。aiChatPrompt の字は README の節「AI チャットと対話しながら使う」のプロンプトと同じ(QA ai.chatButtons357c)
   aiChatHead:"AIチャットと対話して作る",
-  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。",
+  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。",
   btnChatCopy:"対話を始めるプロンプトをコピー",
   aiChatLink:"対話の入口のページを開く(新しいタブ)",
   aiChatPrompt:"あなたはこれから、ブラウザで動く教育用のトイ模型「仮想物理ラボ(DFM シミュレータ)」の案内役として、私と対話します。\nまず次の 2 つのページを読んでください。\n1. 対話の入口(全部): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. シミュレーションを作るときの仕様: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\n読めないときは、同じ内容が https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ の下に在ります(AI_CHAT.md・AI_SPEC_CORE.md)。\nどちらも読めないページが在れば、最初にその旨を言ってください(読めないまま、中身を推測して答えないでください)。\n読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。",
@@ -2230,6 +2230,7 @@ ja: {
   aiResFixes:(f)=>"自動で直した点: "+f,
   aiResChanges:"変更した点:",
   aiResNoChange:"変更した点: なし",
+  aiResBuilt:(g,kind)=>"出来た本: geoPN="+g+"("+(kind==="records"? "観測レコードから組み立てた実単位の本" : kind==="real"? "プリセットをそのまま —— 実単位の宣言あり" : "プリセットをそのまま —— 実単位ではありません")+")",   // 第357便h: 値は出来た本から読むだけ
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、同じ内容がリポジトリ https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md にあります。どちらも読めなければ、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
@@ -3532,7 +3533,7 @@ en: {
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiChatHead:"Build it in a dialogue with an AI chat",
-  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat.",
+  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat. If the AI says it cannot read the pages, use \"One-shot generation prompt\" below (it contains the whole specification, so no page needs to be read).",
   btnChatCopy:"Copy the prompt to start a dialogue",
   aiChatLink:"Open the dialogue entry page (new tab)",
   aiChatPrompt:"From now on, you will hold a dialogue with me as the guide for \"Virtual Physics Lab (DFM simulator)\", an educational toy model that runs in a browser.\nFirst read the following 2 pages.\n1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\nIf you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).\nIf there is a page you cannot read at either address, say so first (do not answer by guessing what it says).\nAfter reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.",
@@ -3543,6 +3544,7 @@ en: {
   aiResFixes:(f)=>"Corrected automatically: "+f,
   aiResChanges:"What was changed:",
   aiResNoChange:"What was changed: nothing",
+  aiResBuilt:(g,kind)=>"Built preset: geoPN="+g+" ("+(kind==="records"? "a real-unit preset built from the ObservationRecords" : kind==="real"? "the preset as pasted — it declares real units" : "the preset as pasted — not in real units")+")",
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
   aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, the same file is in the repository at https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md; if neither is readable, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
@@ -49599,6 +49601,7 @@ function aiPasteRun(save){
     obsShowDiag(r);
     setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
   } else setAiStatus(T("pasteKindPreset"),"ok");
+  obsReportBlock(aiBuiltLineOf(r), []);   // 第357便h(R528): 出来た本の geoPN と実単位かの 1 行(検証のみ・取り込むの両方)
   if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); return r; }
   aiResultMsgSet(aiResultMsgOf(r, true));   // 名は取り込む前の字(aiAdoptPreset は id だけを付ける)
   aiAdoptPreset(r.preset);
@@ -49628,6 +49631,13 @@ function aiResultMsgSet(txt){
 }
 // 結果 → AI チャットへそのまま貼れる文(純関数): 見出し(追加・不正の件数)・拒否の理由(画面の × の行の字のまま)・
 //   自動で直した点・変更した点・拒否のときは retryFixMsg の文(理由を " / " で繋いで 300 字まで)
+// 第357便h(R528): 出来た本の geoPN と、実単位の本か(観測レコードから組み立てた/プリセットをそのまま —— 実単位の宣言〔fidelity:"real"・scaleExp〕の有無)の 1 行。値は読むだけ
+function aiBuiltLineOf(r){
+  if(!r || !r.ok || !r.preset) return "";
+  const gp=(r.preset.physics && r.preset.physics.geoPN!==undefined)? r.preset.physics.geoPN : "?";
+  const kd=(r.kind==="records")? "records" : ((r.preset.fidelity==="real" || r.preset.scaleExp)? "real" : "preset");
+  return T("aiResBuilt")(String(gp), kd);
+}
 function aiResultMsgOf(r, save){
   if(!r) return "";
   const rows=[];
@@ -49635,7 +49645,7 @@ function aiResultMsgOf(r, save){
     rows.push(T("aiResHeadNg"));
     rows.push(r.stage==="diagnosis"? T("stabRejected") : T("obsBuildNg"));
     for(const e of (r.errors||[])) rows.push("× "+e);
-  } else rows.push(save? T("aiResHeadOk")((r.preset && r.preset.name) || "") : T("aiResHeadCheck"));
+  } else { rows.push(save? T("aiResHeadOk")((r.preset && r.preset.name) || "") : T("aiResHeadCheck")); rows.push(aiBuiltLineOf(r)); }   // 第357便h: 出来た本の 1 行
   const fx=[].concat((r.corrected && r.fixes)? r.fixes : [], (r.ok && r.warnings)? r.warnings : []);
   if(fx.length) rows.push(T("aiResFixes")(fx.join(LANG==="en"? "; " : "・")));
   const chg=stabChangeRows(r);

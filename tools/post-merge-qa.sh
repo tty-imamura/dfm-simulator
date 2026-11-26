@@ -2003,6 +2003,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatButtons357c behavior.intakeText357c d
 #   docs.obsGeo3_357g —— PHYSICS〔第357便g〕・AI_SPEC §419・本塊・書かない語)と、前の形の道を名指しする形にした既存の鍵・観測レコードの道の既定を読む既存の鍵・SYSTEM_PROMPT の写しを見る鍵
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsGeo3_357g docs.obsGeo3_357g behavior.alphaCenAB behavior.siriusAB behavior.psrDoubleAB ai.obs-build ai.obs-freecenter ai.obs-binary ai.obs-schema ai.obs-name-unicode ai.obs-demote ai.obs-inclination behavior.aichatIntake355h behavior.intakeText357c prompt.spec-sync prompt.schema-sync"
 # ==== 第357便g の塊(ここまで)====
+# ==== 第357便h の塊(ここから)====
+# 第357便h(原仮定者の報告(2026-11-26)・統括の検証項目 R528 —— 文と表示と検査と文書だけ): 枝 h の新設 2 本(ai.chatHints357h —— 出来た本の geoPN の 1 行・手順の 1 文 /
+#   docs.chatHints357h —— PHYSICS〔第357便h〕・AI_SPEC §420・入口のページと README の足した行・本塊)と、AI のタブと入口のページを読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatHints357h docs.chatHints357h ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c docs.aichat355h behavior.aichatIntake355h ai.ui-unified ui.aitab-no-hscroll params.i18n316 lint.uiText316"
+# ==== 第357便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
