@@ -1924,6 +1924,58 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便a の塊(ここから)====
+# 第356便a(統括の検証項目 R513 —— 図のデータと文書だけ・html と論文の原稿と今の図のデータは変えない): 枝 a の新設 2 本
+#   (behavior.p1figs356a —— 零試験 7・図 3 枚と門と照合を第338便c の recheckRun で作り直して正本と照合・図の門を QA の中で別に書いた式で照合 /
+#   docs.p1figs356a —— 表と数の文が PHYSICS〔第356便a〕に逐語・PAPER_PLAN の表 2b と ⑧ の注・入力の表の写し・文書)と、新しい段 p1figs-356a
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.p1figs356a docs.p1figs356a"
+# ==== 第356便a の塊(ここまで)====
+# ==== 第356便b の塊(ここから)====
+# 第356便b(統括の検証項目 R514 —— 材料と文書だけ・html は変えない): 枝 b の新設 2 本
+#   (behavior.p2figs356b —— 零試験 8・今の図のデータから器を作り直して第338便c の recheckRun で正本と照合 /
+#   docs.p2figs356b —— 構成案の表 3a・表 3b と PHYSICS〔第356便b〕の表・数の文が文書の lib の出力と逐語・文書)と、新しい段 p2figs-356b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.p2figs356b docs.p2figs356b"
+# ==== 第356便b の塊(ここまで)====
+# ==== 第356便c の塊(ここから)====
+# 第356便c(原仮定者の回答(2026-11-26)・統括の検証項目 R515 —— 文書と照合の鍵だけ・html は変えない): 枝 c の新設 1 本(docs.paper5ans356c —— 論文 5 の構成案の回答の後の形:
+#   PHYSICS〔第356便c〕と PAPER_PLAN の ⑪ の表が文書の lib の出力と逐語)と、⑪ を読む既存の照合(docs.heat3d355g・docs.replaw355i)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paper5ans356c docs.heat3d355g docs.replaw355i"
+# ==== 第356便c の塊(ここまで)====
+# ==== 第356便d の塊(ここから)====
+# 第356便d(統括の検証項目 R516 —— 診断と文書だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.drageos356d —— 零試験 12・零試験と対の表と門の 2 行と (T) の箱を第338便c の recheckRun で作り直して正本と照合・冪と印と d★ を QA の中で別に書いた式で照合 /
+#   docs.drageos356d —— 原文と引きずりの口の表と表と数の文が PHYSICS〔第356便d〕に逐語・PAPER_PLAN の表 6d・文書)と、新しい段 drageos-356d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.drageos356d docs.drageos356d"
+# ==== 第356便d の塊(ここまで)====
+# ==== 第356便i の塊(ここから)====
+# 第356便i(統括の検証項目 R521 —— 診断と文書だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.dragbox356i —— 零試験 12・零試験と周期の箱の (T) と (T+S1) の 1 点と門の 2 行を第338便c の recheckRun で作り直して正本と照合・冪と比と印を QA の中で別に書いた式で照合 /
+#   docs.dragbox356i —— 原文と表と数の文が PHYSICS〔第356便i〕に逐語・PAPER_PLAN の表 6e・文書)と、新しい段 dragbox-356i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragbox356i docs.dragbox356i"
+# ==== 第356便i の塊(ここまで)====
+# ==== 第356便e の塊(ここから)====
+# 第356便e(原仮定者の回答(2026-11-26)・統括の検証項目 R517 —— 道具と戻り止めと文書だけ・html は変えない): 枝 e の新設 3 本
+#   (lint.pagesNoJekyll356e —— 根の空の .nojekyll・追跡・Jekyll の設定のファイルと頭に --- の塊を持つ追跡ファイルが 0・壊した写しで落ちる /
+#   lint.tools356e —— box-setup.sh の値の無い引数・perf-allow-check の文字列・一時の写しの古さ / docs.tools356e —— PHYSICS〔第356便e〕・AI_SPEC §409・本塊)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.pagesNoJekyll356e lint.tools356e docs.tools356e"
+# ==== 第356便e の塊(ここまで)====
+# ==== 第356便f の塊(ここから)====
+# 第356便f(統括の検証項目 R518 —— 検査の設定と戻り止めと文書だけ・html は変えない): 枝 f の新設 2 本(lint.ciSplit356f —— ci.yml の仕事 preflight・qa・perf の並び・上限・段・
+#   必須で並べて走る形・変異の自己試験 / docs.ciSplit356f —— 文書)と、ci.yml を読む既存の鍵(lint.qaOrder・lint.paperRunner348f は新しい形に合わせた・lint.ciEngine345e・
+#   lint.qaHeapDefault329c・lint.frozenBaseline は字を変えずに見る)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.ciSplit356f docs.ciSplit356f lint.qaOrder lint.paperRunner348f lint.ciEngine345e lint.qaHeapDefault329c lint.frozenBaseline"
+# ==== 第356便f の塊(ここまで)====
+# ==== 第356便g の塊(ここから)====
+# 第356便g(統括の検証項目 R519 —— 文書と検査だけ・html は変えない): 枝 g の新設 1 本(docs.docfix356g —— 高校生向けの解説の水星の項を現象の状況一覧の字に・
+#   CI の時間の上限の訂正の鎖の表と ci.yml の実物・🔥 gas の「達」の読み・本節と AI_SPEC §411・書かない語・変異の自己試験 8 種)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.docfix356g"
+# ==== 第356便g の塊(ここまで)====
+# ==== 第356便h の塊(ここから)====
+# 第356便h(統括の検証項目 R520 —— 診断と文書だけ・html は変えない): 枝 h の新設 2 本
+#   (behavior.corot356h —— 零試験 8・走りの見本を第338便c の recheckRun で作り直して正本と照合・効果と幅を正本の走りから作り直す /
+#   docs.corot356h —— 原文と読みと量の定義と表と数の文が PHYSICS〔第356便h〕に逐語・構成案の論文 4 の ⑨)と、新しい段 corot-356h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
+# ==== 第356便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

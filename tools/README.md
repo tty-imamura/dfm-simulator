@@ -465,3 +465,10 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **post-merge の stderr の置き場**: `POST_MERGE_ERR_DIR`(既定 `${TMPDIR:-/tmp}/post-merge-qa-<pid>/`)。落ちたときの文に置き場のファイルの道が出る。空のファイルと空の置き場は終わるときに消える。
 - **事前検査の一時の写し**: 名の型は `tests/lib-w353i-qatemp.mjs` の `isQaTempCopy(name)`(`tests/` を走査する検査はこれで写しを除く)。`tests/qa-preflight.mjs` は始めに生きていない pid の古い写しを消す。
 - **包み**: `node tools/qapart-verdict.mjs <出力>` は、束でない走行で要約の行が 2 本以上なら NG(2 つ以上の走行の出力を重ねて読んでいる)。QA `lint.qaTempCopy353i`・`lint.versionRegistry353i`・`docs.tools353i`。
+
+## 第356便e — 道具: 公開のサイトの形の戻り止め・値の無い引数・性能の許可の読み手の文字列・一時の写しの古さ
+
+- **公開のサイトの形**: リポジトリの根に空の `.nojekyll` を置いてある(公開のサイトは、ファイルをそのまま配る形)。戻り止めは QA `lint.pagesNoJekyll356e`(判定は `tests/lib-w356e-pages.mjs` の `pagesVerdict` —— 根の `.nojekyll` が在る・追跡されている・空・Jekyll の設定のファイルと、頭に `---` の塊を持つ追跡ファイルが 0)。
+- **`tools/box-setup.sh`**: `--repo`・`--node-modules` に値が無いとき(最後の引数・次の引数が `--` で始まる)は、「使い方の誤り」の文で終了コード 2。
+- **`tools/perf-allow-check.mjs`**: `parseAllow` は、文字列の中の `}`・`//`・`/*` を読み飛ばす(閉じない文字列は「読めない」)。
+- **事前検査の一時の写し**: `tests/lib-w353i-qatemp.mjs` の `staleTempCopies(dir, alive, self, opts)` は、更新の時刻が `STALE_AGE_MS`(6 時間)より古い写しを、pid が生きていても古い写しに数える(`opts.maxAgeMs` に `Infinity` を渡すと前の選び方)。QA `lint.tools356e`・`docs.tools356e`。くわしくは PHYSICS〔第356便e〕。

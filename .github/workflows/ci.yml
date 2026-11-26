@@ -10,6 +10,42 @@ on:
   pull_request:
 
 jobs:
+  # 第356便f: 事前検査(Chromium なしの一周 —— `npm run test:preflight`)を、全部の検査(`npm test`)の仕事 qa から
+  #          別の仕事 preflight に出して並べる(needs を書かない —— 2 つの仕事は同時に走る)。検査は 1 本も減らさない。
+  #          前の形は 1 つの仕事の中で preflight → 依存の導入 → npm test の直列(beta: preflight 35〜56 分 + 本体 62〜106 分)。
+  #          並べると壁時計は長い方だけになる。事前検査が落ちても全部の検査は走り切る(両方の結果が同じ走行で揃う)。
+  #          箱が別なので、事前検査の一時の写し(tests/.qa-preflight-<pid>.mjs)を全部の検査は読まない。
+  #          上限はハング防止のガード(事前検査 90 分・全部の検査 240 分のまま —— 縮めるのは実測の後。性能の門は perf)
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: root
+            target: index.html
+          - name: beta
+            target: beta/index.html
+    env:
+      QA_TARGET: ${{ matrix.target }}
+      QA_CACHE: '0'
+      NODE_OPTIONS: '--max-old-space-size=6144'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 24
+      # 第279便b の preflight(構文・ブラウザに触れない lint/文書検査・全内蔵の受理/構築/1 歩)。依存の導入は要らない
+      - name: QA preflight (${{ matrix.name }})
+        run: npm run test:preflight
+      - name: Upload preflight results
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: qa-preflight-${{ matrix.name }}
+          path: tests/out/qa-preflight*.json
+
   qa:
     runs-on: ubuntu-latest
     # 第117便: 30→45 分 — QA 累積成長で第116便時点の実測が beta 23分15秒・root 27分55秒に達し、
@@ -28,6 +64,8 @@ jobs:
     # 第354便: 180→240 分 —— 第353便の PR の push の run で beta が 163 分(preflight 56 分 + 本体 106 分)に達した
     #          (同じ commit の pull_request の run は 98 分 —— 走行機の速さで開く)。上限まで 17 分。
     #          検査の数と性能の門は変えない(上限はハング防止のガードのまま —— 性能の門は perf)
+    # 第356便f: 240 分のまま —— preflight を別の仕事(上の preflight)に出したので、この仕事は依存の導入 + 本体だけ。
+    #          検査の数と性能の門は変えない(上限を縮めるのは、分けた後の走行の実測を見てから)
     timeout-minutes: 240
     strategy:
       fail-fast: false
@@ -56,11 +94,8 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
-      # 第279便b: preflight(Chromium なしの一周 — 構文・ブラウザに触れない lint/文書検査・全内蔵の
-      #           受理/構築/1 歩)。落ちたらここで止まる(依存の導入より前・所要 十数秒)。
-      #           **フル(npm test)は従来どおり次のステップで必ず走る**(CI が最終裁定者)
-      - name: QA preflight (${{ matrix.name }})
-        run: npm run test:preflight
+      # 第279便b: preflight(Chromium なしの一周)はここに在った(落ちたらここで止まる直列)。
+      # 第356便f: preflight は別の仕事 preflight に移した(並べて走る)。**フル(npm test)は従来どおり必ず走る**(CI が最終裁定者)
       - name: Install Playwright
         run: |
           npm ci

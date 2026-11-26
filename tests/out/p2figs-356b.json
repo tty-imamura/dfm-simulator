@@ -1,0 +1,870 @@
+{
+ "version": "w356b-p2figs-1",
+ "libVersion": "w356b-p2figs-lib-1",
+ "generator": "tests/exp-w356b-p2figs.mjs",
+ "target": "tests/lib-w356b-p2figs.mjs",
+ "ruling": "統括の検証項目 R514(構成案 論文2 の ⑧ の V2-5 —— アプリを変えずに埋められる分)",
+ "decl": {
+  "tol6": 0.01,
+  "nWin6": 24,
+  "nCal6": 3,
+  "nWinV29": 3,
+  "idTol": 1e-15,
+  "diffDigits": 12,
+  "frame": [
+   0,
+   1
+  ]
+ },
+ "plan": {
+  "pure": "零試験 8(図ごとに数える・拒否 8・走査の誤差を行から作り直す・V29 の字の読み・模式図 A の数は入力から・模式図 B の層の境と光の z・字の在りか・決定的)",
+  "gates": "今の 22 ゲートを図ごとに数え、残す図(p2fig1〜p2fig6)と移す図(p2fig7・p2fig8)に分ける",
+  "schem": "模式図 A(天体が 1 つの箱 —— 図 2 の g(20))・模式図 B(膨張の 3 層 —— 図 3 の錨・図 4 の z・図 5 の a_eff)",
+  "prec": "図 6 の精度: 走査(p2fig6.analytic・24 区間 × 較正 3)の最大の相対の誤差を行から作り直す・V29(3 区間)の誤差を V29 の記録の字から読む・比",
+  "phrase": "「同水準」の字の在りか(図のゲートの記録・V29 の記録・図の生成器)"
+ },
+ "amend": [],
+ "notClaim": [
+  "模式図 2 枚は「模式(数の図ではない)」—— 座標は描く位置で、物理の量ではない。ラベルの数は今の図のデータの写し",
+  "図の並びは構成案の案 —— 図の行き先(移す先)は構成案 ⑥ の行に合わせた読みで、決めていない",
+  "論文の原稿・今の図のデータ・図の生成器と論文の検査・アプリは変えない。図そのもの(PDF・SVG)は作らない",
+  "現実の宇宙の主張をしない —— 今の原稿の言い方の範囲(「類似」)"
+ ],
+ "pure": {
+  "gates": {
+   "z1_count": true,
+   "z2_reject": true,
+   "z3_scan": true,
+   "z4_v29": true,
+   "z5_schemA": true,
+   "z6_schemB": true,
+   "z7_phrase": true,
+   "z8_determ": true
+  },
+  "z1": {
+   "total": 6,
+   "byFig": {
+    "p2fig1": 1,
+    "p2fig2": 2,
+    "p2fig7": 2,
+    "p2fig8": 1
+   },
+   "ids": {
+    "p2fig1": [
+     "p2fig1.schematic"
+    ],
+    "p2fig2": [
+     "p2fig2.a",
+     "p2fig2.b"
+    ],
+    "p2fig7": [
+     "p2fig7.x",
+     "p2fig7.y"
+    ],
+    "p2fig8": [
+     "p2fig8.z"
+    ]
+   },
+   "keep": 3,
+   "move": 3,
+   "other": 0,
+   "schematic": [
+    "p2fig1.schematic"
+   ],
+   "keepNumeric": 2,
+   "allPass": false,
+   "pageErrors": 0
+  },
+  "z3": {
+   "scan": {
+    "check": "p2fig6.analytic",
+    "what": "図 6 の走査(図のゲート)",
+    "nWin": 2,
+    "nCal": 2,
+    "nAll": 4,
+    "maxRel": 0.02,
+    "maxRelStored": 0.02,
+    "sameAsStored": true,
+    "atCal": 2,
+    "wDrift": 0.0001,
+    "perCal": [
+     {
+      "dkt": 1,
+      "nWin": 2,
+      "maxRel": 0.01
+     },
+     {
+      "dkt": 2,
+      "nWin": 2,
+      "maxRel": 0.02
+     }
+    ],
+    "tol": 0.01,
+    "within": false
+   },
+   "v29": {
+    "check": "verify.V29",
+    "what": "検証 V29(1 つの走り)",
+    "nWin": 2,
+    "nCal": 1,
+    "dkt": 0.9,
+    "per": [
+     0.0001,
+     0.0003
+    ],
+    "maxRel": 0.0003,
+    "maxRelText": "3.0e-4",
+    "maxOfPer": 0.0003,
+    "wDrift": 0.0002,
+    "wDriftText": "2.0e-4",
+    "tol": 0.01,
+    "within": true,
+    "pass": true
+   },
+   "ratio": 66.666667,
+   "bothWithin": false
+  }
+ },
+ "figPlan": [
+  {
+   "id": "sA",
+   "fig": "新しい模式図 A(天体が 1 つの箱)",
+   "chapter": "第 3 章",
+   "state": "new",
+   "shows": "天体が 1 つの箱の中から、箱の並進・回転・膨張のうち何が読めないか(並進)と、何が引きずられるフレームを通して読めるか(回転・膨張 —— 中心の利得 1/2)",
+   "src": "tests/out/p2figs-356b.json の schematicA(数は今の図 2 のデータ paper/figures/p2fig2.json から)",
+   "to": "第 3 章の頭"
+  },
+  {
+   "id": "p2fig1",
+   "fig": "今の図 1(p2fig1 —— 箱の階層)",
+   "chapter": "第 2 章・第 3 章",
+   "state": "keep",
+   "shows": "規定の箱と自由な箱・内部の物体が読む量と意味論の 6 項目(模式図)",
+   "src": "paper/figures/p2fig1.json(模式図 —— 数値ゲートなし)",
+   "to": "残す"
+  },
+  {
+   "id": "p2fig2",
+   "fig": "今の図 2(p2fig2 —— フレームの利得)",
+   "chapter": "第 3 章",
+   "state": "keep",
+   "shows": "質点リングの壁のフレームの利得 g(r) の実測と解析(中心で 1/2)",
+   "src": "paper/figures/p2fig2.json(V23a・V24a と同じ構成の半径の走査)",
+   "to": "残す"
+  },
+  {
+   "id": "sB",
+   "fig": "新しい模式図 B(膨張の 3 層の比べ)",
+   "chapter": "第 4 章",
+   "state": "new",
+   "shows": "規定された運動学・波長の意味論・解かれる動力学の 3 層で、何を与え何を読むか(a(t) を与える → 解く)",
+   "src": "tests/out/p2figs-356b.json の schematicB(数は今の図 3・図 4・図 5 のデータ paper/figures/p2fig3.json・p2fig4.json・p2fig5.json から)",
+   "to": "第 4 章の頭"
+  },
+  {
+   "id": "p2fig3",
+   "fig": "今の図 3(p2fig3 —— 第 1 層)",
+   "chapter": "第 4 章",
+   "state": "keep",
+   "shows": "連星の膨張感受率 n_eff が決定力の持ち分 φ_B で決まる(V25 の錨)",
+   "src": "paper/figures/p2fig3.json(V25 の構成の走査)",
+   "to": "残す"
+  },
+  {
+   "id": "p2fig4",
+   "fig": "今の図 4(p2fig4 —— 第 2 層)",
+   "chapter": "第 4 章",
+   "state": "keep",
+   "shows": "A・B の光の波長と赤方偏移・波長保持則の帳簿",
+   "src": "paper/figures/p2fig4.json(boxredshift —— box.photon-abc と同じ構成)",
+   "to": "残す"
+  },
+  {
+   "id": "p2fig5",
+   "fig": "今の図 5(p2fig5 —— 第 3 層)",
+   "chapter": "第 4 章",
+   "state": "keep",
+   "shows": "自由な箱の a_eff(圧力あり —— 増える/圧力なし —— 再収縮)・閉じた帳簿",
+   "src": "paper/figures/p2fig5.json(freebox —— freebox.* と同じ構成)",
+   "to": "残す"
+  },
+  {
+   "id": "p2fig6",
+   "fig": "今の図 6(p2fig6 —— 2 つの H 推定器)",
+   "chapter": "第 5 章",
+   "state": "keep",
+   "shows": "H_w/H_geo の実測と解析を較正 3 つで・反比例の対照・較正点(ハッブルテンション類似)",
+   "src": "paper/figures/p2fig6.json(V29 の測定系を a × (D X_k) の走査へ)",
+   "to": "残す"
+  },
+  {
+   "id": "echo",
+   "fig": "時間の矢の戻り(図表の案の 1 つ)",
+   "chapter": "第 6 章",
+   "state": "plan",
+   "shows": "可逆な箱の中の時間の矢(戻る・戻らない)",
+   "src": "図のデータは無い(検査 echo.leapfrog-return・echo.friction-noreturn・echo.energy は在る)",
+   "to": "案のまま(この枝では作らない)"
+  },
+  {
+   "id": "p2fig7",
+   "fig": "今の図 7(p2fig7 —— 外来光線の掃き出し)",
+   "chapter": "付録",
+   "state": "move",
+   "shows": "光学的に暗い重力体: 外来光線の掃き出しと 2 つの光学機構の独立",
+   "src": "paper/figures/p2fig7.json(rotorSolo —— behavior.rotorSolo と同じ光線の条件)",
+   "to": "移す(論文5 の隠れ質量・暗さの章の候補 —— 構成案 ⑥ の「付録 光学的に暗い重力体」の行)"
+  },
+  {
+   "id": "p2fig8",
+   "fig": "今の図 8(p2fig8 —— 引きずりのブーストの在りか)",
+   "chapter": "付録",
+   "state": "move",
+   "shows": "銀河の本の帯ごとの v/v_bar の増強と外縁ブースト",
+   "src": "paper/figures/p2fig8.json(galaxy・8 種)",
+   "to": "移す(論文4 —— 構成案 ⑥ の「§検証対応表の外縁ブースト」の行。今は付録の図 —— 付録の行に合わせて論文5 へ移す読みも在る)"
+  }
+ ],
+ "gates": {
+  "total": 22,
+  "byFig": {
+   "p2fig1": 1,
+   "p2fig2": 2,
+   "p2fig3": 2,
+   "p2fig4": 3,
+   "p2fig5": 3,
+   "p2fig6": 3,
+   "p2fig7": 4,
+   "p2fig8": 4
+  },
+  "ids": {
+   "p2fig1": [
+    "p2fig1.schematic"
+   ],
+   "p2fig2": [
+    "p2fig2.analytic",
+    "p2fig2.gain-half"
+   ],
+   "p2fig3": [
+    "p2fig3.anchors",
+    "p2fig3.dial"
+   ],
+   "p2fig4": [
+    "p2fig4.ledger",
+    "p2fig4.redshift",
+    "p2fig4.simultaneous"
+   ],
+   "p2fig5": [
+    "p2fig5.aeff",
+    "p2fig5.closed",
+    "p2fig5.recollapse"
+   ],
+   "p2fig6": [
+    "p2fig6.analytic",
+    "p2fig6.calibration",
+    "p2fig6.control"
+   ],
+   "p2fig7": [
+    "p2fig7.asymmetry",
+    "p2fig7.orthogonal",
+    "p2fig7.physlock",
+    "p2fig7.sweepout"
+   ],
+   "p2fig8": [
+    "p2fig8.dragging",
+    "p2fig8.outerboost",
+    "p2fig8.profile",
+    "p2fig8.caption"
+   ]
+  },
+  "keep": 14,
+  "move": 8,
+  "other": 0,
+  "schematic": [
+   "p2fig1.schematic"
+  ],
+  "keepNumeric": 13,
+  "allPass": true,
+  "pageErrors": 0
+ },
+ "fig1": {
+  "kind": "schematic (no simulation)",
+  "note": "箱宇宙の階層と意味論6項目の模式図。数値は含まない(ゲート対象外)。"
+ },
+ "schematicA": {
+  "kind": "模式(数の図ではない)",
+  "schematic": true,
+  "frame": [
+   0,
+   1
+  ],
+  "box": {
+   "cx": 0.5,
+   "cy": 0.5,
+   "half": 0.32
+  },
+  "body": {
+   "x": 0.5,
+   "y": 0.5,
+   "r": 0.035
+  },
+  "bodyLabel": {
+   "ja": "天体 1 つ(自分の決定力が自分に効く分は、今の模型では 0 —— 未解決 U2-1)",
+   "en": "a single body (its own determining force on itself is zero in the present model: open item U2-1)"
+  },
+  "panels": [
+   {
+    "id": "a",
+    "name": {
+     "ja": "(a) 並進",
+     "en": "(a) translation"
+    },
+    "motion": "translate",
+    "arrows": [
+     {
+      "kind": "straight",
+      "from": [
+       0.25,
+       0.9
+      ],
+      "to": [
+       0.75,
+       0.9
+      ],
+      "dir": [
+       1,
+       0
+      ]
+     }
+    ],
+    "readable": false,
+    "label": {
+     "ja": "箱ごと一様に動く —— 中から検知できない",
+     "en": "uniform motion of the whole box: not detectable from inside"
+    }
+   },
+   {
+    "id": "b",
+    "name": {
+     "ja": "(b) 回転",
+     "en": "(b) rotation"
+    },
+    "motion": "rotate",
+    "arrows": [
+     {
+      "kind": "arc",
+      "center": [
+       0.5,
+       0.5
+      ],
+      "radius": 0.42,
+      "fromDeg": 30,
+      "toDeg": 150,
+      "sense": 1
+     }
+    ],
+    "readable": true,
+    "gainMeasured": 0.500184098836936,
+    "gainAnalytic": 0.5002516363459774,
+    "label": {
+     "ja": "外の全部が回る —— 引きずられるフレームで読める(中心の近く r = 20 の利得 0.5002・解析 0.5003)",
+     "en": "everything else rotates: readable through the dragged frame (gain near the centre, r = 20: 0.5002; analytic 0.5003)"
+    }
+   },
+   {
+    "id": "c",
+    "name": {
+     "ja": "(c) 膨張",
+     "en": "(c) expansion"
+    },
+    "motion": "expand",
+    "arrows": [
+     {
+      "kind": "straight",
+      "from": [
+       0.712132034,
+       0.712132034
+      ],
+      "to": [
+       0.825269119,
+       0.825269119
+      ],
+      "dir": [
+       0.707106781,
+       0.707106781
+      ]
+     },
+     {
+      "kind": "straight",
+      "from": [
+       0.287867966,
+       0.712132034
+      ],
+      "to": [
+       0.174730881,
+       0.825269119
+      ],
+      "dir": [
+       -0.707106781,
+       0.707106781
+      ]
+     },
+     {
+      "kind": "straight",
+      "from": [
+       0.287867966,
+       0.287867966
+      ],
+      "to": [
+       0.174730881,
+       0.174730881
+      ],
+      "dir": [
+       -0.707106781,
+       -0.707106781
+      ]
+     },
+     {
+      "kind": "straight",
+      "from": [
+       0.712132034,
+       0.287867966
+      ],
+      "to": [
+       0.825269119,
+       0.174730881
+      ],
+      "dir": [
+       0.707106781,
+       -0.707106781
+      ]
+     }
+    ],
+    "readable": true,
+    "gainMeasured": 0.5001832463968706,
+    "gainAnalytic": 0.5002516363459774,
+    "label": {
+     "ja": "外の全部が膨張する —— 引きずられるフレームで読める(r = 20 の利得 0.5002)",
+     "en": "everything else expands: readable through the dragged frame (gain at r = 20: 0.5002)"
+    }
+   }
+  ],
+  "gainSource": "paper/figures/p2fig2.json#gainAtR20(箱の壁は質点 96 のリング —— 天体が 1 つの本は未)"
+ },
+ "schematicB": {
+  "kind": "模式(数の図ではない)",
+  "schematic": true,
+  "frame": [
+   0,
+   1
+  ],
+  "bounds": [
+   0,
+   0.333333333,
+   0.666666667,
+   1
+  ],
+  "layers": [
+   {
+    "x0": 0,
+    "x1": 0.333333333,
+    "xc": 0.166666667,
+    "id": "L1",
+    "name": {
+     "ja": "第 1 層 規定された運動学",
+     "en": "Layer 1: prescribed kinematics"
+    },
+    "fig": "p2fig3",
+    "gates": [
+     "p2fig3.anchors",
+     "p2fig3.dial"
+    ],
+    "give": {
+     "ja": "a(t) を外から与える(壁は調律される)",
+     "en": "a(t) is given from outside (the walls are tuned)"
+    },
+    "read": {
+     "ja": "中の連星の膨張感受率 n_eff は決定力の持ち分 φ_B で決まる",
+     "en": "the expansion susceptibility n_eff of an inner binary is set by the share φ_B"
+    },
+    "nums": {
+     "phiBbox": 0.9645324301711368,
+     "nBox": 1.609022998067289,
+     "phiBloc": 0.08786817327836156,
+     "nLoc": 0.0012002438098603354
+    },
+    "numText": {
+     "ja": "φ_B 0.965 → n_eff 1.61・φ_B 0.0879 → n_eff 0.00",
+     "en": "φ_B 0.965 → n_eff 1.61; φ_B 0.0879 → n_eff 0.00"
+    },
+    "arrow": {
+     "kind": "straight",
+     "from": [
+      0.166666667,
+      0.72
+     ],
+     "to": [
+      0.166666667,
+      0.42
+     ],
+     "dir": [
+      0,
+      -1
+     ]
+    }
+   },
+   {
+    "x0": 0.333333333,
+    "x1": 0.666666667,
+    "xc": 0.5,
+    "id": "L2",
+    "name": {
+     "ja": "第 2 層 波長の意味論",
+     "en": "Layer 2: wavelength semantics"
+    },
+    "fig": "p2fig4",
+    "gates": [
+     "p2fig4.ledger",
+     "p2fig4.redshift",
+     "p2fig4.simultaneous"
+    ],
+    "give": {
+     "ja": "放出と観測の時刻の a(a_emit・a_obs)",
+     "en": "a at emission and observation (a_emit, a_obs)"
+    },
+    "read": {
+     "ja": "λ_obs/λ_emit = a_obs/a_emit(波長保持則の帳簿)",
+     "en": "λ_obs/λ_emit = a_obs/a_emit (wavelength-keeping ledger)"
+    },
+    "nums": {
+     "zA": 2.927487859536416,
+     "zB": 0.9581497063588069,
+     "ledger": 0
+    },
+    "numText": {
+     "ja": "z_A 2.93・z_B 0.958・帳簿のずれ 0",
+     "en": "z_A 2.93, z_B 0.958, ledger error 0"
+    },
+    "arrow": {
+     "kind": "straight",
+     "from": [
+      0.5,
+      0.72
+     ],
+     "to": [
+      0.5,
+      0.42
+     ],
+     "dir": [
+      0,
+      -1
+     ]
+    }
+   },
+   {
+    "x0": 0.666666667,
+    "x1": 1,
+    "xc": 0.833333333,
+    "id": "L3",
+    "name": {
+     "ja": "第 3 層 解かれる動力学(自由な箱)",
+     "en": "Layer 3: solved dynamics (free box)"
+    },
+    "fig": "p2fig5",
+    "gates": [
+     "p2fig5.aeff",
+     "p2fig5.closed",
+     "p2fig5.recollapse"
+    ],
+    "give": {
+     "ja": "壁は普通の質点(圧力あり・なし)",
+     "en": "walls are ordinary point masses (with / without pressure)"
+    },
+    "read": {
+     "ja": "a(t) を解く(与えない)",
+     "en": "a(t) is solved, not given"
+    },
+    "nums": {
+     "aEffOn": 2.179472,
+     "aMaxOff": 1.004666,
+     "hSignFlip": true
+    },
+    "numText": {
+     "ja": "圧力あり a_eff 2.18・圧力なし 最大 1.005 → 再収縮",
+     "en": "with pressure a_eff 2.18; without pressure max 1.005, then recollapse"
+    },
+    "arrow": {
+     "kind": "straight",
+     "from": [
+      0.833333333,
+      0.72
+     ],
+     "to": [
+      0.833333333,
+      0.42
+     ],
+     "dir": [
+      0,
+      -1
+     ]
+    }
+   }
+  ],
+  "across": {
+   "kind": "straight",
+   "from": [
+    0.166666667,
+    0.12
+   ],
+   "to": [
+    0.833333333,
+    0.12
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "label": {
+    "ja": "a(t) は 与える → 解く",
+    "en": "a(t): given → solved"
+   }
+  },
+  "numSource": "paper/figures/p2fig3.json#anchors・p2fig4.json#arrivals・lambdaTracks・ledgerMaxAbsErr・p2fig5.json#pressureOn・pressureOff"
+ },
+ "prec": {
+  "scan": {
+   "check": "p2fig6.analytic",
+   "what": "図 6 の走査(図のゲート)",
+   "nWin": 24,
+   "nCal": 3,
+   "nAll": 72,
+   "maxRel": 0.006223023395,
+   "maxRelStored": 0.006223023395394378,
+   "sameAsStored": true,
+   "atCal": 0.3,
+   "wDrift": 0.000483616915767926,
+   "perCal": [
+    {
+     "dkt": 0.3,
+     "nWin": 24,
+     "maxRel": 0.006223023395
+    },
+    {
+     "dkt": 0.9242,
+     "nWin": 24,
+     "maxRel": 0.002020024907
+    },
+    {
+     "dkt": 1.5,
+     "nWin": 24,
+     "maxRel": 0.001244604679
+    }
+   ],
+   "tol": 0.01,
+   "within": true
+  },
+  "v29": {
+   "check": "verify.V29",
+   "what": "検証 V29(1 つの走り)",
+   "nWin": 3,
+   "nCal": 1,
+   "dkt": 0.92,
+   "per": [
+    0.00039,
+    0.00026,
+    0.00053
+   ],
+   "maxRel": 0.00053,
+   "maxRelText": "5.3e-4",
+   "maxOfPer": 0.00053,
+   "wDrift": 0.00048,
+   "wDriftText": "4.8e-4",
+   "tol": 0.01,
+   "within": true,
+   "pass": true
+  },
+  "ratio": 11.741554,
+  "bothWithin": true
+ },
+ "phrase": {
+  "gateLog": [
+   {
+    "where": "paper/figures/p2figs-gates.json#p2fig6.analytic",
+    "at": 53,
+    "ctx": "2e-3(<1e-2 — 本文 5.3e-4 と同水準)・w "
+   },
+   {
+    "where": "paper/figures/p2fig6.json#v29Gate.detail",
+    "at": 269,
+    "ctx": " テンション比67.4/73.0≈0.923 と同水準の較正点"
+   }
+  ],
+  "gen": [
+   {
+    "line": 584,
+    "text": "`H_w/H_geo 実測 vs 解析の最大相対誤差=${maxRelErrVsAnalytic.toExponential(2)}(<1e-2 — 本文 5.3e-4 と同水準)・w 保存ずれ最大=${maxWDrift.toExponential(2)}(<1e-3)`);"
+   }
+  ]
+ },
+ "gatesOk": {
+  "pure": true,
+  "gates": true,
+  "plan": true,
+  "schem": true,
+  "prec": true
+ },
+ "ok": true,
+ "timing": {
+  "pure": {
+   "wallSec": 0.002
+  },
+  "gates": {
+   "wallSec": 0.008
+  },
+  "schem": {
+   "wallSec": 0.009
+  },
+  "prec": {
+   "wallSec": 0.009
+  },
+  "phrase": {
+   "wallSec": 0.009
+  }
+ },
+ "elapsedS": 0.018,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第356便b",
+  "target": "tests/lib-w356b-p2figs.mjs",
+  "targetSha256": "bf2477acf16cadc5c130d1681c86487a81ff92d67c59c0aea4b1013cd5fdd67b",
+  "generatedAt": "2026-11-26T03:14:35.558Z",
+  "inputs": [
+   {
+    "file": "paper/figures/p2figs-gates.json",
+    "bytes": 3901,
+    "sha256": "54cdd421b63fc55c2a3c56df054c16b68aa222d9538edf46657b0ffd87cc0e71",
+    "mtime": "2026-11-26T03:02:21.793Z"
+   },
+   {
+    "file": "paper/figures/p2fig1.json",
+    "bytes": 364,
+    "sha256": "4178f6d69f7f7040dbaa5c5d0306828e961e54905f9dcbac000d41dadfaa82e1",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "paper/figures/p2fig2.json",
+    "bytes": 2890,
+    "sha256": "b78b3e829ff4cfb9cf4ee01e1797dd3e45a210162748af9d92e212a920001269",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "paper/figures/p2fig3.json",
+    "bytes": 3493,
+    "sha256": "41ca3b9e9f79edcc4f43973e1db1c4369d6f9b83f68214ca9a8d35676fcd13cb",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "paper/figures/p2fig4.json",
+    "bytes": 875,
+    "sha256": "b3365fa127bfd1b7e85d4916028809422ded10a17a92fbdaf9b28295f0d13663",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "paper/figures/p2fig5.json",
+    "bytes": 7936,
+    "sha256": "86b4eeb0e5132d4811b3178770e9247970d2d5a81356c8111901581a29942477",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "paper/figures/p2fig6.json",
+    "bytes": 16402,
+    "sha256": "9480cc07d5e6bbb31ad03a51187a8ac30b12c5ff802fbf0a19a1912436c8f85a",
+    "mtime": "2026-11-26T03:02:21.792Z"
+   },
+   {
+    "file": "tools/gen-figures2.mjs",
+    "bytes": 52334,
+    "sha256": "d04dd618f18a46ac9127948109227883ddc78b91333d76646b349d2b6692a744",
+    "mtime": "2026-11-26T03:02:22.316Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w356b-p2figs.mjs",
+    "bytes": 8191,
+    "sha256": "c74644e57812dcd5ab4b9b49ac6afaffa421179f418b0751c0e55b8af7580377",
+    "mtime": "2026-11-26T03:14:35.288Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-26T03:02:21.949Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-26T03:02:21.981Z"
+   },
+   {
+    "file": "tests/lib-w356b-p2figs.mjs",
+    "bytes": 23920,
+    "sha256": "bf2477acf16cadc5c130d1681c86487a81ff92d67c59c0aea4b1013cd5fdd67b",
+    "mtime": "2026-11-26T03:11:24.751Z"
+   }
+  ],
+  "codeSha256": "3c4ead08084369bc9c5367192b6785f091b2e75d188a68682c602126ba2b8fb7",
+  "harnessVersion": "w356b-p2figs-1",
+  "stage": "p2figs",
+  "engine": "Node(html を読まない —— 純関数の lib・今の図のデータを読むだけ)・1 プロセス",
+  "notClaim": [
+   "模式図 2 枚は「模式(数の図ではない)」—— 座標は描く位置で、物理の量ではない。ラベルの数は今の図のデータの写し",
+   "図の並びは構成案の案 —— 図の行き先(移す先)は構成案 ⑥ の行に合わせた読みで、決めていない",
+   "論文の原稿・今の図のデータ・図の生成器と論文の検査・アプリは変えない。図そのもの(PDF・SVG)は作らない",
+   "現実の宇宙の主張をしない —— 今の原稿の言い方の範囲(「類似」)"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 0,
+   "kept": 161,
+   "zeroPathsHead": [],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
