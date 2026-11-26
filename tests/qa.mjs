@@ -12837,6 +12837,15 @@ const W298A_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGE
 const W298C_BLOCK = (h, id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, b > a ? b : undefined); };
 const W298C_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); if (h.indexOf('REL_DRAG_SPIN3_VERSION = "w298c') < 0) return []; return W298A_IDS.filter((id) => W298C_BLOCK(h, id).indexOf('relativeDrag:{law:"inertial"') >= 0); } catch (e) { return []; } })();
 const W298C_DCIDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); return W298C_IDS.filter((id) => W298C_BLOCK(h, id).indexOf('dragCore:{') >= 0); } catch (e) { return []; } })();
+// ==== 第357便(統合の後の直し・2)の塊(ここから)====
+// 第357便(統合の後の直し・2): W298C_BLOCK は次の「\n{ id:"」までを本の宣言と見るので、内蔵の最後の本(🛟 saturnRotVertExplore3d)の切り出しは本の並びの終わりを越えて
+//   html の後ろまで届く。第357便g の観測レコードの道の既定(変種 g3k1 —— relativeDrag:{law:"inertial"… の宣言の型)が後ろに入った世代で、🛟 が「慣性の宣言の本」「dragCore の本」に
+//   誤って数えられた(🛟 の宣言は変わっていない)。本の並びの終わり(BUILTIN_PRESETS の「\n];」)で切った切り出しで照合し直し、当たらない本を 2 つの集合から外す(切り出しを狭めるだけ —— 判定は同じ)
+{ try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), a0 = h.indexOf('const BUILTIN_PRESETS = ['), end = a0 >= 0 ? h.indexOf('\n];', a0) : -1;
+  if (end > 0) { const blk = (id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0 || a > end) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, (b > a && b < end) ? b : end); };
+    for (let i = W298C_IDS.length - 1; i >= 0; i--) if (blk(W298C_IDS[i]).indexOf('relativeDrag:{law:"inertial"') < 0) W298C_IDS.splice(i, 1);
+    for (let i = W298C_DCIDS.length - 1; i >= 0; i--) if (!W298C_IDS.includes(W298C_DCIDS[i]) || blk(W298C_DCIDS[i]).indexOf('dragCore:{') < 0) W298C_DCIDS.splice(i, 1); } } catch (e) { /* 読めない世代は元のまま */ } }
+// ==== 第357便(統合の後の直し・2)の塊(ここまで)====
 // 第299便e(原仮定者の裁定(第89報)④・R174): 三次元の参照模型(physics に shapeToy と coord:"3d" を持つ内蔵 —— 🔮🥏🧵🍭🎱📀🧹🎢)。宣言から列挙する(手書きの一覧を持たない)。
 //   世代切替は html の `SHAPE_TOY3_VERSION="w299e`(無い html では空)。W298A_IDS(physics の先頭に coord を書いた第298便の三次元の本)には入らない
 const W299E_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); if (h.indexOf('SHAPE_TOY3_VERSION="w299e') < 0) return []; const out = []; const re = /\n\{ id:"([^"]+)"/g; let m; while ((m = re.exec(h))) { const b = W298C_BLOCK(h, m[1]); const ph = b.slice(b.indexOf('\n  physics:{')); if (b.indexOf('\n  physics:{') >= 0 && /\n    coord:"3d", /.test(ph.slice(0, ph.indexOf('\n  bodies:'))) && ph.indexOf('shapeToy:{') >= 0 && ph.indexOf('shapeToy:{') < ph.indexOf('\n  bodies:')) out.push(m[1]); } return out; } catch (e) { return []; } })();
@@ -25565,6 +25574,11 @@ if (!FAST) {
           if (!(i0 > 0 && i0 < i7)) bad.push('〔第297便a〕が「## 7.」の前に無い');
           for (const w of ['原仮定者の裁定(第87報)', '統括の検証項目 R161', 'lambdaPnOnDrag', 'pn1Active', 'tests/exp-w297a-refit.mjs', 'tests/out/refit-w297a.json', 'h/2', '撤回', '光学'])
             if (psec297.indexOf(w) < 0) bad.push('〔第297便a〕に ' + w + ' が無い');
+          // ==== 第357便(統合の後の直し・2)の塊(ここから)====
+          // 第357便e(R526): 後に入った geoPN=3 の本 👥 twoBodyOnly3d は、〔第297便a〕の表(当時の本の列 —— 過去の節の表は書き換えない)の行の照合の外に置く
+          //   (宣言の列挙の照合〔上の dIds ⇔ r.ids〕は正本 refit-w297a を鎖で刻み直した後に 👥 を含めて見る —— ここでは外さない)
+          { const k357 = r.ids.indexOf('twoBodyOnly3d'); if (k357 >= 0 && psec297.indexOf('| twoBodyOnly3d |') < 0) r.ids.splice(k357, 1); }
+          // ==== 第357便(統合の後の直し・2)の塊(ここまで)====
           for (const id of r.ids) if (psec297.indexOf('| ' + id + ' |') < 0) bad.push('〔第297便a〕の表に ' + id + ' の行が無い');
           const nq = psec297.replace(/「[^」]*」/g, '');
           for (const w of ['再現しない', '再現できない', '合わせられない', '諦める', '較正 合', '月を再現した', '43″ を再現した']) if (nq.indexOf(w) >= 0) bad.push('〔第297便a〕に書かない語 ' + w);
@@ -74375,6 +74389,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const a = P.indexOf('〔第297便c — '); const sec = a < 0 ? '' : P.slice(a, (() => { const e = [P.indexOf('\n〔第', a + 10), P.indexOf('\n## 7.', a)].filter((k) => k > a); return e.length ? Math.min(...e) : undefined; })());
       if (!sec) bad.push('PHYSICS〔第297便c〕が無い');
+      // ==== 第357便(統合の後の直し・2)の塊(ここから)====
+      // 第357便e(R526): 後に入った公転の基準の本 👥 twoBodyOnly3d(timeRef basis "orbit")は、〔第297便c〕の移行表(当時の本の列 —— 過去の節の表は書き換えない)の照合の外に置く
+      //   (正本の行と宣言の照合〔上の J.rows ⇔ decl〕は、正本 timestd-w297c を鎖で刻み直した後に 👥 を含めて見る —— ここより前で済んでいる)
+      { const k357 = decl.findIndex((d) => d.id === 'twoBodyOnly3d'); if (k357 >= 0 && sec.indexOf('twoBodyOnly3d') < 0) decl.splice(k357, 1); }
+      // ==== 第357便(統合の後の直し・2)の塊(ここまで)====
       for (const d of decl) if (!d.retired && d.tr && d.tr.basis === 'orbit' && sec.indexOf(d.id) < 0) bad.push('PHYSICS の移行表に ' + d.id + ' が無い');
       for (const w of ['再現しない', '再現できない', '合わせられない', '諦める', '現実を再現した', '較正 合']) if (sec.indexOf(w) >= 0) bad.push('PHYSICS の節に書かない語「' + w + '」');
       const AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
