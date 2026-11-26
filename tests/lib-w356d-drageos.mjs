@@ -88,7 +88,7 @@ export const condId = (cond, sKind, spin) => cond === 'T' || cond === 'TD' ? con
 
 /* ───────── 箱の積分器(第355便g の simulate と同じ手順 —— 斥力 0・引きずりの口を足す) ───────── */
 /**
- * cfg: { N, L, Tint, Ttr, cond, sKind, spin(±1), reading, nve(真で尺度の掛け直しをしない), noWalls(真で壁なし —— 零試験だけ), steps, warm, dt, seed, spinMode('rand'|'z') } + 係数の上書き(cD・cS1・cS2・nW・eps)
+ * cfg: { N, L, Tint, Ttr, cond, sKind, spin(±1), reading, nve(真で尺度の掛け直しをしない), noWalls(真で壁なし —— 零試験だけ), wallClip(真で壁の中の奥へ向く引きずりを 0 —— 比べる口), steps, warm, dt, seed, spinMode('rand'|'z') } + 係数の上書き(cD・cS1・cS2・nW・eps)
  * 圧力 = 壁に渡る力の時間平均の和 ÷ (2D × L^(D−1))(g と同じ)。初めの位置と速さは g の simulate と同じ種・同じ順(引きずり 0 で g の rep 偽の走行と同じ数 —— 零試験)。
  */
 export function simulate(cfg) {
@@ -124,17 +124,21 @@ export function simulate(cfg) {
   const sum = (A) => { let t = 0; for (let i = 0; i < A.length; i++) t += A[i]; return t; };
   walls();
   const ke0 = KE(), pe0 = wallPE(), tint0 = sum(Tin), es0 = spinE();
-  let wallSum = 0, ttrSum = 0, nMeas = 0, heatIn = 0;
+  let wallSum = 0, ttrSum = 0, nMeas = 0, heatIn = 0, gainNoSrc = 0;
   for (let st = 0; st < c.steps; st++) {
     for (let i = 0; i < N * D; i++) v[i] += 0.5 * dt * a[i];
     if (active) dragVel(x, v, s, N, prm, u);
     if (active && force) {
       const k0 = KE();
       for (let i = 0; i < N * D; i++) v[i] += dt * u[i] / DECL.tauF;
-      const dE = k0 - KE(); heatIn += dE;
-      const dT = dE / (N * DECL.cHeat); for (let i = 0; i < N; i++) Tin[i] += dT;   // 熱の口(失った並進の運動エネルギーを内部の温度へ —— 比べる口だけ)
+      const dE = k0 - KE();
+      if (dE > 0) { heatIn += dE; const dT = dE / (N * DECL.cHeat); for (let i = 0; i < N; i++) Tin[i] += dT; }   // 熱の口(失った並進の運動エネルギーを内部の温度へ —— 比べる口だけ)
+      else gainNoSrc -= dE;                                                                                          // 増えた並進の運動エネルギー(出どころの台帳なし —— 記録だけ)
       for (let i = 0; i < N * D; i++) x[i] += dt * v[i];
-    } else if (active) { for (let i = 0; i < N * D; i++) x[i] += dt * (v[i] + u[i]); }
+    } else if (active) {
+      if (c.wallClip) for (let i = 0; i < N * D; i++) { const p = x[i]; if ((p < 0 && u[i] < 0) || (p > L && u[i] > 0)) u[i] = 0; }   // 壁の中では壁の奥へ向く引きずりの速さを 0 に(比べる口 —— 壁は引きずりで運ばれない)
+      for (let i = 0; i < N * D; i++) x[i] += dt * (v[i] + u[i]);
+    }
     else { for (let i = 0; i < N * D; i++) x[i] += dt * v[i]; }
     walls();
     for (let i = 0; i < N * D; i++) v[i] += 0.5 * dt * a[i];
@@ -144,7 +148,7 @@ export function simulate(cfg) {
   const area = 2 * D * Math.pow(L, D - 1), V = Math.pow(L, D);
   const P = wallSum / nMeas / area, TtrMeas = ttrSum / nMeas;
   return { N, L, rho: N / V, P, Pkin: N * TtrMeas / V, TtrMeas, nMeas, selfW,
-    ke0, ke1: KE(), pe0, pe1: wallPE(), tint0, tint1: sum(Tin), es0, es1: spinE(), heatIn };
+    ke0, ke1: KE(), pe0, pe1: wallPE(), tint0, tint1: sum(Tin), es0, es1: spinE(), heatIn, gainNoSrc };
 }
 function rescale(v, N, D, m, T) { const t = H.kinT(v, N, D, m); if (t > 0) { const f = Math.sqrt(T / t); for (let i = 0; i < N * D; i++) v[i] *= f; } }
 /** スピンの初め: rand = 定めた種で向きを散らす(大きさ s₀)/z = z にそろえる */
@@ -181,7 +185,7 @@ const pk = (p) => ({ rho: p.rho, T: p.T, N: p.N, P: p.P, Ttr: p.Ttr });
 export function gateRun(spec, o = {}) {
   const g = DECL.gate, hf = o.hf || 1, L = H.boxL(g.N, g.rho, 3);
   const r = simulate(Object.assign({}, spec, { N: g.N, L, Tint: 1, Ttr: 1, nve: true, seed: H.DECL.seed + g.N, steps: g.steps * hf, warm: 0, dt: DECL.h / hf }));
-  return { ke0: r.ke0, ke1: r.ke1, dKE: r.ke1 - r.ke0, dPE: r.pe1 - r.pe0, tint0: r.tint0, tint1: r.tint1, dTint: r.tint1 - r.tint0, es0: r.es0, es1: r.es1, dEs: r.es1 - r.es0, heatIn: r.heatIn };
+  return { ke0: r.ke0, ke1: r.ke1, pe0: r.pe0, dKE: r.ke1 - r.ke0, dPE: r.pe1 - r.pe0, dE: (r.ke1 + r.pe1) - (r.ke0 + r.pe0), tint0: r.tint0, tint1: r.tint1, dTint: r.tint1 - r.tint0, es0: r.es0, es1: r.es1, dEs: r.es1 - r.es0, heatIn: r.heatIn, gainNoSrc: r.gainNoSrc };
 }
 
 /* ───────── 近づく 2 粒 ───────── */
@@ -254,9 +258,9 @@ export function pureScenes() {
   // z10: スピンを逆に —— (S1) は向きが逆・(S2) は同じ
   { const sr = ss.map((t) => -t), a1 = dragVel(xs, vs, ss, N, prm({ cS1: 1 }), U()), b1 = dragVel(xs, vs, sr, N, prm({ cS1: 1 }), U()), a2 = dragVel(xs, vs, ss, N, prm({ cS2: 1 }), U()), b2 = dragVel(xs, vs, sr, N, prm({ cS2: 1 }), U());
     z.z10 = { s1: Math.max(...a1.map((t, k) => Math.abs(t + b1[k]))), s2: Math.max(...a2.map((t, k) => Math.abs(t - b2[k]))), mag: Math.max(...a1.map(Math.abs)) }; }
-  // z11: 比べる口(力として効く形)の熱の口の閉じ —— 失った並進の運動エネルギー = 内部の温度の和の増え × C(壁なしの短い走行)
+  // z11: 比べる口(力として効く形)の熱の口の閉じ —— 失った並進の運動エネルギー = 内部の温度の和の増え × C − 出どころなしの増え(壁なしの短い走行)
   { const r = simulate({ N: 8, L: 6, Tint: 1, Ttr: 1, nve: true, noWalls: true, steps: 50, warm: 0, seed: 356005, dt: 0.02, cond: 'TD', reading: 'force' });
-    z.z11 = { lost: r.ke0 - r.ke1, heat: (r.tint1 - r.tint0) * DECL.cHeat, heatIn: r.heatIn }; }
+    z.z11 = { lost: r.ke0 - r.ke1, heat: (r.tint1 - r.tint0) * DECL.cHeat, heatIn: r.heatIn, gain: r.gainNoSrc }; }
   // z12: 定めた手順(同じ入力で同じ数)
   { const cfg = { N: 27, L: 6, Tint: 1, Ttr: 1, steps: 200, warm: 50, seed: 356007, dt: 0.02, cond: 'TDS', sKind: 'S1' }; z.z12 = { p1: simulate(cfg).P, p2: simulate(cfg).P }; }
   return z;
@@ -274,7 +278,7 @@ export function pureGates(z) {
     z8_noHeat: z.z8.dKE.every((t) => t === 0) && z.z8.dT.every((t) => t === 0) && z.z8.dEs.every((t) => t === 0) && z.z8.ke > 0,
     z9_galilean: z.z9 <= 1e-12,
     z10_spinFlip: z.z10.s1 <= 1e-15 * Math.max(1, z.z10.mag) && z.z10.s2 === 0 && z.z10.mag > 0,
-    z11_forceHeat: near(z.z11.lost, z.z11.heat, 1e-9) && near(z.z11.lost, z.z11.heatIn, 1e-9) && z.z11.lost > 0,
+    z11_forceHeat: near(z.z11.lost, z.z11.heat - z.z11.gain, 1e-9) && near(z.z11.heat, z.z11.heatIn, 1e-9) && z.z11.heat > 0,
     z12_determ: z.z12.p1 === z.z12.p2 && z.z12.p1 > 0,
   };
 }
