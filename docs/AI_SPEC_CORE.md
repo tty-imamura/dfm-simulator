@@ -53,7 +53,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration are computed by the app's deterministic functions — you never touch them (every body has a rotation row -> geoPN=3, the same rule form as the in-place planet books; a body without a rotation row -> geoPN=1, the reference form checked against the observed inputs as they are; no matched value either way).
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.

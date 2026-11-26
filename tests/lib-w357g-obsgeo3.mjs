@@ -11,21 +11,35 @@ import os from 'node:os';
 import path from 'node:path';
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 
-export const LIB_VERSION = 'w357g-obsgeo3-lib-1';
+export const LIB_VERSION = 'w357g-obsgeo3-lib-2';
+// 版 2(統合の後の直し・枝 g 2 —— 原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」): 形は自転の行の有無で選ぶ。
+//   全部の天体に自転の行(rotation_period か spin)が在れば g3k1(geoPN=3)・1 つでも欠ければ g1kf0(geoPN=1・kFrame=0・λ_PN=1)。
+//   族ごとに「自転の行が全部に在る」題材と「欠ける」題材を持つ(足りない族は、題材から自転の行を足す/外して作る)。
 // 目標の形(在位の惑星の本 —— 🗺️ solarSystem16Inertial3d・太陽と惑星の 7 本 —— の宣言の字)
 export const TARGET_PHYS = { geoPN: 3, kFrame: 0, lambdaPN: 0, coord: '3d', D0: 0.1, q: 3, frameWeight: 'share' };
 export const TARGET_DRAG = { law: 'inertial', kernel: 'k1', rdRule: 'kappaM', pairs: 'all', history: 'positions', initMotion: 'observed' };
 export const ABSENT_KEYS = ['frameReaction', 'coupleSink', 'D0pull'];
+// 自転の行が無い天体が在る系の形(実天体の表の変種 kf0・在位の geoPN=1 の実単位の本と同じ形)
+export const TARGET_PHYS_G1 = { geoPN: 1, kFrame: 0, lambdaPN: 1, D0: 0.1, q: 3, frameWeight: 'share' };
+export const ABSENT_KEYS_G1 = ['frameReaction', 'D0pull', 'relativeDrag', 'gLoc', 'coord'];
 // 族の表(実測 —— 新しい形が通らない族は ③ として 'kf1' を書く。2026-11-26 の実測では ③ の族は無い)
 export const FAMILY_FORM = {
-  'spec-example(二体・惑星と衛星)': 'g3k1',
+  'spec-example(二体・惑星と衛星)': 'g1kf0',
+  'spec-example+自転(二体・惑星と衛星)': 'g3k1',
   'sun3-21(多衛星・中心 pinned)': 'g3k1',
-  'syn-demote(多衛星・テスト粒子降格)': 'g3k1',
-  'syn-freecenter(二体・自由中心)': 'g3k1',
-  'syn-retro(二体・逆行公転)': 'g3k1',
-  'syn-binary(恒星級の二体 —— 前の形では観測安定則)': 'g3k1',
-  'csv-sirius(恒星連星・遠点整列・半径の降格 —— 二体クロージャ確認)': 'g3k1',
+  'sun3-一部(太陽と水星の自転の行なし)': 'g1kf0',
+  'syn-demote(多衛星・テスト粒子降格)': 'g1kf0',
+  'syn-demote+自転(多衛星・テスト粒子降格)': 'g3k1',
+  'syn-freecenter(二体・自由中心)': 'g1kf0',
+  'syn-freecenter+自転(二体・自由中心)': 'g3k1',
+  'syn-retro(二体・逆行公転)': 'g1kf0',
+  'syn-retro+自転(二体・逆行公転)': 'g3k1',
+  'syn-binary(恒星級の二体 —— 前の形では観測安定則)': 'g1kf0',
+  'syn-binary+自転(恒星級の二体)': 'g3k1',
+  'csv-sirius(恒星連星・遠点整列・半径の降格 —— 二体クロージャ確認)': 'g1kf0',
+  'csv-sirius+自転(恒星連星)': 'g3k1',
   'csv-psrJ0737(相対論的連星族 L−T=5)': 'g3k1',
+  'csv-psrJ0737-自転(相対論的連星族 L−T=5)': 'g1kf0',
 };
 
 const G_SI = 6.674e-11;
@@ -41,6 +55,19 @@ export function sun3Records(url) {
     r(b, 'eccentricity', e, '1'), r(b, 'orbital_period', p, 's', '= ' + (p / 86400).toFixed(3) + ' d'), r(b, 'rotation_period', rot, 's', rot < 0 ? 'retrograde' : ''));
   return out;
 }
+// 自転の行を足す(欠ける天体に公転周期と同じ値 —— 中心は衛星の公転周期)/外す
+const SPIN_Q = (q) => q === 'rotation_period' || q === 'spin';
+export function withSpin(recs) {
+  const out = recs.map((r) => Object.assign({}, r)), bodies = [...new Set(out.map((r) => r.body))];
+  for (const b of bodies) {
+    if (out.some((r) => r.body === b && SPIN_Q(r.quantity))) continue;
+    const P = out.find((r) => r.body === b && r.quantity === 'orbital_period') || out.find((r) => r.quantity === 'orbital_period'), t = out.find((r) => r.body === b);
+    out.push(Object.assign({}, t, { quantity: 'rotation_period', value: P.value, unit: 's', note: 'fixture: a rotation row added (the orbital period)' }));
+  }
+  return out;
+}
+export const withoutSpin = (recs) => recs.filter((r) => !SPIN_Q(r.quantity)).map((r) => Object.assign({}, r));
+export const spinAll = (recs) => [...new Set(recs.map((r) => r.body))].every((b) => recs.some((r) => r.body === b && SPIN_Q(r.quantity)));
 function synthetic() {
   const mk = (body, quantity, value, unit) => ({ body, quantity, value, unit, source: 'QA synthetic table (fictional bodies)',
     url: 'https://example.invalid/qa/w357g-synthetic', retrieved: '2026-11', note: 'Synthetic fixture: invented round numbers for a fictional system.' });
@@ -77,11 +104,16 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
   const why = [], cases = [], table = [];
   if (ev('typeof buildAstroFromRecords') !== 'function') return { why: ['buildAstroFromRecords が無い'], cases, table };
   const url = ev('OBS_SAMPLE_URL');
-  const F = { 'spec-example(二体・惑星と衛星)': ev('JSON.parse(JSON.stringify(obsExampleRows()))'), 'sun3-21(多衛星・中心 pinned)': sun3Records(url) };
-  if (!opts.only) Object.assign(F, synthetic(), {
-    'csv-sirius(恒星連星・遠点整列・半径の降格 —— 二体クロージャ確認)': csvSystem(root, 'Sirius '),
-    'csv-psrJ0737(相対論的連星族 L−T=5)': csvSystem(root, 'PSR J0737-3039 '),
-  });
+  const ex = ev('JSON.parse(JSON.stringify(obsExampleRows()))'), s3 = sun3Records(url);
+  const F = { 'spec-example(二体・惑星と衛星)': ex, 'spec-example+自転(二体・惑星と衛星)': withSpin(ex), 'sun3-21(多衛星・中心 pinned)': s3,
+    'sun3-一部(太陽と水星の自転の行なし)': s3.filter((r) => !(SPIN_Q(r.quantity) && (r.body === 'Sun' || r.body === 'Mercury'))) };
+  if (!opts.only) {
+    const sy = synthetic();
+    for (const [k, v] of Object.entries(sy)) { F[k] = v; F[k.replace('(', '+自転(').replace(' —— 前の形では観測安定則)', ')')] = withSpin(v); }
+    const si = csvSystem(root, 'Sirius '), ps = csvSystem(root, 'PSR J0737-3039 ');
+    Object.assign(F, { 'csv-sirius(恒星連星・遠点整列・半径の降格 —— 二体クロージャ確認)': si, 'csv-sirius+自転(恒星連星)': withSpin(si),
+      'csv-psrJ0737(相対論的連星族 L−T=5)': ps, 'csv-psrJ0737-自転(相対論的連星族 L−T=5)': withoutSpin(ps) });
+  }
   if (F['sun3-21(多衛星・中心 pinned)'].length !== 21) why.push('題材の 21 行が ' + F['sun3-21(多衛星・中心 pinned)'].length + ' 行');
   for (const [name, recs] of Object.entries(F)) {
     if (opts.only && opts.only.indexOf(name) < 0) continue;
@@ -101,7 +133,14 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
       out.vOk=v.ok; out.vErr=(v.errors||[]).length;
       out.fitted=(p.parameterAudit && p.parameterAudit.fitted)? p.parameterAudit.fitted.length : 0;
       out.meta={sc:p.sampleClass, rk:p.referenceKind, nc:p.notClaim, fid:p.fidelity,
-        ab:!!(p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.gLoc===null && p.abBody.physicsPatch.relativeDrag && p.abBody.physicsPatch.relativeDrag.enabled===false)};
+        ab:!!(p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.gLoc===null && p.abBody.physicsPatch.relativeDrag && p.abBody.physicsPatch.relativeDrag.enabled===false),
+        ab1:!!(p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.lambdaPN===0 && Object.keys(p.abBody.physicsPatch).length===1)};
+      out.ph1={}; for(const kk of ${JSON.stringify(Object.keys(TARGET_PHYS_G1))}) out.ph1[kk]=ph[kk];
+      out.absent1=${JSON.stringify(ABSENT_KEYS_G1)}.filter(kk=>ph[kk]!==undefined);
+      out.spinN=p.bodies.filter(b=>b.spin!==0).length;
+      out.desc1={ref:p.description.indexOf(LANG==="en"? "THE REFERENCE FORM CHECKED AGAINST THE OBSERVED INPUTS AS THEY ARE" : "観測入力のまま照合する基準の形")>=0,
+        miss:p.description.indexOf(LANG==="en"? "bodies without a rotation row:" : "自転の行が無い天体:")>=0, noQ:p.description.indexOf("q_exact=")<0};
+      out.choice3=p.description.indexOf(LANG==="en"? "every body has a rotation row" : "全部の天体に自転の行(rotation_period)が在る")>=0;
       out.z=p.bodies.every(b=>b.z===0 && b.vz===0);
       out.desc={rule:p.description.indexOf(LANG==="en"? "SAME RULE FORM AS THE IN-PLACE PLANET BOOKS" : "在位の惑星の本と同じ規則の形")>=0,
         noQ:p.description.indexOf("q_exact=")<0, rd:p.description.indexOf("R_d = Y_k m")>=0};
@@ -115,7 +154,9 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
       return out;
     })()`);
     const bad = [];
-    const want = opts.expectForm || FAMILY_FORM[name] || 'g3k1';
+    const want = opts.expectForm || FAMILY_FORM[name] || (spinAll(recs) ? 'g3k1' : 'g1kf0');
+    const wantSpin = spinAll(recs) ? 'g3k1' : 'g1kf0';
+    if (want !== wantSpin && !opts.expectForm) bad.push('族の表の形 ' + want + ' が自転の行の決まり(' + wantSpin + ')と違う');
     if (!o.ok) bad.push('組み立てに失敗(' + o.stage + ' ' + (o.err[0] || '').slice(0, 60) + ')');
     else {
       if (o.form !== want || o.metaForm !== want) bad.push('採った形 ' + o.form + '(期待 ' + want + ')' + (o.why ? ' —— ' + String(o.why).slice(0, 80) : ''));
@@ -128,7 +169,15 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
         if (!(o.meta.sc === 'principle' && o.meta.rk === 'theory-control' && o.meta.fid === 'real' && Array.isArray(o.meta.nc) && o.meta.nc.indexOf('solar_cal') >= 0 && o.meta.nc.indexOf('inposk1_rule') >= 0 && o.meta.ab))
           bad.push('分類と対照の欄 ' + JSON.stringify(o.meta).slice(0, 120));
         if (!o.z) bad.push('初期状態が平面でない(z・v_z)');
-        if (!(o.desc.rule && o.desc.noQ && o.desc.rd)) bad.push('説明の文 ' + JSON.stringify(o.desc));
+        if (!(o.desc.rule && o.desc.noQ && o.desc.rd && o.choice3)) bad.push('説明の文 ' + JSON.stringify(o.desc) + ' 形の選び方 ' + o.choice3);
+      }
+      if (want === 'g1kf0') {
+        for (const [kk, vv] of Object.entries(TARGET_PHYS_G1)) if (o.ph1[kk] !== vv) bad.push('physics.' + kk + '=' + JSON.stringify(o.ph1[kk]));
+        if (o.absent1.length) bad.push('geoPN=1 の形に無いはずの鍵: ' + o.absent1.join(','));
+        if (o.fitted !== 0) bad.push('fitted が ' + o.fitted + ' 件');
+        if (!(o.meta.sc === 'calibration' && o.meta.fid === 'real' && Array.isArray(o.meta.nc) && o.meta.nc.indexOf('solar_cal') >= 0 && o.meta.ab1)) bad.push('分類と対照の欄 ' + JSON.stringify(o.meta).slice(0, 120));
+        if (!(o.desc1.ref && o.desc1.miss && o.desc1.noQ)) bad.push('説明の文 ' + JSON.stringify(o.desc1));
+        if (/^sun3-一部/.test(name) && !(o.spinN >= 2)) bad.push('在る自転の値が転写されていない(spin≠0 の天体 ' + o.spinN + ')');
       }
       if (!(o.vOk && o.vErr === 0)) bad.push('受理器の拒否 ' + o.vErr);
       if (!(o.diag.ok && o.diag.worst <= 0.01)) bad.push('自己診断 ' + o.diag.worst);
@@ -143,17 +192,19 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
 }
 
 // 前の形へ戻す道(新しい形が通らない族 ③)の自己試験: 自己診断を geoPN=3 の本でだけ外す(vm の中の差し替え)→ kf1 で組み、理由を書く
-export function judgeFallback(htmlPath) {
+export function judgeFallback(htmlPath, geo = 3) {
   const H = loadHtmlHeadless(htmlPath);
   const ev = (c) => H.evalExpr(c);
-  H.ctx.__w357g = sun3Records(ev('OBS_SAMPLE_URL'));
+  const s3 = sun3Records(ev('OBS_SAMPLE_URL'));
+  H.ctx.__w357g = geo === 3 ? s3 : s3.filter((r) => !(SPIN_Q(r.quantity) && r.body === 'Sun'));
+  H.ctx.__w357geo = geo;
   return ev(`(function(){
     const orig=astroObsSelfCheck;
-    astroObsSelfCheck=function(p,t,s){ const d=orig(p,t,s); if(p.physics && p.physics.geoPN===3) return {ok:false, errors:["(自己試験)軌道を保てていません"], rows:d.rows||[], steps:d.steps}; return d; };
+    astroObsSelfCheck=function(p,t,s){ const d=orig(p,t,s); if(p.physics && p.physics.geoPN===__w357geo && p.physics.kFrame===0) return {ok:false, errors:["(自己試験)軌道を保てていません"], rows:d.rows||[], steps:d.steps}; return d; };
     try{
       const r=buildAstroFromRecords(__w357g);
       return {ok:r.ok, form:r.form, geo:r.ok? r.preset.physics.geoPN : null, kF:r.ok? r.preset.physics.kFrame : null,
-        desc:r.ok && r.preset.description.indexOf("新しい形は採用しなかった")>=0, note:(r.notes||[]).some(n=>/新しい形\\(geoPN=3\\)は採用しなかった/.test(n)), why:r.g3Why||""};
+        desc:r.ok && r.preset.description.indexOf("新しい形は採用しなかった")>=0, note:(r.notes||[]).some(n=>n.indexOf("新しい形(geoPN="+__w357geo+")は採用しなかった")>=0), why:r.g3Why||""};
     } finally { astroObsSelfCheck=orig; }
   })()`);
 }
@@ -166,6 +217,11 @@ export const MUTANTS = [
   ['既定の変種を kf1 に戻す', (h) => h.replace('    defVariant:"g3k1" };', '    defVariant:"kf1" };')],
   ['合わせた値を足す', (h) => h.replace('fixedConventions:gFix, fitted:[],', 'fixedConventions:gFix, fitted:["D₀=0.006"],')],
   ['分類を較正に戻す', (h) => h.replace('    gp.sampleClass="principle";', '    gp.sampleClass="calibration";')],
+  ['自転無しで geoPN を 3 にする', (h) => h.replace('const ph1={G:k1.G, D0:0.1, kFrame:0, q:3, geoPN:1, lambdaPN:1,', 'const ph1={G:k1.G, D0:0.1, kFrame:0, q:3, geoPN:3, lambdaPN:0,')],
+  ['自転有りで geoPN=1 の形にする', (h) => h.replace('if(o.form!=="kf1" && !spinMissing.length){', 'if(o.form!=="kf1" && spinMissing.length<0){')],
+  ['geoPN=1 の形に q を足す', (h) => h.replace('const ph1={G:k1.G, D0:0.1, kFrame:0, q:3,', 'const ph1={G:k1.G, D0:0.1, kFrame:0, q:k1.q,')],
+  ['geoPN=1 の形に D₀ を足す', (h) => h.replace('const ph1={G:k1.G, D0:0.1,', 'const ph1={D0pull:k1.D0pull, G:k1.G, D0:0.006,')],
+  ['在る自転の値を落とす', (h) => h.replace('    const hp=buildAstroPreset({system:"__observation__", variant:"g1kf0"}, built.sys);', '    const hp=buildAstroPreset({system:"__observation__", variant:"g1kf0"}, built.sys); for(const hb of hp.bodies) hb.spin=0;')],
 ];
 export function judgeMutants(htmlPath, root) {
   const html = fs.readFileSync(htmlPath, 'utf8');
@@ -177,7 +233,7 @@ export function judgeMutants(htmlPath, root) {
       if (hm === html) { out.push({ nm, same: true, hit: false }); continue; }
       const fp = path.join(tmp, 'm.html'); fs.writeFileSync(fp, hm);
       let hit = false;
-      try { hit = judgeObsGeo3(fp, root, { only: ['sun3-21(多衛星・中心 pinned)'] }).why.length > 0; } catch (e) { hit = true; }
+      try { hit = judgeObsGeo3(fp, root, { only: ['sun3-21(多衛星・中心 pinned)', 'sun3-一部(太陽と水星の自転の行なし)'] }).why.length > 0; } catch (e) { hit = true; }
       out.push({ nm, same: false, hit });
     }
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
@@ -189,9 +245,11 @@ export function runObsGeo3(htmlPath, root) {
   const J = judgeObsGeo3(htmlPath, root);
   const why = J.why.slice(), cases = J.cases.slice();
   if (J.errors && J.errors.length) why.push('読み込みの誤り ' + String(J.errors[0]).slice(0, 80));
-  const fb = judgeFallback(htmlPath);
-  if (!(fb.ok && fb.form === 'kf1' && fb.geo === 2 && fb.kF === 1 && fb.desc && fb.note)) why.push('③ の道(新しい形が通らない族は kf1 のまま・理由を書く) ' + JSON.stringify(fb).slice(0, 160));
-  cases.push('③ の道の自己試験: 新しい形の自己診断を外すと kf1(geoPN ' + fb.geo + '・kFrame ' + fb.kF + ')で組み、理由を説明の文と注記に');
+  for (const g of [3, 1]) {
+    const fb = judgeFallback(htmlPath, g);
+    if (!(fb.ok && fb.form === 'kf1' && fb.geo === 2 && fb.kF === 1 && fb.desc && fb.note)) why.push('③ の道(geoPN=' + g + ' の形が通らない系は kf1・理由を書く) ' + JSON.stringify(fb).slice(0, 160));
+    cases.push('③ の道の自己試験(geoPN=' + g + ' の形の自己診断を外す): kf1(geoPN ' + fb.geo + '・kFrame ' + fb.kF + ')で組み、理由を説明の文と注記に');
+  }
   const M = judgeMutants(htmlPath, root);
   for (const m of M) { if (m.same) why.push('変異「' + m.nm + '」の種が無い'); else if (!m.hit) why.push('変異「' + m.nm + '」で落ちない'); }
   cases.push('変異 ' + M.length + '(' + M.map((m) => m.nm + (m.hit ? ' 落ちる' : ' ×')).join('・') + ')');

@@ -135647,7 +135647,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     try { X = G357.runObsGeo3(path.join(ROOT, TARGET), ROOT); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
     const bad = err ? ['落ちた: ' + err] : X.why.slice();
     if (!/^w357g-obsgeo3-lib-\d+$/.test(G357.LIB_VERSION)) bad.push('lib の版の名の型');
-    if (Object.keys(G357.FAMILY_FORM).length !== 8) bad.push('族の表の行の数 ' + Object.keys(G357.FAMILY_FORM).length);
+    if (Object.keys(G357.FAMILY_FORM).length !== 16) bad.push('族の表の行の数 ' + Object.keys(G357.FAMILY_FORM).length);
     add('behavior.obsGeo3_357g', bad.length === 0,
       `**観測レコードの道の既定 = 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元の平面の初期状態)**(第357便g・R527 —— Node の vm・対象 ${TARGET}): ${X ? X.cases.join(' / ') : ''}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
@@ -135662,7 +135662,10 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       'relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}', 'gLoc:{law:"kappaC2"}', 'R_d = Y_k m',
       '合わせる値を 1 つも持たない', '二次元か三次元か', 'physics.gLoc は三次元の本', '族の表', '前の形のまま残る族(③)は、この表の題材では 0', '利用者の目に見える変化',
       'geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)', '{form:"kf1"}', '759.9810', '1.97e-2', '決断事項の候補', '推奨', '次点', '言わないこと',
-      'behavior.obsGeo3_357g', 'docs.obsGeo3_357g', 'behavior.alphaCenAB', 'ai.obs-binary'];
+      'behavior.obsGeo3_357g', 'docs.obsGeo3_357g', 'behavior.alphaCenAB', 'ai.obs-binary',
+      // 統合の後の直し 2(原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」)
+      '**⑪ 統合の後の直し 2 —— 自転の行の有無で形を選ぶ。**', '「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」', 'g1kf0', '中心の天体と衛星の全部に自転の行', '在る自転の値は今までどおり転写する',
+      'geoPN=1・kFrame=0(観測入力のまま照合する基準の形 —— 合わせる値なし)', '`obsMakeSys` の本文は変えていない', '| 恒星級の二体(合成) | g3k1(0.0429%) | g1kf0(0.0427%) |'];
     const secCheck = (ph) => {
       const why = [];
       const { i0, sec } = secOf(ph), ic = ph.indexOf('\n〔第357便c — '), iu = ph.indexOf('\n〔第328便 — 統括');
@@ -135688,14 +135691,14 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       'たっが上が度精', 'う合に測観', 'るす算計くし正'].map(rvG);
     const NGG = [cpG([0x518d, 0x73fe]), cpG([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpG([0x666e, 0x904d, 0x5b9a, 0x6570]), cpG([0x79c1, 0x4fe1]), cpG([0x6dfb, 0x4ed8]), cpG([0x5be9, 0x67fb]),
       cpG([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpG([0x8f03, 0x6b63]), cpG([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpG([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO'].map(rvG));
-    const texts = [['PHYSICS〔第357便g〕', S0.sec.split('**⑩ 言わないこと。**')[0]], ['AI_SPEC §419', A419]];
+    const sec10 = S0.sec.split('\n'), texts = [['PHYSICS〔第357便g〕', sec10.filter((l) => !l.startsWith('**⑩ 言わないこと。**')).join('\n')], ['AI_SPEC §419', A419]];   // ⑩(言わないことの段)だけを外して読む
     if (kz >= 0) texts.push(['CHANGELOG の第357便g の行', clz]);
     for (const [nm, tx0] of texts) {
-      const tx = tx0.split('「' + ORIG + '」').join('');
+      const tx = tx0.split('「' + ORIG + '」').join('').split('「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」').join('');
       for (const w of NGG.concat(W)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
       if (/第\d+報/.test(tx)) bad.push('④ ' + nm + ' に報の番号');
     }
-    cases.push('④ 書かない語・禁句・報の番号(節〔⑩ の前まで〕・§419・CHANGELOG)');
+    cases.push('④ 書かない語・禁句・報の番号(節〔⑩ の段を除く〕・§419・CHANGELOG)');
     {
       const m1 = secCheck(PH.split('「' + ORIG + '」').join('「実在天体は geoPN=3 が良い」')), m2 = secCheck(PH.split('759.9810').join('759.9811'));
       if (!m1.why.length) bad.push('⑤ 変異(原文の字)で落ちない');
