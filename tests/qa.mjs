@@ -133487,6 +133487,79 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便i の塊(ここまで)====
+// ==== 第356便c の塊(ここから —— docs.paper5ans356c の 1 ブロック。root は SKIP)====
+// ---- 第356便c(原仮定者の回答(2026-11-26)・統括の検証項目 R515 —— 文書と照合の鍵だけ・html は変えない):
+// ----   **論文 5 の構成案を、回答の後の形へ置き直す**(主の列 = 並進の運動の寄与・比べる列 = 斥力の則の族・論文 5 の流れ・伺う文の案と回答・訂正の鎖)。
+// ----   新設 —— 文書の lib tests/lib-w356c-paper5doc.mjs〔純関数 —— ファイルを読まない。表は第355便g・第355便i の正本から作る〕。器・段・正本は無い。
+// ----   世代切替 = beta 対象 ∧ lib が在る ∧ PHYSICS に〔第356便c〕が在る。〔第355便g〕〔第355便i〕と表 6b・表 6c は当時の字のまま(既存の docs.heat3d355g・docs.replaw355i は ⑪ も読む)。
+// ----   docs.paper5ans356c: ⓪ lib の零試験・版の名の型 ① 位置 ② 原文が出どころの節に同じ字・表 1・訂正の鎖 ③ 表 5 本が本節と ⑪ に逐語・数の文 ④ 必須の語
+// ----     ⑤ AI_SPEC §407・post-merge の塊・CHANGELOG ⑥ 書かない語・禁句 ⑦ 変異の自己試験
+{
+  await (async () => {
+  const rd356c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const wLib = path.join(ROOT, 'tests', 'lib-w356c-paper5doc.mjs');
+  const PH0 = rd356c('docs/PHYSICS.md');
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wLib) && PH0 !== null && PH0.indexOf('\n〔第356便c — ') >= 0)) {
+    console.log('SKIP docs.paper5ans356c(第356便c の論文 5 の回答の後の形の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let W = null, err0 = null;
+  try { W = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const PP0 = rd356c('docs/PAPER_PLAN.md') || '', AS0 = rd356c('docs/AI_SPEC.md') || '', PM0 = rd356c('tools/post-merge-qa.sh') || '', CL0 = rd356c('CHANGELOG.md') || '';
+  let Jg = null, Ji = null;
+  try { Jg = JSON.parse(rd356c('tests/out/heat3d-355g.json') || 'null'); Ji = JSON.parse(rd356c('tests/out/replaw-355i.json') || 'null'); } catch (e) { Jg = null; Ji = null; }
+  {
+    let bad = [], cases = [];
+    if (!W) bad.push('lib が読めない: ' + err0);
+    else try {
+      const g = W.libGates(Jg, Ji); for (const b of g.bad) bad.push('⓪ lib の零試験: ' + b);
+      if (!/^w356c-paper5doc-\d+$/.test(W.DOC_VERSION)) bad.push('⓪ 版の名の型');
+      cases.push(`⓪ lib の零試験 ${g.n}(原文と読み・閉じた問い・表の行の数・鎖の段・切る距離 ÷ 箱の一辺 = c ÷ 粒の数の 3 乗根・上端の倍の並び・読めない数・書かない語)・版の名の型`);
+      const R = W.checkPaper5(PH0, PP0, AS0, PM0, CL0, Jg, Ji); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      // ⑦ 変異の自己試験(壊した写しで、期待の違反で落ちる)
+      const iS = PH0.indexOf('\n' + W.HEAD), inSec = (a, z) => PH0.slice(0, iS) + PH0.slice(iS).replace(a, z);
+      const p11 = PP0.indexOf('\n' + W.PP_HEAD), in11 = (a, z) => PP0.slice(0, p11) + PP0.slice(p11).replace(a, z);
+      const sec = W.physSecOf(PH0, W.HEAD), q0 = '「' + W.ORIGINAL[0][1] + '」', f0 = '**⑧ 決断事項の候補(';
+      const one = (t, a) => t.split(a).length === 2;
+      for (const sd of [q0 + ' —— 次点(並進', f0, '| 2 | 〔第355便i〕の ⑩・表 6c |']) if (!one(sec, sd) && !one(PH0.slice(iS), sd)) bad.push('⑦ 変異の種「' + sd.slice(0, 16) + '」が本節で 1 回でない');
+      const Jm = (() => { const j = JSON.parse(JSON.stringify(Ji || {})); if (j.b) j.b[0].upperMult = j.b[0].upperMult * 1.01; return j; })();
+      const MUT = [
+        ['本節の回答の原文を 1 字変える', [inSec(q0 + ' | 次点 = ', '「AN1145: 推奨。「斥力に見えたのは引きずり」と言う流れ」 | 次点 = '), PP0, AS0, PM0, CL0, Jg, Ji], /^② (原文が本節に逐語で無い|表 1)/],
+        ['第355便の統括の節の回答の原文を 1 字変える(本節は変えない)', [PH0.slice(0, PH0.indexOf('\n〔第355便 — 統括')) + PH0.slice(PH0.indexOf('\n〔第355便 — 統括')).replace(q0, '「AN1145: 次点。「斥力に見えたのは引きずり」という流れ」'), PP0, AS0, PM0, CL0, Jg, Ji], /^② 原文\(回答 2026-11-26\)が第355便の統括の節/],
+        ['訂正の鎖の 2 段めを消す', [inSec('\n| 2 | 〔第355便i〕の ⑩・表 6c |', '\n| 2x | 〔第355便i〕の ⑩・表 6c |'), PP0, AS0, PM0, CL0, Jg, Ji], /^② 訂正の鎖/],
+        ['正本の B の上端の倍を変える(本節と ⑪ の表が正本と違う)', [PH0, PP0, AS0, PM0, CL0, Jg, Jm], /^③ 表 main が本節に逐語で無い/],
+        ['⑪ の比べる列の表の 1 字を変える(本節は変えない)', [PH0, in11('| 比べる列(主の列にしない) |', '| 主の列 |'), AS0, PM0, CL0, Jg, Ji], /^③ 表 cmp が ⑪ に逐語で無い/],
+        ['⑪ を「## 7.」の後へ移す', [PH0, (() => { const x = W.ppSecOf(PP0), t = PP0.replace(x, ''), k = t.indexOf('\n## 8. '); return t.slice(0, k + 1) + x + t.slice(k + 1); })(), AS0, PM0, CL0, Jg, Ji], /^① PAPER_PLAN の ⑪ の位置/],
+        ['表 6c の当時の字を書き換える', [PH0, PP0.replace('| P2s1/cs4/p1n3 | 0.985 | 1.092 | 1.001 | 内 |', '| P2s1/cs4/p1n3 | 0.985 | 1.092 | 1.001 | 内(回答で外す) |'), AS0, PM0, CL0, Jg, Ji], /^③ 表 6c の当時の字/],
+        ['本節を〔第355便i〕の前に移す', [(() => { const s = W.physSecOf(PH0, W.HEAD), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第355便i — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), PP0, AS0, PM0, CL0, Jg, Ji], /^① PHYSICS〔第356便c〕の位置/],
+        ['地の文に「理想気体になった」を書く', [inSec(f0, '斥力の気体は理想気体になった。' + f0), PP0, AS0, PM0, CL0, Jg, Ji], /^⑥ PHYSICS〔第356便c〕 に書かない語/],
+        ['⑪ に「斥力が引きずりで説明できた」を書く', [PH0, in11('**主の列 = 並進の運動の寄与**', '斥力が引きずりで説明できた。**主の列 = 並進の運動の寄与**'), AS0, PM0, CL0, Jg, Ji], /^⑥ PAPER_PLAN の ⑪ に書かない語/],
+        ['本節に 🔥 の本の「達」を理想気体の則に読む文を書く', [inSec(f0, '`gas` の達は理想気体の則に近い印。' + f0), PP0, AS0, PM0, CL0, Jg, Ji], /^⑥ PHYSICS〔第356便c〕 に書かない語 達/],
+        ['引用の中に禁句を書く', [inSec(f0, '「表の数を' + String.fromCodePoint(0x518d, 0x73fe) + 'した」の文は無い。' + f0), PP0, AS0, PM0, CL0, Jg, Ji], /^⑥ PHYSICS〔第356便c〕 に禁句/],
+        ['「」の中に書かない語を置く(落ちない)', [inSec(f0, '「主の列が' + '決まっ' + 'た」の文は無い。' + f0), PP0, AS0, PM0, CL0, Jg, Ji], null],
+        ['本節に原仮定者の文の番号を書く', [inSec(f0, '第' + '160報の回答。' + f0), PP0, AS0, PM0, CL0, Jg, Ji], /^① 本節か ⑪ に原仮定者の文の番号/],
+        ['AI_SPEC の §407 を消す', [PH0, PP0, AS0.replace(/\n## 407\. 第356便c/, '\n## 4070. 第356便c'), PM0, CL0, Jg, Ji], /^⑤ AI_SPEC §407/],
+        ['post-merge の塊を消す', [PH0, PP0, AS0, PM0.replace('# ==== 第356便c の塊(ここから)====', '# ==== 第356便c の塊===='), CL0, Jg, Ji], /^⑤ post-merge/],
+        ['正本の版の名の型を崩す', [PH0, PP0, AS0, PM0, CL0, Jg, Object.assign({}, Ji || {}, { version: 'replaw' })], /^③ 正本の版の名の型/],
+      ];
+      const sc = [];
+      for (const [nm, args, re] of MUT) {
+        if (!args || (args[0] === PH0 && args[1] === PP0 && args[2] === AS0 && args[3] === PM0 && args[4] === CL0 && args[5] === Jg && args[6] === Ji)) { bad.push('⑦ 変異「' + nm + '」が入力を変えていない'); continue; }
+        const r = W.checkPaper5(...args);
+        if (re === null) { if (r.bad.length) bad.push('⑦ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b));
+        if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+        sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.paper5ans356c', bad.length === 0,
+      `**論文 5 の構成案の回答の後の形(主の列 = 並進の運動の寄与・比べる列 = 斥力の則の族・入口の文は変えない・「引きずり」の項は未)**(第356便c・原仮定者の回答(2026-11-26)・R515 —— 原文は言葉を変えずに引く・前の節と表 6b・表 6c は当時の字のまま・文書): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第356便c の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
