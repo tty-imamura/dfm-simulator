@@ -17,8 +17,10 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --check) MODE=check; shift ;;
     --apply) MODE=apply; shift ;;
-    --repo) REPO="${2:-}"; shift 2 ;;
-    --node-modules) NM="${2:-}"; shift 2 ;;
+    --repo|--node-modules)
+      # 第356便e(R517): 値の無い --repo・--node-modules(最後に付けた・次が別の引数 --…)は使い方の誤り(終了コード 2)。以前は shift 2 が失敗して同じ引数を読み続け、終わらなかった
+      if [ $# -lt 2 ] || case "$2" in --*) true ;; *) false ;; esac; then echo "box-setup: 使い方の誤り —— $1 に値が無い($1 <道>)" >&2; exit 2; fi
+      if [ "$1" = --repo ]; then REPO="$2"; else NM="$2"; fi; shift 2 ;;
     --no-engine) NOENG=1; shift ;;
     --no-stamps) NOSTAMP=1; shift ;;
     -h|--help) sed -n '2,15p' "$0"; exit 0 ;;

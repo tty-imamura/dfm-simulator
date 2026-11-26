@@ -1941,6 +1941,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.p2figs356b docs.p2figs356b"
 #   PHYSICS〔第356便c〕と PAPER_PLAN の ⑪ の表が文書の lib の出力と逐語)と、⑪ を読む既存の照合(docs.heat3d355g・docs.replaw355i)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paper5ans356c docs.heat3d355g docs.replaw355i"
 # ==== 第356便c の塊(ここまで)====
+# ==== 第356便e の塊(ここから)====
+# 第356便e(原仮定者の回答(2026-11-26)・統括の検証項目 R517 —— 道具と戻り止めと文書だけ・html は変えない): 枝 e の新設 3 本
+#   (lint.pagesNoJekyll356e —— 根の空の .nojekyll・追跡・Jekyll の設定のファイルと頭に --- の塊を持つ追跡ファイルが 0・壊した写しで落ちる /
+#   lint.tools356e —— box-setup.sh の値の無い引数・perf-allow-check の文字列・一時の写しの古さ / docs.tools356e —— PHYSICS〔第356便e〕・AI_SPEC §409・本塊)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.pagesNoJekyll356e lint.tools356e docs.tools356e"
+# ==== 第356便e の塊(ここまで)====
 # ==== 第356便f の塊(ここから)====
 # 第356便f(統括の検証項目 R518 —— 検査の設定と戻り止めと文書だけ・html は変えない): 枝 f の新設 2 本(lint.ciSplit356f —— ci.yml の仕事 preflight・qa・perf の並び・上限・段・
 #   必須で並べて走る形・変異の自己試験 / docs.ciSplit356f —— 文書)と、ci.yml を読む既存の鍵(lint.qaOrder・lint.paperRunner348f は新しい形に合わせた・lint.ciEngine345e・
