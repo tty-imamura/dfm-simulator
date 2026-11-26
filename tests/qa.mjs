@@ -92114,6 +92114,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ==== 第324便b の塊(ここから)====
       { const w324 = ['alphaCenABInertial3dJ', 'psrDoubleABInertial3d'], keep = new Set(want320.concat(w324)); if ((hit || []).some((id) => w324.includes(id))) want320.splice(0, want320.length, ...(hit || []).filter((id) => keep.has(id))); }   // 第324便b(R280): 🔸📟 も K1 の規則の宣言で生まれた本(移行の前の写しが無い —— 内蔵の並び)
       // ==== 第324便b の塊(ここまで)====
+      // ==== 第357便(統合の後の直し・3)の塊(ここから)====
+      // 第357便e(R526): 👥 twoBodyOnly3d も K1 の規則の宣言で生まれた本(⚖️ の宣言の写し —— invSq の rdRule "kappaM"・移行の前の写しが無い)—— 第324便b と同じく、在れば期待の集合に足す(内蔵の並び)
+      { const w357 = ['twoBodyOnly3d'], keep = new Set(want320.concat(w357)); if ((hit || []).some((id) => w357.includes(id))) want320.splice(0, want320.length, ...(hit || []).filter((id) => keep.has(id))); }
+      // ==== 第357便(統合の後の直し・3)の塊(ここまで)====
       if (hit && (JSON.stringify(hit) !== JSON.stringify(want320) || hit.indexOf('solarSystem16Inertial3d') < 0)) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️(と第322便b の 4 本)だけでない: ' + hit.join(','));
       cases.push(`⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件 isRuleBookNoCopy(K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の写しが無い本 —— 今の html で ${hit ? hit.length : '?'} 本 = 🗺️)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変`); }
     // ⑥ 文書
