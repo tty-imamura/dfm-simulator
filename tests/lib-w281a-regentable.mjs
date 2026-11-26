@@ -3666,6 +3666,16 @@ export const REGEN_STEPS = [
     note: '第357便d: 箱の中の天体の数(壁・試験粒子を数えない)/並進ありと並進を引いた写しの 600 步の相対の量(位置・速さ・時計の比)/走り直しの指紋/運動量とエネルギーの変化/'
       + '読み(回る壁・膨らむ壁の利得を天体あり・なしで・天体の自転の利得・天体の位置の決定力)' }),
   // ==== 第357便d の塊(ここまで)====
+  // ==== 第357便e の塊(ここから)====
+  // ---- 第357便e(原仮定者の指示(2026-11-21)「論文3: 主にgeoPN=3を使用。「もしも宇宙に天体が２つだけだったら」の思考実験で始まる。…」・統括の検証項目 R526):
+  //   **天体が 2 つだけの宇宙の本 👥 twoBodyOnly3d の器**(段 twobody-357e —— 正本 tests/out/twobody-w357e.json・lib tests/lib-w357e-twobody.mjs)。html を読む(loadHtmlHeadless —— 受理器・build・步をそのまま)・
+  //   引く本は 👥・♊・⚖️・🫂 と、第321便b・第322便b の lib が名指す本。正本 tests/out/binbooks-w322b.json を読む(q = 1・1/3 の比の照合 —— after に binbooks-322b)。1 プロセス。所要は第357便e の枝の実測 65 s
+  S('twobody-357e', 'node tests/exp-w357e-twobody.mjs', ['tests/out/twobody-w357e.json'], 65, { secSource: 'w357e-branch', node: true, after: ['binbooks-322b'],
+    quickVerify: false, quickVerifyWhy: '質量比の列 4 × 刻み 2 × 列 3 の 8 公転と数え上げ・並進・比の 1 公転を全部走らせても 1 分の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/twobody-w357e.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第357便e: 天体の数と背景の宣言(宣言の D0・q を差し替えた写しの 1 公転のビット)/2 体に共通の速度を足した写しの相対の位置と速さ/引きずりの比 β と局所重力の比 ψ と質量の比/'
+      + '質量比の列 q = 1・1/3・1/10・1/100 × h・h/4 の OFF を差し引いた近点の移動の比(q = 1・1/3 は正本 binbooks とビットで同じ)/本 👥 と写しのビット/走り直し' }),
+  // ==== 第357便e の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

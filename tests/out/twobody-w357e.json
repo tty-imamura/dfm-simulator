@@ -1,0 +1,901 @@
+{
+ "version": "w357e-twobody-1",
+ "libVersion": "w357e-twobody-lib-2",
+ "generator": "tests/exp-w357e-twobody.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "220b546b3de434f6be5585dbad8d88114edcbaebc521ea342edc1d864345963c",
+ "ruling": "原仮定者の指示(2026-11-21)「論文3: 主にgeoPN=3を使用。「もしも宇宙に天体が２つだけだったら」の思考実験で始まる。…」・統括の検証項目 R526",
+ "decl": {
+  "inertSteps": 360,
+  "inertPatch": {
+   "D0": 0.006,
+   "q": 2
+  },
+  "transV": [
+   0.01,
+   0.1
+  ],
+  "transSteps": 360,
+  "transTol": 1e-10,
+  "betaSteps": 360,
+  "betaTol": 0.0001,
+  "momTol": 0.0001,
+  "ratios": [
+   1,
+   0.3333333333333333,
+   0.1,
+   0.01
+  ],
+  "bookRatio": 0.1,
+  "N": 8,
+  "K": 3,
+  "divs": [
+   1,
+   4
+  ],
+  "ratioTol": 0.005,
+  "pn1Tol": 0.002,
+  "rerunSteps": 360,
+  "M": 1,
+  "a": 100,
+  "e": 0.5
+ },
+ "notClaim": [
+  "2 体の系で慣性と重力の解釈が定まったとは言わない(思考実験の入口の本)",
+  "ジャイロトルクの採否に触れない",
+  "現実の連星の主張ではない(本の単位の玩具)",
+  "刻み h の比を収束の値と呼ばない(本の文の比は h/4)",
+  "(1 + (4/3)η) は表示だけ —— 補正の係数ではない",
+  "共通の並進は、門で見た 2 つの量(相対の位置・相対の速さ)に出ないことだけを言う"
+ ],
+ "count": [
+  {
+   "id": "twoBodyOnly3d",
+   "emoji": "👥",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "referenceKind": "theory-control",
+   "geoPN": 3,
+   "kFrame": 0,
+   "D0": 0,
+   "coord": "3d",
+   "gravityXY": [
+    0,
+    0
+   ],
+   "bgKeys": [],
+   "boundary": "none",
+   "relativeDrag": "inertial",
+   "gLoc": "kappaC2",
+   "declBodies": 2,
+   "declTest": 0,
+   "declPinned": 0,
+   "warnings": 0,
+   "n": 2,
+   "tp": 0,
+   "m": [
+    0.09090909361839294,
+    0.9090909361839294
+   ],
+   "inert": {
+    "patch": {
+     "D0": 0.006,
+     "q": 2
+    },
+    "steps": 360,
+    "same": true,
+    "fp": "5ad4cbde2089a7f6"
+   }
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "emoji": "♊",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "referenceKind": "theory-control",
+   "geoPN": 3,
+   "kFrame": 0,
+   "D0": 0.006,
+   "coord": "3d",
+   "gravityXY": [
+    0,
+    0
+   ],
+   "bgKeys": [],
+   "boundary": "none",
+   "relativeDrag": "inertial",
+   "gLoc": "kappaC2",
+   "declBodies": 2,
+   "declTest": 0,
+   "declPinned": 0,
+   "warnings": 0,
+   "n": 2,
+   "tp": 0,
+   "m": [
+    0.5,
+    0.5
+   ],
+   "inert": {
+    "patch": {
+     "D0": 0.006,
+     "q": 2
+    },
+    "steps": 360,
+    "same": true,
+    "fp": "1de8102acd856109"
+   }
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "emoji": "⚖️",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "referenceKind": "theory-control",
+   "geoPN": 3,
+   "kFrame": 0,
+   "D0": 0.006,
+   "coord": "3d",
+   "gravityXY": [
+    0,
+    0
+   ],
+   "bgKeys": [],
+   "boundary": "none",
+   "relativeDrag": "inertial",
+   "gLoc": "kappaC2",
+   "declBodies": 2,
+   "declTest": 0,
+   "declPinned": 0,
+   "warnings": 0,
+   "n": 2,
+   "tp": 0,
+   "m": [
+    0.25,
+    0.75
+   ],
+   "inert": {
+    "patch": {
+     "D0": 0.006,
+     "q": 2
+    },
+    "steps": 360,
+    "same": true,
+    "fp": "6a69d089b193359b"
+   }
+  },
+  {
+   "id": "boxBinaryToy",
+   "emoji": "🫂",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "referenceKind": null,
+   "geoPN": 0,
+   "kFrame": 1,
+   "D0": 0.006,
+   "coord": "2d",
+   "gravityXY": [
+    0,
+    0
+   ],
+   "bgKeys": [
+    "D0pull"
+   ],
+   "boundary": "none",
+   "relativeDrag": null,
+   "gLoc": null,
+   "declBodies": 2,
+   "declTest": 0,
+   "declPinned": 0,
+   "warnings": 0,
+   "n": 2,
+   "tp": 0,
+   "m": [
+    500,
+    500
+   ],
+   "inert": {
+    "patch": {
+     "D0": 0.006,
+     "q": 2
+    },
+    "steps": 360,
+    "same": false,
+    "fp": "6698736ea7e21ccb"
+   }
+  }
+ ],
+ "trans": [
+  {
+   "id": "twoBodyOnly3d",
+   "steps": 360,
+   "rows": [
+    {
+     "V": 0.01,
+     "dRelPos": 4.111e-15,
+     "dRelVel": 8.111e-15
+    },
+    {
+     "V": 0.1,
+     "dRelPos": 1.312e-14,
+     "dRelVel": 2.546e-14
+    }
+   ]
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "steps": 360,
+   "rows": [
+    {
+     "V": 0.01,
+     "dRelPos": 5.754e-15,
+     "dRelVel": 1.147e-14
+    },
+    {
+     "V": 0.1,
+     "dRelPos": 2.807e-14,
+     "dRelVel": 4.499e-14
+    }
+   ]
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "steps": 360,
+   "rows": [
+    {
+     "V": 0.01,
+     "dRelPos": 3.974e-15,
+     "dRelVel": 6.546e-15
+    },
+    {
+     "V": 0.1,
+     "dRelPos": 2.576e-14,
+     "dRelVel": 4.063e-14
+    }
+   ]
+  }
+ ],
+ "beta": [
+  {
+   "id": "twoBodyOnly3d",
+   "m": [
+    0.0909090936,
+    0.909090936
+   ],
+   "steps": 360,
+   "beta": [
+    0.00010099,
+    0.000010099
+   ],
+   "betaRatio01": 9.999988,
+   "massRatio10": 10,
+   "psi": [
+    0.0000101,
+    0.00000101
+   ],
+   "psiRatio01": 10,
+   "momSumRelMax": 0.00000208
+  },
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "m": [
+    0.5,
+    0.5
+   ],
+   "steps": 360,
+   "beta": [
+    0.000055544,
+    0.000055544
+   ],
+   "betaRatio01": 1,
+   "massRatio10": 1,
+   "psi": [
+    0.0000055551,
+    0.0000055551
+   ],
+   "psiRatio01": 1,
+   "momSumRelMax": 8e-16
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "m": [
+    0.25,
+    0.75
+   ],
+   "steps": 360,
+   "beta": [
+    0.000083316,
+    0.000027772
+   ],
+   "betaRatio01": 2.999998,
+   "massRatio10": 3,
+   "psi": [
+    0.0000083326,
+    0.0000027775
+   ],
+   "psiRatio01": 3,
+   "momSumRelMax": 0.00000127
+  }
+ ],
+ "ratio": {
+  "base": "binaryCheckEqualInertial3d",
+  "h": 17.453292519943293,
+  "N": 8,
+  "rows": [
+   {
+    "div": 1,
+    "q": 1,
+    "eta": 0.25,
+    "f": 1.33333,
+    "shiftSelfMinusOff": 0.00037251,
+    "shiftG1MinusOff": 0.00027923,
+    "ratio": 1.33407,
+    "ratioOverF": 1.00055,
+    "g1OverQ1": 0.999901,
+    "ratioFull": 1.3340722667182108,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0008359343161976165,
+      "nan": false,
+      "steps": 2882
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.001208440797507004,
+      "nan": false,
+      "steps": 2882
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0009292156830941653,
+      "nan": false,
+      "steps": 2882
+     }
+    }
+   },
+   {
+    "div": 4,
+    "q": 1,
+    "eta": 0.25,
+    "f": 1.33333,
+    "shiftSelfMinusOff": 0.00037227,
+    "shiftG1MinusOff": 0.00027924,
+    "ratio": 1.33314,
+    "ratioOverF": 0.999855,
+    "g1OverQ1": 0.999958,
+    "ratioFull": 1.333140154852945,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.0002927718065361484,
+      "nan": false,
+      "steps": 11520
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.00007949562763435194,
+      "nan": false,
+      "steps": 11521
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.00019974540551235734,
+      "nan": false,
+      "steps": 11520
+     }
+    }
+   },
+   {
+    "div": 1,
+    "q": 0.3333333333333333,
+    "eta": 0.1875,
+    "f": 1.25,
+    "shiftSelfMinusOff": 0.00034928,
+    "shiftG1MinusOff": 0.00027923,
+    "ratio": 1.25087,
+    "ratioOverF": 1.0007,
+    "g1OverQ1": 0.999928,
+    "ratioFull": 1.250868943827518,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0008591574667209022,
+      "nan": false,
+      "steps": 2882
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.001208440797507406,
+      "nan": false,
+      "steps": 2882
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0009292082428020856,
+      "nan": false,
+      "steps": 2882
+     }
+    }
+   },
+   {
+    "div": 4,
+    "q": 0.3333333333333333,
+    "eta": 0.1875,
+    "f": 1.25,
+    "shiftSelfMinusOff": 0.000349,
+    "shiftG1MinusOff": 0.00027924,
+    "ratio": 1.24981,
+    "ratioOverF": 0.999845,
+    "g1OverQ1": 0.999963,
+    "ratioFull": 1.2498065921660697,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.0002695033356952225,
+      "nan": false,
+      "steps": 11521
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.00007949562763477026,
+      "nan": false,
+      "steps": 11521
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.0001997467491598139,
+      "nan": false,
+      "steps": 11520
+     }
+    }
+   },
+   {
+    "div": 1,
+    "q": 0.1,
+    "eta": 0.0826446,
+    "f": 1.11019,
+    "shiftSelfMinusOff": 0.00031032,
+    "shiftG1MinusOff": 0.00027925,
+    "ratio": 1.11129,
+    "ratioOverF": 1.00099,
+    "g1OverQ1": 0.999973,
+    "ratioFull": 1.1112886448251602,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0008981189958228867,
+      "nan": false,
+      "steps": 2882
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0012084409453926841,
+      "nan": false,
+      "steps": 2882
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0009291958086634947,
+      "nan": false,
+      "steps": 2882
+     }
+    }
+   },
+   {
+    "div": 4,
+    "q": 0.1,
+    "eta": 0.0826446,
+    "f": 1.11019,
+    "shiftSelfMinusOff": 0.00030996,
+    "shiftG1MinusOff": 0.00027924,
+    "ratio": 1.11,
+    "ratioOverF": 0.999826,
+    "g1OverQ1": 0.999972,
+    "ratioFull": 1.1099997117402887,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.00023046593831848604,
+      "nan": false,
+      "steps": 11521
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0000794956371247864,
+      "nan": false,
+      "steps": 11521
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.00019974909795474435,
+      "nan": false,
+      "steps": 11520
+     }
+    }
+   },
+   {
+    "div": 1,
+    "q": 0.01,
+    "eta": 0.00980296,
+    "f": 1.01307,
+    "shiftSelfMinusOff": 0.00028326,
+    "shiftG1MinusOff": 0.00027925,
+    "ratio": 1.01433,
+    "ratioOverF": 1.00124,
+    "g1OverQ1": 1,
+    "ratioFull": 1.0143305405037186,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0009251850399986668,
+      "nan": false,
+      "steps": 2882
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.0012084408113717,
+      "nan": false,
+      "steps": 2882
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.000929186899493657,
+      "nan": false,
+      "steps": 2882
+     }
+    }
+   },
+   {
+    "div": 4,
+    "q": 0.01,
+    "eta": 0.00980296,
+    "f": 1.01307,
+    "shiftSelfMinusOff": 0.00028284,
+    "shiftG1MinusOff": 0.00027925,
+    "ratio": 1.01288,
+    "ratioOverF": 0.99981,
+    "g1OverQ1": 0.999978,
+    "ratioFull": 1.012878215815451,
+    "raw": {
+     "self": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.00020334697821550532,
+      "nan": false,
+      "steps": 11521
+     },
+     "off": {
+      "status": "run",
+      "complete": true,
+      "rate": -0.00007949562852304974,
+      "nan": false,
+      "steps": 11521
+     },
+     "g1": {
+      "status": "run",
+      "complete": true,
+      "rate": 0.00019975078266651594,
+      "nan": false,
+      "steps": 11520
+     }
+    }
+   }
+  ]
+ },
+ "canon": [
+  {
+   "id": "binaryCheckEqualInertial3d",
+   "q": 1,
+   "canonRatioH": 1.3340722667182108,
+   "mineRatioH": 1.3340722667182108,
+   "relDiffH": 0,
+   "canonRatioH4": 1.333140154852945,
+   "mineRatioH4": 1.333140154852945,
+   "relDiffH4": 0
+  },
+  {
+   "id": "binaryCheckRatio3Inertial3d",
+   "q": 0.3333333333333333,
+   "canonRatioH": 1.250868943827518,
+   "mineRatioH": 1.250868943827518,
+   "relDiffH": 0,
+   "canonRatioH4": 1.2498065921660697,
+   "mineRatioH4": 1.2498065921660697,
+   "relDiffH4": 0
+  }
+ ],
+ "bookRun": [
+  {
+   "div": 1,
+   "rate": -0.0008981189958228867,
+   "copyRate": -0.0008981189958228867,
+   "sameAsCopy": true,
+   "steps": 2882
+  },
+  {
+   "div": 4,
+   "rate": 0.00023046593831848604,
+   "copyRate": 0.00023046593831848604,
+   "sameAsCopy": true,
+   "steps": 11521
+  }
+ ],
+ "rerun": {
+  "steps": 360,
+  "same": true,
+  "fp": "5ad4cbde2089a7f6"
+ },
+ "book": {
+  "id": "twoBodyOnly3d",
+  "emoji": "👥",
+  "group": "運動と時空",
+  "physics": {
+   "G": 1,
+   "D0": 0,
+   "kFrame": 0,
+   "q": 4.6111,
+   "kRep": 0,
+   "muF": 0,
+   "gammaN": 0,
+   "kappaS": 0,
+   "kappaT": 0.0011111111111111111,
+   "cLight": 30,
+   "bM": 1,
+   "etaRad": 0,
+   "pRad": 4,
+   "gravityX": 0,
+   "gravityY": 0,
+   "massFloor": 0.000001,
+   "geoPN": 3,
+   "lambdaPN": 0,
+   "pnAlpha": 1.5,
+   "radiusScale": 1,
+   "softening": 0.05,
+   "timeScale": 1,
+   "stepDt": 17.453292519943293,
+   "stateCarry": "double",
+   "frameWeight": "pull",
+   "coord": "3d",
+   "relativeDrag": {
+    "law": "inertial",
+    "invSq": {
+     "kernel": "k1",
+     "rdRule": "kappaM"
+    },
+    "pairs": "all",
+    "history": "positions",
+    "initMotion": "observed"
+   },
+   "gLoc": {
+    "law": "kappaC2"
+   }
+  },
+  "bodies": [
+   {
+    "type": "single",
+    "m": 0.09090909090909091,
+    "radius": 1,
+    "x": -136.36363636363635,
+    "y": 0,
+    "vx": 0,
+    "vy": -0.0524863881081478,
+    "spin": 0.05,
+    "pinned": false,
+    "pnSource": true,
+    "z": 0,
+    "vz": 0
+   },
+   {
+    "type": "single",
+    "m": 0.9090909090909091,
+    "radius": 1,
+    "x": 13.636363636363637,
+    "y": 0,
+    "vx": 0,
+    "vy": 0.005248638810814781,
+    "spin": 0.05,
+    "pinned": false,
+    "pnSource": true,
+    "z": 0,
+    "vz": 0
+   }
+  ]
+ },
+ "pageErrors": [],
+ "timing": {
+  "measure": {
+   "wallSec": 63.517
+  }
+ },
+ "selfTest": {
+  "ok": true,
+  "cases": 16,
+  "bad": []
+ },
+ "gates": {
+  "count": true,
+  "trans": true,
+  "beta": true,
+  "ratio": true,
+  "canon": true,
+  "bookSame": true,
+  "rerun": true,
+  "selfTest": true
+ },
+ "ok": true,
+ "elapsedS": 65.371,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第357便e",
+  "target": "beta/index.html",
+  "targetSha256": "220b546b3de434f6be5585dbad8d88114edcbaebc521ea342edc1d864345963c",
+  "generatedAt": "2026-11-26T06:11:47.855Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7728033,
+    "sha256": "220b546b3de434f6be5585dbad8d88114edcbaebc521ea342edc1d864345963c",
+    "mtime": "2026-11-26T06:08:26.662Z"
+   },
+   {
+    "file": "tests/out/binbooks-w322b.json",
+    "bytes": 93888,
+    "sha256": "9f291a2aa8e2820abbaf1c07a9039f9984a015c4811338f804c72db9cb08c2e3",
+    "mtime": "2026-11-26T05:52:01.586Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w357e-twobody.mjs",
+    "bytes": 13565,
+    "sha256": "7e73fe87fe5fa97fd0a7abe342dd8ad76fc026fe0ffa9c8dd3ae0dc8ca00f461",
+    "mtime": "2026-11-26T06:10:40.888Z"
+   },
+   {
+    "file": "tests/lib-w357e-twobody.mjs",
+    "bytes": 11498,
+    "sha256": "305cd068ac973b0d99a5c8de914e7a92f4b6f8f3b343521f988e8c395ebc2fb0",
+    "mtime": "2026-11-26T06:09:27.126Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-26T05:52:01.490Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-26T05:52:01.486Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-26T05:52:01.498Z"
+   },
+   {
+    "file": "tests/lib-w322b-binbooks.mjs",
+    "bytes": 12239,
+    "sha256": "08d0e68a4afe1f9f669e3dbb21aff5363d7268bec5c6797943d38c73b744aaec",
+    "mtime": "2026-11-26T05:52:01.506Z"
+   },
+   {
+    "file": "tests/exp-w321b-geo3bin.mjs",
+    "bytes": 39757,
+    "sha256": "9d0506661ab1a375af509e4b5bb7f8946f2aca84488856c190f23d2d5c79bde3",
+    "mtime": "2026-11-26T05:52:01.454Z"
+   },
+   {
+    "file": "tests/lib-w321b-geo3bin.mjs",
+    "bytes": 18517,
+    "sha256": "ddc1e49f5929b4bb1115ee83e19705d7ac476ca494c3b33444a24b3442733278",
+    "mtime": "2026-11-26T05:52:01.506Z"
+   }
+  ],
+  "codeSha256": "c1d8b2370f688f87db64fb7748fb5aa3b24ee5c3994bc069d6cef40e95de35d5",
+  "harnessVersion": "w357e-twobody-1",
+  "stage": "twobody-357e",
+  "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・👥 ♊ ⚖️ の宣言と質量比の写しを走らせる",
+  "notClaim": [
+   "2 体の系で慣性と重力の解釈が定まったとは言わない(思考実験の入口の本)",
+   "ジャイロトルクの採否に触れない",
+   "現実の連星の主張ではない(本の単位の玩具)",
+   "刻み h の比を収束の値と呼ばない(本の文の比は h/4)",
+   "(1 + (4/3)η) は表示だけ —— 補正の係数ではない",
+   "共通の並進は、門で見た 2 つの量(相対の位置・相対の速さ)に出ないことだけを言う"
+  ],
+  "scope": {
+   "version": "w327c-scope-8",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABInertial3d",
+    "binary",
+    "binaryCheckEqualInertial3d",
+    "binaryCheckRatio3Inertial3d",
+    "boxBinaryToy",
+    "compactForceToy",
+    "coord3dKeplerTilt",
+    "coord3dSpinPrecess",
+    "fig8",
+    "gw150914",
+    "inertialDragPair",
+    "psrB1534",
+    "psrDoubleAB",
+    "psrJ1757DFM",
+    "psrJ1946DFM",
+    "siriusAB",
+    "siriusABInertial3d",
+    "spinDipoleBinary",
+    "twoBodyOnly3d"
+   ],
+   "roots": [
+    "$",
+    "HP.MASS_BASIS",
+    "HP.REL_DRAG_INVSQ_VERSION",
+    "HP.allPresets",
+    "HP.coord3d",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.inertialDragLedgerOf",
+    "HP.sim",
+    "HP.validatePreset",
+    "OBS_SPIN_KEYS",
+    "T",
+    "calTargetOf",
+    "ctx",
+    "cw",
+    "makeSim",
+    "pnSource"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1363,
+   "segments": 1194,
+   "closureShare": 0.2913
+  },
+  "scopeSha256": "5c3952482b7ee99fb563a01f25d6868aa5184a50cde4b188a6ca64a1522de49f",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/binbooks-w322b.json",
+    "stableSha256": "684a86b6b1524d1f239a4a485d727261774e24ef42fb639c99bf4beb532ca83b",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/E/rows/*/wallSec",
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime",
+     "/timing/*/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
