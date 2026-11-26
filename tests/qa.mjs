@@ -28041,7 +28041,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       };
       const det = detTwice();
       // (e) 経路等価: CSV 行 → buildAstroFromRecords → 内蔵とビット照合
-      const r1 = HP.buildAstroFromRecords(csvRows);
+      const r1 = HP.buildAstroFromRecords(csvRows, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       const eq = { ok: r1.ok, stage: r1.stage, errors: (r1.errors || []).slice(0, 2),
         stab: r1.ok ? (r1.stabilized && r1.stabilized.rule) : null, same: null };
       if (r1.ok) {
@@ -28377,7 +28377,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       };
       const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.56);
       // (d) 経路等価: CSV → buildAstroFromRecords → 内蔵 🌟 とビット照合+クロージャ note
-      const r1 = HP.buildAstroFromRecords(csvRows);
+      const r1 = HP.buildAstroFromRecords(csvRows, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       const eq = { ok: r1.ok, stage: r1.stage, errors: (r1.errors || []).slice(0, 2),
         stab: r1.ok ? (r1.stabilized && r1.stabilized.rule) : null,
         closure: r1.ok && (r1.notes || []).some((t) => /二体クロージャ確認を適用/.test(t)),
@@ -28749,7 +28749,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       // (d) 第222便: 族拡張後の経路等価 — CSV 9行 → buildAstroFromRecords が相対論的連星族
       //     L−T=5(c₀=3×10³)を選定し、値域外スピンの spin=0 宣言つき降格+観測安定則発動+
       //     内蔵 📻 とビット一致(physics/bodies/camera/world/scaleExp の正規化 stringify)
-      const r1 = HP.buildAstroFromRecords(csvRows);
+      const r1 = HP.buildAstroFromRecords(csvRows, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       const hole = { ok: r1.ok, stage: r1.stage,
         err: (r1.errors || []).join(' / ').slice(0, 200),
         stab: r1.ok ? (r1.stabilized && r1.stabilized.rule) : null, same: null };
@@ -52392,9 +52392,9 @@ if (!FAST) {
     ];
     const bld = await page.evaluate(({ ALL, NEG_DIAG }) => {
       const bad = [];
-      const r1 = HP.buildAstroFromRecords(ALL);
+      const r1 = HP.buildAstroFromRecords(ALL, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (!r1.ok) return { bad: ['レコード経由の構築が失敗: ' + r1.stage + ' ' + (r1.errors || []).join('|')] };
-      const r2 = HP.buildAstroFromRecords(ALL);
+      const r2 = HP.buildAstroFromRecords(ALL, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (JSON.stringify(r1.preset) !== JSON.stringify(r2.preset)) bad.push('2回の構築が不一致(非決定的)');
       // カタログ経路の生成物(同じ validatePreset 正規化を通す)
       const catV = HP.validatePreset(HP.buildAstroPreset({ system: 'jupiter' }));
@@ -52730,7 +52730,7 @@ if (!FAST) {
       mkSyn(FS.name, 'orbital_period', kepP(FS.a, FC.m + FS.m), 's', 'a と中心+衛星質量からケプラー則で機械算出(二体重心系)')];
     const fcr = await page.evaluate(({ FC_RECS, DM_RECS }) => {
       const bad = [];
-      const r1 = HP.buildAstroFromRecords(FC_RECS);
+      const r1 = HP.buildAstroFromRecords(FC_RECS, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (!r1.ok) return { bad: ['自由中心二体の構築が失敗: ' + r1.stage + ' ' + (r1.errors || []).join('|')] };
       const p = r1.preset;
       // (a) 反作用則と自由中心
@@ -52775,7 +52775,7 @@ if (!FAST) {
       const wl = runWin(legacy, 0.35);
       if (!wl.err && !(wl.wob > 0.05)) bad.push('legacy の短窓(0.35公転)が壊れていない(振れ幅 ' + (wl.wob * 100).toPrecision(3) + '% ≤ 5%)');
       // (d) 中心 pinned の多衛星系は不変
-      const rm = HP.buildAstroFromRecords(DM_RECS);
+      const rm = HP.buildAstroFromRecords(DM_RECS, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (!rm.ok) bad.push('多衛星合成系の再構築が失敗');
       else {
         if (rm.preset.physics.frameReaction !== undefined) bad.push('pinned 中心の多衛星系に frameReaction が付いた');
@@ -52922,7 +52922,7 @@ if (!FAST) {
       // (b) 第199便(観測安定則 — 2026-08-25 裁定)で期待を更新: kF1 雛形は自己診断が永年不安定
       //     として差し戻し(M0 の実測: 400步ドリフト 27.7%)、構築は **kFrame=0 へ宣言つきに
       //     フォールバックして成功**する。転写ミス(初期状態ずれ)は今までどおり差し戻す(否定対照)
-      const r1 = HP.buildAstroFromRecords(BIN_RECS);
+      const r1 = HP.buildAstroFromRecords(BIN_RECS, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (!r1.ok) bad.push('観測安定則のフォールバックが働かず構築が失敗: ' + ((r1.errors || [])[0] || r1.stage));
       else {
         if (!(r1.stabilized && r1.stabilized.rule === 'obs-stability' && r1.stabilized.from === 1 && r1.stabilized.to === 0))
@@ -52938,7 +52938,7 @@ if (!FAST) {
       }
       // (b′) 否定対照: 転写ミス(周期を 5% ずらす)は安定則の対象外 — 従来どおり差し戻される
       const RECS_BAD = BIN_RECS.map((t) => t.quantity === 'orbital_period' ? Object.assign({}, t, { value: t.value * 1.05 }) : t);
-      const r2 = HP.buildAstroFromRecords(RECS_BAD);
+      const r2 = HP.buildAstroFromRecords(RECS_BAD, { form: 'kf1' });   // 第357便g(R527): 前の形の道を名指し(beta の既定は在位の惑星の本と同じ規則の形 g3k1 —— 既定の道は behavior.obsGeo3_357g が見る。root は opts.form を読まない = 前のまま)
       if (r2.ok) bad.push('転写ミス(周期+5%)の構築が通ってしまった');
       else {
         if (!(r2.errors || []).some((e) => e.includes('初期状態の推定周期'))) bad.push('転写ミスの差し戻し理由が初期状態検査でない');
@@ -135539,6 +135539,89 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第357便c の塊(ここまで)====
+// ==== 第357便g の塊(ここから —— behavior.obsGeo3_357g・docs.obsGeo3_357g の 2 ブロック。2 本とも beta だけ・root は SKIP)====
+// 第357便g(原仮定者の報告(2026-11-26)「実在天体はgeoPN=3で取り込めるのが理想」・統括の検証項目 R527・AI_SPEC §419): 観測レコードの道の既定を在位の惑星の本と同じ規則の形に。
+// ----   behavior.obsGeo3_357g(Node だけ —— 本体 tests/lib-w357g-obsgeo3.mjs・世代切替 = beta 対象 ∧ html に変種 g3k1): 族の題材 8 を組み立ての道に通す → 採った形が族の表のとおり・
+// ----     physics の鍵と値を 1 つずつ・前の形の鍵が無い・受理器の拒否 0・自己診断 ±1%・合わせた値 0 件・分類と対照の欄・平面の初期状態・説明の文・200 步で NaN なし・
+// ----     前の形の道(form:"kf1")が残る / ③ の道の自己試験 / 変異 6(約 80 s —— 恒星連星の二体クロージャ確認と変異の読み直し)。
+// ----   docs.obsGeo3_357g(文書): PHYSICS〔第357便g〕の位置(〔第357便c〕の後・空行 1)と原文の字と必須の語・AI_SPEC §419・post-merge の塊・書かない語・CHANGELOG(在れば)・変異 2。
+{
+  await (async () => {   // 第310便c(heap)
+  const H357g = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const gen357g = TARGET.startsWith('beta/') && H357g.indexOf('      g3k1:{ src:"observation-records",') >= 0;
+  if (!gen357g) {
+    console.log('SKIP behavior.obsGeo3_357g / docs.obsGeo3_357g(第357便g の観測レコードの道の新しい形の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const G357 = await import('file://' + path.join(ROOT, 'tests', 'lib-w357g-obsgeo3.mjs'));
+  const rd357g = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // ───── behavior.obsGeo3_357g ─────
+  {
+    let X = null, err = null;
+    try { X = G357.runObsGeo3(path.join(ROOT, TARGET), ROOT); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
+    const bad = err ? ['落ちた: ' + err] : X.why.slice();
+    if (!/^w357g-obsgeo3-lib-\d+$/.test(G357.LIB_VERSION)) bad.push('lib の版の名の型');
+    if (Object.keys(G357.FAMILY_FORM).length !== 8) bad.push('族の表の行の数 ' + Object.keys(G357.FAMILY_FORM).length);
+    add('behavior.obsGeo3_357g', bad.length === 0,
+      `**観測レコードの道の既定 = 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元の平面の初期状態)**(第357便g・R527 —— Node の vm・対象 ${TARGET}): ${X ? X.cases.join(' / ') : ''}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.obsGeo3_357g ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd357g('docs/PHYSICS.md'), AS = rd357g('docs/AI_SPEC.md'), PM = rd357g('tools/post-merge-qa.sh'), CLx = rd357g('CHANGELOG.md');
+    const ORIG = '実在天体はgeoPN=3で取り込めるのが理想';
+    const secOf = (ph) => { const i0 = ph.indexOf('\n〔第357便g — '); if (i0 < 0) return { i0, sec: '' }; const nx = ph.slice(i0 + 1).search(/\n〔第\d+便[a-z0-9]* — /); return { i0, sec: ph.slice(i0, nx >= 0 ? i0 + 1 + nx : ph.length) }; };
+    const want = ['原仮定者の報告(2026-11-26)', 'R527', '「' + ORIG + '」', '「…取り込み結果はgeoPN=2になった」', '在位の惑星の本と同じ規則の形', 'g3k1', 'kf1',
+      'relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}', 'gLoc:{law:"kappaC2"}', 'R_d = Y_k m',
+      '合わせる値を 1 つも持たない', '二次元か三次元か', 'physics.gLoc は三次元の本', '族の表', '前の形のまま残る族(③)は、この表の題材では 0', '利用者の目に見える変化',
+      'geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)', '{form:"kf1"}', '759.9810', '1.97e-2', '決断事項の候補', '推奨', '次点', '言わないこと',
+      'behavior.obsGeo3_357g', 'docs.obsGeo3_357g', 'behavior.alphaCenAB', 'ai.obs-binary'];
+    const secCheck = (ph) => {
+      const why = [];
+      const { i0, sec } = secOf(ph), ic = ph.indexOf('\n〔第357便c — '), iu = ph.indexOf('\n〔第328便 — 統括');
+      if (!(i0 >= 0 && ic >= 0 && ic < i0 && iu > i0)) why.push('① PHYSICS〔第357便g〕が無いか〔第357便c〕の前か第328便の統括の節の後ろ');
+      if (i0 >= 0 && !(ph.slice(i0 - 1, i0 + 1) === '\n\n' && ph[i0 - 2] !== '\n')) why.push('① 節の前の空行が 1 つでない');
+      for (const w of want) if (sec.indexOf(w) < 0) why.push('① PHYSICS〔第357便g〕に「' + w.slice(0, 24) + '」が無い');
+      return { why, sec };
+    };
+    const S0 = secCheck(PH); bad.push(...S0.why);
+    cases.push('① PHYSICS〔第357便g〕の位置(〔第357便c〕の後・空行 1)・原文・必須の語 ' + want.length);
+    const a0 = AS.indexOf('\n## 419. 第357便g'), a6 = AS.indexOf('\n## 416. 第357便c'), nx = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, A419 = a0 >= 0 ? AS.slice(a0, nx >= 0 ? nx : AS.length) : '';
+    if (!(a0 > a6 && a6 >= 0 && ['R527', ORIG, 'g3k1', 'kf1', '{form:"kf1"}', 'g3Why', 'SYSTEM_PROMPT', 'behavior.obsGeo3_357g', 'docs.obsGeo3_357g'].every((w) => A419.indexOf(w) >= 0))) bad.push('② AI_SPEC §419(§416 の後・必須の語)');
+    if (AS.indexOf('| 物理の宣言(第357便g〔§419〕から —— **既定**) |') < 0) bad.push('② AI_SPEC §6.4.3 の表に新しい形の行が無い');
+    cases.push('② AI_SPEC §419・§6.4.3 の行');
+    const p0 = PM.indexOf('# ==== 第357便g の塊(ここから)===='), p1 = PM.indexOf('# ==== 第357便g の塊(ここまで)===='), pc = PM.indexOf('# ==== 第357便c の塊(ここまで)====');
+    if (!(p0 >= 0 && p1 > p0 && pc >= 0 && pc < p0 && /behavior\.obsGeo3_357g docs\.obsGeo3_357g/.test(PM.slice(p0, p1)))) bad.push('③ post-merge に第357便g の塊(第357便c の塊の後・2 鍵)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? CLx.slice(cb, (CLx.indexOf('\n## ', cb + 5) + 1 || CLx.length + 1) - 1) : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第357便g**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('R527') >= 0)) bad.push('③ CHANGELOG の第357便g の行(見出しより後・R527)');
+    cases.push('③ post-merge の塊・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')');
+    const rvG = (t) => t.split('').reverse().join(''), cpG = (a) => String.fromCodePoint(...a);
+    const W = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっ直',
+      'たっが上が度精', 'う合に測観', 'るす算計くし正'].map(rvG);
+    const NGG = [cpG([0x518d, 0x73fe]), cpG([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpG([0x666e, 0x904d, 0x5b9a, 0x6570]), cpG([0x79c1, 0x4fe1]), cpG([0x6dfb, 0x4ed8]), cpG([0x5be9, 0x67fb]),
+      cpG([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpG([0x8f03, 0x6b63]), cpG([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpG([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO'].map(rvG));
+    const texts = [['PHYSICS〔第357便g〕', S0.sec.split('**⑩ 言わないこと。**')[0]], ['AI_SPEC §419', A419]];
+    if (kz >= 0) texts.push(['CHANGELOG の第357便g の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = tx0.split('「' + ORIG + '」').join('');
+      for (const w of NGG.concat(W)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('④ ' + nm + ' に報の番号');
+    }
+    cases.push('④ 書かない語・禁句・報の番号(節〔⑩ の前まで〕・§419・CHANGELOG)');
+    {
+      const m1 = secCheck(PH.split('「' + ORIG + '」').join('「実在天体は geoPN=3 が良い」')), m2 = secCheck(PH.split('759.9810').join('759.9811'));
+      if (!m1.why.length) bad.push('⑤ 変異(原文の字)で落ちない');
+      if (!m2.why.length) bad.push('⑤ 変異(数の字)で落ちない');
+    }
+    cases.push('⑤ 変異 2');
+    add('docs.obsGeo3_357g', bad.length === 0,
+      `**PHYSICS〔第357便g〕・AI_SPEC §419・post-merge の塊**(第357便g・R527): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第357便g の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

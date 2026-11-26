@@ -1997,6 +1997,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.noApiRoute357b behavior.apiKeyCleanup35
 #   書き換えた既存の鍵(ai.ui-unified・lint.noApiRoute357b)と、AI のタブを読む既存の鍵(ai.help-collapsed・ui.aitab-no-hscroll・ai.unified-prompt・prompt.spec-sync・params.i18n316・lint.uiText316・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c ai.ui-unified lint.noApiRoute357b ai.help-collapsed ui.aitab-no-hscroll ai.unified-prompt prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h behavior.aichatIntake355h"
 # ==== 第357便c の塊(ここまで)====
+# ==== 第357便g の塊(ここから)====
+# 第357便g(原仮定者の報告(2026-11-26)・統括の検証項目 R527 —— 観測レコードの道の組み立てだけ・エンジンと内蔵の本は変えない): 枝 g の新設 2 本
+#   (behavior.obsGeo3_357g —— 観測レコードの道の既定が在位の惑星の本と同じ規則の形〔族の題材 8・鍵と値・受理器の拒否 0・自己診断・合わせた値 0・前の形の道・変異 6 —— Node だけ〕 /
+#   docs.obsGeo3_357g —— PHYSICS〔第357便g〕・AI_SPEC §419・本塊・書かない語)と、前の形の道を名指しする形にした既存の鍵・観測レコードの道の既定を読む既存の鍵・SYSTEM_PROMPT の写しを見る鍵
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.obsGeo3_357g docs.obsGeo3_357g behavior.alphaCenAB behavior.siriusAB behavior.psrDoubleAB ai.obs-build ai.obs-freecenter ai.obs-binary ai.obs-schema ai.obs-name-unicode ai.obs-demote ai.obs-inclination behavior.aichatIntake355h behavior.intakeText357c prompt.spec-sync prompt.schema-sync"
+# ==== 第357便g の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
