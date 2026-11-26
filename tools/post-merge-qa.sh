@@ -1924,6 +1924,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便f の塊(ここから)====
+# 第356便f(統括の検証項目 R518 —— 検査の設定と戻り止めと文書だけ・html は変えない): 枝 f の新設 2 本(lint.ciSplit356f —— ci.yml の仕事 preflight・qa・perf の並び・上限・段・
+#   必須で並べて走る形・変異の自己試験 / docs.ciSplit356f —— 文書)と、ci.yml を読む既存の鍵(lint.qaOrder・lint.paperRunner348f は新しい形に合わせた・lint.ciEngine345e・
+#   lint.qaHeapDefault329c・lint.frozenBaseline は字を変えずに見る)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.ciSplit356f docs.ciSplit356f lint.qaOrder lint.paperRunner348f lint.ciEngine345e lint.qaHeapDefault329c lint.frozenBaseline"
+# ==== 第356便f の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
