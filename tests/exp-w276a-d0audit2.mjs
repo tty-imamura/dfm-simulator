@@ -99,6 +99,10 @@ const SITE_CLASS = {
     why: 'D₀ を 1 度も読まない —— **単位を決める側**である(p=1 で M/L・p=2 で M/L²)' },
   'obsMakeSys :: csSpin': { use: '宣言の生成(観測雛形が physics を作る)', replaceable: 'n/a',
     why: '生成する宣言の中に D₀・D0pull を書いている(読み口ではない)' },
+  // 第357便g(統括の統合): 観測レコードから実在の天体の本を組む道 —— 自転の行が無い天体が在るときの形の宣言(physics の D0:0.1)を作る所。
+  //   群の名は「同じ関数の中で直前に在る内側の定義の名」(spinRowOf)になる
+  'buildAstroFromRecords :: spinRowOf': { use: '宣言の生成(観測レコードの本の変種の physics を作る)', replaceable: 'n/a',
+    why: '生成する宣言の中に D₀ を書いている(読み口ではない)' },
   'loadSave :: loadSave': { use: '保存/読込(D0pull 未宣言の警告)', replaceable: 'n/a',
     why: '値を力学へ渡さない(宣言の有無を見るだけ)' },
   'updateBodyEdit :: updateBodyEdit': { use: '表示(編集画面の背景決定力)', replaceable: 'n/a',
