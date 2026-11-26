@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
-  "generatedAt": "2026-11-26T12:34:04.260Z",
+  "targetSha256": "aeeb6937dfe65b94cd67a890ad7d4acb2e608da2e506ed0d638a0f143f1f1c0a",
+  "generatedAt": "2026-11-26T22:34:01.295Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732251,
-    "sha256": "eead0debf851150687efb5407954385c188320294aa54d7047bf4fb053003c16",
-    "mtime": "2026-11-26T12:29:10.731Z"
+    "bytes": 1734314,
+    "sha256": "7ed61552f7675092d6595de5e0f9db90a75a348dae13e596cad3633606eb9528",
+    "mtime": "2026-11-26T22:29:51.430Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 57384,
-    "sha256": "4a32512e8f8a965cbcaae53de430a4c96e5ff9aaf17f04b4264117ba1eeb3896",
-    "mtime": "2026-11-26T12:34:02.599Z"
+    "bytes": 57385,
+    "sha256": "1db6f342fb8634d10e9bf41b900b67509a0c49aa1ffe960f886c4bb0bbc3402f",
+    "mtime": "2026-11-26T22:33:55.230Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 7745694,
-    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
-    "mtime": "2026-11-26T11:58:33.043Z"
+    "bytes": 7759229,
+    "sha256": "aeeb6937dfe65b94cd67a890ad7d4acb2e608da2e506ed0d638a0f143f1f1c0a",
+    "mtime": "2026-11-26T22:21:42.486Z"
    }
   ],
   "code": [
@@ -136,14 +136,14 @@
    ],
    "names": 1347,
    "segments": 1178,
-   "closureShare": 0.2916
+   "closureShare": 0.2911
   },
   "scopeSha256": "209110fdde1a3c97344160e41ba0fab5a8eb51f7c0282c040b3c09be64cec5b6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "2359a2cb04179a884d4bce103376d9d54a6f1bcfcf91e576f11836917f3f7284",
+    "stableSha256": "1a2e1da619a6a8e97cf1cd54da419661028b5e769c57163ca9a6e7fe411f508a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -239,7 +239,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "e3e5d96c5dc52300cbb0fee182c0c2534a917b4519aac5dd20ca73c9f0571e1f",
+    "stableSha256": "eb0dfcec4365d30cb5809db70996889c5a5119d695601ffa5801bd72cd902b7e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -303,5 +303,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 2.923
+ "elapsedS": 2.858
 }

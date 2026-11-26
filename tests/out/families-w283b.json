@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
-  "generatedAt": "2026-11-26T21:52:18.072Z",
+  "targetSha256": "aeeb6937dfe65b94cd67a890ad7d4acb2e608da2e506ed0d638a0f143f1f1c0a",
+  "generatedAt": "2026-11-26T22:47:45.569Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7745694,
-    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
-    "mtime": "2026-11-26T11:58:33.043Z"
+    "bytes": 7759229,
+    "sha256": "aeeb6937dfe65b94cd67a890ad7d4acb2e608da2e506ed0d638a0f143f1f1c0a",
+    "mtime": "2026-11-26T22:21:42.486Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1732251,
-    "sha256": "eead0debf851150687efb5407954385c188320294aa54d7047bf4fb053003c16",
-    "mtime": "2026-11-26T12:29:10.731Z"
+    "bytes": 1734314,
+    "sha256": "7ed61552f7675092d6595de5e0f9db90a75a348dae13e596cad3633606eb9528",
+    "mtime": "2026-11-26T22:29:51.430Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -52,13 +52,13 @@
     "file": "docs/FAMILIES.md",
     "bytes": 54378,
     "sha256": "cbd137a3552c4a44332be4b1acda7f4e3290c3a3cef174698cb59e8b91854a48",
-    "mtime": "2026-11-26T21:52:18.018Z"
+    "mtime": "2026-11-26T22:47:45.518Z"
    },
    {
     "file": "tests/qa.mjs",
-    "bytes": 14465730,
-    "sha256": "aae38172276c3788d64baebd1d3f01b24f0238cfe1ec9e6d10ed2b5de028fd80",
-    "mtime": "2026-11-26T11:58:33.219Z"
+    "bytes": 14469350,
+    "sha256": "f4e31752699dd9adb02ee91786d5ed999292182afb780b54b4abee381b4e5742",
+    "mtime": "2026-11-26T22:21:43.094Z"
    }
   ],
   "code": [
@@ -124,14 +124,14 @@
    "complete": true,
    "names": 1334,
    "segments": 1165,
-   "closureShare": 0.3092
+   "closureShare": 0.3086
   },
   "scopeSha256": "3ffb2163ae80d578fce859f497a86e0c95244ddf89379aa89d141041acf39946",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "2359a2cb04179a884d4bce103376d9d54a6f1bcfcf91e576f11836917f3f7284",
+    "stableSha256": "1a2e1da619a6a8e97cf1cd54da419661028b5e769c57163ca9a6e7fe411f508a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -5481,5 +5481,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.973
+ "elapsedS": 1.044
 }
