@@ -36,8 +36,8 @@
   }
  },
  "engine": {
-  "chromium": "157.0.8103.78",
-  "v8": "15.7.112.43",
+  "chromium": "158.0.8127.36",
+  "v8": "15.8.62.31",
   "mathFingerprint": "b8a976bf83f0fd7d",
   "sameAsDeclared": true,
   "explicit": null
@@ -47,8 +47,8 @@
    "preset": "galaxyGeo2",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 4.586,
-   "rateStepsPerSec": 130.8,
+   "wallSec": 3.92,
+   "rateStepsPerSec": 153,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -59,8 +59,8 @@
    "preset": "galaxyGeo2",
    "mode": "two",
    "steps": 300,
-   "wallSec": 27.021,
-   "rateStepsPerSec": 22.2,
+   "wallSec": 21.5,
+   "rateStepsPerSec": 27.9,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -75,8 +75,8 @@
    "preset": "galaxy",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 3.8,
-   "rateStepsPerSec": 157.9,
+   "wallSec": 3.174,
+   "rateStepsPerSec": 189.1,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -87,8 +87,8 @@
    "preset": "galaxy",
    "mode": "two",
    "steps": 300,
-   "wallSec": 18.803,
-   "rateStepsPerSec": 31.9,
+   "wallSec": 15.206,
+   "rateStepsPerSec": 39.5,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -103,8 +103,8 @@
    "preset": "cosmicweb",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 5.3,
-   "rateStepsPerSec": 113.2,
+   "wallSec": 5.195,
+   "rateStepsPerSec": 115.5,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -115,8 +115,8 @@
    "preset": "cosmicweb",
    "mode": "two",
    "steps": 300,
-   "wallSec": 24.282,
-   "rateStepsPerSec": 24.7,
+   "wallSec": 21.5,
+   "rateStepsPerSec": 27.9,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -131,8 +131,8 @@
    "preset": "darkrotor",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 3.886,
-   "rateStepsPerSec": 154.4,
+   "wallSec": 3.107,
+   "rateStepsPerSec": 193.1,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -143,8 +143,8 @@
    "preset": "darkrotor",
    "mode": "two",
    "steps": 300,
-   "wallSec": 27.743,
-   "rateStepsPerSec": 21.6,
+   "wallSec": 23.108,
+   "rateStepsPerSec": 26,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -159,8 +159,8 @@
    "preset": "axisBarStill",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 3.594,
-   "rateStepsPerSec": 166.9,
+   "wallSec": 4.2,
+   "rateStepsPerSec": 142.9,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {},
@@ -173,8 +173,8 @@
    "preset": "axisBarStill",
    "mode": "two",
    "steps": 300,
-   "wallSec": 9.605,
-   "rateStepsPerSec": 62.5,
+   "wallSec": 7.126,
+   "rateStepsPerSec": 84.2,
    "coreStatus": 16385,
    "coreDecoded": "16385(関数・Sparkplug —— 基準の層)",
    "disabled": {
@@ -190,20 +190,24 @@
    "preset": "binary",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 2.081,
-   "rateStepsPerSec": 288.3,
+   "wallSec": 1.925,
+   "rateStepsPerSec": 311.8,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
-   "disabled": {},
-   "abortedFns": [],
+   "disabled": {
+    "dfmPN1EIHKick": "Function is too big to be optimized"
+   },
+   "abortedFns": [
+    "dfmPN1EIHKick"
+   ],
    "traceSeen": true
   },
   {
    "preset": "binary",
    "mode": "two",
    "steps": 300,
-   "wallSec": 2.698,
-   "rateStepsPerSec": 222.4,
+   "wallSec": 2.82,
+   "rateStepsPerSec": 212.8,
    "coreStatus": 25,
    "coreDecoded": "25(関数・最適化済み・Maglev)",
    "disabled": {
@@ -218,8 +222,8 @@
    "preset": "selfRotor",
    "mode": "ab",
    "steps": 300,
-   "wallSec": 1.107,
-   "rateStepsPerSec": 542.3,
+   "wallSec": 1.234,
+   "rateStepsPerSec": 486.2,
    "coreStatus": 41,
    "coreDecoded": "41(関数・最適化済み・TurboFan)",
    "disabled": {
@@ -234,13 +238,13 @@
    "preset": "selfRotor",
    "mode": "two",
    "steps": 300,
-   "wallSec": 1.913,
-   "rateStepsPerSec": 313.6,
+   "wallSec": 1.477,
+   "rateStepsPerSec": 406.3,
    "coreStatus": 25,
    "coreDecoded": "25(関数・最適化済み・Maglev)",
    "disabled": {
-    "S._core": "Function is too big to be optimized",
-    "reactionPass": "Function is too big to be optimized"
+    "reactionPass": "Function is too big to be optimized",
+    "S._core": "Function is too big to be optimized"
    },
    "abortedFns": [
     "S._core",
@@ -261,6 +265,9 @@
    "fnStopped": {
     "S._fuse": [
      "selfRotor"
+    ],
+    "dfmPN1EIHKick": [
+     "binary"
     ]
    },
    "errors": []
@@ -313,27 +320,26 @@
   }
  },
  "gate": {
-  "applies": true,
+  "applies": false,
   "pass": true,
-  "v8": "15.7.112.43",
-  "n": 0,
-  "note": "ab で S._core が止まる本 0(上限 0)"
+  "v8": "15.8.62.31",
+  "note": "版が違う —— 比べない(記録の V8 15.8.62.31・門は V8 15.7.x のときだけ)"
  },
  "ok": true,
  "notClaim": "「新しい版で速くなった」「止まる件を解決した」とは言わない —— この版・この箱・この本・この使い方での、最適化が止まった関数の記録。1 步の ms は記録だけ(門にしない)",
- "elapsedS": 153.07,
+ "elapsedS": 134.294,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第346便a",
   "target": "beta/index.html",
-  "targetSha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
-  "generatedAt": "2026-11-23T16:20:55.536Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T16:35:42.063Z",
   "inputs": [
    {
     "file": "tests/data-w345-engine.json",
     "bytes": 2649,
     "sha256": "11380d5f64e3b3aa18a9c859917eb25efee57c34b5cd4638a4820df0faa966a0",
-    "mtime": "2026-11-21T10:11:12.201Z"
+    "mtime": "2026-11-24T05:41:44.937Z"
    }
   ],
   "code": [
@@ -341,37 +347,37 @@
     "file": "tests/exp-w346a-opttour.mjs",
     "bytes": 9547,
     "sha256": "bf6db936fe40ef8a9ef0ab6573e7000529fa5320f576c9f9c5dcdb91f5821bc8",
-    "mtime": "2026-11-21T21:46:31.840Z"
+    "mtime": "2026-11-24T05:41:45.029Z"
    },
    {
     "file": "tests/lib-w346a-opttour.mjs",
     "bytes": 9859,
     "sha256": "31edd7f73395f3c655def609f62812d2a1dbbf909098ba7659955c38f88bd329",
-    "mtime": "2026-11-21T21:46:31.852Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    },
    {
     "file": "tests/lib-w345-engine.mjs",
     "bytes": 22936,
     "sha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
-    "mtime": "2026-11-21T10:11:12.205Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    },
    {
     "file": "tests/lib-w345d-perfengine.mjs",
     "bytes": 18488,
     "sha256": "1095a8637a01a8cd426e7a1611380c6442c2b17d4841a2d8ccbefde8c80b7564",
-    "mtime": "2026-11-21T21:46:31.852Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "a5322da1d283c4501d9224ab2b3cfa2a3b9055b7b007fd0bea93564d2a50ef1f",
   "harnessVersion": "w346a-opttour-1",
   "stage": "opttour-346a",
-  "engine": "157.0.8103.78 / V8 15.7.112.43",
+  "engine": "158.0.8127.36 / V8 15.8.62.31",
   "notClaim": "「新しい版で速くなった」「止まる件を解決した」とは言わない —— この版・この箱・この本・この使い方での、最適化が止まった関数の記録。1 步の ms は記録だけ(門にしない)"
  }
 }

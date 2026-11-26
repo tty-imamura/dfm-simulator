@@ -3,7 +3,7 @@
  "libVersion": "w310a-shell-lib-1",
  "generator": "tests/exp-w310a-invsq.mjs",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "原仮定者の裁定(第107報)分母に背景宇宙を入れると二重計上 —— 自分が分母に入れば良い・(第109報)AN380 太陽の R_d は cap6500km で固定し m_d の適正値を探索・dragCore(R_d, m_d)と外殻(観測半径, 観測質量 − m_d)の引きずりをそれぞれ計算・決断事項 AN378・AN384・AN385・AN386・AN382・DECISIONS v69 §0b ②・§2・統括の検証項目 R222",
  "invSqVersion": "w310a-invsq-wbg0-1",
  "invSqLaw": "invsq-ball-total-ratio",
@@ -286,13 +286,14 @@
    "alphaCenABInertial3d",
    "alphaCenABInertial3dJ",
    "psrDoubleABInertial3d",
+   "twoBodyOnly3d",
    "binaryCheckEqualInertial3d",
    "binaryCheckRatio3Inertial3d"
   ],
   "ruleBooksWhy": "K1 の規則の宣言(relativeDrag.invSq.rdRule)の本のうち移行の前の宣言の写しが無い本(K1 の短い形で生まれた本 —— 第320便d・AN477)",
   "tMin": 0.00480698929,
   "tMax": 0.000005790712839,
-  "builtins": 180,
+  "builtins": 181,
   "declaringInvSq": [],
   "live3d": 10,
   "runs": [
@@ -1884,30 +1885,30 @@
     "order": 4,
     "nodes": 384,
     "table": {
-     "wallSec": 0.0004572545333
+     "wallSec": 0.00053646735
     },
     "direct": {
-     "wallSec": 0.0006236749333
+     "wallSec": 0.000585692
     }
    },
    {
     "order": 8,
     "nodes": 3072,
     "table": {
-     "wallSec": 0.0036802308
+     "wallSec": 0.00326872825
     },
     "direct": {
-     "wallSec": 0.0049305916
+     "wallSec": 0.0044435387
     }
    },
    {
     "order": 16,
     "nodes": 24576,
     "table": {
-     "wallSec": 0.02950322317
+     "wallSec": 0.0265458535
     },
     "direct": {
-     "wallSec": 0.03972751717
+     "wallSec": 0.03483949733
     }
    }
   ]
@@ -2089,49 +2090,49 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.104
+   "wallSec": 0.098
   },
   "C": {
-   "wallSec": 0.002
+   "wallSec": 0.001
   },
   "N": {
-   "wallSec": 0.227
+   "wallSec": 0.185
   },
   "S": {
-   "wallSec": 0.171
+   "wallSec": 0.253
   },
   "E": {
-   "wallSec": 0.486
+   "wallSec": 0.469
   },
   "M": {
-   "wallSec": 0.028
+   "wallSec": 0.025
   },
   "P": {
-   "wallSec": 3.049
+   "wallSec": 2.865
   },
   "Z": {
-   "wallSec": 0.089
+   "wallSec": 0.093
   }
  },
- "elapsedS": 6.027,
+ "elapsedS": 5.889,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第310便a",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T01:56:38.756Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T16:38:10.037Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    }
   ],
   "code": [
@@ -2139,67 +2140,67 @@
     "file": "tests/exp-w310a-invsq.mjs",
     "bytes": 46865,
     "sha256": "8715249b4cdbae89d57fc6b6d69828b62cc0296df376c0fb2c8b5f7e0782c2ac",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.005Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.069Z"
    },
    {
     "file": "tests/lib-w320d-rulebooks.mjs",
     "bytes": 1726,
     "sha256": "c7cb484c8a577d4cf241b0a8e297bf6abe09a52747ec4bc95e78651698f8b201",
-    "mtime": "2026-11-19T16:19:54.584Z"
+    "mtime": "2026-11-24T05:41:45.073Z"
    },
    {
     "file": "tests/lib-w310a-shell.mjs",
     "bytes": 11335,
     "sha256": "2c5904e504c445034c516d9f816613beed2604ac5ddad93ceb0a1a5376c52611",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w309a-invsq.mjs",
     "bytes": 12684,
     "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w307a-sphereaxial.mjs",
     "bytes": 9620,
     "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/exp-w307c-spindecomp.mjs",
     "bytes": 38232,
     "sha256": "e84b16a251259c233f7abd9cb9dbb106a1e234f471ef37d48deb3b0e3dd02919",
-    "mtime": "2026-11-19T16:19:54.544Z"
+    "mtime": "2026-11-24T05:41:45.001Z"
    },
    {
     "file": "tests/lib-w307c-spindecomp.mjs",
     "bytes": 21642,
     "sha256": "b85c637036e8b56c65db0c2e898aa7d807e2edb590fea4468b8a998b7b72ac7c",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "9cb629bd1af0bbcaad2b449b6c223eee3a37af5ba43c3ba6efc2b65cb64ab9d4",
@@ -2246,11 +2247,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1369,
-   "segments": 1200,
-   "closureShare": 0.2951
+   "names": 1356,
+   "segments": 1187,
+   "closureShare": 0.2873
   },
-  "scopeSha256": "4673a38eadf69f0080b1865bc47a8db4cf7252cee38175b732586defc6857731",
+  "scopeSha256": "37a035ad7e0e9a0072dad86b0221453a366df55abd47c1364f67d966b84cb7c8",
   "scopeComplete": true,
   "inputsStable": [
    {
