@@ -1028,6 +1028,20 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。
 ```
 
+**アプリのボタンから始める**: アプリの「AI」のタブの先頭のグループ「AIチャットと対話して作る」で「対話を始めるプロンプトをコピー」を押すと、上の文(画面が英語のときは下の英語の文)がコピーされます。AI チャットの返答を同じグループの貼付欄に貼り、「検証のみ」か「貼り付けた内容を取り込む」を押した後は、「この結果をAIに伝える文をコピー」で、取り込みの結果(取り込めなかったときの理由・自動で直した点・変更した点)をまとめてコピーし、そのまま AI チャットへ貼って返せます。「対話の入口のページを開く」は、入口のページ([docs/AI_CHAT.md](docs/AI_CHAT.md))を新しいタブで開くリンクです(アプリがページを取りに行くことはありません)。
+
+English (the text copied when the app is in English):
+
+```text
+From now on, you will hold a dialogue with me as the guide for "Virtual Physics Lab (DFM simulator)", an educational toy model that runs in a browser.
+First read the following 2 pages.
+1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md
+2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md
+If you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).
+If there is a page you cannot read at either address, say so first (do not answer by guessing what it says).
+After reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.
+```
+
 アプリの中の生成(API キーを入れる方式)は外しました(公開版は v1.48.0 から)。対話式をお使いください。
 
 ## AI追加機能のコスト

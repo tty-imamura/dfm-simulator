@@ -64,14 +64,14 @@
      --panel2 に 4.08:1・ライト #6d769a は --panel2(白)に 4.46:1(非文字の 3:1 以上 — tests/lib-w281e-skin.mjs) */
   select,#btnPresetPick,#ppSearch,#ppClose,.ppChip,#bodyEdit .beRow input[type=text],#beLayers .beRow select,
   #transport button,#btnPanelClose,#btnPanelExpand,.miniBtn,.sbChip,.prow input.valIn,.btn,
-  input[type=text],input[type=password],textarea,#classChips .classChip,#btnFvAgain{--line:#7380b5;}
+  input[type=text],textarea,#classChips .classChip,#btnFvAgain{--line:#7380b5;}
   html[data-skin="light"] select,html[data-skin="light"] #btnPresetPick,html[data-skin="light"] #ppSearch,
   html[data-skin="light"] #ppClose,html[data-skin="light"] .ppChip,
   html[data-skin="light"] #bodyEdit .beRow input[type=text],html[data-skin="light"] #beLayers .beRow select,
   html[data-skin="light"] #transport button,html[data-skin="light"] #btnPanelClose,
   html[data-skin="light"] #btnPanelExpand,html[data-skin="light"] .miniBtn,html[data-skin="light"] .sbChip,
   html[data-skin="light"] .prow input.valIn,html[data-skin="light"] .btn,html[data-skin="light"] input[type=text],
-  html[data-skin="light"] input[type=password],html[data-skin="light"] textarea,
+  html[data-skin="light"] textarea,
   html[data-skin="light"] #classChips .classChip,html[data-skin="light"] #btnFvAgain{--line:#6d769a;}
   html[data-skin="light"]:not([data-canvas="follow"]) #canvasWrap select,html[data-skin="light"]:not([data-canvas="follow"]) #canvasWrap .btn,
   html[data-skin="light"]:not([data-canvas="follow"]) #canvasWrap input[type=text],html[data-skin="light"]:not([data-canvas="follow"]) #canvasWrap textarea{--line:#7380b5;}
@@ -644,7 +644,7 @@
   .btn.primary{background:var(--accFill);border-color:var(--acc);}
   .btn.danger{color:var(--errText);}
   .btn[disabled]{opacity:.45;}
-  input[type=text],input[type=password],textarea{width:100%;background:var(--panel);
+  input[type=text],textarea{width:100%;background:var(--panel);
     border:1px solid var(--line);border-radius:var(--rL);padding:10px;min-height:44px;font-size:calc(14px*var(--uz,1));}
   textarea{min-height:74px;resize:vertical;}
   .note{font-size:calc(11.5px*var(--uz,1));color:var(--dim);margin:6px 0;line-height:1.6;}
@@ -1206,6 +1206,25 @@
       <!-- 第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」): アプリの中の生成
            (外の AI の事業者へ送る道 —— 提供元・モデル・キーの欄・「生成する」・送信内容のプレビュー)を外した。
            AI のタブは「要望を書く → プロンプトをコピーして AI チャットへ → 返答を貼って取り込む」の 1 本の道 -->
+      <!-- 第357便c(原仮定者の指示(2026-11-25)・R524): 対話式を先に。①「対話を始めるプロンプトをコピー」(字は README の節
+           「AI チャットと対話しながら使う」のプロンプトと同じ —— 入口のページの公開のアドレスつき)と、入口のページを開くリンク
+           (新しいタブ・rel=noopener —— アプリは取りに行かない)② 返答の貼付欄・取り込み・検証・状態の行・結果の報告(前は下の
+           「1回で生成するプロンプト」のグループに在った —— id は同じ)③「この結果をAIに伝える文をコピー」(結果が無いときは押せない)。
+           要望を 1 回で渡すプロンプト(生成用・短縮版)は後ろのグループに残す -->
+      <div class="group"><h3 id="aiChatHead">AIチャットと対話して作る</h3>
+        <p class="note" id="aiChatNote"></p>
+        <div class="rowBtns"><button class="btn primary" id="btnChatCopy">対話を始めるプロンプトをコピー</button></div>
+        <p class="note"><a id="aiChatLink" href="https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md" target="_blank" rel="noopener">対話の入口のページを開く(新しいタブ)</a></p>
+        <textarea id="aiPasteArea" placeholder="AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)"></textarea>
+        <div class="prow"><label id="aiKeplerLabel" style="flex:1">円軌道はケプラー速度で再導出する</label>
+          <input type="checkbox" id="aiKeplerFix" checked></div>
+        <div class="rowBtns"><button class="btn primary" id="btnAiPaste">貼り付けた内容を取り込む</button>
+          <button class="btn" id="btnAiPasteCheck">検証のみ</button></div>
+        <!-- 状態の行(取り込み・検証の結果) -->
+        <div id="aiStatus"></div>
+        <div id="aiPasteReport"></div>
+        <div class="rowBtns"><button class="btn" id="btnResultCopy" disabled>この結果をAIに伝える文をコピー</button></div>
+      </div>
       <div class="group"><h3 id="aiGenHead">作りたいシミュレーション</h3>
         <!-- 第178便(原仮定者の設計指針 2026-08-23): **生成モードの分岐を撤去し自由生成へ一本化**。
              実天体はプリセットとして既に存在するので、「ベースのサンプル」指定で足りる
@@ -1235,20 +1254,13 @@
            ボタンは常時表示・手順説明だけを details に畳む。短縮版(仕様書リンク参照)も追加。
            第178便: **貼付先をこのグループの1欄に統一**(実機で観測レコードがセーブタブの
            プリセットインポート欄へ投入され「追加0件/不正9件」になった事故の解消)。
-           貼り付けた内容の形(観測レコード配列 / プリセットJSON)はアプリが自動判別する -->
-      <div class="group"><h3 id="aiExtTitle">AIチャットで生成</h3>
+           貼り付けた内容の形(観測レコード配列 / プリセットJSON)はアプリが自動判別する。
+           第357便c: 貼付欄から下(取り込み・検証・状態の行・報告)は、先頭の「AIチャットと対話して作る」のグループへ移した -->
+      <div class="group"><h3 id="aiExtTitle">1回で生成するプロンプト</h3>
         <div class="rowBtns"><button class="btn primary" id="btnExtCopy">生成用プロンプトをコピー</button>
           <button class="btn" id="btnExtCopyShort">短縮版をコピー</button></div>
         <details id="aiExtWrap"><summary id="aiExtSum" class="note" style="cursor:pointer">手順</summary>
         <p class="note" id="aiExtNote"></p></details>
-        <textarea id="aiPasteArea" placeholder="AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)"></textarea>
-        <div class="prow"><label id="aiKeplerLabel" style="flex:1">円軌道はケプラー速度で再導出する</label>
-          <input type="checkbox" id="aiKeplerFix" checked></div>
-        <div class="rowBtns"><button class="btn primary" id="btnAiPaste">貼り付けた内容を取り込む</button>
-          <button class="btn" id="btnAiPasteCheck">検証のみ</button></div>
-        <!-- 状態の行(取り込み・検証の結果)。外部チャットの口が使うので、このグループに置く -->
-        <div id="aiStatus"></div>
-        <div id="aiPasteReport"></div>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
@@ -2132,7 +2144,7 @@ ja: {
   // 第357便b: アプリの中の生成を外したので、文は「ウェブを開ける AI チャットで出典を転写する」形に書き直した
   // 第182便(原仮定者指示 2026-08-23): アプリ内生成にはウェブ閲覧が無い = 出典を開けないので
   // 出力A(観測レコードの転写)が作れない。実在天体の作り方の導線を常設で示す
-  aiRealNote:"実在の天体を作るとき: ①近い内蔵サンプルがあれば上の「ベースのサンプル」に選ぶ ②無ければ下の「AIチャットで生成」でプロンプトをコピーし、ウェブ閲覧できるAIチャットで生成して貼付欄へ。ウェブを開けないAIチャットでは出典を転写できず、実在天体の数値は正確になりません(架空の系・現象の実験にはそのまま使えます)。",
+  aiRealNote:"実在の天体を作るとき: ①近い内蔵サンプルがあれば上の「ベースのサンプル」に選ぶ ②無ければ、ウェブ閲覧できるAIチャットで、いちばん上の「AIチャットと対話して作る」の対話か、下の「1回で生成するプロンプト」のコピーで生成して、いちばん上の貼付欄へ。ウェブを開けないAIチャットでは出典を転写できず、実在天体の数値は正確になりません(架空の系・現象の実験にはそのまま使えます)。",
   // 第170便: 生成モード(既定=実天体カタログ)
   // 第178便: 生成モード(第170/176便)の分岐は撤去 — 自由生成へ一本化。モード関連のラベルは
   // 役目を終えたので削除し、貼付欄1本の導線に置き換える(カタログ・レコードの機構自体は温存)
@@ -2156,6 +2168,8 @@ ja: {
   btnAiPaste:"貼り付けた内容を取り込む", btnAiPasteCheck:"検証のみ",
   pasteEmpty:"AIの返答をこの欄へ貼り付けてください",
   pasteParseNg:(e)=>"JSON として読めません — "+e,
+  pasteInBlock:(e)=>"コードブロックの中の "+e,   // 第357便c: 読めない所を、コードブロックの中の行と列で
+  pasteEndCut:(l,c)=>l+"行 "+c+"列目(最後)で JSON が終わっています —— 閉じる括弧が足りません(返答が途中で切れていないか見てください)",
   pasteUnknown:"貼り付けた内容が、プリセットJSONでも観測レコード配列でもありません(先頭に説明文やコードフェンスが付いていても構いませんが、JSON本体が必要です)",
   pasteCorrected:(f)=>"補正して読み込みました("+f+")— 数値は1つも書き換えていません",
   pasteKindRecords:(nb,nr)=>"観測レコード配列と判定("+nb+"天体・"+nr+"行)",
@@ -2168,6 +2182,8 @@ ja: {
   stabHeadNotes:"触らなかった点・注意",
   stabHeadDiag:(n)=>"自己診断("+n+"步の試走)",
   stabNoChange:"変更点なし(そのまま取り込みました)",
+  stabNoChangeCheck:"変更点なし(このまま取り込めます)",   // 第357便c: 「検証のみ」のとき(まだ取り込んでいない)。取り込まなかったときは変更点の段を出さない
+  stabCapRow:(lab,a,b,cap)=>lab+" の粒子の数 n: "+a+" → "+b+"(粒子の総数の上限 "+cap+" に収めるため減らしました)",   // 第357便c: 受理器が減らした数を変更点に
   stabKappa:(o,n)=>"時空係数 X_k(鍵 kappaT)を物理対応ロック X_k = G_0/c_0² へ再導出: "+o+" → "+n,
   stabKappaToy:(o,n)=>"X_k="+o+" は G_0/c_0²="+n+" と一致しません(トイ設定として尊重し、変更していません)",
   stabScaleExp:(l,t,m)=>"scaleExp が規約(L−T=4・M+2T−3L=11)から外れています: L="+l+"・T="+t+"・M="+m+" → 提案 T="+(l-4)+"・M="+(l+19)+"(自動では変更しません)",
@@ -2196,11 +2212,24 @@ ja: {
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   // 第102便: 外部AIチャット経路(プロンプトのコピー —— 第357便b: アプリの中の生成を外した後は唯一の道)
   // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
-  aiExtTitle:"AIチャットで生成",
+  aiExtTitle:"1回で生成するプロンプト",   // 第357便c: 対話式のグループを先頭に置いたので、こちらは「1 回の返答で作らせる」道の名に
   aiExtSum:"手順",
-  aiExtNote:"①上の「作りたいシミュレーション」でベースのサンプル(=少数ショット例)と要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきた答えを**そのまま下の貼付欄へ**貼り付けて「取り込む」を押す(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”・全角記号は自動で処理されます)。返答がプリセットJSONでも観測レコード配列でも、アプリが形を自動判別して適切な経路で取り込みます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです — 中身の骨格は「生成用プロンプト」と同じです。",
+  aiExtNote:"対話をせず、1回の返答で設定を作らせるプロンプトです。①上の「作りたいシミュレーション」でベースのサンプル(=少数ショット例)と要望を書き、「生成用プロンプトをコピー」を押す ②AIチャットへ貼り付けて送信 ③返ってきた答えを**そのまま**いちばん上の「AIチャットと対話して作る」の貼付欄へ貼り付けて「取り込む」を押す(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”・全角記号は自動で処理されます)。返答がプリセットJSONでも観測レコード配列でも、アプリが形を自動判別して適切な経路で取り込みます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです — 中身の骨格は「生成用プロンプト」と同じです。",
   btnExtCopy:"生成用プロンプトをコピー",
   btnExtCopyShort:"短縮版をコピー",
+  // 第357便c(R524): 対話式の入口(AI のタブの先頭のグループ)と、取り込みの結果を AI チャットへ伝える文。aiChatPrompt の字は README の節「AI チャットと対話しながら使う」のプロンプトと同じ(QA ai.chatButtons357c)
+  aiChatHead:"AIチャットと対話して作る",
+  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。",
+  btnChatCopy:"対話を始めるプロンプトをコピー",
+  aiChatLink:"対話の入口のページを開く(新しいタブ)",
+  aiChatPrompt:"あなたはこれから、ブラウザで動く教育用のトイ模型「仮想物理ラボ(DFM シミュレータ)」の案内役として、私と対話します。\nまず次の 2 つのページを読んでください。\n1. 対話の入口(全部): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. シミュレーションを作るときの仕様: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\n読めないときは、同じ内容が https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ の下に在ります(AI_CHAT.md・AI_SPEC_CORE.md)。\nどちらも読めないページが在れば、最初にその旨を言ってください(読めないまま、中身を推測して答えないでください)。\n読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。",
+  btnResultCopy:"この結果をAIに伝える文をコピー",
+  aiResHeadNg:"アプリの検査の結果: 取り込みませんでした(追加 0 件・不正 1 件)",
+  aiResHeadCheck:"アプリの検査の結果: 検証 OK —— まだ取り込んでいません(追加 0 件・不正 0 件)",
+  aiResHeadOk:(n)=>"アプリの検査の結果: 取り込みました(追加 1 件・不正 0 件): "+n,
+  aiResFixes:(f)=>"自動で直した点: "+f,
+  aiResChanges:"変更した点:",
+  aiResNoChange:"変更した点: なし",
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、同じ内容がリポジトリ https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md にあります。どちらも読めなければ、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
@@ -3474,7 +3503,7 @@ en: {
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiGenHead:"The simulation you want", aiListHead:"Generated presets",   // wave 357b: the in-app "Generate" button was removed
   // Wave 182: in-app generation has no web access, so it cannot transcribe sources (OUTPUT A).
-  aiRealNote:"For a REAL astronomical body: 1) pick the closest built-in sample in \"Base sample\" above, or 2) if there is none, copy the prompt in \"Generate via an AI chat\" below, run it in an AI chat that can browse the web, and paste the reply into the box there. An AI chat that cannot open the web cannot transcribe sources, so its numbers for real bodies will not be accurate (invented systems and phenomenon experiments are fine as they are).",
+  aiRealNote:"For a REAL astronomical body: 1) pick the closest built-in sample in \"Base sample\" above, or 2) if there is none, use an AI chat that can browse the web — through the dialogue in \"Build it in a dialogue with an AI chat\" at the top, or with the prompt from \"One-shot generation prompt\" below — and paste the reply into the box at the top. An AI chat that cannot open the web cannot transcribe sources, so its numbers for real bodies will not be accurate (invented systems and phenomenon experiments are fine as they are).",
   // Wave 178: the generation-mode split (waves 170/176) is retired — the AI tab has one
   // free-generation path; the catalogue / ObservationRecord machinery is kept as an internal asset
   obsHeadTable:"Source table (carried verbatim into the description)",
@@ -3497,11 +3526,23 @@ en: {
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   // 第102便: external AI chat path (copy prompt —— wave 357b: the only path once the in-app generation was removed)
   // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
-  aiExtTitle:"Generate via an AI chat",
+  aiExtTitle:"One-shot generation prompt",
   aiExtSum:"How to use",
-  aiExtNote:"1) Write your base sample (= the few-shot example) and your request in \"The simulation you want\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Paste the reply AS IT IS into the box below and press \"Import what you pasted\" (```code fences, surrounding text, multiple candidates, trailing commas, smart quotes and full-width punctuation are handled automatically). Whether the reply is a preset JSON or an array of ObservationRecords, the app detects the shape and takes the matching path. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web; its skeleton is identical to the full prompt.",
+  aiExtNote:"A prompt that asks for the settings in a single reply, without a dialogue. 1) Write your base sample (= the few-shot example) and your request in \"The simulation you want\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat and send. 3) Paste the reply AS IT IS into the box in \"Build it in a dialogue with an AI chat\" at the top and press \"Import what you pasted\" (```code fences, surrounding text, multiple candidates, trailing commas, smart quotes and full-width punctuation are handled automatically). Whether the reply is a preset JSON or an array of ObservationRecords, the app detects the shape and takes the matching path. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web; its skeleton is identical to the full prompt.",
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
+  aiChatHead:"Build it in a dialogue with an AI chat",
+  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat.",
+  btnChatCopy:"Copy the prompt to start a dialogue",
+  aiChatLink:"Open the dialogue entry page (new tab)",
+  aiChatPrompt:"From now on, you will hold a dialogue with me as the guide for \"Virtual Physics Lab (DFM simulator)\", an educational toy model that runs in a browser.\nFirst read the following 2 pages.\n1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\nIf you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).\nIf there is a page you cannot read at either address, say so first (do not answer by guessing what it says).\nAfter reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.",
+  btnResultCopy:"Copy a message telling the AI this result",
+  aiResHeadNg:"App check result: not imported (added 0, invalid 1)",
+  aiResHeadCheck:"App check result: valid \u2014 not imported yet (added 0, invalid 0)",
+  aiResHeadOk:(n)=>"App check result: imported (added 1, invalid 0): "+n,
+  aiResFixes:(f)=>"Corrected automatically: "+f,
+  aiResChanges:"What was changed:",
+  aiResNoChange:"What was changed: nothing",
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
   aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, the same file is in the repository at https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md; if neither is readable, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
@@ -3517,6 +3558,8 @@ en: {
   btnAiPaste:"Import what you pasted", btnAiPasteCheck:"Validate only",
   pasteEmpty:"Paste the AI's reply into this box",
   pasteParseNg:(e)=>"Not readable as JSON \u2014 "+e,
+  pasteInBlock:(e)=>"inside the code block, "+e,
+  pasteEndCut:(l,c)=>"the JSON ends at line "+l+", column "+c+" (the end) \u2014 closing brackets are missing (see whether the reply was cut off)",
   pasteUnknown:"What you pasted is neither a preset JSON nor an array of ObservationRecords (surrounding prose and code fences are fine, but the JSON body itself must be there)",
   pasteCorrected:(f)=>"Read after correction ("+f+") \u2014 not one number was altered",
   pasteKindRecords:(nb,nr)=>"Detected as an ObservationRecord array ("+nb+" bodies, "+nr+" rows)",
@@ -3529,6 +3572,8 @@ en: {
   stabHeadNotes:"What it did NOT touch, and why",
   stabHeadDiag:(n)=>"Self-check ("+n+"-step trial run)",
   stabNoChange:"No changes (imported as it was)",
+  stabNoChangeCheck:"No changes (it can be imported as it is)",
+  stabCapRow:(lab,a,b,cap)=>lab+": particle count n "+a+" → "+b+" (reduced to keep the total within the particle limit "+cap+")",
   stabKappa:(o,n)=>"Spacetime coefficient X_k (key kappaT) re-derived to the correspondence lock X_k = G_0/c_0\u00b2: "+o+" \u2192 "+n,
   stabKappaToy:(o,n)=>"X_k="+o+" does not match G_0/c_0\u00b2="+n+" (respected as a toy setting; not changed)",
   stabScaleExp:(l,t,m)=>"scaleExp departs from the convention (L\u2212T=4, M+2T\u22123L=11): L="+l+", T="+t+", M="+m+" \u2192 suggested T="+(l-4)+", M="+(l+19)+" (not changed automatically)",
@@ -48938,7 +48983,56 @@ function parseIntake(raw){
     try{ return {ok:true, value:JSON.parse(c), corrected:true, fixes}; }catch(e2){}
     try{ return {ok:true, value:JSON.parse(sanitizeLLMJSON(c)), corrected:true, fixes}; }catch(e3){}
   }
-  return {ok:false, error:jsonPosInfo(t1, e1||e0), fixes};
+  return {ok:false, error:intakeParseWhere(text, t1, e1||e0), fixes};   // 第357便c: 文だけ(受理の判定は上のまま)
+}
+// 第357便c(R524): 読めない JSON の所を、コードブロックが在ればその中の行と列で言う(在らなければ貼った文の行と列)。
+// 位置は実行系の誤りの文に頼らず、下の小さな走査で決める(実行系によっては誤りの文に位置が無い)。受理の判定には使わない
+function intakeParseWhere(raw, t1, err){
+  const fm=/```[^\n`]*\n([\s\S]*?)(?:```|$)/.exec(String(raw));
+  const blk=fm? normalizeIntakeText(fm[1]) : "";
+  const inBlk=!!blk.trim();
+  const body=inBlk? blk : String(t1);
+  const p0=inBlk? 0 : body.search(/[{[]/);
+  if(p0<0) return jsonPosInfo(t1, err);
+  const rel=intakeJsonErrAt(body.slice(p0));
+  if(rel<0) return jsonPosInfo(t1, err);
+  const pos=p0+rel, tail=body.replace(/\s+$/,"").length;
+  const say=(pos>=tail)? (()=>{ const lc=intakeLineCol(body, tail); return T("pasteEndCut")(lc.line, lc.col); })()
+    : jsonPosInfo(body, {message:"position "+pos});
+  return inBlk? T("pasteInBlock")(say) : say;
+}
+function intakeLineCol(s, pos){
+  let ln=1, cl=1;
+  for(let k=0;k<pos && k<s.length;k++){ if(s[k]==="\n"){ ln++; cl=1; } else cl++; }
+  return {line:ln, col:cl};
+}
+// 先頭の JSON の値 1 つを走査して、最初に読めなくなる位置(読めれば −1・途中で終われば長さ)を返す(純関数 —— 文の位置だけに使う)
+function intakeJsonErrAt(s){
+  const src=String(s), len=src.length; let at=0;
+  const fail=()=>{ throw {jsonAt:at}; };
+  const sp=()=>{ while(at<len && " \t\n\r".indexOf(src[at])>=0) at++; };
+  const strv=()=>{ at++;
+    while(at<len){ const c=src.charCodeAt(at);
+      if(c===34){ at++; return; }
+      if(c===92){ at++; if(at>=len) fail(); const e=src[at];
+        if(e==="u"){ if(!/^[0-9a-fA-F]{4}$/.test(src.slice(at+1, at+5))) fail(); at+=5; }
+        else if("\"\\/bfnrt".indexOf(e)>=0) at++; else fail();
+        continue; }
+      if(c<32) fail();
+      at++; }
+    fail(); };
+  const val=(dep)=>{ sp(); if(at>=len || dep>512) fail(); const c=src[at];
+    if(c==="{"){ at++; sp(); if(src[at]==="}"){ at++; return; }
+      for(;;){ sp(); if(src[at]!=="\"") fail(); strv(); sp(); if(src[at]!==":") fail(); at++; val(dep+1); sp();
+        if(src[at]===","){ at++; continue; } if(src[at]==="}"){ at++; return; } fail(); } }
+    if(c==="["){ at++; sp(); if(src[at]==="]"){ at++; return; }
+      for(;;){ val(dep+1); sp(); if(src[at]===","){ at++; continue; } if(src[at]==="]"){ at++; return; } fail(); } }
+    if(c==="\""){ strv(); return; }
+    const m=/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/.exec(src.slice(at, at+64));
+    if(m){ at+=m[0].length; return; }
+    for(const w of ["true","false","null"]) if(src.startsWith(w, at)){ at+=w.length; return; }
+    fail(); };
+  try{ val(0); return -1; }catch(x){ if(x && typeof x.jsonAt==="number") return Math.min(x.jsonAt, len); throw x; }
 }
 // 形状の自動判別(第178便 ②): 観測レコード配列 / プリセットJSON / どちらでもない
 function detectPasteShape(v){
@@ -49142,6 +49236,23 @@ function stabilizePreset(input, opts){
 }
 
 /* ---- 貼付欄の入口(形状自動判別 → 経路分岐)------------------------------------------ */
+// 第357便c(R524): 受理器(validatePreset)が粒子の数を減らした群(n の上限・総数の上限の比例縮小)を、「変更した点」の行にする(純関数)。
+// 貼った本 src と受理の後の本 acc の bodies を添字で並べ、n が違う群を「前の数 → 後の数」で(同じ型・同じ数の群は 1 行にまとめる)
+function intakeCapRows(src, acc){
+  const sb=(src && Array.isArray(src.bodies))? src.bodies : null, qb=(acc && Array.isArray(acc.bodies))? acc.bodies : null;
+  if(!sb || !qb || sb.length!==qb.length) return [];
+  const grp=new Map();
+  sb.forEach((b,k)=>{
+    const q=qb[k];
+    if(!b || !q || q.type==="single" || b.type!==q.type || !isFinite(Number(b.n))) return;
+    const n0=Math.round(Number(b.n));
+    if(n0===q.n) return;
+    const key=q.type+"|"+n0+"|"+q.n;
+    if(!grp.has(key)) grp.set(key, {type:q.type, a:n0, b:q.n, at:[]});
+    grp.get(key).at.push("bodies["+k+"]");
+  });
+  return [...grp.values()].map(g=>T("stabCapRow")(g.at.join(LANG==="en"? ", " : "・")+"("+g.type+")", g.a, g.b, N_CAP));
+}
 function aiIntakeValue(v, opts){
   const kind=detectPasteShape(v);
   if(kind==="records"){
@@ -49157,7 +49268,10 @@ function aiIntakeValue(v, opts){
     const one=pickSinglePreset(v);
     if(!one || typeof one!=="object") return {ok:false, kind:"unknown", stage:"shape", errors:[T("pasteUnknown")]};
     const st=stabilizePreset(one, opts);
-    return Object.assign({kind}, st);
+    const out=Object.assign({kind}, st);
+    const cr=intakeCapRows(one, st.preset);   // 第357便c: 受理器が減らした粒子の数(表示だけ —— 取り込む値は上のまま)
+    if(cr.length) out.capRows=cr;
+    return out;
   }
   return {ok:false, kind:"unknown", stage:"shape", errors:[T("pasteUnknown")]};
 }
@@ -49350,8 +49464,15 @@ function obsShowDiag(res){
      "q_exact="+res.meta.q+" (a_ref="+res.meta.aRef+")"]);
 }
 // 整形・安定化パスの結果表示(変更点は**必ず全部**出す — 黙って書き換えないことの担保)
-function stabShowReport(r){
-  if(r.changes) obsReportBlock(T("stabHeadChanges"), r.changes.length? r.changes.map(s=>"・"+s) : [T("stabNoChange")]);
+// 第357便c(R524): mode = "saved"(取り込んだ)/"check"(検証のみ —— まだ取り込んでいない)/"rejected"(取り込まなかった)。
+//   取り込まなかったときは、変更点が無ければ段を出さない(「そのまま取り込みました」を出さない)。受理器が減らした粒子の数も変更点に並べる
+function stabChangeRows(r){ return (r && r.changes)? (r.capRows||[]).concat(r.changes) : []; }   // 受理(減らした数)が先・整形が後(処理の順)
+function stabShowReport(r, mode){
+  const chg=stabChangeRows(r);
+  if(r.changes){
+    if(chg.length) obsReportBlock(T("stabHeadChanges"), chg.map(s=>"・"+s));
+    else if(mode!=="rejected") obsReportBlock(T("stabHeadChanges"), [T(mode==="check"? "stabNoChangeCheck" : "stabNoChange")]);
+  }
   if(r.notes && r.notes.length) obsReportBlock(T("stabHeadNotes"), r.notes.map(s=>"・"+s));
   if(r.diag && r.diag.steps) obsReportBlock(T("stabHeadDiag")(r.diag.steps),
     [(LANG==="en"? "bodies=" : "粒子数=")+r.diag.n+" / max r="+(isFinite(r.diag.maxR)? r.diag.maxR.toPrecision(4) : "NaN")
@@ -49362,22 +49483,25 @@ function aiPasteOpts(){ return {kepler:aiKeplerOn()}; }
 // 貼り付け内容を取り込む(save=false なら検証のみ — 保存しない)
 function aiPasteRun(save){
   obsReportClear();
+  aiResultMsgSet("");   // 第357便c: 前の結果の文を消す(押せないへ)
   const el=$("#aiPasteArea");
   const r=aiIntakeText(el? el.value : "", aiPasteOpts());
   if(r.corrected && r.fixes && r.fixes.length) obsReportBlock(T("pasteCorrected")(r.fixes.join("・")), []);
   if(r.kind==="records") obsShowTable(r.table, r.notes);
-  if(r.kind==="preset") stabShowReport(r);
+  if(r.kind==="preset") stabShowReport(r, !r.ok? "rejected" : (save? "saved" : "check"));
   if(!r.ok){
     obsReportBlock(r.stage==="diagnosis"? T("stabRejected") : T("obsBuildNg"), (r.errors||[]).map(s=>"× "+s));
     obsShowDiag(r);
     setAiStatus((r.errors&&r.errors[0])? String(r.errors[0]).slice(0,160) : T("obsBuildNg"),"err");
+    if(r.kind!=="empty") aiResultMsgSet(aiResultMsgOf(r, save));   // 空の貼り付けは伝える結果が無い
     return null;
   }
   if(r.kind==="records"){
     obsShowDiag(r);
     setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
   } else setAiStatus(T("pasteKindPreset"),"ok");
-  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); return r; }
+  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); return r; }
+  aiResultMsgSet(aiResultMsgOf(r, true));   // 名は取り込む前の字(aiAdoptPreset は id だけを付ける)
   aiAdoptPreset(r.preset);
   setAiStatus(T("pasteSavedOk")(r.preset.name)
     +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : "")
@@ -49394,6 +49518,35 @@ function aiAdoptPreset(preset){
 }
 $("#btnAiPaste").addEventListener("click",()=>aiPasteRun(true));
 $("#btnAiPasteCheck").addEventListener("click",()=>aiPasteRun(false));
+// ---- 第357便c(原仮定者の指示(2026-11-25)・R524): 対話式の入口と、取り込みの結果を AI チャットへ伝える文 ----
+// 入口のページは「開くリンク」(#aiChatLink —— 新しいタブ)だけで、アプリは取りに行かない。アドレスは README の節のプロンプトと同じ字
+const AI_CHAT_URL="https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md";
+// 直前の取り込み・検証の結果の文(入れ物 1 つ —— 最上位の let は足さない)。空のときは「伝える文をコピー」を押せない
+const AI_RESULT_MSG={text:""};
+function aiResultMsgSet(txt){
+  AI_RESULT_MSG.text=String(txt||"");
+  const rb=document.getElementById("btnResultCopy"); if(rb) rb.disabled=!AI_RESULT_MSG.text;
+}
+// 結果 → AI チャットへそのまま貼れる文(純関数): 見出し(追加・不正の件数)・拒否の理由(画面の × の行の字のまま)・
+//   自動で直した点・変更した点・拒否のときは retryFixMsg の文(理由を " / " で繋いで 300 字まで)
+function aiResultMsgOf(r, save){
+  if(!r) return "";
+  const rows=[];
+  if(!r.ok){
+    rows.push(T("aiResHeadNg"));
+    rows.push(r.stage==="diagnosis"? T("stabRejected") : T("obsBuildNg"));
+    for(const e of (r.errors||[])) rows.push("× "+e);
+  } else rows.push(save? T("aiResHeadOk")((r.preset && r.preset.name) || "") : T("aiResHeadCheck"));
+  const fx=[].concat((r.corrected && r.fixes)? r.fixes : [], (r.ok && r.warnings)? r.warnings : []);
+  if(fx.length) rows.push(T("aiResFixes")(fx.join(LANG==="en"? "; " : "・")));
+  const chg=stabChangeRows(r);
+  if(chg.length){ rows.push(T("aiResChanges")); for(const c of chg) rows.push("・"+c); }
+  else if(r.ok && r.kind==="preset") rows.push(T("aiResNoChange"));
+  if(!r.ok) rows.push(T("retryFixMsg")((r.errors||[]).join(" / ").slice(0,300)));
+  return rows.join("\n");
+}
+$("#btnChatCopy").addEventListener("click",()=>copyJSON(T("aiChatPrompt")));
+$("#btnResultCopy").addEventListener("click",()=>{ if(AI_RESULT_MSG.text) copyJSON(AI_RESULT_MSG.text); });
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う
 for(const tid of ["ioArea","aiPrompt","saveName","saveComment",
@@ -49518,6 +49671,10 @@ function applyLang(){
     const pb=$("#btnAiPaste"); if(pb) pb.textContent=T("btnAiPaste");
     const pc=$("#btnAiPasteCheck"); if(pc) pc.textContent=T("btnAiPasteCheck");
     obsReportClear(); }
+  // 第357便c: 対話式の入口のグループ(言語を切り替えたら、前の結果の文は消える —— 報告の段と同じ)
+  { for(const [qid, key] of [["aiChatHead","aiChatHead"],["aiChatNote","aiChatNote"],["btnChatCopy","btnChatCopy"],["aiChatLink","aiChatLink"],["btnResultCopy","btnResultCopy"]]){
+      const ce=document.getElementById(qid); if(ce) ce.textContent=T(key); }
+    aiResultMsgSet(""); }
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   // 第83便B: 相図ランナーのパネルが開いていれば見出し・軸名も言語追随させる
@@ -66557,6 +66714,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode,
   // 第357便b: アプリの中の生成の名(提供元の表・フォールバック・送信本文・呼び出し)は外した。保存済みのキーの掃除の読み口
   apiKeyCleanup357b:apiKeyCleanup, apiKeyCleanupAuto357b:apiKeyCleanupAutoOf, API_KEY_STORAGE_NAMES357b:API_KEY_STORAGE_NAMES,
+  // 第357便c: 対話式の入口と、取り込みの結果を AI チャットへ伝える文の読み口(QA ai.chatButtons357c・behavior.intakeText357c)
+  AI_CHAT_URL357c:AI_CHAT_URL, aiResultMsg357c:aiResultMsgOf, aiResultMsgNow357c:()=>AI_RESULT_MSG.text,
+  intakeJsonErrAt357c:intakeJsonErrAt, intakeCapRows357c:intakeCapRows,
   // 第176便: ObservationRecord 経路(カタログ外の出典つき観測転写)— QA ai.obs-schema /
   // ai.obs-build が読む公開フック
   validateObservationRecords, buildAstroFromRecords, buildObsCollectPrompt, astroObsSelfCheck,

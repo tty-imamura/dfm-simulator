@@ -53039,12 +53039,16 @@ if (!FAST) {
       document.querySelector('#btnPanelClose').click();
       return r;
     });
+    // 第357便c(R524): 対話式の入口の版(#btnChatCopy が在る版)では、コピーのボタンを**名で** 4 つ数える(対話式の 2 つ + 1 回で生成する 2 つ)
+    const chat357c = ui.copyBtns.includes('btnChatCopy');
+    const copyOk = chat357c ? JSON.stringify(ui.copyBtns.slice().sort()) === JSON.stringify(['btnChatCopy', 'btnExtCopy', 'btnExtCopyShort', 'btnResultCopy'])
+      : ui.copyBtns.length === 2;
     const uiOk = ui.gone.length === 0 && ui.pasteBoxes.length === 1 && ui.pasteBoxes[0] === 'aiPasteArea'
-      && ui.copyBtns.length === 2 && ui.genEnabled && ui.promptEnabled && ui.baseEnabled
+      && copyOk && ui.genEnabled && ui.promptEnabled && ui.baseEnabled
       && ui.kepler && ui.mode === 'unified';
     add('ai.ui-unified', uiOk,
       `モードUIの残骸=${ui.gone.length}件${ui.gone.length ? '[' + ui.gone.join(',') + ']' : ''}・`
-      + `貼付欄=${JSON.stringify(ui.pasteBoxes)}(1つ)・コピー=${JSON.stringify(ui.copyBtns)}(1系統2ボタン)・`
+      + `貼付欄=${JSON.stringify(ui.pasteBoxes)}(1つ)・コピー=${JSON.stringify(ui.copyBtns)}(${chat357c ? '対話式 2 + 1 回で生成する 2 —— 名で 4 つ(第357便c)' : '1系統2ボタン'})・`
       + (ui.genGone ? `アプリの中の生成は外した版(第357便b): 生成ボタン・呼び出しの関数・キーの欄が無い=${ui.genEnabled}・`
         : `生成ボタン常時有効=${ui.genEnabled}・`) + `要望欄有効=${ui.promptEnabled}・ベース選択有効=${ui.baseEnabled}・`
       + `ケプラー再導出 既定ON=${ui.kepler}・aiGenMode=${ui.mode}`);
@@ -135202,7 +135206,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       ['キーの欄を戻す', H357b.replace('<div class="group"><h3 id="aiExtTitle">', '<input type="password" id="apiKey"><div class="group"><h3 id="aiExtTitle">'), /^④/],
       ['HP に呼び出しの名を戻す', H357b.replace('getAstroSystemPrompt, astroBodyIds,', 'getAstroSystemPrompt, callLLM, astroBodyIds,'), /^⑤/],
       ['I18N に API の鍵を戻す', H357b.replace('  aiGenHead:"作りたいシミュレーション",', '  noKey:"キーを設定してください", aiGenHead:"作りたいシミュレーション",'), /^⑥/],
-      ['見出しに API key の字を戻す', H357b.replace('aiExtTitle:"Generate via an AI chat",', 'aiExtTitle:"Generate via an AI chat (no API key)",'), /^⑥/],
+      ['見出しに API key の字を戻す', H357b.replace('aiExtTitle:"One-shot generation prompt",', 'aiExtTitle:"One-shot generation prompt (no API key)",'), /^⑥/],   // 第357便c: 見出しの字を「1 回で生成するプロンプト」へ変えたので、種の字も同じに
     ];
     const sc = [];
     for (const [nm, Hm, re] of MUT) {
