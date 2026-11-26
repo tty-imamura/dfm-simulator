@@ -3598,25 +3598,25 @@
  "ok": true,
  "timing": {
   "pure": {
-   "wallSec": 0.049
+   "wallSec": 0.046
   },
   "runs": {
-   "wallSec": 24.168
+   "wallSec": 23.256
   },
   "eff": {
-   "wallSec": 24.169
+   "wallSec": 23.258
   },
   "ctrl": {
-   "wallSec": 24.169
+   "wallSec": 23.258
   }
  },
- "elapsedS": 174.097,
+ "elapsedS": 165.124,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第356便h",
   "target": "tests/lib-w356h-corot.mjs",
-  "targetSha256": "4e64275f8025876732ac79097515366c2a54f4fab2ae30256f7fdcc73b337d27",
-  "generatedAt": "2026-11-26T03:24:29.573Z",
+  "targetSha256": "8cad0c3dfd6bc76dee0c3416a996ea9007b8787f4a2c0c7d92ceb9190ad4f46e",
+  "generatedAt": "2026-11-26T03:32:29.803Z",
   "inputs": [],
   "code": [
    {
@@ -3759,12 +3759,12 @@
    },
    {
     "file": "tests/lib-w356h-corot.mjs",
-    "bytes": 13106,
-    "sha256": "4e64275f8025876732ac79097515366c2a54f4fab2ae30256f7fdcc73b337d27",
-    "mtime": "2026-11-26T03:21:28.625Z"
+    "bytes": 13109,
+    "sha256": "8cad0c3dfd6bc76dee0c3416a996ea9007b8787f4a2c0c7d92ceb9190ad4f46e",
+    "mtime": "2026-11-26T03:26:42.145Z"
    }
   ],
-  "codeSha256": "fed886b8febee409473d9a3fd93812f981148154e5ea8e81f3d1aa403c016881",
+  "codeSha256": "35f0fc3cdf534f2985054e4a3953e02aac3a2a293a494da736c6ce802584170c",
   "harnessVersion": "w356h-corot-1",
   "stage": "corot",
   "engine": "Node(html を読まない —— 純関数の lib・第355便f の lib を呼ぶ)・1 プロセス",
