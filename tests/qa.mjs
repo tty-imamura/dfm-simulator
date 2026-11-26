@@ -45323,16 +45323,21 @@ if (!FAST) {
 // ----     max_tokens 16000、sonnet-5 / opus-5 は thinking:{type:"disabled"}・max_tokens 4000。どの本文にも
 // ----     tool_choice / budget_tokens / output_config(effort)が無い。thinking ブロックが先頭の応答からも
 // ----     text を取り出せる。
+// ----   第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」・R523): アプリの中の生成
+// ----     (外の AI の事業者を呼ぶ道)を外した版では、世代の判定からモデル ID の字を外し(ui.* の 4 本が黙って SKIP しないため)、
+// ----     ai.modelList は「無いことを見る」形 —— HP にモデルの表・フォールバック・送信本文の名が無い・画面にモデルの候補の欄が無い・
+// ----     html にモデル ID の字が無い。道を持つ版(昇格の前の root)は従来の検査のまま。分かれ目は html の中身(`fetch(` が在るか)。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const hasApi357b = /\bfetch\(/.test(html);   // 第357便b: 外へ送る呼び出しを持つ版(= API 方式を持つ版)
   // 第279便d: 幅の宣言は第278便e(480/54vw/630)か第279便d(360/40.5vw/472)のどちらか —— 世代で固定値を切り替える
   const has279dW = /grid-template-columns:minmax\(0,1fr\) clamp\(360px,40\.5vw,472px\);/.test(html);
   const LW = has279dW ? { min: 360, vw: 0.405, max: 472, box: 630, decl: 'clamp(360px,40.5vw,472px)', gen: '第279便d(第278便e の 3/4)' }
     : { min: 480, vw: 0.54, max: 630, box: 840, decl: 'clamp(480px,54vw,630px)', gen: '第278便e(旧 320/36vw/420 の 1.5 倍)' };
   const has278e = (/clamp\(480px,54vw,630px\)/.test(html) || has279dW) && /class="fmModal"/.test(html)
-    && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && /"claude-opus-5-5"/.test(html);
+    && /ppSearchClear/.test(html) && /ocHeadIcon/.test(html) && (!hasApi357b || /"claude-opus-5-5"/.test(html));   // 第357便b: モデル ID の字は API 方式を持つ版でだけ見る
   if (!has278e) {
-    console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon・claude-opus-5-5 なし — root 等)');
+    console.log('SKIP ui.landscapeWidth / ui.frontModals / ui.searchClear / ui.obscardIcon / ai.modelList(対象に第278便e の幅宣言・.fmModal・#ppSearchClear・.ocHeadIcon〔API 方式を持つ版では claude-opus-5-5 も〕なし — root 等)');
   } else {
     const errs = [];
     const openAt = async (w, h) => {
@@ -45615,6 +45620,19 @@ if (!FAST) {
       `他の見出しに 📇 = ${oi.other} 本(0)・文言キーに絵文字を入れていない=${oi.keyNoIcon} / NG=[${oi.bad.slice(0, 4).join(' ')}](0件)`);
 
     // --- ⑤ 実行時 LLM のモデル表と送信本文(fetch を差し替えて読む — ネットワークへは出ない)
+    if (!hasApi357b) {
+      // 第357便b: アプリの中の生成を外した版 —— 無いことを見る
+      const ga = await page.evaluate(() => ({
+        hp: ['AI_PROVIDERS', 'aiFallbackModel', 'callLLM', 'aiAnthropicBody', 'aiThinkingAlwaysOn', 'aiCfg'].filter((k) => k in HP),
+        glob: ['callLLM', 'generatePreset', 'generateAstroPreset', 'fetchJSON', 'aiCfg', 'aiFallbackModel', 'aiAnthropicBody', 'renderAiConfig', 'updateAiPreview']
+          .filter((k) => typeof window[k] !== 'undefined'),
+        dl: !!document.querySelector('#modelSuggest') || !!document.querySelector('#aiModelIn') }));
+      const ids = html.match(/"(?:claude|gpt|gemini)-[0-9a-z.-]+"/g) || [];
+      add('ai.modelList', ga.hp.length === 0 && ga.glob.length === 0 && !ga.dl && ids.length === 0,
+        `アプリの中の生成(実行時 LLM)を外した版(第357便b —— html に外へ送る呼び出しが無い)= モデルの表・フォールバック・送信本文は無いことを見る: ` +
+        `HP の名 [${ga.hp.join(', ')}](0)・大域の関数 [${ga.glob.join(', ')}](0)・モデルの欄と候補 #aiModelIn/#modelSuggest ${ga.dl ? '在る' : '無い'}・` +
+        `html のモデル ID の字 ${ids.length} 件(0)${ids.length ? '[' + ids.slice(0, 4).join(' ') + ']' : ''}`);
+    } else {
     const ml = await page.evaluate(async () => {
       const A = HP.AI_PROVIDERS.anthropic;
       const o = { models: A.models.slice(), def: A.defModel,
@@ -45657,6 +45675,7 @@ if (!FAST) {
       ['claude-sonnet-5', 'claude-opus-5-5', 'claude-opus-5'].map((m) => `${m}{${ml.sent[m].keys}・thinking=${ml.sent[m].thinking || '無し'}・` +
         `max_tokens=${ml.sent[m].max}・禁止キー=${ml.sent[m].forbidden.length ? ml.sent[m].forbidden.join('|') : '無し'}・応答text=${ml.sent[m].text}}`).join(' ') +
       ` / 純関数 aiAnthropicBody(opus-5-5) の形=${ml.pure}`);
+    }   // 第357便b: API 方式を持つ版(昇格の前の root)の検査はここまで
   }
 }
 
@@ -50945,6 +50964,31 @@ if (!FAST) {
     });
     add('ai.payload-preview', pv.plain && pv.withBase && pv.sysNoteOk,
       `未選択一致=${pv.plain} ベース選択後も一致+文脈注入=${pv.withBase} システムプロンプト文字数表示=${pv.sysNoteOk}`);
+  } else if (await page.evaluate(() => !!window.HP && !!HP.buildUnifiedPrompt && !!HP.aiSendContent && !!document.querySelector('#aiExtWrap'))) {
+    // 第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」・R523): 「送信内容を確認」のプレビューは
+    // API へ送る中身を確かめる画面だったので外した(SKIP にしない)。共有の部分 —— 外部チャットに配る本文が要望とベースの選択に追従し、
+    // 仕様の全文を含むこと —— を、コピーする本文(HP.buildUnifiedPrompt)で同じ字の照合で見る。プレビューの画面と結線が無いことも見る
+    const pv = await page.evaluate(() => {
+      HP.loadPreset('galaxy', false);
+      const prompt = document.querySelector('#aiPrompt'), sel = document.querySelector('#aiBasePreset');
+      const p0 = prompt.value, s0 = sel.value;
+      sel.value = '';
+      prompt.value = 'テスト要望QAプレビュー'; prompt.dispatchEvent(new Event('input'));
+      const full1 = HP.buildUnifiedPrompt(false), short1 = HP.buildUnifiedPrompt(true);
+      const send1 = HP.aiSendContent('テスト要望QAプレビュー');
+      const plain = full1.endsWith(send1) && short1.endsWith(send1) && send1.includes('テスト要望QAプレビュー');
+      (sel.querySelector('option[value="darkrotor"]') || sel.appendChild(Object.assign(document.createElement('option'), { value: 'darkrotor' }))); sel.value = 'darkrotor'; sel.dispatchEvent(new Event('change'));   // 第284便b(AN41)と同じ —— 試験の中だけ option を足す
+      const send2 = HP.aiSendContent('テスト要望QAプレビュー'), full2 = HP.buildUnifiedPrompt(false);
+      const withBase = full2.endsWith(send2) && send2.includes('lightSweep') && send2 !== send1;
+      const sysOk = full2.includes(HP.getSystemPrompt()) && HP.getSystemPrompt().includes(HP.SYSTEM_PROMPT);
+      const gone = ['#aiPreviewWrap', '#aiPreviewSum', '#aiPreviewNote', '#aiPreviewBody', '#aiPreviewSysNote'].filter((q) => !!document.querySelector(q));
+      const keys = ['aiPreviewSum', 'aiPreviewNote', 'aiPreviewSys'].filter((k) => HP.T(k) !== undefined && HP.T(k) !== k);
+      sel.value = s0; prompt.value = p0;
+      return { plain, withBase, sysOk, gone, keys, fnGone: typeof window.updateAiPreview === 'undefined' };
+    });
+    add('ai.payload-preview', pv.plain && pv.withBase && pv.sysOk && pv.gone.length === 0 && pv.keys.length === 0 && pv.fnGone,
+      `「送信内容を確認」のプレビューは外した版(第357便b —— API へ送る道が無い): 共有の本文の照合 —— 未選択で配る本文(全文版・短縮版)の末尾 = aiSendContent=${pv.plain}・` +
+      `ベース選択に追従+文脈注入=${pv.withBase}・全文版に仕様の全文=${pv.sysOk} / 無いこと —— プレビューの要素 [${pv.gone.join(',')}](0)・I18N の鍵 [${pv.keys.join(',')}](0)・関数 updateAiPreview 無し=${pv.fnGone}`);
   } else {
     console.log('SKIP ai.payload-preview(対象にAI送信内容プレビューUIなし)');
   }
@@ -52184,12 +52228,15 @@ if (!FAST) {
         mode: HP.aiGenMode(),
         modeUiGone: !document.querySelector('#aiGenMode') && !document.querySelector('#aiModeLabel')
           && !document.querySelector('#aiObsGroup') && !document.querySelector('#aiObsRecords'),
-        defModel: HP.AI_PROVIDERS.anthropic.defModel,
-        fb: HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel),
-        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5'),
+        // 第357便b(R523): アプリの中の生成を外した版(HP に提供元の表が無い)では、モデルの 3 本の条件の代わりに「無いこと」を見る
+        //   (カタログ検証器の否定対照/正例とカタログ仕様プロンプトの検査は、どちらの版でも同じに残す)
+        apiGone: !HP.AI_PROVIDERS && !HP.aiFallbackModel && !HP.callLLM && typeof window.generateAstroPreset === 'undefined',
+        defModel: HP.AI_PROVIDERS ? HP.AI_PROVIDERS.anthropic.defModel : null,
+        fb: HP.AI_PROVIDERS ? HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel) : null,
+        fbHaiku: HP.aiFallbackModel ? HP.aiFallbackModel('claude-haiku-4-5') : null, fbOpus: HP.aiFallbackModel ? HP.aiFallbackModel('claude-opus-5') : null,
         // 第278便e(原仮定者の裁定(第68報)): 候補に claude-opus-5-5 がある世代は、上位エスカレーション先が
         // 最新の Opus(claude-opus-5-5)。無い世代(root 等)は従来どおり claude-opus-5 —— 世代判定は候補表
-        fbExpect: HP.AI_PROVIDERS.anthropic.models.indexOf('claude-opus-5-5') >= 0 ? 'claude-opus-5-5' : 'claude-opus-5' };
+        fbExpect: HP.AI_PROVIDERS ? (HP.AI_PROVIDERS.anthropic.models.indexOf('claude-opus-5-5') >= 0 ? 'claude-opus-5-5' : 'claude-opus-5') : null };
     });
     // 既定モデル(第170便で Sonnet 5 へ引き上げ)と、検証失敗時の**上位エスカレーション**先
     // (統括再裁定: sonnet-5 → opus-5。第278便e 以降の世代は sonnet-5 → opus-5-5 —— fbExpect)も同じゲートで機械固定する
@@ -52197,11 +52244,12 @@ if (!FAST) {
     // 「モードが unified で、モード選択UIの残骸が無い」等価検査へ差し替える(弱体化なし —
     // カタログ検証器そのものの否定対照/正例は1件も減らしていない)
     add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'unified' && sch.modeUiGone
-      && sch.defModel === 'claude-sonnet-5' && sch.fb === sch.fbExpect
-      && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null,
+      && (sch.apiGone || (sch.defModel === 'claude-sonnet-5' && sch.fb === sch.fbExpect
+      && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null)),
       `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}件 全て受理・カタログ仕様=${sch.promptLen}字・` +
-      `生成モード=${sch.mode}(モード選択UI撤去=${sch.modeUiGone})・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
-      `(haiku-4-5→${sch.fbHaiku}・opus-5→${sch.fbOpus}=連鎖なし)` +
+      `生成モード=${sch.mode}(モード選択UI撤去=${sch.modeUiGone})・` +
+      (sch.apiGone ? `アプリの中の生成は外した版(第357便b —— 提供元の表・フォールバック・呼び出しの関数が無いことを見た)`
+        : `既定モデル=${sch.defModel}→フォールバック=${sch.fb}(haiku-4-5→${sch.fbHaiku}・opus-5→${sch.fbOpus}=連鎖なし)`) +
       `${sch.bad.length ? ' NG=[' + sch.bad.slice(0, 6).join(' / ') + ']' : ''}`);
   } else {
     console.log('SKIP ai.catalog-integrity / ai.placement-determinism / ai.schema-validation(対象に実天体カタログなし — 第170便 未適用の root 等)');
@@ -52980,7 +53028,10 @@ if (!FAST) {
         .map((b) => b.id).filter((id) => /Copy|copy/.test(id));
       const gen = document.querySelector('#btnGenerate');
       const sel = document.querySelector('#aiBasePreset');
-      const r = { gone, pasteBoxes, copyBtns, genEnabled: !gen.disabled,
+      // 第357便b(R523): アプリの中の生成を外した版では「生成する」のボタンが**無い**こと(と、呼び出しの関数・キーの欄が無いこと)を見る
+      const r = { gone, pasteBoxes, copyBtns, genGone: !gen,
+        genEnabled: gen ? !gen.disabled : (typeof window.callLLM === 'undefined' && typeof window.generatePreset === 'undefined'
+          && !document.querySelector('#page-ai input[type=password]')),
         promptEnabled: !document.querySelector('#aiPrompt').disabled,
         baseEnabled: !sel.disabled && !document.querySelector('#aiBaseRow').classList.contains('lockedRow'),
         kepler: !!document.querySelector('#aiKeplerFix') && document.querySelector('#aiKeplerFix').checked,
@@ -52994,7 +53045,8 @@ if (!FAST) {
     add('ai.ui-unified', uiOk,
       `モードUIの残骸=${ui.gone.length}件${ui.gone.length ? '[' + ui.gone.join(',') + ']' : ''}・`
       + `貼付欄=${JSON.stringify(ui.pasteBoxes)}(1つ)・コピー=${JSON.stringify(ui.copyBtns)}(1系統2ボタン)・`
-      + `生成ボタン常時有効=${ui.genEnabled}・要望欄有効=${ui.promptEnabled}・ベース選択有効=${ui.baseEnabled}・`
+      + (ui.genGone ? `アプリの中の生成は外した版(第357便b): 生成ボタン・呼び出しの関数・キーの欄が無い=${ui.genEnabled}・`
+        : `生成ボタン常時有効=${ui.genEnabled}・`) + `要望欄有効=${ui.promptEnabled}・ベース選択有効=${ui.baseEnabled}・`
       + `ケプラー再導出 既定ON=${ui.kepler}・aiGenMode=${ui.mode}`);
 
     // --- ② ai.unified-prompt ---
@@ -54093,16 +54145,18 @@ if (hasEchoFlipAt) {
 // ----      ベースのサンプルの説明が <details> として存在し既定closedであること、
 // ----      openにすると本文(note段落)が可視化されることを確認する(対象に無ければ SKIP)----
 {
+  // 第357便b(R523): アプリの中の生成を外した版では「キーの保存」の details(#aiKeyDetails)が無い —— 前提から外し(検査全体が黙って SKIP しないため)、
+  //   在る版(昇格の前の root)では従来どおり見る。代わりに外部チャットの「手順」の details(#aiExtWrap)を足して、AI のタブで見る details の数を保つ
   const hasDetails = await page.evaluate(() =>
-    !!document.querySelector('#ioDetails') && !!document.querySelector('#aiKeyDetails') &&
-    !!document.querySelector('#aiBaseDetails'));
+    !!document.querySelector('#ioDetails') && !!document.querySelector('#aiBaseDetails'));
   if (hasDetails) {
     const r = await page.evaluate(() => {
       const specs = [
         ['saves', 'ioDetails', 'ioNote'],
         ['ai', 'aiKeyDetails', 'aiKeyNote'],
         ['ai', 'aiBaseDetails', 'aiBaseNote'],
-      ];
+        ['ai', 'aiExtWrap', 'aiExtNote'],
+      ].filter(([, dId]) => dId !== 'aiKeyDetails' || !!document.getElementById(dId));
       const out = {};
       for (const [tab, dId, pId] of specs) {
         // タブボタンは「同じタブを再クリックするとパネルごと閉じる」トグル仕様(4111行付近)なので、
@@ -54124,10 +54178,14 @@ if (hasEchoFlipAt) {
       return out;
     });
     const bad = Object.entries(r).filter(([, v]) => !(v.closedByDefault && v.hiddenWhenClosed && v.visibleWhenOpen)).map(([k]) => k);
+    // 第357便b: 「キーの保存」が無い版では、外部チャットの「手順」を含む 3 つ(在る版は 4 つ)を見る —— 数が足りなければ落とす
+    const nWant = r.aiKeyDetails ? 4 : 3;
+    if (Object.keys(r).length !== nWant) bad.push('見た details の数 ' + Object.keys(r).length + '(期待 ' + nWant + ')');
     add('ai.help-collapsed', bad.length === 0,
-      Object.entries(r).map(([k, v]) => `${k}:closed=${v.closedByDefault}/hidden=${v.hiddenWhenClosed}/visibleOnOpen=${v.visibleWhenOpen}`).join(' '));
+      Object.entries(r).map(([k, v]) => `${k}:closed=${v.closedByDefault}/hidden=${v.hiddenWhenClosed}/visibleOnOpen=${v.visibleWhenOpen}`).join(' ')
+      + (r.aiKeyDetails ? '' : ' / 「キーの保存」(#aiKeyDetails)はアプリの中の生成とともに外した版(第357便b)'));
   } else {
-    console.log('SKIP ai.help-collapsed(対象に ioDetails/aiKeyDetails/aiBaseDetails なし — 第36便 B4 未適用の root 等)');
+    console.log('SKIP ai.help-collapsed(対象に ioDetails/aiBaseDetails なし — 第36便 B4 未適用の root 等)');
   }
 }
 
@@ -97627,6 +97685,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           o.pasteReport = [...document.querySelectorAll('#aiPasteReport div')].some((p) => /^・⚠ G_0\/c_0² = 20 が X_k の値域/.test(p.textContent));
           o.pasteRow = (document.getElementById('std_Xk') || { dataset: {} }).dataset.state;
           if (!(/⚠ 「QA327d hand」/.test(o.pasteStatus) && o.pasteReport && o.pasteRow === 'clamped')) B('貼り付けの画面の ⚠(状態の行・変更点・赤の行): ' + JSON.stringify({ s: o.pasteStatus.slice(0, 60), r: o.pasteReport, row: o.pasteRow }));
+          if (document.getElementById('btnGenerate')) {
           localStorage.setItem('hp_key_anthropic', 'sk-ant-qa327d');
           const cl0 = window.callLLM; window.callLLM = async () => JSON.stringify(hand);
           document.getElementById('aiPrompt').value = 'QA327d';
@@ -97635,6 +97694,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           window.callLLM = cl0;
           o.genStatus = document.getElementById('aiStatus').textContent.slice(0, 200);
           if (!/⚠ 「QA327d hand」/.test(o.genStatus)) B('AI 生成の状態の行に ⚠ が無い: ' + o.genStatus.slice(0, 80));
+          } else {
+            // 第357便b(R523): アプリの中の生成を外した版 —— AI 生成の画面は無い(取り込み・貼り付けの 2 つの画面で ⚠ を見る)。無いことを見る
+            o.genGone = typeof window.callLLM === 'undefined' && typeof window.generatePreset === 'undefined';
+            if (!o.genGone) B('「生成する」のボタンは無いのに、呼び出しの関数が残っている');
+          }
         } finally {
           for (const [k, v] of [['hp_custom_presets', bak.c], ['hp_saves', bak.s], ['hp_key_anthropic', bak.k]]) { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); }
           HP.loadPreset('saturnRingReal', false);
@@ -97644,7 +97708,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       bad.push(...r.bad.slice(0, 8));
       cases.push(`時空の群の X_k の行: ダーク ${r.skins.dark && r.skins.dark.ok}(赤 ${r.skins.dark && r.skins.dark.err})・ライト ${r.skins.light && r.skins.light.ok}(赤 ${r.skins.light && r.skins.light.err})—— G_0 20・c_0 1 でクランプ(data-state clamped・ラベル・値・出所の文が --errText・⚠ の文)→ c_0 30 で元の色(実時間)`);
       cases.push(`ヘルプの赤の 1 文 ja ${r.help.ja}・en ${r.help.en}`);
-      cases.push(`取り込みの通知「${String(r.importToast || '').slice(0, 40)}…」・貼り付け(状態の行・変更点の ⚠・赤の行 ${r.pasteRow})・AI 生成の状態の行の ⚠`);
+      cases.push(`取り込みの通知「${String(r.importToast || '').slice(0, 40)}…」・貼り付け(状態の行・変更点の ⚠・赤の行 ${r.pasteRow})・` + (r.genGone ? 'AI 生成の画面はアプリの中の生成とともに外した版(第357便b —— 画面は 2 つ・呼び出しの関数が無いことを見た)' : 'AI 生成の状態の行の ⚠'));
     } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
     if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
     await ctx.close();
@@ -97709,6 +97773,7 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           row('貼り付け(採用して開く)', false, HP.physLock(), HP.sim.params.kappaT, XD, HP.currentPreset().id);
           const cs2 = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]'); if (!Object.is(cs2[cs2.length - 1].physics.kappaT, XD)) B('貼り付けの保存の X_k');
           // AI 生成(実行時 LLM の応答を手書きの本に差し替え)
+          if (document.getElementById('btnGenerate')) {
           localStorage.setItem('hp_key_anthropic', 'sk-ant-qa327d');
           const cl0 = window.callLLM; window.callLLM = async () => JSON.stringify(hand);
           document.getElementById('aiPrompt').value = 'QA327d'; document.getElementById('btnGenerate').click();
@@ -97716,6 +97781,11 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           window.callLLM = cl0;
           row('AI 生成(採用して開く)', false, HP.physLock(), HP.sim.params.kappaT, XD, HP.currentPreset().id);
           const cs3 = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]'); if (!Object.is(cs3[cs3.length - 1].physics.kappaT, XD)) B('AI 生成の保存の X_k');
+          } else {
+            // 第357便b(R523): アプリの中の生成を外した版 —— この経路は無い(行の表は 1 行減る)。無いことを見る
+            const gone = typeof window.callLLM === 'undefined' && typeof window.generatePreset === 'undefined';
+            o.rows.push('AI 生成:外した' + (gone ? '' : '✗')); if (!gone) B('「生成する」のボタンは無いのに、呼び出しの関数が残っている');
+          }
           // 内蔵の表へ戻ると例外
           HP.loadPreset('rotorSolo', false);
           row('内蔵の表へ戻る', true, HP.physLock(), HP.sim.params.kappaT, X0);
@@ -97730,6 +97800,8 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         return o;
       }, mkHand327d('rotorSolo', { G: 2, cLight: 30, kappaT: 0.05 }));
       bad.push(...r.bad.slice(0, 8));
+      // 第357便b: 行の数の期待 —— API 方式を持つ版は 14 行・外した版は 14 行(「AI 生成:外した」の 1 行が「AI 生成(採用して開く)」の代わり)
+      if (r.rows.length !== 14) bad.push('経路の表の行の数 ' + r.rows.length + '(期待 14)');
       cases.push(`経路の表(🕳️ rotorSolo と同じ ID の手書きの本 G_0 2・c_0 30・X_k 0.05): ${r.rows.join('・')}`);
     } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
     if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
