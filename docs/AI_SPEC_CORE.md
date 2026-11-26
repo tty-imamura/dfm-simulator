@@ -322,7 +322,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
-- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
+- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ時空係数 X_k(kappaT)で決まり、X_k が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き X_k を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
@@ -333,7 +333,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 光を曲げる・ブラックホール: rays + 時空係数 X_k(kappaT)0.017〜0.025 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
 - 加熱・冷却: ヒーター=pinned 高スピン(8〜12)の列、冷却板=pinned スピン0 の列。系全体を冷やすなら etaRad 0.005〜0.05。
 - 銀河・渦巻き・円盤: 中心 single(質量500〜2000)+ disk vMode:"kepler" aroundMass=中心質量。
-- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面)。自己重力は G=0〜0.05。
+- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面。面の名は y の向きで付いていて、既定の視点では top が画面の下・bottom〔y=+size〕が画面の上に見える)。自己重力は G=0〜0.05。
 
 # スケールタグと表示換算(表示専用 — 物理は不変)
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。

@@ -134777,6 +134777,287 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 }
 // ==== 第356便i の塊(ここまで)====
 
+// ==== 第357便a の塊(ここから —— ai.gravitySign357a・behavior.legacyViewNote357a・docs.deferred357a の 3 ブロック。root は SKIP)====
+// ---- 第357便a(原仮定者の回答(2026-11-25)「AN1065: 後回しで良い」「AN1066: 案内だけ出す」・統括の検証項目 R522):
+// ----   **後回しの 2 つ —— AI 用の説明文の一様重力の目安を符号つきに・旧い視点の約束で書き出した JSON を取り込んだときの案内(本の値は変えない)**。
+// ----   世代切替 = beta 対象 ∧ 対象の html に `function legacyViewEnvOf(`(3 本とも同じ —— 説明文の字だけを世代の印にすると、戻したときに黙って SKIP になる)。
+// ----   ai.gravitySign357a(html を読むだけ —— ページは開かない):
+// ----     ① SYSTEM_PROMPT「一様重力場」の行に符号つきの目安が在り、旧い字(目安は0.02〜0.1)が説明文のどこにも無い ②「地上実験・落下・対流」の行に面の名の 1 文
+// ----     ③ 2 行に来歴の語が無い ④ 2 行が docs/AI_SPEC.md と docs/AI_SPEC_CORE.md に行として逐語 ⑤ DEFAULT_PHYSICS の gravityX・gravityY の値は 0(注だけの直し)⑥ 変異 2(旧い字に戻す・面の名の文を外す)
+// ----   behavior.legacyViewNote357a:
+// ----     ① 見分けの関数と数える関数を html から切り出して Node で表を引く(見分け 16 通り・数え 3 通り)② 変異の自己試験 5 つ(境の便 346 を 347・345 に・境の版 1.47 を 1.48 に・
+// ----        gravityY≠0 の条件を外す・appBuild の無い旧封筒の扱いを外す —— どれも表で落ちる)③ ページの中の同じ表と数え
+// ----     ④ 取り込みの通知 12 通り(旧い印 + 一様重力で出る・件数・新しい印で出ない・gravityY 0 で出ない・封筒なしと読めない印で出ない・表示 6 秒以上)
+// ----     ⑤ 本の値: 旧い印で取り込んだ本 = 同じ本を新しい印で取り込んだ本(id を除く)・入力の gravityY と配置と速度のまま・セーブの gravityY も同じ ⑥ 画面の文 ja/en(1 件・3 件・来歴の語なし)
+{
+  const H357a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357a.indexOf('\nfunction legacyViewEnvOf(') >= 0)) {
+    console.log('SKIP ai.gravitySign357a(第357便a の説明文の重力の目安の直しの前の世代か beta 対象でない — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const SIGNED = '目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。', OLD = '目安は0.02〜0.1';
+    const WALLS = '面の名は y の向きで付いていて、既定の視点では top が画面の下・bottom〔y=+size〕が画面の上に見える';
+    const HIST = /第\d+(?:〜\d+)?便|第\d+報|決断事項|\bAN\d{2,4}\b|原仮定者|統括|\bR\d{3}\b/;
+    const judge = (html) => {
+      const why = [];
+      const m = html.match(/const SYSTEM_PROMPT = `([\s\S]*?)`;/), sp = m ? m[1] : '';
+      if (!sp) { why.push('SYSTEM_PROMPT が見つからない'); return { why, g: '', f: '' }; }
+      const L = sp.split('\n'), gs = L.filter((l) => l.startsWith('- 一様重力場:')), fs2 = L.filter((l) => l.startsWith('- 地上実験・落下・対流:'));
+      const g = gs.length === 1 ? gs[0] : '', f = fs2.length === 1 ? fs2[0] : '';
+      if (!(g && g.indexOf(SIGNED) >= 0 && g.indexOf('physics.gravityY<0') >= 0)) why.push('① 一様重力場の行に符号つきの目安が無い(行 ' + gs.length + ')');
+      if (sp.indexOf(OLD) >= 0) why.push('① 旧い字(目安は0.02〜0.1)が説明文に在る');
+      if (!(f && f.indexOf(WALLS) >= 0 && f.indexOf('gravityY −0.1〜−0.02(下向き)') >= 0 && f.indexOf('world.thermalWalls の top —— y=−size の面') >= 0)) why.push('② 地上実験の行に面の名の 1 文が無い(行 ' + fs2.length + ')');
+      for (const [nm, l] of [['一様重力場', g], ['地上実験', f]]) if (l && HIST.test(l)) why.push('③ ' + nm + 'の行に来歴の語');
+      return { why, g, f };
+    };
+    const J0 = judge(H357a);
+    bad.push(...J0.why);
+    cases.push('①② 説明文の 2 行(符号つきの目安・旧い字なし・面の名の 1 文)③ 来歴の語なし');
+    const AS = rd('docs/AI_SPEC.md'), AC = rd('docs/AI_SPEC_CORE.md');
+    const lines = (t) => new Set(t.split('\n'));
+    const LA = lines(AS), LC = lines(AC);
+    for (const [nm, l] of [['一様重力場', J0.g], ['地上実験', J0.f]]) {
+      if (!(l && LA.has(l))) bad.push('④ docs/AI_SPEC.md に' + nm + 'の行が逐語で無い');
+      if (!(l && LC.has(l))) bad.push('④ docs/AI_SPEC_CORE.md に' + nm + 'の行が逐語で無い');
+    }
+    if (AS.indexOf(OLD) >= 0) bad.push('④ docs/AI_SPEC.md に旧い字');
+    cases.push('④ AI_SPEC §5 と短いページに 2 行が逐語・旧い字なし');
+    if (!/\n  gravityX:0, gravityY:0,   \/\/ v1\.17: 一様重力場\(外部場。力は \+y の向きに gravityY/.test(H357a)) bad.push('⑤ DEFAULT_PHYSICS の gravityX・gravityY の行(値 0・注)');
+    cases.push('⑤ DEFAULT_PHYSICS の値 0(注だけ)');
+    {
+      const m1 = judge(H357a.split(SIGNED).join('目安は0.02〜0.1。')), m2 = judge(H357a.split('。' + WALLS).join(''));
+      if (!m1.why.length) bad.push('⑥ 変異(旧い字に戻す)で落ちない');
+      if (!m2.why.length) bad.push('⑥ 変異(面の名の文を外す)で落ちない');
+      cases.push('⑥ 変異 2 つ(落ちる ' + (m1.why.length ? 1 : 0) + (m2.why.length ? 1 : 0) + ')');
+    }
+    add('ai.gravitySign357a', bad.length === 0,
+      `**AI 用の説明文の一様重力の目安が符号つき(−0.1〜−0.02・下向きは負)・伝熱の箱の面の名の 1 文**(第357便a・R522): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+{
+  await (async () => {   // 第310便c(heap)
+  const H357a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357a.indexOf('\nfunction legacyViewEnvOf(') >= 0)) {
+    console.log('SKIP behavior.legacyViewNote357a(第357便a の旧い視点の約束の案内の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const bad = [], cases = [];
+  const ENV = [
+    ['β b345', { schemaVersion: 4, appVersion: '1.46', appBuild: 'v1.47-b345' }, true],
+    ['β b346', { schemaVersion: 4, appVersion: '1.46', appBuild: 'v1.47-b346' }, false],
+    ['公開 v1.46', { schemaVersion: 4, appVersion: '1.46', appBuild: 'v1.46' }, true],
+    ['公開 v1.47', { schemaVersion: 4, appVersion: '1.47', appBuild: 'v1.47' }, false],
+    ['公開 v1.47.0', { appBuild: 'v1.47.0' }, false],
+    ['公開 v1.46.9', { appBuild: 'v1.46.9' }, true],
+    ['公開 v0.9', { appBuild: 'v0.9' }, true],
+    ['公開 v2.0', { appBuild: 'v2.0' }, false],
+    ['β b357', { appBuild: 'v1.48-b357' }, false],
+    ['印なし + appVersion', { appVersion: '1.30', customPresets: [] }, true],
+    ['印なし + schemaVersion', { schemaVersion: 3, saves: [] }, true],
+    ['封筒なし(単独の本)', { name: 'x', bodies: [] }, false],
+    ['封筒なし(配列)', [], false],
+    ['読めない印 dev-local', { appVersion: '1.46', appBuild: 'dev-local' }, false],
+    ['印が文字列でない', { appVersion: '1.46', appBuild: 346 }, false],
+    ['null', null, false],
+  ];
+  const CNT = [
+    ['本 3・セーブ 3(9.8・0・−0.03 / 0.05・無し・無し)', { customPresets: [{ physics: { gravityY: 9.8 } }, { physics: { gravityY: 0 } }, { physics: { gravityY: -0.03 } }], saves: [{ physics: { gravityY: 0.05 } }, { physics: {} }, {}] }, 3],
+    ['数でない gravityY', { customPresets: [{ physics: { gravityY: '9.8' } }, { physics: null }, null], saves: null }, 0],
+    ['gravityX だけ', { customPresets: [], saves: [{ physics: { gravityX: 1, gravityY: 0 } }] }, 0],
+  ];
+  // ① html から切り出して Node で引く
+  const pickFn = (src, name) => { const i = src.indexOf('\nfunction ' + name + '('); if (i < 0) return ''; const j = src.indexOf('\n}\n', i); return j > i ? src.slice(i + 1, j + 2) : ''; };
+  const isNumSrc = (H357a.match(/\nfunction isNum\(v\)\{[^\n]*\}\n/) || [''])[0];
+  const cstSrc = (H357a.match(/\nconst LEGACY_VIEW_BETA_WAVE=\d+, LEGACY_VIEW_ROOT_VER=\[\d+,\d+\];\n/) || [''])[0];
+  const SRC = isNumSrc + cstSrc + pickFn(H357a, 'legacyViewEnvOf') + '\n' + pickFn(H357a, 'legacyViewGravCount') + '\nreturn { legacyViewEnvOf, legacyViewGravCount };';
+  const tableOf = (src) => {
+    const why = [];
+    let F = null;
+    try { F = new Function(src)(); } catch (e) { why.push('切り出しが動かない: ' + String(e && e.message || e).slice(0, 80)); return why; }
+    for (const [nm, d, want] of ENV) { let v; try { v = F.legacyViewEnvOf(JSON.parse(JSON.stringify(d))); } catch (e) { v = 'throw'; } if (v !== want) why.push('見分け ' + nm + ' = ' + v + '(期待 ' + want + ')'); }
+    for (const [nm, co, want] of CNT) { let v; try { v = F.legacyViewGravCount(co); } catch (e) { v = 'throw'; } if (v !== want) why.push('数え ' + nm + ' = ' + v + '(期待 ' + want + ')'); }
+    return why;
+  };
+  if (!(isNumSrc && cstSrc && SRC.indexOf('function legacyViewEnvOf(') >= 0 && SRC.indexOf('function legacyViewGravCount(') >= 0)) bad.push('① html から関数と定数を切り出せない');
+  else {
+    const w0 = tableOf(SRC);
+    for (const w of w0) bad.push('① ' + w);
+    cases.push(`① 切り出した関数の表(見分け ${ENV.length} 通り・数え ${CNT.length} 通り —— 違い ${w0.length})`);
+    // ② 変異の自己試験(境の便・境の版・条件 —— どれも表で落ちる)
+    const MUT = [
+      ['境の便 346 → 347', (s) => s.replace('LEGACY_VIEW_BETA_WAVE=346', 'LEGACY_VIEW_BETA_WAVE=347')],
+      ['境の便 346 → 345', (s) => s.replace('LEGACY_VIEW_BETA_WAVE=346', 'LEGACY_VIEW_BETA_WAVE=345')],
+      ['境の版 1.47 → 1.48', (s) => s.replace('LEGACY_VIEW_ROOT_VER=[1,47]', 'LEGACY_VIEW_ROOT_VER=[1,48]')],
+      ['gravityY≠0 の条件を外す', (s) => s.replace(' && p.gravityY!==0', '')],
+      ['印なしの旧封筒の扱いを外す', (s) => s.replace('return (typeof d.appVersion==="string" && d.appVersion.trim()!=="") || isNum(d.schemaVersion);', 'return false;')],
+    ];
+    let caught = 0;
+    for (const [nm, f] of MUT) { const s2 = f(SRC); if (s2 === SRC) { bad.push('② 変異が当たらない: ' + nm); continue; } if (tableOf(s2).length) caught++; else bad.push('② 変異で落ちない: ' + nm); }
+    cases.push(`② 変異の自己試験 ${caught}/${MUT.length}`);
+  }
+  // ③〜⑥ ページの中
+  const mkPreset = (nm, gy) => ({ id: 'lv357a_' + nm, name: 'LV357a ' + nm, emoji: '⚾', description: 'w357a check', camera: { scale: 220 }, world: { boundary: 'box', size: 190 },
+    physics: { G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0, cLight: 30, bM: 1, etaRad: 0, pRad: 4,
+      gravityX: 0, gravityY: gy, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+    bodies: [{ type: 'single', rMul: 1.2, m: 2, x: -150, y: -140, vx: 0, vy: 0, spin: 0, pinned: false },
+      { type: 'single', rMul: 1.2, m: 2, x: -170, y: 100, vx: 33.2, vy: -39.84, spin: 0, pinned: false }] });
+  const mkSave = (gy) => ({ name: 'LV357a save', comment: '', savedAt: '2026-11-01T00:00:00.000Z', presetId: 'lv357a_x', presetName: 'LV357a x', physics: { G: 0, gravityX: 0, gravityY: gy } });
+  const env = (mark, ps, ss) => Object.assign({ schemaVersion: 4 }, mark, { exportedAt: '2026-11-01T00:00:00.000Z', saves: ss || [], customPresets: ps });
+  const NEW = { appVersion: '1.47', appBuild: 'v1.48-b357' };
+  const IMP = [
+    ['β b345 + 9.8', env({ appVersion: '1.46', appBuild: 'v1.47-b345' }, [mkPreset('a', 9.8)]), 1],
+    ['公開 v1.46 + 9.8', env({ appVersion: '1.46', appBuild: 'v1.46' }, [mkPreset('a', 9.8)]), 1],
+    ['印なし(appVersion 1.30)+ 0.05', { appVersion: '1.30', customPresets: [mkPreset('a', 0.05)], saves: [] }, 1],
+    ['セーブだけ(b300)+ 0.05', env({ appVersion: '1.46', appBuild: 'v1.47-b300' }, [], [mkSave(0.05)]), 1],
+    ['本 3 つ(9.8・−0.03・0)', env({ appVersion: '1.46', appBuild: 'v1.46-b312' }, [mkPreset('a', 9.8), mkPreset('b', -0.03), mkPreset('c', 0)]), 2],
+    ['β b346 + −9.8', env({ appVersion: '1.46', appBuild: 'v1.47-b346' }, [mkPreset('a', -9.8)]), 0],
+    ['β b357 + −9.8', env(NEW, [mkPreset('a', -9.8)]), 0],
+    ['公開 v1.47 + −9.8', env({ appVersion: '1.47', appBuild: 'v1.47' }, [mkPreset('a', -9.8)]), 0],
+    ['旧い印 + gravityY 0', env({ appVersion: '1.46', appBuild: 'v1.46' }, [mkPreset('a', 0)]), 0],
+    ['封筒なし(単独の本 9.8)', mkPreset('a', 9.8), 0],
+    ['封筒なし(配列 9.8)', [mkPreset('a', 9.8)], 0],
+    ['読めない印 dev-local + 9.8', env({ appVersion: '1.46', appBuild: 'dev-local' }, [mkPreset('a', 9.8)]), 0],
+  ];
+  const rp = await browser.newPage();
+  const errs = [];
+  rp.on('pageerror', (e) => errs.push(String(e.message || e)));
+  try {
+    await rp.goto(INDEX, { waitUntil: 'load' });
+    await rp.waitForFunction(() => window.HP && HP.sim, null, { timeout: 90000 });
+    const r = await rp.evaluate(({ ENV, CNT0, IMP, NEW }) => {
+      const o = { env: [], imp: [] };
+      for (const [nm, d, want] of ENV) o.env.push([nm, legacyViewEnvOf(d), want]);
+      o.cnt0 = legacyViewGravCount(CNT0);
+      const msgs = []; const n0 = window.notify; window.notify = (m, ms) => { msgs.push([String(m), ms]); };
+      const cp0 = getCustomPresets(), sv0 = getSaves();
+      const run = (obj) => { setCustomPresets([]); setSaves([]); msgs.length = 0; doImportText(JSON.stringify(obj));
+        const last = msgs.length ? msgs[msgs.length - 1] : ['', 0]; return { msg: last[0], ms: last[1], presets: getCustomPresets(), saves: getSaves() }; };
+      const strip = (p) => { const q = JSON.parse(JSON.stringify(p)); delete q.id; return q; };
+      for (const [nm, obj, n] of IMP) {
+        const a = run(obj);
+        const row = { nm, n, msg: a.msg, ms: a.ms, want: n > 0 ? T('legacyViewNote')(n) : '', nPresets: a.presets.length, nSaves: a.saves.length, same: null };
+        if (obj && !Array.isArray(obj) && Array.isArray(obj.customPresets) && obj.customPresets.length) {
+          const b = run(Object.assign({}, obj, NEW, { schemaVersion: 4 }));
+          const inp = obj.customPresets;
+          row.same = JSON.stringify(a.presets.map(strip)) === JSON.stringify(b.presets.map(strip)) && a.presets.length === inp.length
+            && a.presets.every((p, i) => p.physics.gravityY === inp[i].physics.gravityY && JSON.stringify(p.bodies.map((q) => [q.x, q.y, q.vx, q.vy])) === JSON.stringify(inp[i].bodies.map((q) => [q.x, q.y, q.vx, q.vy])))
+            && JSON.stringify(a.saves.map((s) => s.physics && s.physics.gravityY)) === JSON.stringify(b.saves.map((s) => s.physics && s.physics.gravityY));
+        } else if (obj && !Array.isArray(obj) && Array.isArray(obj.saves) && obj.saves.length) {
+          row.same = a.saves.length === obj.saves.length && a.saves.every((s, i) => s.physics.gravityY === obj.saves[i].physics.gravityY);
+        }
+        o.imp.push(row);
+      }
+      setCustomPresets(cp0); setSaves(sv0); window.notify = n0;
+      o.txt = { ja1: I18N.ja.legacyViewNote(1), ja3: I18N.ja.legacyViewNote(3), en1: I18N.en.legacyViewNote(1), en3: I18N.en.legacyViewNote(3) };
+      return o;
+    }, { ENV, CNT0: CNT[0][1], IMP, NEW });
+    // ③
+    const envBad = r.env.filter(([, v, w]) => v !== w);
+    for (const [nm, v, w] of envBad) bad.push('③ ページの見分け ' + nm + ' = ' + v + '(期待 ' + w + ')');
+    if (r.cnt0 !== CNT[0][2]) bad.push('③ ページの数え ' + r.cnt0 + '(期待 ' + CNT[0][2] + ')');
+    cases.push(`③ ページの中の表 ${r.env.length - envBad.length}/${r.env.length}・数え ${r.cnt0}`);
+    // ④⑤
+    const NOTE_RE = /旧い視点の約束|old view convention/;
+    let okN = 0, sameN = 0, sameAll = 0;
+    for (const z of r.imp) {
+      let ok = true;
+      if (z.n > 0) {
+        if (!(z.msg.indexOf(' / ' + z.want) >= 0 && z.ms >= 6000)) { ok = false; bad.push('④ ' + z.nm + ': 案内が出ない・件数か表示の時間(' + z.ms + ')'); }
+        if (z.n === 1 && /\d+ 件\)|\d+ items were/.test(z.want)) { ok = false; bad.push('④ ' + z.nm + ': 1 件に件数'); }
+      } else if (NOTE_RE.test(z.msg)) { ok = false; bad.push('④ ' + z.nm + ': 案内が出た'); }
+      if (!z.msg) { ok = false; bad.push('④ ' + z.nm + ': 通知が無い'); }
+      if (ok) okN++;
+      if (z.same !== null) { sameAll++; if (z.same) sameN++; else bad.push('⑤ ' + z.nm + ': 本の値が新しい印の時と違うか入力と違う'); }
+    }
+    cases.push(`④ 取り込みの通知 ${okN}/${r.imp.length}(出る ${r.imp.filter((z) => z.n > 0).length}・出ない ${r.imp.filter((z) => z.n === 0).length})`);
+    cases.push(`⑤ 本の値が新しい印の時と同じ・入力のまま ${sameN}/${sameAll}`);
+    if (sameAll < 6) bad.push('⑤ 本の値を比べた通りが少ない(' + sameAll + ')');
+    // ⑥
+    const T6 = r.txt, HIST = /第\d+便|第\d+報|\bAN\d+|原仮定者|統括|\bR\d{3}\b|\b[Ww]ave \d+/;
+    if (!(T6.ja1.indexOf('⚠ 旧い視点の約束で作られた本です —— 既定の視点では上下が逆に見えます') === 0 && T6.ja1.indexOf('件') < 0 && T6.ja1.indexOf('θ を −90°') >= 0 && T6.ja1.indexOf('値は変えていません') >= 0)) bad.push('⑥ ja の文(1 件)');
+    if (T6.ja3.indexOf('本です(3 件) —— ') < 0) bad.push('⑥ ja の文(3 件)');
+    if (!(T6.en1.indexOf('⚠ This item was made under the old view convention') === 0 && T6.en1.indexOf('θ to −90°') >= 0 && T6.en1.indexOf('no values were changed') >= 0)) bad.push('⑥ en の文(1 件)');
+    if (T6.en3.indexOf('⚠ 3 items were made under the old view convention') !== 0) bad.push('⑥ en の文(3 件)');
+    for (const [k, v] of Object.entries(T6)) if (HIST.test(v)) bad.push('⑥ 画面の文 ' + k + ' に来歴の語');
+    cases.push('⑥ 画面の文 ja/en(1 件・3 件・来歴の語なし)');
+    if (errs.length) bad.push('ページの例外: ' + errs.slice(0, 2).join(' | '));
+  } catch (e) { bad.push('ページで走らない: ' + String(e && e.message || e).slice(0, 160)); }
+  finally { await rp.close().catch(() => {}); }
+  add('behavior.legacyViewNote357a', bad.length === 0,
+    `**旧い視点の約束で書き出した JSON の取り込みの案内**(第357便a・R522 —— 書き出しの封筒の appBuild で見分ける・本の値は変えない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+// ---- 第357便a: docs.deferred357a(文書 —— root は SKIP。世代切替は上と同じ)
+// ----   ① PHYSICS〔第357便a〕の位置(〔第356便i〕の節の後・第328便の統括の節の前・「## 7.」の前)・原文 3 つ(リポジトリに在る字)・前の字と後の字が節の表に・必須の語
+// ----   ② AI_SPEC §414(§413 の後・R522・SYSTEM_PROMPT の 2 行の要点)③ README の利用者向けの 1 段 ④ post-merge の塊(第356便h の塊の後・3 鍵)・CHANGELOG(行が在れば)
+// ----   ⑤ 書かない語・禁句・報の番号・変異 2
+{
+  const H357a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357a.indexOf('\nfunction legacyViewEnvOf(') >= 0)) {
+    console.log('SKIP docs.deferred357a(第357便a の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RM = rd('README.md'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const ORIG = ['AN1065: 後回しで良い', 'AN1066: 案内だけ出す', 'AN1159: 推奨'];
+    const USER = '視点の傾きは端末の保存で、書き出しの JSON には入らない。既定の視点を θ=+90 に改めた版(beta v1.47-b346・公開版 v1.47.0)より前に書き出した JSON は、一様重力の向き(gravityY の符号)と配置が旧い約束(+y が画面の下)のまま読まれ、既定の視点では上下が逆に見える(計算は同じ)。取り込みの時に案内を出すだけで、値は変えない。見分けは封筒の appBuild。';
+    const secCheck = (ph) => {
+      const why = [];
+      const i0 = ph.indexOf('〔第357便a — '), i7 = ph.indexOf('\n## 7. 論文'), ii = ph.indexOf('〔第356便i — '), iu = ph.indexOf('〔第328便 — 統括');
+      const sec = secUntilNext329c(ph, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+      if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ii >= 0 && ii < i0 && iu > i0)) why.push('① PHYSICS〔第357便a〕が無いか〔第356便i〕の節の前か第328便の統括の節・「## 7.」の後ろ');
+      for (const o of ORIG) if (sec.indexOf('「' + o + '」') < 0) why.push('① 原文が節に逐語で無い: ' + o);
+      const want = ['原仮定者の回答(2026-11-25)', '原仮定者の回答(2026-11-26)', 'R522', '`目安は0.02〜0.1。`', '`目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。`',
+        '面の名は y の向きで付いていて、既定の視点では top が画面の下・bottom〔y=+size〕が画面の上に見える', 'legacyViewEnvOf', 'legacyViewGravCount', 'legacyViewNote', 'doImportText', 'appBuild',
+        'v1.47-b346', 'v1.47.0', '出ない(見逃し)', '出る(誤報)', '値は変えていない', '自動で鏡映しない', USER, '決断事項の候補', '推奨', '次点', 'ai.gravitySign357a', 'behavior.legacyViewNote357a', 'docs.deferred357a'];
+      for (const w of want) if (sec.indexOf(w) < 0) why.push('① PHYSICS〔第357便a〕に「' + w.slice(0, 24) + '」が無い');
+      return { why, sec };
+    };
+    const S0 = secCheck(PH);
+    bad.push(...S0.why);
+    const sec = S0.sec;
+    cases.push('① PHYSICS〔第357便a〕の位置・原文 ' + ORIG.length + '・前の字と後の字・必須の語');
+    const a0 = AS.indexOf('\n## 414. 第357便a'), ai = secUntilNext329c(AS, a0, '\n## '), a3 = AS.indexOf('\n## 413. 第356便i');
+    if (!(a0 >= 0 && a3 >= 0 && a3 < a0 && ai.indexOf('R522') >= 0 && ai.indexOf('SYSTEM_PROMPT') >= 0 && ai.indexOf('目安は −0.1〜−0.02') >= 0 && ai.indexOf('legacyViewNote') >= 0 && ai.indexOf('appBuild') >= 0))
+      bad.push('② AI_SPEC §414(§413 の後・R522・SYSTEM_PROMPT・目安・legacyViewNote・appBuild)');
+    cases.push('② AI_SPEC §414');
+    const rl = RM.split('\n').find((l) => l.indexOf('第357便a:') >= 0) || '';
+    if (!(rl.indexOf(USER) >= 0 && rl.indexOf('PHYSICS〔第357便a〕') >= 0)) bad.push('③ README の利用者向けの 1 段');
+    cases.push('③ README の 1 段');
+    const ph0 = PM.indexOf('# ==== 第357便a の塊(ここから)===='), ph1 = PM.indexOf('# ==== 第357便a の塊(ここまで)===='), phh = PM.indexOf('# ==== 第356便h の塊(ここまで)====');
+    if (!(ph0 >= 0 && ph1 > ph0 && phh >= 0 && phh < ph0 && /ai\.gravitySign357a behavior\.legacyViewNote357a docs\.deferred357a/.test(PM.slice(ph0, ph1)))) bad.push('④ post-merge に第357便a の塊(第356便h の塊の後・3 鍵)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第357便a**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('R522') >= 0)) bad.push('④ CHANGELOG の第357便a の行(見出しより後・R522)');
+    cases.push('④ post-merge の塊・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')');
+    const dropOrig = (t) => ORIG.reduce((s, o) => s.split(o).join(''), t);
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっ直'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]),
+      cpC([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpC([0x8f03, 0x6b63]), cpC([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpC([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rvC));
+    const texts = [['PHYSICS〔第357便a〕', sec], ['AI_SPEC §414', ai], ['README の 1 段', rl]];
+    if (kz >= 0) texts.push(['CHANGELOG の第357便a の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropOrig(tx0);
+      for (const w of NGC.concat(W)) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('⑤ ' + nm + ' に報の番号');
+    }
+    {
+      const m1 = secCheck(PH.split('「' + ORIG[1] + '」').join('「AN1066: 案内を出す」')), m2 = secCheck(PH.split(USER).join(USER.replace('値は変えない', '値は直す')));
+      if (!m1.why.length) bad.push('⑤ 変異(原文の字)で落ちない');
+      if (!m2.why.length) bad.push('⑤ 変異(利用者向けの 1 段の字)で落ちない');
+    }
+    cases.push('⑤ 書かない語・禁句・報の番号(節・AI_SPEC・README・CHANGELOG —— 原文は外す)・変異 2 つ');
+    add('docs.deferred357a', bad.length === 0,
+      `**PHYSICS〔第357便a〕(説明文の重力の目安・旧い視点の約束の取り込みの案内 —— 前の字と後の字・見分け・出ない場合と誤って出る場合・決断事項の候補)と AI_SPEC §414・README**(第357便a・R522): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+// ==== 第357便a の塊(ここまで)====
+
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
 // ----   **背景軸引きずりの大きさの窓(条件の一覧・前提の組ごとの窓・重力の側の列の入力の感度・離心率のある軌道の (M) の歪みの平均 —— 仮の値の行は印つき)**

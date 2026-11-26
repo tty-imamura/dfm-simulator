@@ -1976,6 +1976,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.docfix356g"
 #   docs.corot356h —— 原文と読みと量の定義と表と数の文が PHYSICS〔第356便h〕に逐語・構成案の論文 4 の ⑨)と、新しい段 corot-356h
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
 # ==== 第356便h の塊(ここまで)====
+# ==== 第357便a の塊(ここから)====
+# 第357便a(原仮定者の回答(2026-11-25)・統括の検証項目 R522 —— 説明文と注と取り込みの通知だけ・本の値は変えない): 枝 a の新設 3 本
+#   (ai.gravitySign357a —— SYSTEM_PROMPT の一様重力の目安が符号つき・面の名の 1 文・AI_SPEC §5 と短いページに逐語 /
+#   behavior.legacyViewNote357a —— 旧い封筒の見分けの表・取り込みの通知・本の値が新しい印の時と同じ・変異の自己試験 / docs.deferred357a —— PHYSICS〔第357便a〕・AI_SPEC §414・本塊)と、
+#   SYSTEM_PROMPT と I18N を読む既存の鍵(prompt.spec-sync・params.i18n316・lint.uiText316)と、短いページの写しを見る docs.aichat355h。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.gravitySign357a behavior.legacyViewNote357a docs.deferred357a prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h"
+# ==== 第357便a の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
