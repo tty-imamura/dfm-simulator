@@ -1976,6 +1976,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.docfix356g"
 #   docs.corot356h —— 原文と読みと量の定義と表と数の文が PHYSICS〔第356便h〕に逐語・構成案の論文 4 の ⑨)と、新しい段 corot-356h
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
 # ==== 第356便h の塊(ここまで)====
+# ==== 第357便d の塊(ここから)====
+# 第357便d(統括の検証項目 R525 —— beta の html を変える: 内蔵の本を 1 本足す ☝️ boxone・既存の本の宣言とエンジンは変えない): 枝 d の新設 2 本
+#   (behavior.boxone357d —— 対象の html で器の measure を作り直して正本と同じ・門 ①〜④ と自己試験 / docs.boxone357d —— 正本の門・本の文・PHYSICS〔第357便d〕・文書)と、新しい段 boxone-357d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.boxone357d docs.boxone357d"
+# ==== 第357便d の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

@@ -3656,6 +3656,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/corot-356h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第356便h: 零試験 8/走り 132(模型 2 × 粒 2 × 種 3 × 列 11)の量の候補 4 つ/効果と幅 20/対照の絶対の値 2' }),
   // ==== 第356便h の塊(ここまで)====
+  // ==== 第357便d の塊(ここから)====
+  // ---- 第357便d(原仮定者の指示(2026-11-21)「論文2: 主にgeoPN=0を使用。「もしも宇宙に天体が１つだけだったら」の思考実験で始まる。…」・統括の検証項目 R525):
+  //   **天体が 1 つだけの箱の本 ☝️ boxone の器**(段 boxone-357d —— 正本 tests/out/boxone-w357d.json・lib tests/lib-w357d-boxone.mjs)。html を読む(loadHtmlHeadless —— 受理器・build・步をそのまま)・
+  //   引く本は ☝️ の 1 本(presets ["boxone"])。他の正本は読まない。1 プロセス。所要は第357便d の枝の実測 6 s
+  S('boxone-357d', 'node tests/exp-w357d-boxone.mjs', ['tests/out/boxone-w357d.json'], 6, { secSource: 'w357d-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '本の 600 步の走行 4 本と読みの写しの 1 步を全部走らせても 6 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/boxone-w357d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第357便d: 箱の中の天体の数(壁・試験粒子を数えない)/並進ありと並進を引いた写しの 600 步の相対の量(位置・速さ・時計の比)/走り直しの指紋/運動量とエネルギーの変化/'
+      + '読み(回る壁・膨らむ壁の利得を天体あり・なしで・天体の自転の利得・天体の位置の決定力)' }),
+  // ==== 第357便d の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

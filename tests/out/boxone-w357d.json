@@ -1,0 +1,283 @@
+{
+ "version": "w357d-boxone-1",
+ "libVersion": "w357d-boxone-lib-1",
+ "generator": "tests/exp-w357d-boxone.mjs",
+ "target": "beta/index.html",
+ "targetSha256": "5cdf1d36a44ab4ef4375ac1a7700541e8cd5c0e45532c25caa478daa3ff4ae59",
+ "ruling": "原仮定者の指示(2026-11-21)「論文2: 主にgeoPN=0を使用。「もしも宇宙に天体が１つだけだったら」の思考実験で始まる。…」・統括の検証項目 R525",
+ "decl": {
+  "bookId": "boxone",
+  "steps": 600,
+  "bulkV": 6,
+  "wall": {
+   "n": 72,
+   "m": 20,
+   "r": 260
+  },
+  "body": {
+   "m": 200
+  },
+  "nTest": 10,
+  "transTol": 0.001,
+  "conserveTol": 0.00001,
+  "rebuildTol": 1e-9,
+  "readings": {
+   "rotOmega": 0.15,
+   "expH": 0.005,
+   "spin": 0.5,
+   "massMul": 10,
+   "radii": [
+    70,
+    130
+   ]
+  }
+ },
+ "notClaim": [
+  "「天体が 1 つなら何も検知できない」とは主張しない —— 門で見たのは相対の位置・相対の速さ・時計の比の 3 つの量だけ",
+  "現実の宇宙が箱である・天体が 1 つである、とは主張しない(思考実験の入口の本)",
+  "自己の力が在る・無いの結論は出していない —— 今の模型では自己の項は 0(未解決 U2-1 のまま)",
+  "回転と膨張の読み(利得)は写しの 1 步めの量で、本では回さない・膨らませない —— 新しい式は足していない"
+ ],
+ "count": {
+  "wall": 72,
+  "test": 10,
+  "massive": 1,
+  "n": 83,
+  "iBody": 72,
+  "bodyMass": 200,
+  "wallMass": 1440,
+  "testParticleOn": true,
+  "deny": null,
+  "tpN0": 73,
+  "geoPN": 0,
+  "G": 0,
+  "D0": 0,
+  "kFrame": 1
+ },
+ "trans": {
+  "steps": 600,
+  "dt": 0.0064,
+  "t": 3.8400000000000443,
+  "bulkV": 6,
+  "n": 10,
+  "dPos": 0.000011826,
+  "dVel": 0.00001622,
+  "dTau": 0,
+  "ok": true,
+  "tauOverT": {
+   "comoving": 1.0000073661406719,
+   "proper": 0.9886900583902881,
+   "probeRingMin": 1.0000073661406719,
+   "probeRingMax": 1.0000073661406719
+  },
+  "tauSameBits": true,
+  "nanA": false,
+  "nanB": false
+ },
+ "conserve": {
+  "A": {
+   "dP": 1.2e-8,
+   "dE": 2.4e-8,
+   "ok": true
+  },
+  "B": {
+   "dP": 0,
+   "dE": 0,
+   "ok": true
+  }
+ },
+ "rerun": {
+  "steps": 600,
+  "same": true
+ },
+ "readings": {
+  "rot": [
+   {
+    "bodyM": 0,
+    "gain": [
+     0.504569503,
+     0.517785088
+    ],
+    "testParticleOn": true
+   },
+   {
+    "bodyM": 200,
+    "gain": [
+     0.335139942,
+     0.411343239
+    ],
+    "testParticleOn": true
+   }
+  ],
+  "exp": [
+   {
+    "bodyM": 0,
+    "gain": [
+     0.504569376,
+     0.517784978
+    ],
+    "testParticleOn": true
+   },
+   {
+    "bodyM": 200,
+    "gain": [
+     0.335139855,
+     0.411343148
+    ],
+    "testParticleOn": true
+   }
+  ],
+  "spin": {
+   "s": 0.5,
+   "R": 14.142135620117188,
+   "q": 2,
+   "gain": [
+    0.009485743,
+    0.001978843
+   ]
+  },
+  "selfW": {
+   "massMul": 10,
+   "sumWAtBody": [
+    5.537805557,
+    5.537805557
+   ],
+   "sameUnderMassMul": true
+  }
+ },
+ "book": {
+  "id": "boxone",
+  "emoji": "☝️",
+  "group": "箱宇宙の実験",
+  "physics": {
+   "G": 0,
+   "D0": 0,
+   "kFrame": 1,
+   "q": 2,
+   "kRep": 0,
+   "muF": 0,
+   "gammaN": 0,
+   "kappaS": 0,
+   "kappaT": 0,
+   "cLight": 30,
+   "contactK": 1000,
+   "contactCap": 200,
+   "bM": 25,
+   "etaRad": 0,
+   "pRad": 4,
+   "gravityX": 0,
+   "gravityY": 0,
+   "geoPN": 0,
+   "lambdaPN": 1,
+   "pnAlpha": 1.5,
+   "radiusScale": 1,
+   "softening": 4,
+   "timeScale": 1,
+   "stepDt": 0.0064,
+   "frameWeight": "share"
+  },
+  "nBodies": 83
+ },
+ "selfTest": {
+  "ok": true,
+  "cases": 12,
+  "bad": []
+ },
+ "pageErrors": [],
+ "timing": {
+  "measure": {
+   "wallSec": 3.933
+  }
+ },
+ "gates": {
+  "count": true,
+  "trans": true,
+  "rerun": true,
+  "conserve": true,
+  "self": true
+ },
+ "ok": true,
+ "elapsedS": 5.653,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第357便d",
+  "target": "beta/index.html",
+  "targetSha256": "5cdf1d36a44ab4ef4375ac1a7700541e8cd5c0e45532c25caa478daa3ff4ae59",
+  "generatedAt": "2026-11-26T05:30:46.321Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 7714230,
+    "sha256": "5cdf1d36a44ab4ef4375ac1a7700541e8cd5c0e45532c25caa478daa3ff4ae59",
+    "mtime": "2026-11-26T05:25:46.370Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w357d-boxone.mjs",
+    "bytes": 12539,
+    "sha256": "2062f7bbb2924d1970fa6128e7d13a4551ab5ddf197b7198555558113d4c39a8",
+    "mtime": "2026-11-26T05:30:40.588Z"
+   },
+   {
+    "file": "tests/lib-w357d-boxone.mjs",
+    "bytes": 6804,
+    "sha256": "a067b8b6b573adbef56515468684397d53f168311c0d67bde2198dbd5cdfdd60",
+    "mtime": "2026-11-26T05:29:28.345Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-11-26T05:18:00.562Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-26T05:18:00.558Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 135653,
+    "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
+    "mtime": "2026-11-26T05:18:00.566Z"
+   }
+  ],
+  "codeSha256": "8a4b6564b4e3c27e791fbd7ad39c05a4015e0138faf3e11a85aac20db8e9ec66",
+  "harnessVersion": "w357d-boxone-1",
+  "stage": "boxone-357d",
+  "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・☝️ の宣言と並進を引いた写しと読みの写しを走らせる",
+  "notClaim": [
+   "「天体が 1 つなら何も検知できない」とは主張しない —— 門で見たのは相対の位置・相対の速さ・時計の比の 3 つの量だけ",
+   "現実の宇宙が箱である・天体が 1 つである、とは主張しない(思考実験の入口の本)",
+   "自己の力が在る・無いの結論は出していない —— 今の模型では自己の項は 0(未解決 U2-1 のまま)",
+   "回転と膨張の読み(利得)は写しの 1 步めの量で、本では回さない・膨らませない —— 新しい式は足していない"
+  ],
+  "scope": {
+   "version": "w327c-scope-8",
+   "presets": [
+    "boxone"
+   ],
+   "roots": [
+    "HP.allPresets",
+    "HP.validatePreset",
+    "T",
+    "appStepDt",
+    "ctx",
+    "makeSim",
+    "xkLockPhysicsCopy"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1340,
+   "segments": 1171,
+   "closureShare": 0.2875
+  },
+  "scopeSha256": "dbc74f8c304577497b4ca8cf1407fdf611762319226c8759e0f2014df5d2f4a6",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ }
+}
