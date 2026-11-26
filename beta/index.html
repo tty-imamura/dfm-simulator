@@ -48587,24 +48587,26 @@ function buildAstroFromRecords(input, opts){
     const gFix=en
       ? ["scale exponents: "+M.unitEn+(relFam? " (the L−T=5 relativistic-binary family)" : ""), "physics.coord:\"3d\" (a planar initial state: z = v_z = 0, inclinations not placed)",
         "geoPN=3, kFrame=0, λ_PN=0 (the same rule form as the in-place planet books)",
-        "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only; every body R_d = Y_k m)",
-        "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "q=3, D0=0.1, frameWeight:\"share\" are the in-place planet books' values (they do not act at kFrame 0)",
+        "relativeDrag: law inertial, invSq K1 + rdRule kappaM, pairs all (translation only)",
+        "relativeDrag: history positions, initMotion observed; every body R_d = Y_k m",
+        "local gravity gLoc: law kappaC2 (n = 2)", "q=3, D0=0.1, frameWeight share: in-place book values (no effect at kFrame 0)",
         "kRep=muF=γN=S_k=0 / stateCarry:\"double\"", "speed calibration f=1.000 (the real Kepler speed itself — no multiplier)",
         "initial phases "+sys.phaseStep+"° apart (resonance angles are NOT set as initial conditions)"]
         .concat(apoAdopt? ["stellar two-body adopted at APHELION; the self-check probes the perihelion phase (maximum sensitivity)"] : [])
         .concat(gIdealEn.map(s=>s.slice(0,80)))
       : ["スケール指数 "+M.unitJa+(relFam? "(L−T=5 相対論的連星族)" : ""), "physics.coord:\"3d\"(初期状態は平面 —— z = v_z = 0・軌道傾斜は置かない)",
         "geoPN=3・kFrame=0・λ_PN=0(在位の惑星の本と同じ規則の形)",
-        "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ・全天体 R_d = Y_k m)",
-        "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "q=3・D0=0.1・frameWeight:\"share\" は在位の惑星の本と同じ値(kFrame 0 では走行に効かない)",
+        "慣性引きずり relativeDrag: law inertial・invSq の K1 + rdRule kappaM・pairs all(並進だけ)",
+        "relativeDrag: history positions・initMotion observed・全天体 R_d = Y_k m(規則)",
+        "局所重力 gLoc: law kappaC2(n = 2)", "q=3・D0=0.1・frameWeight share は在位の本の値(kFrame 0 では走行に効かない)",
         "kRep=muF=γN=S_k=0 / stateCarry:\"double\"", "初速較正 f=1.000(実ケプラー速度そのもの — 掛け算なし)",
         "初期位相は "+sys.phaseStep+"° 刻みの理想化配置(共鳴角は初期条件に入れない)"]
         .concat(apoAdopt? ["恒星二体は**遠点整列**で採用。自己診断は近点位相の複製(感度最大)で実施"] : [])
         .concat(gIdealJa.map(s=>s.slice(0,80)));
     const pa0=p.parameterAudit;
-    gp.parameterAudit={ observedInputs:pa0.observedInputs.slice(), fixedConventions:gFix, fitted:[],
+    gp.parameterAudit={ observedInputs:pa0.observedInputs.slice(), fixedConventions:gFix, fitted:[],   // 合わせた値 0 件(空の配列は受理器が欄ごと落とす —— 受理の後は fitted が無い)
       derived:en
-        ? ["drag radius R_d = Y_k m with Y_k = 10G_0/(C_1c_0²) (a rule - nothing is matched in this system)",
+        ? ["drag radius R_d = Y_k m, Y_k = 10G_0/(C_1c_0²) (a rule - nothing is matched here)",
           relFam? "X_k=G/c₀²=7.4258×10⁻⁷" : "X_k=G/c₀²=7.4258×10⁻⁹",
           "camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (derived from the stated rules)"]
         : ["引きずりの半径 R_d = Y_k m・Y_k = 10G_0/(C_1c_0²)(規則 —— この系で合わせた値は無い)",
@@ -48864,7 +48866,7 @@ function buildRecordsClause(lang){
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: ${q}
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -48937,7 +48939,7 @@ ${scaleTierTable(true)}
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言(在位の惑星の本と同じ規則の形 —— geoPN=3・引きずりの半径は規則 R_d = Y_k m・合わせる値なし)は**アプリの決定的関数**が決めます(あなたは触りません)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: ${q}
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。

@@ -50,7 +50,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -508,7 +508,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言(在位の惑星の本と同じ規則の形 —— geoPN=3・引きずりの半径は規則 R_d = Y_k m・合わせる値なし)は**アプリの決定的関数**が決めます(あなたは触りません)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
