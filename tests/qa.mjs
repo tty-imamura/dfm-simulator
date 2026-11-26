@@ -88759,6 +88759,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
           // 第322便a(R270): 世代切替 —— 内蔵の本 🫓 galaxyGeo2Flat3d を 💫 の後ろ(先頭 105 本の範囲)に足した世代も同じく除く(その本の表示の欄の照合は behavior.geo2flat322a ⑦)
           // 第324便a(R279): 世代切替 —— 有限厚の対の本 🥞 galaxyGeo2Thick3d・🧇 galaxyGeo2ThickTilt3d を 🫓 の後ろに足した世代も同じく除く(その 2 本の表示の欄の照合は behavior.geo2thick324a)
           const arr = H.evalExpr('BUILTIN_PRESETS').filter((p) => p.id !== 'solarSystem16Inertial3d' && p.id !== 'galaxyGeo2Flat3d' && p.id !== 'galaxyGeo2Thick3d' && p.id !== 'galaxyGeo2ThickTilt3d');
+          // ==== 第357便d の塊(ここから)====
+          // 第357便d(R525): 世代切替 —— 天体が 1 つだけの箱の本 ☝️ boxone を箱宇宙の群の頭(📦 の直前 —— 先頭 105 本の範囲)に足した世代も同じく除く(その本の表示の欄の照合は docs.boxone357d —— 同じ規則)
+          { const k357d = arr.findIndex((p) => p.id === 'boxone'); if (k357d >= 0) arr.splice(k357d, 1); }
+          // ==== 第357便d の塊(ここまで)====
           const head = arr.slice(0, B316.length).map((p) => p.id);
           if (JSON.stringify(head) !== JSON.stringify(B316)) bad.push('先頭 ' + B316.length + ' 本の並びが固定の一覧と違う(最初の差: ' + (head.find((x, i) => x !== B316[i]) || '—') + ')');
           if (!arr[B316.length] || arr[B316.length].id !== 'plutoCharonKF0Control') bad.push(B316.length + 1 + ' 本目が plutoCharonKF0Control でない(枝 c との境界)');
@@ -134776,6 +134780,166 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第356便i の塊(ここまで)====
+
+// ==== 第357便d の塊(ここから —— behavior.boxone357d・docs.boxone357d の 2 ブロック。root は SKIP)====
+// ---- 第357便d(原仮定者の指示(2026-11-21)「論文2: 主にgeoPN=0を使用。「もしも宇宙に天体が１つだけだったら」の思考実験で始まる。…」・統括の検証項目 R525):
+// ----   **天体が 1 つだけの箱の本 ☝️ boxone**(新設 —— 器 tests/exp-w357d-boxone.mjs〔html を読む —— loadHtmlHeadless〕・lib tests/lib-w357d-boxone.mjs・正本 tests/out/boxone-w357d.json)。
+// ----   世代切替 = beta 対象 ∧ 器・lib がある ∧ 対象の html に本 ☝️ の宣言がある。
+// ----   behavior.boxone357d: ① 版(名の型 + 正本の記録)・門の宣言・lib の自己試験(門の検出力の変異を含む)② 対象の html で器の measure を作り直して正本と同じ(相対 1e-9 か絶対 1e-9 の床)
+// ----     ③ 本の宣言の守り(壁は 📦 と同じ質点リング・physics の鍵は 📦 の鍵の内・試験粒子は列の末尾)④ 作り直した門が全部真(① 天体 1 ② 並進 ③ 走り直し ④ 保存・自己試験)
+{
+  await (async () => {   // 第310便c(heap): 本文を関数で包む —— 抜けたら headless の写しを手放す
+  const wHarn = path.join(ROOT, 'tests', 'exp-w357d-boxone.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357d-boxone.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'boxone-w357d.json');
+  const htmlTx357d = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx357d.indexOf('{ id:"boxone", ') >= 0)) {
+    console.log('SKIP behavior.boxone357d(第357便d の天体が 1 つだけの箱の本の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const cmp357d = (a, b) => (a === b ? 0 : (typeof a !== 'number' || typeof b !== 'number') ? Infinity : (Math.abs(a - b) <= 1e-9 ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b))));
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/boxone-w357d.json が読めない');
+    else {
+      try {
+        const js = (x) => JSON.stringify(x);
+        let dW = 0;
+        const walk = (a, b) => { if (typeof a === 'number' || typeof b === 'number') { dW = Math.max(dW, cmp357d(a, b)); return; } if (a === null || b === null || typeof a !== 'object') { if (a !== b) dW = Infinity; return; } for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k]); };
+        // ① 版・門の宣言・自己試験
+        if (!((L.LIB_VERSION === J.libVersion && /^w357d-boxone-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w357d-boxone-\d+$/.test(X.HARNESS_VERSION)) && X.BOOK_ID === 'boxone')) bad.push('① 版(lib・器の名の型と正本の記録・本の id)');
+        if (!(js(J.decl) === js(L.DECL) && L.DECL.steps === 600 && L.DECL.transTol === 1e-3 && L.DECL.conserveTol === 1e-5 && L.DECL.nTest === 10 && L.DECL.wall.n === 72)) bad.push('① 門の宣言(步 600・並進の幅 1e-3・保存の幅 1e-5・試験粒子 10・壁 72)');
+        const ST = L.selfTest();
+        if (!(ST.ok && ST.cases === 12)) bad.push('① lib の自己試験: ' + ST.bad.slice(0, 3).join(' / '));
+        cases.push(`① lib ${L.LIB_VERSION}・器 ${X.HARNESS_VERSION}・自己試験 ${ST.cases} 例(門の検出力の変異 —— 相対の位置 1e-3・速さ 2e-3・時計の比 2e-3・運動量とエネルギー 1e-4・試験粒子の印の無い見張り —— を含む)`);
+        // ② 作り直し
+        const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+        if (H.errors.length) bad.push('② html の読み込みのエラー: ' + H.errors[0].slice(0, 120));
+        const M = X.measure(H), diffs = {};
+        for (const k of ['count', 'trans', 'conserve', 'rerun', 'readings', 'book']) { dW = 0; walk(JSON.parse(js(M[k])), J[k]); diffs[k] = dW; }
+        const badParts = Object.keys(diffs).filter((k) => !(diffs[k] <= 1e-9));
+        if (badParts.length) bad.push('② 作り直しが正本と違う(' + badParts.map((k) => k + ' ' + diffs[k]).join('・') + ')—— 器を走らせ直す');
+        cases.push(`② 対象の html で作り直して天体 ${M.count.massive}・壁 ${M.count.wall}・試験粒子 ${M.count.test}(入場 ${M.count.testParticleOn})・並進の差 位置 ${M.trans.dPos.toExponential(2)}・速さ ${M.trans.dVel.toExponential(2)}・時計の比 ${M.trans.dTau}・`
+          + `τ/t 共動 ${M.trans.tauOverT.comoving.toFixed(6)}・固有運動 ${M.trans.tauOverT.proper.toFixed(6)}・走り直し ${M.rerun.same}・保存 ${M.conserve.A.dP}/${M.conserve.A.dE}・${M.conserve.B.dP}/${M.conserve.B.dE}・読みの利得(回る壁 r70 天体なし ${M.readings.rot[0].gain[0]}・あり ${M.readings.rot[1].gain[0]})が正本と相対 1e-9 の内`);
+        // ③ 本の宣言の守り
+        const P = H.HP.allPresets(), bk = P.find((q) => q.id === 'boxone'), bt = P.find((q) => q.id === 'boxtrans');
+        const w0 = bk.bodies[0], wt = bt.bodies[0];
+        const okDecl = bk.group === bt.group && bk.physics.geoPN === 0 && bk.physics.G === 0 && bk.physics.D0 === 0
+          && Object.keys(bk.physics).every((k) => Object.prototype.hasOwnProperty.call(bt.physics, k))
+          && ['type', 'n', 'rIn', 'rOut', 'mMin', 'mMax', 'vMode', 'pinned', 'bulkVx'].every((k) => w0[k] === wt[k])
+          && bk.bodies.slice(2).every((b) => b.testParticle === true) && bk.bodies[1].testParticle === undefined && bk.bodies[1].m === L.DECL.body.m
+          && P.findIndex((q) => q.id === 'boxone') + 1 === P.findIndex((q) => q.id === 'boxtrans') && !bk.claims && !bk.fitRecord && bk.sampleClass === 'principle';
+        if (!okDecl) bad.push('③ 本の宣言(群・geoPN 0・G 0・D0 0・physics の鍵は 📦 の鍵の内・壁は 📦 と同じ質点リング・天体は試験粒子でない・見張りは試験粒子・📦 の直前・claims と fitRecord なし・原理の分類)');
+        cases.push('③ 本の宣言(壁は 📦 と同じ質点リング 72 × 20・physics の鍵は 📦 の鍵の内・天体 1・見張りは試験粒子・群の頭〔📦 の直前〕)');
+        // ④ 門
+        const G2 = X.gatesOf(J);
+        if (!(js(G2) === js(J.gates) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('④ 作り直した門: ' + Object.entries(G2).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        const GM = L.gatesFrom({ ...M, selfTest: ST });
+        if (!Object.values(GM).every((v) => v === true)) bad.push('④ 対象の html で測り直した門: ' + Object.entries(GM).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+        cases.push(`④ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・測り直した門 ${Object.values(GM).filter(Boolean).length}/${Object.keys(GM).length}`);
+      } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    }
+    add('behavior.boxone357d', bad.length === 0,
+      `**天体が 1 つだけの箱の本 ☝️ boxone の作り直し**(第357便d・原仮定者の指示(2026-11-21)・R525 —— 今のエンジンと今の physics の鍵だけ): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+
+// ---- 第357便d: docs.boxone357d は別の最上位のブロック。世代切替は上と同じ
+// ----   docs.boxone357d: ① 正本の門・版・来歴(target は beta/index.html・領域の宣言が完全・入力は対象の html)② 本の文(ja/en の名・入口の思考実験の文・「検知できない」は門の 3 つの量に限る・
+// ----     近似の範囲の文・アプリの中に来歴の語と旧い記号を書かない〔lint.presetText316b・316c と同じ規則 —— ☝️ は先頭の並びの照合の外に置いたので、ここで見る〕)
+// ----     ③ PHYSICS〔第357便d〕の位置と必須の語・PHYSICS §6 の本の表の行・AI_SPEC §417・構成案の論文2 の ⑤ と ⑧ の V2-1 の行・段の行・.gitignore・post-merge ④ 書かない語・禁句(節・AI_SPEC・器・lib・本の文)
+{
+  await (async () => {   // 第310便c(heap)
+  const wHarn = path.join(ROOT, 'tests', 'exp-w357d-boxone.mjs'), wLib = path.join(ROOT, 'tests', 'lib-w357d-boxone.mjs'), wOut = path.join(ROOT, 'tests', 'out', 'boxone-w357d.json');
+  const htmlTx357d = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); } catch (e) { return ''; } })();
+  if (!(TARGET.startsWith('beta/') && fs.existsSync(wHarn) && fs.existsSync(wLib) && htmlTx357d.indexOf('{ id:"boxone", ') >= 0)) {
+    console.log('SKIP docs.boxone357d(第357便d の天体が 1 つだけの箱の本の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  let X = null, L = null, J = null, err0 = null;
+  try { X = await import('file://' + wHarn); L = await import('file://' + wLib); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  try { J = JSON.parse(fs.readFileSync(wOut, 'utf8')); } catch (e) { J = null; }
+  {
+    const bad = [], cases = [];
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RT = rd('tests/lib-w281a-regentable.mjs'), GI = rd('.gitignore'), PM = rd('tools/post-merge-qa.sh'), PP = rd('docs/PAPER_PLAN.md');
+    const i0 = PH.indexOf('\n〔第357便d — '), i7 = PH.indexOf('\n## 7. 論文'), ii = PH.indexOf('\n〔第356便i — '), iu = PH.indexOf('\n〔第328便 — 統括');
+    const sec = i0 >= 0 ? secUntilNext329c(PH, i0 + 1, /\n〔第\d+便[a-z]* — |\n## /) : '';
+    if (!(i0 >= 0 && (i7 < 0 || i0 < i7) && ii >= 0 && ii < i0 && iu > i0)) bad.push('③ PHYSICS〔第357便d〕が無いか〔第356便i〕の節の前か〔第328便 — 統括〕・「## 7.」の後ろ');
+    let book = null;
+    if (err0) bad.push('器/lib が読めない: ' + err0);
+    else if (!J) bad.push('正本 tests/out/boxone-w357d.json が読めない');
+    else {
+      const G2 = X.gatesOf(J);
+      if (!(JSON.stringify(G2) === JSON.stringify(J.gates) && Object.values(J.gates).every((v) => v === true) && J.ok === true)) bad.push('① 正本の門(作り直して同じ・全部真)');
+      if (!(J.version === X.HARNESS_VERSION && J.libVersion === L.LIB_VERSION && J.meta && J.meta.harnessVersion === X.HARNESS_VERSION && J.meta.provenanceVersion && J.meta.stage === 'boxone-357d'
+        && J.target === 'beta/index.html' && J.meta.scope && J.meta.scopeComplete === true && Array.isArray(J.meta.inputs) && J.meta.inputs.length === 1))
+        bad.push('① 版・来歴(target は beta/index.html・領域の宣言が完全・入力は対象の html)');
+      if (JSON.stringify(J.decl) !== JSON.stringify(L.DECL)) bad.push('① 正本の宣言が lib と違う(器を走らせ直す)');
+      cases.push(`① 正本の門 ${Object.values(J.gates).filter(Boolean).length}/${Object.keys(J.gates).length}・版 ${J.version}・target ${J.target}`);
+      try { const H = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET)); book = H.HP.allPresets().find((q) => q.id === X.BOOK_ID) || null; }
+      catch (e) { bad.push('② 本が読めない: ' + String(e && e.message || e).slice(0, 120)); }
+    }
+    if (book) {
+      const ds = book.descStruct || {}, en = (book.en && book.en.descStruct) || {};
+      const txt = [book.name, ds.summary, ds.observe, ds.control].join('\n'), txtEn = [book.en && book.en.name, en.summary, en.observe, en.control].join('\n');
+      const nUndet = (ds.observe.match(/検知できない/g) || []).length;
+      const okBook = book.name === '箱宇宙 — 天体が 1 つだけの箱' && book.en.name === 'Box Universe — A Box with a Single Body' && book.emoji === '☝️'
+        && ds.summary.indexOf('「もしも宇宙に天体が 1 つだけだったら」') >= 0 && en.summary.indexOf('what if the universe held only one body') >= 0
+        && ds.summary.indexOf('壁の質点は数えない') >= 0 && /wall's point masses are not counted/.test(en.summary)
+        && nUndet === 1 && ds.observe.indexOf('この 3 つの量では、天体と箱の並進は内部から検知できない') >= 0 && /by these three quantities the translation of the body and the box is undetectable from inside/.test(en.observe)
+        && ds.observe.indexOf('正確には、周囲の決定力場により、表面の位置で変わる') >= 0 && /strictly, it varies over the surface position/.test(en.observe)
+        && ds.observe.indexOf('門(1e-3)') >= 0 && en.observe.indexOf('gate (1e-3)') >= 0 && ds.observe.indexOf('自己の項は 0') >= 0 && en.observe.indexOf('self term is 0') >= 0;
+      if (!okBook) bad.push('② 本の文(名 ja/en・絵文字・入口の思考実験・壁の質点を数えない・「検知できない」は 1 回で門の 3 つの量に限る・門の幅・自己の項 0・近似の範囲の文)');
+      // lint.presetText316b・316c と同じ規則(来歴の語・旧い記号・裸のカッパ)
+      const PROV_B = /第\s*\d+(?:\s*[〜~]\s*\d+)?\s*便|第\s*\d+\s*報|原仮定者|決断事項|統括|検証項目\s*R\d|\bAN\d{2,4}\b|\bR\d{3}\b|本便|DECISIONS|\bwaves?[\s-]*\d+|\boriginator|\badjudicat|\bcoordinator|\bhypothesist|\breport[\s-]*\d+/;
+      const PROV_C = /第\s*\d+\s*[便報]|\b[Ww](?:AVE|ave)[Ss]?\s+\d+[a-h]?\b|[Ww]ave-\d+|原仮定者|決断事項|(?<![A-Za-z_0-9])A[A-Z]\d{1,3}(?![0-9])|adjudicat|統括の(?:検証項目|読み)|(?<![A-Za-z_0-9])R2\d\d(?![A-Za-z_0-9])|本便|次便|後便/;
+      const OLDSYM = /κ|K_s|(?<![A-Za-z0-9_])r_d(?![A-Za-z0-9])|\bkappa(?:0|_T)?\b|\bR_c\b/;
+      for (const [nm, tx] of [['ja', txt], ['en', txtEn]]) { if (PROV_B.test(tx) || PROV_C.test(tx)) bad.push('② 本の文(' + nm + ')に来歴の語'); if (OLDSYM.test(tx)) bad.push('② 本の文(' + nm + ')に旧い記号か裸のカッパ'); }
+      cases.push('② 本 ☝️ の名と説明(ja/en —— 入口の思考実験・天体の数の読み・「検知できない」は門の 3 つの量だけ・近似の範囲の文)・来歴の語と旧い記号なし(lint.presetText316b・316c と同じ規則)');
+    }
+    const want = ['原仮定者の指示(2026-11-21)', '原仮定者の指示(2026-11-17)', 'R525', 'tests/exp-w357d-boxone.mjs', 'tests/out/boxone-w357d.json', 'tests/lib-w357d-boxone.mjs', 'boxone-357d', 'boxone', '☝️',
+      '「もしも宇宙に天体が１つだけだったら」', '「物質による座標空間の引きずりが、並進引きずりである。宇宙に天体が１つなら、移動も回転も検知出来ず、完全な座標変換になる」',
+      '「宇宙に天体が１つの場合、その天体が回転すると、どんな距離の座標も天体に合わせて回転する。つまり、引きずりの計算で、光速を超えるか超えないかは判断基準にならない」',
+      '統括の読み', '箱の中の天体の数', '試験粒子', 'box.trans-clocks', '1e-3', '1e-5', '候補', '600 步', '「検知できない」と書ける量', '書けない量', 'U2-1', '(R/(R+d))^q',
+      'behavior.boxone357d', 'docs.boxone357d', '決断事項の候補', '次の便へ', '書かないこと', '署名', '指紋'];
+    for (const w of want) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第357便d〕に「' + w + '」が無い');
+    const a0 = AS.indexOf('\n## 417. 第357便d'), ai = a0 >= 0 ? secUntilNext329c(AS, a0 + 1, '\n## ') : '';
+    if (!(a0 >= 0 && ai.indexOf('tests/out/boxone-w357d.json') >= 0 && ai.indexOf('SYSTEM_PROMPT には載せない') >= 0 && ai.indexOf('R525') >= 0 && ai.indexOf('boxone') >= 0)) bad.push('③ AI_SPEC §417(正本・SYSTEM_PROMPT・R525・本の id)');
+    if (PH.indexOf('\n| boxone | ☝️ 箱宇宙 — 天体が 1 つだけの箱 |') < 0) bad.push('③ PHYSICS §6 の本の表に ☝️ の行');
+    const p2 = PP.slice(PP.indexOf('\n## 3. 論文2'), PP.indexOf('\n## 4. 論文3'));
+    if (!(p2.indexOf('- 足す必要が在る本: 天体が 1 つだけの宇宙の本(箱と天体 1 つ —— 思考実験の入口。今の箱の本は天体が複数)。') >= 0 && /- 足す必要が在る本: [^\n]*足した[^\n]*☝️ `boxone`/.test(p2)
+      && /\n\| V2-1 \| 天体が 1 つだけの宇宙の本\(思考実験の入口\) \| —— \| 足りない \|[^\n]*足した[^\n]*`boxone`/.test(p2))) bad.push('③ 構成案の論文2 の ⑤ の足す本の行と ⑧ の V2-1 の行に「足した」(当時の欄は残す)');
+    if (!(/S\('boxone-357d', 'node tests\/exp-w357d-boxone\.mjs', \['tests\/out\/boxone-w357d\.json'\]/.test(RT) && RT.indexOf('// ==== 第357便d の塊(ここから)====') > RT.indexOf('// ==== 第356便h の塊(ここまで)===='))) bad.push('③ 段の行 boxone-357d(第356便h の塊の後)');
+    if (!(GI.indexOf('!tests/out/boxone-w357d.json') >= 0 && GI.indexOf('# ==== 第357便d の塊(ここから)====') > GI.indexOf('# ==== 第356便h の塊(ここまで)===='))) bad.push('③ .gitignore の例外(第356便h の塊の後)');
+    if (!(PM.indexOf('# ==== 第357便d の塊(ここから)====') > PM.indexOf('# ==== 第356便h の塊(ここまで)====') && /behavior\.boxone357d docs\.boxone357d/.test(PM))) bad.push('③ post-merge に第357便d の塊(第356便h の塊の後)');
+    cases.push('③ 節の位置・必須の語 ' + want.length + '・§6 の本の表・AI_SPEC §417・構成案の ⑤ と V2-1・段の行・.gitignore・post-merge');
+    const strip = (t) => t.replace(/「[^」]*」/g, '');
+    const NOT = [/フィットした/, /較正した/, /収束した/, /完全に一致/, /確認した/, /一致した/, /法則を発見した/, /何も検知できない/, /自己の力は無い/, /自己の力が在る/, /宇宙は箱である/];
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W357 = ['ためか確', 'たし示', 'たし明説', 'たっ合', 'たっま決', 'たけ導'].map(rvC);   // 書かない語(逆さの字で持つ)
+    const NGC = [cpC([0x518d, 0x73fe, 0x3057, 0x305f]), cpC([0x518d, 0x73fe, 0x3057, 0x306a, 0x3044]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]),
+      cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF'].map(rvC));   // 禁句(文字で持たない)
+    const bookTx = book ? [book.name, (book.descStruct || {}).summary, (book.descStruct || {}).observe, (book.descStruct || {}).control].join('\n') : '';
+    const texts = [['PHYSICS〔第357便d〕', sec], ['AI_SPEC §417', ai], ['器', rd('tests/exp-w357d-boxone.mjs')], ['lib', rd('tests/lib-w357d-boxone.mjs')], ['本の文', bookTx]];
+    for (const [nm, tx] of texts) {
+      for (const w of NGC) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(' + w.length + ' 字)');
+      if (/PHYSICS|AI_SPEC|本の文/.test(nm)) { const s = strip(tx); for (const w of W357) if (s.indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)'); for (const re of NOT) if (re.test(s)) bad.push('④ ' + nm + ' に書かない語 ' + re.source); }
+      if (/PHYSICS|AI_SPEC/.test(nm) && /κ/.test(tx.replace(/`[^`\n]*`/g, ''))) bad.push('④ ' + nm + ' にコードの書式の外の係数記号(lint.kappaSymbol315 の型)');
+      if (/PHYSICS|AI_SPEC/.test(nm) && /第1[0-9]{2}報/.test(tx)) bad.push('④ ' + nm + ' に報の番号(公開の文書は日付で指す)');
+    }
+    cases.push('④ 書かない語・禁句・係数記号・報の番号(節・AI_SPEC・器・lib・本の文)');
+    add('docs.boxone357d', bad.length === 0,
+      `**天体が 1 つだけの箱の本 ☝️ boxone の文書**(第357便d・原仮定者の指示(2026-11-21)・R525 —— 本の文・節・構成案の行): ${cases.join(' / ')}`
+      + (bad.length ? ((await import('file://' + path.join(ROOT, 'tests', 'lib-w320d-lintkinds.mjs')).catch(() => null))?.violationText(bad, { otherMax: 6, stampMax: 6 }) ?? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}`) : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第357便d の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
