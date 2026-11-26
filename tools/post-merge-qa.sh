@@ -1990,6 +1990,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.gravitySign357a behavior.legacyViewNote35
 #   外した版で「無いことを見る」形に書き換えた既存の鍵 7 本と、I18N・文書を読む既存の鍵(params.i18n316・lint.uiText316・prompt.spec-sync・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.noApiRoute357b behavior.apiKeyCleanup357b docs.apiRemoval357b ai.modelList ai.schema-validation ai.ui-unified ai.payload-preview ai.help-collapsed behavior.xkClampShown327d behavior.xkExemptScope327d params.i18n316 lint.uiText316 prompt.spec-sync docs.aichat355h behavior.aichatIntake355h"
 # ==== 第357便b の塊(ここまで)====
+# ==== 第357便c の塊(ここから)====
+# 第357便c(原仮定者の指示(2026-11-25)・統括の検証項目 R524 —— 画面と文と検査と文書だけ・エンジンと本の値は変えない): 枝 c の新設 3 本
+#   (ai.chatButtons357c —— AI のタブの対話式の入口〔プロンプトの字 = README の節・リンク・並び・伝える文・クリップボードの無い所〕 /
+#   behavior.intakeText357c —— 取り込みの画面の文 3 つと取り込む値〔Node の vm〕 / docs.chatButtons357c —— PHYSICS〔第357便c〕・AI_SPEC §416・README と入口のページの段・本塊)と、
+#   書き換えた既存の鍵(ai.ui-unified・lint.noApiRoute357b)と、AI のタブを読む既存の鍵(ai.help-collapsed・ui.aitab-no-hscroll・ai.unified-prompt・prompt.spec-sync・params.i18n316・lint.uiText316・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c ai.ui-unified lint.noApiRoute357b ai.help-collapsed ui.aitab-no-hscroll ai.unified-prompt prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h behavior.aichatIntake355h"
+# ==== 第357便c の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

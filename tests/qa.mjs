@@ -135374,6 +135374,171 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   }
 }
 // ==== 第357便b の塊(ここまで)====
+// ==== 第357便c の塊(ここから —— ai.chatButtons357c・behavior.intakeText357c・docs.chatButtons357c の 3 ブロック。3 本とも beta だけ・root は SKIP)====
+// 第357便c(原仮定者の指示(2026-11-25)・統括の検証項目 R524・AI_SPEC §416): AI のタブを対話式が先に。本体の判定は tests/lib-w357c-chatbuttons.mjs。
+// ----   ai.chatButtons357c(静的 + ページ —— 世代切替 = beta 対象 ∧ html に id="btnChatCopy"): 静的 = プロンプトの字が README の節の ja/en・入口のページの英語の文と同じ・
+// ----     リンク(アドレス・新しいタブ・noopener)と AI_CHAT_URL・並び 20 の id・結果のコピーは最初は押せない・鍵 16 の ja/en の対・外へ取りに行く呼び出し 0・変異 7。
+// ----     ページ = コピーされる文(ja/en)・リンク・押せる/押せない・拒否の後の伝える文(× の行と retryFixMsg)・検証のみ・空の貼り付け・言語の切り替え・クリップボードが無い所。
+// ----   behavior.intakeText357c(Node だけ —— html を vm に読む既存の口): 取り込みの画面の文 3 つの前と後・取り込む値は同じ・走査の表・変異 3(約 30 s —— 上限の題の自己診断)。
+// ----   docs.chatButtons357c(文書): PHYSICS〔第357便c〕・AI_SPEC §416・入口のページと README の「アプリのボタンから始める」の段・post-merge の塊・書かない語・CHANGELOG(在れば)。
+{
+  await (async () => {   // 第310便c(heap)
+  const H357c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const gen357c = TARGET.startsWith('beta/') && H357c.indexOf('id="btnChatCopy"') >= 0;
+  if (!gen357c) {
+    console.log('SKIP ai.chatButtons357c / behavior.intakeText357c / docs.chatButtons357c(第357便c の対話式の入口の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const C357 = await import('file://' + path.join(ROOT, 'tests', 'lib-w357c-chatbuttons.mjs'));
+  const rd357c = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  const RM357c = rd357c('README.md'), CH357c = rd357c('docs/AI_CHAT.md');
+  // ───── ai.chatButtons357c ─────
+  {
+    const bad = [], cases = [];
+    if (!/^w357c-chatbuttons-lib-\d+$/.test(C357.LIB_VERSION)) bad.push('lib の版の名の型');
+    const J = C357.judgeChatStatic(H357c, RM357c, CH357c);
+    bad.push(...J.why);
+    const M = C357.chatStaticMutants(H357c, RM357c, CH357c);
+    for (const m of M) { if (m.same) bad.push('変異「' + m.nm + '」の種が無い'); else if (!m.hit) bad.push('変異「' + m.nm + '」で落ちない'); }
+    cases.push(`静的: プロンプト ja ${J.prompts.ja ? [...J.prompts.ja].length : 0} 字・en ${J.prompts.en ? [...J.prompts.en].length : 0} 字(README と同じ)・リンク・並び ${C357.ORDER.length}・鍵 ${C357.KEYS.length} の対・外へ取りに行く ${J.fx.net} / 変異 ${M.length}(落ちる ${M.filter((m) => m.hit && !m.same).length})`);
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const errs = [];
+    try {
+      const pg = await ctx.newPage();
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP);
+      const P0 = await pg.evaluate(() => JSON.stringify(HP.allPresets()[0]));
+      const bad0 = JSON.parse(P0); delete bad0.name; bad0.physics = Object.assign({}, bad0.physics, { G: 'strong' });
+      const r = await pg.evaluate(async ([pv, pb]) => {
+        const o = {};
+        const cap = { t: null };
+        Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: (t) => { cap.t = String(t); return Promise.resolve(); } } });
+        const btn = document.querySelector('#tabs button[data-tab=ai]'); if (!btn.classList.contains('on')) btn.click();
+        const page = document.querySelector('#page-ai'), g0 = page.querySelector('.group');
+        o.firstGroup = !!(g0 && g0.querySelector('#btnChatCopy') && g0.querySelector('#aiPasteArea') && g0.querySelector('#btnResultCopy') && !g0.querySelector('#btnExtCopy'));
+        const before = (a, b) => !!(document.getElementById(a).compareDocumentPosition(document.getElementById(b)) & Node.DOCUMENT_POSITION_FOLLOWING);
+        o.order = before('btnChatCopy', 'aiPasteArea') && before('aiPasteReport', 'btnResultCopy') && before('btnResultCopy', 'aiPrompt') && before('aiPrompt', 'btnExtCopy');
+        const lk = document.getElementById('aiChatLink');
+        o.link = { href: lk.getAttribute('href'), target: lk.target, rel: lk.rel, url: HP.AI_CHAT_URL357c };
+        const rb = document.getElementById('btnResultCopy');
+        o.disabled0 = rb.disabled;
+        HP.setLang('ja'); document.getElementById('btnChatCopy').click(); await Promise.resolve(); o.ja = cap.t;
+        HP.setLang('en'); cap.t = null; document.getElementById('btnChatCopy').click(); await Promise.resolve(); o.en = cap.t;
+        o.headEn = document.getElementById('aiChatHead').textContent === HP.T('aiChatHead');
+        HP.setLang('ja');
+        const area = document.getElementById('aiPasteArea');
+        // 拒否(name 欠け・G が文字列)→ 検証のみ
+        area.value = '```json\n' + JSON.stringify(pb, null, 1) + '\n```';
+        document.getElementById('btnAiPasteCheck').click();
+        o.enabledNg = !rb.disabled;
+        const rep = document.getElementById('aiPasteReport').textContent;
+        o.xLines = [...document.querySelectorAll('#aiPasteReport div')].map((d) => d.textContent).filter((s) => s.startsWith('× '));
+        o.noSame = rep.indexOf(HP.T('stabNoChange')) < 0;
+        cap.t = null; rb.click(); await Promise.resolve(); o.msgNg = cap.t;
+        o.retry = HP.T('retryFixMsg')(o.xLines.map((s) => s.slice(2)).join(' / ').slice(0, 300));
+        o.headNg = HP.T('aiResHeadNg');
+        // 検証のみで通る
+        area.value = pv; document.getElementById('btnAiPasteCheck').click();
+        o.enabledOk = !rb.disabled;
+        o.checkText = document.getElementById('aiPasteReport').textContent.indexOf(HP.T('stabNoChangeCheck')) >= 0 && document.getElementById('aiPasteReport').textContent.indexOf(HP.T('stabNoChange')) < 0;
+        cap.t = null; rb.click(); await Promise.resolve(); o.msgOk = cap.t; o.headCheck = HP.T('aiResHeadCheck');
+        // 言語の切り替えで押せない
+        HP.setLang('en'); o.disabledLang = rb.disabled; HP.setLang('ja');
+        // 空の貼り付けで押せない
+        area.value = pv; document.getElementById('btnAiPasteCheck').click(); area.value = ''; document.getElementById('btnAiPasteCheck').click();
+        o.disabledEmpty = rb.disabled;
+        // クリップボードが無い所: 落ちずにセーブのタブの欄へ
+        Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined });
+        const io = document.getElementById('ioArea'), io0 = io.value; io.value = '';
+        let thrown = null; try { document.getElementById('btnChatCopy').click(); } catch (e) { thrown = String(e); }
+        o.fallback = { thrown, same: io.value === HP.T('aiChatPrompt') };
+        io.value = io0;
+        document.querySelector('#btnPanelClose').click();
+        return o;
+      }, [P0, bad0]);
+      const P = J.prompts;
+      if (!(r.firstGroup && r.order)) bad.push('① 並び(先頭のグループに対話式・貼付欄・結果のコピー)' + JSON.stringify({ g: r.firstGroup, o: r.order }));
+      if (!(r.ja === P.ja && r.en === P.en)) bad.push('② コピーされる文が README の節の字と違う(ja ' + (r.ja === P.ja) + '・en ' + (r.en === P.en) + ')');
+      if (!r.headEn) bad.push('② 英語の見出し');
+      if (!(r.link.href === C357.CHAT_URL && r.link.url === C357.CHAT_URL && r.link.target === '_blank' && /\bnoopener\b/.test(r.link.rel))) bad.push('③ リンク ' + JSON.stringify(r.link));
+      if (!r.disabled0) bad.push('④ 結果が無いのに「伝える文をコピー」が押せる');
+      if (!(r.enabledNg && r.xLines.length >= 2 && r.noSame && r.msgNg && r.msgNg.startsWith(r.headNg) && r.xLines.every((s) => r.msgNg.indexOf(s) >= 0) && r.msgNg.endsWith(r.retry))) bad.push('⑤ 拒否の後の伝える文(見出し・× の行・retryFixMsg)・「そのまま取り込みました」が出ない');
+      if (!(r.enabledOk && r.checkText && r.msgOk && r.msgOk.startsWith(r.headCheck))) bad.push('⑥ 検証のみの文と伝える文');
+      if (!(r.disabledLang && r.disabledEmpty)) bad.push('⑦ 言語の切り替え・空の貼り付けで押せないにならない');
+      if (!(r.fallback.thrown === null && r.fallback.same)) bad.push('⑧ クリップボードが無い所 ' + JSON.stringify(r.fallback));
+      cases.push(`ページ: ①並び ②コピー ja/en が README と同じ ③リンク ④最初は押せない ⑤拒否の後 × の行 ${r.xLines.length}・retryFixMsg ⑥検証のみ ⑦言語・空で押せない ⑧クリップボードなしで欄へ`);
+    } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+    finally { await ctx.close(); }
+    if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+    add('ai.chatButtons357c', bad.length === 0,
+      `**AI のタブの対話式の入口**(第357便c・R524 —— 対象 ${TARGET}): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── behavior.intakeText357c ─────
+  {
+    let X = null, err = null;
+    try { X = C357.runIntakeText(path.join(ROOT, TARGET), path.join(ROOT, 'beta', '_w357_base.html')); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
+    const bad = err ? ['落ちた: ' + err] : X.why;
+    add('behavior.intakeText357c', bad.length === 0,
+      `**取り込みの画面の文 3 つ(読めない JSON の行と列・上限で減らした数・取り込まなかったときの変更点の段)と伝える文**(第357便c・R524 —— Node の vm・対象 ${TARGET}): ${X ? X.cases.join(' / ') : ''}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.chatButtons357c ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd357c('docs/PHYSICS.md'), AS = rd357c('docs/AI_SPEC.md'), PM = rd357c('tools/post-merge-qa.sh'), CLx = rd357c('CHANGELOG.md');
+    const ORIG = 'AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと考えている。対話式はDFMについてのQ&Aも兼ねる';
+    const secOf = (ph) => { const i0 = ph.indexOf('\n〔第357便c — '); if (i0 < 0) return { i0, sec: '' }; const nx = ph.slice(i0 + 1).search(/\n〔第\d+便[a-z0-9]* — /); return { i0, sec: ph.slice(i0, nx >= 0 ? i0 + 1 + nx : ph.length) }; };
+    const want = ['原仮定者の指示(2026-11-25)', 'R524', '「' + ORIG + '」', '利用者の目に見える変化', 'AIチャットと対話して作る', '1回で生成するプロンプト', '対話を始めるプロンプトをコピー', 'この結果をAIに伝える文をコピー',
+      'retryFixMsg', 'intakeJsonErrAt', 'intakeCapRows', '5000 → 299', '変更点なし(このまま取り込めます)', 'noopener', '閉包', '決断事項の候補', '推奨', '次点', '試していないこと',
+      'ai.chatButtons357c', 'behavior.intakeText357c', 'docs.chatButtons357c', 'ai.ui-unified', 'lint.noApiRoute357b'];
+    const secCheck = (ph) => {
+      const why = [];
+      const { i0, sec } = secOf(ph), ib = ph.indexOf('\n〔第357便b — '), iu = ph.indexOf('\n〔第328便 — 統括');
+      if (!(i0 >= 0 && ib >= 0 && ib < i0 && iu > i0)) why.push('① PHYSICS〔第357便c〕が無いか〔第357便b〕の前か第328便の統括の節の後ろ');
+      if (i0 >= 0 && !(ph.slice(i0 - 1, i0 + 1) === '\n\n' && ph[i0 - 2] !== '\n')) why.push('① 節の前の空行が 1 つでない');
+      for (const w of want) if (sec.indexOf(w) < 0) why.push('① PHYSICS〔第357便c〕に「' + w.slice(0, 24) + '」が無い');
+      return { why, sec };
+    };
+    const S0 = secCheck(PH); bad.push(...S0.why);
+    cases.push('① PHYSICS〔第357便c〕の位置(〔第357便b〕の後・空行 1)・原文・必須の語 ' + want.length);
+    const a0 = AS.indexOf('\n## 416. 第357便c'), a5 = AS.indexOf('\n## 415. 第357便b'), nx = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, A416 = a0 >= 0 ? AS.slice(a0, nx >= 0 ? nx : AS.length) : '';
+    if (!(a0 > a5 && a5 >= 0 && ['R524', 'aiChatPrompt', 'retryFixMsg', 'capRows', 'ai.chatButtons357c', 'behavior.intakeText357c', 'docs.chatButtons357c', 'SYSTEM_PROMPT'].every((w) => A416.indexOf(w) >= 0))) bad.push('② AI_SPEC §416(§415 の後・必須の語)');
+    cases.push('② AI_SPEC §416');
+    const RS = (() => { const i = RM357c.indexOf(C357.README_HEAD), j = i >= 0 ? RM357c.indexOf('\n## ', i + 5) : -1; return i >= 0 ? RM357c.slice(i, j >= 0 ? j : RM357c.length) : ''; })();
+    for (const [nm, t] of [['README の節', RS], ['入口のページ', CH357c]]) if (!(t.indexOf('**アプリのボタンから始める**') >= 0 && t.indexOf('「対話を始めるプロンプトをコピー」') >= 0 && t.indexOf('「この結果をAIに伝える文をコピー」') >= 0)) bad.push('③ ' + nm + 'に「アプリのボタンから始める」の段');
+    if (CH357c.indexOf('「アプリの検査の結果: 取り込みませんでした」で始まる文は、取り込まれていません') < 0 || CH357c.indexOf('"App check result:"') < 0) bad.push('③ 入口のページに、伝える文の読み方(ja/en)');
+    cases.push('③ README の節と入口のページの段・伝える文の読み方');
+    const p0 = PM.indexOf('# ==== 第357便c の塊(ここから)===='), p1 = PM.indexOf('# ==== 第357便c の塊(ここまで)===='), pb = PM.indexOf('# ==== 第357便b の塊(ここまで)====');
+    if (!(p0 >= 0 && p1 > p0 && pb >= 0 && pb < p0 && /ai\.chatButtons357c behavior\.intakeText357c docs\.chatButtons357c/.test(PM.slice(p0, p1)))) bad.push('④ post-merge に第357便c の塊(第357便b の塊の後・3 鍵)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? CLx.slice(cb, (CLx.indexOf('\n## ', cb + 5) + 1 || CLx.length + 1) - 1) : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第357便c**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('R524') >= 0)) bad.push('④ CHANGELOG の第357便c の行(見出しより後・R524)');
+    cases.push('④ post-merge の塊・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')');
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっ直', 'たっなに全安', 'たし保担を全安'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]),
+      cpC([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpC([0x8f03, 0x6b63]), cpC([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpC([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO'].map(rvC));
+    const texts = [['PHYSICS〔第357便c〕', S0.sec], ['AI_SPEC §416', A416], ['README の節', RS]];
+    if (kz >= 0) texts.push(['CHANGELOG の第357便c の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = tx0.split('「' + ORIG + '」').join('');
+      for (const w of NGC.concat(W)) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('⑤ ' + nm + ' に報の番号');
+    }
+    if (/第\s*\d+\s*便|決断事項/.test(RS)) bad.push('⑤ README の節に便の番号か「決断事項」');
+    cases.push('⑤ 書かない語・禁句・報の番号(節・§416・README の節・CHANGELOG)');
+    {
+      const m1 = secCheck(PH.split('「' + ORIG + '」').join('「AI追加の改善を進める」')), m2 = secCheck(PH.split('5000 → 299').join('5000 → 600'));
+      if (!m1.why.length) bad.push('⑥ 変異(原文の字)で落ちない');
+      if (!m2.why.length) bad.push('⑥ 変異(数の字)で落ちない');
+    }
+    cases.push('⑥ 変異 2');
+    add('docs.chatButtons357c', bad.length === 0,
+      `**PHYSICS〔第357便c〕・AI_SPEC §416・README と入口のページの段**(第357便c・R524): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第357便c の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

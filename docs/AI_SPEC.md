@@ -6026,3 +6026,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **保存済みのキーの掃除**: 固定の 10 個の名(`hp_key`・`hp_key_anthropic`・`hp_key_openai`・`hp_key_gemini`・`hp_model`・`hp_model_anthropic`・`hp_model_openai`・`hp_model_gemini`・`hp_provider`・`hp_baseurl_openai`)だけを消す(前方一致で消さない —— セーブ・自作のプリセット・言語ほか、ほかの `hp_*` には触れない)。自動で走るのは、パスに `/beta/` を含まない道(公開版の配信と、手元の `file://`)で開いたときだけ —— 公開版と beta は保存領域を共有するので、昇格の前に beta を開いても公開版の旧い画面のキーは消さない。掃除は恒久に残す。
 - **AI が読むときの要点**: 変わらない —— 返す JSON の形・鍵・値域(§5)は同じ。アプリへは、利用者が返答を貼り付けて取り込む。
 - QA `lint.noApiRoute357b`(静的 —— 宛先とヘッダの字・`fetch(`・キーの保存領域の読み書きが掃除の 1 か所だけ・画面の口・`window.HP` の名・I18N の鍵と字・変異の自己試験。API 方式を持つ版〔昇格の前の root〕では事実を書いて PASS)・`behavior.apiKeyCleanup357b`(10 個が消え、ほかの `hp_*` は同じ・beta の道では読み込みだけでは消えない・道の判定の表)・`docs.apiRemoval357b`(root は SKIP —— PHYSICS〔第357便b〕・本節・文書の該当の所・post-merge の塊・書かない語)。書き換えた既存の鍵 7 本(`ai.modelList`・`ai.schema-validation`・`ai.ui-unified`・`ai.payload-preview`・`ai.help-collapsed`・`behavior.xkClampShown327d`・`behavior.xkExemptScope327d`)は、外した版では「無いことを見る」形。
+
+## 416. 第357便c —— AI のタブを対話式が先に: 対話を始めるプロンプトのコピー・入口のページを開くリンク・取り込みの結果を AI チャットへ伝える文のコピーと、取り込みの画面の文 3 つ(原仮定者の指示(2026-11-25)・統括の検証項目 R524・**画面と文と検査と文書だけ** —— エンジン・受理器の判定・取り込む本の値・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・SYSTEM_PROMPT は不変)
+
+- **AI が読むときの要点**: 返す JSON の形・鍵・値域(§5)は変わらない。SYSTEM_PROMPT は 1 字も変えていない(§5 の写しと `docs/AI_SPEC_CORE.md` はそのまま)。対話の入口は `docs/AI_CHAT.md`。
+- **アプリの AI のタブ(上から)**: 「AIチャットと対話して作る」(「対話を始めるプロンプトをコピー」—— 字は README の節のプロンプトと同じ・I18N の鍵 `aiChatPrompt` の ja/en/入口のページを開くリンク〔新しいタブ・noopener —— アプリは取りに行かない〕/返答の貼付欄・取り込み・検証・状態の行・報告/「この結果をAIに伝える文をコピー」)→「作りたいシミュレーション」→「1回で生成するプロンプト」(生成用・短縮版 —— 前の見出しは「AIチャットで生成」)→「生成済みプリセット」。
+- **伝える文**: 「アプリの検査の結果: 取り込みませんでした(追加 0 件・不正 1 件)」/「…検証 OK —— まだ取り込んでいません(…)」/「…取り込みました(…): 名」の見出し・拒否の段の見出しと × の行(画面の字のまま)・自動で直した点・変更した点・拒否のときは `retryFixMsg`(理由を「 / 」で繋いで 300 字まで)。英語の画面では "App check result: …"。
+- **取り込みの画面の文**: 読めない JSON の位置は、コードブロックが在ればその中の行と列(「コードブロックの中の n行 m列目の …」・途中で切れたら「(最後)で JSON が終わっています」)。受理器が減らした粒子の数は「変更した点」の先頭に(別の欄 `capRows` —— `stabilizePreset` の `changes` は不変)。取り込まなかったときは変更点が無ければ変更点の段を出さない・検証のみは「変更点なし(このまま取り込めます)」。
+- QA `ai.chatButtons357c`(静的の判定と変異 7・ページ)・`behavior.intakeText357c`(Node の vm —— 5 つの題・取り込む値は同じ・走査の表・変異 3)・`docs.chatButtons357c`(root は 3 本とも SKIP)。書き換えた既存の鍵: `ai.ui-unified`(対話式の版ではコピーのボタンを名で 4 つ)・`lint.noApiRoute357b` の変異の種の字。

@@ -49006,7 +49006,7 @@ function intakeLineCol(s, pos){
   for(let k=0;k<pos && k<s.length;k++){ if(s[k]==="\n"){ ln++; cl=1; } else cl++; }
   return {line:ln, col:cl};
 }
-// 先頭の JSON の値 1 つを走査して、最初に読めなくなる位置(読めれば −1・途中で終われば長さ)を返す(純関数 —— 文の位置だけに使う)
+// 文を JSON の値 1 つとして走査して、最初に読めなくなる位置(全体が読めれば −1・途中で終われば長さ・値の後ろに字が残ればその位置)を返す(純関数 —— 文の位置だけに使う)
 function intakeJsonErrAt(s){
   const src=String(s), len=src.length; let at=0;
   const fail=()=>{ throw {jsonAt:at}; };
@@ -49032,7 +49032,7 @@ function intakeJsonErrAt(s){
     if(m){ at+=m[0].length; return; }
     for(const w of ["true","false","null"]) if(src.startsWith(w, at)){ at+=w.length; return; }
     fail(); };
-  try{ val(0); return -1; }catch(x){ if(x && typeof x.jsonAt==="number") return Math.min(x.jsonAt, len); throw x; }
+  try{ val(0); sp(); return (at<len)? at : -1; }catch(x){ if(x && typeof x.jsonAt==="number") return Math.min(x.jsonAt, len); throw x; }
 }
 // 形状の自動判別(第178便 ②): 観測レコード配列 / プリセットJSON / どちらでもない
 function detectPasteShape(v){
@@ -49546,7 +49546,7 @@ function aiResultMsgOf(r, save){
   return rows.join("\n");
 }
 $("#btnChatCopy").addEventListener("click",()=>copyJSON(T("aiChatPrompt")));
-$("#btnResultCopy").addEventListener("click",()=>{ if(AI_RESULT_MSG.text) copyJSON(AI_RESULT_MSG.text); });
+$("#btnResultCopy").addEventListener("click",(ev)=>{ const rb=ev.currentTarget; if(AI_RESULT_MSG.text && !(rb && rb.disabled)) copyJSON(AI_RESULT_MSG.text); });
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う
 for(const tid of ["ioArea","aiPrompt","saveName","saveComment",
@@ -49671,10 +49671,11 @@ function applyLang(){
     const pb=$("#btnAiPaste"); if(pb) pb.textContent=T("btnAiPaste");
     const pc=$("#btnAiPasteCheck"); if(pc) pc.textContent=T("btnAiPasteCheck");
     obsReportClear(); }
-  // 第357便c: 対話式の入口のグループ(言語を切り替えたら、前の結果の文は消える —— 報告の段と同じ)
+  // 第357便c: 対話式の入口のグループ。言語を切り替えたら報告の段は消えるので、「伝える文をコピー」も押せないへ
+  //   (結果の文の入れ物はここから呼ばない —— 次の取り込み・検証で書き直す。閉包に名を足さないため)
   { for(const [qid, key] of [["aiChatHead","aiChatHead"],["aiChatNote","aiChatNote"],["btnChatCopy","btnChatCopy"],["aiChatLink","aiChatLink"],["btnResultCopy","btnResultCopy"]]){
       const ce=document.getElementById(qid); if(ce) ce.textContent=T(key); }
-    aiResultMsgSet(""); }
+    const rcb=document.getElementById("btnResultCopy"); if(rcb) rcb.disabled=true; }
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   // 第83便B: 相図ランナーのパネルが開いていれば見出し・軸名も言語追随させる
