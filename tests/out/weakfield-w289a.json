@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-  "generatedAt": "2026-11-21T22:44:38.219Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T12:51:29.422Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708049,
-    "sha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-    "mtime": "2026-11-21T21:46:31.740Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w289a-weakfield.mjs",
     "bytes": 14549,
     "sha256": "40b326bc003ee6170017d4c2c96c50a8fa03d3657eac8b93464d06584503f5bc",
-    "mtime": "2026-11-19T16:19:54.532Z"
+    "mtime": "2026-11-24T05:41:44.985Z"
    },
    {
     "file": "tests/lib-w289a-weakfield.mjs",
     "bytes": 15203,
     "sha256": "69319a54cf4a183062339d571aa0e7bcaa51182295e8fcca891bb0984c3a5f47",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.061Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "838874de94dd6add7e403cf065d06efc0283ef770089fcb71a1fa20a2876a75d",
@@ -96,11 +96,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1343,
-   "segments": 1174,
-   "closureShare": 0.2882
+   "names": 1330,
+   "segments": 1161,
+   "closureShare": 0.2804
   },
-  "scopeSha256": "f7e280ed4936c95d4d7395884de43f9ca9c833d17de2b36dfe44ffb4c0f93e51",
+  "scopeSha256": "5db4c15f99bf6247c4e7444758f9b0d17f1612ded3965871b55a83ef4238e038",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -423,7 +423,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.05
+    "wallSec": 0.038
    },
    {
     "b": 20000,
@@ -435,7 +435,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.037
+    "wallSec": 0.046
    }
   ],
   "clocksOk": true,
@@ -491,11 +491,11 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 187,
+  "n": 189,
   "tally": {
    "active:default(pull)": 4,
-   "active:pull": 18,
-   "active:share": 100,
+   "active:pull": 19,
+   "active:share": 101,
    "retired:default(pull)": 2,
    "retired:pull": 16,
    "retired:share": 47
@@ -593,5 +593,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.774
+ "elapsedS": 2.132
 }

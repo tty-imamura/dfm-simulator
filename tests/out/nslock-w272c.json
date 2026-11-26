@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-11-22T05:29:17.025Z",
+  "at": "2026-11-26T12:38:28.148Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -29,11 +29,11 @@
   "env": {
    "node": "v22.23.5",
    "v8": "12.4.254.21-node.57",
-   "chromium": "157.0.8103.78",
+   "chromium": "158.0.8127.36",
    "platform": "linux",
    "arch": "x64"
   },
-  "coreSha256": "a3957e4e655a2c2dd8477b4d5d74d45b9c35b4f404af242f97e3c34abd941993",
+  "coreSha256": "4d89c4533d4228017938074be7e010337eab6250ea1bdba0eafd74118bcdb17b",
   "books": {
    "alphaCenAB": {
     "raw": "4ecc48b3bfe5e9e8e56db87f38c9f17604df37438659384b0e391e4747e6c8c1",
@@ -129,11 +129,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1340,
-   "segments": 1171,
-   "closureShare": 0.2878
+   "names": 1327,
+   "segments": 1158,
+   "closureShare": 0.2799
   },
-  "scopeSha256": "4b146eed65c780c598b76ec2edd909b59ce8ce9599fcce157d2e47b26f2e7b8e",
+  "scopeSha256": "cfe0065a32188eeeadd0e6c98ff7ce0d6ee21dc8d8413ec688c333058519136e",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -151,29 +151,29 @@
     "file": "tests/exp-w272c-nslock.mjs",
     "bytes": 36577,
     "sha256": "32bc1b8c0c096d2fef993e6f32709bf3720dd753e7b91c77a65bd251a36503f6",
-    "mtime": "2026-11-19T16:19:54.520Z"
+    "mtime": "2026-11-24T05:41:44.969Z"
    },
    {
     "file": "tests/lib-w265a-analogy.mjs",
     "bytes": 21069,
     "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w272c-binlock.mjs",
     "bytes": 23335,
     "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w322d-nslockmerge.mjs",
     "bytes": 18389,
     "sha256": "a58fdc98a842715231048382b91cfb0646f918ee554b3cbfb9f0a76f8bed9712",
-    "mtime": "2026-11-19T16:19:54.584Z"
+    "mtime": "2026-11-24T05:41:45.073Z"
    }
   ],
   "codeSha256": "b804d1befea734d488b9cf1081722b8c9f00326b2b30f602e9150c5ea0ed8bd8",
-  "spentSec": 975.5,
+  "spentSec": 774,
   "stages": 102
  },
  "builtinDeclared": [

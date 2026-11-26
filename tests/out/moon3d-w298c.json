@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第298便c",
   "target": "beta/index.html",
-  "targetSha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-  "generatedAt": "2026-11-21T22:45:37.990Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T12:07:59.066Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708049,
-    "sha256": "1d1568ee5d8bba1e1be2d72ee3efddf408b5cdb2a8e1d9c7686cfa79ec8a4211",
-    "mtime": "2026-11-21T21:46:31.740Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,43 +18,43 @@
     "file": "tests/exp-w298c-moon3d.mjs",
     "bytes": 38466,
     "sha256": "7daf50572cc9680c191d44d0edef8565e1a31e3bb8fbf9a254525ba42c6f9d75",
-    "mtime": "2026-11-19T16:19:54.536Z"
+    "mtime": "2026-11-24T05:41:44.993Z"
    },
    {
     "file": "tests/lib-w297b-fit.mjs",
     "bytes": 10451,
     "sha256": "bdb1a2d808d1fe0d9782e8ad28f5c1bca87732265de755e8778995e52bd9f66c",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.061Z"
    },
    {
     "file": "tests/lib-w296b-fit.mjs",
     "bytes": 10522,
     "sha256": "fee34451c30b386826577ad8ebc0a3a71607e6aba14449cd9762096a0ff860de",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.061Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    },
    {
     "file": "tests/lib-w302h-splitrec.mjs",
     "bytes": 2409,
     "sha256": "b07ea5da5a2e4ac7bbe026388aac612d79ac571da2803c2be313fea7f19c20ea",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    }
   ],
   "codeSha256": "6e111669118fe307e9ddee156a841da01d082c5566db3c3453f145102b4d8a40",
@@ -102,11 +102,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1394,
-   "segments": 1225,
-   "closureShare": 0.2988
+   "names": 1381,
+   "segments": 1212,
+   "closureShare": 0.2909
   },
-  "scopeSha256": "3ae494441c1563766779727d6f81ffbeab93f683219818cfee2a81465a07d828",
+  "scopeSha256": "0f1ab1f8a3372ceee91fef732f9183de71b1d048a116ad275beaf236d17397db",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -128,7 +128,7 @@
    "eMean": 0.05494176955119052,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 3.563
+   "wallSec": 3.716
   },
   "incl": {
    "key": "ref3d-inc",
@@ -139,7 +139,7 @@
    "eMean": 0.05518676069409869,
    "revN": 354,
    "kind": "ref3d",
-   "wallSec": 3.426
+   "wallSec": 4.064
   },
   "rp": 3.5704925,
   "e0": 0.0755658
@@ -922,242 +922,242 @@
  },
  "ok": true,
  "timing": {
-  "ref3d-inc": {
-   "wallSec": 3.426
-  },
   "ref3d-0": {
-   "wallSec": 3.563
+   "wallSec": 3.716
+  },
+  "ref3d-inc": {
+   "wallSec": 4.064
   },
   "flat-2d": {
-   "wallSec": 23.815
+   "wallSec": 27.346
   },
   "flat-3d": {
-   "wallSec": 22.625
-  },
-  "ic-g0-it0-de": {
-   "wallSec": 10.515
+   "wallSec": 28.718
   },
   "ic-g0-it0-dr": {
-   "wallSec": 10.188
+   "wallSec": 14.282
+  },
+  "ic-g0-it0-de": {
+   "wallSec": 14.287
   },
   "ic-g0-it0": {
-   "wallSec": 10.23
+   "wallSec": 16.029
   },
   "ic-g0-it0-di": {
-   "wallSec": 7.344
-  },
-  "ic-g0-it1": {
-   "wallSec": 10.051
-  },
-  "ic-g0-it1-de": {
-   "wallSec": 11.535
+   "wallSec": 11.416
   },
   "ic-g0-it1-dr": {
-   "wallSec": 11.691
+   "wallSec": 8.806
+  },
+  "ic-g0-it1-de": {
+   "wallSec": 9.211
+  },
+  "ic-g0-it1": {
+   "wallSec": 9.485
   },
   "ic-g0-it1-di": {
-   "wallSec": 6.43
-  },
-  "ic-g0-it2": {
-   "wallSec": 10.672
-  },
-  "ic-g0-it2-de": {
-   "wallSec": 10.284
+   "wallSec": 5.511
   },
   "ic-g0-it2-dr": {
-   "wallSec": 10.571
+   "wallSec": 8.539
+  },
+  "ic-g0-it2": {
+   "wallSec": 9.283
+  },
+  "ic-g0-it2-de": {
+   "wallSec": 9.319
   },
   "ic-g0-it2-di": {
-   "wallSec": 6.662
+   "wallSec": 6.184
   },
   "fix-h": {
-   "wallSec": 12.883
+   "wallSec": 7.791
   },
   "fix-h2": {
-   "wallSec": 21.845
-  },
-  "fix-h4": {
-   "wallSec": 40.926
+   "wallSec": 19.253
   },
   "fix-long": {
-   "wallSec": 27.509
+   "wallSec": 45.243
+  },
+  "fix-h4": {
+   "wallSec": 54.93
   },
   "fix-inc0": {
-   "wallSec": 24.54
-  },
-  "grid0-h": {
-   "wallSec": 7.298
+   "wallSec": 41.517
   },
   "grid1-h": {
-   "wallSec": 9.77
+   "wallSec": 9.36
+  },
+  "grid0-h": {
+   "wallSec": 11.04
   },
   "grid0-h2": {
-   "wallSec": 16.865
+   "wallSec": 26.594
   },
   "grid2-h": {
-   "wallSec": 11.385
+   "wallSec": 20.85
   },
   "grid1-h2": {
-   "wallSec": 23.408
+   "wallSec": 36.779
   },
   "grid3-h": {
-   "wallSec": 12.515
+   "wallSec": 13.59
   },
   "grid2-h2": {
-   "wallSec": 21.942
+   "wallSec": 27.392
   },
   "grid4-h": {
-   "wallSec": 10.271
+   "wallSec": 11.458
   },
   "grid3-h2": {
-   "wallSec": 21.616
+   "wallSec": 19.897
   },
   "grid5-h": {
-   "wallSec": 10.56
+   "wallSec": 7.685
   },
   "grid4-h2": {
-   "wallSec": 18.441
+   "wallSec": 16.228
   },
   "grid6-h": {
-   "wallSec": 8.743
-  },
-  "grid5-h2": {
-   "wallSec": 18.72
+   "wallSec": 8.554
   },
   "grid7-h": {
-   "wallSec": 10.305
+   "wallSec": 9.352
+  },
+  "grid5-h2": {
+   "wallSec": 19.636
   },
   "grid6-h2": {
-   "wallSec": 17.207
+   "wallSec": 20.818
   },
   "grid8-h": {
-   "wallSec": 8.683
+   "wallSec": 13.419
   },
   "grid7-h2": {
-   "wallSec": 19.809
-  },
-  "grid8-h2": {
-   "wallSec": 17.541
+   "wallSec": 24.165
   },
   "grid9-h": {
-   "wallSec": 8.881
+   "wallSec": 11.99
+  },
+  "grid8-h2": {
+   "wallSec": 23.177
   },
   "grid10-h": {
-   "wallSec": 10.162
-  },
-  "grid10-h2": {
-   "wallSec": 17.389
+   "wallSec": 11.26
   },
   "grid9-h2": {
-   "wallSec": 20.528
+   "wallSec": 23.26
   },
   "grid11-h": {
-   "wallSec": 11.371
+   "wallSec": 13.109
+  },
+  "grid10-h2": {
+   "wallSec": 25.873
   },
   "grid12-h": {
-   "wallSec": 9.509
+   "wallSec": 11.617
   },
   "grid11-h2": {
-   "wallSec": 17.356
+   "wallSec": 21.743
   },
   "grid13-h": {
-   "wallSec": 7.471
-  },
-  "grid12-h2": {
-   "wallSec": 17.204
-  },
-  "grid13-h2": {
-   "wallSec": 11.094
-  },
-  "o0-it0": {
-   "wallSec": 5.04
-  },
-  "ic-o0-it0-dr": {
-   "wallSec": 8.434
-  },
-  "ic-o0-it0": {
-   "wallSec": 9.253
-  },
-  "ic-o0-it0-de": {
-   "wallSec": 9.386
-  },
-  "ic-o0-it0-di": {
-   "wallSec": 5.029
-  },
-  "ic-o0-it1": {
-   "wallSec": 8.125
-  },
-  "ic-o0-it1-de": {
    "wallSec": 8.531
   },
+  "grid12-h2": {
+   "wallSec": 19.426
+  },
+  "grid13-h2": {
+   "wallSec": 13.053
+  },
+  "o0-it0": {
+   "wallSec": 4.036
+  },
+  "ic-o0-it0": {
+   "wallSec": 6.911
+  },
+  "ic-o0-it0-dr": {
+   "wallSec": 7.691
+  },
+  "ic-o0-it0-de": {
+   "wallSec": 8.106
+  },
+  "ic-o0-it0-di": {
+   "wallSec": 6.734
+  },
+  "ic-o0-it1": {
+   "wallSec": 8.602
+  },
+  "ic-o0-it1-de": {
+   "wallSec": 8.821
+  },
   "ic-o0-it1-dr": {
-   "wallSec": 9.264
+   "wallSec": 9.121
   },
   "ic-o0-it1-di": {
-   "wallSec": 5.248
-  },
-  "ic-o0-it2": {
-   "wallSec": 7.537
+   "wallSec": 6.917
   },
   "ic-o0-it2-de": {
-   "wallSec": 7.921
+   "wallSec": 9.36
   },
   "ic-o0-it2-dr": {
-   "wallSec": 8.166
+   "wallSec": 9.549
+  },
+  "ic-o0-it2": {
+   "wallSec": 9.517
   },
   "ic-o0-it2-di": {
-   "wallSec": 5.033
+   "wallSec": 7.226
   },
   "o0-br-0.2353464": {
-   "wallSec": 5.454
+   "wallSec": 3.93
   },
   "o0-br-0.28764560000000006": {
-   "wallSec": 5.477
+   "wallSec": 3.885
   },
   "o1-it0": {
-   "wallSec": 5.055
-  },
-  "ic-o1-it0-de": {
-   "wallSec": 6.961
+   "wallSec": 4.324
   },
   "ic-o1-it0-dr": {
-   "wallSec": 7.043
+   "wallSec": 6.757
+  },
+  "ic-o1-it0-de": {
+   "wallSec": 6.969
   },
   "ic-o1-it0": {
-   "wallSec": 7.918
+   "wallSec": 7.572
   },
   "ic-o1-it0-di": {
-   "wallSec": 4.736
+   "wallSec": 4.763
   },
   "ic-o1-it1-dr": {
-   "wallSec": 7.72
+   "wallSec": 7.407
   },
   "ic-o1-it1": {
-   "wallSec": 7.948
+   "wallSec": 7.609
   },
   "ic-o1-it1-de": {
-   "wallSec": 8.321
+   "wallSec": 7.918
   },
   "ic-o1-it1-di": {
-   "wallSec": 5.075
+   "wallSec": 4.034
   },
   "o1-br-0.23340149999999998": {
-   "wallSec": 4.882
+   "wallSec": 4.165
   },
   "o1-br-0.2852685": {
-   "wallSec": 4.757
+   "wallSec": 5.01
   },
   "final-h": {
-   "wallSec": 8.552
+   "wallSec": 7.073
   },
   "final-h2": {
-   "wallSec": 15.37
+   "wallSec": 13.957
   },
   "final-h4": {
-   "wallSec": 28.248
+   "wallSec": 24.367
   },
   "final-long": {
-   "wallSec": 21.234
+   "wallSec": 18.398
   }
  },
  "notClaim": [
@@ -1167,5 +1167,5 @@
   "「gain は普遍定数」",
   "「参照積分で fitted」"
  ],
- "elapsedS": 403.545
+ "elapsedS": 458.426
 }
