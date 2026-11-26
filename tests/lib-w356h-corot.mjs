@@ -22,6 +22,8 @@ export const DECL = Object.freeze({
   idTol: 1e-12,
   /** 格子は第355便f と同じ(列 6 × 模型 2 × γ 2 × 粒 2 × 種 3) */
   cols: G.COLS, models: G.MODELS, gammas: G.DECL.gammas, Ns: G.DECL.Ns, seeds: G.DECL.seeds,
+  /** 終わりの時刻(第355便f の刻み × 步の数) */
+  T: G.DECL.h * G.DECL.steps,
   /** 効果 ÷ 幅の物差し(第355便f と同じ 2 —— これ以上を「幅の外」) */
   effOverWidth: G.DECL.effOverWidth,
   zeroFloor: G.DECL.zeroFloor,
@@ -90,14 +92,14 @@ export function widthOf(effs, keys = EFF_KEYS, ratioKey = 'outerRatio') {
     const mA = A.reduce((p, q) => p + q, 0) / A.length, mB = B.reduce((p, q) => p + q, 0) / B.length;
     const wN = Math.abs(mB - mA), wS = B.length > 1 ? Math.max(...B) - Math.min(...B) : 0, w = Math.max(wN, wS);
     const tiny = w <= DECL.zeroFloor;
-    out[k] = { effect: mB, wN, wS, width: w, ratio: tiny ? null : Math.abs(mB) / w, beyond: tiny ? false : Math.abs(mB) / w >= DECL.effOverWidth };
+    out[k] = { effect: mB, wN, wS, width: w, ratio: tiny ? null : Math.abs(mB) / w, beyond: tiny ? false : Math.abs(mB) / w >= DECL.effOverWidth, nLo: A.length, nHi: B.length };
   }
   return out;
 }
 /** 正本へ書く形(効果・幅は絶対の桁 —— 判定 ratio・beyond は丸める前の数で) */
 export function widthRound(w) {
   const o = {};
-  for (const [k, v] of Object.entries(w)) o[k] = v === null ? null : { effect: r9(v.effect), wN: r9(v.wN), wS: r9(v.wS), width: r9(v.width), ratio: v.ratio === null ? null : r9(v.ratio), beyond: v.beyond };
+  for (const [k, v] of Object.entries(w)) o[k] = v === null ? null : { effect: r9(v.effect), wN: r9(v.wN), wS: r9(v.wS), width: r9(v.width), ratio: v.ratio === null ? null : r9(v.ratio), beyond: v.beyond, nLo: v.nLo, nHi: v.nHi };
   return o;
 }
 /** 対照の絶対の値(2N の種の平均と、種の間の差の最大) */

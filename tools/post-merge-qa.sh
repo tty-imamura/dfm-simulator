@@ -1924,6 +1924,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便h の塊(ここから)====
+# 第356便h(統括の検証項目 R520 —— 診断と文書だけ・html は変えない): 枝 h の新設 2 本
+#   (behavior.corot356h —— 零試験 8・走りの見本を第338便c の recheckRun で作り直して正本と照合・効果と幅を正本の走りから作り直す /
+#   docs.corot356h —— 原文と読みと量の定義と表と数の文が PHYSICS〔第356便h〕に逐語・構成案の論文 4 の ⑨)と、新しい段 corot-356h
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
+# ==== 第356便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
