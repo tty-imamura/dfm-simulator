@@ -133517,7 +133517,8 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         ['解説の数を 1 字変える', w('explJa', 'K1 の引きずりの分 +71.63″/世紀', 'K1 の引きずりの分 +71.64″/世紀'), /^① 解説\(日本語\)の水星の項に一覧の字/],
         ['一覧の P01 の段階を変える', w('phen', '| P01 | 水星の近点移動(1PN の約 43″/世紀) | 門の内 |', '| P01 | 水星の近点移動(1PN の約 43″/世紀) | 一部 |'), /^① 解説\(日本語\)の段階/],
         ['解説の小項を 1 つにまとめる', w('explJa', '\n  - 追加の近点の移動: ', ' 追加の近点の移動は、'), /^① 解説\(日本語\)が公転と追加/],
-        ['ci.yml の matrix から root を外す', w('ci', '          - name: root\n            target: index.html\n', ''), /^② ci\.yml/],
+        // 仕事 qa の matrix を狙う(事前検査を別の仕事に出した後は、同じ字の matrix が qa の前にも在る —— 先頭の 1 つを替えると qa の読みに当たらない)
+        ['ci.yml の matrix から root を外す', (() => { const c = String(F.ci), q = c.indexOf('\n  qa:\n'); return Object.assign({}, F, { ci: q < 0 ? c : c.slice(0, q) + c.slice(q).replace('          - name: root\n            target: index.html\n', '') }); })(), /^② ci\.yml/],
         ['節の「達」の定義の字を 1 字変える', w('physics', '「根拠に挙げた保存 QA(', '「根拠に挙げた保存の QA('), /^③ 節に「達」の定義/],
         ['本節に製品の名', w('physics', '**⑤ 言わないこと。** 解説の直しは', '**⑤ 言わないこと。** ' + ['Son', 'net'].join('') + ' 解説の直しは'), /^④ 書かない語/],
       ];
