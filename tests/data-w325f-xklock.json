@@ -36,20 +36,20 @@
   "X_k を維持して c_0 を合わせる"
  ],
  "tally": {
-  "builtin": 187,
+  "builtin": 188,
   "retired": 61,
-  "live": 126,
+  "live": 127,
   "bySat": {
    "live:ng:gZeroXNonZero": 31,
    "live:ng:mismatch": 38,
    "live:ok:within": 56,
    "retired:ng:mismatch": 25,
    "retired:ok:within": 36,
-   "live:ok:zeroExact": 1
+   "live:ok:zeroExact": 2
   },
   "byClass": {
    "X_k を維持して G_0 を合わせる": 8,
-   "X_k = G_0/c_0²": 117,
+   "X_k = G_0/c_0²": 118,
    "X_k を維持して c_0 を合わせる": 1
   },
   "undecided": [
@@ -19734,6 +19734,52 @@
    "class": "X_k = G_0/c_0²",
    "basis": "satisfied",
    "reason": "実単位の写し(G・c の標準参照値の段の換算)で X_k = G_0/c_0² —— 既に満たす(読み込みで自動 ON・値は 1 bit も変わらない)",
+   "undecided": false
+  },
+  {
+   "id": "boxone",
+   "emoji": "☝️",
+   "group": "箱宇宙の実験",
+   "retired": false,
+   "sampleClass": "principle",
+   "scaleTier": "cosmic",
+   "realUnits": false,
+   "G": 0,
+   "c": 30,
+   "X": 0,
+   "declared": {
+    "G": true,
+    "c": true,
+    "X": true
+   },
+   "lock": {
+    "ok": true,
+    "reason": "zeroExact",
+    "tgt": 0,
+    "rel": null,
+    "bitSame": true
+   },
+   "builtSame": true,
+   "lockAfterLoad": true,
+   "uses": {
+    "activeParams": [
+     "kFrame",
+     "cLight"
+    ],
+    "rays": false,
+    "photonEmit": false,
+    "qLock": false,
+    "geoPN": 0,
+    "claims": 0,
+    "obsCard": 0,
+    "observedGc": false
+   },
+   "objective": "met",
+   "calibration": "out-of-scope",
+   "calibrationPopulation": false,
+   "class": "X_k = G_0/c_0²",
+   "basis": "satisfied",
+   "reason": "G_0 = 0・X_k = 0(時空効果なし)で導出値そのもの —— 既に満たす(読み込みで自動 ON・値は 1 bit も変わらない)。第357便d で足した本(測りは無い —— 満たす本)",
    "undecided": false
   }
  ]

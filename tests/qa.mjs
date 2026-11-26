@@ -12847,6 +12847,13 @@ const W299E_IDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGE
 //   fresh = all − toy(第298便a 以降に三次元の本として入った本 —— 本数を増やす側)・retired = 退役の本。世代の守り(正本に行が入った世代だけ数える)は各ブロックが正本の行で見る
 const W319D_D3 = await (async () => { try { return await page.evaluate(() => { const o = { all: [], toy: [], fresh: [], retired: [], err: null }; for (const p of HP.allPresets()) { let ph = null; try { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); ph = (v && v.preset && v.preset.physics) || null; } catch (e) { ph = null; } if (!ph || ph.coord !== '3d') continue; o.all.push(p.id); (ph.shapeToy ? o.toy : o.fresh).push(p.id); if (p.familyRole === 'retired') o.retired.push(p.id); } return o; }); } catch (e) { return { all: [], toy: [], fresh: [], retired: [], err: String(e && e.message || e).slice(0, 200) }; } })();
 // ==== 第319便d の塊(ここまで)====
+// ==== 第357便d の塊(ここから —— 後から足した二次元の本の数)====
+// 第357便d(R525): 本の数を旗の和で照合する鍵(behavior.coreV2Migrate・behavior.coreV2ReplaceReport・behavior.shellSpinMassLaw)のために、
+//   後から足した**二次元・コア宣言なし**の内蔵の本の id をここに並べ、対象の html の宣言に在る本の数を数える(三次元の新本は W319D_D3.fresh で数える)。
+//   次に二次元の本を足す枝は、この配列に id を足す(行を足すだけ)
+const W357D_ADD2D_IDS = ['boxone'];
+const W357D_ADD2D = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); return W357D_ADD2D_IDS.filter((id) => h.indexOf('{ id:"' + id + '", ') >= 0).length; } catch (e) { return 0; } })();
+// ==== 第357便d の塊(ここまで)====
 // 第296便b(原仮定者の裁定(第86報)・R158): geoPN=3 のフィットの派生本(🟫 mercurySunInertialFit・🟪 plutoCharonInertialFit —— **core・layers・spaceMesh の宣言なし**・
 //   pinned は 🟫 の太陽 1 個・dragCore は 🟪 の両天体〔事前値〕)。ID は正本 tests/out/fit-w296b.json の status:"fitted" の本から読む(手書きの ID 一覧を足さない —— AN245)
 const W296B_J = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'fit-w296b.json'), 'utf8')); } catch (e) { return null; } })();
@@ -39032,6 +39039,9 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += W295C_INE3;   // 第295便c: 🌤️🟤🟣(慣性決定力版サンプル 3 本 —— core 宣言なし)
     exp6.n += W296C_CHAIN + W296B_FIT;   // 第296便c: 🔗(連鎖引きずりの試作本 —— core 宣言なし)・第296便b: 🟫🟪(フィットの派生本 —— core 宣言なし)
     exp6.n += W319D_D3.fresh.length;   // 第298便a: 🌐🎲(三次元の最初の検証本 —— core 宣言なし)・第318便c: 🗺️(太陽系 16 体 —— core 宣言なし)   // 第319便d(AN460): 三次元の新本は受理した宣言で数える(W298A_C3 + W318C_S16 の html の文字列の型を外した)
+    // ==== 第357便d の塊(ここから)====
+    exp6.n += W357D_ADD2D;   // 第357便d(R525): 後から足した二次元・コア宣言なしの本(☝️ boxone)
+    // ==== 第357便d の塊(ここまで)====
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE + W288B_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -39281,6 +39291,10 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
+    // ==== 第357便d の塊(ここから)====
+    // 第357便d(R525): 世代切替 —— 後から足した二次元・コア宣言なしの本(W357D_ADD2D —— ☝️ boxone)の分を、旗の和の式の前に本の数から外す(置換可否の数 nCore は不変)
+    if (rp.rep && typeof rp.rep.nPresets === 'number') rp.rep.nPresets -= W357D_ADD2D;
+    // ==== 第357便d の塊(ここまで)====
     const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE + W292D_TIDE + W292C_INE + W295C_INE3 + W296C_CHAIN + W296B_FIT + W319D_D3.fresh.length/* 第298便a: 🌐🎲・第318便c: 🗺️ —— 第319便d(AN460): 受理した宣言で数える */ && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
       && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE + W288B_CORE && rp.rep.tot.cannot === 45   // 第288便b: ⏰ の補正コア 2 件(置換可)が消えた   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
@@ -40506,6 +40520,10 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       return O;
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
+    // ==== 第357便d の塊(ここから)====
+    // 第357便d(R525): 世代切替 —— 後から足した二次元・コア宣言なしの本(W357D_ADD2D —— ☝️ boxone)の分を、旗の和の式の前に本の数から外す(宣言 0・core の数は不変)
+    if (lw.builtins && typeof lw.builtins.nPresets === 'number') lw.builtins.nPresets -= W357D_ADD2D;
+    // ==== 第357便d の塊(ここまで)====
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE   // 第284便b: ⚡ の補正コア 2 件
       && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE + W292D_TIDE + W292C_INE + W295C_INE3 + W296C_CHAIN + W296B_FIT + W319D_D3.fresh.length;   // 第319便d(AN460): 三次元の新本は受理した宣言で数える(W298A_C3 + W318C_S16 を外した)   // 第318便c: 🗺️(core 宣言なし)   // 第296便b: 🟫🟪(フィットの派生本 —— core 宣言なし)/ 第298便a: 🌐🎲(三次元 —— core 宣言なし)   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
@@ -65621,6 +65639,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           'heat', 'boxUniverse', 'rotor', 'realitySolar', 'realityBeyond', 'realAnalogy']);
       return o;
     });
+    // ==== 第357便d の塊(ここから)====
+    if (r && typeof r.total === 'number') r.total -= W357D_ADD2D;   // 第357便d(R525): 後から足した二次元の本(☝️ boxone)は下の旗の和の外(群の数え〔counts〕は宣言のまま)
+    // ==== 第357便d の塊(ここまで)====
     add('ui.groupOrderPaper',
       r.orderOk && r.seenOk && r.zeroOk && r.paramHasLawLab && r.inGroupOk && r.idsOk,
       `**表示順を論文順へ**(第272便d・GROUP_ORDER の差し替えだけ): 表=${JSON.stringify(r.order)} / `
@@ -65830,6 +65851,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.posOk = seen[o.pos - 1] === '天体の機構' && seen[o.pos + 1] === '光の伝播';
       return o;
     });
+    // ==== 第357便d の塊(ここから)====
+    if (r && typeof r.total === 'number') r.total -= W357D_ADD2D;   // 第357便d(R525): 後から足した二次元の本(☝️ boxone)は下の旗の和の外(群の数え〔counts〕は宣言のまま)
+    // ==== 第357便d の塊(ここまで)====
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
       && r.restOk && JSON.stringify(r.cross.slice().sort()) === JSON.stringify((r.w290b ? ['supernova'] : []).concat((r.w292b || r.w292c || r.has292d) ? ['earthmoon'] : []).sort()) && r.grcalOk   /* 第292便d: 🌜(天体の機構)が earthmoon を群をまたがせる */ && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)
@@ -95875,6 +95899,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       if (b2.length) bad.push('③ 分類 2 の移行(G_0 := X_k c_0²)が違う: ' + b2.slice(0, 8).join(','));
       if (bR.length) bad.push('③ 退役の 3 本(宣言は基点のまま・familyRole retired)が違う: ' + bR.join(','));
       // 第339便a(世代の注記 —— AN712・R355): 第325便f の棚卸しのデータに 🛟 saturnRotVertExplore3d の 1 行(はじめから X_k = G_0/c_0² を満たす本)が足された —— 満たす本は棚卸しの 56 本 + 後から足した 🛟 の 1 本
+      // ==== 第357便d の塊(ここから)====
+      // 第357便d(世代の注記 —— R525): 第325便f の棚卸しのデータに ☝️ boxone の 1 行(はじめから X_k = G_0/c_0² を満たす本 —— G_0 = 0・X_k = 0)が足された —— 満たす本の数から外す(🛟 と同じ扱い)
+      { const k357d = c56.indexOf('boxone'); if (k357d >= 0) c56.splice(k357d, 1); }
+      // ==== 第357便d の塊(ここまで)====
       const added339 = c56.filter((id) => id === 'saturnRotVertExplore3d').length;
       if (!(c56.length - added339 === 56 && added339 <= 1 && c1.length === 59 && c2.length === 7 && cR.length === 3)) bad.push(`③ 数(満たす ${c56.length}・分類 1 ${c1.length}・分類 2 ${c2.length}・退役 ${cR.length})`);
       const RP = (() => { try { return H.evalExpr('RETIRED_PRESETS'); } catch (e) { return null; } })();
