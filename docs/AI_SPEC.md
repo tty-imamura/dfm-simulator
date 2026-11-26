@@ -50,7 +50,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -220,6 +220,10 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
+(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
+geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
+uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
+system whose self-check does not pass the new form. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.
@@ -508,7 +512,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言(在位の惑星の本と同じ規則の形 —— geoPN=3・引きずりの半径は規則 R_d = Y_k m・合わせる値なし)は**アプリの決定的関数**が決めます(あなたは触りません)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
@@ -709,10 +713,12 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 | 配置・初速 | カタログ経路と**同一の関数**(実ケプラー接線速度。二体は重心系 — 惑星ティアは近点整列 `barycentric-peri`・**恒星ティアは遠点整列 `barycentric-apo`**〔第211便: DFM 版と初期位相を統一。自己診断は感度最大の近点位相の複製で実施〕、多衛星は近点整列 `kepler-peri`)。初速較正 f=1.000 |
 | `q` | qLock の**厳密一致式** `q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)`(第172便の運用規約)を**最内衛星の a で1回だけ**評価した直値(小数4桁)。多天体系では実行時 qLock を掛けない(a_ref が一意に決まらない — 🟠🌞 と同じ既存裁定) |
 | `D₀` | **0.006**(🌘 で決まった共有値の流用。**本系でのフィットはゼロ**) |
+| 物理の宣言(第357便g〔§419〕から —— **既定**) | **在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。この形が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。二次元の同じ宣言は無い(G_loc は三次元の本だけ) |
 | `camera.scale` | 最外衛星の遠点距離 × 1.2 を**有効2桁へ切り捨て** |
 | `dispMag` | 中心天体の描画半径が `camera.scale` の 3〜15% 帯の幾何中央へ最も近くなる刻み(1/3×10^k) |
 | `timeScale` | 最内衛星の1公転が実時間で約5秒(60fps)になる刻み(1/3×10^k) |
 | メタ | `fidelity:"real"` / `sampleClass:"calibration"` / `notClaim:["solar_cal"]` / `abBody`(kFrame=0 対照)/ `parameterAudit` / 出典表つき provenance を機械付与 |
+| メタ(第357便g —— 新しい形で組んだ本) | `fidelity:"real"` / `sampleClass:"principle"` / `referenceKind:"theory-control"` / `notClaim:["solar_cal","inposk1_rule"]` / `abBody`(引きずりと G_loc を切る —— 在位の本と同じ形)/ `parameterAudit`(fitted は 0 件)/ 出典表つき provenance。較正母集団の外・観測の 3σ を付けない |
 
 ### 6.4.4 自己診断(生成直後・自動)
 
@@ -6034,3 +6040,11 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **伝える文**: 「アプリの検査の結果: 取り込みませんでした(追加 0 件・不正 1 件)」/「…検証 OK —— まだ取り込んでいません(…)」/「…取り込みました(…): 名」の見出し・拒否の段の見出しと × の行(画面の字のまま)・自動で直した点・変更した点・拒否のときは `retryFixMsg`(理由を「 / 」で繋いで 300 字まで)。英語の画面では "App check result: …"。
 - **取り込みの画面の文**: 読めない JSON の位置は、コードブロックが在ればその中の行と列(「コードブロックの中の n行 m列目の …」・途中で切れたら「(最後)で JSON が終わっています」)。受理器が減らした粒子の数は「変更した点」の先頭に(別の欄 `capRows` —— `stabilizePreset` の `changes` は不変)。取り込まなかったときは変更点が無ければ変更点の段を出さない・検証のみは「変更点なし(このまま取り込めます)」。
 - QA `ai.chatButtons357c`(静的の判定と変異 7・ページ)・`behavior.intakeText357c`(Node の vm —— 5 つの題・取り込む値は同じ・走査の表・変異 3)・`docs.chatButtons357c`(root は 3 本とも SKIP)。書き換えた既存の鍵: `ai.ui-unified`(対話式の版ではコピーのボタンを名で 4 つ)・`lint.noApiRoute357b` の変異の種の字。
+
+## 419. 第357便g —— 観測レコードの道(出力A)の既定を、在位の惑星の本と同じ規則の形に: geoPN=3・kFrame=0・invSq の K1 + rdRule "kappaM"・G_loc n = 2・三次元の平面の初期状態(原仮定者の報告(2026-11-26)「実在天体はgeoPN=3で取り込めるのが理想」・統括の検証項目 R527・**組み立ての道だけ** —— エンジン・受理器・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・`ASTRO_CATALOG` の変種は不変)
+- **何を変えたか**: `obsMakeSys` に変種 `g3k1`(既定)を足した —— `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`coord:"3d"`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`D0:0.1`・`q:3`・`frameWeight:"share"`(最後の 3 つは在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(`q_exact`・D₀ 0.006・`D0pull` を使わない)。`buildAstroFromRecords` は新しい形を先に試し(初期状態は平面 z = v_z = 0)、受理器と自己診断(周期 ±1%)が通れば採る。通らない系だけ前の形(変種 `kf1` —— 観測安定則を含む前の版の道)で組み、説明の文と注記に理由を書く。`buildAstroFromRecords(レコード, {form:"kf1"})` は前の版の道だけを走らせる。結果に `form`("g3k1" / "kf1")と `g3Why` を足した。
+- **出来る本の欄**: `sampleClass:"principle"`・`referenceKind:"theory-control"`・`notClaim:["solar_cal","inposk1_rule"]`・`abBody`(引きずりと G_loc を切る)・`parameterAudit`(fitted 0 件)・説明の文(新しい形の字)。取り込みの報告の「アプリが決めた規約値」の 2 行目は `geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)`。
+- **二次元の版は無い**: G_loc は三次元の本だけ(受理器が断る)。`frameReaction`・`coupleSink`・`D0pull` は三次元で受理器が断る鍵(kFrame=1 のための鍵)なので持たない。
+- **AI が読むときの要点**: 返す観測レコードの形・量・単位・必須の量は変わらない。SYSTEM_PROMPT の出力A の節の 1 行だけを新しい字にした(「単位換算・スケール指数・配置・初速・物理の宣言〔在位の惑星の本と同じ規則の形〕はアプリの決定的関数が決めます」—— §5 の写しと `docs/AI_SPEC_CORE.md` も同じ字)。出力A・出力B の選び方の文は変えていない。
+- **族(実測)**: 仕様の例・太陽 + 3 惑星・多衛星の降格・自由中心の二体・逆行・恒星級の二体・恒星連星(遠点整列)・相対論的連星族 L−T=5 の全部が新しい形になった(前の形のまま残る族は 0)。
+- QA `behavior.obsGeo3_357g`(Node だけ —— 族の題材 8・physics の鍵と値・受理器の拒否 0・自己診断・合わせた値 0・前の形の道・③ の道の自己試験・変異 6)・`docs.obsGeo3_357g`(PHYSICS〔第357便g〕・本項・post-merge の塊・書かない語)。前の形の道を名指しする形にした既存の鍵: `behavior.alphaCenAB`・`behavior.siriusAB`・`behavior.psrDoubleAB`・`ai.obs-build`・`ai.obs-freecenter`・`ai.obs-binary`。

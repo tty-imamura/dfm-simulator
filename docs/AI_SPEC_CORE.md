@@ -53,7 +53,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -223,6 +223,10 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
+(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
+geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
+uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
+system whose self-check does not pass the new form. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.
