@@ -11,7 +11,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 
-export const LIB_VERSION = 'w357g-obsgeo3-lib-2';
+export const LIB_VERSION = 'w357g-obsgeo3-lib-3';   // 版 3: 出来た本の 1 行(aiBuiltLineOf)の後ろの、形を選んだ理由の句
 // 版 2(統合の後の直し・枝 g 2 —— 原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」): 形は自転の行の有無で選ぶ。
 //   全部の天体に自転の行(rotation_period か spin)が在れば g3k1(geoPN=3)・1 つでも欠ければ g1kf0(geoPN=1・kFrame=0・λ_PN=1)。
 //   族ごとに「自転の行が全部に在る」題材と「欠ける」題材を持つ(足りない族は、題材から自転の行を足す/外して作る)。
@@ -140,6 +140,8 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
       out.spinN=p.bodies.filter(b=>b.spin!==0).length;
       out.desc1={ref:p.description.indexOf(LANG==="en"? "THE REFERENCE FORM CHECKED AGAINST THE OBSERVED INPUTS AS THEY ARE" : "観測入力のまま照合する基準の形")>=0,
         miss:p.description.indexOf(LANG==="en"? "bodies without a rotation row:" : "自転の行が無い天体:")>=0, noQ:p.description.indexOf("q_exact=")<0};
+      out.built=(typeof aiBuiltLineOf==="function")? aiBuiltLineOf({ok:true, kind:"records", preset:p, meta:r.meta}) : null;
+      out.builtPreset=(typeof aiBuiltLineOf==="function")? aiBuiltLineOf({ok:true, kind:"preset", preset:p}) : null;
       out.choice3=p.description.indexOf(LANG==="en"? "every body has a rotation row" : "全部の天体に自転の行(rotation_period)が在る")>=0;
       out.z=p.bodies.every(b=>b.z===0 && b.vz===0);
       out.desc={rule:p.description.indexOf(LANG==="en"? "SAME RULE FORM AS THE IN-PLACE PLANET BOOKS" : "在位の惑星の本と同じ規則の形")>=0,
@@ -178,6 +180,11 @@ export function judgeObsGeo3(htmlPath, root, opts = {}) {
         if (!(o.meta.sc === 'calibration' && o.meta.fid === 'real' && Array.isArray(o.meta.nc) && o.meta.nc.indexOf('solar_cal') >= 0 && o.meta.ab1)) bad.push('分類と対照の欄 ' + JSON.stringify(o.meta).slice(0, 120));
         if (!(o.desc1.ref && o.desc1.miss && o.desc1.noQ)) bad.push('説明の文 ' + JSON.stringify(o.desc1));
         if (/^sun3-一部/.test(name) && !(o.spinN >= 2)) bad.push('在る自転の値が転写されていない(spin≠0 の天体 ' + o.spinN + ')');
+      }
+      if (o.built !== null) {   // 出来た本の 1 行の後ろの句(観測レコードの道だけ —— プリセットの道は句なし)
+        const tail = want === 'g3k1' ? ' —— 全部の天体に自転の行が在る' : want === 'g1kf0' ? ' —— 全部の天体に自転の行が在れば geoPN=3 の形になる' : null;
+        if (tail && !(o.built.startsWith('出来た本: geoPN=') && o.built.endsWith(tail) && (want !== 'g1kf0' || o.built.indexOf(' —— 自転の行が無い天体: ') >= 0))) bad.push('出来た本の 1 行の句 ' + o.built.slice(0, 120));
+        if (/自転の行/.test(o.builtPreset)) bad.push('プリセットの道の 1 行に句が付いた');
       }
       if (!(o.vOk && o.vErr === 0)) bad.push('受理器の拒否 ' + o.vErr);
       if (!(o.diag.ok && o.diag.worst <= 0.01)) bad.push('自己診断 ' + o.diag.worst);
@@ -221,6 +228,7 @@ export const MUTANTS = [
   ['自転有りで geoPN=1 の形にする', (h) => h.replace('if(o.form!=="kf1" && !spinMissing.length){', 'if(o.form!=="kf1" && spinMissing.length<0){')],
   ['geoPN=1 の形に q を足す', (h) => h.replace('const ph1={G:k1.G, D0:0.1, kFrame:0, q:3,', 'const ph1={G:k1.G, D0:0.1, kFrame:0, q:k1.q,')],
   ['geoPN=1 の形に D₀ を足す', (h) => h.replace('const ph1={G:k1.G, D0:0.1,', 'const ph1={D0pull:k1.D0pull, G:k1.G, D0:0.006,')],
+  ['出来た本の 1 行の句を外す', (h) => h.replace('    line+=T("aiResBuiltWhy")(', '    void T("aiResBuiltWhy")(')],
   ['在る自転の値を落とす', (h) => h.replace('    const hp=buildAstroPreset({system:"__observation__", variant:"g1kf0"}, built.sys);', '    const hp=buildAstroPreset({system:"__observation__", variant:"g1kf0"}, built.sys); for(const hb of hp.bodies) hb.spin=0;')],
 ];
 export function judgeMutants(htmlPath, root) {

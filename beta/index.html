@@ -2233,6 +2233,7 @@ ja: {
   aiResChanges:"変更した点:",
   aiResNoChange:"変更した点: なし",
   aiResBuilt:(g,kind)=>"出来た本: geoPN="+g+"("+(kind==="records"? "観測レコードから組み立てた実単位の本" : kind==="real"? "プリセットをそのまま —— 実単位の宣言あり" : "プリセットをそのまま —— 実単位ではありません")+")",   // 第357便h: 値は出来た本から読むだけ
+  aiResBuiltWhy:(f,names,why)=>f==="g3k1"? " —— 全部の天体に自転の行が在る" : f==="g1kf0"? " —— 自転の行が無い天体: "+names+" —— 全部の天体に自転の行が在れば geoPN=3 の形になる" : " —— 新しい形は採らなかった —— "+why,
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、同じ内容がリポジトリ https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md にあります。どちらも読めなければ、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
@@ -3548,6 +3549,7 @@ en: {
   aiResChanges:"What was changed:",
   aiResNoChange:"What was changed: nothing",
   aiResBuilt:(g,kind)=>"Built preset: geoPN="+g+" ("+(kind==="records"? "a real-unit preset built from the ObservationRecords" : kind==="real"? "the preset as pasted — it declares real units" : "the preset as pasted — not in real units")+")",
+  aiResBuiltWhy:(f,names,why)=>f==="g3k1"? " - every body has a rotation row" : f==="g1kf0"? " - bodies without a rotation row: "+names+" - with a rotation row for every body it becomes the geoPN=3 form" : " - the new form was not adopted - "+why,
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
   aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, the same file is in the repository at https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md; if neither is readable, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
@@ -49784,7 +49786,13 @@ function aiBuiltLineOf(r){
   if(!r || !r.ok || !r.preset) return "";
   const gp=(r.preset.physics && r.preset.physics.geoPN!==undefined)? r.preset.physics.geoPN : "?";
   const kd=(r.kind==="records")? "records" : ((r.preset.fidelity==="real" || r.preset.scaleExp)? "real" : "preset");
-  return T("aiResBuilt")(String(gp), kd);
+  // 統合の後の直し・枝 g 2: 観測レコードの道だけ、形を選んだ理由の句を足す(値は読むだけ —— 判定・取り込む値は変えない)
+  let line=T("aiResBuilt")(String(gp), kd);
+  if(r.kind==="records" && r.meta && r.meta.form){
+    const nm=(r.meta.spinMissing||[]).join(LANG==="en"? ", " : "・");
+    line+=T("aiResBuiltWhy")(r.meta.form, nm.length>60? nm.slice(0,60)+"…" : nm, String(r.meta.g3Why||"").slice(0,80));
+  }
+  return line;
 }
 function aiResultMsgOf(r, save){
   if(!r) return "";
