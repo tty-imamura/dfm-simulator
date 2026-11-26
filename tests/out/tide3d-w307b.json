@@ -3,7 +3,7 @@
  "libVersion": "w307b-tide3d-lib-1",
  "generator": "tests/exp-w307b-tide3d.mjs",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "原仮定者の裁定(第100報)「潮汐のブレーキが効く相手は慣性軸回転そのもの・失われる回転のエネルギーは内部熱・増え続けるので放射も」・決断事項 AN345 ③⑤・統括の検証項目 R210",
  "tide3Version": "w307b-tide3-1",
  "heatVersion": "w307b-tideheat-1",
@@ -1589,55 +1589,55 @@
  "ok": true,
  "timing": {
   "P": {
-   "wallSec": 0.001
+   "wallSec": 0.002
   },
   "E": {
-   "wallSec": 0.006
+   "wallSec": 0.007
   },
   "Z": {
-   "wallSec": 0.652
+   "wallSec": 0.607
   },
   "L": {
-   "wallSec": 0.107
+   "wallSec": 0.228
   },
   "C": {
-   "wallSec": 0.045
+   "wallSec": 0.078
   },
   "K": {
-   "wallSec": 0.061
+   "wallSec": 0.06
   },
   "H": {
-   "wallSec": 0.092
+   "wallSec": 0.122
   },
   "S": {
-   "wallSec": 0.594
+   "wallSec": 0.6
   },
   "R": {
-   "wallSec": 0.073
+   "wallSec": 0.11
   },
   "X": {
-   "wallSec": 0.089
+   "wallSec": 0.129
   }
  },
- "elapsedS": 3.417,
+ "elapsedS": 4.183,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第307便b",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:35:24.672Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T17:00:02.080Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    }
   ],
   "code": [
@@ -1645,43 +1645,43 @@
     "file": "tests/exp-w307b-tide3d.mjs",
     "bytes": 42571,
     "sha256": "8480723451896ac89e345dc03d4adaf4cd49a652807c62d2560c6a45bebe44a2",
-    "mtime": "2026-11-19T16:19:54.544Z"
+    "mtime": "2026-11-24T05:41:45.001Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.069Z"
    },
    {
     "file": "tests/lib-w307b-tide3d.mjs",
     "bytes": 12240,
     "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.061Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "6141888e2f2e1c02d22503b1843d66fa442a2fbbdd8e3ae6d18067a3a0683a01",
@@ -1722,11 +1722,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1362,
-   "segments": 1193,
-   "closureShare": 0.292
+   "names": 1349,
+   "segments": 1180,
+   "closureShare": 0.2842
   },
-  "scopeSha256": "d3ae1bdbff4d3f07c27c12662e8de6c1dbc083bffc102bf02ff0804e14a53b3b",
+  "scopeSha256": "f0bfe8c251ed46e4c6dfa695be270edc3de621937cea6d8681313310e74be2f5",
   "scopeComplete": true,
   "inputsStable": [
    {

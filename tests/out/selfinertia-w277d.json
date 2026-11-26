@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第277便d",
   "target": "beta/index.html",
-  "targetSha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
-  "generatedAt": "2026-11-23T16:17:39.919Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T17:00:02.902Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708556,
-    "sha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
-    "mtime": "2026-11-23T14:32:01.764Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/lib-w277d-selfinertia.mjs",
     "bytes": 18552,
     "sha256": "e3fb8860656c5422179fb888b4dd01a7bfd3fe53997afd46c67781fcf0709c48",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w277d-selfinertia.mjs",
     "bytes": 16288,
     "sha256": "9a43462ec9f101d9904e09db9d019e1e6a18f75559ac7f1acb5b2c6e45d774ca",
-    "mtime": "2026-11-19T16:19:54.524Z"
+    "mtime": "2026-11-24T05:41:44.977Z"
    },
    {
     "file": "tests/lib-w277d-selfinertia.mjs",
     "bytes": 18552,
     "sha256": "e3fb8860656c5422179fb888b4dd01a7bfd3fe53997afd46c67781fcf0709c48",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "d29417d743739087ce2ba809ea785c0375689f97cf82bb3c08d6e9eb63314156",
@@ -485,19 +485,19 @@
     "what": "`S._core` の対ループ(j=i+1 —— **自己は対に現れない**)",
     "hits": [
      {
-      "line": 30967,
+      "line": 31018,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 31021,
+      "line": 31072,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 35162,
+      "line": 35214,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      },
      {
-      "line": 60188,
+      "line": 60247,
       "text": "for(let j=i+1;j<n;j++,pk++){"
      }
     ],
@@ -508,15 +508,15 @@
     "what": "重み和 W(i には相手の w_j だけ・j には w_i だけ を積む)",
     "hits": [
      {
-      "line": 30980,
+      "line": 31031,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 31034,
+      "line": 31085,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      },
      {
-      "line": 35176,
+      "line": 35228,
       "text": "sumW[i]+=wj; sumW[j]+=wi;"
      }
     ],
@@ -527,15 +527,15 @@
     "what": "フレーム分子 A(同上 —— **自己速度は積まれない**)",
     "hits": [
      {
-      "line": 30986,
+      "line": 31037,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 31080,
+      "line": 31131,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      },
      {
-      "line": 35252,
+      "line": 35304,
       "text": "uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));"
      }
     ],
@@ -546,7 +546,7 @@
     "what": "E6′ 輸送項の宣言コメント(「自分自身は除外して評価」)",
     "hits": [
      {
-      "line": 35773,
+      "line": 35825,
       "text": "// E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)"
      }
     ],
@@ -557,19 +557,19 @@
     "what": "時計 ψ の宣言コメント(「外部の決定力のみ=自己場除外」)",
     "hits": [
      {
-      "line": 35631,
+      "line": 35683,
       "text": "//     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の"
      },
      {
-      "line": 36244,
+      "line": 36296,
       "text": "// ψ = W_ext·κ(外部の決定力のみ=自己場除外。第128便: κ 正準)。u は E3 と同じ自己除外フレーム。"
      },
      {
-      "line": 51848,
+      "line": 51907,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)"
      },
      {
-      "line": 51880,
+      "line": 51939,
       "text": "const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // V28 と同じ(単独粒子・自己場除外で ψ=W_B/Kt)"
      }
     ],
@@ -580,11 +580,11 @@
     "what": "`dfmField` の `excludeBodyId` フィルタ(源集合から自己を外す)",
     "hits": [
      {
-      "line": 55951,
+      "line": 56010,
       "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
      },
      {
-      "line": 56303,
+      "line": 56362,
       "text": "if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;"
      }
     ],
@@ -595,19 +595,19 @@
     "what": "`dfmGeoToyStep` の 2 巡(`excludeBodyId:i`)",
     "hits": [
      {
-      "line": 56939,
+      "line": 56998,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
      },
      {
-      "line": 57011,
+      "line": 57070,
       "text": "const f=dfmField(BD,px,py,{excludeBodyId:i, lawVersion:law, p:pw, eps, D0:D0p, G, need:\"mesh\","
      },
      {
-      "line": 57092,
+      "line": 57151,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:0,"
      },
      {
-      "line": 57697,
+      "line": 57756,
       "text": "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
      }
     ],
@@ -618,7 +618,7 @@
     "what": "空間メッシュ T2 の源集合(頂点 a には b だけ・b には a だけ)",
     "hits": [
      {
-      "line": 33703,
+      "line": 33755,
       "text": "SRC=[SA,SB]; SRCa=[SB]; SRCb=[SA];"
      }
     ],
@@ -629,159 +629,159 @@
     "what": "`dfmMeshScalarField` の `OPT.exclude=i` と ∂ₜW の `j===i` 飛ばし",
     "hits": [
      {
-      "line": 33166,
+      "line": 33218,
       "text": "OPT.exclude=i;"
      },
      {
-      "line": 33728,
+      "line": 33780,
       "text": "OPT.exclude=i;"
      },
      {
-      "line": 10233,
+      "line": 10226,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 12143,
+      "line": 12136,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 30534,
+      "line": 30585,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 31675,
+      "line": 31726,
       "text": "for(let j=0;j<P.length;j++){ if(j===i) continue; const dx=P[j].x-o.x, dy=P[j].y-o.y, d2=dx*dx+dy*dy;"
      },
      {
-      "line": 31689,
+      "line": 31740,
       "text": "for(const i of R.idx){ const o=P[i]; for(let j=0;j<P.length;j++){ if(j===i) continue;"
      },
      {
-      "line": 31693,
+      "line": 31744,
       "text": "let Win=0; for(const i of R.idx){ const o=P[i]; for(const j of R.idx){ if(j===i) continue;"
      },
      {
-      "line": 32874,
+      "line": 32926,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33172,
+      "line": 33224,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33196,
+      "line": 33248,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 33732,
+      "line": 33784,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 56989,
+      "line": 57048,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 57595,
+      "line": 57654,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59437,
+      "line": 59496,
       "text": "if(S.coord3d===true && S.z){ for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i], S.z[j]-S.z[i]); if(z>far) far="
      },
      {
-      "line": 59438,
+      "line": 59497,
       "text": "else for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }"
      },
      {
-      "line": 59565,
+      "line": 59624,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59670,
+      "line": 59729,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx+=a*UX[j]; ry+=a*UY[j]; } }"
      },
      {
-      "line": 59694,
+      "line": 59753,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ qx-=a*PX[j]; qy-=a*PY[j]; } }"
      },
      {
-      "line": 59765,
+      "line": 59824,
       "text": "if(j===i) continue;                                   // 自己項を計算しない"
      },
      {
-      "line": 59870,
+      "line": 59929,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; } }"
      },
      {
-      "line": 59882,
+      "line": 59941,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; } }"
      },
      {
-      "line": 59935,
+      "line": 59994,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 59954,
+      "line": 60013,
       "text": "if(j===i) continue;                                   // (iv) 自己項を計算しない"
      },
      {
-      "line": 60603,
+      "line": 60662,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 60698,
+      "line": 60757,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 60782,
+      "line": 60841,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; sz+=a*UZ[j]; } }"
      },
      {
-      "line": 60793,
+      "line": 60852,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; rz-=a*UZ[j]; } }"
      },
      {
-      "line": 60954,
+      "line": 61013,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 61072,
+      "line": 61131,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62101,
+      "line": 62160,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62242,
+      "line": 62301,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 62634,
+      "line": 62693,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx-=a*WX[j]; sy-=a*WY[j]; } }"
      },
      {
-      "line": 62762,
+      "line": 62821,
       "text": "for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a===0) continue; sA+=a; nx+=a*(V[0][j]-V[0][i]); ny+=a*(V[1][j]-V[1][i]); nz+=a*(V[2][j"
      },
      {
-      "line": 63593,
+      "line": 63652,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 63656,
+      "line": 63715,
       "text": "if(j===i) continue;"
      },
      {
-      "line": 64096,
+      "line": 64155,
       "text": "for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;"
      },
      {
-      "line": 64221,
+      "line": 64280,
       "text": "for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;"
      },
      {
-      "line": 64507,
+      "line": 64566,
       "text": "if(j===i) continue;"
      }
     ],
@@ -792,7 +792,7 @@
     "what": "`dfmLocalMeshField` は **自己の概念を持たない**(渡された源をすべて足す)—— 除外は呼び出し側(`dfmField`)の責務である",
     "hits": [
      {
-      "line": 55712,
+      "line": 55771,
       "text": "function dfmLocalMeshField(sources,px,py,opts){"
      }
     ],
@@ -803,7 +803,7 @@
     "what": "`dfmFrameAt(px,py,S)` は **任意の点で評価する読み取り専用の診断器**で、自己除外を持たない(粒子位置で呼べば自己が入る)。**力学はこの関数を通らない**(呼び出しは表示・診断のみ)",
     "hits": [
      {
-      "line": 53137,
+      "line": 53196,
       "text": "function dfmFrameAt(px,py,S){"
      }
     ],
