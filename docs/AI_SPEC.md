@@ -24,6 +24,8 @@ the branching itself, so the branching is gone:
   the same skeleton: *specification* + *decision clause* + *few-shot example* + *request*. The
   short version differs only in that the specification is a link to this page rather than inline
   text. (Wave 182 removed the *built-in real-body list* section from every path — see §1.2.)
+  **Retired (wave 357b, 2026-11-26):** the in-app generation was removed from the app (§4.1); the
+  two copy buttons are the only paths now, and they still carry this same skeleton.
 - **One example.** The prompt always embeds one preset JSON as a few-shot example: the selected
   "base sample", or — when none is selected — the built-in 🟠 "Jupiter and the Galilean moons
   (real units)" sample, whole and unabridged (wave 181; it used to be whatever sample happened to
@@ -194,6 +196,10 @@ with no web access, so it cannot open the "url" that OUTPUT A requires. For a re
 body the two working routes are (1) pick the closest built-in sample as the *base sample*, or
 (2) copy the prompt into an AI chat that can browse the web and paste the reply back. The AI tab
 states this permanently next to the Generate button (wave 182).
+**Retired (wave 357b, 2026-11-26):** the in-app "Generate" button no longer exists (§4.1). The
+permanent note stays in the AI tab under the request box and now reads: an AI chat that cannot
+open the web cannot transcribe sources — for a real body, use the base sample or an AI chat that
+can browse the web.
 
 **Embedded copies drop display-only notes.** When a preset is embedded in a prompt (as the
 few-shot example or as the selected base), the keys `note`, `noteEn`, `roleNote` and `roleNoteEn`
@@ -275,6 +281,14 @@ guarantee that it does not overwrite curated work (QA `ai.stabilize`).
   "added 0 / invalid 9" report.
 
 ## 4.1 Runtime model routing (wave 278e, 2026-09-23)
+
+**Retired (wave 357b, 2026-11-26 — originator's answer of 2026-11-25: "AN1134: API方式は、セキュリティも考慮して廃止予定"):**
+the app no longer calls any AI provider. The provider / model / API key fields, the "Generate"
+button, the "preview exactly what will be sent" panel and the code behind them (`AI_PROVIDERS`,
+`callLLM`, `aiAnthropicBody`, `aiFallbackModel`, `generatePreset`, …) were removed; the html
+contains no outgoing network call. The text below is kept as the record of what the removed
+route did. The specification (section 5) is unchanged. Keys that earlier builds saved on the
+device are removed by the app on the release path (see §415).
 
 This section is about **which model the app's own "Generate" button calls**, not about the
 specification text sent to it (section 5 is unchanged, byte for byte).
@@ -413,6 +427,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 配るプロンプトは**1系統**。アプリ内生成・生成用プロンプト・短縮版とも
   「仕様+出力の使い分け+**少数ショット例**+要望」の同じ骨格を運ぶ
   (内蔵実天体一覧の節は**第182便で全経路から撤去** — §6.2b)。
+  **第357便b(2026-11-26)でアプリ内生成を外した**(§6.2c)—— いまの道は生成用プロンプト・短縮版の 2 つで、骨格は同じ。
 - 少数ショット例は**必ず1つ入る**(選択中のベースのサンプル、未選択なら 🟠「木星とガリレオ衛星
   (実単位)」を**丸ごと** — 第181便で固定。間引き・改変・字数上限は無い)。
 - 貼付欄は AIタブの**1つだけ**。レコード配列かプリセットJSONかは**アプリが自動判別**する。
@@ -435,6 +450,8 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   手段は ①近い内蔵サンプルを**ベースのサンプル**に選ぶ ②ウェブ閲覧できるAIチャットへ
   プロンプトを貼って生成し、返答を貼付欄へ — の2つである。AIタブは「生成する」の直下に
   この導線を**常設**で表示する。
+  **第357便b(2026-11-26)で「生成する」を外した**(§6.2c)。常設の文は要望の欄の下に残り、
+  「ウェブを開けない AI チャットでは出典を転写できない —— 実在天体はベースのサンプルか、ウェブ閲覧できる AI チャットで」の形になった。
 - **埋込用の複製から表示専用の注記を落とす。** プロンプトへ埋め込むプリセット
   (少数ショット例・選択したベース)からは `note` / `noteEn` / `roleNote` / `roleNoteEn` を
   機械的に除去する(文字数削減)。**プリセット本体・アプリ内データ・保存は不変**で、
@@ -453,6 +470,12 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   新設 QA `prompt.schema-sync` が機械照合する。
 
 ## 6.2c 実行時 LLM のモデル(第278便e・2026-09-23)
+
+**外した(第357便b・2026-11-26 —— 原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」)**:
+アプリは外の AI の事業者を呼ばない。提供元・モデル・API キーの欄・「生成する」・「送信内容を確認」と、その裏の
+コード(`AI_PROVIDERS`・`callLLM`・`aiAnthropicBody`・`aiFallbackModel`・`generatePreset` ほか)を外し、html に外へ送る
+呼び出しは無い。下の文は、外した道が何をしていたかの記録として残す。送る仕様文(§5)は変えていない。
+以前の版が端末に保存したキーは、公開版の道でアプリが消す(§415)。
 
 - 本節は**アプリの「生成する」が呼ぶモデル**の話で、送る仕様文(§5)は 1 バイトも変えていない。
 - 候補は `claude-sonnet-5`(既定・不変)/ `claude-opus-5-5` / `claude-opus-5`。原仮定者の裁定
@@ -5997,3 +6020,9 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何を変えたか**: SYSTEM_PROMPT の 2 行(「一様重力場」の目安を `目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。` に・「地上実験・落下・対流」の行に、thermalWalls の面の名と既定の視点での画面の上下の 1 文)—— §5 の逐語の写しと `docs/AI_SPEC_CORE.md` も同じ字に。html の注 4 か所(gravityY と伝熱の箱の面の向き —— 値は不変)。画面の文 `legacyViewNote`(ja/en)と、取り込み(`doImportText`)の通知: 書き出しの封筒の `appBuild` が既定の視点を改めた版(β `v1.47-b346`・公開版 `v1.47.0`)より前で(`appBuild` の無い旧い封筒も)、中のカスタムの本かセーブに gravityY が 0 でないものが在れば、通知の末尾に案内を 1 文(2 件以上は件数つき)。封筒の無い形(単独の本・配列・AI の返答)は見分けない。PHYSICS〔第357便a〕に前の字と後の字の表・見分けの表・出ない場合と誤って出る場合の表。
 - **AI が読むときの要点**: 一様重力 `physics.gravityY` は、下向きが負(既定の視点では +y が画面の上)。目安は −0.1〜−0.02。正の値は上向きの場になる。伝熱の箱の面の名(`top` = y=−size・`bottom` = y=+size)は y の向きで付いていて、既定の視点では `top` が画面の下に見える —— 加熱する床は `top`。生成する JSON に視点の傾きを書く欄は無い(視点の傾きは端末の保存)。
 - QA `ai.gravitySign357a`(説明文の 2 行・旧い字が無い・来歴の語が無い・§5 と短いページに逐語・`DEFAULT_PHYSICS` の値・変異)・`behavior.legacyViewNote357a`(見分けの表・数える関数・変異の自己試験・ページの中の表・取り込みの通知・本の値が新しい印の時と同じ・画面の文 ja/en)・`docs.deferred357a`(root は SKIP —— PHYSICS〔第357便a〕・本節・README の 1 段・post-merge の塊・書かない語)。
+## 415. 第357便b —— AI 追加のアプリの中の生成(API 方式)を外す・保存済みのキーの掃除は公開版の道でだけ動く(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」・原仮定者の指示(2026-11-25)・統括の検証項目 R523・**画面と結線と文書と検査だけ** —— エンジン・受理器・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・SYSTEM_PROMPT は不変)
+- **何を外したか**: AI のタブの「AIプロバイダ」のグループ(提供元・モデル・URL・API キーの欄・「キーをこの端末に保存する」・「キーを設定」・キーの保存の説明)・「生成する」のボタン・「送信内容を確認」のプレビュー。裏のコード(提供元の表 `AI_PROVIDERS`・キーの置き場・`aiCfg`・`fetchJSON`・`callLLM`・`aiAnthropicBody`・`aiThinkingAlwaysOn`・`aiFallbackModel`・`generatePreset`・`generateAstroPreset`・`renderAiConfig`・`updateAiPreview` と結線)・画面の文の鍵(ja/en 同数)・`window.HP` の名。html に外へ送る呼び出し(`fetch(`)と、事業者の宛先・ヘッダの字は無い。§4.1・§6.2c は退役の記録の 1 段を付けて残した。
+- **何を残したか**: 生成用プロンプト・短縮版のコピー(`buildUnifiedPrompt` —— 骨格は同じ)・返答の貼り付けの取り込みと検証(`aiIntakeText` ほか)・仕様の文 `SYSTEM_PROMPT`(§5 —— 1 字も変えていない)・要望の欄・ベースのサンプル・状態の行(外部チャットのグループへ移した)・`retryFixMsg`(検査の結果を AI チャットへ伝える文)・実天体カタログの純関数(`getAstroSystemPrompt`・`validateAstroSpec`・`buildAstroPreset`・`extractJSON`)。
+- **保存済みのキーの掃除**: 固定の 10 個の名(`hp_key`・`hp_key_anthropic`・`hp_key_openai`・`hp_key_gemini`・`hp_model`・`hp_model_anthropic`・`hp_model_openai`・`hp_model_gemini`・`hp_provider`・`hp_baseurl_openai`)だけを消す(前方一致で消さない —— セーブ・自作のプリセット・言語ほか、ほかの `hp_*` には触れない)。自動で走るのは、パスに `/beta/` を含まない道(公開版の配信と、手元の `file://`)で開いたときだけ —— 公開版と beta は保存領域を共有するので、昇格の前に beta を開いても公開版の旧い画面のキーは消さない。掃除は恒久に残す。
+- **AI が読むときの要点**: 変わらない —— 返す JSON の形・鍵・値域(§5)は同じ。アプリへは、利用者が返答を貼り付けて取り込む。
+- QA `lint.noApiRoute357b`(静的 —— 宛先とヘッダの字・`fetch(`・キーの保存領域の読み書きが掃除の 1 か所だけ・画面の口・`window.HP` の名・I18N の鍵と字・変異の自己試験。API 方式を持つ版〔昇格の前の root〕では事実を書いて PASS)・`behavior.apiKeyCleanup357b`(10 個が消え、ほかの `hp_*` は同じ・beta の道では読み込みだけでは消えない・道の判定の表)・`docs.apiRemoval357b`(root は SKIP —— PHYSICS〔第357便b〕・本節・文書の該当の所・post-merge の塊・書かない語)。書き換えた既存の鍵 7 本(`ai.modelList`・`ai.schema-validation`・`ai.ui-unified`・`ai.payload-preview`・`ai.help-collapsed`・`behavior.xkClampShown327d`・`behavior.xkExemptScope327d`)は、外した版では「無いことを見る」形。

@@ -1983,6 +1983,13 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.corot356h docs.corot356h"
 #   SYSTEM_PROMPT と I18N を読む既存の鍵(prompt.spec-sync・params.i18n316・lint.uiText316)と、短いページの写しを見る docs.aichat355h。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.gravitySign357a behavior.legacyViewNote357a docs.deferred357a prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h"
 # ==== 第357便a の塊(ここまで)====
+# ==== 第357便b の塊(ここから)====
+# 第357便b(原仮定者の回答(2026-11-25)・統括の検証項目 R523 —— 画面と結線と文書と検査だけ・エンジンと本の値は変えない): 枝 b の新設 3 本
+#   (lint.noApiRoute357b —— アプリの中の生成を外した版の戻り止め〔宛先・外へ送る呼び出し・保存領域の名・画面の口・HP の名・I18N・変異の自己試験 —— 持つ版の root では事実を書いて PASS〕 /
+#   behavior.apiKeyCleanup357b —— 保存済みのキーの掃除〔固定の 10 個・beta の道では自動で走らない・公開版の道を模すと消える〕 / docs.apiRemoval357b —— PHYSICS〔第357便b〕・AI_SPEC §415・文書・本塊)と、
+#   外した版で「無いことを見る」形に書き換えた既存の鍵 7 本と、I18N・文書を読む既存の鍵(params.i18n316・lint.uiText316・prompt.spec-sync・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.noApiRoute357b behavior.apiKeyCleanup357b docs.apiRemoval357b ai.modelList ai.schema-validation ai.ui-unified ai.payload-preview ai.help-collapsed behavior.xkClampShown327d behavior.xkExemptScope327d params.i18n316 lint.uiText316 prompt.spec-sync docs.aichat355h behavior.aichatIntake355h"
+# ==== 第357便b の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

@@ -135129,6 +135129,247 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   }
 }
 // ==== 第357便a の塊(ここまで)====
+// ==== 第357便b の塊(ここから —— lint.noApiRoute357b・behavior.apiKeyCleanup357b・docs.apiRemoval357b の 3 ブロック。lint は beta・root の両方・ほか 2 本は root は SKIP)====
+// ---- 第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」・原仮定者の指示(2026-11-25)・統括の検証項目 R523):
+// ----   **AI 追加のアプリの中の生成(API 方式)を外す・保存済みのキーの掃除は公開版の道でだけ動く**(戻り止め)。
+// ----   lint.noApiRoute357b(静的 —— ページは開かない・beta と root の両方): 対象の html が外へ送る呼び出し(`fetch(`)を持たない版なら 7 つを見る ——
+// ----     ① 事業者の宛先とヘッダの字が 0 ② `fetch(`・XMLHttpRequest・sendBeacon・WebSocket・EventSource が 0 ③ キーの保存領域の名の字(hp_key・hp_model・hp_provider・hp_baseurl)が
+// ----     掃除の表 API_KEY_STORAGE_NAMES の中だけ・表は固定の 10 個・removeItem は掃除の関数の中 ④ 画面に API の口の id と password の欄が 0 ⑤ window.HP と大域に API の名(定義・呼び出し・書き出し)が 0
+// ----     ⑥ I18N に API の鍵が 0(ja/en)・I18N の文の字に「APIキー」「API key」が 0 ⑦ 変異の自己試験 7 種(1 つ戻すと落ちる)。
+// ----     持つ版(昇格の前の root)は SKIP にせず、「公開版はまだ API 方式を持つ(昇格で外れる)」を事実として PASS の文に書く(分かれ目は版の名ではなく html の中身)。
+// ----   behavior.apiKeyCleanup357b(ページ —— beta だけ。世代切替 = beta 対象 ∧ html に `function apiKeyCleanupAutoOf(`):
+// ----     ① 道の判定の関数を html から切り出して表で引く(10 通り)・変異 2 ② beta の道で 10 個とほかの hp_* に値を入れて読み込み直しても消えない(自動で走らない)
+// ----     ③ 掃除の関数を呼ぶと 10 個が消え(戻り値 10)、ほかの hp_* は同じ・2 回目は 0 ④ HP に API の名が無い・掃除の表が固定の 10 個
+// ----     ⑤ 公開版の道を模す(同じ html をパスに /beta/ を含まない一時の所へ写して file:// で開く)と、読み込みだけで 10 個が消え、ほかの hp_* は同じ。
+// ----   docs.apiRemoval357b(文書 —— root は SKIP): ① PHYSICS〔第357便b〕の位置と原文と必須の語 ② AI_SPEC §415・§4.1/§6.2c の退役の段・§1/§1.2/§6.2/§6.2b の継ぎ
+// ----     ③ README・SECURITY.md・AI_CHAT.md・beta の manifest ④ post-merge の塊・CHANGELOG(行が在れば)⑤ 書かない語・禁句・報の番号 ⑥ 変異 2。
+{
+  const H357b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const N357B = ['hp_key', 'hp_key_anthropic', 'hp_key_openai', 'hp_key_gemini', 'hp_model', 'hp_model_anthropic', 'hp_model_openai', 'hp_model_gemini', 'hp_provider', 'hp_baseurl_openai'];
+  const DEST357B = ['api.anthropic.com', 'generativelanguage.googleapis.com', '/chat/completions', 'api.openai.com', 'x-api-key', 'x-goog-api-key', 'anthropic-version', 'anthropic-dangerous-direct-browser-access', '"authorization"', 'Bearer '];
+  const NET357B = /\bfetch\s*\(|\bXMLHttpRequest\b|\bsendBeacon\s*\(|\bnew\s+WebSocket\s*\(|\bnew\s+EventSource\s*\(/g;
+  const IDS357B = ['aiProvider', 'aiModelIn', 'modelSuggest', 'baseUrlRow', 'aiBaseUrl', 'apiKey', 'keyPersist', 'btnKeySave', 'aiKeyDetails', 'aiKeyNote', 'btnGenerate', 'aiPreviewWrap', 'aiPreviewBody'];
+  const FN357B = ['callLLM', 'AI_PROVIDERS', 'aiCfg', 'aiAnthropicBody', 'aiThinkingAlwaysOn', 'aiFallbackModel', 'generatePreset', 'generateAstroPreset', 'fetchJSON', 'renderAiConfig', 'updateAiPreview', 'sessionKeys'];
+  const KEYS357B = ['aiProvHead', 'aiProvLabel', 'aiModelLabel', 'aiUrlLabel', 'keyPersistLabel', 'btnKeySave', 'aiKeyNote', 'aiKeyNoteSum', 'btnGenerate', 'aiPreviewSum', 'aiPreviewNote', 'aiPreviewSys', 'apiKeyPh',
+    'keySet', 'keySetSaved', 'keyCleared', 'noKey', 'noPrompt', 'generating', 'retrying', 'fallback', 'added', 'genFailed', 'errNet', 'errKey', 'errBusy', 'errApi', 'errRefusal', 'errLong', 'errEmpty'];
+  const judge357b = (html) => {
+    const why = [], fx = {};
+    fx.dest = DEST357B.filter((w) => html.indexOf(w) >= 0);
+    if (fx.dest.length) why.push('① 事業者の宛先かヘッダの字: ' + fx.dest.join(' '));
+    fx.net = (html.match(NET357B) || []).length;
+    if (fx.net) why.push('② 外へ送る呼び出し ' + fx.net + ' 件');
+    const L0 = html.indexOf('const API_KEY_STORAGE_NAMES=['), L1 = L0 >= 0 ? html.indexOf('];', L0) : -1;
+    const lit = [...html.matchAll(/["'`](hp_(?:key|model|provider|baseurl)[A-Za-z0-9_]*)["'`]/g)];
+    const outside = lit.filter((m) => !(L0 >= 0 && m.index > L0 && m.index < L1)).map((m) => m[1]);
+    const inList = L0 >= 0 ? [...html.slice(L0, L1).matchAll(/"([^"]+)"/g)].map((m) => m[1]) : [];
+    fx.outside = outside.length; fx.list = inList.length;
+    if (outside.length) why.push('③ キーの保存領域の名の字が掃除の表の外に ' + outside.length + ' 件(' + outside.slice(0, 3).join(' ') + ')');
+    if (JSON.stringify(inList) !== JSON.stringify(N357B)) why.push('③ 掃除の表が固定の 10 個でない(' + inList.length + ')');
+    const F0 = html.indexOf('\nfunction apiKeyCleanup(){'), F1 = F0 >= 0 ? html.indexOf('\n}\n', F0) : -1;
+    const rmIn = F0 >= 0 ? (html.slice(F0, F1).match(/localStorage\.removeItem\(k\)/g) || []).length : 0;
+    if (rmIn !== 1) why.push('③ 掃除の関数 apiKeyCleanup の removeItem(k) が 1 つでない(' + rmIn + ')');
+    fx.ids = IDS357B.filter((id) => html.indexOf('id="' + id + '"') >= 0);
+    if (fx.ids.length) why.push('④ 画面に API の口の id: ' + fx.ids.join(' '));
+    if (/<input\b[^>]*\btype\s*=\s*["']?password/i.test(html)) why.push('④ password の欄(<input type=password>)');   // CSS の選択子(input[type=password])は画面の欄ではない
+    fx.fn = FN357B.filter((n) => new RegExp('\\b' + n + '\\b\\s*(?:\\(|,|:|=|\\}|\\.)').test(html) || new RegExp('function\\s+' + n + '\\b').test(html));
+    if (fx.fn.length) why.push('⑤ API の名(定義・呼び出し・書き出し): ' + fx.fn.join(' '));
+    const I0 = html.indexOf('const I18N'), I1 = html.indexOf('\nfunction T(key)');
+    const reg = I0 >= 0 && I1 > I0 ? html.slice(I0, I1) : '';
+    if (!reg) why.push('⑥ I18N の範囲が見つからない');
+    fx.keys = KEYS357B.filter((k) => new RegExp('(?:^[ \\t]*|,[ \\t]*)' + k + '\\s*:\\s*(?:"|`|\\(|function\\b)', 'm').test(reg));
+    if (fx.keys.length) why.push('⑥ I18N に API の鍵: ' + fx.keys.join(' '));
+    const strs = (reg.match(/"(?:[^"\\\n]|\\.)*"|`(?:[^`\\]|\\.)*`/g) || []).join('\n');
+    fx.txt = (strs.match(/APIキー|API ?key/gi) || []).length;
+    if (fx.txt) why.push('⑥ I18N の文に「APIキー」「API key」' + fx.txt + ' 件');
+    if (!/'retryFixMsg'|retryFixMsg\s*:/.test(reg)) why.push('⑥ retryFixMsg(残す鍵)が無い');
+    return { why, fx };
+  };
+  const hasApi = (H357b.match(NET357B) || []).length > 0;
+  if (hasApi) {
+    const fx = judge357b(H357b).fx;
+    add('lint.noApiRoute357b', true,
+      `**公開版はまだ API 方式を持つ(昇格で外れる)**(第357便b・R523 —— 対象 ${TARGET} は外へ送る呼び出し ${fx.net} 件・事業者の宛先とヘッダの字 ${fx.dest.length} 種・画面の API の口 ${fx.ids.length} 個を持つ版。` +
+      `戻り止めの 7 つは、外した版〔beta・昇格の後の root〕で効く —— 分かれ目は html の中身で、版の名ではない)`);
+  } else {
+    const bad = [], cases = [];
+    const J0 = judge357b(H357b);
+    bad.push(...J0.why);
+    cases.push(`① 宛先とヘッダの字 ${DEST357B.length} 種が 0 ② 外へ送る呼び出し 0 ③ 保存領域の名の字は掃除の表の中だけ(表 ${J0.fx.list} 個・外 ${J0.fx.outside})・removeItem は掃除の関数の中 ④ API の口の id ${IDS357B.length} 種と password の欄が 0 ⑤ API の名 ${FN357B.length} 種が 0 ⑥ I18N の API の鍵 ${KEYS357B.length} 種と「APIキー」「API key」の字が 0・retryFixMsg は残る`);
+    const MUT = [
+      ['宛先と呼び出しを戻す', H357b.replace('\nfunction apiKeyCleanup(){', '\nfunction w357bMut(){ return fetch("https://api.anthropic.com/v1/messages"); }\nfunction apiKeyCleanup(){'), /^①|^②/],
+      ['保存領域の読みを戻す', H357b.replace('\nfunction apiKeyCleanup(){', '\nconst w357bMut=localStorage.getItem("hp_key_"+"anthropic");\nfunction apiKeyCleanup(){'), /^③/],
+      ['掃除の表から 1 つ落とす', H357b.replace('"hp_provider",', ''), /^③/],
+      ['キーの欄を戻す', H357b.replace('<div class="group"><h3 id="aiExtTitle">', '<input type="password" id="apiKey"><div class="group"><h3 id="aiExtTitle">'), /^④/],
+      ['HP に呼び出しの名を戻す', H357b.replace('getAstroSystemPrompt, astroBodyIds,', 'getAstroSystemPrompt, callLLM, astroBodyIds,'), /^⑤/],
+      ['I18N に API の鍵を戻す', H357b.replace('  aiGenHead:"作りたいシミュレーション",', '  noKey:"キーを設定してください", aiGenHead:"作りたいシミュレーション",'), /^⑥/],
+      ['見出しに API key の字を戻す', H357b.replace('aiExtTitle:"Generate via an AI chat",', 'aiExtTitle:"Generate via an AI chat (no API key)",'), /^⑥/],
+    ];
+    const sc = [];
+    for (const [nm, Hm, re] of MUT) {
+      if (Hm === H357b) { bad.push('⑦ 変異「' + nm + '」の種が無い(空振り)'); sc.push(nm + ' 空振り'); continue; }
+      const hit = judge357b(Hm).why.some((w) => re.test(w));
+      if (!hit) bad.push('⑦ 変異「' + nm + '」で落ちない');
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    add('lint.noApiRoute357b', bad.length === 0,
+      `**アプリの中の生成(API 方式)を外した版の戻り止め**(第357便b・R523 —— 対象 ${TARGET}): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+{
+  await (async () => {   // 第310便c(heap)
+  const H357b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357b.indexOf('\nfunction apiKeyCleanupAutoOf(') >= 0)) {
+    console.log('SKIP behavior.apiKeyCleanup357b(第357便b の保存済みのキーの掃除の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const bad = [], cases = [];
+  const N10 = ['hp_key', 'hp_key_anthropic', 'hp_key_openai', 'hp_key_gemini', 'hp_model', 'hp_model_anthropic', 'hp_model_openai', 'hp_model_gemini', 'hp_provider', 'hp_baseurl_openai'];
+  // ほかの hp_*: セーブ・自作のプリセット・言語(アプリが読み込みで書き換えない値)と、前方一致なら巻き込まれる名(hp_key…・hp_model…・hp_provider…)
+  const OTHER = { hp_saves: '[]', hp_custom_presets: '[]', hp_lang: 'ja', hp_key_future357b: 'keep', hp_keyx357b: 'keep', hp_modelx357b: 'keep', hp_provider357b: 'keep', hp_baseurl357b: 'keep' };
+  // ① 道の判定(純関数)を html から切り出して表で引く
+  const TABLE = [['/dfm-simulator/beta/', false], ['/dfm-simulator/beta/index.html', false], ['/dfm-simulator/beta', false], ['/home/u/dfm-simulator/beta/index.html', false],
+    ['/dfm-simulator/', true], ['/dfm-simulator/index.html', true], ['/home/u/dfm-simulator/index.html', true], ['/x/betax/index.html', true], ['/x/alphabeta/', true], ['', true]];
+  const cutFn = (html) => { const m = html.match(/\nfunction apiKeyCleanupAutoOf\(pathname\)\{[^\n]*\}\n/); return m ? new Function(m[0] + '; return apiKeyCleanupAutoOf;')() : null; };
+  const runTable = (f) => f ? TABLE.filter(([p, w]) => f(p) !== w).map(([p]) => p || '(空)') : ['関数が切り出せない'];
+  const t0 = runTable(cutFn(H357b));
+  if (t0.length) bad.push('① 道の判定の表が違う: ' + t0.join(' '));
+  {
+    const m1 = runTable(cutFn(H357b.replace('function apiKeyCleanupAutoOf(pathname){ return !', 'function apiKeyCleanupAutoOf(pathname){ return !!'))).length;
+    const m2 = runTable(cutFn(H357b.replace('/\\/beta(?:\\/|$)/', '/\\/beta\\//'))).length;
+    if (!m1) bad.push('① 変異(判定を逆に)で落ちない');
+    if (!m2) bad.push('① 変異(末尾の /beta を外す)で落ちない');
+    cases.push(`① 道の判定の表 ${TABLE.length} 通り(違い ${t0.length})・変異 2(落ちる ${m1 ? 1 : 0}${m2 ? 1 : 0})`);
+  }
+  // ②〜⑤ ページ
+  const os357b = (await import('node:os')).default;
+  const tmp = fs.mkdtempSync(path.join(os357b.tmpdir(), 'w357b-pub-'));
+  const pubHtml = path.join(tmp, 'index.html');
+  fs.copyFileSync(path.join(ROOT, TARGET), pubHtml);
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const errs = [];
+  try {
+    const pg = await ctx.newPage();
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP);
+    const bak = await pg.evaluate(() => { const o = {}; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^hp_/.test(k)) o[k] = localStorage.getItem(k); } return o; });
+    try {
+      const seed = async () => pg.evaluate(([n10, other]) => { for (const k of n10) localStorage.setItem(k, 'qa357b-' + k); for (const [k, v] of Object.entries(other)) localStorage.setItem(k, v); }, [N10, OTHER]);
+      const read = async (p) => p.evaluate(([n10, other]) => ({ left: n10.filter((k) => localStorage.getItem(k) !== null),
+        otherSame: Object.entries(other).filter(([k, v]) => localStorage.getItem(k) !== v).map(([k]) => k) }), [N10, OTHER]);
+      // ② beta の道: 読み込み直しても消えない
+      await seed();
+      await pg.reload({ waitUntil: 'load' }); await pg.waitForFunction(() => !!window.HP);
+      const r2 = await read(pg);
+      if (!(r2.left.length === 10 && r2.otherSame.length === 0)) bad.push('② beta の道で読み込みだけで消えた(残り ' + r2.left.length + '/10・ほかの違い ' + r2.otherSame.join(',') + ')');
+      cases.push(`② beta の道(${INDEX.slice(-20)})で読み込み直し: 10 個のうち残り ${r2.left.length}・ほかの hp_* の違い ${r2.otherSame.length}`);
+      // ③ 掃除の関数を呼ぶ
+      const r3 = await pg.evaluate(() => ({ n1: HP.apiKeyCleanup357b(), n2: HP.apiKeyCleanup357b() }));
+      const r3b = await read(pg);
+      if (!(r3.n1 === 10 && r3.n2 === 0 && r3b.left.length === 0 && r3b.otherSame.length === 0)) bad.push('③ 掃除の関数 ' + JSON.stringify({ r3, left: r3b.left, other: r3b.otherSame }));
+      cases.push(`③ HP.apiKeyCleanup357b() → 消した ${r3.n1}(2 回目 ${r3.n2})・残り ${r3b.left.length}・ほかの hp_* の違い ${r3b.otherSame.length}`);
+      // ④ HP の名
+      const r4 = await pg.evaluate((n10) => ({ api: ['AI_PROVIDERS', 'aiFallbackModel', 'callLLM', 'aiAnthropicBody', 'aiThinkingAlwaysOn', 'aiCfg'].filter((k) => k in HP),
+        glob: ['callLLM', 'generatePreset', 'generateAstroPreset', 'fetchJSON', 'aiCfg'].filter((k) => typeof window[k] !== 'undefined'),
+        list: JSON.stringify(HP.API_KEY_STORAGE_NAMES357b) === JSON.stringify(n10), autoHere: HP.apiKeyCleanupAuto357b(location.pathname) }), N10);
+      if (!(r4.api.length === 0 && r4.glob.length === 0 && r4.list && r4.autoHere === false)) bad.push('④ ' + JSON.stringify(r4));
+      cases.push(`④ HP に API の名 ${r4.api.length}・大域 ${r4.glob.length}・掃除の表 = 固定の 10 個 ${r4.list}・この道の判定 ${r4.autoHere}(偽)`);
+      // ⑤ 公開版の道を模す(パスに /beta/ を含まない一時の所)
+      await seed();
+      const pp = await ctx.newPage();
+      pp.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pp.goto('file://' + pubHtml, { waitUntil: 'load' }); await pp.waitForFunction(() => !!window.HP);
+      const r5 = await read(pp), auto5 = await pp.evaluate(() => HP.apiKeyCleanupAuto357b(location.pathname));
+      await pp.close();
+      if (!(auto5 === true && r5.left.length === 0 && r5.otherSame.length === 0)) bad.push('⑤ 公開版の道で消えない ' + JSON.stringify({ auto5, left: r5.left, other: r5.otherSame }));
+      cases.push(`⑤ 公開版の道を模す(一時の所の file:// —— 判定 ${auto5}): 読み込みだけで 10 個のうち残り ${r5.left.length}・ほかの hp_* の違い ${r5.otherSame.length}`);
+    } finally {
+      await pg.evaluate(([b, n10, other]) => { for (const k of n10.concat(Object.keys(other))) localStorage.removeItem(k); for (const [k, v] of Object.entries(b)) localStorage.setItem(k, v); }, [bak, N10, OTHER]);
+    }
+  } catch (e) { bad.push('落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+  finally { await ctx.close(); try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* */ } }
+  if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+  add('behavior.apiKeyCleanup357b', bad.length === 0,
+    `**保存済みのキーの掃除(固定の 10 個の名・公開版の道でだけ自動)**(第357便b・R523 —— ほかの hp_* には触れない): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  })();   // 第310便c(heap)
+}
+{
+  const H357b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357b.indexOf('\nfunction apiKeyCleanupAutoOf(') >= 0)) {
+    console.log('SKIP docs.apiRemoval357b(第357便b の文書の前の世代か beta 対象でない — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    const rd = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+    const PH = rd('docs/PHYSICS.md'), AS = rd('docs/AI_SPEC.md'), RM = rd('README.md'), SE = rd('SECURITY.md'), CH = rd('docs/AI_CHAT.md'), MF = rd('beta/manifest.webmanifest'), PM = rd('tools/post-merge-qa.sh'), CLx = rd('CHANGELOG.md');
+    const ORIG = ['AN1134: API方式は、セキュリティも考慮して廃止予定', 'AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと考えている。対話式はDFMについてのQ&Aも兼ねる'];
+    const N10 = ['hp_key', 'hp_key_anthropic', 'hp_key_openai', 'hp_key_gemini', 'hp_model', 'hp_model_anthropic', 'hp_model_openai', 'hp_model_gemini', 'hp_provider', 'hp_baseurl_openai'];
+    const secCheck = (ph) => {
+      const why = [];
+      const i0 = ph.indexOf('〔第357便b — '), ia = ph.indexOf('〔第357便a — '), i7 = ph.indexOf('\n## 7. 論文'), iu = ph.indexOf('〔第328便 — 統括');
+      const sec = secUntilNext329c(ph, i0, /\n〔第\d+便[a-z0-9]* — |\n## /);
+      if (!(i0 >= 0 && ia >= 0 && ia < i0 && iu > i0 && (i7 < 0 || i0 < i7))) why.push('① PHYSICS〔第357便b〕が無いか〔第357便a〕の節の前か第328便の統括の節・「## 7.」の後ろ');
+      for (const o of ORIG) if (sec.indexOf('「' + o + '」') < 0) why.push('① 原文が節に逐語で無い: ' + o.slice(0, 20));
+      const want = ['原仮定者の回答(2026-11-25)', '原仮定者の指示(2026-11-25)', 'R523', '外した', '残した', '`fetch(`', 'API_KEY_STORAGE_NAMES357b', 'apiKeyCleanupAutoOf', '前方一致で総なめにしない', '公開版と beta が同じ保存領域を共有する',
+        '利用者の目に見える変化', '作りたいシミュレーション', 'AIチャットで生成', '決断事項の候補', '推奨', '次点', 'lint.noApiRoute357b', 'behavior.apiKeyCleanup357b', 'docs.apiRemoval357b',
+        'ai.modelList', 'ai.schema-validation', 'ai.ui-unified', 'ai.payload-preview', 'ai.help-collapsed', 'behavior.xkClampShown327d', 'behavior.xkExemptScope327d', 'retryFixMsg'].concat(N10.map((n) => '`' + n + '`'));
+      for (const w of want) if (sec.indexOf(w) < 0) why.push('① PHYSICS〔第357便b〕に「' + w.slice(0, 24) + '」が無い');
+      return { why, sec };
+    };
+    const S0 = secCheck(PH);
+    bad.push(...S0.why);
+    const sec = S0.sec;
+    cases.push('① PHYSICS〔第357便b〕の位置・原文 ' + ORIG.length + '・必須の語(10 個の名・鍵 10 本ほか)');
+    const a0 = AS.indexOf('\n## 415. 第357便b'), ai = secUntilNext329c(AS, a0, '\n## '), a4 = AS.indexOf('\n## 414. 第357便a');
+    if (!(a0 >= 0 && a4 >= 0 && a4 < a0 && ['R523', 'SYSTEM_PROMPT', 'apiKeyCleanup', '`/beta/`', 'lint.noApiRoute357b', 'behavior.apiKeyCleanup357b', 'docs.apiRemoval357b'].concat(N10.map((n) => '`' + n + '`')).every((w) => ai.indexOf(w) >= 0)))
+      bad.push('② AI_SPEC §415(§414 の後・R523・10 個の名・鍵)');
+    const s41 = secUntilNext329c(AS, AS.indexOf('\n## 4.1 Runtime model routing'), '\n## '), s62c = secUntilNext329c(AS, AS.indexOf('\n## 6.2c '), '\n## ');
+    if (!(s41.indexOf('**Retired (wave 357b, 2026-11-26') >= 0 && s41.indexOf('"' + ORIG[0] + '"') >= 0 && s41.indexOf('`aiAnthropicBody(model, sys, messages)`') >= 0)) bad.push('② AI_SPEC §4.1 に退役の段(前の字は残す)');
+    if (!(s62c.indexOf('**外した(第357便b・2026-11-26') >= 0 && s62c.indexOf('「' + ORIG[0] + '」') >= 0 && s62c.indexOf('純関数 `aiAnthropicBody`') >= 0)) bad.push('② AI_SPEC §6.2c に退役の段(前の字は残す)');
+    const s1 = secUntilNext329c(AS, AS.indexOf('\n## 1. One path'), '\n### 1.1'), s12 = secUntilNext329c(AS, AS.indexOf('\n### 1.2 '), '\n## 2.');
+    const s62 = secUntilNext329c(AS, AS.indexOf('\n## 6.2 '), '\n## '), s62b = secUntilNext329c(AS, AS.indexOf('\n## 6.2b '), '\n## ');
+    for (const [nm, t, w] of [['§1', s1, '**Retired (wave 357b, 2026-11-26):** the in-app generation was removed'], ['§1.2', s12, '**Retired (wave 357b, 2026-11-26):** the in-app "Generate" button no longer exists'],
+      ['§6.2', s62, '**第357便b(2026-11-26)でアプリ内生成を外した**'], ['§6.2b', s62b, '**第357便b(2026-11-26)で「生成する」を外した**']]) if (t.indexOf(w) < 0) bad.push('② AI_SPEC ' + nm + ' に「外した」の継ぎ');
+    cases.push('② AI_SPEC §415・§4.1/§6.2c の退役の段・§1/§1.2/§6.2/§6.2b の継ぎ');
+    const LINE = 'アプリの中の生成(API キーを入れる方式)は外しました(公開版は v1.48.0 から)。対話式をお使いください。';
+    if (!(RM.indexOf('- **AIでシミュレーション追加** — **第357便b: アプリの中の生成(API キーを入れて外の AI の事業者を呼ぶ方式') >= 0 && RM.indexOf('  > (第357便b でアプリの中の生成を外したので、次の注意は、それより前の版を使う場合の記録です。)\n  > ⚠️ **APIキーの取り扱いに関する注意(BYOK方式)**') >= 0
+      && RM.indexOf(LINE + '\n\n## AI追加機能のコスト') >= 0 && RM.indexOf('廃止の予定です') < 0 && RM.indexOf('セーブ・言語設定・APIキー)') < 0)) bad.push('③ README(機能の一覧の頭・キーの注意の前置き・対話の節の 1 行・費用の節・同一オリジンの注意)');
+    if (!(SE.indexOf('- **外の AI の事業者を呼ばない(第357便b)**') >= 0 && N10.every((n) => SE.indexOf('`' + n + '`') >= 0) && SE.indexOf('- **(記録 —— 外す前の版)API キー(BYOK)**') >= 0 && SE.indexOf('## 設計上の前提(BYOK・サーバレス)') < 0)) bad.push('③ SECURITY.md(今の前提・10 個の名・記録の段)');
+    if (!(CH.indexOf(LINE) >= 0 && CH.indexOf('廃止の予定です') < 0)) bad.push('③ AI_CHAT.md の 1 行');
+    if (!(MF.indexOf('BYOK') < 0 && MF.indexOf('サーバレス・依存ゼロ') >= 0)) bad.push('③ beta の manifest の説明(BYOK の語が無い)');
+    cases.push('③ README・SECURITY.md・AI_CHAT.md・beta の manifest');
+    const ph0 = PM.indexOf('# ==== 第357便b の塊(ここから)===='), ph1 = PM.indexOf('# ==== 第357便b の塊(ここまで)===='), pha = PM.indexOf('# ==== 第357便a の塊(ここまで)====');
+    if (!(ph0 >= 0 && ph1 > ph0 && pha >= 0 && pha < ph0 && /lint\.noApiRoute357b behavior\.apiKeyCleanup357b docs\.apiRemoval357b/.test(PM.slice(ph0, ph1)))) bad.push('④ post-merge に第357便b の塊(第357便a の塊の後・3 鍵)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? secUntilNext329c(CLx, cb, '\n## ') : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第357便b**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('R523') >= 0)) bad.push('④ CHANGELOG の第357便b の行(見出しより後・R523)');
+    cases.push('④ post-merge の塊・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')');
+    const dropOrig = (t) => ORIG.concat(['`aiAnthropicBody`']).reduce((s, o) => s.split(o).join(''), t);   // 原文と、外した関数の名(コードの字)は外して読む
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっ直', 'たっなに全安', 'たし保担を全安'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]),
+      cpC([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpC([0x8f03, 0x6b63]), cpC([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpC([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO'].map(rvC));
+    const texts = [['PHYSICS〔第357便b〕', sec], ['AI_SPEC §415', ai]];
+    if (kz >= 0) texts.push(['CHANGELOG の第357便b の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropOrig(tx0);
+      for (const w of NGC.concat(W)) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('⑤ ' + nm + ' に報の番号');
+    }
+    {
+      const m1 = secCheck(PH.split('「' + ORIG[0] + '」').join('「AN1134: API方式は廃止予定」')), m2 = secCheck(PH.split('`hp_baseurl_openai`').join('`hp_baseurl`'));
+      if (!m1.why.length) bad.push('⑥ 変異(原文の字)で落ちない');
+      if (!m2.why.length) bad.push('⑥ 変異(10 個の名の 1 つ)で落ちない');
+    }
+    cases.push('⑤ 書かない語・禁句・報の番号(節・AI_SPEC・CHANGELOG —— 原文は外す)⑥ 変異 2 つ');
+    add('docs.apiRemoval357b', bad.length === 0,
+      `**PHYSICS〔第357便b〕(外した物と残した物・掃除の作り・検査・利用者の目に見える変化・決断事項の候補)と AI_SPEC §415・文書の該当の所**(第357便b・R523): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+}
+// ==== 第357便b の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

@@ -27,6 +27,8 @@ the branching itself, so the branching is gone:
   the same skeleton: *specification* + *decision clause* + *few-shot example* + *request*. The
   short version differs only in that the specification is a link to this page rather than inline
   text. (Wave 182 removed the *built-in real-body list* section from every path — see §1.2.)
+  **Retired (wave 357b, 2026-11-26):** the in-app generation was removed from the app (§4.1); the
+  two copy buttons are the only paths now, and they still carry this same skeleton.
 - **One example.** The prompt always embeds one preset JSON as a few-shot example: the selected
   "base sample", or — when none is selected — the built-in 🟠 "Jupiter and the Galilean moons
   (real units)" sample, whole and unabridged (wave 181; it used to be whatever sample happened to
@@ -197,6 +199,10 @@ with no web access, so it cannot open the "url" that OUTPUT A requires. For a re
 body the two working routes are (1) pick the closest built-in sample as the *base sample*, or
 (2) copy the prompt into an AI chat that can browse the web and paste the reply back. The AI tab
 states this permanently next to the Generate button (wave 182).
+**Retired (wave 357b, 2026-11-26):** the in-app "Generate" button no longer exists (§4.1). The
+permanent note stays in the AI tab under the request box and now reads: an AI chat that cannot
+open the web cannot transcribe sources — for a real body, use the base sample or an AI chat that
+can browse the web.
 
 **Embedded copies drop display-only notes.** When a preset is embedded in a prompt (as the
 few-shot example or as the selected base), the keys `note`, `noteEn`, `roleNote` and `roleNoteEn`
@@ -278,6 +284,14 @@ guarantee that it does not overwrite curated work (QA `ai.stabilize`).
   "added 0 / invalid 9" report.
 
 ## 4.1 Runtime model routing (wave 278e, 2026-09-23)
+
+**Retired (wave 357b, 2026-11-26 — originator's answer of 2026-11-25: "AN1134: API方式は、セキュリティも考慮して廃止予定"):**
+the app no longer calls any AI provider. The provider / model / API key fields, the "Generate"
+button, the "preview exactly what will be sent" panel and the code behind them (`AI_PROVIDERS`,
+`callLLM`, `aiAnthropicBody`, `aiFallbackModel`, `generatePreset`, …) were removed; the html
+contains no outgoing network call. The text below is kept as the record of what the removed
+route did. The specification (section 5) is unchanged. Keys that earlier builds saved on the
+device are removed by the app on the release path (see §415).
 
 This section is about **which model the app's own "Generate" button calls**, not about the
 specification text sent to it (section 5 is unchanged, byte for byte).

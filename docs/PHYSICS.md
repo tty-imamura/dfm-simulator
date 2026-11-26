@@ -82603,6 +82603,51 @@ b = R☉ の往復は、原稿の式で 281.008 μs・端点の有限の幾何�
 
 **⑪ 言わないこと。** 取り込みで本を直したとは書かない(値は変えていない)。見逃しと誤報は ⑥ の表のとおりで、「旧い本を全部見分ける」とは書かない。
 
+〔第357便b — AI 追加のアプリの中の生成(API 方式)を外す・保存済みのキーの掃除は公開版の道でだけ動く: 原仮定者の回答(2026-11-25)・原仮定者の指示(2026-11-25)・統括の検証項目 R523(**画面と結線と文書と検査だけ —— エンジン・受理器(validatePreset)・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・SYSTEM_PROMPT は変えていない**)〕
+
+**① 原文と読み。** 原文は言葉を変えずに引く。
+
+| 出どころ | 原文 | 読み |
+|---|---|---|
+| 原仮定者の回答(2026-11-25) | 「AN1134: API方式は、セキュリティも考慮して廃止予定」 | アプリの中から外の AI の事業者へ送る道(API キーを入れる方式)を外す。本便がその便 |
+| 原仮定者の指示(2026-11-25) | 「AI追加の改善を並行して進める。API方式よりも、LLMチャット前提で、リンク付きのプロンプトを用意して対話式で進めた方が実用的ではないかと考えている。対話式はDFMについてのQ&Aも兼ねる」 | 残す道は、プロンプトをコピーして AI チャットへ渡し、返答を貼って取り込む口。対話式の入口のボタンと並びは次の枝の分 |
+
+**② 外した物と残した物。** 変えたのは `beta/index.html` だけ(ルートの `index.html` は昇格のときに写す —— それまで公開版は API 方式を持つ)。
+
+| 種類 | 外した | 残した |
+|---|---|---|
+| 画面の要素 | 「AIプロバイダ」のグループ(`#aiProvider`・`#aiModelIn`・`#modelSuggest`・`#baseUrlRow`・`#aiBaseUrl`・`#apiKey`〔password の欄〕・`#keyPersist`・`#btnKeySave`・`#aiKeyDetails`)・`#btnGenerate`・送信内容のプレビュー(`#aiPreviewWrap`・`#aiPreviewBody`・`#aiPreviewSysNote` ほか) | 要望の欄 `#aiPrompt`・ベースのサンプル `#aiBasePreset`・実在天体の常設の文 `#aiRealNote`(文を書き直した)・外部チャットのグループ(コピーの 2 つ・手順・貼付欄・ケプラーの再導出・取り込みと検証)・状態の行 `#aiStatus`(外部チャットのグループへ移した)・生成済みの一覧 |
+| 関数と表 | `AI_PROVIDERS`・キーの置き場(メモリ)・旧い名の移し替え・`aiCfg`・`fetchJSON`・`aiThinkingAlwaysOn`・`aiAnthropicBody`・`callLLM`・`aiFallbackModel`・`generatePreset`・`generateAstroPreset`・`renderAiConfig`・`updateAiPreview` と、その結線(`applyLang` の中の反映・フォーカスの一覧の 4 つの id) | プロンプトを組む関数(`aiSendContent`・`aiUserContent`・`aiExampleForPrompt`・`buildUnifiedPrompt`・`buildRecordsClause`)・取り込み(`parseIntake`・`aiIntakeText`・`aiIntakeValue`・`stabilizePreset`・`aiPasteRun`・`aiAdoptPreset`)・`setAiStatus`・`getSystemPrompt`・`SYSTEM_PROMPT`(1 字も変えていない)・実天体カタログの純関数(`getAstroSystemPrompt`・`validateAstroSpec`・`buildAstroPreset`・`extractJSON`・`aiGenMode`) |
+| 画面の文の鍵(ja・en 同数) | `aiProvHead`・`aiProvLabel`・`aiModelLabel`・`aiUrlLabel`・`keyPersistLabel`・`btnKeySave`・`aiKeyNote`・`aiKeyNoteSum`・`btnGenerate`・`aiPreviewSum`・`aiPreviewNote`・`aiPreviewSys`・`apiKeyPh`・`keySet`・`keySetSaved`・`keyCleared`・`noKey`・`noPrompt`・`generating`・`retrying`・`fallback`・`added`・`genFailed`・`errNet`・`errKey`・`errBusy`・`errApi`・`errRefusal`・`errLong`・`errEmpty`(30) | `retryFixMsg`(検査の結果を AI チャットへ伝える文)・`autofix`(貼り付けの取り込みが使う)。書き直した文: `aiGenHead`「作りたいシミュレーション」・`aiExtTitle`「AIチャットで生成」・`aiExtNote`(グループの名と、キーの 1 文)・`aiRealNote`・`aiBaseNote`(送信の 1 文)・`betaShared`(共有するのは「セーブ・設定」) |
+| `window.HP` の名 | `aiCfg`・`aiFallbackModel`・`AI_PROVIDERS`・`aiAnthropicBody`・`aiThinkingAlwaysOn`・`callLLM` | 新: `apiKeyCleanup357b`・`apiKeyCleanupAuto357b`・`API_KEY_STORAGE_NAMES357b`(掃除の読み口) |
+
+html に外へ送る呼び出し(`fetch(`)は無い。事業者の宛先とヘッダの字(`api.anthropic.com`・`generativelanguage.googleapis.com`・`/chat/completions`・`api.openai.com`・`x-api-key`・`x-goog-api-key`・`anthropic-version`・`anthropic-dangerous-direct-browser-access`・`Bearer`)も無い。
+
+**③ 保存済みのキーの掃除。** 以前の版が端末の保存領域(localStorage)に残したキーと設定の、固定の 10 個の名だけを消す: `hp_key`・`hp_key_anthropic`・`hp_key_openai`・`hp_key_gemini`・`hp_model`・`hp_model_anthropic`・`hp_model_openai`・`hp_model_gemini`・`hp_provider`・`hp_baseurl_openai`。前方一致で総なめにしない(将来 `hp_key…` で始まる別の名を巻き込まないため)。名ごとに `try/catch`(保存領域が使えない端末でも止まらない)。セーブ・自作のプリセット・言語ほか、ほかの `hp_*` には触れない。
+
+| 開いた道(パス) | 読み込みで自動に消すか |
+|---|---|
+| 公開版の配信(`…/dfm-simulator/`・`…/dfm-simulator/index.html`) | 消す |
+| 手元の `file://` で、パスに `/beta/` を含まない所 | 消す(公開版の道を模す) |
+| beta の配信(`…/dfm-simulator/beta/`)・手元の `file://…/beta/index.html` | 消さない |
+
+道の判定は純関数 `apiKeyCleanupAutoOf(パス)`(パスに `/beta/` か末尾の `/beta` を含まなければ真)。beta の道で消さないのは、公開版と beta が同じ保存領域を共有するため —— 昇格の前に beta を開いても、公開版 v1.47 の API の画面を使っている人のキーは消えない。掃除の関数 `apiKeyCleanup` は恒久に残す(読み書きのコストは小さい)。beta の html でも `HP.apiKeyCleanup357b()` で呼べる(検査のため)。
+
+**④ 検査。** 新設: `lint.noApiRoute357b`(静的 —— beta と root の両方。対象の html が `fetch(` を持たない版なら 7 つを見る: 宛先とヘッダの字が無い・`fetch(` が無い・キーの保存領域の名の字が掃除の表の中だけ・画面に API の口の id と password の欄が無い・`window.HP` に API の名が無い・I18N に API の鍵が無い・ja/en の文に「APIキー」「API key」が無い・変異の自己試験 7 種。`fetch(` を持つ版〔昇格の前の root〕では、「公開版はまだ API 方式を持つ(昇格で外れる)」を事実として PASS の文に書く —— 分かれ目は版の名ではなく html の中身)・`behavior.apiKeyCleanup357b`(10 個に値を入れて掃除の関数を呼ぶと 10 個が消え、ほかの `hp_*` は同じ・beta の道では読み込みだけでは消えない・道の判定の表)・`docs.apiRemoval357b`(本節・AI_SPEC §415・文書の該当の所・post-merge の塊・書かない語)。書き換えた既存の鍵 7 本は、外した版では「無いことを見る」形(SKIP にしない): `ai.modelList`(モデルの表・フォールバック・送信本文の名と、モデル ID の字が無い —— 世代の判定からモデル ID の字を外し、同じ塊の `ui.*` 4 本が黙って SKIP しない)・`ai.schema-validation`(カタログ検証器の否定対照と正例はそのまま・モデルの 3 本の条件の代わりに提供元の表と呼び出しの関数が無いこと)・`ai.ui-unified`(「生成ボタン常時有効」の代わりに、ボタン・呼び出しの関数・キーの欄が無いこと)・`ai.payload-preview`(プレビューの代わりに、配る本文が要望とベースの選択に追従し仕様の全文を含むことを同じ字の照合で・プレビューの要素と鍵が無いこと)・`ai.help-collapsed`(前提から「キーの保存」を外し、外部チャットの「手順」を足す —— 見る details は 3 つ)・`behavior.xkClampShown327d`(画面は取り込みと貼り付けの 2 つ・AI 生成の画面が無いこと)・`behavior.xkExemptScope327d`(経路の表の「AI 生成」の行は「外した」の行に —— 行の数 14 は同じ)。API 方式を持つ版(昇格の前の root)では、7 本とも前の検査のまま。
+
+**⑤ 利用者の目に見える変化。**
+
+1. AI のタブの頭の「AIプロバイダ」のグループ(提供元・モデル・URL・API キー・「キーをこの端末に保存する」・「キーを設定」・「キーの保存」の説明)が無くなる。
+2. 「新しいシミュレーションを生成」の見出しが「作りたいシミュレーション」になり、その中の「生成する」のボタンと「送信内容を確認(実際に送るテキスト)」が無くなる。要望の欄・ベースのサンプル・実在天体の常設の文は残る(常設の文は「ウェブを開けないAIチャットでは出典を転写できず…」に)。
+3. 「外部AIチャットで生成(APIキー不要)」の見出しが「AIチャットで生成」になる。手順の文の「上の『…』」がグループの新しい名に、「APIキーをアプリへ入れずにAI生成を使えます。」の 1 文が無くなる。
+4. 取り込み・検証の状態の行が、外部チャットのグループの取り込みのボタンの下(結果の報告の上)に出る。
+5. beta の初回の案内の文が「セーブ・設定(localStorage)を共有します」になる(前は「セーブ・APIキー」)。
+6. 昇格の後、公開版を開くと、以前の版で保存したキーと設定(上の 10 個)が保存領域から消える(画面に通知は出さない)。セーブ・自作のプリセット・言語は残る。beta を開いても消えない。
+
+**⑥ 決断事項の候補(推奨と次点)。** (1) 掃除の通知 —— 推奨: 通知を出さない(キーはもう使われない・セーブ等は残る —— README と SECURITY.md に書く)。次点: 昇格の版を初めて開いたときに 1 回だけ「保存していた API キーを端末から消しました。キーそのものの失効は提供元の画面で」の通知(消した数が 1 以上のときだけ)。(2) 掃除を残す期間 —— 推奨: 恒久(本節 ③)。次点: 2 版の後に外す。(3) 昇格の時の告知 —— 推奨: 公開版の変更点の文(RELEASE_NOTES)に「アプリの中の生成を外した・対話式を使う」を 1 段。次点: 告知なし。
+
+**⑦ 言わないこと。** 特定の事業者や製品の評価は書かない。安全の度合いを言い切らない —— 書くのは「html に外へ送る呼び出しが無い」「保存済みのキーの 10 個の名を公開版の道で消す」という事実だけ。キーそのものの失効は提供元の側でしかできない(アプリが消すのは端末の保存だけ)。
+
 〔第328便 — 統括: 原仮定者の指示(第130報)「改めて残った決断事項をまとめる」・原仮定者の回答(2026-11-05 —— 第327便の残りの決断事項 17 項〔AN550〜AN557・AN559〜AN567〕を推奨どおり: AN553 = B・他は A)を受けた第328便の構成・統合・決断事項・次の便(統括の検証項目 R301〜R303)〕
 
 **① 第328便の構成。** 便の開始(統括)で beta の版名を v1.47-b328 に・段の見積りの秒を第327便の鎖 1・鎖 2 の実測で更新(a96bea2)。枝 a(場の API の opt-in の契約 —— 枠・定数の Ω_field の宣言・収束の印・由来・伝達の版と係数・帳簿の口座の参照と、直接の滑りの宣言の型 —— AN551・AN552・AN553)・枝 b(受け手の応答の演算と p の判定・源の自転を外部の口座に固定した比べる列・金星の熱潮汐の振幅の記録し直し・予言のやり直しの扱い・火星と地球の局所の尺度 —— AN559・AN561・AN562・AN563・AN550・AN566)・枝 c(第327便f の器の検査の範囲の直し・共鳴の口の仕事の契約 —— AN564)。**どの枝も `beta/index.html`・root の `index.html`・エンジン・内蔵の本・受理器を変えていない**(診断と契約と道具)。AN554(名指しの 6 段を条件で選ぶ)は次の便の道具の便へ。
