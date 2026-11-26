@@ -725,7 +725,7 @@
  "pageErrors": [],
  "timing": {
   "measure": {
-   "wallSec": 63.517
+   "wallSec": 58.3
   }
  },
  "selfTest": {
@@ -744,13 +744,13 @@
   "selfTest": true
  },
  "ok": true,
- "elapsedS": 65.371,
+ "elapsedS": 59.901,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第357便e",
   "target": "beta/index.html",
   "targetSha256": "220b546b3de434f6be5585dbad8d88114edcbaebc521ea342edc1d864345963c",
-  "generatedAt": "2026-11-26T06:11:47.855Z",
+  "generatedAt": "2026-11-26T06:28:11.023Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -768,9 +768,9 @@
   "code": [
    {
     "file": "tests/exp-w357e-twobody.mjs",
-    "bytes": 13565,
-    "sha256": "7e73fe87fe5fa97fd0a7abe342dd8ad76fc026fe0ffa9c8dd3ae0dc8ca00f461",
-    "mtime": "2026-11-26T06:10:40.888Z"
+    "bytes": 13701,
+    "sha256": "ee495c25288c0d447f6b36fb5a4b4d10eaca672ddbaa9a60f4d7a193205505ea",
+    "mtime": "2026-11-26T06:27:10.992Z"
    },
    {
     "file": "tests/lib-w357e-twobody.mjs",
@@ -815,7 +815,7 @@
     "mtime": "2026-11-26T05:52:01.506Z"
    }
   ],
-  "codeSha256": "c1d8b2370f688f87db64fb7748fb5aa3b24ee5c3994bc069d6cef40e95de35d5",
+  "codeSha256": "36615c48412066d9557667b2ea4197a14915db13dbdcd463ffa8e0489e888e51",
   "harnessVersion": "w357e-twobody-1",
   "stage": "twobody-357e",
   "engine": "Node(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文の受理器・build・步をそのまま実行)・👥 ♊ ⚖️ の宣言と質量比の写しを走らせる",
@@ -875,11 +875,14 @@
    "core": true,
    "consts": [],
    "complete": true,
+   "keepProse": [
+    "familyRole"
+   ],
    "names": 1363,
    "segments": 1194,
    "closureShare": 0.2913
   },
-  "scopeSha256": "5c3952482b7ee99fb563a01f25d6868aa5184a50cde4b188a6ca64a1522de49f",
+  "scopeSha256": "d26b1bf3998912b27bfac901b2613c377f49e4ade29bc072c495a68bc30e2689",
   "scopeComplete": true,
   "inputsStable": [
    {

@@ -24,8 +24,8 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import * as B from './lib-w322b-binbooks.mjs';
 import { runBook } from './exp-w321b-geo3bin.mjs';
 import * as L from './lib-w357e-twobody.mjs';
-// 第281便a の領域 hash の宣言(器と lib と import の閉包から deriveScope で引いた下限)
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABInertial3d","binary","binaryCheckEqualInertial3d","binaryCheckRatio3Inertial3d","boxBinaryToy","compactForceToy","coord3dKeplerTilt","coord3dSpinPrecess","fig8","gw150914","inertialDragPair","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABInertial3d","spinDipoleBinary","twoBodyOnly3d"],"roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.sim","HP.validatePreset","OBS_SPIN_KEYS","T","calTargetOf","ctx","cw","makeSim","pnSource"],"core":true,"consts":[],"complete":true};
+// 第281便a の領域 hash の宣言(器と lib と import の閉包から deriveScope で引いた下限。import した第321便b の lib が familyRole を読むので keepProse —— 第322便b の器と同じ)
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABInertial3d","binary","binaryCheckEqualInertial3d","binaryCheckRatio3Inertial3d","boxBinaryToy","compactForceToy","coord3dKeplerTilt","coord3dSpinPrecess","fig8","gw150914","inertialDragPair","psrB1534","psrDoubleAB","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABInertial3d","spinDipoleBinary","twoBodyOnly3d"],"roots":["$","HP.MASS_BASIS","HP.REL_DRAG_INVSQ_VERSION","HP.allPresets","HP.coord3d","HP.dfmMeshVelocityFieldAt","HP.geoEffectiveMode","HP.geoLawOfSim","HP.geoModeOf","HP.inertialDragLedgerOf","HP.sim","HP.validatePreset","OBS_SPIN_KEYS","T","calTargetOf","ctx","cw","makeSim","pnSource"],"core":true,"consts":[],"complete":true,"keepProse":["familyRole"]};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w357e-twobody-1';

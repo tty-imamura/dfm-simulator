@@ -36,20 +36,20 @@
   "X_k を維持して c_0 を合わせる"
  ],
  "tally": {
-  "builtin": 188,
+  "builtin": 189,
   "retired": 61,
-  "live": 127,
+  "live": 128,
   "bySat": {
    "live:ng:gZeroXNonZero": 31,
    "live:ng:mismatch": 38,
-   "live:ok:within": 56,
+   "live:ok:within": 57,
    "retired:ng:mismatch": 25,
    "retired:ok:within": 36,
    "live:ok:zeroExact": 2
   },
   "byClass": {
    "X_k を維持して G_0 を合わせる": 8,
-   "X_k = G_0/c_0²": 118,
+   "X_k = G_0/c_0²": 119,
    "X_k を維持して c_0 を合わせる": 1
   },
   "undecided": [
@@ -19780,6 +19780,49 @@
    "class": "X_k = G_0/c_0²",
    "basis": "satisfied",
    "reason": "G_0 = 0・X_k = 0(時空効果なし)で導出値そのもの —— 既に満たす(読み込みで自動 ON・値は 1 bit も変わらない)。第357便d で足した本(測りは無い —— 満たす本)",
+   "undecided": false
+  },
+  {
+   "id": "twoBodyOnly3d",
+   "emoji": "👥",
+   "group": "運動と時空",
+   "retired": false,
+   "sampleClass": "principle",
+   "scaleTier": "stellar",
+   "realUnits": false,
+   "G": 1,
+   "c": 30,
+   "X": 0.0011111111111111111,
+   "declared": {
+    "G": true,
+    "c": true,
+    "X": true
+   },
+   "lock": {
+    "ok": true,
+    "reason": "within",
+    "tgt": 0.0011111111111111111,
+    "rel": 0,
+    "bitSame": true
+   },
+   "builtSame": true,
+   "lockAfterLoad": true,
+   "uses": {
+    "activeParams": [],
+    "rays": false,
+    "photonEmit": false,
+    "qLock": false,
+    "geoPN": 3,
+    "claims": 0,
+    "obsCard": 8,
+    "observedGc": false
+   },
+   "objective": "met",
+   "calibration": "out-of-scope",
+   "calibrationPopulation": false,
+   "class": "X_k = G_0/c_0²",
+   "basis": "satisfied",
+   "reason": "画面のアナログの宣言が X_k = G_0/c_0² —— 既に満たす(読み込みで自動 ON・値は 1 bit も変わらない)。第357便e で足した本(測りは無い —— 満たす本)",
    "undecided": false
   }
  ]
