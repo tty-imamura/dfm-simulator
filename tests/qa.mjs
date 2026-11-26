@@ -5473,10 +5473,15 @@ lastAddAt = Date.now();
       if (!pkg.scripts || !/tests\/qa-preflight\.mjs/.test(pkg.scripts['test:preflight'] || '')) bad.push('②`test:preflight` が無い');
       const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
       const iPre = ci.search(/run:\s*npm run test:preflight/), iFull = ci.search(/run:\s*npm test\s*$/m);
+      // 第356便f: preflight は別の仕事 preflight(qa と並べて走る)・フルは仕事 qa —— 段の置き場を仕事で見る(並びは仕事の並びの順)
+      const jPre = ci.search(/^  preflight:\s*$/m), jQa = ci.search(/^  qa:\s*$/m), jPerf = ci.search(/^  perf:\s*$/m);
       info.ci = { preflightAt: iPre, fullAt: iFull };
       if (iPre < 0) bad.push('③ci.yml に preflight のステップが無い');
       if (iFull < 0) bad.push('③ci.yml に `npm test`(フル)が無い');
       if (iPre >= 0 && iFull >= 0 && iPre > iFull) bad.push('③preflight が `npm test` より後にある');
+      if (!(jPre >= 0 && jQa > jPre && iPre > jPre && iPre < jQa)) bad.push('③preflight のステップが仕事 preflight(qa の前)の中に無い(第356便f)');
+      if (!(jQa >= 0 && jPerf > jQa && iFull > jQa && iFull < jPerf)) bad.push('③`npm test` が仕事 qa の中に無い(第356便f)');
+      if ((ci.match(/run:\s*npm run test:preflight/g) || []).length !== 1 || (ci.match(/run:\s*npm test\s*$/gm) || []).length !== 1) bad.push('③preflight か `npm test` のステップが 1 つでない(第356便f)');
       if (/QA_REPLAY_FAIL:\s*'?1/.test(ci)) bad.push('③CI で QA_REPLAY_FAIL を ON にしている');
       const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
       const lines = src.split('\n');
@@ -5545,8 +5550,8 @@ lastAddAt = Date.now();
     } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
     add('lint.qaOrder', bad.length === 0,
       `**QA の確認順と並列化の契約**(第279便b・統括の検証項目 R61): ① preflight の器・マニフェストあり / `
-      + `② \`npm test\` はフルのまま・\`test:preflight\` あり / ③ ci.yml: preflight(${info.ci ? info.ci.preflightAt : '?'})→ `
-      + `\`npm test\`(${info.ci ? info.ci.fullAt : '?'})の順・CI で先行再実行 OFF / `
+      + `② \`npm test\` はフルのまま・\`test:preflight\` あり / ③ ci.yml: 仕事 preflight の preflight(${info.ci ? info.ci.preflightAt : '?'})と `
+      + `仕事 qa の \`npm test\`(${info.ci ? info.ci.fullAt : '?'})—— 第356便f から 2 つの仕事を並べて走る・各 1 つ・CI で先行再実行 OFF / `
       + `④ W5b 呼び出し ${info.w5b ? info.w5b.calls : '?'} 件 = 表 ${info.w5b ? info.w5b.table : '?'} 件(ガード式は表と文字列一致・本文は共有状態に触れない)/ `
       + `⑤ 最上位の文 ${info.split ? info.split.units : '?'} 件(単独でコンパイル ${info.split ? info.split.compiled : '?'})・`
       + `add() の静的 id ${info.split ? info.split.covered : '?'}/${info.split ? info.split.ids : '?'} が試験の文に入る / `
@@ -117875,7 +117880,8 @@ function view345aOf347f(eq) { return view344aOf347f(eq); }
     'paper2.yml': { tex: true, jobs: { paper2: RUNNER348F, 'paper2-tl2025': 'ubuntu-latest' }, jobs348: { paper2: RUNNER348F } },
     'paper3.yml': { tex: true, jobs: { paper3: RUNNER348F, 'paper3-tl2025': 'ubuntu-latest' }, jobs348: { paper3: RUNNER348F } },
     'paper45.yml': { tex: true, jobs: { paper45: RUNNER348F, 'paper45-tl2025': 'ubuntu-latest' }, jobs348: { paper45: RUNNER348F } },
-    'ci.yml': { tex: false, jobs: { qa: 'ubuntu-latest', perf: 'ubuntu-latest' } },
+    // 第356便f: ci.yml に事前検査の仕事 preflight を qa の前に足した(並べて走る)。jobs348 = 第348便f の当時の一覧(表 1 はこれで照らす)
+    'ci.yml': { tex: false, jobs: { preflight: 'ubuntu-latest', qa: 'ubuntu-latest', perf: 'ubuntu-latest' }, jobs348: { qa: 'ubuntu-latest', perf: 'ubuntu-latest' } },
     'nightly.yml': { tex: false, jobs: { 'pages-collate': 'ubuntu-latest', 'frozen-baseline': 'ubuntu-latest', 'paper2-figures': 'ubuntu-latest' } },
   };
   const NOTE348F = ['AN981', 'R414', 'ubuntu-24.04', 'TeX Live 2023', '2026-11-22', 'TeX Live 2025', '見直す時: ubuntu 24.04 の提供が終わる前'];
@@ -133487,6 +133493,172 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便i の塊(ここまで)====
+// ==== 第356便f の塊(ここから —— lint.ciSplit356f・docs.ciSplit356f の 2 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第356便f(統括の検証項目 R518): **CI の QA の仕事を「事前検査」と「本体」の 2 つの仕事に分けて並べた戻り止め**
+// ----   (`.github/workflows/ci.yml` だけ —— html・計算・内蔵の本・受理器・physics の鍵・検査の数・性能の門・時間の上限・夜の照合の yml は変えない)。yml は行の形で読む(〔第348便f〕と同じ)。
+// ----   lint.ciSplit356f: ① 仕事の並び = preflight・qa・perf(2 字下げの名)② preflight: runs-on ubuntu-latest・上限 90 分・Node 24・matrix root/beta(fail-fast false)・
+// ----     `npm run test:preflight` が 1 つ・依存の導入と `npm test` を持たない・保存物 qa-preflight-<name>・heap 6144 の明示 ③ qa: 上限 240 分・Node 24・matrix root/beta・
+// ----     `npm test` が 1 つ・preflight を持たない・npm ci と playwright install・保存物 qa-results-<name> ④ 両方が必須で並べて走る —— ci.yml に needs・continue-on-error・
+// ----     仕事の if が無い・段の if は保存物の 3 つの `if: always()` だけ・検査を減らす環境変数(QA_FAST・QA_TIER・QA_PREFLIGHT_ONLY・QA_PREFLIGHT_NO_BUILTINS・QA_PREFLIGHT_STOP_AFTER・
+// ----     QA_REPLAY_FAIL)が無い・QA_CACHE '0' ⑤ perf は 15 分のまま ⑥ 第356便f の注 2 か所 ⑦ 変異の自己試験。
+// ----   docs.ciSplit356f: PHYSICS〔第356便f〕(〔第355便i〕の後・〔第328便 — 統括〕の前・見出し・必須の語・表 1 と宣言の照合)・AI_SPEC §410・post-merge の塊(第355便i の塊の後)・禁句と書かない語。
+{
+  await (async () => {
+  const rd356f = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  // 宣言(本枝の後の ci.yml の仕事 —— 名・上限・Node・matrix・回す段・保存物)。before = 本枝の前の仕事の一覧(PHYSICS〔第356便f〕表 1 の「前」の欄はこれで照らす)
+  const DECL356F = {
+    jobs: ['preflight', 'qa', 'perf'],
+    before: { qa: '事前検査 → 依存の導入 → 全部の検査(直列)', perf: '性能の門' },
+    preflight: { timeout: 90, node: '24', run: 'npm run test:preflight', artifact: 'qa-preflight-${{ matrix.name }}' },
+    qa: { timeout: 240, node: '24', run: 'npm test', artifact: 'qa-results-${{ matrix.name }}' },
+    perf: { timeout: 15 },
+    matrix: [['root', 'index.html'], ['beta', 'beta/index.html']],
+  };
+  const TRIM356F = ['QA_FAST', 'QA_TIER', 'QA_PREFLIGHT_ONLY', 'QA_PREFLIGHT_NO_BUILTINS', 'QA_PREFLIGHT_STOP_AFTER', 'QA_REPLAY_FAIL'];
+  // 仕事の名 → その仕事の行(2 字下げの名から次の 2 字下げの名の前まで —— 2 字下げの注は前の仕事に入る)
+  const jobBlocks356f = (t) => {
+    const L = String(t).split('\n'), k = L.findIndex((x) => /^jobs:\s*$/.test(x)), J = {}, order = [];
+    if (k < 0) return { J: null, order };
+    let cur = null;
+    for (let n = k + 1; n < L.length; n++) {
+      const x = L[n]; if (/^\S/.test(x)) break;
+      const m = /^ {2}([A-Za-z0-9_-]+):\s*(#.*)?$/.exec(x); if (m) { cur = m[1]; J[cur] = []; order.push(cur); continue; }
+      if (cur) J[cur].push(x);
+    }
+    return { J, order };
+  };
+  const cnt = (t, re) => (String(t).match(re) || []).length;
+  const check = (ci) => {
+    const bad = [], cases = [];
+    const { J, order } = jobBlocks356f(ci);
+    if (!J) { bad.push('① ci.yml に jobs: が無い'); return { bad, cases }; }
+    if (order.join('|') !== DECL356F.jobs.join('|')) bad.push('① 仕事の並び ' + order.join('・') + ' ≠ 宣言 ' + DECL356F.jobs.join('・'));
+    cases.push('① 仕事の並び ' + order.join('・'));
+    const body = (j) => (J[j] || []).filter((x) => !/^\s*#/.test(x)).join('\n');
+    const commonJob = (j, tag) => {
+      const b = body(j), d = DECL356F[j];
+      if (!J[j]) { bad.push(tag + ' 仕事 ' + j + ' が無い'); return b; }
+      if (!/^ {4}runs-on: ubuntu-latest\s*$/m.test(b)) bad.push(tag + ' ' + j + ' の runs-on が ubuntu-latest でない');
+      const tm = b.match(/^ {4}timeout-minutes:\s*(\d+)\s*$/m);
+      if (!tm || +tm[1] !== d.timeout) bad.push(tag + ' ' + j + ' の timeout-minutes が ' + d.timeout + ' でない: ' + (tm ? tm[1] : 'なし'));
+      if (d.node) { const nv = [...b.matchAll(/^ {10}node-version:\s*([^\s#]+)/gm)].map((m) => m[1]); if (nv.join('|') !== d.node) bad.push(tag + ' ' + j + ' の node-version ' + (nv.join('・') || 'なし') + ' ≠ ' + d.node); }
+      return b;
+    };
+    const matrixOk = (j, tag, b) => {
+      if (!/^ {6}fail-fast: false\s*$/m.test(b)) bad.push(tag + ' ' + j + ' の fail-fast が false でない');
+      const got = [...b.matchAll(/^ {10}- name: (\S+)\s*\n {12}target: (\S+)\s*$/gm)].map((m) => m[1] + '=' + m[2]);
+      const want = DECL356F.matrix.map(([a, z]) => a + '=' + z);
+      if (got.join('|') !== want.join('|')) bad.push(tag + ' ' + j + ' の matrix ' + (got.join('・') || 'なし') + ' ≠ ' + want.join('・'));
+      if (!/^ {6}QA_TARGET: \$\{\{ matrix\.target \}\}\s*$/m.test(b)) bad.push(tag + ' ' + j + ' の QA_TARGET が matrix の対象でない');
+      if (!/^ {6}QA_CACHE: '0'\s*$/m.test(b)) bad.push(tag + ' ' + j + " の QA_CACHE が '0' でない");
+      if (!/^ {6}NODE_OPTIONS: '--max-old-space-size=6144'\s*$/m.test(b)) bad.push(tag + ' ' + j + ' の NODE_OPTIONS が heap 6144 を明示しない');
+    };
+    const art = (b) => { const m = b.match(/^ {10}name: (\S.*?)\s*$/m); return m ? m[1] : ''; };
+    // ② preflight
+    { const b = commonJob('preflight', '②'); matrixOk('preflight', '②', b);
+      if (cnt(b, /^ {8}run: npm run test:preflight\s*$/gm) !== 1) bad.push('② preflight に `npm run test:preflight` の段が 1 つでない');
+      if (/npm ci|playwright install|run: npm test\s*$/m.test(b)) bad.push('② preflight が依存の導入か `npm test` を持つ');
+      if (art(b) !== DECL356F.preflight.artifact) bad.push('② preflight の保存物の名 ' + art(b) + ' ≠ ' + DECL356F.preflight.artifact);
+      if (!/^ {10}path: tests\/out\/qa-preflight\*\.json\s*$/m.test(b)) bad.push('② preflight の保存物の道が tests/out/qa-preflight*.json でない');
+      cases.push(`② preflight: 上限 ${DECL356F.preflight.timeout} 分・Node ${DECL356F.preflight.node}・matrix root/beta・\`npm run test:preflight\` 1 つ・依存の導入なし・保存物 qa-preflight-<name>`); }
+    // ③ qa
+    { const b = commonJob('qa', '③'); matrixOk('qa', '③', b);
+      if (cnt(b, /^ {8}run: npm test\s*$/gm) !== 1) bad.push('③ qa に `npm test` の段が 1 つでない');
+      if (/test:preflight/.test(b)) bad.push('③ qa が preflight を持つ(直列に戻っている)');
+      if (cnt(b, /^ {10}npm ci\s*$/gm) !== 1 || cnt(b, /^ {10}npx playwright install --with-deps chromium\s*$/gm) !== 1) bad.push('③ qa に npm ci と playwright install が 1 つずつ無い');
+      if (art(b) !== DECL356F.qa.artifact) bad.push('③ qa の保存物の名 ' + art(b) + ' ≠ ' + DECL356F.qa.artifact);
+      if (!/^ {10}path: tests\/out\/qa-results\.json\s*$/m.test(b)) bad.push('③ qa の保存物の道が tests/out/qa-results.json でない');
+      cases.push(`③ qa: 上限 ${DECL356F.qa.timeout} 分・Node ${DECL356F.qa.node}・matrix root/beta・\`npm test\` 1 つ・preflight なし・npm ci と playwright install・保存物 qa-results-<name>`); }
+    // ④ 必須で並べて走る・検査を減らさない
+    { const nc = String(ci).split('\n').filter((x) => !/^\s*#/.test(x)).join('\n');
+      if (/^\s+needs:/m.test(nc)) bad.push('④ ci.yml に needs が在る(並べて走らない)');
+      if (/continue-on-error/.test(nc)) bad.push('④ ci.yml に continue-on-error が在る(片方が必須でない)');
+      if (/^ {4}if:/m.test(nc)) bad.push('④ ci.yml に仕事の if が在る');
+      const ifs = nc.split('\n').filter((x) => /^\s+if:/.test(x));
+      if (ifs.length !== 3 || ifs.some((x) => x !== '        if: always()')) bad.push('④ 段の if が保存物の 3 つの `if: always()` でない(' + ifs.length + ' 行)');
+      for (const v of TRIM356F) if (new RegExp('\\b' + v + '\\b').test(nc)) bad.push('④ ci.yml に検査を減らす環境変数 ' + v);
+      cases.push('④ needs・continue-on-error・仕事の if なし(2 つとも必須で同時に走る)・段の if は保存物の `if: always()` 3 つ・検査を減らす環境変数なし(' + TRIM356F.join('・') + ')'); }
+    // ⑤ perf
+    { const b = commonJob('perf', '⑤'); if (cnt(b, /^ {8}run: node tests\/perf\.mjs\s*$/gm) !== 1) bad.push('⑤ perf に node tests/perf.mjs が 1 つでない'); cases.push(`⑤ perf: 上限 ${DECL356F.perf.timeout} 分のまま`); }
+    // ⑥ 注
+    if (!/^ {2}# 第356便f: 事前検査/m.test(ci)) bad.push('⑥ 仕事 preflight の前の第356便f の注が無い');
+    if (!/^ {4}# 第356便f: 240 分のまま —— /m.test((J.qa || []).join('\n'))) bad.push('⑥ 仕事 qa の上限の第356便f の注が無い');
+    cases.push('⑥ 第356便f の注 2 か所(仕事 preflight の前・qa の上限)');
+    return { bad, cases };
+  };
+  const CI0 = rd356f('.github/workflows/ci.yml') || '';
+  let bad = [], cases = [];
+  try {
+    const R = check(CI0); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+    const rep = (a, z) => CI0.replace(a, z);
+    const iQa = CI0.search(/^  qa:\s*$/m), iPf = CI0.search(/^  preflight:\s*$/m);
+    const MUT = [
+      ['仕事 preflight を消す', iPf >= 0 && iQa > iPf ? CI0.slice(0, iPf) + CI0.slice(iQa) : CI0, /^① 仕事の並び/],
+      ['preflight の段を qa へ戻す(直列)', rep('      - name: Install Playwright\n        run: |\n          npm ci\n          npx playwright install --with-deps chromium\n      - name: Run QA suite', '      - name: QA preflight again\n        run: npm run test:preflight\n      - name: Install Playwright\n        run: |\n          npm ci\n          npx playwright install --with-deps chromium\n      - name: Run QA suite'), /^③ qa が preflight を持つ/],
+      ['qa に needs: preflight', rep(/(\n {2}qa:\s*\n {4}runs-on: ubuntu-latest\n)/, '$1    needs: preflight\n'), /^④ ci\.yml に needs が在る/],
+      ['preflight を continue-on-error に', rep(/(\n {2}preflight:\s*\n {4}runs-on: ubuntu-latest\n)/, '$1    continue-on-error: true\n'), /^④ ci\.yml に continue-on-error/],
+      ['preflight の上限を 120 に', rep(/(\n {2}preflight:\s*\n {4}runs-on: ubuntu-latest\n {4}timeout-minutes: )90\n/, '$1120\n'), /^② preflight の timeout-minutes が 90 でない/],
+      ['qa の上限を 180 に', rep(/^    timeout-minutes: 240$/m, '    timeout-minutes: 180'), /^③ qa の timeout-minutes が 240 でない/],
+      ['preflight の Node を 22 に', (() => { const i = CI0.indexOf('          node-version: 24', iPf); return i < 0 || i > iQa ? CI0 : CI0.slice(0, i) + '          node-version: 22' + CI0.slice(i + '          node-version: 24'.length); })(), /^② preflight の node-version 22/],
+      ['preflight の matrix から beta を消す', (() => { const i = CI0.indexOf('          - name: beta\n            target: beta/index.html\n', iPf); const s = '          - name: beta\n            target: beta/index.html\n'; return i < 0 || i > iQa ? CI0 : CI0.slice(0, i) + CI0.slice(i + s.length); })(), /^② preflight の matrix/],
+      ['preflight の段に if: false', rep('      - name: QA preflight (${{ matrix.name }})\n', '      - name: QA preflight (${{ matrix.name }})\n        if: false\n'), /^④ 段の if が/],
+      ['qa に QA_FAST', rep(/(\n {2}qa:[\s\S]*?\n {4}env:\n)/, "$1      QA_FAST: '1'\n"), /^④ ci\.yml に検査を減らす環境変数 QA_FAST/],
+      ['preflight の保存物の名を qa-results に', rep('name: qa-preflight-${{ matrix.name }}', 'name: qa-results-${{ matrix.name }}'), /^② preflight の保存物の名/],
+      ['npm test を消す', rep(/^        run: npm test\s*$/m, '        run: echo skip'), /^③ qa に `npm test` の段が 1 つでない/],
+    ];
+    const sc = [];
+    for (const [nm, W, re] of MUT) {
+      if (W === CI0) { bad.push('⑦ 変異「' + nm + '」の種が無い(空振り)'); continue; }
+      const r = check(W), hit = r.bad.some((b) => re.test(b));
+      if (!hit) bad.push('⑦ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った'));
+      sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+    }
+    cases.push(`⑦ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+  } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+  add('lint.ciSplit356f', bad.length === 0,
+    `**CI の QA の仕事を事前検査と本体の 2 つに分けて並べた**(第356便f・R518 —— 事前検査を仕事 preflight〔上限 90 分〕に出し、全部の検査の仕事 qa〔上限 240 分のまま〕と同時に走らせる・検査の数と性能の門と時間の上限は変えていない・効き目は push の後の最初の走行で見る): ${cases.join(' / ')}`
+    + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+
+  // ---- docs.ciSplit356f(root は SKIP)
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.ciSplit356f(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const PH = rd356f('docs/PHYSICS.md') || '', AS = rd356f('docs/AI_SPEC.md') || '', PM = rd356f('tools/post-merge-qa.sh') || '';
+    const iS = PH.indexOf('\n〔第356便f — '), iP = PH.indexOf('\n〔第355便i — '), iT = PH.indexOf('\n〔第328便 — 統括');
+    if (!(iS >= 0 && iP >= 0 && iP < iS && iT >= 0 && iS < iT)) bad.push('① PHYSICS〔第356便f〕の位置(〔第355便i〕の後・〔第328便 — 統括〕の前)');
+    let sec = '';
+    if (iS >= 0) { const m = /\n〔第\d+便[a-z]* — |\n〔第\d+便 — |\n## /g; m.lastIndex = iS + 2; const z = m.exec(PH); sec = PH.slice(iS + 1, z ? z.index : PH.length); }
+    const h1 = sec.split('\n')[0];
+    for (const x of ['R518', '`.github/workflows/ci.yml`', '1 byte も変えていない', '検査の数', '性能の門', '時間の上限']) if (h1.indexOf(x) < 0) bad.push('① PHYSICS〔第356便f〕の見出しに「' + x + '」が無い');
+    for (const x of ['**① 前の形。**', '**② 後の形。**', '**表 1 仕事の対応', '**③ 案 2 つと選んだ理由。**', '**④ 失う節約。**', '**⑤ 見込みの時間。**', '**⑥ 戻り止め。**', '**⑦ 決断事項の候補。**', '**⑧ 言わないこと。**',
+      '35〜56 分', '62〜106 分', '163 分', '90 分', '240 分', '`tests/.qa-preflight-<pid>.mjs`', '`qa-preflight-<name>`', '`qa-results-<name>`', '`lint.ciSplit356f`', '`docs.ciSplit356f`', '`lint.qaOrder`', '`lint.paperRunner348f`', '`lint.ciEngine345e`', '`lint.qaHeapDefault329c`', '`lint.frozenBaseline`', 'CI は手元で回せない', 'push の後の最初の走行', '必須の検査の名'])
+      if (sec.indexOf(x) < 0) bad.push('① PHYSICS〔第356便f〕に「' + x.slice(0, 28) + '」が無い');
+    { const L = sec.split('\n'), k = L.findIndex((x) => x.startsWith('**表 1 ')), T = []; if (k >= 0) for (let n = k + 4; n < L.length && L[n].startsWith('|'); n++) T.push(L[n].split(' | ').map((c) => c.replace(/^\| ?/, '').replace(/ ?\|$/, '')));
+      const want = DECL356F.jobs;
+      if (T.map((c) => c[0]).join('|') !== want.map((j) => '`' + j + '`').join('|')) bad.push('② 表 1 の行の並び ' + T.map((c) => c[0]).join('・'));
+      for (const c of T) { const j = c[0].replace(/`/g, ''), d = DECL356F[j]; if (!d) continue;
+        if (c[1] !== (DECL356F.before[j] || '無い(本枝で足した)')) bad.push('② 表 1 の ' + j + ' の前の欄 ' + c[1]);
+        if (c[3] !== d.timeout + ' 分') bad.push('② 表 1 の ' + j + ' の上限 ' + c[3]); }
+      cases.push('② 表 1 の ' + T.length + ' 行 = 宣言(仕事の名・前の欄・上限)'); }
+    const a410 = AS.search(/\n## 410\. 第356便f/), a404 = AS.search(/\n## 404\. 第355便i/);
+    const ai = a410 >= 0 ? (() => { const r = AS.slice(a410 + 1), z = r.search(/\n## /); return z < 0 ? r : r.slice(0, z); })() : '';
+    if (!(a410 >= 0 && a404 >= 0 && a404 < a410 && ['R518', 'preflight', 'SYSTEM_PROMPT には載せない', 'lint.ciSplit356f', 'docs.ciSplit356f', '240 分'].every((x) => ai.indexOf(x) >= 0))) bad.push('③ AI_SPEC §410(§404 の後・必須の語)');
+    if (!(PM.indexOf('# ==== 第356便f の塊(ここから)====') > PM.indexOf('# ==== 第355便i の塊(ここまで)====') && PM.indexOf('# ==== 第355便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.ciSplit356f docs\.ciSplit356f lint\.qaOrder lint\.paperRunner348f lint\.ciEngine345e lint\.qaHeapDefault329c lint\.frozenBaseline"/.test(PM))) bad.push('③ post-merge に第356便f の塊(第355便i の塊の後)');
+    cases.push('① PHYSICS〔第356便f〕(〔第355便i〕の後・〔第328便 — 統括〕の前・見出し・必須の語)/ ③ AI_SPEC §410(§404 の後)・post-merge の塊');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const rv = (x) => x.split('').reverse().join('');
+    const NG = ['付添', '信私', '査審', 'たし現再', 'いなし現再', '数定遍普', 'TPGtahC', 'korG', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'cihportnA', 'NEPO_SNOISICED', 'scisyhPlacitehtopyH', 'ffodnah_pamdaor', 'etavirp-rotalumis-mfd', 'stnemhcatta'].map(rv);
+    const NOT = [/速くなった/, /短くなった/, /直った/, /確かめた/, /通るようになった/, /収束した/, /完全に一致/];
+    for (const [nm, tx] of [['PHYSICS〔第356便f〕', sec], ['AI_SPEC §410', ai]]) {
+      for (const w of NG) if (String(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句(引用も含めて —— ' + w.length + ' 字)');
+      for (const re of NOT) if (re.test(stripQ(tx))) bad.push('④ ' + nm + ' に書かない語 ' + re.source);
+    }
+    cases.push('④ 禁句と書かない語(「速くなった」「短くなった」—— 壁時計は push の後の走行で見る)');
+    add('docs.ciSplit356f', bad.length === 0, `**CI の仕事の分け方の文書**(第356便f・R518): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第356便f の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
