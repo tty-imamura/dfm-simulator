@@ -10,7 +10,7 @@
  "emxVersion": "w303c-emx4-1",
  "generator": "tests/exp-w314c-k1outer.mjs --stage em",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "reuseFrom": null,
  "ruling": "原仮定者の裁定(第116報)の補足(太陽系の各天体の検証の後に 16 体の三次元サンプル)・決断事項 AN410(推奨 —— 外惑星の相対の門と数値の帯の門・裁定で変わる)・AN405(有限質量比は既知の寄与)・AN401(比例定数は 1PN だけ・A1 は暦表ごとの列)・AN396′(ε_fit・ε_num)・AN336・統括の検証項目 R240。κ は一次の値 κ₀ = 10G/(C₁c²) に固定(合わせない)。確認の材料(在位へ入れない)",
  "invSqVersion": "w310a-invsq-wbg0-1",
@@ -132,47 +132,6 @@
   },
   "nEarth": 8,
   "rows": {
-   "confirm:earthmoon|q00|-|div=4|N=118": {
-    "key": "confirm:earthmoon|q00|-|div=4|N=118",
-    "spec": {
-     "via": "confirm",
-     "system": "earthmoon",
-     "kind": "q00",
-     "div": 4,
-     "N": 118,
-     "ruleKey": "kappa0",
-     "kernel": "k1",
-     "nEarth": 8
-    },
-    "h": 0.016,
-    "dt": 0.004,
-    "warnings": 0,
-    "status": "run",
-    "steps": 6963435,
-    "stop": "revMax",
-    "complete": true,
-    "nan": false,
-    "emb": 6.518564507704742,
-    "earth": 416.1734431016164,
-    "embE": 0.01670849780535419,
-    "nEarth": 8,
-    "tEarth": 25246.582100793537,
-    "moon": {
-     "sidH": 27.321511475328617,
-     "T4p": 8.861411605038624,
-     "node": 18.59915041989675,
-     "sid": 27.313805909042454,
-     "anom": 27.553587770969877,
-     "T1": 8.88456506419912,
-     "T2": 8.861871919344463,
-     "eMean": 0.05484601199521376,
-     "incMean": 5.144122194032859,
-     "nPeri": 118
-    },
-    "betaMax": null,
-    "isqSteps": null,
-    "wallSec": 20.867
-   },
    "confirm:earthmoon|q10|-|div=4|N=118": {
     "key": "confirm:earthmoon|q10|-|div=4|N=118",
     "spec": {
@@ -212,7 +171,48 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 22.526
+    "wallSec": 25.007
+   },
+   "confirm:earthmoon|q00|-|div=4|N=118": {
+    "key": "confirm:earthmoon|q00|-|div=4|N=118",
+    "spec": {
+     "via": "confirm",
+     "system": "earthmoon",
+     "kind": "q00",
+     "div": 4,
+     "N": 118,
+     "ruleKey": "kappa0",
+     "kernel": "k1",
+     "nEarth": 8
+    },
+    "h": 0.016,
+    "dt": 0.004,
+    "warnings": 0,
+    "status": "run",
+    "steps": 6963435,
+    "stop": "revMax",
+    "complete": true,
+    "nan": false,
+    "emb": 6.518564507704742,
+    "earth": 416.1734431016164,
+    "embE": 0.01670849780535419,
+    "nEarth": 8,
+    "tEarth": 25246.582100793537,
+    "moon": {
+     "sidH": 27.321511475328617,
+     "T4p": 8.861411605038624,
+     "node": 18.59915041989675,
+     "sid": 27.313805909042454,
+     "anom": 27.553587770969877,
+     "T1": 8.88456506419912,
+     "T2": 8.861871919344463,
+     "eMean": 0.05484601199521376,
+     "incMean": 5.144122194032859,
+     "nPeri": 118
+    },
+    "betaMax": null,
+    "isqSteps": null,
+    "wallSec": 25.317
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=1|N=354",
@@ -256,7 +256,7 @@
     },
     "betaMax": 1.0076462786787211e-7,
     "isqSteps": 5222781,
-    "wallSec": 2116.156
+    "wallSec": 2441.157
    },
    "confirm:earthmoon|q00|-|div=1|N=354": {
     "key": "confirm:earthmoon|q00|-|div=1|N=354",
@@ -297,7 +297,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 14.7
+    "wallSec": 13.23
    },
    "confirm:earthmoon|q10|-|div=1|N=354": {
     "key": "confirm:earthmoon|q10|-|div=1|N=354",
@@ -338,7 +338,7 @@
     },
     "betaMax": null,
     "isqSteps": null,
-    "wallSec": 16.849
+    "wallSec": 13.697
    },
    "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118": {
     "key": "confirm:earthmoon|q11|kappa0|kernel=k1|div=4|N=118",
@@ -382,7 +382,7 @@
     },
     "betaMax": 1.0076157849255032e-7,
     "isqSteps": 6963437,
-    "wallSec": 2812.937
+    "wallSec": 3078.935
    }
   }
  },
@@ -694,22 +694,22 @@
    "nodrag|h/4|N=118": {
     "n": 2,
     "steps": 13926871,
-    "wallSec": 43.393
+    "wallSec": 50.324
    },
    "drag|h/1|N=354": {
     "n": 1,
     "steps": 5222781,
-    "wallSec": 2116.156
+    "wallSec": 2441.157
    },
    "nodrag|h/1|N=354": {
     "n": 2,
     "steps": 10445560,
-    "wallSec": 31.549
+    "wallSec": 26.927
    },
    "drag|h/4|N=118": {
     "n": 1,
     "steps": 6963437,
-    "wallSec": 2812.937
+    "wallSec": 3078.935
    }
   }
  },
@@ -722,10 +722,10 @@
  "ok": true,
  "timing": {
   "T": {
-   "wallSec": 0.009
+   "wallSec": 0.008
   },
   "E": {
-   "wallSec": 2834.549
+   "wallSec": 3104.788
   },
   "K": {
    "wallSec": 0.001
@@ -741,49 +741,49 @@
   "runs": 6,
   "steps": 36558649
  },
- "elapsedS": 2836.176,
+ "elapsedS": 3106.419,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第314便c",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T03:53:06.922Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T19:13:18.675Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    },
    {
     "file": "tests/out/an336-w306a.json",
     "bytes": 89979,
-    "sha256": "86b439e1923c8cde7171816f2eada8eeafbb2436d3dc9bdf94eba768b98e0a49",
-    "mtime": "2026-11-22T01:58:19.073Z"
+    "sha256": "9eddeea81fc3b486bf91333b976d442f7fa86249cc561b97becffb5538e64704",
+    "mtime": "2026-11-26T17:14:57.958Z"
    },
    {
     "file": "paper/data/pn1-ephemeris-candidates.csv",
     "bytes": 21528,
     "sha256": "970fe0843da886e28e789fe10ad10bc26f9939ad5a826a7353016c01fe8beba8",
-    "mtime": "2026-11-19T16:19:54.489Z"
+    "mtime": "2026-11-24T05:41:44.906Z"
    },
    {
     "file": "paper/data/pn1-primary-audit-20261015.csv",
     "bytes": 4489,
     "sha256": "d07e8f91249e11dd70ebe666e5691f69ad1be78d06761b0d3d760f9263844446",
-    "mtime": "2026-11-19T16:19:54.489Z"
+    "mtime": "2026-11-24T05:41:44.906Z"
    }
   ],
   "code": [
@@ -791,97 +791,97 @@
     "file": "tests/exp-w314c-k1outer.mjs",
     "bytes": 59056,
     "sha256": "0fb4b3a6cec94345e0546fcb1767fcd45183fe713e1ab06e9fc0cc31cfcdeb9a",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.009Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.069Z"
    },
    {
     "file": "tests/exp-w313d-k1confirm.mjs",
     "bytes": 37140,
     "sha256": "2c70ad05268b59f30506eaa77f28f41991411ec2d44b790ed557510b97702523",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.009Z"
    },
    {
     "file": "tests/exp-w312d-confirm.mjs",
     "bytes": 52144,
     "sha256": "9ada64437dca1d0b0a9dbd5a799c30b8ba670019b184b7dd8088dd6ad8178f9e",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.005Z"
    },
    {
     "file": "tests/lib-w312d-confirm.mjs",
     "bytes": 19950,
     "sha256": "3da97537c3c0e9feda171b17a68dde2960adbb38f02b657bda30c7cfa844ee63",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/exp-w311d-planet3.mjs",
     "bytes": 66373,
     "sha256": "1e643e00f24f926a75fa9e311f08a0de5235cfccb6c4a009697b8a15ca4f7c13",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.005Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/exp-w303c-earthmoon.mjs",
     "bytes": 73463,
     "sha256": "11b93ede35632be26dbe4fc9050fafd7ea4d688c723c028c5af861d3187cd7da",
-    "mtime": "2026-11-19T16:19:54.540Z"
+    "mtime": "2026-11-24T05:41:44.997Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w304e-apsis.mjs",
     "bytes": 13145,
     "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/exp-w299c-planets3d.mjs",
     "bytes": 52888,
     "sha256": "33bc2b4c801d143a33bd5dea5491fc37773a826c4454e684e77432248a1a6b5b",
-    "mtime": "2026-11-19T16:19:54.536Z"
+    "mtime": "2026-11-24T05:41:44.993Z"
    },
    {
     "file": "tests/lib-w299c-planets3d.mjs",
     "bytes": 16742,
     "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.061Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    },
    {
     "file": "tests/lib-w337f-jsonread.mjs",
     "bytes": 26506,
     "sha256": "2c2cf9533fac811574b301b5a2a8107a3f4de2345a0b7578b168e58f56d882a5",
-    "mtime": "2026-11-19T16:19:54.596Z"
+    "mtime": "2026-11-24T05:41:45.093Z"
    }
   ],
   "codeSha256": "c4ce5e266555413699d714c95d2ac93a41f41554c185c3ba23756787d72127c9",
@@ -970,11 +970,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1402,
-   "segments": 1233,
-   "closureShare": 0.3015
+   "names": 1389,
+   "segments": 1220,
+   "closureShare": 0.2936
   },
-  "scopeSha256": "e4a295ac4d58d135b5eff13ac19563d87ad2e07a122558b4f3176b798d4118d4",
+  "scopeSha256": "e7ef8f14a14992fc34d5232aee223175e66aa1fc96000758defed10056b35248",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -991,7 +991,7 @@
    },
    {
     "file": "tests/out/an336-w306a.json",
-    "stableSha256": "cd30d2905dcfcc39ce3d4776927cc21513fc884d8bff9150b2328169f1abbe21",
+    "stableSha256": "4ef6c64c752c3c95c300cd61b0a0985edc7ba66b087ae806dbaa8fd39c1c15f1",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
