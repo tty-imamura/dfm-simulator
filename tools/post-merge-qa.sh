@@ -1941,6 +1941,18 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.p2figs356b docs.p2figs356b"
 #   PHYSICS〔第356便c〕と PAPER_PLAN の ⑪ の表が文書の lib の出力と逐語)と、⑪ を読む既存の照合(docs.heat3d355g・docs.replaw355i)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.paper5ans356c docs.heat3d355g docs.replaw355i"
 # ==== 第356便c の塊(ここまで)====
+# ==== 第356便d の塊(ここから)====
+# 第356便d(統括の検証項目 R516 —— 診断と文書だけ・html は変えない): 枝 d の新設 2 本
+#   (behavior.drageos356d —— 零試験 12・零試験と対の表と門の 2 行と (T) の箱を第338便c の recheckRun で作り直して正本と照合・冪と印と d★ を QA の中で別に書いた式で照合 /
+#   docs.drageos356d —— 原文と引きずりの口の表と表と数の文が PHYSICS〔第356便d〕に逐語・PAPER_PLAN の表 6d・文書)と、新しい段 drageos-356d
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.drageos356d docs.drageos356d"
+# ==== 第356便d の塊(ここまで)====
+# ==== 第356便i の塊(ここから)====
+# 第356便i(統括の検証項目 R521 —— 診断と文書だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.dragbox356i —— 零試験 12・零試験と周期の箱の (T) と (T+S1) の 1 点と門の 2 行を第338便c の recheckRun で作り直して正本と照合・冪と比と印を QA の中で別に書いた式で照合 /
+#   docs.dragbox356i —— 原文と表と数の文が PHYSICS〔第356便i〕に逐語・PAPER_PLAN の表 6e・文書)と、新しい段 dragbox-356i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.dragbox356i docs.dragbox356i"
+# ==== 第356便i の塊(ここまで)====
 # ==== 第356便e の塊(ここから)====
 # 第356便e(原仮定者の回答(2026-11-26)・統括の検証項目 R517 —— 道具と戻り止めと文書だけ・html は変えない): 枝 e の新設 3 本
 #   (lint.pagesNoJekyll356e —— 根の空の .nojekyll・追跡・Jekyll の設定のファイルと頭に --- の塊を持つ追跡ファイルが 0・壊した写しで落ちる /

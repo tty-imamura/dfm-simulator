@@ -3626,6 +3626,26 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/p2figs-356b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
     note: '第356便b: 零試験 8/今の 22 ゲートの図ごとの数(残す 14・移す 8)/模式図 A・B の描く量/図 6 の精度(走査 72 区間・V29 3 区間)/「同水準」の字の在りか' }),
   // ==== 第356便b の塊(ここまで)====
+  // ==== 第356便d の塊(ここから)====
+  // ---- 第356便d(統括の検証項目 R516): **論文 5 の「斥力に見えたのは引きずり」を数で見られる形にする診断の器**(斥力 0・4 条件 (T)(T+D)(T+S)(T+D+S)・(S) の候補 (S1)(S2)・引きずりは座標変換として入れる ——
+  //   近づく 2 粒・箱の圧力と 3 つの冪・粒 216・ノブ・熱を生まないことの検査・刻み h と h/2・比べる列)
+  //   (段 drageos-356d —— 正本 tests/out/drageos-356d.json・lib tests/lib-w356d-drageos.mjs —— 第355便g・第355便i・第337便e の lib を呼ぶ。入力のファイルは第355便i の正本 1 つ〔比べる列を読むだけ〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・約 3〜4 分(尺度の走り直し 3 回)
+  S('drageos-356d', 'node tests/exp-w356d-drageos.mjs', ['tests/out/drageos-356d.json'], 240, { secSource: 'w356d-branch', node: true,
+    after: ['replaw-355i', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // replaw-355i は比べる列の入力。ほかは順序だけ(import する第337便e の lib の閉包の第331便c の lib が記録の値の出典の正本の名を書くだけ —— 第337便e の段と同じ)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/drageos-356d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第356便d: 零試験 12/近づく 2 粒 × 条件 8 × 衝突径数 4 × 刻み 2/箱の圧力と 3 つの冪 × 条件 8 × 刻み 2/粒 216 × 5/ノブ 13/熱を生まないことの検査 24/刻みの比べ 8/比べる列 2' }),
+  // ==== 第356便d の塊(ここまで)====
+  // ==== 第356便i の塊(ここから)====
+  // ---- 第356便i(統括の検証項目 R521): **論文 5 の「斥力に見えたのは引きずり」の診断の第 2 ラウンド —— 壁の作りに依らない測り方で数え直す器**(周期の箱〔面を横切る運動量の流れ・並進の運動の圧力〕・
+  //   粒 216 の周期の箱・壁を引きずる側の源として重みに入れる箱・並進引きずりの係数・熱を生まないことの検査・種 3 本と刻み h・h/2)
+  //   (段 dragbox-356i —— 正本 tests/out/dragbox-356i.json・lib tests/lib-w356i-dragbox.mjs —— 第356便d・第355便g・第337便e の lib を呼ぶ。入力のファイルは第356便d の正本 1 つ〔壁の箱と近づく 2 粒の数を読むだけ〕)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・約 7〜8 分(尺度の走り直し 3 回)
+  S('dragbox-356i', 'node tests/exp-w356i-dragbox.mjs', ['tests/out/dragbox-356i.json'], 480, { secSource: 'w356i-branch', node: true,
+    after: ['drageos-356d', 'inposk1-315c', 'k1confirm-313d', 'k1outer-314c', 'k1em-314c', 'satk1-315d', 'binbooks-322b', 'rdexcess-314a', 'axialheat-326d'],   // drageos-356d は壁の箱の数の入力。ほかは順序だけ(第356便d の段と同じ —— import する第337便e の lib の閉包)
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/dragbox-356i.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第356便i: 零試験 12/周期の箱 × 条件 6 × 種 3 + 刻み h/2/並進引きずりの係数 2 × 種 3 + 刻み h/2/粒 216 × 3/壁を源に × 3 × 種 3 + 刻み h/2 と M_w 100 の点 2/熱を生まないことの検査 15/第356便d の壁の箱と近づく 2 粒' }),
+  // ==== 第356便i の塊(ここまで)====
   // ==== 第356便h の塊(ここから)====
   // ---- 第356便h(原仮定者の指示(2026-11-26)・原仮定者の回答(2026-11-22)・統括の検証項目 R520): **「空間ごと回転して見える」量の候補(一緒に回る度合い・円運動からのずれ・外縁の速さ)を第355便f の列で並べる小さい診断**
   //   (段 corot-356h —— 正本 tests/out/corot-356h.json・lib tests/lib-w356h-corot.mjs —— 第355便f の lib tests/lib-w355f-g4cols.mjs を呼ぶ。入力のファイルは無い)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
