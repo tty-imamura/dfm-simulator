@@ -50,7 +50,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration are computed by the app's deterministic functions — you never touch them (every body has a rotation row -> geoPN=3, the same rule form as the in-place planet books; a body without a rotation row -> geoPN=1, the reference form checked against the observed inputs as they are; no matched value either way).
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -512,7 +512,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言(在位の惑星の本と同じ規則の形 —— geoPN=3・引きずりの半径は規則 R_d = Y_k m・合わせる値なし)は**アプリの決定的関数**が決めます(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言は**アプリの決定的関数**が決めます(あなたは触りません —— 全部の天体に自転の行が在れば geoPN=3〔在位の惑星の本と同じ規則の形〕・自転の行が無い天体が在れば geoPN=1〔観測入力のまま照合する基準の形〕。どちらも合わせる値なし)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
@@ -6048,11 +6048,12 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 返す観測レコードの形・量・単位・必須の量は変わらない。SYSTEM_PROMPT の出力A の節の 1 行だけを新しい字にした(「単位換算・スケール指数・配置・初速・物理の宣言〔在位の惑星の本と同じ規則の形〕はアプリの決定的関数が決めます」—— §5 の写しと `docs/AI_SPEC_CORE.md` も同じ字)。出力A・出力B の選び方の文は変えていない。
 - **族(実測)**: 仕様の例・太陽 + 3 惑星・多衛星の降格・自由中心の二体・逆行・恒星級の二体・恒星連星(遠点整列)・相対論的連星族 L−T=5 の全部が新しい形になった(前の形のまま残る族は 0)。
 - QA `behavior.obsGeo3_357g`(Node だけ —— 族の題材 8・physics の鍵と値・受理器の拒否 0・自己診断・合わせた値 0・前の形の道・③ の道の自己試験・変異 6)・`docs.obsGeo3_357g`(PHYSICS〔第357便g〕・本項・post-merge の塊・書かない語)。前の形の道を名指しする形にした既存の鍵: `behavior.alphaCenAB`・`behavior.siriusAB`・`behavior.psrDoubleAB`・`ai.obs-build`・`ai.obs-freecenter`・`ai.obs-binary`。
+- **統合の後の直し 2**(原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」): 形は自転の行の有無で選ぶ —— 中心の天体と衛星の全部に自転の行(`rotation_period` か `spin`)が在れば `g3k1`(geoPN=3)、1 つでも欠ければ新しい変種 `g1kf0`(`geoPN:1`・`kFrame:0`・`lambdaPN:1`・`D0:0.1`・`q:3`・`frameWeight:"share"`・二次元・`sampleClass:"calibration"`・`notClaim:["solar_cal"]`・`abBody` = λ_PN=0 —— 実天体の表の kf0 と在位の geoPN=1 の実単位の本と同じ形・合わせる値なし)。変種の physics は `buildAstroFromRecords` の側で足す(`obsMakeSys` の本文は変えない)。在る自転の値は転写する。結果の `form` は "g3k1" / "g1kf0" / "kf1"、`meta.spinMissing` に自転の行が無い天体の名。SYSTEM_PROMPT の出力A の節の 1 行(§5 の写しと短いページも)と `docs/AI_CHAT.md` の 1 文を、この決まりの字に。出来た本の 1 行(`aiBuiltLineOf` —— I18N `aiResBuilt` の後ろに `aiResBuiltWhy`)に、形を選んだ理由の句を添える(観測レコードの道だけ —— 自転の行が全部に在る/自転の行が無い天体の名/新しい形を採らなかった理由)。QA `behavior.obsGeo3_357g`(lib 版 3 —— 題材 16〔族ごとに自転の行が全部に在る/欠ける〕・出来た本の 1 行の句・③ の道の自己試験 2・変異 12)・`ai.chatHints357h`(lib 版 4 —— 観測レコードの題 2〔句 2 種〕・プリセットの道は句なし)。
 
 ## 420. 第357便h —— 対話の入口の、試しの後の直し 3 つ: 実在天体の頼みは出力A で返す案内・ページを読めないチャットの道・出来た本の geoPN の 1 行(原仮定者の報告(2026-11-26)・統括の検証項目 R528・**文と表示と検査と文書だけ** —— 受理器の判定・取り込む本の値・観測レコードの組み立て・SYSTEM_PROMPT・§5 は不変)
 
 - **AI が読むときの要点**: 実在の天体の頼み(「実単位で」も)は出力A(出典つきの観測レコード)で返す。出典を開けないときは、先にその旨と「出力B は近似のトイで、実単位の本にはならない」ことを利用者に伝え、聞いてから出力B(`docs/AI_CHAT.md` の「作るとき」)。出力A・出力B の選び方の仕様の文(§1・§5)は変えていない。
-- **アプリ**: 取り込みの報告と「この結果をAIに伝える文」(2 行目)に「出来た本: geoPN=<値>(観測レコードから組み立てた実単位の本 / プリセットをそのまま —— 実単位の宣言あり / …実単位ではありません)」(I18N の鍵 `aiResBuilt`・値は出来た本の `physics.geoPN` を読むだけ)。手順の段に、ページを読めないチャットは「1回で生成するプロンプト」を使う 1 文。
+- **アプリ**: 取り込みの報告と「この結果をAIに伝える文」(2 行目)に「出来た本: geoPN=<値>(観測レコードから組み立てた実単位の本 / プリセットをそのまま —— 実単位の宣言あり / …実単位ではありません)」(I18N の鍵 `aiResBuilt`・値は出来た本の `physics.geoPN` を読むだけ —— 報告では先頭の段)。コピーのボタンと入口のページのリンクの後ろの短い段(鍵 `aiChatUnread`)に、ページを読めないチャットは「1回で生成するプロンプト」を使う 1 文。
 - QA `ai.chatHints357h`(vm の 3 題・変異 4・ページの部分)・`docs.chatHints357h`(root は SKIP)。
 
 ## 417. 第357便d —— 論文 2 の入口の本: 天体が 1 つだけの箱 ☝️ `boxone`(箱と天体 1 つ・geoPN=0)を内蔵の本に 1 本足す(原仮定者の指示(2026-11-21)・原仮定者の指示(2026-11-17)・統括の検証項目 R525・**本を 1 本足すだけ** —— エンジン・既定の値・受理器・physics の鍵・既存の 187 本の宣言は不変・式は足していない・**SYSTEM_PROMPT には載せない**)

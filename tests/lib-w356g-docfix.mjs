@@ -5,9 +5,9 @@
 //    本で公転を作った量と、追加の近点の移動を分けて書く・結果を言う語が無い。
 // ② CI の時間の上限の注 —— PHYSICS〔第356便g〕の訂正の鎖の表(前の字 → 正しい読み)と、ci.yml の qa ジョブ(root と beta の matrix・job の上限)の実物。
 // ③ 🔥 の内蔵の本 gas の「達」の読み —— サンプルの状況の「読み方」の「達」の字と gas の行の目的・状況の字を節に逐語。
-// ④ 節の位置・AI_SPEC §411・post-merge の塊・書かない語。
+// ④ 節の位置・AI_SPEC §411・post-merge の塊・書かない語。本節 = PHYSICS の「〔第356便g — 」の行から、次の節の見出し(行頭の「〔第」)の前まで(版 2 から —— 版 1 は第328便の統括の節の前までを本節と読み、後の便の節の字を本節の書かない語と読んでいた)。
 
-export const DOC_LIB_VERSION = 'w356g-docfix-lib-1';
+export const DOC_LIB_VERSION = 'w356g-docfix-lib-2';   // 第357便(統合の後の直し): 1 → 2(本節の範囲を次の節の見出しまでに)
 
 // 解説で戻してはいけない言い方(第356便g で置き換えた字 —— 第355便h の一覧〔tests/lib-w355h-aichatdoc.mjs の OLD_JA・OLD_EN〕に足す分)
 export const OLD_JA = ['オンにしたときだけ出ます', 'オンにしたときだけ再現します', '基本ルールのままでは**水星の近日点移動(100年で43秒角)は出ません**。時計の式'];
@@ -104,7 +104,9 @@ export function checkDocfix(F) {
   // ② CI の時間の上限
   const PH = String(F.physics || ''), a = PH.indexOf('\n〔第356便g — '), z = PH.indexOf('\n〔第328便 — 統括'), p355i = PH.indexOf('\n〔第355便i — ');
   if (!(a >= 0 && p355i >= 0 && p355i < a && a < z)) bad.push('④ PHYSICS〔第356便g〕の位置(〔第355便i〕より後・第328便の統括の節より前)');
-  const S = a >= 0 && z > a ? PH.slice(a, z) : '';
+  // 本節は次の節の見出し(行頭の「〔第」)の前まで(位置の判定は上のまま —— 第328便の統括の節より前)
+  const nx = a >= 0 ? PH.indexOf('\n〔第', a + 1) : -1;
+  const S = a >= 0 && z > a ? PH.slice(a, nx >= 0 ? Math.min(z, nx) : z) : '';
   const ci = String(F.ci || '');
   const jq = ci.indexOf('\n  qa:\n'), jp = ci.indexOf('\n  perf:\n'), J = jq >= 0 ? ci.slice(jq, jp > jq ? jp : undefined) : '';
   const tm = /\n {4}timeout-minutes: (\d+)\n/.exec(J);

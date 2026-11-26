@@ -1215,6 +1215,7 @@
         <p class="note" id="aiChatNote"></p>
         <div class="rowBtns"><button class="btn primary" id="btnChatCopy">対話を始めるプロンプトをコピー</button></div>
         <p class="note"><a id="aiChatLink" href="https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md" target="_blank" rel="noopener">対話の入口のページを開く(新しいタブ)</a></p>
+        <p class="note" id="aiChatUnread">AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。</p>
         <textarea id="aiPasteArea" placeholder="AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)"></textarea>
         <div class="prow"><label id="aiKeplerLabel" style="flex:1">円軌道はケプラー速度で再導出する</label>
           <input type="checkbox" id="aiKeplerFix" checked></div>
@@ -2219,7 +2220,8 @@ ja: {
   btnExtCopyShort:"短縮版をコピー",
   // 第357便c(R524): 対話式の入口(AI のタブの先頭のグループ)と、取り込みの結果を AI チャットへ伝える文。aiChatPrompt の字は README の節「AI チャットと対話しながら使う」のプロンプトと同じ(QA ai.chatButtons357c)
   aiChatHead:"AIチャットと対話して作る",
-  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。",
+  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。",
+  aiChatUnread:"AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。",   // 第357便(統合の後の直し): 手順の段から外に出した 1 文(コピーのボタンとリンクの後ろの短い段)
   btnChatCopy:"対話を始めるプロンプトをコピー",
   aiChatLink:"対話の入口のページを開く(新しいタブ)",
   aiChatPrompt:"あなたはこれから、ブラウザで動く教育用のトイ模型「仮想物理ラボ(DFM シミュレータ)」の案内役として、私と対話します。\nまず次の 2 つのページを読んでください。\n1. 対話の入口(全部): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. シミュレーションを作るときの仕様: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\n読めないときは、同じ内容が https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ の下に在ります(AI_CHAT.md・AI_SPEC_CORE.md)。\nどちらも読めないページが在れば、最初にその旨を言ってください(読めないまま、中身を推測して答えないでください)。\n読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。",
@@ -2231,6 +2233,7 @@ ja: {
   aiResChanges:"変更した点:",
   aiResNoChange:"変更した点: なし",
   aiResBuilt:(g,kind)=>"出来た本: geoPN="+g+"("+(kind==="records"? "観測レコードから組み立てた実単位の本" : kind==="real"? "プリセットをそのまま —— 実単位の宣言あり" : "プリセットをそのまま —— 実単位ではありません")+")",   // 第357便h: 値は出来た本から読むだけ
+  aiResBuiltWhy:(f,names,why)=>f==="g3k1"? " —— 全部の天体に自転の行が在る" : f==="g1kf0"? " —— 自転の行が無い天体: "+names+" —— 全部の天体に自転の行が在れば geoPN=3 の形になる" : " —— 新しい形は採らなかった —— "+why,
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、同じ内容がリポジトリ https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md にあります。どちらも読めなければ、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
@@ -3533,7 +3536,8 @@ en: {
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiChatHead:"Build it in a dialogue with an AI chat",
-  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat. If the AI says it cannot read the pages, use \"One-shot generation prompt\" below (it contains the whole specification, so no page needs to be read).",
+  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat.",
+  aiChatUnread:"If the AI says it cannot read the pages, use \"One-shot generation prompt\" below (it contains the whole specification, so no page needs to be read).",
   btnChatCopy:"Copy the prompt to start a dialogue",
   aiChatLink:"Open the dialogue entry page (new tab)",
   aiChatPrompt:"From now on, you will hold a dialogue with me as the guide for \"Virtual Physics Lab (DFM simulator)\", an educational toy model that runs in a browser.\nFirst read the following 2 pages.\n1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\nIf you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).\nIf there is a page you cannot read at either address, say so first (do not answer by guessing what it says).\nAfter reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.",
@@ -3545,6 +3549,7 @@ en: {
   aiResChanges:"What was changed:",
   aiResNoChange:"What was changed: nothing",
   aiResBuilt:(g,kind)=>"Built preset: geoPN="+g+" ("+(kind==="records"? "a real-unit preset built from the ObservationRecords" : kind==="real"? "the preset as pasted — it declares real units" : "the preset as pasted — not in real units")+")",
+  aiResBuiltWhy:(f,names,why)=>f==="g3k1"? " - every body has a rotation row" : f==="g1kf0"? " - bodies without a rotation row: "+names+" - with a rotation row for every body it becomes the geoPN=3 form" : " - the new form was not adopted - "+why,
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
   aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, the same file is in the repository at https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md; if neither is readable, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
@@ -48613,8 +48618,13 @@ function buildAstroFromRecords(input, opts){
   // 変種 g3k1 の本(三次元・初期状態は平面 z = v_z = 0)を、受理器と同じ自己診断(周期 ±1%・同じ targets・同じ近点の複製)に掛ける。
   // 通れば採用する。通らなければ(受理器の拒否・自己診断の外れ)今の形(変種 kf1 —— 観測安定則を含む前の版の道)のまま組み立て、
   // 新しい形が通らなかった理由を説明の文と注記に書く(黙って変えない・合わせ込みを足さない)。opts.form:"kf1" は前の版の道だけを走らせる(比べる道具と経路等価の検査)
-  let g3Adopt=null, g3Why=null;
-  if(o.form!=="kf1"){
+  // 第357便(統合の後の直し・枝 g 2 —— 原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」): 形は自転の行の有無で選ぶ。
+  //   中心の天体と衛星の全部に自転の行(rotation_period か spin)が在れば g3k1(geoPN=3)。1 つでも欠ければ g1kf0(geoPN=1・kFrame=0 ——
+  //   観測入力のまま照合する基準の形。実天体の表の kf0・在位の geoPN=1 の実単位の本と同じ形)。どちらも通らなければ前の形 kf1。g3Why は「新しい形を採らなかった理由」(どちらの形でも)
+  const spinRowOf=(b)=>(b.q.rotation_period!==undefined || b.q.spin!==undefined);
+  const spinMissing=[rec.center].concat(rec.sats).filter(b=>!spinRowOf(b)).map(b=>b.name);
+  let g3Adopt=null, g1Adopt=null, g3Why=null;
+  if(o.form!=="kf1" && !spinMissing.length){
     const gp=pG3;
     for(const gb of gp.bodies){ gb.z=0; gb.vz=0; }
     const gIdealJa=rec.ideal.ja.map((s,k)=>k===0? "平面の初期状態(三次元の本・z = v_z = 0 —— 軌道傾斜と第三体の面外の摂動は置かない)" : s.replace(/2D 理想化/g,"平面の初期状態"));
@@ -48628,12 +48638,14 @@ function buildAstroFromRecords(input, opts){
       ? "Built deterministically from SOURCED OBSERVATION RECORDS (observation-transcription path). No number here was invented by an AI: every value is transcribed from the source table below, and the unit conversion, the scale exponents, the placement, the initial speeds and the physics declaration are all computed by the app's deterministic functions.\n"
         +"Units: "+M.unitEn+(relFam? " (the relativistic-binary family L−T=5, c₀=3×10³)" : "")+". Centre: "+rec.center.name+"; satellites: "+satNames+". Placement: "+gPlaceEn+".\n"
         +"Physics: built in the SAME RULE FORM AS THE IN-PLACE PLANET BOOKS - geoPN=3, kFrame=0, λ_PN=0; inertial drag relativeDrag {law \"inertial\", invSq {kernel \"k1\", rdRule \"kappaM\"}, pairs \"all\", history \"positions\", initMotion \"observed\"} (translation only); local gravity gLoc {law \"kappaC2\"} (n = 2); coord \"3d\" with a planar initial state. Every body's drag radius is set by the rule R_d = Y_k m (Y_k = 10G_0/(C_1c_0²)) - NO value is matched in this system (no q_exact, no shared correction D₀). camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (display only).\n"
+        +"Choice of form: every body has a rotation row (rotation_period) - built in the geoPN=3 form (geoPN=1 when a body has no rotation row).\n"
         +"Declared idealizations: "+gIdealEn.join("; ")+".\n"
         +"Self-check (a short "+OBS_DIAG_STEPS+"-step trial run on a duplicate state): each satellite's estimated period is compared against the transcribed observed period; the system is NOT adopted unless every one lands within ±1%. Nothing is fitted to make it land. The self-check looks at the periods only - it is not an observational 3-sigma, and this book is outside the calibration population.\n"
         +"SOURCE TABLE\n"+rows.join("\n")
       : "**出典つき観測レコード**から決定的に生成(観測採取経路)。ここに AI が作った数値は1つも無い — 各値は下の出典表からの転写で、単位換算・スケール指数・配置・初速・物理の宣言はすべてアプリの決定的関数が決めた。\n"
         +"単位規約: "+M.unitJa+(relFam? "(相対論的連星族 L−T=5・c₀=3×10³)" : "")+"。中心: "+rec.center.name+"、衛星: "+satNames+"。配置は"+gPlaceJa+"。\n"
         +"物理: **在位の惑星の本と同じ規則の形**で組み立てた —— geoPN=3・kFrame=0・λ_PN=0・慣性引きずり relativeDrag {law \"inertial\", invSq {kernel \"k1\", rdRule \"kappaM\"}, pairs \"all\", history \"positions\", initMotion \"observed\"}(並進だけ)・局所重力 gLoc {law \"kappaC2\"}(n = 2)・coord \"3d\"(初期状態は平面)。全天体の引きずりの半径は規則 R_d = Y_k m(Y_k = 10G_0/(C_1c_0²))で、**この系で合わせた値は無い**(q_exact も共有補正 D₀ も使わない)。camera.scale="+M.camScale+"、timeScale="+M.timeScale+"、dispMag="+M.dispMag+"(表示専用)。\n"
+        +"形の選び方: 全部の天体に自転の行(rotation_period)が在る —— geoPN=3 の形で組み立てた(自転の行が無い天体が在れば geoPN=1 の形)。\n"
         +"宣言する理想化: "+gIdealJa.join("・")+"。\n"
         +"自己診断(複製状態で "+OBS_DIAG_STEPS+" 步の試走): 各衛星の推定周期を転写した観測周期と照合し、**全衛星が ±1% に入らなければ採用しない**。合わせ込みのフィットは一切しない。自己診断が見るのは周期だけで、観測の 3σ ではない(この本は較正母集団の外)。\n"
         +"出典表\n"+rows.join("\n"));
@@ -48686,10 +48698,79 @@ function buildAstroFromRecords(input, opts){
         : "\n新しい形は採用しなかった: 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元)を先に試し、採用しなかった —— "+g3Why+"。そのため、この系は前の形(kFrame=1・q の規約 —— 下の文)で組み立てた。新しい形の二次元の版は無い(G_loc は三次元の本だけ)。");
       v.notes.push(en? "new form (geoPN=3) not adopted — "+g3Why : "新しい形(geoPN=3)は採用しなかった —— "+g3Why);
     }
+  } else if(o.form!=="kf1"){
+    // 自転の行が無い天体が在る → 変種 g1kf0(二次元・geoPN=1・kFrame=0・λ_PN=1)。physics は obsMakeSys が返した系に、ここで足す
+    //   (obsMakeSys の本文は変えない —— 値は kf1 の本の physics から写す: G・刻み・表示・時間・相対論的連星族の c₀ と X_k と coupleSink)
+    const k1=p.physics;
+    const ph1={G:k1.G, D0:0.1, kFrame:0, q:3, geoPN:1, lambdaPN:1, softening:0.05, timeScale:k1.timeScale, stepDt:k1.stepDt, dispMag:k1.dispMag, frameWeight:"share"};
+    if(relFam){ ph1.cLight=k1.cLight; ph1.kappaT=k1.kappaT; if(k1.coupleSink) ph1.coupleSink=k1.coupleSink; }
+    built.sys.variants.g1kf0={ src:"observation-records",
+      name:{ja:"観測入力のまま照合する基準の形(geoPN=1・kFrame=0 —— 合わせる値なし)", en:"the reference form checked against the observed inputs as they are (geoPN=1, kFrame=0 - no matched value)"},
+      physics:astroPh(ph1) };
+    const hp=buildAstroPreset({system:"__observation__", variant:"g1kf0"}, built.sys);
+    const hPlaceEn=(apoAdopt? "APHELION alignment (the stellar two-body convention; the self-check probes the PERIHELION phase)" : "perihelion alignment")
+      +" with the real tangential Kepler speed, phases "+sys.phaseStep+"° apart"+(twoBody? " (two-body barycentric, both bodies free)" : " (the central body pinned)");
+    const hPlaceJa=(apoAdopt? "**遠点整列**(恒星二体の規約。自己診断は**近点位相の複製**で行う)" : "近点整列")
+      +"・初速は実ケプラー接線速度・位相は "+sys.phaseStep+"° 刻み"+(twoBody? "(二体は重心系・両方 free)" : "(中心の天体は pinned)");
+    const hMiss=spinMissing.join(en? ", " : "・");
+    hp.description=userDesc+(en
+      ? "Built deterministically from SOURCED OBSERVATION RECORDS (observation-transcription path). No number here was invented by an AI: every value is transcribed from the source table below, and the unit conversion, the scale exponents, the placement, the initial speeds and the physics declaration are all computed by the app's deterministic functions.\n"
+        +"Units: "+M.unitEn+(relFam? " (the relativistic-binary family L−T=5, c₀=3×10³)" : "")+". Centre: "+rec.center.name+"; satellites: "+satNames+". Placement: "+hPlaceEn+".\n"
+        +"Physics: built in THE REFERENCE FORM CHECKED AGAINST THE OBSERVED INPUTS AS THEY ARE (the same form as the real-body table's kf0 and the in-place geoPN=1 real-unit books) - geoPN=1, kFrame=0, λ_PN=1 (the 1PN term), two-dimensional. No drag (kFrame=0). NO value is matched in this system (no q_exact, no shared correction D₀; q=3, D0=0.1 and frameWeight \"share\" are the in-place books' values and do not act at kFrame 0). camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (display only).\n"
+        +"Choice of form: bodies without a rotation row: "+hMiss+" - built in the geoPN=1 form (the geoPN=3 form when every body has a rotation row). The rotation values that are present are transcribed.\n"
+        +"Declared idealizations: "+rec.ideal.en.join("; ")+".\n"
+        +"Self-check (a short "+OBS_DIAG_STEPS+"-step trial run on a duplicate state): each satellite's estimated period is compared against the transcribed observed period; the system is NOT adopted unless every one lands within ±1%. Nothing is fitted to make it land. The self-check looks at the periods only - it is not an observational 3-sigma.\n"
+        +"SOURCE TABLE\n"+rows.join("\n")
+      : "**出典つき観測レコード**から決定的に生成(観測採取経路)。ここに AI が作った数値は1つも無い — 各値は下の出典表からの転写で、単位換算・スケール指数・配置・初速・物理の宣言はすべてアプリの決定的関数が決めた。\n"
+        +"単位規約: "+M.unitJa+(relFam? "(相対論的連星族 L−T=5・c₀=3×10³)" : "")+"。中心: "+rec.center.name+"、衛星: "+satNames+"。配置は"+hPlaceJa+"。\n"
+        +"物理: **観測入力のまま照合する基準の形**(実天体の表の変種 kf0・在位の geoPN=1 の実単位の本と同じ形)で組み立てた —— geoPN=1・kFrame=0・λ_PN=1(1PN の項)・二次元。引きずりは使わない(kFrame=0)。**この系で合わせた値は無い**(q_exact も共有補正 D₀ も使わない —— q=3・D0=0.1・frameWeight \"share\" は在位の本と同じ値で、kFrame 0 では走行に効かない)。camera.scale="+M.camScale+"、timeScale="+M.timeScale+"、dispMag="+M.dispMag+"(表示専用)。\n"
+        +"形の選び方: 自転の行が無い天体: "+hMiss+" —— geoPN=1 の形で組み立てた(全部の天体に自転の行が在れば geoPN=3 の形)。在る自転の値は転写した。\n"
+        +"宣言する理想化: "+rec.ideal.ja.join("・")+"。\n"
+        +"自己診断(複製状態で "+OBS_DIAG_STEPS+" 步の試走): 各衛星の推定周期を転写した観測周期と照合し、**全衛星が ±1% に入らなければ採用しない**。合わせ込みのフィットは一切しない。自己診断が見るのは周期だけで、観測の 3σ ではない。\n"
+        +"出典表\n"+rows.join("\n"));
+    if(typeof o.name==="string" && o.name.trim()) hp.name=o.name.trim().slice(0,30);
+    hp.fidelity="real";
+    hp.sampleClass="calibration";
+    hp.notClaim=["solar_cal"];
+    hp.abBody={ label:{ja:"1PN の項を切る(λ_PN=0 —— ニュートンの重力だけの基線)", en:"1PN term off (λ_PN=0 - the Newtonian-gravity baseline)"}, physicsPatch:{lambdaPN:0} };
+    const hFix=en
+      ? ["scale exponents: "+M.unitEn+(relFam? " (the L−T=5 relativistic-binary family)" : ""), "geoPN=1, kFrame=0, λ_PN=1 (the reference form: observed inputs as they are)",
+        "q=3, D0=0.1, frameWeight share: in-place book values (no effect at kFrame 0)",
+        "kRep=muF=γN=S_k=0 / pnα=1.5 / stateCarry:\"double\"", "speed calibration f=1.000 (the real Kepler speed itself — no multiplier)",
+        "initial phases "+sys.phaseStep+"° apart (resonance angles are NOT set as initial conditions)", "no rotation row: "+hMiss.slice(0,60)]
+        .concat(apoAdopt? ["stellar two-body adopted at APHELION; the self-check probes the perihelion phase (maximum sensitivity)"] : [])
+        .concat(rec.ideal.en.map(s=>s.slice(0,80)))
+      : ["スケール指数 "+M.unitJa+(relFam? "(L−T=5 相対論的連星族)" : ""), "geoPN=1・kFrame=0・λ_PN=1(観測入力のまま照合する基準の形)",
+        "q=3・D0=0.1・frameWeight share は在位の本の値(kFrame 0 では走行に効かない)",
+        "kRep=muF=γN=S_k=0 / pnα=1.5 / stateCarry:\"double\"", "初速較正 f=1.000(実ケプラー速度そのもの — 掛け算なし)",
+        "初期位相は "+sys.phaseStep+"° 刻みの理想化配置(共鳴角は初期条件に入れない)", "自転の行が無い天体: "+hMiss.slice(0,60)]
+        .concat(apoAdopt? ["恒星二体は**遠点整列**で採用。自己診断は近点位相の複製(感度最大)で実施"] : [])
+        .concat(rec.ideal.ja.map(s=>s.slice(0,80)));
+    const pa1=p.parameterAudit;
+    hp.parameterAudit={ observedInputs:pa1.observedInputs.slice(), fixedConventions:hFix, fitted:[],   // 合わせた値 0 件
+      derived:en
+        ? [relFam? "X_k=G/c₀²=7.4258×10⁻⁷" : "X_k=G/c₀²=7.4258×10⁻⁹", "camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (derived from the stated rules)"]
+        : [relFam? "X_k=G/c₀²=7.4258×10⁻⁷" : "X_k=G/c₀²=7.4258×10⁻⁹", "camera.scale="+M.camScale+"・timeScale="+M.timeScale+"・dispMag="+M.dispMag+"(規約から決定的に算出)"],
+      numerical:pa1.numerical.slice() };
+    const vh=validatePreset(hp, XK_INTAKE_OPTS);
+    if(!vh.ok) g3Why=(en? "the receiver rejected the geoPN=1 form: " : "受理器が geoPN=1 の形を断った: ")+vh.errors.slice(0,2).join(" / ");
+    else {
+      const dh=diagProbe(hp);
+      if(dh.ok) g1Adopt={preset:hp, diag:dh};
+      else g3Why=(en? "the self-check did not pass the geoPN=1 form: " : "geoPN=1 の形が自己診断を通らなかった: ")+dh.errors.slice(0,2).join(" / ");
+    }
+    if(g3Why){
+      p.description+=(en
+        ? "\nNEW FORM NOT ADOPTED: the reference form (geoPN=1, kFrame=0) was tried first (bodies without a rotation row: "+hMiss+") and not adopted - "+g3Why+". This system is therefore built in the earlier form (kFrame=1, the q convention, below)."
+        : "\n新しい形は採用しなかった: 観測入力のまま照合する基準の形(geoPN=1・kFrame=0)を先に試し(自転の行が無い天体: "+hMiss+")、採用しなかった —— "+g3Why+"。そのため、この系は前の形(kFrame=1・q の規約 —— 下の文)で組み立てた。");
+      v.notes.push(en? "new form (geoPN=1) not adopted — "+g3Why : "新しい形(geoPN=1)は採用しなかった —— "+g3Why);
+    }
   }
-  M.form=g3Adopt? "g3k1" : "kf1";
+  M.form=g3Adopt? "g3k1" : g1Adopt? "g1kf0" : "kf1";
   M.g3Why=g3Why;
-  let pAdopt=g3Adopt? g3Adopt.preset : p, diag=g3Adopt? g3Adopt.diag : diagProbe(p), stabilized=null;
+  M.spinMissing=spinMissing;
+  const newAdopt=g3Adopt||g1Adopt;
+  let pAdopt=newAdopt? newAdopt.preset : p, diag=newAdopt? newAdopt.diag : diagProbe(p), stabilized=null;
   if(!diag.ok){
     // 第199便: 観測安定則(2026-08-25 裁定 —「観測値再現版は、観測値で安定する計算式を採用する。
     // 観測値自体が計算式で算出されている為」)。差し戻しが**永年不安定クラスのみ**(初期状態は
@@ -48926,7 +49007,7 @@ function buildRecordsClause(lang){
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration (the same rule form as the in-place planet books: geoPN=3, the drag radius by the rule R_d = Y_k m, no matched value) are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration are computed by the app's deterministic functions — you never touch them (every body has a rotation row -> geoPN=3, the same rule form as the in-place planet books; a body without a rotation row -> geoPN=1, the reference form checked against the observed inputs as they are; no matched value either way).
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: ${q}
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -48999,7 +49080,7 @@ ${scaleTierTable(true)}
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言(在位の惑星の本と同じ規則の形 —— geoPN=3・引きずりの半径は規則 R_d = Y_k m・合わせる値なし)は**アプリの決定的関数**が決めます(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言は**アプリの決定的関数**が決めます(あなたは触りません —— 全部の天体に自転の行が在れば geoPN=3〔在位の惑星の本と同じ規則の形〕・自転の行が無い天体が在れば geoPN=1〔観測入力のまま照合する基準の形〕。どちらも合わせる値なし)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: ${q}
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
@@ -49620,6 +49701,8 @@ function obsShowDiag(res){
     [T("obsScaleRow")(LANG==="en"? res.meta.unitEn : res.meta.unitJa, res.meta.camScale, res.meta.dispMag, res.meta.timeScale),
      (res.meta.form==="g3k1")   // 第357便g: 新しい形には合わせる値が無い(q_exact・D₀ を使わない)
        ? (LANG==="en"? "geoPN=3, kFrame=0, R_d = Y_k m (rule - no matched value)" : "geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)")
+       : (res.meta.form==="g1kf0")   // 第357便(統合の後の直し・枝 g 2): 自転の行が無い天体が在る系
+       ? (LANG==="en"? "geoPN=1, kFrame=0 (the reference form: observed inputs as they are - no matched value)" : "geoPN=1・kFrame=0(観測入力のまま照合する基準の形 —— 合わせる値なし)")
        : "q_exact="+res.meta.q+" (a_ref="+res.meta.aRef+")"]);
 }
 // 整形・安定化パスの結果表示(変更点は**必ず全部**出す — 黙って書き換えないことの担保)
@@ -49639,12 +49722,20 @@ function stabShowReport(r, mode){
 }
 function aiKeplerOn(){ const c=$("#aiKeplerFix"); return !c || c.checked; }
 function aiPasteOpts(){ return {kepler:aiKeplerOn()}; }
+// 統合の後の直し: 検証・取り込みの後に、状態の行と報告の先頭の段(出来た本の行・拒否の段)を見える所へ運ぶ
+//   (block:"nearest" —— すでに見えていれば動かない。scrollIntoView が無い所では何もしない)
+function aiResultReveal(){
+  const tg=document.querySelector("#aiPasteReport > *") || document.getElementById("aiStatus");
+  if(tg && typeof tg.scrollIntoView==="function"){ try{ tg.scrollIntoView({block:"nearest"}); }catch(e){ /* */ } }
+}
 // 貼り付け内容を取り込む(save=false なら検証のみ — 保存しない)
 function aiPasteRun(save){
   obsReportClear();
   aiResultMsgSet("");   // 第357便c: 前の結果の文を消す(押せないへ)
   const el=$("#aiPasteArea");
   const r=aiIntakeText(el? el.value : "", aiPasteOpts());
+  // 第357便h(R528)・統合の後の直し: 出来た本の geoPN と実単位かの 1 行を、報告の先頭に(状態の行のすぐ下 —— 観測レコードの出典表より前。検証のみ・取り込むの両方)
+  if(r.ok && r.preset) obsReportBlock(aiBuiltLineOf(r), []);
   if(r.corrected && r.fixes && r.fixes.length) obsReportBlock(T("pasteCorrected")(r.fixes.join("・")), []);
   if(r.kind==="records") obsShowTable(r.table, r.notes);
   if(r.kind==="preset") stabShowReport(r, !r.ok? "rejected" : (save? "saved" : "check"));
@@ -49653,19 +49744,20 @@ function aiPasteRun(save){
     obsShowDiag(r);
     setAiStatus((r.errors&&r.errors[0])? String(r.errors[0]).slice(0,160) : T("obsBuildNg"),"err");
     if(r.kind!=="empty") aiResultMsgSet(aiResultMsgOf(r, save));   // 空の貼り付けは伝える結果が無い
+    aiResultReveal();
     return null;
   }
   if(r.kind==="records"){
     obsShowDiag(r);
     setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
   } else setAiStatus(T("pasteKindPreset"),"ok");
-  obsReportBlock(aiBuiltLineOf(r), []);   // 第357便h(R528): 出来た本の geoPN と実単位かの 1 行(検証のみ・取り込むの両方)
-  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); return r; }
+  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); aiResultReveal(); return r; }
   aiResultMsgSet(aiResultMsgOf(r, true));   // 名は取り込む前の字(aiAdoptPreset は id だけを付ける)
   aiAdoptPreset(r.preset);
   setAiStatus(T("pasteSavedOk")(r.preset.name)
     +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : "")
     +xkLockStatusOf(r),"ok");   // 第327便d(AN544): クランプの ⚠ を状態の行にも
+  aiResultReveal();
   return r;
 }
 // 生成物の採用(AI生成・貼付の共通経路)— 保存 → 一覧再構築 → 読み込み
@@ -49694,7 +49786,13 @@ function aiBuiltLineOf(r){
   if(!r || !r.ok || !r.preset) return "";
   const gp=(r.preset.physics && r.preset.physics.geoPN!==undefined)? r.preset.physics.geoPN : "?";
   const kd=(r.kind==="records")? "records" : ((r.preset.fidelity==="real" || r.preset.scaleExp)? "real" : "preset");
-  return T("aiResBuilt")(String(gp), kd);
+  // 統合の後の直し・枝 g 2: 観測レコードの道だけ、形を選んだ理由の句を足す(値は読むだけ —— 判定・取り込む値は変えない)
+  let line=T("aiResBuilt")(String(gp), kd);
+  if(r.kind==="records" && r.meta && r.meta.form){
+    const nm=(r.meta.spinMissing||[]).join(LANG==="en"? ", " : "・");
+    line+=T("aiResBuiltWhy")(r.meta.form, nm.length>60? nm.slice(0,60)+"…" : nm, String(r.meta.g3Why||"").slice(0,80));
+  }
+  return line;
 }
 function aiResultMsgOf(r, save){
   if(!r) return "";
@@ -49713,6 +49811,10 @@ function aiResultMsgOf(r, save){
   return rows.join("\n");
 }
 $("#btnChatCopy").addEventListener("click",()=>copyJSON(T("aiChatPrompt")));
+// 統合の後の直し: 「ページを読めない」の短い段(#aiChatUnread)の字は、言語の印(html の lang —— applyLang が書く)の変化で替える
+//   (applyLang の本文に足さない —— 領域の閉包を動かさないため。観察の口が無い所〔vm の検査〕では html の ja の字のまま)
+function aiChatUnreadSync(){ const ue=document.getElementById("aiChatUnread"); if(ue) ue.textContent=T("aiChatUnread"); }
+if(typeof MutationObserver==="function"){ try{ new MutationObserver(aiChatUnreadSync).observe(document.documentElement, {attributes:true, attributeFilter:["lang"]}); }catch(e){ /* */ } }
 $("#btnResultCopy").addEventListener("click",(ev)=>{ const rb=ev.currentTarget; if(AI_RESULT_MSG.text && !(rb && rb.disabled)) copyJSON(AI_RESULT_MSG.text); });
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う

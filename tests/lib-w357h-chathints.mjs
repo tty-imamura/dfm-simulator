@@ -7,9 +7,12 @@ import path from 'node:path';
 import { loadApp, checkText } from './lib-w355h-aichat-validate.mjs';
 import { i18nStrings } from './lib-w357c-chatbuttons.mjs';
 
-export const LIB_VERSION = 'w357h-chathints-lib-1';
+export const LIB_VERSION = 'w357h-chathints-lib-4';   // 統合の後の直し・枝 g 2: 3 → 4(観測レコードの道の 1 行の後ろに、形を選んだ理由の句 —— 自転の行の有無。題を 4 つに)   // 統合の後の直し 2: 2 → 3(検証・取り込みの後に状態の行と報告の先頭を見える所へ —— aiResultReveal)   // 統合の後の直し: 1 → 2(出来た本の行は報告の先頭・「ページを読めない」の 1 文は手順の段の外の短い段 aiChatUnread)
 export const NOTE_JA = 'AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。';
 export const NOTE_EN = 'If the AI says it cannot read the pages, use "One-shot generation prompt" below (it contains the whole specification, so no page needs to be read).';
+// 観測レコードの道の 1 行の後ろの句(形を選んだ理由 —— aiResBuiltWhy)。プリセットの道では句が付かない(行は前のまま 1 字も同じ)
+export const WHY_G3_JA = ' —— 全部の天体に自転の行が在る';
+export const whyG1Ja = (names) => ' —— 自転の行が無い天体: ' + names + ' —— 全部の天体に自転の行が在れば geoPN=3 の形になる';
 export const KIND_JA = { records: '観測レコードから組み立てた実単位の本', real: 'プリセットをそのまま —— 実単位の宣言あり', preset: 'プリセットをそのまま —— 実単位ではありません' };
 
 // 題: 内蔵の本の先頭(プリセット・実単位の宣言なし)・内蔵の 🟠 jupiterGalilean(プリセット・実単位の宣言あり)・仕様の例の観測レコード
@@ -22,29 +25,43 @@ export function hintCases(app, root) {
   const ex = (i0 >= 0 && i1 > i0) ? spec.slice(spec.indexOf('\n', i0) + 1, i1).trim() : '';
   const out = [{ id: 'h1-preset', want: 'preset', text: '```json\n' + JSON.stringify(p0, null, 1) + '\n```' }];
   if (jg) out.push({ id: 'h2-real-preset', want: 'real', text: JSON.stringify(jg) });
-  if (ex) out.push({ id: 'h3-records', want: 'records', text: 'Here are the records:\n```json\n' + ex + '\n```' });
+  if (ex) out.push({ id: 'h3-records', want: 'records', why: whyG1Ja('Jupiter・Io'), text: 'Here are the records:\n```json\n' + ex + '\n```' });
+  if (ex) {   // 同じ例に、2 天体とも自転の行を足した題(自転の行が全部に在る —— geoPN=3 の形)
+    const rr = JSON.parse(ex), P = rr.find((x) => x.quantity === 'orbital_period');
+    for (const b of ['Jupiter', 'Io']) { const t = rr.find((x) => x.body === b); rr.push(Object.assign({}, t, { quantity: 'rotation_period', value: P.value, unit: 's', note: 'fixture: a rotation row added' })); }
+    out.push({ id: 'h4-records-spin', want: 'records', why: WHY_G3_JA, text: '```json\n' + JSON.stringify(rr, null, 1) + '\n```' });
+  }
   return out;
 }
 export function hintOne(app, c) {
   const res = checkText(app, c.text, { steps: 1 });
   let msg = null; try { msg = app.H.evalExpr('HP.aiResultMsgNow357c()'); } catch (e) { /* */ }
-  return { id: c.id, want: c.want, exit: res.exit, preset: res.preset, heads: res.screen.blocks.map((b) => b.head), msg };
+  return { id: c.id, want: c.want, whyWant: c.why || '', exit: res.exit, preset: res.preset, heads: res.screen.blocks.map((b) => b.head), msg };
 }
 export function judgeHints(now, before, html) {
   const why = [], cases = [];
   for (const r of now) {
     const g = r.preset && r.preset.physics ? r.preset.physics.geoPN : undefined;
-    const line = '出来た本: geoPN=' + g + '(' + KIND_JA[r.want] + ')';
+    const line = '出来た本: geoPN=' + g + '(' + KIND_JA[r.want] + ')' + (r.want === 'records' ? r.whyWant : '');   // プリセットの道は句なし(前のまま)
     if (!(r.exit === 0 && g !== undefined)) { why.push('① ' + r.id + ' が受理されない'); continue; }
     const nShow = r.heads.filter((h) => h === line).length;
     if (nShow !== 1) why.push('① ' + r.id + ' の報告に「' + line + '」が 1 つでない(' + nShow + ')');
+    else if (r.heads[0] !== line) why.push('① ' + r.id + ' の「' + line + '」が報告の先頭の段でない');
     if (!(r.msg && r.msg.split('\n')[1] === line)) why.push('② ' + r.id + ' の伝える文の 2 行目が「' + line + '」でない');
     cases.push(r.id + ' → ' + line);
   }
-  const ja = i18nStrings(html, 'aiChatNote');
-  if (!(ja.length === 2 && ja[0].endsWith(NOTE_JA) && ja[1].endsWith(NOTE_EN))) why.push('③ 手順の段に「ページを読めない」の 1 文(ja/en)が無い');
+  const ja = i18nStrings(html, 'aiChatUnread'), nt = i18nStrings(html, 'aiChatNote');
+  if (!(ja.length === 2 && ja[0] === NOTE_JA && ja[1] === NOTE_EN)) why.push('③ 短い段 aiChatUnread の「ページを読めない」の 1 文(ja/en)が無い');
+  if (!(nt.length === 2 && nt[0].indexOf(NOTE_JA) < 0 && nt[1].indexOf(NOTE_EN) < 0)) why.push('③ 手順の段(aiChatNote)に「ページを読めない」の 1 文が残っている');
+  const iL = String(html).indexOf('id="aiChatLink"'), iU = String(html).indexOf('<p class="note" id="aiChatUnread">' + NOTE_JA + '</p>'), iP = String(html).indexOf('id="aiPasteArea"', iL);
+  if (!(iL >= 0 && iU > iL && iP > iU)) why.push('③ 短い段がリンクの後ろ・貼付欄の前に無い(html の ja の字のまま)');
   if ((String(html).match(/\n  aiResBuilt:/g) || []).length !== 2) why.push('③ I18N の aiResBuilt が ja/en の対でない');
-  cases.push('③ 手順の段の 1 文 ja/en・aiResBuilt の対');
+  // 検証・取り込みの後に見える所へ運ぶ 1 行(静的 —— 関数の本文と、aiPasteRun の 3 つの終わり〔拒否・検証のみ・取り込む〕で呼ぶ)
+  const H0 = String(html), fr = /\nfunction aiResultReveal\(\)\{[\s\S]*?\n\}\n/.exec(H0), pr = /\nfunction aiPasteRun\(save\)\{[\s\S]*?\n\}\n/.exec(H0);
+  if (!(fr && /scrollIntoView\(\{block:"nearest"\}\)/.test(fr[0]) && /typeof tg\.scrollIntoView==="function"/.test(fr[0]))) why.push('④b 関数 aiResultReveal(block:"nearest"・無い所で落ちない形)が無い');
+  if (!(pr && (pr[0].match(/aiResultReveal\(\);/g) || []).length === 3)) why.push('④b aiPasteRun の 3 つの終わりで aiResultReveal を呼んでいない');
+  cases.push('④b 検証・取り込みの後に見える所へ(aiResultReveal・3 か所)');
+  cases.push('③ 短い段 aiChatUnread の 1 文 ja/en(手順の段には無い・リンクの後ろ・貼付欄の前)・aiResBuilt の対・出来た本の行は報告の先頭');
   if (before) {
     // 観測レコードの題は、組み立ての形を変える枝(第357便g)が在るので比べない —— プリセットの題だけ(この枝は取り込む値を変えない)
     const pr = now.filter((r) => r.want !== 'records');
@@ -61,14 +78,18 @@ export function runChatHints(root, target, base, opts = {}) {
   const now = hintCases(app, root).map((c) => hintOne(app, c));
   let before = null;
   if (base && fs.existsSync(base)) { const bapp = loadApp(base); if (!bapp.missing.length) before = hintCases(bapp, root).map((c) => hintOne(bapp, c)); }
-  if (now.length !== 3) why.push('題が 3 つでない(' + now.length + ')');
+  if (now.length !== 4) why.push('題が 4 つでない(' + now.length + ')');
   const J = judgeHints(now, before, H); why.push(...J.why); cases.push(...J.cases);
   if (opts.mutate !== false) {
     const MUT = [
-      ['報告の 1 行を外す', H.replace('  obsReportBlock(aiBuiltLineOf(r), []);', '  void 0;'), /^①/],
+      ['報告の 1 行を外す', H.replace('  if(r.ok && r.preset) obsReportBlock(aiBuiltLineOf(r), []);', '  void 0;'), /^①/],
       ['伝える文の 1 行を外す', H.replace(' rows.push(aiBuiltLineOf(r)); }', ' }'), /^②/],
+      ['形を選んだ理由の句を外す', H.replace('    line+=T("aiResBuiltWhy")(', '    void T("aiResBuiltWhy")('), /^①/],
+      ['理由の句をプリセットの道にも付ける', H.replace('  if(r.kind==="records" && r.meta && r.meta.form){', '  if(r.meta && r.meta.form || r.kind!=="records"){ if(!r.meta) r.meta={form:"g3k1"};'), /^①/],
       ['種類の読みを逆に', H.replace('const kd=(r.kind==="records")?', 'const kd=(r.kind!=="records")?'), /^①/],
-      ['手順の 1 文を外す', H.replace(NOTE_JA, ''), /^③/],
+      ['短い段の 1 文を外す', H.replace('  aiChatUnread:"' + NOTE_JA + '",', '  aiChatUnread:"",'), /^③/],
+      ['見える所へ運ぶ 1 行を外す', H.replace('  aiResultReveal();\n  return r;', '  return r;'), /^④b/],
+      ['行を報告の最後へ戻す', H.replace('  if(r.ok && r.preset) obsReportBlock(aiBuiltLineOf(r), []);\n', '').replace('  } else setAiStatus(T("pasteKindPreset"),"ok");\n', '  } else setAiStatus(T("pasteKindPreset"),"ok");\n  obsReportBlock(aiBuiltLineOf(r), []);\n'), /^①/],
     ];
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w357h-mut-')), sc = [];
     try {

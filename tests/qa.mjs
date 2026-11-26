@@ -12841,10 +12841,7 @@ const W298C_DCIDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TAR
 // 第357便(統合の後の直し・2): W298C_BLOCK は次の「\n{ id:"」までを本の宣言と見るので、内蔵の最後の本(🛟 saturnRotVertExplore3d)の切り出しは本の並びの終わりを越えて
 //   html の後ろまで届く。第357便g の観測レコードの道の既定(変種 g3k1 —— relativeDrag:{law:"inertial"… の宣言の型)が後ろに入った世代で、🛟 が「慣性の宣言の本」「dragCore の本」に
 //   誤って数えられた(🛟 の宣言は変わっていない)。本の並びの終わり(BUILTIN_PRESETS の「\n];」)で切った切り出しで照合し直し、当たらない本を 2 つの集合から外す(切り出しを狭めるだけ —— 判定は同じ)
-{ try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), a0 = h.indexOf('const BUILTIN_PRESETS = ['), end = a0 >= 0 ? h.indexOf('\n];', a0) : -1;
-  if (end > 0) { const blk = (id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0 || a > end) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, (b > a && b < end) ? b : end); };
-    for (let i = W298C_IDS.length - 1; i >= 0; i--) if (blk(W298C_IDS[i]).indexOf('relativeDrag:{law:"inertial"') < 0) W298C_IDS.splice(i, 1);
-    for (let i = W298C_DCIDS.length - 1; i >= 0; i--) if (!W298C_IDS.includes(W298C_DCIDS[i]) || blk(W298C_DCIDS[i]).indexOf('dragCore:{') < 0) W298C_DCIDS.splice(i, 1); } } catch (e) { /* 読めない世代は元のまま */ } }
+const W357E_W298C_FIX = (() => { { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), a0 = h.indexOf('const BUILTIN_PRESETS = ['), end = a0 >= 0 ? h.indexOf('\n];', a0) : -1; if (end > 0) { const blk = (id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0 || a > end) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, (b > a && b < end) ? b : end); }; for (let i = W298C_IDS.length - 1; i >= 0; i--) if (blk(W298C_IDS[i]).indexOf('relativeDrag:{law:"inertial"') < 0) W298C_IDS.splice(i, 1); for (let i = W298C_DCIDS.length - 1; i >= 0; i--) if (!W298C_IDS.includes(W298C_DCIDS[i]) || blk(W298C_DCIDS[i]).indexOf('dragCore:{') < 0) W298C_DCIDS.splice(i, 1); } } catch (e) { /* 読めない世代は元のまま */ } } return true; })();   // 一行の世代定数(部分 QA の前文にも写る —— 本体は W298C_IDS・W298C_DCIDS を本の並びの終わりで切り直すだけ)
 // ==== 第357便(統合の後の直し・2)の塊(ここまで)====
 // 第299便e(原仮定者の裁定(第89報)④・R174): 三次元の参照模型(physics に shapeToy と coord:"3d" を持つ内蔵 —— 🔮🥏🧵🍭🎱📀🧹🎢)。宣言から列挙する(手書きの一覧を持たない)。
 //   世代切替は html の `SHAPE_TOY3_VERSION="w299e`(無い html では空)。W298A_IDS(physics の先頭に coord を書いた第298便の三次元の本)には入らない
@@ -92114,6 +92111,10 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
       // ==== 第324便b の塊(ここから)====
       { const w324 = ['alphaCenABInertial3dJ', 'psrDoubleABInertial3d'], keep = new Set(want320.concat(w324)); if ((hit || []).some((id) => w324.includes(id))) want320.splice(0, want320.length, ...(hit || []).filter((id) => keep.has(id))); }   // 第324便b(R280): 🔸📟 も K1 の規則の宣言で生まれた本(移行の前の写しが無い —— 内蔵の並び)
       // ==== 第324便b の塊(ここまで)====
+      // ==== 第357便(統合の後の直し・3)の塊(ここから)====
+      // 第357便e(R526): 👥 twoBodyOnly3d も K1 の規則の宣言で生まれた本(⚖️ の宣言の写し —— invSq の rdRule "kappaM"・移行の前の写しが無い)—— 第324便b と同じく、在れば期待の集合に足す(内蔵の並び)
+      { const w357 = ['twoBodyOnly3d'], keep = new Set(want320.concat(w357)); if ((hit || []).some((id) => w357.includes(id))) want320.splice(0, want320.length, ...(hit || []).filter((id) => keep.has(id))); }
+      // ==== 第357便(統合の後の直し・3)の塊(ここまで)====
       if (hit && (JSON.stringify(hit) !== JSON.stringify(want320) || hit.indexOf('solarSystem16Inertial3d') < 0)) bad.push('⑤ 条件 isRuleBookNoCopy に当たる本が 🗺️(と第322便b の 4 本)だけでない: ' + hit.join(','));
       cases.push(`⑤ AN477: invsq-309a・invsq-310a の名指しの除外を宣言の条件 isRuleBookNoCopy(K1 の規則の宣言 relativeDrag.invSq.rdRule の本のうち移行の前の写しが無い本 —— 今の html で ${hit ? hit.length : '?'} 本 = 🗺️)へ —— 外した本は ruleBooks に数える・既存の欄と値は不変`); }
     // ⑥ 文書
@@ -135646,7 +135647,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
     try { X = G357.runObsGeo3(path.join(ROOT, TARGET), ROOT); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
     const bad = err ? ['落ちた: ' + err] : X.why.slice();
     if (!/^w357g-obsgeo3-lib-\d+$/.test(G357.LIB_VERSION)) bad.push('lib の版の名の型');
-    if (Object.keys(G357.FAMILY_FORM).length !== 8) bad.push('族の表の行の数 ' + Object.keys(G357.FAMILY_FORM).length);
+    if (Object.keys(G357.FAMILY_FORM).length !== 16) bad.push('族の表の行の数 ' + Object.keys(G357.FAMILY_FORM).length);
     add('behavior.obsGeo3_357g', bad.length === 0,
       `**観測レコードの道の既定 = 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元の平面の初期状態)**(第357便g・R527 —— Node の vm・対象 ${TARGET}): ${X ? X.cases.join(' / ') : ''}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
@@ -135661,7 +135662,10 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       'relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}', 'gLoc:{law:"kappaC2"}', 'R_d = Y_k m',
       '合わせる値を 1 つも持たない', '二次元か三次元か', 'physics.gLoc は三次元の本', '族の表', '前の形のまま残る族(③)は、この表の題材では 0', '利用者の目に見える変化',
       'geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)', '{form:"kf1"}', '759.9810', '1.97e-2', '決断事項の候補', '推奨', '次点', '言わないこと',
-      'behavior.obsGeo3_357g', 'docs.obsGeo3_357g', 'behavior.alphaCenAB', 'ai.obs-binary'];
+      'behavior.obsGeo3_357g', 'docs.obsGeo3_357g', 'behavior.alphaCenAB', 'ai.obs-binary',
+      // 統合の後の直し 2(原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」)
+      '**⑪ 統合の後の直し 2 —— 自転の行の有無で形を選ぶ。**', '「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」', 'g1kf0', '中心の天体と衛星の全部に自転の行', '在る自転の値は今までどおり転写する',
+      'geoPN=1・kFrame=0(観測入力のまま照合する基準の形 —— 合わせる値なし)', '`obsMakeSys` の本文は変えていない', '| 恒星級の二体(合成) | g3k1(0.0429%) | g1kf0(0.0427%) |'];
     const secCheck = (ph) => {
       const why = [];
       const { i0, sec } = secOf(ph), ic = ph.indexOf('\n〔第357便c — '), iu = ph.indexOf('\n〔第328便 — 統括');
@@ -135687,14 +135691,14 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       'たっが上が度精', 'う合に測観', 'るす算計くし正'].map(rvG);
     const NGG = [cpG([0x518d, 0x73fe]), cpG([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpG([0x666e, 0x904d, 0x5b9a, 0x6570]), cpG([0x79c1, 0x4fe1]), cpG([0x6dfb, 0x4ed8]), cpG([0x5be9, 0x67fb]),
       cpG([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpG([0x8f03, 0x6b63]), cpG([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpG([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO'].map(rvG));
-    const texts = [['PHYSICS〔第357便g〕', S0.sec.split('**⑩ 言わないこと。**')[0]], ['AI_SPEC §419', A419]];
+    const sec10 = S0.sec.split('\n'), texts = [['PHYSICS〔第357便g〕', sec10.filter((l) => !l.startsWith('**⑩ 言わないこと。**')).join('\n')], ['AI_SPEC §419', A419]];   // ⑩(言わないことの段)だけを外して読む
     if (kz >= 0) texts.push(['CHANGELOG の第357便g の行', clz]);
     for (const [nm, tx0] of texts) {
-      const tx = tx0.split('「' + ORIG + '」').join('');
+      const tx = tx0.split('「' + ORIG + '」').join('').split('「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」').join('');
       for (const w of NGG.concat(W)) if (tx.indexOf(w) >= 0) bad.push('④ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
       if (/第\d+報/.test(tx)) bad.push('④ ' + nm + ' に報の番号');
     }
-    cases.push('④ 書かない語・禁句・報の番号(節〔⑩ の前まで〕・§419・CHANGELOG)');
+    cases.push('④ 書かない語・禁句・報の番号(節〔⑩ の段を除く〕・§419・CHANGELOG)');
     {
       const m1 = secCheck(PH.split('「' + ORIG + '」').join('「実在天体は geoPN=3 が良い」')), m2 = secCheck(PH.split('759.9810').join('759.9811'));
       if (!m1.why.length) bad.push('⑤ 変異(原文の字)で落ちない');
@@ -135734,25 +135738,36 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       pg.on('pageerror', (e) => errs.push(String(e.message || e)));
       await pg.goto(INDEX, { waitUntil: 'load' });
       await pg.waitForFunction(() => !!window.HP);
-      const r = await pg.evaluate(() => {
+      const r = await pg.evaluate(async () => {
         const btn = document.querySelector('#tabs button[data-tab=ai]'); if (!btn.classList.contains('on')) btn.click();
-        HP.setLang('ja');
+        HP.setLang('ja'); await new Promise((res) => setTimeout(res, 0));
         const pv = JSON.stringify(HP.allPresets()[0]);
         const want = HP.aiIntakeText(pv, { kepler: true });
         document.getElementById('aiPasteArea').value = pv;
         document.getElementById('btnAiPasteCheck').click();
+        await new Promise((res) => setTimeout(res, 300));
         const rep = document.getElementById('aiPasteReport').textContent;
+        // 統合の後の直し 2: 検証の後に、状態の行と報告の先頭の段が画面の内に在る(aiResultReveal —— block:"nearest")
+        const inV = (e) => { if (!e) return false; const b = e.getBoundingClientRect(); return b.top >= -1 && b.bottom <= innerHeight + 1 && b.height > 0; };
+        const reveal = { status: inV(document.getElementById('aiStatus')), first: inV(document.querySelector('#aiPasteReport > *')) };
         const g = want.ok ? want.preset.physics.geoPN : undefined;
         const line = HP.T('aiResBuilt')(String(g), (want.preset && (want.preset.fidelity === 'real' || want.preset.scaleExp)) ? 'real' : 'preset');
-        const o = { ok: want.ok, line, shown: rep.indexOf(line) >= 0, note: document.getElementById('aiChatNote').textContent };
-        HP.setLang('en'); o.noteEn = document.getElementById('aiChatNote').textContent; HP.setLang('ja');
+        const first = document.querySelector('#aiPasteReport > *');
+        // 統合の後の直し: 出来た本の行は報告の先頭の段・「ページを読めない」の 1 文は手順の段の外の短い段 #aiChatUnread(リンクの後ろ・貼付欄の前)
+        const un = document.getElementById('aiChatUnread'), lk = document.getElementById('aiChatLink'), pa = document.getElementById('aiPasteArea');
+        const o = { reveal, ok: want.ok, line, shown: rep.indexOf(line) >= 0, first: !!(first && first.textContent === line), note: document.getElementById('aiChatNote').textContent, unread: un ? un.textContent : '',
+          place: !!(un && (lk.compareDocumentPosition(un) & Node.DOCUMENT_POSITION_FOLLOWING) && (un.compareDocumentPosition(pa) & Node.DOCUMENT_POSITION_FOLLOWING)) };
+        HP.setLang('en'); await new Promise((res) => setTimeout(res, 0)); o.noteEn = document.getElementById('aiChatNote').textContent; o.unreadEn = un ? un.textContent : '';
+        HP.setLang('ja'); await new Promise((res) => setTimeout(res, 0)); o.unreadBack = un ? un.textContent : '';
         document.getElementById('aiPasteArea').value = '';
         document.querySelector('#btnPanelClose').click();
         return o;
       });
-      if (!(r.ok && r.shown)) bad.push('⑥ ページの報告に「' + r.line + '」が無い');
-      if (!(r.note.endsWith(X357h.NOTE_JA) && r.noteEn.endsWith(X357h.NOTE_EN))) bad.push('⑥ ページの手順の段に「ページを読めない」の 1 文(ja/en)が無い');
-      cases.push('⑥ ページ: 報告の 1 行「' + r.line + '」・手順の 1 文 ja/en');
+      if (!(r.ok && r.shown && r.first)) bad.push('⑥ ページの報告の先頭の段に「' + r.line + '」が無い');
+      if (!(r.reveal.status && r.reveal.first)) bad.push('⑥ 検証の後に、状態の行と報告の先頭の段が画面の内に無い ' + JSON.stringify(r.reveal));
+      if (!(r.unread === X357h.NOTE_JA && r.unreadEn === X357h.NOTE_EN && r.unreadBack === X357h.NOTE_JA && r.place)) bad.push('⑥ ページの短い段 #aiChatUnread(ja/en・言語の切り替えで替わる・リンクの後ろ・貼付欄の前)');
+      if (r.note.indexOf(X357h.NOTE_JA) >= 0 || r.noteEn.indexOf(X357h.NOTE_EN) >= 0) bad.push('⑥ ページの手順の段に「ページを読めない」の 1 文が残っている');
+      cases.push('⑥ ページ: 検証の後に状態の行と先頭の段が画面の内・報告の先頭の段「' + r.line + '」・短い段の 1 文 ja/en(言語の切り替えで替わる)');
     } catch (e) { bad.push('ページで落ちた: ' + String(e && e.message || e).slice(0, 160)); }
     finally { await ctx.close(); }
     if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
