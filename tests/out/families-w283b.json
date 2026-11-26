@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "441d38d9a40bfb625467674b666ff178ab4a8fcfa39922b2035ac7a857501e73",
-  "generatedAt": "2026-11-25T09:49:03.634Z",
+  "targetSha256": "cb4374061ba3f283f3e32619aeed87a8b80a99d90917b4d601cae8c698d13c99",
+  "generatedAt": "2026-11-25T19:13:36.707Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 7708556,
-    "sha256": "441d38d9a40bfb625467674b666ff178ab4a8fcfa39922b2035ac7a857501e73",
-    "mtime": "2026-11-25T09:37:17.971Z"
+    "sha256": "cb4374061ba3f283f3e32619aeed87a8b80a99d90917b4d601cae8c698d13c99",
+    "mtime": "2026-11-25T18:49:00.792Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1734317,
-    "sha256": "7952f8bab4450dc34cb77b7fce47b263496b49687ee30aad25514d983bf68069",
-    "mtime": "2026-11-25T09:44:25.643Z"
+    "bytes": 1734325,
+    "sha256": "49a111ff80babcd7b5f9a89733f4f29e1e372abcc7f9165344b2313a19f3d855",
+    "mtime": "2026-11-25T19:08:47.884Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -51,14 +51,14 @@
    {
     "file": "docs/FAMILIES.md",
     "bytes": 54378,
-    "sha256": "9d5b3ed1df2d49c27787b3a86d93c35259fe7b8b8806608e2b7ba11c2a99ed3b",
-    "mtime": "2026-11-25T09:49:03.591Z"
+    "sha256": "8f30011b06e2f55361889946968e9880169014cb00b1edd17a4b73960ec77902",
+    "mtime": "2026-11-25T19:13:36.668Z"
    },
    {
     "file": "tests/qa.mjs",
-    "bytes": 13956990,
-    "sha256": "d8c42f7841b963481d4c13e9546765e5237e3facfb1ef2c80d2fb99619a1b2d7",
-    "mtime": "2026-11-25T09:37:18.131Z"
+    "bytes": 13980080,
+    "sha256": "be6e7d9fbeccc828c1ecbedd59fecf554f68e9caef6815842cda6f5c86d4c8fc",
+    "mtime": "2026-11-25T18:49:00.500Z"
    }
   ],
   "code": [
@@ -273,7 +273,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "betaBuild": "v1.48-b353",
+ "betaBuild": "v1.48-b354",
  "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
@@ -5481,5 +5481,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 1.051
+ "elapsedS": 0.647
 }

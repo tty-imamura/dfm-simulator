@@ -168,6 +168,12 @@ pdflatex dfm-paper2.tex    && pdflatex dfm-paper2.tex      # 英語版(RevTeX 4.
 lualatex dfm-paper2-ja.tex && lualatex dfm-paper2-ja.tex   # 日本語版(ltjsarticle)
 ```
 
+**組版の注記(第354便a)**: 英語版の論文 2・3(`dfm-paper2.tex`・`dfm-paper3.tex` —— RevTeX 4.2 で `array`/`tabularx` を読む 2 本)の前置きに、
+`\makeatletter`〜`\makeatother` の 4 行の塊を 1 つずつ足した(上に英語の注 8 行)。LaTeX 2025-11-01(TeX Live 2025)が p 列の終わりの
+`\color@endgroup` に足した `\@endpefalse` を、revtex4-2(4.2f)が列の前置きを組む間だけ展開しない。版の表記・本文・数・図・参考文献は変えていない。
+検査 `paper1`〜`paper45` は、従来の job(ubuntu-24.04 —— TeX Live 2023)に加えて、組版の段だけを ubuntu-latest で回す job `<名>-tl2025` を持つ
+(artifact は 24.04 の PDF を正とする)。手元の 2 つの TeX の木(実行ファイルは TeX Live 2023 のもの)で 10 本を組んで見た —— 最後の裁定は PR の走行。
+
 ## 図の再生成(機械生成)
 
 ```sh
