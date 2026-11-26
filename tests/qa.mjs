@@ -12841,10 +12841,7 @@ const W298C_DCIDS = (() => { try { const h = fs.readFileSync(path.join(ROOT, TAR
 // 第357便(統合の後の直し・2): W298C_BLOCK は次の「\n{ id:"」までを本の宣言と見るので、内蔵の最後の本(🛟 saturnRotVertExplore3d)の切り出しは本の並びの終わりを越えて
 //   html の後ろまで届く。第357便g の観測レコードの道の既定(変種 g3k1 —— relativeDrag:{law:"inertial"… の宣言の型)が後ろに入った世代で、🛟 が「慣性の宣言の本」「dragCore の本」に
 //   誤って数えられた(🛟 の宣言は変わっていない)。本の並びの終わり(BUILTIN_PRESETS の「\n];」)で切った切り出しで照合し直し、当たらない本を 2 つの集合から外す(切り出しを狭めるだけ —— 判定は同じ)
-{ try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), a0 = h.indexOf('const BUILTIN_PRESETS = ['), end = a0 >= 0 ? h.indexOf('\n];', a0) : -1;
-  if (end > 0) { const blk = (id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0 || a > end) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, (b > a && b < end) ? b : end); };
-    for (let i = W298C_IDS.length - 1; i >= 0; i--) if (blk(W298C_IDS[i]).indexOf('relativeDrag:{law:"inertial"') < 0) W298C_IDS.splice(i, 1);
-    for (let i = W298C_DCIDS.length - 1; i >= 0; i--) if (!W298C_IDS.includes(W298C_DCIDS[i]) || blk(W298C_DCIDS[i]).indexOf('dragCore:{') < 0) W298C_DCIDS.splice(i, 1); } } catch (e) { /* 読めない世代は元のまま */ } }
+const W357E_W298C_FIX = (() => { { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'), a0 = h.indexOf('const BUILTIN_PRESETS = ['), end = a0 >= 0 ? h.indexOf('\n];', a0) : -1; if (end > 0) { const blk = (id) => { const a = h.indexOf('{ id:"' + id + '"'); if (a < 0 || a > end) return ''; const b = h.indexOf('\n{ id:"', a + 5); return h.slice(a, (b > a && b < end) ? b : end); }; for (let i = W298C_IDS.length - 1; i >= 0; i--) if (blk(W298C_IDS[i]).indexOf('relativeDrag:{law:"inertial"') < 0) W298C_IDS.splice(i, 1); for (let i = W298C_DCIDS.length - 1; i >= 0; i--) if (!W298C_IDS.includes(W298C_DCIDS[i]) || blk(W298C_DCIDS[i]).indexOf('dragCore:{') < 0) W298C_DCIDS.splice(i, 1); } } catch (e) { /* 読めない世代は元のまま */ } } return true; })();   // 一行の世代定数(部分 QA の前文にも写る —— 本体は W298C_IDS・W298C_DCIDS を本の並びの終わりで切り直すだけ)
 // ==== 第357便(統合の後の直し・2)の塊(ここまで)====
 // 第299便e(原仮定者の裁定(第89報)④・R174): 三次元の参照模型(physics に shapeToy と coord:"3d" を持つ内蔵 —— 🔮🥏🧵🍭🎱📀🧹🎢)。宣言から列挙する(手書きの一覧を持たない)。
 //   世代切替は html の `SHAPE_TOY3_VERSION="w299e`(無い html では空)。W298A_IDS(physics の先頭に coord を書いた第298便の三次元の本)には入らない
