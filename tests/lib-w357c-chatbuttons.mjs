@@ -8,7 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { loadApp, checkText } from './lib-w355h-aichat-validate.mjs';
 
-export const LIB_VERSION = 'w357c-chatbuttons-lib-1';
+export const LIB_VERSION = 'w357c-chatbuttons-lib-2';   // 統合の後の直し: 並びに aiChatUnread(リンクの後ろ・貼付欄の前)
 export const CHAT_URL = 'https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md';
 export const README_HEAD = '## AI チャットと対話しながら使う';
 export const README_EN_LEAD = 'English (the text copied when the app is in English):';
@@ -17,7 +17,7 @@ export const CHAT_EN_LEAD = 'To start in English, paste this into the AI chat';
 export const KEYS = ['aiChatHead', 'aiChatNote', 'btnChatCopy', 'aiChatLink', 'aiChatPrompt', 'btnResultCopy', 'aiResHeadNg', 'aiResHeadCheck', 'aiResHeadOk',
   'aiResFixes', 'aiResChanges', 'aiResNoChange', 'stabNoChangeCheck', 'stabCapRow', 'pasteInBlock', 'pasteEndCut'];
 // 画面の上から順に在るべき id(AI のタブ)
-export const ORDER = ['aiChatHead', 'aiChatNote', 'btnChatCopy', 'aiChatLink', 'aiPasteArea', 'aiKeplerFix', 'btnAiPaste', 'btnAiPasteCheck', 'aiStatus', 'aiPasteReport', 'btnResultCopy',
+export const ORDER = ['aiChatHead', 'aiChatNote', 'btnChatCopy', 'aiChatLink', 'aiChatUnread', 'aiPasteArea', 'aiKeplerFix', 'btnAiPaste', 'btnAiPasteCheck', 'aiStatus', 'aiPasteReport', 'btnResultCopy',
   'aiGenHead', 'aiBasePreset', 'aiPrompt', 'aiRealNote', 'aiExtTitle', 'btnExtCopy', 'btnExtCopyShort', 'aiExtWrap', 'aiListHead'];
 
 // 見出しの行 head の後ろの最初の ```text のコードブロックの中身(無ければ null)

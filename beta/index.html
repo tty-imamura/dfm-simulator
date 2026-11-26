@@ -1215,6 +1215,7 @@
         <p class="note" id="aiChatNote"></p>
         <div class="rowBtns"><button class="btn primary" id="btnChatCopy">対話を始めるプロンプトをコピー</button></div>
         <p class="note"><a id="aiChatLink" href="https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md" target="_blank" rel="noopener">対話の入口のページを開く(新しいタブ)</a></p>
+        <p class="note" id="aiChatUnread">AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。</p>
         <textarea id="aiPasteArea" placeholder="AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)"></textarea>
         <div class="prow"><label id="aiKeplerLabel" style="flex:1">円軌道はケプラー速度で再導出する</label>
           <input type="checkbox" id="aiKeplerFix" checked></div>
@@ -2219,7 +2220,8 @@ ja: {
   btnExtCopyShort:"短縮版をコピー",
   // 第357便c(R524): 対話式の入口(AI のタブの先頭のグループ)と、取り込みの結果を AI チャットへ伝える文。aiChatPrompt の字は README の節「AI チャットと対話しながら使う」のプロンプトと同じ(QA ai.chatButtons357c)
   aiChatHead:"AIチャットと対話して作る",
-  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。",
+  aiChatNote:"①「対話を始めるプロンプトをコピー」を押し、ページを読めるAIチャットに貼って送る ②案内役のAIが、DFMとこのアプリについての質問に答え、要望を聞いてシミュレーションの設定(JSON)を作る ③返ってきた答えをそのまま下の欄に貼り、まず「検証のみ」、通ったら「貼り付けた内容を取り込む」 ④「この結果をAIに伝える文をコピー」で、結果(取り込めなかった理由も)をAIチャットへ返す。",
+  aiChatUnread:"AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。",   // 第357便(統合の後の直し): 手順の段から外に出した 1 文(コピーのボタンとリンクの後ろの短い段)
   btnChatCopy:"対話を始めるプロンプトをコピー",
   aiChatLink:"対話の入口のページを開く(新しいタブ)",
   aiChatPrompt:"あなたはこれから、ブラウザで動く教育用のトイ模型「仮想物理ラボ(DFM シミュレータ)」の案内役として、私と対話します。\nまず次の 2 つのページを読んでください。\n1. 対話の入口(全部): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. シミュレーションを作るときの仕様: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\n読めないときは、同じ内容が https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ の下に在ります(AI_CHAT.md・AI_SPEC_CORE.md)。\nどちらも読めないページが在れば、最初にその旨を言ってください(読めないまま、中身を推測して答えないでください)。\n読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。",
@@ -3533,7 +3535,8 @@ en: {
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiChatHead:"Build it in a dialogue with an AI chat",
-  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat. If the AI says it cannot read the pages, use \"One-shot generation prompt\" below (it contains the whole specification, so no page needs to be read).",
+  aiChatNote:"1) Press \"Copy the prompt to start a dialogue\" and send it to an AI chat that can read web pages. 2) The guide AI answers questions about DFM and this app, and builds simulation settings (JSON) from your requests. 3) Paste its reply as it is into the box below, press \"Validate only\" first, and if it passes, \"Import what you pasted\". 4) \"Copy a message telling the AI this result\" sends the result (including why it was not imported) back to the AI chat.",
+  aiChatUnread:"If the AI says it cannot read the pages, use \"One-shot generation prompt\" below (it contains the whole specification, so no page needs to be read).",
   btnChatCopy:"Copy the prompt to start a dialogue",
   aiChatLink:"Open the dialogue entry page (new tab)",
   aiChatPrompt:"From now on, you will hold a dialogue with me as the guide for \"Virtual Physics Lab (DFM simulator)\", an educational toy model that runs in a browser.\nFirst read the following 2 pages.\n1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md\n2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md\nIf you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).\nIf there is a page you cannot read at either address, say so first (do not answer by guessing what it says).\nAfter reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.",
@@ -49645,6 +49648,8 @@ function aiPasteRun(save){
   aiResultMsgSet("");   // 第357便c: 前の結果の文を消す(押せないへ)
   const el=$("#aiPasteArea");
   const r=aiIntakeText(el? el.value : "", aiPasteOpts());
+  // 第357便h(R528)・統合の後の直し: 出来た本の geoPN と実単位かの 1 行を、報告の先頭に(状態の行のすぐ下 —— 観測レコードの出典表より前。検証のみ・取り込むの両方)
+  if(r.ok && r.preset) obsReportBlock(aiBuiltLineOf(r), []);
   if(r.corrected && r.fixes && r.fixes.length) obsReportBlock(T("pasteCorrected")(r.fixes.join("・")), []);
   if(r.kind==="records") obsShowTable(r.table, r.notes);
   if(r.kind==="preset") stabShowReport(r, !r.ok? "rejected" : (save? "saved" : "check"));
@@ -49659,7 +49664,6 @@ function aiPasteRun(save){
     obsShowDiag(r);
     setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
   } else setAiStatus(T("pasteKindPreset"),"ok");
-  obsReportBlock(aiBuiltLineOf(r), []);   // 第357便h(R528): 出来た本の geoPN と実単位かの 1 行(検証のみ・取り込むの両方)
   if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); return r; }
   aiResultMsgSet(aiResultMsgOf(r, true));   // 名は取り込む前の字(aiAdoptPreset は id だけを付ける)
   aiAdoptPreset(r.preset);
@@ -49713,6 +49717,10 @@ function aiResultMsgOf(r, save){
   return rows.join("\n");
 }
 $("#btnChatCopy").addEventListener("click",()=>copyJSON(T("aiChatPrompt")));
+// 統合の後の直し: 「ページを読めない」の短い段(#aiChatUnread)の字は、言語の印(html の lang —— applyLang が書く)の変化で替える
+//   (applyLang の本文に足さない —— 領域の閉包を動かさないため。観察の口が無い所〔vm の検査〕では html の ja の字のまま)
+function aiChatUnreadSync(){ const ue=document.getElementById("aiChatUnread"); if(ue) ue.textContent=T("aiChatUnread"); }
+if(typeof MutationObserver==="function"){ try{ new MutationObserver(aiChatUnreadSync).observe(document.documentElement, {attributes:true, attributeFilter:["lang"]}); }catch(e){ /* */ } }
 $("#btnResultCopy").addEventListener("click",(ev)=>{ const rb=ev.currentTarget; if(AI_RESULT_MSG.text && !(rb && rb.disabled)) copyJSON(AI_RESULT_MSG.text); });
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う

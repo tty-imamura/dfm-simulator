@@ -135734,9 +135734,9 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       pg.on('pageerror', (e) => errs.push(String(e.message || e)));
       await pg.goto(INDEX, { waitUntil: 'load' });
       await pg.waitForFunction(() => !!window.HP);
-      const r = await pg.evaluate(() => {
+      const r = await pg.evaluate(async () => {
         const btn = document.querySelector('#tabs button[data-tab=ai]'); if (!btn.classList.contains('on')) btn.click();
-        HP.setLang('ja');
+        HP.setLang('ja'); await new Promise((res) => setTimeout(res, 0));
         const pv = JSON.stringify(HP.allPresets()[0]);
         const want = HP.aiIntakeText(pv, { kepler: true });
         document.getElementById('aiPasteArea').value = pv;
@@ -135744,15 +135744,21 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
         const rep = document.getElementById('aiPasteReport').textContent;
         const g = want.ok ? want.preset.physics.geoPN : undefined;
         const line = HP.T('aiResBuilt')(String(g), (want.preset && (want.preset.fidelity === 'real' || want.preset.scaleExp)) ? 'real' : 'preset');
-        const o = { ok: want.ok, line, shown: rep.indexOf(line) >= 0, note: document.getElementById('aiChatNote').textContent };
-        HP.setLang('en'); o.noteEn = document.getElementById('aiChatNote').textContent; HP.setLang('ja');
+        const first = document.querySelector('#aiPasteReport > *');
+        // 統合の後の直し: 出来た本の行は報告の先頭の段・「ページを読めない」の 1 文は手順の段の外の短い段 #aiChatUnread(リンクの後ろ・貼付欄の前)
+        const un = document.getElementById('aiChatUnread'), lk = document.getElementById('aiChatLink'), pa = document.getElementById('aiPasteArea');
+        const o = { ok: want.ok, line, shown: rep.indexOf(line) >= 0, first: !!(first && first.textContent === line), note: document.getElementById('aiChatNote').textContent, unread: un ? un.textContent : '',
+          place: !!(un && (lk.compareDocumentPosition(un) & Node.DOCUMENT_POSITION_FOLLOWING) && (un.compareDocumentPosition(pa) & Node.DOCUMENT_POSITION_FOLLOWING)) };
+        HP.setLang('en'); await new Promise((res) => setTimeout(res, 0)); o.noteEn = document.getElementById('aiChatNote').textContent; o.unreadEn = un ? un.textContent : '';
+        HP.setLang('ja'); await new Promise((res) => setTimeout(res, 0)); o.unreadBack = un ? un.textContent : '';
         document.getElementById('aiPasteArea').value = '';
         document.querySelector('#btnPanelClose').click();
         return o;
       });
-      if (!(r.ok && r.shown)) bad.push('⑥ ページの報告に「' + r.line + '」が無い');
-      if (!(r.note.endsWith(X357h.NOTE_JA) && r.noteEn.endsWith(X357h.NOTE_EN))) bad.push('⑥ ページの手順の段に「ページを読めない」の 1 文(ja/en)が無い');
-      cases.push('⑥ ページ: 報告の 1 行「' + r.line + '」・手順の 1 文 ja/en');
+      if (!(r.ok && r.shown && r.first)) bad.push('⑥ ページの報告の先頭の段に「' + r.line + '」が無い');
+      if (!(r.unread === X357h.NOTE_JA && r.unreadEn === X357h.NOTE_EN && r.unreadBack === X357h.NOTE_JA && r.place)) bad.push('⑥ ページの短い段 #aiChatUnread(ja/en・言語の切り替えで替わる・リンクの後ろ・貼付欄の前)');
+      if (r.note.indexOf(X357h.NOTE_JA) >= 0 || r.noteEn.indexOf(X357h.NOTE_EN) >= 0) bad.push('⑥ ページの手順の段に「ページを読めない」の 1 文が残っている');
+      cases.push('⑥ ページ: 報告の先頭の段「' + r.line + '」・短い段の 1 文 ja/en(言語の切り替えで替わる)');
     } catch (e) { bad.push('ページで落ちた: ' + String(e && e.message || e).slice(0, 160)); }
     finally { await ctx.close(); }
     if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
