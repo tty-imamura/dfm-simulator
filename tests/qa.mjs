@@ -21820,8 +21820,10 @@ if (!FAST) {
         // 第295便c(R155): 🌤️🟤🟣 も基点に無い(正本を鎖で刻み直した後に survey に入る —— 本の並びで 🌛 の後・🐌 の前に 🌤️・🟤・🟣 の順)
         const has295cRL = ['earthMoonSunInertial', 'mercurySunInertial', 'plutoCharonInertial'].filter((id) => R.survey.some((z) => z.id === id));
         const has296cRL = R.survey.some((z) => z.id === 'chainDiskToy');   // 第296便c(R159): 🔗 も基点に無い(正本を鎖で刻み直した後に survey に入る —— 本の並びで 🐌 の後)
+        const has357dRL = R.survey.some((z) => z.id === 'boxone');   // 第357便d(統括の統合): ☝️ boxone(二次元の新本)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 本の並びで箱宇宙の群の頭)
         const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : [],
           has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has292dRL ? ['earthMoonTide'] : [], has292cRL ? ['earthMoonInertial'] : [], has295cRL.concat(W296B_FITIDS.filter((id) => R.survey.some((z) => z.id === id))).sort((a, b) => R.survey.findIndex((z) => z.id === a) - R.survey.findIndex((z) => z.id === b)), has290cRL ? ['inertialDragPair'] : [], has296cRL ? ['chainDiskToy'] : []);   // 第296便b: 🟫🟪(フィットの派生本)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 親の直後)
+        if (has357dRL) wantNews.unshift('boxone');   // 第357便d: 世代の守り —— 正本の survey に ☝️ の行がある世代だけ、期待の並びの頭に足す(下の三次元の本の並べ直しで、survey の順になる)
         // 第298便(統括代行 g): 三次元の新本(🌦️🔩🪛🌐🎲 …)も基点に無い(正本を鎖で刻み直した後に survey に入る)。
         //   入る位置は本の並びで決まる(🌦️ は 🌥️ の直後・🔩🪛 は 🔗 の直後・🌐🎲 は末尾)ので、正本に行がある世代だけ、期待の並びに足して survey の順に並べ直す
         //   第299便a(AN282 ①): 正本は第298便の鎖で刻み直した世代(三次元の本が survey に入っている)だけを受ける —— 三次元の本の無い古い世代の分岐を外した
