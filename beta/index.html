@@ -48682,8 +48682,8 @@ function buildAstroFromRecords(input, opts){
     }
     if(g3Why){
       p.description+=(en
-        ? "\nNEW FORM NOT ADOPTED: the same rule form as the in-place planet books (geoPN=3, kFrame=0, R_d = Y_k m, 3D) was tried first and not adopted - "+g3Why+". This system is therefore built in the earlier form (the drag-approximation (q) convention, kFrame=1, below). There is no 2D version of the new form (G_loc is for 3D books only)."
-        : "\n新しい形は採用しなかった: 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元)を先に試し、採用しなかった —— "+g3Why+"。そのため、この系は前の形(引きずり近似 q の規約・kFrame=1 —— 下の文)で組み立てた。新しい形の二次元の版は無い(G_loc は三次元の本だけ)。");
+        ? "\nNEW FORM NOT ADOPTED: the same rule form as the in-place planet books (geoPN=3, kFrame=0, R_d = Y_k m, 3D) was tried first and not adopted - "+g3Why+". This system is therefore built in the earlier form (kFrame=1, the q convention, below). There is no 2D version of the new form (G_loc is for 3D books only)."
+        : "\n新しい形は採用しなかった: 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元)を先に試し、採用しなかった —— "+g3Why+"。そのため、この系は前の形(kFrame=1・q の規約 —— 下の文)で組み立てた。新しい形の二次元の版は無い(G_loc は三次元の本だけ)。");
       v.notes.push(en? "new form (geoPN=3) not adopted — "+g3Why : "新しい形(geoPN=3)は採用しなかった —— "+g3Why);
     }
   }
