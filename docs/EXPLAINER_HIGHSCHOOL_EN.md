@@ -91,10 +91,21 @@ Set the knob — the spacetime coefficient X_k (the reciprocal of the older Kt) 
   Shapiro delay **≈281 μs** — the values from the single scalar psi all fall inside a ±1% window
   around the weak-field GR formula values (the yardstick is the formula value, not a run that
   copies an observation)
-- ⚠️ The base rules do **not** produce Mercury's perihelion precession (43″/century). Only
-  the explicit E12 geodesic extension — promoting the clock's psi into the law of motion —
-  produces it; the yardstick is the two-body 1PN formula value (not an observation), and the
-  coefficient is set by a rule. A model that states plainly where it is inside the window and where it is not
+- ⚠️ For Mercury, read **the orbit the sample builds** and **how far the extra perihelion shift goes** separately.
+  - The orbit: the sample 🌡️ `mercurySunInertial3d` (Sun-Mercury 3D) runs Mercury's orbit around the Sun.
+    A run with the base rules only (no K1 drag, no G_loc) does **not** show the extra perihelion shift (≈43″/century)
+  - The extra perihelion shift: measured as the difference in the apsidal rate between runs with and without
+    the pair the same sample declares — the K1 drag (`physics.relativeDrag`; rule R_d = Y_k m for all bodies,
+    the Sun included; not matched) and G_loc (`physics.gLoc`; n = 2, receiver side). The difference is
+    42.98″/century (G_loc part −28.65″/century, retrograde, + K1 drag part +71.63″/century); the rule
+    residual 2.618e-5″/century is inside the 1.000e-3″/century gate (stage "inside the gate" in the
+    phenomena status page)
+  - The yardstick is the two-body 1PN formula value (42.98051″/century — not an observation), and the
+    coefficient Y_k is set by a rule (not tuned to the observed Mercury value, and not an independent
+    prediction). The sample ☿ `mercury`, with the explicit E12 geodesic extension — promoting the clock's
+    psi into the law of motion — is a separate sample that compares perihelion advance with and
+    without the geodesic 1PN term (the baseline-subtracted ratio 2.98 lies within the theoretical 3±0.6).
+    A model that states plainly where it is inside the window and where it is not
 
 ### 3-5. The basics of thermodynamics (🔥 equilibrium, 📏 conduction, 🌈 radiative cooling, ♨️ convection, 🧪 buoyancy)
 
