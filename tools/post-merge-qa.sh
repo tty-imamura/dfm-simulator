@@ -1997,6 +1997,11 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.noApiRoute357b behavior.apiKeyCleanup35
 #   書き換えた既存の鍵(ai.ui-unified・lint.noApiRoute357b)と、AI のタブを読む既存の鍵(ai.help-collapsed・ui.aitab-no-hscroll・ai.unified-prompt・prompt.spec-sync・params.i18n316・lint.uiText316・docs.aichat355h・behavior.aichatIntake355h)。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c ai.ui-unified lint.noApiRoute357b ai.help-collapsed ui.aitab-no-hscroll ai.unified-prompt prompt.spec-sync params.i18n316 lint.uiText316 docs.aichat355h behavior.aichatIntake355h"
 # ==== 第357便c の塊(ここまで)====
+# ==== 第357便h の塊(ここから)====
+# 第357便h(原仮定者の報告(2026-11-26)・統括の検証項目 R528 —— 文と表示と検査と文書だけ): 枝 h の新設 2 本(ai.chatHints357h —— 出来た本の geoPN の 1 行・手順の 1 文 /
+#   docs.chatHints357h —— PHYSICS〔第357便h〕・AI_SPEC §420・入口のページと README の足した行・本塊)と、AI のタブと入口のページを読む既存の鍵。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS ai.chatHints357h docs.chatHints357h ai.chatButtons357c behavior.intakeText357c docs.chatButtons357c docs.aichat355h behavior.aichatIntake355h ai.ui-unified ui.aitab-no-hscroll params.i18n316 lint.uiText316"
+# ==== 第357便h の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

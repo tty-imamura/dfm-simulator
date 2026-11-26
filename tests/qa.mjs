@@ -135539,6 +135539,122 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();
 }
 // ==== 第357便c の塊(ここまで)====
+// ==== 第357便h の塊(ここから —— ai.chatHints357h・docs.chatHints357h の 2 ブロック。beta だけ・root は SKIP)====
+// 第357便h(原仮定者の報告(2026-11-26)・統括の検証項目 R528・AI_SPEC §420): 対話の入口の、試しの後の直し。本体の判定は tests/lib-w357h-chathints.mjs。
+// ----   ai.chatHints357h(vm + ページ —— 世代切替 = beta 対象 ∧ html に `function aiBuiltLineOf(`): vm で 3 題(プリセット・実単位の宣言のあるプリセット・観測レコード)の
+// ----     報告の「出来た本: geoPN=…」の 1 行・伝える文の 2 行目・geoPN は出来た本の値・手順の 1 文 ja/en・前の版と同じ取り込む値(プリセットの 2 題)・変異 4。ページ = 報告の 1 行と手順の 1 文。
+// ----   docs.chatHints357h(文書): PHYSICS〔第357便h〕・AI_SPEC §420・入口のページ(ja と英語の節)と README の足した行・post-merge の塊・書かない語(製品の名を含む)。
+{
+  await (async () => {   // 第310便c(heap)
+  const H357h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!(TARGET.startsWith('beta/') && H357h.indexOf('\nfunction aiBuiltLineOf(') >= 0)) {
+    console.log('SKIP ai.chatHints357h / docs.chatHints357h(第357便h の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  const X357h = await import('file://' + path.join(ROOT, 'tests', 'lib-w357h-chathints.mjs'));
+  const rd357h = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return ''; } };
+  // ───── ai.chatHints357h ─────
+  {
+    const bad = [], cases = [];
+    if (!/^w357h-chathints-lib-\d+$/.test(X357h.LIB_VERSION)) bad.push('lib の版の名の型');
+    try { const R = X357h.runChatHints(ROOT, path.join(ROOT, TARGET), path.join(ROOT, 'beta', '_w357_base.html')); bad.push(...R.why); cases.push(...R.cases); }
+    catch (e) { bad.push('vm で落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const errs = [];
+    try {
+      const pg = await ctx.newPage();
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP);
+      const r = await pg.evaluate(() => {
+        const btn = document.querySelector('#tabs button[data-tab=ai]'); if (!btn.classList.contains('on')) btn.click();
+        HP.setLang('ja');
+        const pv = JSON.stringify(HP.allPresets()[0]);
+        const want = HP.aiIntakeText(pv, { kepler: true });
+        document.getElementById('aiPasteArea').value = pv;
+        document.getElementById('btnAiPasteCheck').click();
+        const rep = document.getElementById('aiPasteReport').textContent;
+        const g = want.ok ? want.preset.physics.geoPN : undefined;
+        const line = HP.T('aiResBuilt')(String(g), (want.preset && (want.preset.fidelity === 'real' || want.preset.scaleExp)) ? 'real' : 'preset');
+        const o = { ok: want.ok, line, shown: rep.indexOf(line) >= 0, note: document.getElementById('aiChatNote').textContent };
+        HP.setLang('en'); o.noteEn = document.getElementById('aiChatNote').textContent; HP.setLang('ja');
+        document.getElementById('aiPasteArea').value = '';
+        document.querySelector('#btnPanelClose').click();
+        return o;
+      });
+      if (!(r.ok && r.shown)) bad.push('⑥ ページの報告に「' + r.line + '」が無い');
+      if (!(r.note.endsWith(X357h.NOTE_JA) && r.noteEn.endsWith(X357h.NOTE_EN))) bad.push('⑥ ページの手順の段に「ページを読めない」の 1 文(ja/en)が無い');
+      cases.push('⑥ ページ: 報告の 1 行「' + r.line + '」・手順の 1 文 ja/en');
+    } catch (e) { bad.push('ページで落ちた: ' + String(e && e.message || e).slice(0, 160)); }
+    finally { await ctx.close(); }
+    if (errs.length) bad.push('JS の誤り ' + errs[0].slice(0, 100));
+    add('ai.chatHints357h', bad.length === 0,
+      `**出来た本の geoPN の 1 行・ページを読めないチャットの道**(第357便h・R528 —— 対象 ${TARGET}): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.chatHints357h ─────
+  {
+    const bad = [], cases = [];
+    const PH = rd357h('docs/PHYSICS.md'), AS = rd357h('docs/AI_SPEC.md'), PM = rd357h('tools/post-merge-qa.sh'), CH = rd357h('docs/AI_CHAT.md'), RM = rd357h('README.md'), CLx = rd357h('CHANGELOG.md');
+    const ORIG = ['質問、読めない', 'まとめ: 実在天体はgeoPN=3で取り込めるのが理想'];
+    const secOf = (ph) => { const i0 = ph.indexOf('\n〔第357便h — '); if (i0 < 0) return { i0, sec: '' }; const nx = ph.slice(i0 + 1).search(/\n〔第\d+便[a-z0-9]* — /); return { i0, sec: ph.slice(i0, nx >= 0 ? i0 + 1 + nx : ph.length) }; };
+    const want = ['原仮定者の報告(2026-11-26)', 'R528', '利用者の目に見える変化', '出来た本: geoPN=', '出来た本の `physics.geoPN` を読むだけ', '1回で生成するプロンプト', '出力B は近似のトイで、実単位の本にはならない',
+      '決断事項の候補', '推奨', '次点', '試していないこと', 'ai.chatHints357h', 'docs.chatHints357h'];
+    const secCheck = (ph) => {
+      const why = [];
+      const { i0, sec } = secOf(ph), ic = ph.indexOf('\n〔第357便c — '), iu = ph.indexOf('\n〔第328便 — 統括');
+      if (!(i0 >= 0 && ic >= 0 && ic < i0 && iu > i0)) why.push('① PHYSICS〔第357便h〕が無いか〔第357便c〕の前か第328便の統括の節の後ろ');
+      if (i0 >= 0 && !(ph.slice(i0 - 1, i0 + 1) === '\n\n' && ph[i0 - 2] !== '\n')) why.push('① 節の前の空行が 1 つでない');
+      for (const o of ORIG) if (sec.indexOf('「' + o + '」') < 0) why.push('① 原文が節に逐語で無い: ' + o.slice(0, 12));
+      for (const w of want) if (sec.indexOf(w) < 0) why.push('① PHYSICS〔第357便h〕に「' + w.slice(0, 24) + '」が無い');
+      return { why, sec };
+    };
+    const S0 = secCheck(PH); bad.push(...S0.why);
+    cases.push('① PHYSICS〔第357便h〕の位置(〔第357便c〕の後・空行 1)・原文 ' + ORIG.length + '・必須の語 ' + want.length);
+    const a0 = AS.indexOf('\n## 420. 第357便h'), a6 = AS.indexOf('\n## 416. 第357便c'), nx = a0 >= 0 ? AS.indexOf('\n## ', a0 + 5) : -1, A420 = a0 >= 0 ? AS.slice(a0, nx >= 0 ? nx : AS.length) : '';
+    if (!(a0 > a6 && a6 >= 0 && ['R528', 'aiResBuilt', '出力A', 'ai.chatHints357h', 'docs.chatHints357h'].every((w) => A420.indexOf(w) >= 0))) bad.push('② AI_SPEC §420(§416 の後・必須の語)');
+    cases.push('② AI_SPEC §420');
+    const UNREAD = '**ページを読めない AI チャットのとき**';
+    const RS = (() => { const i = RM.indexOf('## AI チャットと対話しながら使う'), j = i >= 0 ? RM.indexOf('\n## ', i + 5) : -1; return i >= 0 ? RM.slice(i, j >= 0 ? j : RM.length) : ''; })();
+    const pu = (t) => { const i = t.indexOf(UNREAD); return i >= 0 ? t.slice(i, t.indexOf('\n', i)) : null; };
+    if (!(pu(CH) && pu(CH) === pu(RS) && pu(CH).indexOf('「1回で生成するプロンプト」') >= 0 && CH.indexOf(UNREAD) < CH.indexOf('\n## 1.'))) bad.push('③ 入口のページの「人が使うとき」と README の節に、同じ字の「ページを読めない」の段');
+    for (const w of ['**実在の天体のとき**(「実単位で」と言われたときも)は、**出力A(出典つきの観測レコード)で返す**', '「出力B は近似のトイで、実単位の本にはならない」', '実在の天体の頼みに、黙って出力B(プリセットの形)で返さない。', '- **Real bodies** (also when asked for "real units"): answer with **output A', '- **Chats that cannot read pages**'])
+      if (CH.indexOf(w) < 0) bad.push('③ 入口のページに「' + w.slice(0, 24) + '」が無い');
+    const iMake = CH.indexOf('**作るとき**'), iReal = CH.indexOf('**実在の天体のとき**');
+    if (!(iMake >= 0 && iReal > iMake && iReal < CH.indexOf('\n## 3.'))) bad.push('③ 分かれ道の行が「作るとき」の中に無い');
+    cases.push('③ 入口のページ(ja の 3 か所・英語の 2 行)と README の段');
+    const p0 = PM.indexOf('# ==== 第357便h の塊(ここから)===='), p1 = PM.indexOf('# ==== 第357便h の塊(ここまで)===='), pc = PM.indexOf('# ==== 第357便c の塊(ここまで)====');
+    if (!(p0 >= 0 && p1 > p0 && pc >= 0 && pc < p0 && /ai\.chatHints357h docs\.chatHints357h/.test(PM.slice(p0, p1)))) bad.push('④ post-merge に第357便h の塊(第357便c の塊の後・2 鍵)');
+    const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? CLx.slice(cb, (CLx.indexOf('\n## ', cb + 5) + 1 || CLx.length + 1) - 1) : '', cls = clg.split('\n');
+    const kz = cls.findIndex((l) => l.indexOf('**第357便h**') >= 0), clz = kz >= 0 ? cls[kz] : '';
+    if (kz >= 0 && !(kz > 0 && clz.indexOf('R528') >= 0)) bad.push('④ CHANGELOG の第357便h の行(見出しより後・R528)');
+    cases.push('④ post-merge の塊・CHANGELOG(' + (kz >= 0 ? '行あり' : '統合の前 —— 行なし') + ')');
+    const rvC = (t) => t.split('').reverse().join(''), cpC = (a) => String.fromCodePoint(...a);
+    const W = ['ためか確', 'たし示', 'たし明説', 'たし定同', '束収', 'たけ導', 'たっか分', 'たきで明説', 'たっま決', 'たっ合', 'たし決解', 'たい付近', 'たっ合り釣', 'るきで明説', 'いなきで明説', 'たし認確', 'たし致一', 'たっ直', 'たっなに全安', 'たし保担を全安'].map(rvC);
+    const NGC = [cpC([0x518d, 0x73fe]), cpC([0x5408, 0x308f, 0x305b, 0x3089, 0x308c, 0x306a, 0x3044]), cpC([0x666e, 0x904d, 0x5b9a, 0x6570]), cpC([0x79c1, 0x4fe1]), cpC([0x6dfb, 0x4ed8]), cpC([0x5be9, 0x67fb]),
+      cpC([0x30d5, 0x30a3, 0x30c3, 0x30c8]), cpC([0x8f03, 0x6b63]), cpC([0x5b8c, 0x5168, 0x306b, 0x4e00, 0x81f4]), cpC([0x53f0, 0x5e33])].concat(['TPGtahC', 'korG', 'inimeG', 'edualC', '-TPG', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'IAnepO', 'tolipoC', 'ytixelpreP', 'kees'].map(rvC));
+    const dropQ = (t) => { let x = t; for (const m of t.matchAll(/原仮定者の報告\(2026-11-26\)[^\n]*?「[^」]*」(?:「[^」]*」)*/g)) x = x.split(m[0]).join(''); return x.replace(/「[^」]*geoPN=[0-9][^」]*」/g, ''); };
+    // 入口のページは、この枝が足した行だけを読む(ページの前からの行には、AI に言い換えさせる語の例として禁句が在る)
+    const addedCH = CH.split('\n').filter((l) => ['**ページを読めない AI チャットのとき**', '**実在の天体のとき**', '出力B は近似のトイ', '黙って出力B', '- **Real bodies**', '- **Chats that cannot read pages**'].some((w) => l.indexOf(w) >= 0)).join('\n');
+    if (addedCH.split('\n').length < 6) bad.push('⑤ 入口のページの足した行が 6 行より少ない(' + addedCH.split('\n').length + ')');
+    const texts = [['PHYSICS〔第357便h〕', S0.sec], ['AI_SPEC §420', A420], ['入口のページの足した行', addedCH], ['README の節', RS]];
+    if (kz >= 0) texts.push(['CHANGELOG の第357便h の行', clz]);
+    for (const [nm, tx0] of texts) {
+      const tx = dropQ(tx0);
+      for (const w of NGC.concat(W)) if (tx.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に禁句か書かない語(' + w.length + ' 字)');
+      if (/第\d+報/.test(tx)) bad.push('⑤ ' + nm + ' に報の番号');
+    }
+    cases.push('⑤ 書かない語・禁句・製品の名・報の番号(節・§420・入口のページ・README の節・CHANGELOG —— 原文の引用は外す)');
+    {
+      const m1 = secCheck(PH.split('「' + ORIG[1] + '」').join('「まとめ: 実在天体はgeoPN=3が理想」'));
+      if (!m1.why.length) bad.push('⑥ 変異(原文の字)で落ちない');
+    }
+    cases.push('⑥ 変異 1');
+    add('docs.chatHints357h', bad.length === 0,
+      `**PHYSICS〔第357便h〕・AI_SPEC §420・入口のページと README の足した行**(第357便h・R528): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第357便h の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):
