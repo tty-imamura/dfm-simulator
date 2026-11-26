@@ -133487,6 +133487,155 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便i の塊(ここまで)====
+// ==== 第356便b の塊(ここから —— behavior.p2figs356b・docs.p2figs356b の 2 ブロック。root は SKIP)====
+// ---- 第356便b(統括の検証項目 R514 —— 材料と文書だけ・html は変えない・論文の原稿と今の図のデータは変えない):
+// ----   **論文 2 の仕上げの材料 —— 図の並びの宣言・模式図 2 枚の描く量・図 6 の精度の書き方**(新設 —— 器 tests/exp-w356b-p2figs.mjs〔html を読まない〕・lib tests/lib-w356b-p2figs.mjs・
+// ----   文書の lib tests/lib-w356b-p2figsdoc.mjs・正本 tests/out/p2figs-356b.json・入力のファイルは今の図のデータ 7 つと図の生成器〔読むだけ〕)。世代切替 = beta 対象 ∧ 器・lib・文書の lib・正本がある。
+// ----   behavior.p2figs356b: ① 版の名の型と正本の記録・宣言・来歴 ② 零試験 8 を作り直して全部真・正本と同じ ③ 器を今の図のデータから作り直して第338便c の recheckRun で正本と照合
+// ----     ④ ゲートの数と図 6 の精度を QA の中で別に書いた式で照合(図ごとの数・走査の最大の相対の誤差を行から・V29 の字) ⑤ 門・呼ぶだけ(import・html を読まない・Math.random なし)
+// ----   docs.p2figs356b: ① 位置(〔第355便i〕より後・統括の節より前) ② 表 3a・表 3b・模式図の表・数の文・原文が PHYSICS〔第356便b〕に逐語 ③ 構成案の論文2 の ④ に表 3a・表 3b(⑤ の前)・⑧ の V2-5 の下の 1 行
+// ----     ④ AI_SPEC §406・post-merge・段の行・.gitignore ⑤ 書かない語・報の番号(原文の「」は外す) ⑥ 変異の自己試験
+{
+  await (async () => {   // 第310便c(heap)
+  const rd356b = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const need = ['tests/exp-w356b-p2figs.mjs', 'tests/lib-w356b-p2figs.mjs', 'tests/lib-w356b-p2figsdoc.mjs', 'tests/out/p2figs-356b.json'];
+  if (!(TARGET.startsWith('beta/') && need.every((f) => fs.existsSync(path.join(ROOT, f))))) {
+    console.log('SKIP behavior.p2figs356b・docs.p2figs356b(第356便b の論文 2 の仕上げの材料の前の世代か beta 対象でない — ' + TARGET + ')');
+    return;
+  }
+  let X = null, L = null, D0 = null, RC = null, J = null, err0 = null;
+  try { X = await import('file://' + path.join(ROOT, 'tests', 'exp-w356b-p2figs.mjs')); L = await import('file://' + path.join(ROOT, 'tests', 'lib-w356b-p2figs.mjs'));
+    D0 = await import('file://' + path.join(ROOT, 'tests', 'lib-w356b-p2figsdoc.mjs')); RC = await import('file://' + path.join(ROOT, 'tests', 'lib-w338c-recheck.mjs'));
+    J = JSON.parse(rd356b('tests/out/p2figs-356b.json')); } catch (e) { err0 = String(e && e.message || e).slice(0, 160); }
+  const js = (o) => JSON.stringify(o);
+  {
+    const bad = [], cases = [];
+    if (err0) bad.push('読めない: ' + err0);
+    else try {
+      // ① 版・宣言・来歴(版は正本の記録と名の型で見る —— 第344便f の形)
+      if (!((L.LIB_VERSION === J.libVersion && /^w356b-p2figs-lib-\d+$/.test(L.LIB_VERSION)) && (X.HARNESS_VERSION === J.version && /^w356b-p2figs-\d+$/.test(X.HARNESS_VERSION)) && /^w356b-p2figsdoc-\d+$/.test(D0.DOC_VERSION) && X.AMEND.length === 0))
+        bad.push('① 版の名の型と正本の記録');
+      if (!(js(J.decl) === js(L.DECL) && js(J.plan) === js(X.PLAN) && J.target === 'tests/lib-w356b-p2figs.mjs' && J.meta && J.meta.stage === 'p2figs' && J.meta.harnessVersion === X.HARNESS_VERSION
+        && J.meta.recheck && J.meta.recheck.unstable === 0 && Array.isArray(J.meta.inputs) && js(J.meta.inputs.map((z) => z.file)) === js([...X.INPUTS]) && J.meta.scope === undefined))
+        bad.push('① 正本の宣言・来歴(器を走らせ直す)');
+      cases.push(`① 版 ${J.version}・lib ${J.libVersion}・文書の lib ${D0.DOC_VERSION}・宣言と来歴(入力 ${X.INPUTS.length})`);
+      // ② 零試験
+      const PS = L.pureScenes(), PG = L.pureGates(PS);
+      if (!(Object.values(PG).every((v) => v === true) && Object.keys(PG).length === 8 && js(PG) === js(J.pure.gates))) bad.push('② 零試験: ' + Object.entries(PG).filter(([, v]) => v !== true).map(([k]) => k).join(','));
+      if (!(PS.z2.n === 8 && PS.z1.total === 6 && PS.z3.scan.atCal === 2)) bad.push('② 零試験の値(拒否 8・作った束 6・走査の最大の較正)');
+      cases.push(`② 零試験 ${Object.values(PG).filter(Boolean).length}/8(図ごとに数える・拒否・走査の誤差を行から・V29 の字・模式図 A・B・字の在りか・決定的)`);
+      // ③ 器を作り直して正本と照合(recheckRun —— 尺度は作り直しの側で測る)
+      const parts = ['pure', 'figPlan', 'gates', 'fig1', 'schematicA', 'schematicB', 'prec', 'phrase', 'gatesOk', 'ok'];
+      const run = () => { const R = X.runAll(X.readRepo); delete R.timing; return R; };
+      const R = RC.recheckRun(run, J, parts.filter((k) => k !== 'ok'));
+      const nd = Object.entries(R.diffs).filter(([, d]) => d.n > 0);
+      if (nd.length) bad.push('③ 作り直しが正本と違う ' + nd.map(([k, d]) => k + ' ' + d.n + ' ' + js(d.hits.slice(0, 1))).join(' / '));
+      if (!(R.base.ok === true && J.ok === true)) bad.push('③ 作り直しの門か正本の門が真でない');
+      cases.push(`③ 器を今の図のデータから作り直して recheckRun で照合(部 ${parts.length - 1}・葉 ${R.nLeaves}・0 の葉 ${R.nZero}・尺度の走り直しで構造が変わる部 ${R.unstable.length})`);
+      // ④ QA の中で別に書いた式: ゲートの図ごとの数・走査の最大の相対の誤差・V29 の字
+      const G = JSON.parse(rd356b('paper/figures/p2figs-gates.json')), F6 = JSON.parse(rd356b('paper/figures/p2fig6.json'));
+      const cnt = {}; for (const g of G.gates) { const f = g.id.split('.')[0]; cnt[f] = (cnt[f] || 0) + 1; }
+      const keepQ = ['p2fig1', 'p2fig2', 'p2fig3', 'p2fig4', 'p2fig5', 'p2fig6'].reduce((p, f) => p + (cnt[f] || 0), 0), moveQ = (cnt.p2fig7 || 0) + (cnt.p2fig8 || 0);
+      if (!(js(cnt) === js(J.gates.byFig) && keepQ === J.gates.keep && moveQ === J.gates.move && G.gates.length === J.gates.total)) bad.push('④ ゲートの図ごとの数(' + keepQ + '・' + moveQ + ')が正本と違う');
+      let mx = 0; for (const s of F6.data) for (const r of s.rows) mx = Math.max(mx, Math.abs(r.meas / r.ana - 1));
+      const v29m = (/比誤差最大=([0-9.e-]+)/.exec(F6.v29Gate.detail) || [])[1];
+      if (!(Math.abs(mx - J.prec.scan.maxRel) <= 1e-12 && mx === F6.maxRelErrVsAnalytic && v29m === J.prec.v29.maxRelText && F6.data.length === 3 && F6.data.every((s) => s.rows.length === 24) && J.prec.v29.nWin === 3))
+        bad.push('④ 図 6 の精度(走査の最大 ' + mx + '・V29 ' + v29m + ')が正本と違う');
+      cases.push(`④ 別に書いた式: 図ごとの数(残す ${keepQ}・移す ${moveQ}・全部 ${G.gates.length})・走査の最大の相対の誤差 ${mx.toExponential(2)}(${F6.data.length} 較正 × 24 区間)・V29 ${v29m}(3 区間)`);
+      // ⑤ 門・呼ぶだけ
+      const G2 = X.gatesOf(J);
+      if (!(js(G2) === js(J.gatesOk) && Object.values(G2).every((v) => v === true) && J.ok === true)) bad.push('⑤ 作り直した門');
+      const tl = rd356b('tests/lib-w356b-p2figs.mjs'), th = rd356b('tests/exp-w356b-p2figs.mjs'), td = rd356b('tests/lib-w356b-p2figsdoc.mjs');
+      const impsH = [...th.matchAll(/from '\.\/([^']+)'/g)].map((m) => m[1]).sort();
+      if (!(!/from '/.test(tl) && !/from '/.test(td) && js(impsH) === js(['lib-w272e-provenance.mjs', 'lib-w338c-recheck.mjs', 'lib-w356b-p2figs.mjs']) && !/loadHtml|index\.html/.test(tl + td + th)
+        && !/\bfetch\(|https?\.get\(|child_process|readFileSync/.test(tl + td) && !/Math\.random/.test(tl + th + td) && J.provisional === undefined && !/writeFileSync\([^)]*paper\//.test(th)))
+        bad.push('⑤ 呼ぶだけ(lib と文書の lib は import なし・器 3 本・html を読まない・lib と文書の lib はファイルを読まない・Math.random なし・仮の値の印なし・paper/ へ書かない)');
+      cases.push(`⑤ 作り直した門 ${Object.values(G2).filter(Boolean).length}/${Object.keys(G2).length}・呼ぶだけ`);
+    } catch (e) { bad.push('作り直せない: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('behavior.p2figs356b', bad.length === 0,
+      `**論文 2 の仕上げの材料(図の並びの宣言・模式図 2 枚の描く量・図 6 の精度の書き方)**(第356便b・R514 —— 材料だけ・原稿と今の図のデータは不変): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  {
+    const PH0 = rd356b('docs/PHYSICS.md') || '', PP0 = rd356b('docs/PAPER_PLAN.md') || '', AS0 = rd356b('docs/AI_SPEC.md') || '', PM0 = rd356b('tools/post-merge-qa.sh') || '', RT0 = rd356b('tests/lib-w281a-regentable.mjs') || '', GI0 = rd356b('.gitignore') || '';
+    const HEAD = '\n〔第356便b — ';
+    const secOf = (ph) => { const i = ph.indexOf(HEAD); if (i < 0) return ''; const j = ph.indexOf('\n〔第', i + HEAD.length); return ph.slice(i + 1, j < 0 ? ph.length : j); };
+    const rv = (t) => t.split('').reverse().join('');
+    // 書かない語(逆さの字で持つ —— 本文に字を置かない)
+    const NG = ['たし現再', 'いなし現再', '信私', '付添', '査審', 'いなれらせわ合', '数定遍普', 'たし束収', 'たし見発を則法', 'たしトッィフ', 'たし正較', '致一に全完', 'たっ合', 'たっま決', 'たけ導', 'たっ合り釣', 'たかめか確', 'たし示', 'たきで明説', 'たしクッロ', 'たっ直', 'たし応対', 'たっなにうよる通',
+      'たし明説をンョシンテルブッハ', 'たし決解をンョシンテルブッハ', 'TPGtahC', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA'].map(rv);
+    const check = (PH, PP, AS, PM, Jx) => {
+      const bad = [], cases = [], sec = secOf(PH);
+      // ① 位置
+      const i0 = PH.indexOf(HEAD), ii = PH.indexOf('\n〔第355便i — '), ic = PH.indexOf('\n〔第328便 — 統括');
+      if (!(i0 >= 0 && ii >= 0 && ic >= 0 && ii < i0 && i0 < ic)) bad.push('① PHYSICS〔第356便b〕の位置(〔第355便i〕より後・統括の節より前)');
+      cases.push('① 位置');
+      // ② 表と数の文
+      const T = { figs: D0.tableFigs(Jx), gsum: D0.gateSumLine(Jx), prec: D0.tablePrec(Jx), rules: D0.precRules(Jx), sA: D0.tableSchemA(Jx), sB: D0.tableSchemB(Jx), orig: D0.originalTable() }, F = D0.factsOf(Jx);
+      for (const [k, v] of Object.entries(T)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第356便b〕に表 ' + k + ' が逐語で無い');
+      for (const [k, v] of Object.entries(F)) if (sec.indexOf(v) < 0) bad.push('② PHYSICS〔第356便b〕に数の文 ' + k + ' が逐語で無い');
+      for (const w of ['R514', '**① 何のための節か。**', '**⑧ 決断事項の候補', '**⑨ 書かないこと。**', 'behavior.p2figs356b', 'docs.p2figs356b', '模式(数の図ではない)']) if (sec.indexOf(w) < 0) bad.push('② PHYSICS〔第356便b〕に「' + w + '」が無い');
+      cases.push(`② 表 ${Object.keys(T).length}・数の文 ${Object.keys(F).length}・必須の語が PHYSICS〔第356便b〕に逐語`);
+      // ③ 構成案の論文2 の ④ と ⑧
+      const s3 = PP.indexOf('\n## 3. 論文2\n'), s4 = PP.indexOf('\n## 4. 論文3\n'), P2 = s3 >= 0 && s4 > s3 ? PP.slice(s3, s4) : '';
+      const q4 = P2.indexOf('\n### ④ 図表の案\n'), q5 = P2.indexOf('\n### ⑤ 使う本\n'), q8 = P2.indexOf('\n### ⑧ 本文の改訂の前に要る検証と本\n');
+      const p3a = P2.indexOf('**表 3a '), p3b = P2.indexOf('**表 3b ');
+      if (!(q4 >= 0 && q5 > q4 && p3a > q4 && p3b > p3a && p3b < q5 && P2.slice(p3a, p3b).indexOf(T.figs) >= 0 && P2.slice(p3a, p3b).indexOf(T.gsum) >= 0 && P2.slice(p3b, q5).indexOf(T.prec) >= 0 && P2.slice(p3b, q5).indexOf(T.rules) >= 0))
+        bad.push('③ 構成案の論文2 の ④ に表 3a・表 3b(⑤ の前・文書の lib の出力と逐語)');
+      const rows = T.figs.split('\n').slice(2);
+      if (!(rows.length === Jx.figPlan.length && rows.every((l) => l.split(' | ').length === 7) && rows.filter((l) => / \| 残す \|$/.test(l)).length === 6 && rows.filter((l) => / \| 移す/.test(l)).length === 2)) bad.push('③ 表 3a の行・欄 7・残す 6・移す 2');
+      if (!(q8 > q5 && P2.slice(q8).indexOf('- V2-5 の「移す図を除いた図の並びの宣言」は ④ の表 3a(第356便b —— 残す図の分は ' + Jx.gates.total + ' ゲートのうち ' + Jx.gates.keep + ')') >= 0)) bad.push('③ ⑧ の V2-5 の下の 1 行');
+      cases.push('③ 構成案の論文2 の ④ の表 3a(行 ' + rows.length + '・欄 7)・表 3b・⑧ の 1 行');
+      // ④ AI_SPEC・post-merge・段・.gitignore
+      const a0 = AS.indexOf('\n## 406. 第356便b'), a4 = AS.indexOf('\n## 404. 第355便i');
+      const ai = a0 >= 0 ? AS.slice(a0, (AS.indexOf('\n## ', a0 + 5) + 1 || AS.length + 1) - 1) : '';
+      if (!(a0 > a4 && a4 >= 0 && ['SYSTEM_PROMPT には載せない', 'R514', 'tests/out/p2figs-356b.json', 'behavior.p2figs356b', 'docs.p2figs356b', '表 3a', '表 3b'].every((w) => ai.indexOf(w) >= 0))) bad.push('④ AI_SPEC §406(§404 の後・必須の語)');
+      if (!(PM.indexOf('# ==== 第356便b の塊(ここから)====') > PM.indexOf('# ==== 第355便i の塊(ここまで)====') && PM.indexOf('# ==== 第355便i の塊(ここまで)====') >= 0 && /behavior\.p2figs356b docs\.p2figs356b/.test(PM))) bad.push('④ post-merge の塊(第355便i の塊の後)');
+      if (!(/S\('p2figs-356b', 'node tests\/exp-w356b-p2figs\.mjs', \['tests\/out\/p2figs-356b\.json'\]/.test(RT0) && RT0.indexOf('// ==== 第356便b の塊(ここから)====') > RT0.indexOf('// ==== 第355便i の塊(ここまで)===='))) bad.push('④ 段の行 p2figs-356b');
+      if (!(GI0.indexOf('!tests/out/p2figs-356b.json') >= 0)) bad.push('④ .gitignore の例外');
+      cases.push('④ AI_SPEC §406・post-merge・段の行・.gitignore');
+      // ⑤ 書かない語
+      const strip = (t) => t.replace(/「[^」]*」/g, '');
+      const texts = [['PHYSICS〔第356便b〕', sec], ['AI_SPEC §406', ai], ['構成案の表 3a・3b', P2.slice(p3a, q5)], ['lib', rd356b('tests/lib-w356b-p2figs.mjs')], ['器', rd356b('tests/exp-w356b-p2figs.mjs')], ['文書の lib', rd356b('tests/lib-w356b-p2figsdoc.mjs')]];
+      for (const [nm, tx] of texts) {
+        const t2 = strip(tx || '');
+        for (const w of NG) if (t2.indexOf(w) >= 0) bad.push('⑤ ' + nm + ' に書かない語(' + w.length + ' 字)');
+        if (/第\d+報/.test(tx || '')) bad.push('⑤ ' + nm + ' に報の番号');
+      }
+      cases.push('⑤ 書かない語・報の番号(節・AI_SPEC・表 3a と 3b・lib・器・文書の lib —— 原文の「」は外す)');
+      return { bad, cases };
+    };
+    let bad = [], cases = [];
+    if (err0) bad.push('読めない: ' + err0);
+    else try {
+      const R = check(PH0, PP0, AS0, PM0, J); bad = bad.concat(R.bad); cases = cases.concat(R.cases);
+      // ⑥ 変異の自己試験
+      const T0 = D0.tableFigs(J), iS = PH0.indexOf(HEAD), inSec = (a, z) => PH0.slice(0, iS) + PH0.slice(iS).replace(a, z);
+      const J2 = JSON.parse(js(J)); J2.prec.scan.maxRel *= 1.1;
+      const MUT = [
+        ['表 3a の 1 字を変える(節)', [inSec(T0, T0.replace('| 残す |', '| 残る |')), PP0, AS0, PM0, J], /^② PHYSICS〔第356便b〕に表 figs/],
+        ['正本の走査の誤差を変える', [PH0, PP0, AS0, PM0, J2], /^② PHYSICS〔第356便b〕に表 prec/],
+        ['節に書かない語を置く', [inSec('**⑨ 書かないこと。** ', '**⑨ 書かないこと。** 図 6 で' + rv('たっ合') + '。'), PP0, AS0, PM0, J], /^⑤ PHYSICS〔第356便b〕 に書かない語/],
+        ['「」の中の書かない語は落ちない', [inSec('**⑨ 書かないこと。** ', '**⑨ 書かないこと。** 「' + rv('たっ合') + '」と書かない。'), PP0, AS0, PM0, J], null],
+        ['構成案の表 3b を消す', [PH0, PP0.replace('**表 3b ', '**表 3x '), AS0, PM0, J], /^③ 構成案の論文2 の ④ に表 3a・表 3b/],
+        ['本節を〔第355便i〕の前に移す', [(() => { const s = secOf(PH0), t = PH0.replace('\n' + s, '\n'), k = t.indexOf('\n〔第355便i — '); return t.slice(0, k + 1) + s + t.slice(k + 1); })(), PP0, AS0, PM0, J], /^① PHYSICS〔第356便b〕の位置/],
+        ['節に報の番号を置く', [inSec('**⑨ 書かないこと。** ', '**⑨ 書かないこと。** 第999報。'), PP0, AS0, PM0, J], /^⑤ PHYSICS〔第356便b〕 に報の番号/],
+      ];
+      const sc = [];
+      for (const [nm, args, re] of MUT) {
+        const r = check(...args);
+        if (re === null) { if (r.bad.length) bad.push('⑥ 変異「' + nm + '」が落ちた: ' + r.bad[0]); sc.push(nm + ' → ' + (r.bad.length ? '落ちる' : '通る')); continue; }
+        const hit = r.bad.some((b) => re.test(b)); if (!hit) bad.push('⑥ 変異「' + nm + '」が期待の違反で落ちない: ' + (r.bad[0] || '通った')); sc.push(nm + ' → ' + (hit ? '落ちる' : '落ちない'));
+      }
+      cases.push(`⑥ 変異の自己試験 ${MUT.length} 種: ` + sc.join(' / '));
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 200)); }
+    add('docs.p2figs356b', bad.length === 0,
+      `**PHYSICS〔第356便b〕と構成案の論文2 の表 3a(図の並び)・表 3b(図 6 の精度の書き方)**(第356便b・R514 —— 図の行き先は案・模式図は数の図ではない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();
+}
+// ==== 第356便b の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

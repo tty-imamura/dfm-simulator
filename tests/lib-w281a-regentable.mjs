@@ -3608,6 +3608,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/replaw-355i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第355便i: 零試験 10/斥力の則の族 26 組と和の 1 組の斥力だけの圧力の冪(箱・粒の数・温度)/二次元 1/並進あり 2/窓に入る組の先頭 2 組の粒 216/比べる列 B 3 列 × 倍 4/零試験の照合 9 行' }),
   // ==== 第355便i の塊(ここまで)====
+  // ==== 第356便b の塊(ここから)====
+  // ---- 第356便b(統括の検証項目 R514): **論文 2 の仕上げの材料 —— 図の並びの宣言(今の 22 ゲートを図ごとに数えて残す図と移す図に分ける)・模式図 2 枚の描く量・図 6 の精度の書き方**
+  //   (段 p2figs-356b —— 正本 tests/out/p2figs-356b.json・lib tests/lib-w356b-p2figs.mjs —— ほかの lib を呼ばない。入力のファイルは今の図のデータ 7 つ〔paper/figures/p2figs-gates.json・p2fig1〜p2fig6.json〕と
+  //   図の生成器 tools/gen-figures2.mjs〔字の在りかを見るだけ〕—— どれも段の出力ではない)。**材料だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・1 s 未満(尺度の走り直し 3 回)
+  S('p2figs-356b', 'node tests/exp-w356b-p2figs.mjs', ['tests/out/p2figs-356b.json'], 5, { secSource: 'w356b-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 今の図のデータを読んで全部作り直して照合する(1 s 未満 —— 簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/p2figs-356b.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第356便b: 零試験 8/今の 22 ゲートの図ごとの数(残す 14・移す 8)/模式図 A・B の描く量/図 6 の精度(走査 72 区間・V29 3 区間)/「同水準」の字の在りか' }),
+  // ==== 第356便b の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

@@ -51,7 +51,7 @@ export function runAll(read) {
   const phrase = { gateLog: L.phraseHits({ 'paper/figures/p2figs-gates.json#p2fig6.analytic': g6 ? g6.detail : null, 'paper/figures/p2fig6.json#v29Gate.detail': F[6].v29Gate.detail }), gen: genHits };
   mark('phrase');
   const fig1 = { kind: F[1].kind, note: F[1].note };
-  const J = { pure, plan: L.FIG_PLAN, gates, fig1, schematicA, schematicB, prec, phrase, timing: tm };
+  const J = { pure, figPlan: L.FIG_PLAN, gates, fig1, schematicA, schematicB, prec, phrase, timing: tm };
   J.gatesOk = gatesOf(J); J.ok = Object.values(J.gatesOk).every(Boolean);
   return J;
 }

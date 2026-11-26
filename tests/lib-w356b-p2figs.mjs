@@ -39,14 +39,14 @@ export const MOVE = Object.freeze(['p2fig7', 'p2fig8']);
 export const FIG_PLAN = Object.freeze([
   Object.freeze({ id: 'sA', fig: '新しい模式図 A(天体が 1 つの箱)', chapter: '第 3 章', state: 'new',
     shows: '天体が 1 つの箱の中から、箱の並進・回転・膨張のうち何が読めないか(並進)と、何が引きずられるフレームを通して読めるか(回転・膨張 —— 中心の利得 1/2)',
-    src: 'tests/out/p2figs-356b.json の schematicA(数は今の図 2 のデータ paper/figures/p2fig2.json から)', to: '新しい(第 3 章の頭)' }),
+    src: 'tests/out/p2figs-356b.json の schematicA(数は今の図 2 のデータ paper/figures/p2fig2.json から)', to: '第 3 章の頭' }),
   Object.freeze({ id: 'p2fig1', fig: '今の図 1(p2fig1 —— 箱の階層)', chapter: '第 2 章・第 3 章', state: 'keep',
     shows: '規定の箱と自由な箱・内部の物体が読む量と意味論の 6 項目(模式図)', src: 'paper/figures/p2fig1.json(模式図 —— 数値ゲートなし)', to: '残す' }),
   Object.freeze({ id: 'p2fig2', fig: '今の図 2(p2fig2 —— フレームの利得)', chapter: '第 3 章', state: 'keep',
     shows: '質点リングの壁のフレームの利得 g(r) の実測と解析(中心で 1/2)', src: 'paper/figures/p2fig2.json(V23a・V24a と同じ構成の半径の走査)', to: '残す' }),
   Object.freeze({ id: 'sB', fig: '新しい模式図 B(膨張の 3 層の比べ)', chapter: '第 4 章', state: 'new',
     shows: '規定された運動学・波長の意味論・解かれる動力学の 3 層で、何を与え何を読むか(a(t) を与える → 解く)',
-    src: 'tests/out/p2figs-356b.json の schematicB(数は今の図 3・図 4・図 5 のデータ paper/figures/p2fig3.json・p2fig4.json・p2fig5.json から)', to: '新しい(第 4 章の頭)' }),
+    src: 'tests/out/p2figs-356b.json の schematicB(数は今の図 3・図 4・図 5 のデータ paper/figures/p2fig3.json・p2fig4.json・p2fig5.json から)', to: '第 4 章の頭' }),
   Object.freeze({ id: 'p2fig3', fig: '今の図 3(p2fig3 —— 第 1 層)', chapter: '第 4 章', state: 'keep',
     shows: '連星の膨張感受率 n_eff が決定力の持ち分 φ_B で決まる(V25 の錨)', src: 'paper/figures/p2fig3.json(V25 の構成の走査)', to: '残す' }),
   Object.freeze({ id: 'p2fig4', fig: '今の図 4(p2fig4 —— 第 2 層)', chapter: '第 4 章', state: 'keep',
@@ -67,7 +67,7 @@ export const FIG_PLAN = Object.freeze([
 
 const isObj = (o) => o !== null && typeof o === 'object' && !Array.isArray(o);
 const need = (c, msg) => { if (!c) throw new Error('w356b: ' + msg); };
-const p3 = (x) => Number(x).toPrecision(3);
+const p3 = (x) => Number(x).toPrecision(3), p4 = (x) => Number(x).toPrecision(4);
 const rd = (x, d = DECL.diffDigits) => Number(Number(x).toFixed(d));
 
 /** ① 今のゲートを図ごとに数える(G = p2figs-gates.json の中身) */
@@ -104,13 +104,13 @@ export function schematicA(F2) {
     { id: 'b', name: { ja: '(b) 回転', en: '(b) rotation' }, motion: 'rotate',
       arrows: [{ kind: 'arc', center: [0.5, 0.5], radius: 0.42, fromDeg: 30, toDeg: 150, sense: 1 }],
       readable: true, gainMeasured: g.rotation, gainAnalytic: g.analytic,
-      label: { ja: '外の全部が回る —— 引きずられるフレームで読める(中心の近く r = 20 の利得 ' + p3(g.rotation) + '・解析 ' + p3(g.analytic) + ')',
-        en: 'everything else rotates: readable through the dragged frame (gain near the centre, r = 20: ' + p3(g.rotation) + '; analytic ' + p3(g.analytic) + ')' } },
+      label: { ja: '外の全部が回る —— 引きずられるフレームで読める(中心の近く r = 20 の利得 ' + p4(g.rotation) + '・解析 ' + p4(g.analytic) + ')',
+        en: 'everything else rotates: readable through the dragged frame (gain near the centre, r = 20: ' + p4(g.rotation) + '; analytic ' + p4(g.analytic) + ')' } },
     { id: 'c', name: { ja: '(c) 膨張', en: '(c) expansion' }, motion: 'expand',
       arrows: [45, 135, 225, 315].map((d) => Object.assign({ kind: 'straight' }, ray(d, 0.3, 0.46))),
       readable: true, gainMeasured: g.expansion, gainAnalytic: g.analytic,
-      label: { ja: '外の全部が膨張する —— 引きずられるフレームで読める(r = 20 の利得 ' + p3(g.expansion) + ')',
-        en: 'everything else expands: readable through the dragged frame (gain at r = 20: ' + p3(g.expansion) + ')' } },
+      label: { ja: '外の全部が膨張する —— 引きずられるフレームで読める(r = 20 の利得 ' + p4(g.expansion) + ')',
+        en: 'everything else expands: readable through the dragged frame (gain at r = 20: ' + p4(g.expansion) + ')' } },
   ];
   return { kind: '模式(数の図ではない)', schematic: true, frame: [...DECL.frame], box, body,
     bodyLabel: { ja: '天体 1 つ(自分の決定力が自分に効く分は、今の模型では 0 —— 未解決 U2-1)', en: 'a single body (its own determining force on itself is zero in the present model: open item U2-1)' },
@@ -236,7 +236,7 @@ export function pureGates(s) {
     z4_v29: s.z4.per.join(',') === '0.00039,0.00026,0.00053' && s.z4.max === 5.3e-4 && s.z4.maxText === '5.3e-4' && s.z4.wDrift === 4.8e-4,
     z5_schemA: a.schematic === true && a.kind === '模式(数の図ではない)' && a.panels.length === 3 && Math.abs(a.body.x - a.box.cx) + a.body.r < a.box.half
       && a.panels.every((p) => p.arrows.every((q) => q.kind === 'arc' || unit(q.dir))) && a.panels[0].readable === false && a.panels[1].readable && a.panels[2].readable
-      && s.z5.lab2.indexOf('0.400') >= 0 && s.z5.lab2e.indexOf('0.450') >= 0,
+      && s.z5.lab2.indexOf('0.4000') >= 0 && s.z5.lab2e.indexOf('0.4500') >= 0,
     z6_schemB: b.schematic === true && b.bounds.join(',') === '0,0.333333333,0.666666667,1' && b.layers.map((l) => l.id).join(',') === 'L1,L2,L3'
       && b.layers[1].nums.zA === 3 && b.layers[1].nums.zB === 1 && b.layers[2].nums.hSignFlip === true && b.layers.every((l) => l.x0 < l.xc && l.xc < l.x1 && unit(l.arrow.dir)),
     z7_phrase: s.z7.length === 2 && s.z7.every((h) => h.where === 'x') && s.z7[0].ctx.indexOf('5.3e-4 と同水準') >= 0,
