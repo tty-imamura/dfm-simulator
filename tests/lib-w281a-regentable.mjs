@@ -3613,6 +3613,7 @@ export const REGEN_STEPS = [
   //   (段 corot-356h —— 正本 tests/out/corot-356h.json・lib tests/lib-w356h-corot.mjs —— 第355便f の lib tests/lib-w355f-g4cols.mjs を呼ぶ。入力のファイルは無い)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。
   //   1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入らない。所要は第356便h の枝の実測 174 s(settleRun の 3 回分)
   S('corot-356h', 'node tests/exp-w356h-corot.mjs', ['tests/out/corot-356h.json'], 180, { secSource: 'w356h-branch', node: true,
+    after: ['g4cols-355f'],   // 第355便f の lib の閉包(第337便e ほか —— 既存の正本を読む lib)の順を継ぐ・QA が第355便f の正本と外縁の比を照合する
     quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 低 N の走り 132 本を 3 回(尺度の走り直し)で、簡易一致の窓を持たない',
     volatilePaths: { 'tests/out/corot-356h.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第356便h: 零試験 8/走り 132(模型 2 × 粒 2 × 種 3 × 列 11)の量の候補 4 つ/効果と幅 20/対照の絶対の値 2' }),
