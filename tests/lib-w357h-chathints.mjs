@@ -7,7 +7,7 @@ import path from 'node:path';
 import { loadApp, checkText } from './lib-w355h-aichat-validate.mjs';
 import { i18nStrings } from './lib-w357c-chatbuttons.mjs';
 
-export const LIB_VERSION = 'w357h-chathints-lib-2';   // 統合の後の直し: 1 → 2(出来た本の行は報告の先頭・「ページを読めない」の 1 文は手順の段の外の短い段 aiChatUnread)
+export const LIB_VERSION = 'w357h-chathints-lib-3';   // 統合の後の直し 2: 2 → 3(検証・取り込みの後に状態の行と報告の先頭を見える所へ —— aiResultReveal)   // 統合の後の直し: 1 → 2(出来た本の行は報告の先頭・「ページを読めない」の 1 文は手順の段の外の短い段 aiChatUnread)
 export const NOTE_JA = 'AIが「ページを読めない」と言ったら、下の「1回で生成するプロンプト」を使う(仕様を全部含むので、ページを読まなくてよい)。';
 export const NOTE_EN = 'If the AI says it cannot read the pages, use "One-shot generation prompt" below (it contains the whole specification, so no page needs to be read).';
 export const KIND_JA = { records: '観測レコードから組み立てた実単位の本', real: 'プリセットをそのまま —— 実単位の宣言あり', preset: 'プリセットをそのまま —— 実単位ではありません' };
@@ -48,6 +48,11 @@ export function judgeHints(now, before, html) {
   const iL = String(html).indexOf('id="aiChatLink"'), iU = String(html).indexOf('<p class="note" id="aiChatUnread">' + NOTE_JA + '</p>'), iP = String(html).indexOf('id="aiPasteArea"', iL);
   if (!(iL >= 0 && iU > iL && iP > iU)) why.push('③ 短い段がリンクの後ろ・貼付欄の前に無い(html の ja の字のまま)');
   if ((String(html).match(/\n  aiResBuilt:/g) || []).length !== 2) why.push('③ I18N の aiResBuilt が ja/en の対でない');
+  // 検証・取り込みの後に見える所へ運ぶ 1 行(静的 —— 関数の本文と、aiPasteRun の 3 つの終わり〔拒否・検証のみ・取り込む〕で呼ぶ)
+  const H0 = String(html), fr = /\nfunction aiResultReveal\(\)\{[\s\S]*?\n\}\n/.exec(H0), pr = /\nfunction aiPasteRun\(save\)\{[\s\S]*?\n\}\n/.exec(H0);
+  if (!(fr && /scrollIntoView\(\{block:"nearest"\}\)/.test(fr[0]) && /typeof tg\.scrollIntoView==="function"/.test(fr[0]))) why.push('④b 関数 aiResultReveal(block:"nearest"・無い所で落ちない形)が無い');
+  if (!(pr && (pr[0].match(/aiResultReveal\(\);/g) || []).length === 3)) why.push('④b aiPasteRun の 3 つの終わりで aiResultReveal を呼んでいない');
+  cases.push('④b 検証・取り込みの後に見える所へ(aiResultReveal・3 か所)');
   cases.push('③ 短い段 aiChatUnread の 1 文 ja/en(手順の段には無い・リンクの後ろ・貼付欄の前)・aiResBuilt の対・出来た本の行は報告の先頭');
   if (before) {
     // 観測レコードの題は、組み立ての形を変える枝(第357便g)が在るので比べない —— プリセットの題だけ(この枝は取り込む値を変えない)
@@ -73,6 +78,7 @@ export function runChatHints(root, target, base, opts = {}) {
       ['伝える文の 1 行を外す', H.replace(' rows.push(aiBuiltLineOf(r)); }', ' }'), /^②/],
       ['種類の読みを逆に', H.replace('const kd=(r.kind==="records")?', 'const kd=(r.kind!=="records")?'), /^①/],
       ['短い段の 1 文を外す', H.replace('  aiChatUnread:"' + NOTE_JA + '",', '  aiChatUnread:"",'), /^③/],
+      ['見える所へ運ぶ 1 行を外す', H.replace('  aiResultReveal();\n  return r;', '  return r;'), /^④b/],
       ['行を報告の最後へ戻す', H.replace('  if(r.ok && r.preset) obsReportBlock(aiBuiltLineOf(r), []);\n', '').replace('  } else setAiStatus(T("pasteKindPreset"),"ok");\n', '  } else setAiStatus(T("pasteKindPreset"),"ok");\n  obsReportBlock(aiBuiltLineOf(r), []);\n'), /^①/],
     ];
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w357h-mut-')), sc = [];

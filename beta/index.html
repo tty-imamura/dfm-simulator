@@ -49642,6 +49642,12 @@ function stabShowReport(r, mode){
 }
 function aiKeplerOn(){ const c=$("#aiKeplerFix"); return !c || c.checked; }
 function aiPasteOpts(){ return {kepler:aiKeplerOn()}; }
+// 統合の後の直し: 検証・取り込みの後に、状態の行と報告の先頭の段(出来た本の行・拒否の段)を見える所へ運ぶ
+//   (block:"nearest" —— すでに見えていれば動かない。scrollIntoView が無い所では何もしない)
+function aiResultReveal(){
+  const tg=document.querySelector("#aiPasteReport > *") || document.getElementById("aiStatus");
+  if(tg && typeof tg.scrollIntoView==="function"){ try{ tg.scrollIntoView({block:"nearest"}); }catch(e){ /* */ } }
+}
 // 貼り付け内容を取り込む(save=false なら検証のみ — 保存しない)
 function aiPasteRun(save){
   obsReportClear();
@@ -49658,18 +49664,20 @@ function aiPasteRun(save){
     obsShowDiag(r);
     setAiStatus((r.errors&&r.errors[0])? String(r.errors[0]).slice(0,160) : T("obsBuildNg"),"err");
     if(r.kind!=="empty") aiResultMsgSet(aiResultMsgOf(r, save));   // 空の貼り付けは伝える結果が無い
+    aiResultReveal();
     return null;
   }
   if(r.kind==="records"){
     obsShowDiag(r);
     setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
   } else setAiStatus(T("pasteKindPreset"),"ok");
-  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); return r; }
+  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); aiResultMsgSet(aiResultMsgOf(r, false)); aiResultReveal(); return r; }
   aiResultMsgSet(aiResultMsgOf(r, true));   // 名は取り込む前の字(aiAdoptPreset は id だけを付ける)
   aiAdoptPreset(r.preset);
   setAiStatus(T("pasteSavedOk")(r.preset.name)
     +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : "")
     +xkLockStatusOf(r),"ok");   // 第327便d(AN544): クランプの ⚠ を状態の行にも
+  aiResultReveal();
   return r;
 }
 // 生成物の採用(AI生成・貼付の共通経路)— 保存 → 一覧再構築 → 読み込み
