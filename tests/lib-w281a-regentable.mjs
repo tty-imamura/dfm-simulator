@@ -3552,6 +3552,62 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/lockdef-353zk.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
     note: '第353便zk: 零試験 12/X 10 天体 × 列 3 × 置き方 3 × k₂/Q 2 と X = 1 の自転周期/線 1 で分かれるか 36 行と k₂/Q の範囲 18/u の範囲 12/金星と地球 3/整数の並び 12/言えること 3' }),
   // ==== 第353便zk の塊(ここまで)====
+  // ==== 第355便b の塊(ここから)====
+  // ---- 第355便b(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R505): **「潮汐力 ÷ 軸引きずり = 1」の線で惑星が分かれる背景の大きさ u の範囲を、主の作り(換算の係数 = 金星で等大になる値・(P-応)・(O2b))で閉じた形で数える表(範囲 72 行・共通部分・k₂/Q 走査・代表の値)**
+  //   (段 bgrange-355b —— 正本 tests/out/bgrange-355b.json・lib tests/lib-w355b-bgrange.mjs —— 第353便zk・zf・c・z・g・第352便k・第348便c・第337便c・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは第353便zk の正本 tests/out/lockdef-353zk.json(零試験の照合だけ)・順序 after に lockdef-353zk)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第355便b の枝の実測 3 s
+  S('bgrange-355b', 'node tests/exp-w355b-bgrange.mjs', ['tests/out/bgrange-355b.json'], 3, { secSource: 'w355b-branch', node: true,
+    after: ['lockdef-353zk'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は第353便zk の正本 1 本)—— 全部を走らせても数 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/bgrange-355b.json': ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便b: 零試験 13/範囲の照合 6/X 作り 6 × 置き方 3 × k₂/Q 2/範囲 72 行と k₂/Q 走査 18 と比べる読み 15/共通部分 36/代表の値 6/全体の係数の題 3/比べる列 (ア)(ウ)' }),
+  // ==== 第355便b の塊(ここまで)====
+  // ==== 第355便c の塊(ここから)====
+  // ---- 第355便c(原仮定者の回答(2026-11-25)・原仮定者の指示(2026-11-25)・統括の検証項目 R506): **第353便zf の 35 の題を主の作り(換算の係数 = 金星で等大になる値)で、背景の大きさの範囲の内の代表の値ごとに並べ直す表(題 35 × u 6・形と切り替わる u・比べる列 (ウ)(ア))**
+  //   (段 rangecols-355c —— 正本 tests/out/rangecols-355c.json・lib tests/lib-w355c-rangecols.mjs —— 第353便zf・zg・u・za・第347便e の lib を import して呼ぶ。
+  //   入力のファイルは無い・順序 after に threecols-353zf)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib が閉包に入る(正本の最上位に provisional: true)。所要は第355便c の枝の実測 35 s
+  S('rangecols-355c', 'node tests/exp-w355c-rangecols.mjs', ['tests/out/rangecols-355c.json'], 35, { secSource: 'w355c-branch', node: true,
+    after: ['threecols-353zf'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 全部を走らせても数十 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/rangecols-355c.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第355便c: 零試験 5/題 35 × u の列 6(主の作り)/形・切り替わる u/比べる列 (ウ)(ア)' }),
+  // ==== 第355便c の塊(ここまで)====
+  // ==== 第355便e の塊(ここから)====
+  // ---- 第355便e(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R508): **6 組の共通部分が開く k₂/Q を閉じた形で数えた表と、全体の係数で読む 3 つの題・枝 c の端と枝 b の正本の照合**
+  //   (段 kqopen-355e —— 正本 tests/out/kqopen-355e.json・lib tests/lib-w355e-kqopen.mjs —— 第355便b の lib を import して呼ぶ。入力のファイルは第355便b・第355便c の正本 2 本・順序 after に bgrange-355b・rangecols-355c)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入る(正本の最上位に provisional の印)。
+  S('kqopen-355e', 'node tests/exp-w355e-kqopen.mjs', ['tests/out/kqopen-355e.json'], 1, { secSource: 'w355e-branch', node: true,
+    after: ['bgrange-355b', 'rangecols-355c'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力は第355便b・第355便c の正本 2 本)—— 全部を走らせても 1 s の桁で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/kqopen-355e.json': ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便e: 零試験 7/k₂/Q 1 あたりの X 3 × 10/比の下限と上限 3/1 つの値で開く区間 3/開いた所の共通部分 8/全体の係数の題 7/枝 c の端の照合 2' }),
+  // ==== 第355便e の塊(ここまで)====
+  // ==== 第355便f の塊(ここから)====
+  // ---- 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)AN948・AN962〜AN964・統括の検証項目 R509): **新しい geoPN=4 の計算の候補の列(表 5c)の低 N の診断 —— 列 6 × 模型 2 × γ 2 × N 2 × 種 3 の効果と離散化の幅・既存の正本の数の写し**
+  //   (段 g4cols-355f —— 正本 tests/out/g4cols-355f.json・lib tests/lib-w355f-g4cols.mjs —— 第335便f・第337便e の lib を import して呼ぶ。入力のファイルは第337便e・第340便g の正本(数の写しだけ)。
+  //   **診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス。正本は第338便c の settleRun で書く。仮の値の lib は閉包に入らない。所要は第355便f の枝の実測 176 s(settleRun の 3 回分)
+  S('g4cols-355f', 'node tests/exp-w355f-g4cols.mjs', ['tests/out/g4cols-355f.json'], 180, { secSource: 'w355f-branch', node: true,
+    after: ['fluid-337e', 'fluidconv-340g'],
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない)—— 低 N の走り 132 本を 3 回(尺度の走り直し)で、簡易一致の窓を持たない',
+    volatilePaths: { 'tests/out/g4cols-355f.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/meta/inputs/*/mtime', '/elapsedS', '/timing/*/wallSec'] },
+    note: '第355便f: 零試験 8/走り 132(模型 2 × N 2 × 種 3 × 列 11)/効果と幅 20/既存の正本の写し 2' }),
+  // ==== 第355便f の塊(ここまで)====
+  // ==== 第355便g の塊(ここから)====
+  // ---- 第355便g(統括の検証項目 R510): **論文 5 の三次元の熱の項 —— 形の候補の表のための状態方程式の診断の器**(候補の斥力の則・熱への依り方・三次元の摩擦と拡散の候補・圧力の冪)
+  //   (段 heat3d-355g —— 正本 tests/out/heat3d-355g.json・lib tests/lib-w355g-heat3d.mjs —— 既存の lib は呼ばない。入力のファイルは無い)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・3〜4 分(尺度の走り直し 3 回)
+  S('heat3d-355g', 'node tests/exp-w355g-heat3d.mjs', ['tests/out/heat3d-355g.json'], 200, { secSource: 'w355g-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/heat3d-355g.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第355便g: 零試験 10/候補の列 10 の圧力の冪/斥力の強さの倍 8/粒の数で振る 4/熱への依り方 3/摩擦と拡散の保存 4' }),
+  // ==== 第355便g の塊(ここまで)====
+  // ==== 第355便i の塊(ここから)====
+  // ---- 第355便i(統括の検証項目 R512): **論文 5 の思考実験「圧力 = 粒の間の斥力」のまま、斥力の則の族をノブで振った圧力の冪の診断の器**(形 × 距離の冪・届く距離を切る・近くの粒の数で割る・熱への依り方)
+  //   (段 replaw-355i —— 正本 tests/out/replaw-355i.json・lib tests/lib-w355i-replaw.mjs —— 第355便g の lib tests/lib-w355g-heat3d.mjs を呼ぶ。入力のファイルは無い)。**診断だけ**。**html を読まない**(来歴の対象は純関数の lib —— 領域の宣言なし)。1 プロセス・約 11 分(尺度の走り直し 3 回 —— 正本を書いた走行 657 s)
+  S('replaw-355i', 'node tests/exp-w355i-replaw.mjs', ['tests/out/replaw-355i.json'], 660, { secSource: 'w355i-branch', node: true,
+    quickVerify: false, quickVerifyWhy: '純関数だけ(html を読まない・入力のファイルが無い)—— 小さな積分器を全部走らせて照合する(簡易一致の窓を持たない)',
+    volatilePaths: { 'tests/out/replaw-355i.json': ['/meta/generatedAt', '/meta/code/*/mtime', '/elapsedS', '/timing/*/wallSec'] },   // 入力のファイルが無い器 —— /meta/inputs/*/mtime は外す
+    note: '第355便i: 零試験 10/斥力の則の族 26 組と和の 1 組の斥力だけの圧力の冪(箱・粒の数・温度)/二次元 1/並進あり 2/窓に入る組の先頭 2 組の粒 216/比べる列 B 3 列 × 倍 4/零試験の照合 9 行' }),
+  // ==== 第355便i の塊(ここまで)====
   // ---- 第305便e(決断事項 AN318・AN333・統括の検証項目 R203): **🟪 plutoCharonInertialFit の基線の監査**(引きずり OFF の +7.221 s の内訳 —— 段 closed〔閉じた式と
   //   PLU060 の平均の要素の定義・解の違い・GM の不確かさ〕・soft〔軟化 ε の外挿〕・window〔M1/第 2 周/M4・8/16 公転〕・band〔h/h2/h4〕・mass〔G と GM〕・tide〔三次元の写しと
   //   太陽の潮汐の等価の質点の桁〕・clock〔観察者の時計への換算 —— 記録だけ〕・fix〔宣言を直す案の確かめ〕)。**本の宣言は変えない**。html と paper/data/solar-observations.csv

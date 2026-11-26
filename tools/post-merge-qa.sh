@@ -1873,6 +1873,57 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report153_353zl"
 #   前置きの塊・論文の検査 4 本の job <名>-tl2025 と組版の行・頭の注・文書)と、宣言を更新した既存の lint.paperRunner348f・job の並びを更新した既存の lint.paperDispatch350i。段は足していない
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.paperTex354a lint.paperRunner348f lint.paperDispatch350i"
 # ==== 第354便a の塊(ここまで)====
+# ==== 第355便a の塊(ここから)====
+# 第355便a(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R504 —— 文書と照合の鍵だけ・html は変えない): 枝 a の新設 1 本
+#   (docs.report155_355a —— 主の列の切り替え〔換算の係数 = 金星で等大になる値・背景の大きさ = 比 1 の線で分かれる範囲の内〕・訂正の鎖の継ぎ・計算式の一覧の印の置き直し)
+#   (印を継いだ計算式の一覧を読む既存の照合 docs.equations353zz と、前の節を見る docs.report153_353zl は期待を変えていない —— 第353便zz・第353便zl の塊が足す)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.report155_355a"
+# ==== 第355便a の塊(ここまで)====
+# ==== 第355便b の塊(ここから)====
+# 第355便b(原仮定者の指示(2026-11-25)・原仮定者の回答(2026-11-25)・統括の検証項目 R505 —— 診断だけ・html は変えない): 枝 b の新設 2 本
+#   (behavior.bgrange355b —— 零試験 13・器を走らせ直して第338便c の recheckRun で正本と照合・範囲を QA の中で別に書いた式で照合・閉じた形と格子の照合・呼ぶだけ /
+#   docs.bgrange355b —— 原文と表と数の文が PHYSICS〔第355便b〕に逐語・文書)と、新しい段 bgrange-355b
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.bgrange355b docs.bgrange355b"
+# ==== 第355便b の塊(ここまで)====
+# ==== 第355便c の塊(ここから)====
+# 第355便c(原仮定者の回答(2026-11-25)・統括の検証項目 R506 —— 診断だけ・html は変えない): 枝 c の新設 2 本
+#   (behavior.rangecols355c —— 零試験 5・器を走らせ直して第338便c の recheckRun で正本と照合・形と数を QA の中で別に書いた式で照合・呼ぶだけ /
+#   docs.rangecols355c —— 原文と表と数の文が PHYSICS〔第355便c〕に逐語・文書)と、新しい段 rangecols-355c
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.rangecols355c docs.rangecols355c"
+# ==== 第355便c の塊(ここまで)====
+# ==== 第355便d の塊(ここから)====
+# 第355便d(統括の検証項目 R507 —— 文書と照合の鍵だけ・html は変えない): 枝 d の新設 1 本(docs.equations355d —— 計算式の一覧の EQ-183〜EQ-189〔第353便zk の式〕・§3 の 7 行・§6 の件数の文)と、
+#   EQ-182 までの写し(view353zzOf355d)で読む形にした既存の照合(docs.equations353zz)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355d docs.equations353zz"
+# ==== 第355便d の塊(ここまで)====
+# ==== 第355便e の塊(ここから)====
+# 第355便e(統括の検証項目 R508 —— 継ぎ目・計算式の一覧・診断だけ・html は変えない): 枝 e の新設(docs.equations355e —— 計算式の一覧の EQ-190〜EQ-194〔第355便b の式〕・冒頭の 1 行・§2a・§7 の規則 24)と、
+#   EQ-189 までの写し(view355dOf355e)で読む形にした第355便d の照合(docs.equations355d)・範囲の数を正本から作る第355便a の照合(docs.report155_355a)
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.equations355e docs.equations355d"
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.kqopen355e docs.kqopen355e docs.report155_355a"
+# ==== 第355便e の塊(ここまで)====
+# ==== 第355便f の塊(ここから)====
+# 第355便f(原仮定者の回答(2026-11-22 —— 回答 5・回答 6)・統括の検証項目 R509 —— 診断と文書だけ・html は変えない): 枝 f の新設 2 本
+#   (behavior.g4cols355f —— 零試験 8・器を走らせ直して第338便c の recheckRun で正本と照合 / docs.g4cols355f —— 表 5c と PHYSICS〔第355便f〕の表が文書の lib の出力と逐語)と、新しい段 g4cols-355f
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.g4cols355f docs.g4cols355f"
+# ==== 第355便f の塊(ここまで)====
+# ==== 第355便g の塊(ここから)====
+# 第355便g(統括の検証項目 R510 —— 診断と文書だけ・html は変えない): 枝 g の新設 2 本
+#   (behavior.heat3d355g —— 零試験 10・器を走らせ直して第338便c の recheckRun で正本と照合・冪と保存の量を QA の中で別に書いた式で照合 /
+#   docs.heat3d355g —— 原文と表と数の文が PHYSICS〔第355便g〕に逐語・プログラムの抜粋が html に在る・PAPER_PLAN の表 6b・文書)と、新しい段 heat3d-355g
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.heat3d355g docs.heat3d355g"
+# ==== 第355便g の塊(ここまで)====
+# ==== 第355便h の塊(ここから)====
+# 第355便h(原仮定者の指示(2026-11-25)・統括の検証項目 R511 —— 文書と道具と検査だけ・html は変えない): 枝 h の新設 2 本(docs.aichat355h —— 対話の入口のページ・
+#   仕様の頭の短いページと写しの守り・README と入口のページのプロンプト・高校生向けの解説・夜の CI の記録の段・文書/behavior.aichatIntake355h —— 返答の検査の器の自己試験 7 本)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
+# ==== 第355便h の塊(ここまで)====
+# ==== 第355便i の塊(ここから)====
+# 第355便i(統括の検証項目 R512 —— 診断と文書だけ・html は変えない): 枝 i の新設 2 本
+#   (behavior.replaw355i —— 零試験 10・組 2 つと零試験の照合の行を第338便c の recheckRun で作り直して正本と照合・冪と印を QA の中で別に書いた式で照合 /
+#   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
+# ==== 第355便i の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)

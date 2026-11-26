@@ -1,0 +1,7688 @@
+{
+ "version": "w355b-bgrange-1",
+ "libVersion": "w355b-bgrange-lib-1",
+ "generator": "tests/exp-w355b-bgrange.mjs",
+ "target": "tests/lib-w355b-bgrange.mjs",
+ "ruling": "原仮定者の指示(2026-11-25)「この結果を尊重する」・原仮定者の回答(2026-11-25)「推奨。ただし、必ず0.98 倍である必要は無い」・統括の検証項目 R505",
+ "provisional": true,
+ "provKeys": [
+  "earth.precSense",
+  "earth.psiA.rate",
+  "mars.prec.rate",
+  "venus.prec.rate",
+  "venus.spin.period"
+ ],
+ "provMark": "仮・未照合(閉包の第353便zk の lib が仮の値の lib を import する —— 本器は値を読まない)",
+ "decl": {
+  "builds": [
+   "R",
+   "O",
+   "P",
+   "M"
+  ],
+  "mainBuild": "M",
+  "refs": [
+   "obs",
+   "rule"
+  ],
+  "refMain": "obs",
+  "cRef": 0.4,
+  "cRShow": [
+   1,
+   0.1,
+   0.0128,
+   0.001,
+   0.000001
+  ],
+  "modes": [
+   "obs",
+   "sync",
+   "syncAbs"
+  ],
+  "k2qModes": [
+   "common",
+   "c337"
+  ],
+  "bodies": [
+   "Mercury",
+   "Venus",
+   "Earth",
+   "Mars",
+   "Jupiter",
+   "Saturn",
+   "Uranus",
+   "Neptune",
+   "Moon",
+   "Io"
+  ],
+  "planets": [
+   "Mercury",
+   "Venus",
+   "Earth",
+   "Mars",
+   "Jupiter",
+   "Saturn",
+   "Uranus",
+   "Neptune"
+  ],
+  "modeMain": "obs",
+  "k2qMain": "common",
+  "partAsLockMain": true,
+  "k2qScan": [
+   0.0001,
+   0.0003,
+   0.001,
+   0.003,
+   0.01,
+   0.03,
+   0.1
+  ],
+  "window": [
+   0.0487,
+   0.835
+  ],
+  "uFocus": 0.98,
+  "reps": [
+   0.41,
+   0.84,
+   0.98,
+   3.2
+  ],
+  "egQ": 0.00001,
+  "judge": "零試験は相対 1e-9 の床(同じ入力の照合)・第353便zk の正本の数とも相対 1e-9・逐語の表は有効数字 3 桁"
+ },
+ "builds": [
+  {
+   "id": "R",
+   "label": "規則の球(第353便zk)",
+   "ob": false,
+   "resp": false
+  },
+  {
+   "id": "O",
+   "label": "(O2b) だけ",
+   "ob": true,
+   "resp": false
+  },
+  {
+   "id": "P",
+   "label": "(P-応) だけ",
+   "ob": false,
+   "resp": true
+  },
+  {
+   "id": "M",
+   "label": "両方(主の作り)",
+   "ob": true,
+   "resp": true
+  }
+ ],
+ "plan": {
+  "pure": "零試験 13(第353便zk の xOf・正本の X と範囲・uBand の走らせ直し・omOf・ob none・venusEarthRow/第353便zf の uVenus/第353便c の rateMult/u に反比例・k₂/Q に比例・(O2b) で惑星の Ω が同じ・比べる読みは c_R² に比例)",
+  "t1": "表 1: 第353便zk の範囲(列 (イ)・置き方 3 × k₂/Q 2)と X(列 (イ)・0.98)を作り R で数え直して並べる",
+  "t2": "表 2: X(u 0.98)—— 作り 4(P・M は物差しの半径 2)× 置き方 3 × k₂/Q 2 × 10 天体・(P-応) の倍・比べる読み(c_R の格子)",
+  "t3": "表 3: 範囲 72 行(作り 4〔P・M は物差しの半径 2〕× 置き方 3 × k₂/Q 2 × 読み 2)と 0.98・窓・金星の条件・第353便zk の範囲との重なり/k₂/Q 走査/比べる読み/作りの動き",
+  "t4": "表 4: 共通部分(作り × 物差しの半径 × 読み —— 6 組・k₂/Q 共通の 3 組・第337便c の 3 組)",
+  "t5": "表 5: 範囲の内の金星の代表の値(主の作り・R_ref 観測・観測の自転・共通 1e-2)",
+  "t6": "表 6: 全体の係数(= u ÷ 金星の条件の値)で読む 3 つの題",
+  "cmp": "比べる列: (ア)(換算の係数 1 —— 第353便zk の格子の範囲)・(ウ)(背景 = 金星の条件の大きさ —— X の帯)"
+ },
+ "amend": [],
+ "notClaim": [
+  "範囲の表 —— 背景の大きさを 1 つの値に置かない。0.98 倍は範囲の内の 1 点で、固定しない",
+  "潮汐のトルクは比べる列(DFM の式ではない)—— k₂/Q・観測の自転・構造の係数は仮の値・未照合のノブ。大気熱潮汐は数えない",
+  "ロックの状態は観測の事実として置く(積分で作らない)—— 比の表から由来を結論にしない",
+  "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+ ],
+ "pure": {
+  "gates": {
+   "xRsame": true,
+   "xJson": true,
+   "t3Json": true,
+   "invU": true,
+   "uVO2b": true,
+   "planetsO2b": true,
+   "respRateMult": true,
+   "altCR2": true,
+   "hostNone": true,
+   "omSat": true,
+   "venusEarthZk": true,
+   "bandLive": true,
+   "k2qLinear": true
+  },
+  "sigmaSun": 1.0000060000450004,
+  "uVR": 1.1928166586523095e-12,
+  "uVO": 1.1928238156059387e-12,
+  "uVZF": 1.1928166586523095e-12,
+  "band": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "grid": {
+     "lo": 0.0027821319350571382,
+     "hi": 46.85556116001144,
+     "loClipped": false,
+     "hiClipped": false,
+     "loEdgeBody": "Earth",
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 0.0027821319350571382,
+    "hi": 46.855561160011455
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "grid": {
+     "lo": 0.001,
+     "hi": 14.056668348003443,
+     "loClipped": true,
+     "hiClipped": false,
+     "loEdgeBody": null,
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 0.0008346395805171417,
+    "hi": 14.056668348003441
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "grid": {
+     "lo": 1.0189735199285557,
+     "hi": 70.28334728832175,
+     "loClipped": false,
+     "hiClipped": false,
+     "loEdgeBody": "Earth",
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 1.0189735199285557,
+    "hi": 70.2833472883217
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "grid": {
+     "lo": 0.3056920559785667,
+     "hi": 21.085004186496523,
+     "loClipped": false,
+     "hiClipped": false,
+     "loEdgeBody": "Earth",
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 0.3056920559785668,
+    "hi": 21.08500418649652
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "grid": {
+     "lo": 0.40843565805984605,
+     "hi": 3.2080357168972484,
+     "loClipped": false,
+     "hiClipped": false,
+     "loEdgeBody": "Earth",
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 0.40843565805984605,
+    "hi": 3.208035716897248
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "grid": {
+     "lo": 0.12253069741795385,
+     "hi": 0.9624107150691749,
+     "loClipped": false,
+     "hiClipped": false,
+     "loEdgeBody": "Earth",
+     "hiEdgeBody": "Mercury"
+    },
+    "lo": 0.12253069741795385,
+    "hi": 0.9624107150691747
+   }
+  ],
+  "kq": [
+   {
+    "mode": "obs",
+    "lo": 100.00000000000004,
+    "hi": 100.00000000000003
+   },
+   {
+    "mode": "sync",
+    "lo": 100.00000000000004,
+    "hi": 100.00000000000001
+   },
+   {
+    "mode": "syncAbs",
+    "lo": 100.00000000000006,
+    "hi": 100.00000000000004
+   }
+  ]
+ },
+ "t1": {
+  "t3": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "zkLo": 0.002782131935057137,
+    "zkLoClipped": false,
+    "zkHi": 46.85556116001144,
+    "zkLoBody": "Earth",
+    "zkHiBody": "Mercury",
+    "lo": 0.0027821319350571382,
+    "hi": 46.855561160011455,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "zkLo": 0.001,
+    "zkLoClipped": true,
+    "zkHi": 14.056668348003454,
+    "zkLoBody": null,
+    "zkHiBody": "Mercury",
+    "lo": 0.0008346395805171417,
+    "hi": 14.056668348003441,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "zkLo": 1.0189735199285557,
+    "zkLoClipped": false,
+    "zkHi": 70.28334728832175,
+    "zkLoBody": "Earth",
+    "zkHiBody": "Mercury",
+    "lo": 1.0189735199285557,
+    "hi": 70.2833472883217,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "zkLo": 0.3056920559785667,
+    "zkLoClipped": false,
+    "zkHi": 21.085004186496526,
+    "zkLoBody": "Earth",
+    "zkHiBody": "Mercury",
+    "lo": 0.3056920559785668,
+    "hi": 21.08500418649652,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zkLo": 0.408435658059846,
+    "zkLoClipped": false,
+    "zkHi": 3.208035716897249,
+    "zkLoBody": "Earth",
+    "zkHiBody": "Mercury",
+    "lo": 0.40843565805984605,
+    "hi": 3.208035716897248,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zkLo": 0.12253069741795385,
+    "zkLoClipped": false,
+    "zkHi": 0.9624107150691749,
+    "zkLoBody": "Earth",
+    "zkHiBody": "Mercury",
+    "lo": 0.12253069741795385,
+    "hi": 0.9624107150691747,
+    "loBody": "Earth",
+    "hiBody": "Mercury"
+   }
+  ],
+  "x": [
+   {
+    "id": "Mercury",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 47.811797102052516,
+    "mine": 47.811797102052516
+   },
+   {
+    "id": "Venus",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 96.08074798460018,
+    "mine": 96.08074798460011
+   },
+   {
+    "id": "Earth",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 0.002838910137813405,
+    "mine": 0.0028389101378134066
+   },
+   {
+    "id": "Mars",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 0.00019648525113612016,
+    "mine": 0.00019648525113612013
+   },
+   {
+    "id": "Jupiter",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 0.0000014326048806670731,
+    "mine": 0.0000014326048806670731
+   },
+   {
+    "id": "Saturn",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 1.1265462875833835e-8,
+    "mine": 1.1265462875833835e-8
+   },
+   {
+    "id": "Uranus",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 6.750301268701879e-11,
+    "mine": 6.750301268701879e-11
+   },
+   {
+    "id": "Neptune",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 6.868554083860117e-12,
+    "mine": 6.868554083860117e-12
+   },
+   {
+    "id": "Moon",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 16438.51132322892,
+    "mine": 16438.511323228915
+   },
+   {
+    "id": "Io",
+    "mode": "obs",
+    "k2q": "common",
+    "zk": 53098745.69989608,
+    "mine": 53098745.69989608
+   },
+   {
+    "id": "Mercury",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 14.34353913061576,
+    "mine": 14.34353913061576
+   },
+   {
+    "id": "Venus",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 28.824224395380064,
+    "mine": 28.824224395380046
+   },
+   {
+    "id": "Earth",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 0.0008516730413440218,
+    "mine": 0.0008516730413440222
+   },
+   {
+    "id": "Mars",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 0.00005894557534083607,
+    "mine": 0.00005894557534083606
+   },
+   {
+    "id": "Jupiter",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 1.4326048806670736e-9,
+    "mine": 1.4326048806670736e-9
+   },
+   {
+    "id": "Saturn",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 1.126546287583384e-11,
+    "mine": 1.126546287583384e-11
+   },
+   {
+    "id": "Uranus",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 6.750301268701881e-14,
+    "mine": 6.750301268701881e-14
+   },
+   {
+    "id": "Neptune",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 6.86855408386012e-15,
+    "mine": 6.868554083860121e-15
+   },
+   {
+    "id": "Moon",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 4931.553396968678,
+    "mine": 4931.553396968677
+   },
+   {
+    "id": "Io",
+    "mode": "obs",
+    "k2q": "c337",
+    "zk": 15929623.709968831,
+    "mine": 15929623.709968831
+   },
+   {
+    "id": "Mercury",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 71.717701314614,
+    "mine": 71.717701314614
+   },
+   {
+    "id": "Venus",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 88.8362931915961,
+    "mine": 88.83629319159606
+   },
+   {
+    "id": "Earth",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 1.0397688978862807,
+    "mine": 1.0397688978862816
+   },
+   {
+    "id": "Mars",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 0.13156636957054907,
+    "mine": 0.13156636957054907
+   },
+   {
+    "id": "Jupiter",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 0.015009272628852847,
+    "mine": 0.015009272628852847
+   },
+   {
+    "id": "Saturn",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 0.0002749031366490328,
+    "mine": 0.0002749031366490328
+   },
+   {
+    "id": "Uranus",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 0.0000028856410822490994,
+    "mine": 0.0000028856410822490994
+   },
+   {
+    "id": "Neptune",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 6.162374470387934e-7,
+    "mine": 6.162374470387934e-7
+   },
+   {
+    "id": "Moon",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 16438.51132322892,
+    "mine": 16438.511323228915
+   },
+   {
+    "id": "Io",
+    "mode": "sync",
+    "k2q": "common",
+    "zk": 53098745.69989608,
+    "mine": 53098745.69989608
+   },
+   {
+    "id": "Mercury",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 21.515310394384205,
+    "mine": 21.515310394384205
+   },
+   {
+    "id": "Venus",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 26.650887957478844,
+    "mine": 26.65088795747883
+   },
+   {
+    "id": "Earth",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 0.3119306693658843,
+    "mine": 0.31193066936588454
+   },
+   {
+    "id": "Mars",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 0.03946991087116474,
+    "mine": 0.039469910871164735
+   },
+   {
+    "id": "Jupiter",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 0.000015009272628852853,
+    "mine": 0.000015009272628852853
+   },
+   {
+    "id": "Saturn",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 2.749031366490329e-7,
+    "mine": 2.749031366490329e-7
+   },
+   {
+    "id": "Uranus",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 2.8856410822491e-9,
+    "mine": 2.8856410822491e-9
+   },
+   {
+    "id": "Neptune",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 6.162374470387935e-10,
+    "mine": 6.162374470387938e-10
+   },
+   {
+    "id": "Moon",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 4931.553396968678,
+    "mine": 4931.553396968677
+   },
+   {
+    "id": "Io",
+    "mode": "sync",
+    "k2q": "c337",
+    "zk": 15929623.709968831,
+    "mine": 15929623.709968831
+   },
+   {
+    "id": "Mercury",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 3.2735058335686222,
+    "mine": 3.27350583356862
+   },
+   {
+    "id": "Venus",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 88.83306629660723,
+    "mine": 88.83306629660721
+   },
+   {
+    "id": "Earth",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 0.41677107965290405,
+    "mine": 0.4167710796529042
+   },
+   {
+    "id": "Mars",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 0.05554527260712584,
+    "mine": 0.055545272607125835
+   },
+   {
+    "id": "Jupiter",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 0.0009033659327916964,
+    "mine": 0.0009033659327916964
+   },
+   {
+    "id": "Saturn",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 0.0001262690747146686,
+    "mine": 0.0001262690747146686
+   },
+   {
+    "id": "Uranus",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 0.000002864546324598232,
+    "mine": 0.000002864546324598232
+   },
+   {
+    "id": "Neptune",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 2.8641463591449066e-7,
+    "mine": 2.8641463591449066e-7
+   },
+   {
+    "id": "Moon",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 1352.8456709136096,
+    "mine": 1352.84567091361
+   },
+   {
+    "id": "Io",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "zk": 36139531.23225216,
+    "mine": 36139531.232252255
+   },
+   {
+    "id": "Mercury",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 0.9820517500705871,
+    "mine": 0.9820517500705863
+   },
+   {
+    "id": "Venus",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 26.649919888982183,
+    "mine": 26.649919888982176
+   },
+   {
+    "id": "Earth",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 0.12503132389587124,
+    "mine": 0.1250313238958713
+   },
+   {
+    "id": "Mars",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 0.01666358178213776,
+    "mine": 0.016663581782137758
+   },
+   {
+    "id": "Jupiter",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 9.033659327916967e-7,
+    "mine": 9.033659327916967e-7
+   },
+   {
+    "id": "Saturn",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 1.2626907471466865e-7,
+    "mine": 1.2626907471466865e-7
+   },
+   {
+    "id": "Uranus",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 2.8645463245982327e-9,
+    "mine": 2.8645463245982327e-9
+   },
+   {
+    "id": "Neptune",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 2.864146359144908e-10,
+    "mine": 2.8641463591449083e-10
+   },
+   {
+    "id": "Moon",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 405.85370127408305,
+    "mine": 405.8537012740831
+   },
+   {
+    "id": "Io",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "zk": 10841859.369675651,
+    "mine": 10841859.369675683
+   }
+  ]
+ },
+ "t2": {
+  "x": [
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 47.811797102052516
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 96.08074798460011
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0028389101378134066
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00019648525113612013
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0000014326048806670731
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.1265462875833835e-8
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 6.750301268701879e-11
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.868554083860117e-12
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16438.511323228915
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 53098745.69989608
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 14.34353913061576
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 28.824224395380046
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0008516730413440222
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00005894557534083606
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 1.4326048806670736e-9
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.126546287583384e-11
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 6.750301268701881e-14
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.868554083860121e-15
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4931.553396968677
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15929623.709968831
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 71.717701314614
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 88.83629319159606
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 1.0397688978862816
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.13156636957054907
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.015009272628852847
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.0002749031366490328
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000028856410822490994
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.162374470387934e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16438.511323228915
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 53098745.69989608
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 21.515310394384205
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 26.65088795747883
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.31193066936588454
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.039469910871164735
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.000015009272628852853
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 2.749031366490329e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 2.8856410822491e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.162374470387938e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4931.553396968677
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15929623.709968831
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 3.27350583356862
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 88.83306629660721
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.4167710796529042
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.055545272607125835
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0009033659327916964
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.0001262690747146686
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.000002864546324598232
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.8641463591449066e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1352.84567091361
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 36139531.232252255
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 0.9820517500705863
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 26.649919888982176
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.1250313238958713
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.016663581782137758
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.033659327916967e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.2626907471466865e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 2.8645463245982327e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.8641463591449083e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 405.8537012740831
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 10841859.369675683
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 47.81179710205252
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 96.08074798460017
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0028389101378134053
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00019648525113612013
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0000014326048806670731
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.1265462875833835e-8
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 6.750301268701879e-11
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.868554083860117e-12
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16438.511323226157
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 53098743.64616355
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 14.343539130615762
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 28.82422439538006
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0008516730413440219
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00005894557534083606
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 1.4326048806670736e-9
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.126546287583384e-11
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 6.750301268701881e-14
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.868554083860121e-15
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4931.553396967849
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15929623.093849074
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 71.71770131461402
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 88.8362931915961
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 1.039768897886281
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.13156636957054907
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.015009272628852847
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.0002749031366490328
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000028856410822490994
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.162374470387934e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16438.511323226157
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 53098743.64616355
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 21.515310394384212
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 26.65088795747884
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.31193066936588437
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.039469910871164735
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.000015009272628852853
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 2.749031366490329e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 2.8856410822491e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 6.162374470387938e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4931.553396967849
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15929623.093849074
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 3.2735058335686205
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 88.83306629660721
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.4167710796529041
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.055545272607125835
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0009033659327916964
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.0001262690747146686
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.000002864546324598232
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.8641463591449066e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1352.8456709134423
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 36137817.40594591
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 0.9820517500705865
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 26.64991988898218
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.12503132389587127
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.016663581782137758
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.033659327916967e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.2626907471466865e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 2.8645463245982327e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.8641463591449083e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 405.8537012740328
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 10841345.221783778
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 41.357204493275425
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 79.26661708729509
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.002347068956437234
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00017978400478954994
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.097040992235915e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 5.914368009812763e-9
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 3.797044463644807e-11
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.949418598219567e-12
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16191.933653380482
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 50178314.68640179
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 12.407161347982631
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 23.779985126188535
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0007041206869311705
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.000053935201436864996
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.097040992235918e-10
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 5.914368009812766e-12
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 3.7970444636448084e-14
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.94941859821957e-15
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4857.580096014147
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15053494.405920545
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 62.035811637141116
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 73.28994188306675
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.8596289363274834
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.12038322815705241
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.009530888119321557
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.00014432414674074223
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000016231731087651183
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.5433653204730616e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16191.933653380482
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 50178314.68640179
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 18.610743491142337
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 21.986982564920034
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.25788868089824507
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.03611496844711573
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.000009530888119321561
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.443241467407423e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1.623173108765119e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.543365320473064e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4857.580096014147
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15053494.405920545
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 2.831582546036856
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 73.28727969470094
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.3445654901030386
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.05082392443552014
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0005736373673227272
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.00006629126422520101
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000016113073075865056
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 1.646884156508321e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1332.552985849906
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 34151857.01447838
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 0.8494747638110571
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 21.986183908410293
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.1033696470309116
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.015247177330656048
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 5.736373673227274e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 6.629126422520105e-8
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1.6113073075865059e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 1.6468841565083222e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 399.76589575497184
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 10245557.10434352
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 29117266294177972000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1578458196671791400
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 34428357576397.17
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 64652994466436.69
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 16636676.074383521
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 800311.8415534985
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 42425.58237296005
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2976.750523957245
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1.1687281954880255e+23
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 2.690161379395155e+26
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 8735179888253394000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 473537459001537600
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 10328507272919.154
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 19395898339931.016
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 16636.676074383526
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 800.3118415534988
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 42.42558237296007
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.9767505239572474
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 3.506184586464078e+22
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 8.070484138185467e+25
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 43675902889127920000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1459443000721523500
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 12609604980599132
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 43291594227197320
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 174300960584.5152
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 19529444814.23593
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1813622808.235043
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 267070058.8447404
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1.1687281954880255e+23
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 2.690161379395155e+26
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 13102770866738379000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 437832900216457200
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 3782881494179740.5
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 12987478268159200
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 174300960.58451527
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 19529444.814235937
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1813622.8082350437
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 267070.05884474056
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 3.506184586464078e+22
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 8.070484138185467e+25
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 1993556963945844500
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1459389987824020200
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 5054314177356464
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 18277036987459948
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 10490684907.82379
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 8970304800.607046
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1800364772.1455426
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 124128733.22653264
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 9.618321566055795e+21
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 1.8309504284701075e+26
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 598067089183753600
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 437816996347206300
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 1516294253206939.5
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 5483111096237986
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 10490684.907823794
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 8970304.80060705
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1800364.772145543
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 124128.73322653271
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 2.8854964698167394e+21
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 5.492851285410325e+25
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 41.35720449327543
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 79.26661708729513
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.002347068956437233
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.00017978400478954994
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.097040992235915e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 5.914368009812763e-9
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 3.797044463644807e-11
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.949418598219567e-12
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16191.933653377764
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 50178312.74562456
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 12.407161347982633
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 23.77998512618855
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.0007041206869311702
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.000053935201436864996
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 9.097040992235918e-10
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 5.914368009812766e-12
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 3.7970444636448084e-14
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.94941859821957e-15
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4857.580096013331
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15053493.823687375
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 62.03581163714112
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 73.28994188306677
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.8596289363274828
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.12038322815705241
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.009530888119321557
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.00014432414674074223
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000016231731087651183
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.5433653204730616e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 16191.933653377764
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 50178312.74562456
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 18.610743491142344
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 21.98698256492004
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.25788868089824496
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.03611496844711573
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.000009530888119321561
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 1.443241467407423e-7
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1.623173108765119e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 3.543365320473064e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 4857.580096013331
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 15053493.823687375
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 2.8315825460368567
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 73.28727969470094
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.3445654901030385
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.05082392443552014
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 0.0005736373673227272
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 0.00006629126422520101
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 0.0000016113073075865056
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 1.646884156508321e-7
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1332.5529858497407
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 34150237.44861888
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 0.8494747638110574
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 21.986183908410297
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 0.10336964703091159
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 0.015247177330656048
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 5.736373673227274e-7
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 6.629126422520105e-8
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1.6113073075865059e-9
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 1.6468841565083222e-10
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 399.7658957549223
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 10245071.234585669
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 29117266294177976000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1578458196671792400
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 34428357576397.156
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 64652994466436.69
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 16636676.074383521
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 800311.8415534985
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 42425.58237296005
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2976.750523957245
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1.1687281954878293e+23
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 2.6901612753461444e+26
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 8735179888253396000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 473537459001537860
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 10328507272919.15
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 19395898339931.016
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 16636.676074383526
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 800.3118415534988
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 42.42558237296007
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 2.9767505239572474
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 3.5061845864634896e+22
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 8.070483826038438e+25
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 43675902889127930000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1459443000721524200
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 12609604980599124
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 43291594227197320
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 174300960584.5152
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 19529444814.23593
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1813622808.235043
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 267070058.8447404
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 1.1687281954878293e+23
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 2.6901612753461444e+26
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 13102770866738383000
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 437832900216457400
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 3782881494179738.5
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 12987478268159200
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 174300960.58451527
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 19529444.814235937
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1813622.8082350437
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 267070.05884474056
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 3.5061845864634896e+22
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 8.070483826038438e+25
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 1993556963945844700
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 1459389987824020200
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 5054314177356463
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 18277036987459948
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 10490684907.82379
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 8970304800.607046
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1800364772.1455426
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 124128733.22653264
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 9.618321566054604e+21
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 1.8308636002544963e+26
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "rows": [
+     {
+      "id": "Mercury",
+      "state": "part",
+      "X": 598067089183753700
+     },
+     {
+      "id": "Venus",
+      "state": "part",
+      "X": 437816996347206340
+     },
+     {
+      "id": "Earth",
+      "state": "not",
+      "X": 1516294253206939.2
+     },
+     {
+      "id": "Mars",
+      "state": "not",
+      "X": 5483111096237986
+     },
+     {
+      "id": "Jupiter",
+      "state": "not",
+      "X": 10490684.907823794
+     },
+     {
+      "id": "Saturn",
+      "state": "not",
+      "X": 8970304.80060705
+     },
+     {
+      "id": "Uranus",
+      "state": "not",
+      "X": 1800364.772145543
+     },
+     {
+      "id": "Neptune",
+      "state": "not",
+      "X": 124128.73322653271
+     },
+     {
+      "id": "Moon",
+      "state": "lock",
+      "X": 2.885496469816382e+21
+     },
+     {
+      "id": "Io",
+      "state": "lock",
+      "X": 5.49259080076349e+25
+     }
+    ]
+   }
+  ],
+  "resp": [
+   {
+    "id": "Mercury",
+    "obs": 0.865,
+    "rule": 608997529041383700
+   },
+   {
+    "id": "Venus",
+    "obs": 0.825,
+    "rule": 16428454500841186
+   },
+   {
+    "id": "Earth",
+    "obs": 0.8267500000000001,
+    "rule": 12127315027630526
+   },
+   {
+    "id": "Mars",
+    "obs": 0.915,
+    "rule": 329047570199794240
+   },
+   {
+    "id": "Jupiter",
+    "obs": 0.635,
+    "rule": 11612885240651.195
+   },
+   {
+    "id": "Saturn",
+    "obs": 0.525,
+    "rule": 71041185823823.67
+   },
+   {
+    "id": "Uranus",
+    "obs": 0.5625,
+    "rule": 628499094842899.2
+   },
+   {
+    "id": "Neptune",
+    "obs": 0.575,
+    "rule": 433388233915502.06
+   },
+   {
+    "id": "Moon",
+    "obs": 0.985,
+    "rule": 7109696082007865000
+   },
+   {
+    "id": "Io",
+    "obs": 0.945,
+    "rule": 5066336961327543000
+   }
+  ],
+  "alt": [
+   {
+    "cR": 1,
+    "Earth": 0.0023470689564372323,
+    "Venus": 79.26661708729513
+   },
+   {
+    "cR": 0.1,
+    "Earth": 0.000023470689564372325,
+    "Venus": 0.7926661708729514
+   },
+   {
+    "cR": 0.0128,
+    "Earth": 3.845437778226762e-7,
+    "Venus": 0.012987042543582435
+   },
+   {
+    "cR": 0.001,
+    "Earth": 2.3470689564372324e-9,
+    "Venus": 0.00007926661708729513
+   },
+   {
+    "cR": 0.000001,
+    "Earth": 2.3470689564372323e-15,
+    "Venus": 7.926661708729514e-11
+   }
+  ]
+ },
+ "t3": {
+  "rows": [
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.0027821319350571382,
+    "hi": 46.855561160011455,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 16841.60286203291,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 46.855561160011455
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.0027821319350571382,
+    "hi": 16109.74109676434,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 5790430.3148849355,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 16109.74109676434
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.0008346395805171417,
+    "hi": 14.056668348003441,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 16841.60286203291,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 14.056668348003441
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.0008346395805171417,
+    "hi": 4832.922329029304,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 5790430.314884936,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 4832.922329029304
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 1.0189735199285557,
+    "hi": 70.2833472883217,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 68.97465529158163,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 70.2833472883217
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 1.0189735199285557,
+    "hi": 16109.74109676434,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 15809.774034063083,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 16109.74109676434
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.3056920559785668,
+    "hi": 21.08500418649652,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 68.97465529158163,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 21.08500418649652
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.3056920559785668,
+    "hi": 4832.922329029304,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 15809.774034063083,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 4832.922329029304
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.40843565805984605,
+    "hi": 3.208035716897248,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 7.854445745839337,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 3.208035716897248
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.40843565805984605,
+    "hi": 1325.7887574953377,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3246.016187208308,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 1325.7887574953377
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.12253069741795385,
+    "hi": 0.9624107150691747,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 7.854445745839338,
+    "in098": false,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 0.9624107150691747
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.12253069741795385,
+    "hi": 397.7366272486014,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3246.0161872083077,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 397.7366272486014
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.0027821319350571382,
+    "hi": 46.85556116001148,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 16841.60286203292,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 46.855561160011455
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1.0000000000000007
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.0027821319350571382,
+    "hi": 16109.741096761636,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 5790430.314883963,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 16109.741096761636
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.9999999999998321
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.0008346395805171417,
+    "hi": 14.05666834800345,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 16841.60286203292,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 14.056668348003441
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1.0000000000000007
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.0008346395805171417,
+    "hi": 4832.922329028493,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 5790430.314883964,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 4832.922329028493
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.9999999999998321
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 1.0189735199285557,
+    "hi": 70.28334728832175,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 68.97465529158167,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 70.2833472883217
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1.0000000000000007
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 1.0189735199285557,
+    "hi": 16109.741096761636,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 15809.774034060429,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 16109.741096761636
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.9999999999998321
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.3056920559785668,
+    "hi": 21.08500418649653,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 68.97465529158166,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 21.08500418649652
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1.0000000000000004
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.3056920559785668,
+    "hi": 4832.922329028493,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 15809.774034060429,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 4832.922329028493
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.9999999999998321
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.40843565805984605,
+    "hi": 3.208035716897248,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 7.854445745839337,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 3.208035716897248
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.40843565805984605,
+    "hi": 1325.788757495173,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3246.0161872079047,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 1325.788757495173
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.9999999999998759
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.12253069741795385,
+    "hi": 0.9624107150691747,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 7.854445745839338,
+    "in098": false,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 0.9624107150691747
+    },
+    "loOverZk": 1,
+    "hiOverZk": 1
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.12253069741795385,
+    "hi": 397.73662724855205,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3246.016187207905,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 397.73662724855205
+    },
+    "loOverZk": 1,
+    "hiOverZk": 0.999999999999876
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.002300127577308489,
+    "hi": 40.530060403409905,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 17620.787995958228,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 40.530060403409905
+    },
+    "loOverZk": 0.82675,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.002300127577308489,
+    "hi": 15868.094980312875,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 6898789.065813923,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 15868.094980312875
+    },
+    "loOverZk": 0.82675,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.000690038273192547,
+    "hi": 12.159018121022976,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 17620.787995958228,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 12.159018121022976
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.000690038273192547,
+    "hi": 4760.428494093864,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 6898789.065813924,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 4760.428494093864
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.8424363576009335,
+    "hi": 60.795095404398275,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 72.16580202868836,
+    "in098": true,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 60.795095404398275
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.8424363576009335,
+    "hi": 15868.094980312875,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 18835.956968312228,
+    "in098": true,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 15868.094980312875
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.25273090728028014,
+    "hi": 18.23852862131949,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 72.16580202868836,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 18.23852862131949
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.25273090728028014,
+    "hi": 4760.428494093864,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 18835.956968312228,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 4760.428494093864
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.3376741803009778,
+    "hi": 2.7749508951161195,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 8.21783558530514,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 2.7749508951161195
+    },
+    "loOverZk": 0.8267500000000002,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.3376741803009778,
+    "hi": 1305.9019261329076,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3867.3431441187577,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 1305.9019261329076
+    },
+    "loOverZk": 0.8267500000000002,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.10130225409029335,
+    "hi": 0.8324852685348362,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 8.217835585305144,
+    "in098": false,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 0.8324852685348362
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.10130225409029335,
+    "hi": 391.7705778398724,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3867.3431441187577,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 391.7705778398724
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.985
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 63359934577107.96,
+    "hi": 1546889032738356000,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 24414.309185496684,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 33013990110069100
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 63359934577107.96,
+    "hi": 1.1453536315782653e+23,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 1807693835.580574,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 19007980373132.395,
+    "hi": 464066709821506940,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 24414.309185496684,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 33013990110069100
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 19007980373132.395,
+    "hi": 3.436060894734797e+22,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 1807693835.580574,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 42425762342653360,
+    "hi": 1430254140707093000,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 33.71192553136909,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 20349829595334944
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 42425762342653360,
+    "hi": 1.1453536315782653e+23,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 2699665.411614224,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 12727728702796014,
+    "hi": 429076242212128100,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 33.71192553136909,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 20349829595334948
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 12727728702796014,
+    "hi": 3.436060894734797e+22,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 2699665.4116142234,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 17911496247710744,
+    "hi": 1430202188067540000,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 79.84828114236035,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": null,
+    "loOverZk": 43853899370084530,
+    "hiOverZk": 445818661099822400
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 17911496247710744,
+    "hi": 9.425955134734678e+21,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 526251.6879872279,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": null,
+    "loOverZk": 43853899370084530,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 5373448874313226,
+    "hi": 429060656420262140,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 79.84828114236034,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": null,
+    "loOverZk": 43853899370084540,
+    "hiOverZk": 445818661099822400
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 5373448874313226,
+    "hi": 2.827786540420404e+21,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 526251.6879872278,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928166586523095e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": null,
+    "loOverZk": 43853899370084540,
+    "hiOverZk": 7109696082007865000
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.002300127577308489,
+    "hi": 40.530060403409934,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 17620.78799595824,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 40.530060403409934
+    },
+    "loOverZk": 0.82675,
+    "hiOverZk": 0.8650000000000005
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.002300127577308489,
+    "hi": 15868.094980310212,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 6898789.065812766,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 0.0027821319350571382,
+     "hi": 15868.094980310212
+    },
+    "loOverZk": 0.82675,
+    "hiOverZk": 0.9849999999998347
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.000690038273192547,
+    "hi": 12.159018121022985,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 17620.787995958242,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 12.159018121022985
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.8650000000000005
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.000690038273192547,
+    "hi": 4760.428494093066,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 6898789.065812767,
+    "in098": true,
+    "window": "in",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.0008346395805171417,
+     "hi": 4760.428494093066
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.9849999999998348
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.8424363576009335,
+    "hi": 60.79509540439831,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 72.1658020286884,
+    "in098": true,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 60.79509540439831
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.8650000000000004
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.8424363576009335,
+    "hi": 15868.094980310212,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 18835.956968309067,
+    "in098": true,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": {
+     "lo": 1.0189735199285557,
+     "hi": 15868.094980310212
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.9849999999998347
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.25273090728028014,
+    "hi": 18.2385286213195,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 72.1658020286884,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 18.2385286213195
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.8650000000000005
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.25273090728028014,
+    "hi": 4760.428494093066,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 18835.956968309067,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": {
+     "lo": 0.3056920559785668,
+     "hi": 4760.428494093066
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.9849999999998348
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 0.3376741803009778,
+    "hi": 2.7749508951161195,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 8.21783558530514,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 2.7749508951161195
+    },
+    "loOverZk": 0.8267500000000002,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 0.3376741803009778,
+    "hi": 1305.9019261327455,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3867.3431441182775,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": {
+     "lo": 0.40843565805984605,
+     "hi": 1305.9019261327455
+    },
+    "loOverZk": 0.8267500000000002,
+    "hiOverZk": 0.9849999999998778
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 0.10130225409029335,
+    "hi": 0.8324852685348362,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true,
+    "width": 8.217835585305144,
+    "in098": false,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 0.8324852685348362
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.865
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 0.10130225409029335,
+    "hi": 391.7705778398238,
+    "loBody": "Earth",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 3867.343144118278,
+    "in098": true,
+    "window": "part",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": {
+     "lo": 0.12253069741795385,
+     "hi": 391.7705778398238
+    },
+    "loOverZk": 0.8267500000000001,
+    "hiOverZk": 0.9849999999998779
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 63359934577107.96,
+    "hi": 1546889032738355700,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 24414.30918549668,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 46.855561160011455,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 33013990110069092
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 63359934577107.96,
+    "hi": 1.1453536315780729e+23,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 1807693835.5802703,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0027821319350571382,
+    "zkHi": 16109.74109676434,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 7109696082006671000
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 19007980373132.395,
+    "hi": 464066709821506900,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 24414.309185496684,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 14.056668348003441,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 33013990110069092
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 19007980373132.395,
+    "hi": 3.4360608947342202e+22,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 1807693835.5802705,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.0008346395805171417,
+    "zkHi": 4832.922329029304,
+    "overlapZk": null,
+    "loOverZk": 22773878470219532,
+    "hiOverZk": 7109696082006672000
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 42425762342653360,
+    "hi": 1430254140707092700,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 33.71192553136908,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 70.2833472883217,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 20349829595334940
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 42425762342653360,
+    "hi": 1.1453536315780729e+23,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 2699665.4116137703,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 1.0189735199285557,
+    "zkHi": 16109.74109676434,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 7109696082006671000
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 12727728702796014,
+    "hi": 429076242212128060,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 33.71192553136908,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 21.08500418649652,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 20349829595334944
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 12727728702796014,
+    "hi": 3.4360608947342202e+22,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 2699665.4116137703,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.3056920559785668,
+    "zkHi": 4832.922329029304,
+    "overlapZk": null,
+    "loOverZk": 41635784947216296,
+    "hiOverZk": 7109696082006672000
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": true,
+    "lo": 17911496247710744,
+    "hi": 1430202188067540000,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 79.84828114236035,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 3.208035716897248,
+    "overlapZk": null,
+    "loOverZk": 43853899370084530,
+    "hiOverZk": 445818661099822400
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "common",
+    "partAsLock": false,
+    "lo": 17911496247710744,
+    "hi": 9.425955134733508e+21,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 526251.6879871626,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.40843565805984605,
+    "zkHi": 1325.7887574953377,
+    "overlapZk": null,
+    "loOverZk": 43853899370084530,
+    "hiOverZk": 7109696082006983000
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": true,
+    "lo": 5373448874313226,
+    "hi": 429060656420262140,
+    "loBody": "Mars",
+    "hiBody": "Venus",
+    "open": true,
+    "width": 79.84828114236034,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 0.9624107150691747,
+    "overlapZk": null,
+    "loOverZk": 43853899370084540,
+    "hiOverZk": 445818661099822400
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "partAsLock": false,
+    "lo": 5373448874313226,
+    "hi": 2.8277865404200533e+21,
+    "loBody": "Mars",
+    "hiBody": "Moon",
+    "open": true,
+    "width": 526251.6879871625,
+    "in098": false,
+    "window": "out",
+    "uV": 1.1928238156059387e-12,
+    "inUV": false,
+    "zkLo": 0.12253069741795385,
+    "zkHi": 397.7366272486014,
+    "overlapZk": null,
+    "loOverZk": 43853899370084540,
+    "hiOverZk": 7109696082006984000
+   }
+  ],
+  "k2q": [
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.000027821319350571395,
+      "hi": 0.4685556116001147,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.00008346395805171417,
+      "hi": 1.4056668348003438,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.00027821319350571387,
+      "hi": 4.6855561160011465,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.0008346395805171417,
+      "hi": 14.056668348003441,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.0027821319350571382,
+      "hi": 46.855561160011455,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 0.008346395805171417,
+      "hi": 140.56668348003438,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 0.0278213193505714,
+      "hi": 468.55561160011473,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.010189735199285562,
+      "hi": 0.7028334728832173,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.03056920559785668,
+      "hi": 2.1085004186496517,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.10189735199285559,
+      "hi": 7.028334728832172,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.3056920559785668,
+      "hi": 21.08500418649652,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 1.0189735199285557,
+      "hi": 70.2833472883217,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 3.0569205597856675,
+      "hi": 210.85004186496514,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 10.189735199285563,
+      "hi": 702.8334728832174,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "R",
+    "ref": "—",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.0040843565805984625,
+      "hi": 0.03208035716897249,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.012253069741795386,
+      "hi": 0.09624107150691746,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.04084356580598461,
+      "hi": 0.32080357168972484,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.12253069741795385,
+      "hi": 0.9624107150691747,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.40843565805984605,
+      "hi": 3.208035716897248,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 1.2253069741795384,
+      "hi": 9.624107150691746,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 4.084356580598463,
+      "hi": 32.0803571689725,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.000027821319350571395,
+      "hi": 0.468555611600115,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.00008346395805171417,
+      "hi": 1.4056668348003447,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.00027821319350571387,
+      "hi": 4.685556116001149,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.0008346395805171417,
+      "hi": 14.05666834800345,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.0027821319350571382,
+      "hi": 46.85556116001148,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 0.008346395805171417,
+      "hi": 140.56668348003447,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 0.0278213193505714,
+      "hi": 468.55561160011507,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.010189735199285562,
+      "hi": 0.7028334728832177,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.03056920559785668,
+      "hi": 2.108500418649653,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.10189735199285559,
+      "hi": 7.028334728832176,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.3056920559785668,
+      "hi": 21.08500418649653,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 1.0189735199285557,
+      "hi": 70.28334728832175,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 3.0569205597856675,
+      "hi": 210.85004186496528,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 10.189735199285563,
+      "hi": 702.8334728832177,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.0040843565805984625,
+      "hi": 0.03208035716897249,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.012253069741795386,
+      "hi": 0.09624107150691746,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.04084356580598461,
+      "hi": 0.32080357168972484,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.12253069741795385,
+      "hi": 0.9624107150691747,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.40843565805984605,
+      "hi": 3.208035716897248,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 1.2253069741795384,
+      "hi": 9.624107150691746,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 4.084356580598463,
+      "hi": 32.0803571689725,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.000023001275773084902,
+      "hi": 0.40530060403409923,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.00006900382731925469,
+      "hi": 1.2159018121022973,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.00023001275773084897,
+      "hi": 4.053006040340992,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.000690038273192547,
+      "hi": 12.159018121022976,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.002300127577308489,
+      "hi": 40.530060403409905,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 0.00690038273192547,
+      "hi": 121.59018121022974,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 0.023001275773084907,
+      "hi": 405.30060403409925,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.00842436357600934,
+      "hi": 0.6079509540439829,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.02527309072802801,
+      "hi": 1.8238528621319487,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.08424363576009336,
+      "hi": 6.079509540439829,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.25273090728028014,
+      "hi": 18.23852862131949,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.8424363576009335,
+      "hi": 60.795095404398275,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 2.527309072802801,
+      "hi": 182.38528621319483,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 8.42436357600934,
+      "hi": 607.9509540439831,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.0033767418030097793,
+      "hi": 0.027749508951161204,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.010130225409029336,
+      "hi": 0.0832485268534836,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.03376741803009778,
+      "hi": 0.277495089511612,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.10130225409029335,
+      "hi": 0.8324852685348362,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.3376741803009778,
+      "hi": 2.7749508951161195,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 1.0130225409029334,
+      "hi": 8.32485268534836,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 3.37674180300978,
+      "hi": 27.74950895116121,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 633599345771.0798,
+      "hi": 15468890327383568,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 1900798037313.2393,
+      "hi": 46406670982150696,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 6335993457710.798,
+      "hi": 154688903273835650,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 19007980373132.395,
+      "hi": 464066709821506940,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 63359934577107.96,
+      "hi": 1546889032738356000,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 190079803731323.9,
+      "hi": 4640667098215070000,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 633599345771080,
+      "hi": 15468890327383568000,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 424257623426533.9,
+      "hi": 14302541407070938,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 1272772870279601.5,
+      "hi": 42907624221212810,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 4242576234265337.5,
+      "hi": 143025414070709360,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 12727728702796014,
+      "hi": 429076242212128100,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 42425762342653360,
+      "hi": 1430254140707093000,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 127277287027960110,
+      "hi": 4290762422121280500,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 424257623426533950,
+      "hi": 14302541407070940000,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 179114962477107.5,
+      "hi": 14302021880675406,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 537344887431322.5,
+      "hi": 42906065642026216,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 1791149624771074.8,
+      "hi": 143020218806754030,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 5373448874313226,
+      "hi": 429060656420262140,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 17911496247710744,
+      "hi": 1430202188067540000,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 53734488743132240,
+      "hi": 4290606564202621400,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 179114962477107550,
+      "hi": 14302021880675408000,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.000023001275773084902,
+      "hi": 0.40530060403409945,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.00006900382731925469,
+      "hi": 1.2159018121022982,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.00023001275773084897,
+      "hi": 4.053006040340994,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.000690038273192547,
+      "hi": 12.159018121022985,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.002300127577308489,
+      "hi": 40.530060403409934,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 0.00690038273192547,
+      "hi": 121.59018121022982,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 0.023001275773084907,
+      "hi": 405.30060403409954,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.00842436357600934,
+      "hi": 0.6079509540439834,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.02527309072802801,
+      "hi": 1.8238528621319499,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.08424363576009336,
+      "hi": 6.079509540439832,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.25273090728028014,
+      "hi": 18.2385286213195,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.8424363576009335,
+      "hi": 60.79509540439831,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 2.527309072802801,
+      "hi": 182.38528621319497,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 8.42436357600934,
+      "hi": 607.9509540439833,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 0.0033767418030097793,
+      "hi": 0.027749508951161204,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 0.010130225409029336,
+      "hi": 0.0832485268534836,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 0.03376741803009778,
+      "hi": 0.277495089511612,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 0.10130225409029335,
+      "hi": 0.8324852685348362,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 0.3376741803009778,
+      "hi": 2.7749508951161195,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 1.0130225409029334,
+      "hi": 8.32485268534836,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 3.37674180300978,
+      "hi": 27.74950895116121,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "obs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 633599345771.0798,
+      "hi": 15468890327383566,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 1900798037313.2393,
+      "hi": 46406670982150690,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 6335993457710.798,
+      "hi": 154688903273835620,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 19007980373132.395,
+      "hi": 464066709821506900,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 63359934577107.96,
+      "hi": 1546889032738355700,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 190079803731323.9,
+      "hi": 4640667098215069000,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 633599345771080,
+      "hi": 15468890327383566000,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "sync",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 424257623426533.9,
+      "hi": 14302541407070936,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 1272772870279601.5,
+      "hi": 42907624221212810,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 4242576234265337.5,
+      "hi": 143025414070709340,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 12727728702796014,
+      "hi": 429076242212128060,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 42425762342653360,
+      "hi": 1430254140707092700,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 127277287027960110,
+      "hi": 4290762422121280500,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 424257623426533950,
+      "hi": 14302541407070937000,
+      "open": true
+     }
+    ]
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "mode": "syncAbs",
+    "scan": [
+     {
+      "k2q": 0.0001,
+      "lo": 179114962477107.5,
+      "hi": 14302021880675406,
+      "open": true
+     },
+     {
+      "k2q": 0.0003,
+      "lo": 537344887431322.5,
+      "hi": 42906065642026216,
+      "open": true
+     },
+     {
+      "k2q": 0.001,
+      "lo": 1791149624771074.8,
+      "hi": 143020218806754030,
+      "open": true
+     },
+     {
+      "k2q": 0.003,
+      "lo": 5373448874313226,
+      "hi": 429060656420262140,
+      "open": true
+     },
+     {
+      "k2q": 0.01,
+      "lo": 17911496247710744,
+      "hi": 1430202188067540000,
+      "open": true
+     },
+     {
+      "k2q": 0.03,
+      "lo": 53734488743132240,
+      "hi": 4290606564202621400,
+      "open": true
+     },
+     {
+      "k2q": 0.1,
+      "lo": 179114962477107550,
+      "hi": 14302021880675408000,
+      "open": true
+     }
+    ]
+   }
+  ],
+  "alt": [
+   {
+    "cR": 1,
+    "mode": "obs",
+    "lo": 0.0023001275773084887,
+    "hi": 40.53006040340993,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 1,
+    "mode": "sync",
+    "lo": 0.8424363576009333,
+    "hi": 60.7950954043983,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 1,
+    "mode": "syncAbs",
+    "lo": 0.3376741803009777,
+    "hi": 2.774950895116119,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.1,
+    "mode": "obs",
+    "lo": 0.00002300127577308489,
+    "hi": 0.4053006040340993,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.1,
+    "mode": "sync",
+    "lo": 0.008424363576009333,
+    "hi": 0.6079509540439831,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.1,
+    "mode": "syncAbs",
+    "lo": 0.0033767418030097767,
+    "hi": 0.027749508951161194,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.0128,
+    "mode": "obs",
+    "lo": 3.768529022662228e-7,
+    "hi": 0.006640445096494683,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.0128,
+    "mode": "sync",
+    "lo": 0.00013802477282933692,
+    "hi": 0.00996066843105662,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.0128,
+    "mode": "syncAbs",
+    "lo": 0.00005532453770051219,
+    "hi": 0.000454647954655825,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.001,
+    "mode": "obs",
+    "lo": 2.3001275773084887e-9,
+    "hi": 0.000040530060403409935,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.001,
+    "mode": "sync",
+    "lo": 8.424363576009333e-7,
+    "hi": 0.00006079509540439831,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.001,
+    "mode": "syncAbs",
+    "lo": 3.3767418030097765e-7,
+    "hi": 0.0000027749508951161193,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.000001,
+    "mode": "obs",
+    "lo": 2.3001275773084884e-15,
+    "hi": 4.053006040340992e-11,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.000001,
+    "mode": "sync",
+    "lo": 8.424363576009332e-13,
+    "hi": 6.079509540439829e-11,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   },
+   {
+    "cR": 0.000001,
+    "mode": "syncAbs",
+    "lo": 3.376741803009776e-13,
+    "hi": 2.7749508951161186e-12,
+    "loBody": "Earth",
+    "hiBody": "Mercury",
+    "open": true
+   }
+  ],
+  "move": [
+   {
+    "build": "R",
+    "ref": "—",
+    "minLog10": 0,
+    "maxLog10": 0
+   },
+   {
+    "build": "O",
+    "ref": "—",
+    "minLog10": 0,
+    "maxLog10": 0
+   },
+   {
+    "build": "P",
+    "ref": "obs",
+    "minLog10": -0.08262579641425954,
+    "maxLog10": -0.06298389253518578
+   },
+   {
+    "build": "P",
+    "ref": "rule",
+    "minLog10": 16.30856077689708,
+    "maxLog10": 17.649158243244845
+   },
+   {
+    "build": "M",
+    "ref": "obs",
+    "minLog10": -0.08262579641425954,
+    "maxLog10": -0.0629838925351855
+   },
+   {
+    "build": "M",
+    "ref": "rule",
+    "minLog10": 16.30856077689708,
+    "maxLog10": 17.649158243244845
+   }
+  ]
+ },
+ "t4": [
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 1.0189735199285557,
+   "hi": 0.9624107150691747,
+   "open": false,
+   "gap": 1.0587720024036884,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 4
+  },
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 1.0189735199285557,
+   "hi": 3.208035716897248,
+   "open": true,
+   "gap": 0.31763160072110663,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.3056920559785668,
+   "hi": 0.9624107150691747,
+   "open": true,
+   "gap": 0.3176316007211066,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 1.0189735199285557,
+   "hi": 397.7366272486014,
+   "open": true,
+   "gap": 0.0025619303079463594,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 5
+  },
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 1.0189735199285557,
+   "hi": 1325.7887574953377,
+   "open": true,
+   "gap": 0.000768579092383908,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "R",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.3056920559785668,
+   "hi": 397.7366272486014,
+   "open": true,
+   "gap": 0.0007685790923839081,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 1.0189735199285557,
+   "hi": 0.9624107150691747,
+   "open": false,
+   "gap": 1.0587720024036884,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 4
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 1.0189735199285557,
+   "hi": 3.208035716897248,
+   "open": true,
+   "gap": 0.31763160072110663,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.3056920559785668,
+   "hi": 0.9624107150691747,
+   "open": true,
+   "gap": 0.3176316007211066,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 1.0189735199285557,
+   "hi": 397.73662724855205,
+   "open": true,
+   "gap": 0.002561930307946677,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 5
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 1.0189735199285557,
+   "hi": 1325.788757495173,
+   "open": true,
+   "gap": 0.0007685790923840034,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "O",
+   "ref": "—",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.3056920559785668,
+   "hi": 397.73662724855205,
+   "open": true,
+   "gap": 0.0007685790923840034,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 0.8424363576009335,
+   "hi": 0.8324852685348362,
+   "open": false,
+   "gap": 1.01195347166156,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 5
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 0.8424363576009335,
+   "hi": 2.7749508951161195,
+   "open": true,
+   "gap": 0.30358604149846813,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Mercury"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.25273090728028014,
+   "hi": 0.8324852685348362,
+   "open": true,
+   "gap": 0.30358604149846813,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 0.8424363576009335,
+   "hi": 391.7705778398724,
+   "open": true,
+   "gap": 0.002150330844766145,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 6
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 0.8424363576009335,
+   "hi": 1305.9019261329076,
+   "open": true,
+   "gap": 0.0006450992534298436,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "P",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.25273090728028014,
+   "hi": 391.7705778398724,
+   "open": true,
+   "gap": 0.0006450992534298437,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 42425762342653360,
+   "hi": 429060656420262140,
+   "open": true,
+   "gap": 0.0988805701660457,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 42425762342653360,
+   "hi": 1430202188067540000,
+   "open": true,
+   "gap": 0.029664171049813722,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 12727728702796014,
+   "hi": 429060656420262140,
+   "open": true,
+   "gap": 0.029664171049813726,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 42425762342653360,
+   "hi": 2.827786540420404e+21,
+   "open": true,
+   "gap": 0.000015003170054110933,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 42425762342653360,
+   "hi": 9.425955134734678e+21,
+   "open": true,
+   "gap": 0.0000045009510162332805,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "P",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 12727728702796014,
+   "hi": 2.827786540420404e+21,
+   "open": true,
+   "gap": 0.000004500951016233282,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 0.8424363576009335,
+   "hi": 0.8324852685348362,
+   "open": false,
+   "gap": 1.01195347166156,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 5
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 0.8424363576009335,
+   "hi": 2.7749508951161195,
+   "open": true,
+   "gap": 0.30358604149846813,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Mercury"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.25273090728028014,
+   "hi": 0.8324852685348362,
+   "open": true,
+   "gap": 0.30358604149846813,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Mercury"
+   },
+   "in098": false,
+   "n098": 2
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 0.8424363576009335,
+   "hi": 391.7705778398238,
+   "open": true,
+   "gap": 0.0021503308447664115,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 6
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 0.8424363576009335,
+   "hi": 1305.9019261327455,
+   "open": true,
+   "gap": 0.0006450992534299236,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "M",
+   "ref": "obs",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 0.25273090728028014,
+   "hi": 391.7705778398238,
+   "open": true,
+   "gap": 0.0006450992534299237,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Earth"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": true,
+   "n098": 3
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "six",
+   "n": 6,
+   "lo": 42425762342653360,
+   "hi": 429060656420262140,
+   "open": true,
+   "gap": 0.0988805701660457,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "common",
+   "n": 3,
+   "lo": 42425762342653360,
+   "hi": 1430202188067540000,
+   "open": true,
+   "gap": 0.029664171049813722,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": true,
+   "sets": "c337",
+   "n": 3,
+   "lo": 12727728702796014,
+   "hi": 429060656420262140,
+   "open": true,
+   "gap": 0.029664171049813726,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Venus"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "six",
+   "n": 6,
+   "lo": 42425762342653360,
+   "hi": 2.8277865404200533e+21,
+   "open": true,
+   "gap": 0.000015003170054112793,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "common",
+   "n": 3,
+   "lo": 42425762342653360,
+   "hi": 9.425955134733508e+21,
+   "open": true,
+   "gap": 0.0000045009510162338395,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "common",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  },
+  {
+   "build": "M",
+   "ref": "rule",
+   "partAsLock": false,
+   "sets": "c337",
+   "n": 3,
+   "lo": 12727728702796014,
+   "hi": 2.8277865404200533e+21,
+   "open": true,
+   "gap": 0.00000450095101623384,
+   "loFrom": {
+    "mode": "sync",
+    "k2q": "c337",
+    "body": "Mars"
+   },
+   "hiFrom": {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "body": "Moon"
+   },
+   "in098": false,
+   "n098": 0
+  }
+ ],
+ "t5": {
+  "range": {
+   "lo": 0.002300127577308489,
+   "hi": 40.530060403409934
+  },
+  "egQ": 0.00001,
+  "rows": [
+   {
+    "u": 0.002300127577308489,
+    "k": 1928304538.5374491,
+    "venusPerpOverBg": 0.0132738427491802,
+    "venusWOverBg": 0.013274324926576922,
+    "earthTideInfOverRes": 0.00009723882953348038,
+    "earthTideMeanOverRes": 0.000005959016077317901,
+    "egMaxOverRes": 445.6848145877788,
+    "xVenus": 33772.598316676194,
+    "xEarth": 1,
+    "xMercury": 17620.787995958235
+   },
+   {
+    "u": 0.41,
+    "k": 343722178108.69696,
+    "venusPerpOverBg": 0.013273842749180193,
+    "venusWOverBg": 0.01327432492657692,
+    "earthTideInfOverRes": 5.455163741345304e-7,
+    "earthTideMeanOverRes": 3.3430481007472114e-8,
+    "egMaxOverRes": 2.500321787368223,
+    "xVenus": 189.46654815987614,
+    "xEarth": 0.005610067261728021,
+    "xMercury": 98.85380586197542
+   },
+   {
+    "u": 0.84,
+    "k": 704211291734.8914,
+    "venusPerpOverBg": 0.013273842749180193,
+    "venusWOverBg": 0.01327432492657692,
+    "earthTideInfOverRes": 2.662639445180447e-7,
+    "earthTideMeanOverRes": 1.6317258586980438e-8,
+    "egMaxOverRes": 1.2203951581202044,
+    "xVenus": 92.47771993517766,
+    "xEarth": 0.0027382471158434395,
+    "xMercury": 48.25007190882133
+   },
+   {
+    "u": 0.98,
+    "k": 821579840357.3733,
+    "venusPerpOverBg": 0.013273842749180193,
+    "venusWOverBg": 0.013274324926576922,
+    "earthTideInfOverRes": 2.28226238158324e-7,
+    "earthTideMeanOverRes": 1.3986221645983231e-8,
+    "egMaxOverRes": 1.0460529926744608,
+    "xVenus": 79.26661708729513,
+    "xEarth": 0.002347068956437233,
+    "xMercury": 41.35720449327543
+   },
+   {
+    "u": 3.2,
+    "k": 2682709682799.5864,
+    "venusPerpOverBg": 0.013273842749180193,
+    "venusWOverBg": 0.013274324926576918,
+    "earthTideInfOverRes": 6.989428543598671e-8,
+    "earthTideMeanOverRes": 4.2832803790823645e-9,
+    "egMaxOverRes": 0.32035372900655357,
+    "xVenus": 24.275401482984133,
+    "xEarth": 0.0007187898679089026,
+    "xMercury": 12.665643876065603
+   },
+   {
+    "u": 40.530060403409934,
+    "k": 33978245465212.48,
+    "venusPerpOverBg": 0.013273842749180196,
+    "venusWOverBg": 0.013274324926576918,
+    "earthTideInfOverRes": 5.51841549627545e-9,
+    "earthTideMeanOverRes": 3.381810211146487e-10,
+    "egMaxOverRes": 0.025293126203550467,
+    "xVenus": 1.916633826161621,
+    "xEarth": 0.00005675115098311011,
+    "xMercury": 1
+   }
+  ]
+ },
+ "t6": {
+  "uV": 1.1928238156059387e-12,
+  "a": {
+   "u": 0.98,
+   "coef": 821579840357.3733
+  },
+  "b": {
+   "lo": 0.002300127577308489,
+   "hi": 40.530060403409934,
+   "coefLo": 1928304538.5374491,
+   "coefHi": 33978245465212.48
+  },
+  "c": {
+   "tideInfUMax": 2.236617133951574e-7,
+   "tideMeanUMax": 1.3706497213063561e-8,
+   "egUMax": 1.0251319328209711,
+   "coefTideInf": 187506.07631147958,
+   "coefTideMean": 11490.797747109737,
+   "coefEg": 859416050726.8357
+  },
+  "overlapTideInf": null,
+  "overlapTideMean": null,
+  "overlapEg": {
+   "lo": 0.002300127577308489,
+   "hi": 1.0251319328209711
+  }
+ },
+ "cmp": {
+  "A": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.001784653999394144,
+      "hi": 100,
+      "loClipped": false,
+      "hiClipped": true,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": null
+     }
+    ],
+    "window": "in",
+    "focus": true
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.001,
+      "hi": 31.972488291533914,
+      "loClipped": true,
+      "hiClipped": false,
+      "loEdgeBody": null,
+      "hiEdgeBody": "Mercury"
+     }
+    ],
+    "window": "in",
+    "focus": true
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.653640880312386,
+      "hi": 100,
+      "loClipped": false,
+      "hiClipped": true,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": null
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.1960922640940198,
+      "hi": 43.40508784248133,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "ranges": [
+     {
+      "lo": 0.2554939793881338,
+      "hi": 1.1556150065215993,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": true
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "ranges": [
+     {
+      "lo": 0.07664819381675357,
+      "hi": 0.34668450195731493,
+      "loClipped": false,
+      "hiClipped": false,
+      "loEdgeBody": "Earth",
+      "hiEdgeBody": "Venus"
+     }
+    ],
+    "window": "part",
+    "focus": false
+   }
+  ],
+  "U": [
+   {
+    "mode": "obs",
+    "k2q": "common",
+    "lockMin": 39281444319322.88,
+    "lockMinId": "Mercury",
+    "notMax": 2332405332.266651,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "obs",
+    "k2q": "c337",
+    "lockMin": 11784433295796.867,
+    "lockMinId": "Mercury",
+    "notMax": 699721599.6799955,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "sync",
+    "k2q": "common",
+    "lockMin": 58922171130415.445,
+    "lockMinId": "Mercury",
+    "notMax": 854258290691.405,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "sync",
+    "k2q": "c337",
+    "lockMin": 17676651339124.637,
+    "lockMinId": "Mercury",
+    "notMax": 256277487207.4216,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "common",
+    "lockMin": 2689462536951.665,
+    "lockMinId": "Mercury",
+    "notMax": 342412771566.5141,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   },
+   {
+    "mode": "syncAbs",
+    "k2q": "c337",
+    "lockMin": 806838761085.4998,
+    "lockMinId": "Mercury",
+    "notMax": 102723831469.95427,
+    "notMaxId": "Earth",
+    "separable": true,
+    "atOne": false
+   }
+  ]
+ },
+ "gates": {
+  "pure": true,
+  "t1": true,
+  "t2": true,
+  "t3": true,
+  "t4": true,
+  "t5": true,
+  "t6": true,
+  "cmp": true
+ },
+ "ok": true,
+ "timing": {
+  "input": {
+   "wallSec": 0.141
+  },
+  "pure": {
+   "wallSec": 0.948
+  },
+  "t1": {
+   "wallSec": 0.948
+  },
+  "t2": {
+   "wallSec": 0.949
+  },
+  "t3": {
+   "wallSec": 0.968
+  },
+  "t4": {
+   "wallSec": 0.974
+  },
+  "t5": {
+   "wallSec": 0.989
+  },
+  "t6": {
+   "wallSec": 0.99
+  },
+  "cmp": {
+   "wallSec": 0.99
+  }
+ },
+ "elapsedS": 2.454,
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第355便b",
+  "target": "tests/lib-w355b-bgrange.mjs",
+  "targetSha256": "11808ca3c9ba8d68cf1dd45f25b46bf6442573b25501b234c00647d758b478f8",
+  "generatedAt": "2026-11-25T19:46:27.622Z",
+  "inputs": [
+   {
+    "file": "tests/out/lockdef-353zk.json",
+    "bytes": 123211,
+    "sha256": "d1f858ed07256c869555eb0cdf5b602200d2e0908a5c125e0cbce7761284e3f1",
+    "mtime": "2026-11-25T19:40:42.220Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w355b-bgrange.mjs",
+    "bytes": 13656,
+    "sha256": "e84cef80189950d14a13adaa4748d45c0b2d5da71d76fa3cbfdde0e2bb1fc9ee",
+    "mtime": "2026-11-25T19:46:24.808Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-11-25T19:40:42.044Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-11-25T19:40:42.044Z"
+   },
+   {
+    "file": "tests/lib-w277a-plutostates.mjs",
+    "bytes": 12341,
+    "sha256": "a6561a6e677a57bf8b1ba032c58c963b155b92620eaa0cdc81ba2c4cd9938df5",
+    "mtime": "2026-11-25T19:40:42.048Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w299c-planets3d.mjs",
+    "bytes": 16742,
+    "sha256": "2a011b455f8fa09e351f853712c37e25a6322b2c87d5ef05d51815670aad50cc",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w302a-wbg.mjs",
+    "bytes": 9488,
+    "sha256": "a3d9ab55b53fe0204c3cf219250eae184d812f3138b1831d94c5da2b5486f887",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w304e-apsis.mjs",
+    "bytes": 13145,
+    "sha256": "10a7133bcd289d70ecdd85fbcc10543b7291119ca83a5d51972d94ca216d43f8",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w306a-an336.mjs",
+    "bytes": 15115,
+    "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w307a-sphereaxial.mjs",
+    "bytes": 9620,
+    "sha256": "b536fac7acc6c391b3841b0a8c8fdba86a89a56e07a5d834225bbc0e1d14e7c5",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w309a-invsq.mjs",
+    "bytes": 12684,
+    "sha256": "729de95a0832192ce777f8546c97b430727c4c0df9a20ace3dfc7158637f0bf9",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w310d-shell.mjs",
+    "bytes": 20604,
+    "sha256": "a34ab1789e9f2dff7b3257d3b7d5278ddb1b09136c51f60102a52255590cd63d",
+    "mtime": "2026-11-25T19:40:42.056Z"
+   },
+   {
+    "file": "tests/lib-w311d-planet3.mjs",
+    "bytes": 23994,
+    "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
+    "mtime": "2026-11-25T19:40:42.060Z"
+   },
+   {
+    "file": "tests/lib-w312a-decay.mjs",
+    "bytes": 26451,
+    "sha256": "2869e795265356b5f751641424ea42e900e0022a19e288c18a57236e57c00734",
+    "mtime": "2026-11-25T19:40:42.060Z"
+   },
+   {
+    "file": "tests/lib-w315d-satk1.mjs",
+    "bytes": 25049,
+    "sha256": "3aebe79ebc1209fa55d66a050b73e0ceb50c0b450810b5173cbbb6b8d1ecfe30",
+    "mtime": "2026-11-25T19:40:42.060Z"
+   },
+   {
+    "file": "tests/lib-w317c-satcut.mjs",
+    "bytes": 16461,
+    "sha256": "025e4d3d8a7dbe5402e1a0eece2472a67a1e43b09f7be39af9e1dd5aab412376",
+    "mtime": "2026-11-25T19:40:42.060Z"
+   },
+   {
+    "file": "tests/lib-w318d-dragest.mjs",
+    "bytes": 30422,
+    "sha256": "5494fcbfc3028f95bce97196106af3ad96491b98164705cf3a2e8990c28ee86c",
+    "mtime": "2026-11-25T19:40:42.060Z"
+   },
+   {
+    "file": "tests/lib-w326d-axialheat.mjs",
+    "bytes": 32001,
+    "sha256": "8f97f4bf330d6d96195f67e3d157d8b237d4f5d04354661816e38c931f1ab33f",
+    "mtime": "2026-11-25T19:40:42.064Z"
+   },
+   {
+    "file": "tests/lib-w330a-spinclass.mjs",
+    "bytes": 34905,
+    "sha256": "5d351af12e51232a7562d4e0b395f030fccf3eb8b65a92ccd1cd6534a28eb997",
+    "mtime": "2026-11-25T19:40:42.064Z"
+   },
+   {
+    "file": "tests/lib-w330b-dragweight.mjs",
+    "bytes": 43091,
+    "sha256": "16dc19e6e053fecf8c9dbb0a137009d99ee313575952dee677e5980c062338eb",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w331a-coordtwist.mjs",
+    "bytes": 33003,
+    "sha256": "8a9efb5c6455427b2e540034f16e6956898193a93b14430922b7e26d30fb7713",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w331b-centrifugal.mjs",
+    "bytes": 36773,
+    "sha256": "5048ac3dec520de47b7ca0bfc4974f12f6217dbd4ca3ee59c1319ec632a2288e",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w331c-k1scale.mjs",
+    "bytes": 37022,
+    "sha256": "d43190711c382b88956c5291431c4142dc4cc3188f067f39dcfcd626cdf03ada",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w332a-eqband.mjs",
+    "bytes": 47971,
+    "sha256": "9be3334518065ac9cffba8a37a9034ded7fee5dc0255876b9b3808ec23fc99e2",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w332b-transgeo2.mjs",
+    "bytes": 29461,
+    "sha256": "33e427ab6695f80e8bd57f888961e8fee1b44fd6324f4e36847fe8dce910b377",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w333a-rotdiff.mjs",
+    "bytes": 28077,
+    "sha256": "467f2829bf0e9d28d2c988d8b2bfa413ee9420ca9ea10f0c47e03be808ceb5ed",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w333b-axialfield.mjs",
+    "bytes": 34735,
+    "sha256": "8f82bbc80cd0fa03575f50514aa8c542a2ae88c3fdab44f114e025ed6e9c4321",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w333c-mercury3d.mjs",
+    "bytes": 35892,
+    "sha256": "edc9632039c3bc0c8262da12469fea888b7cb26477e0d9c6bbf620c5fbe1c5f6",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w334a-heightlaw.mjs",
+    "bytes": 40171,
+    "sha256": "cbece44a92603dd989b5fef6a0e502123274fa46fe2f876be0af96f907cedcf2",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w334b-ledger.mjs",
+    "bytes": 45562,
+    "sha256": "48f0a572c969b1b8e9c1ddb5bca469fb1f30f0dd4d5b031c393325439e2abe6e",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w334c-mercurynode.mjs",
+    "bytes": 35987,
+    "sha256": "d9075f2bbb49777f6491b35f88733a9c0945e98cd76f8935aa5c094d2b3fc777",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w334d-binarylaw.mjs",
+    "bytes": 34686,
+    "sha256": "84641661d61b854d753c2f6d648d863ac6dbeba8adec5d2b3326e7eb9eb64786",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w335b-carryledger.mjs",
+    "bytes": 32539,
+    "sha256": "5c0a2f7263fa6e76f840aed4e3031639b10e40219fb0312773968da22d8ccf53",
+    "mtime": "2026-11-25T19:40:42.068Z"
+   },
+   {
+    "file": "tests/lib-w335c-mercurycombo.mjs",
+    "bytes": 23928,
+    "sha256": "ac0fec9c61d480216a8602f5d7cb676faf240f9f563c91e16328aae707910222",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w335d-binarytilt.mjs",
+    "bytes": 37252,
+    "sha256": "b3dbef7c094d0675e6d63fdb3814741603f7feaac17349a468475f311036c765",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w335e-moonapsis.mjs",
+    "bytes": 32724,
+    "sha256": "3041a4828b7c4a1432fcbc87f2bc37a7706d2e218a0625b996b2f71b7968020a",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337a-supply.mjs",
+    "bytes": 40434,
+    "sha256": "d937eea65840c54d89ce87d6f1ba5467fdb3a6c075d692b77b5fe340830ff583",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337b-mercuryband.mjs",
+    "bytes": 28361,
+    "sha256": "ec069f5ae264588adeca7a749d75a90f6372994d2448263398dea30b0936df0b",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337c-tidelock.mjs",
+    "bytes": 58274,
+    "sha256": "5dd82cbe9a97f8835a71b65e2cdb1ab24569f7704f723ed74d3f42f1dc63f382",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337d-accelloss.mjs",
+    "bytes": 28896,
+    "sha256": "61fd3db08697b43e3140ac022552c9cbb62f4e54b028c65998b0953c785cf784",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337i-rotring.mjs",
+    "bytes": 38680,
+    "sha256": "d482c4d5608db6fb070d126a6972c9be52e38989e3df86de8ff1a7a6c8fd4e20",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337j-spinorbit.mjs",
+    "bytes": 41130,
+    "sha256": "baaf83c985bbc044080e54789eadac50186b4fca4ed76235ba313496c2ef1fb8",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337k-gyrodrag.mjs",
+    "bytes": 33127,
+    "sha256": "24961ec05e36eacff731d2ad0db89bf1e4cd0cfa4b0f709c7ca56ee439556e11",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w337l-bevel.mjs",
+    "bytes": 37324,
+    "sha256": "58191205a9a89f4bec5c450e927253b73d3317c4939ce6c338b74d0b83185421",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w338b-bevelknob.mjs",
+    "bytes": 22798,
+    "sha256": "4361b6aea09f8313a702a57c8f9a02abf262dcbc117fe618f01ec239d0a330ae",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w338c-recheck.mjs",
+    "bytes": 13023,
+    "sha256": "bcd480aa7e4234dd91f2982dec6f5e2692479ee08ab3aca31874aba2613db439",
+    "mtime": "2026-11-25T19:40:42.072Z"
+   },
+   {
+    "file": "tests/lib-w338d-ringbook.mjs",
+    "bytes": 39367,
+    "sha256": "a20dd7108b188fc53bb0ebe4308de09018ea029dfffab006c9570cdf7fedf78c",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w338e-spinfield.mjs",
+    "bytes": 35580,
+    "sha256": "2c35e16b408c61f46aaef7dfc83cb8a37b9ce6dd384f78ddcc4ba266f8c34245",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w338f-heatlock.mjs",
+    "bytes": 24261,
+    "sha256": "91a2569a96de2a54e4101366a872e9ee528fa749bc2fc9326641464d8e400727",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w339a-rotvert.mjs",
+    "bytes": 13499,
+    "sha256": "fba4b0d8628e7ca572a56b4c2e9bb760f65f79c97aa31894d682fbb410c7e8e8",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w340b-axialsplit.mjs",
+    "bytes": 33647,
+    "sha256": "a447459045bbf386c8aca95cf9abca6aa72f4021c782a0d8df4b57b7af01a4a7",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w340d-gyropath.mjs",
+    "bytes": 39493,
+    "sha256": "c0bc07bfa3468b7af87de78685efbd2fdd764ffcc671b428525c5acd2056a0b8",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w340e-lightweight.mjs",
+    "bytes": 31437,
+    "sha256": "e729889328571be96845b85ded08a3b13aaefc59972eb85c546016aaeb761726",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w340f-heatsource.mjs",
+    "bytes": 19089,
+    "sha256": "9e49a25ecca888fec32506acd728f224fe8fbd30f884159c72ac4c1bfcd2e609",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w340h-thin.mjs",
+    "bytes": 7760,
+    "sha256": "5f7f0e81bd37ac92ed2f9a9037a72c76e020561d0f386dab774c54c55337399b",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w341b-bodycoef.mjs",
+    "bytes": 26176,
+    "sha256": "5be5b1ea96eafbd6dacc25f641adbfe450a03ef32a0db2deb7e5bb60157a579f",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w341f-gyroheat.mjs",
+    "bytes": 34791,
+    "sha256": "b6bbedf1528fec80e55541306c180b17ba9031b33554c6d3f66982dbd959ed92",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w341g-plutocontrol.mjs",
+    "bytes": 34762,
+    "sha256": "c99d680dcf0b36b9eb4d64f6afadf6e96f3021a1b8668b4f9a2340aec3fa2975",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w342e-powerball.mjs",
+    "bytes": 27289,
+    "sha256": "79923c13116aa6438b1ef738c1d8eb6cedc705e437cbc1402ff1fe728b946773",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w343e-spintransfer.mjs",
+    "bytes": 24045,
+    "sha256": "2f9e2662ee2d8059d288a03789a1e9cfbf9fb2a177cccd2fa0ff324794550fc7",
+    "mtime": "2026-11-25T19:40:42.076Z"
+   },
+   {
+    "file": "tests/lib-w343g-plutostate.mjs",
+    "bytes": 26851,
+    "sha256": "3df0b2ba8e6bb293f2c4ff7d97d77b204791cd6abe3dab8bc809f94efedf6291",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w344e-spincompose.mjs",
+    "bytes": 23238,
+    "sha256": "fcb156d8d80cb7064223f66ae8745768519e381ea9ac815e5212805e2cc31b4b",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w347e-spintorque.mjs",
+    "bytes": 26071,
+    "sha256": "75eaadc2332b9016b6ecca45114b1efbd970092955d70effe55c7c5a986e7091",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w347h-axisdiff.mjs",
+    "bytes": 38932,
+    "sha256": "d21e723feb71436a3f6fe24d7a290be92cb3b1c6f47a63731b3e507e2efbc1f7",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w347i-axisenergy.mjs",
+    "bytes": 25384,
+    "sha256": "8986a00e2dec4aeb6d5bcbbdf3de98845fa3f31a9d58c599d37c4c83e47d3820",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w348b-spinreset.mjs",
+    "bytes": 26997,
+    "sha256": "b6db4a3986b2e1756518536615ae3d41d5a522782bbbbd44d49eecb786bb8ed7",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w348c-axisbalance.mjs",
+    "bytes": 28227,
+    "sha256": "46f10a5c9f18f9eaf9c4ab3628b0465657f3694ea60b836f25b3389c49c9ed33",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w348d-diskaxis.mjs",
+    "bytes": 28793,
+    "sha256": "f1368a01c730a85ed35c8deb9d54c33332df01573342fcb02140424502c63fc6",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w348h-axisgeo3.mjs",
+    "bytes": 36918,
+    "sha256": "2581e9d1ecbbee8dba6dd50dbaba20983d4d6afca2da8bb6453104798ad7075e",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w348i-diskgeo3.mjs",
+    "bytes": 30183,
+    "sha256": "2a8c622c04cedd91fb45212f180676014b96ea789fd888d6d7e1cebf80d2760e",
+    "mtime": "2026-11-25T19:40:42.080Z"
+   },
+   {
+    "file": "tests/lib-w350b-sphereconv.mjs",
+    "bytes": 23183,
+    "sha256": "eccda6d5923021559c1807761ad424f8e3ca2ed65aa93c05085e4d31b332e0c7",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w350c-gyrostep.mjs",
+    "bytes": 29284,
+    "sha256": "00653e62a730cfbb696bf098ab8721c87cf21d70343b3c32ac38ed9077baa864",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w350d-axisheat.mjs",
+    "bytes": 26227,
+    "sha256": "66585812f4ad72ee6c7d9893cbfc1eb7c31b89a0bfecaf05a41ba08fb589f196",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w350e-bgaxial.mjs",
+    "bytes": 31133,
+    "sha256": "16945d08bb3360c988a085a592647531e4836fb50b8be80afd7444c740743043",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w350f-structfit.mjs",
+    "bytes": 28982,
+    "sha256": "baac6292d7ddeaa0921622332d75ce679d91f7acd61d77b7ecbccab102c017f1",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w350g-diskcheck.mjs",
+    "bytes": 27826,
+    "sha256": "5956d650a08f34d986a613921201a0af207a34d2f9818cb0f1cf22c64b40f1d5",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351b-c2main.mjs",
+    "bytes": 21863,
+    "sha256": "7c96856078feb728e237cb472eaa241c71eceb67fbd375956670b02a12d47a0b",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351c-srcparts.mjs",
+    "bytes": 23542,
+    "sha256": "26c9c32c01cbc30000985e3474bd684def0416ab6f9ce845fb23df6d26615002",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351d-r3step.mjs",
+    "bytes": 22313,
+    "sha256": "30a5a6905860f0f7cf4c273a47e28010ce876066e1acacfffe9ac9333ef5f087",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351e-bgbalance.mjs",
+    "bytes": 21507,
+    "sha256": "65ecd171d8079a1ef1249fc5ab5d1dd11a49285d5dad74332af66954fd7092da",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351f-satlock.mjs",
+    "bytes": 23909,
+    "sha256": "b31dd7ee49c698712aae369891932f4b02cb71bb61cb1329b1c6f6338d65d145",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351g-r3energy.mjs",
+    "bytes": 26339,
+    "sha256": "4bde20de253d5e8bcf9b3e53587fba5dcebe6ba4f52f58482af36808d201842f",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351j-ringstep.mjs",
+    "bytes": 24451,
+    "sha256": "bbb14e65bd9c54b8bc7ef11a855328369982dc0f3d5ddc811dd6b7d248302f8b",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w351k-knobrank.mjs",
+    "bytes": 32274,
+    "sha256": "fed3306d8da424f302ee53a923b40697cbbc43ef760d5ee239e649c88ec5d8a8",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w352b-provisional.mjs",
+    "bytes": 38236,
+    "sha256": "1f3070c7d2ba3cfd653a224a177fdfb99c9e0adce6f10fafff60c70017722953",
+    "mtime": "2026-11-25T19:40:42.084Z"
+   },
+   {
+    "file": "tests/lib-w352c-refaxis.mjs",
+    "bytes": 22834,
+    "sha256": "3bbf75d1309973d1e39d30d9da5adda3d96f69182d101cb2658e1c27ba7aad60",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352d-precsense.mjs",
+    "bytes": 17263,
+    "sha256": "dabcb71ad2ad66201899a21e22fc142b21752d1bf7db6f2c72ddc73f5191c90f",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352e-sunrecv.mjs",
+    "bytes": 24526,
+    "sha256": "36eec9a206c623f152b295fc3f23a470ec983ebb567605e570165a5e1efb2d0a",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352f-galdisk.mjs",
+    "bytes": 22386,
+    "sha256": "fa96ee32add3d56487ad9f87b0200682e668dc3a8898b3972e267ebfed5fdd8f",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352h-venusbal.mjs",
+    "bytes": 22238,
+    "sha256": "66026c408a4b34db779de3f2491aefb1ffbb833f5b4d43315b0bc96b8b69bc11",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352i-stableprec.mjs",
+    "bytes": 23435,
+    "sha256": "fb799e95727ceac3b5eebe0421f94ee026a516e79480f3e557bb8dedf0e0ecb2",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352j-maintable.mjs",
+    "bytes": 26538,
+    "sha256": "d5d6c5c470019e1159b9b1f15384485d795a76118d77567fcc69566b350e0354",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352k-spinform.mjs",
+    "bytes": 24763,
+    "sha256": "d6362934b464e9d9a8dcdf417330967b6df2ecce1c4fbb81da1a515d3c14e70f",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352l-suntilt.mjs",
+    "bytes": 23792,
+    "sha256": "ef42cfc7578bac20721924936a24ad3727c202a5e35173805a046e641b00d09b",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352n-venuslong.mjs",
+    "bytes": 25425,
+    "sha256": "b964fdbc2c93b26466d4d76ef2a7a65bfea07e67493ce9e27378baa2028a655c",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352o-obsradius.mjs",
+    "bytes": 19068,
+    "sha256": "27f44ff076d17fdc0dfc9212e52223889c6dd14b52463c35677ca54c2f988112",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352p-coprec.mjs",
+    "bytes": 31753,
+    "sha256": "20333fd0b4981408a0ff673642b3022b9347201177b8956776691a9afa09e6cc",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352q-response.mjs",
+    "bytes": 27065,
+    "sha256": "8b2fa68b225644a4e9bd3c6ef4c829fc03209484fe730ccefbe6d6ab7522ea70",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352s-satring.mjs",
+    "bytes": 27009,
+    "sha256": "03deabe4cfc493543f85b6df4e3ed26dfdcb2d68e4373b1369f93398b04ce1b0",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352u-tidaldrag.mjs",
+    "bytes": 25911,
+    "sha256": "179a20bb3e047abe4c8d793edefb9be3772b672042322713e8c65daf42085f04",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352v-cancelmap.mjs",
+    "bytes": 21081,
+    "sha256": "51a9693562abc5a88e2c6e0be23aa4132eca302eccc773a2bfac646ec20816cb",
+    "mtime": "2026-11-25T19:40:42.088Z"
+   },
+   {
+    "file": "tests/lib-w352w-keepcone.mjs",
+    "bytes": 30717,
+    "sha256": "57adb0c0b4f55dee929bb0f3c1bc693fe2d0f9e442e54ded1bb6abb53acaffc6",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w352y-bgwindow.mjs",
+    "bytes": 24633,
+    "sha256": "c0b3603b790f160e34dccaebabf8e721166c6ffdc922b81e063707dd40b3ca6f",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w352za-sconseq.mjs",
+    "bytes": 25293,
+    "sha256": "19b9b7539509eab2484ae191fe14970a9385bdc076c9ba341d92032257e95ed5",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353b-maincol.mjs",
+    "bytes": 24104,
+    "sha256": "56fc229c55e418ed7f1d61645a58af5848e5aaa556b38ff1e8fce2190de428fe",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353c-recvradius.mjs",
+    "bytes": 24389,
+    "sha256": "490b44bcd27bb5223397b6082a193cba7844e2b3977d65b0b52feee87bf0874a",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353d-srcoblate.mjs",
+    "bytes": 38264,
+    "sha256": "daeb5d7ce4ac2941f3cc8d17505053f2d55db428cd9efd432ec3c6602a5ef37b",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353e-focus098.mjs",
+    "bytes": 20594,
+    "sha256": "932081452c5512c862e1fd5b238e2bfec9ef13269000b631a104b2ab4b920f2a",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353f-ratesum.mjs",
+    "bytes": 21288,
+    "sha256": "24e003450ac21b263edfa23c33a2fb671bab7f56cc498d8362a0d70a3ef15073",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353g-venuslock.mjs",
+    "bytes": 22928,
+    "sha256": "1cdcfdd7301583dd1491e014f5893e8395c03c5960f24df4df9dc59af2bc079f",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353h-ringdisk.mjs",
+    "bytes": 15195,
+    "sha256": "64ef3be5ad1c81803c855f4a4070240801a81a12fed0fa30bdde021179c3379d",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353j-venus098.mjs",
+    "bytes": 18349,
+    "sha256": "ecc1830efe394183983d0fc051d9ca12d9dada45fb743b723e522ee92151e6c5",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353k-ringstd.mjs",
+    "bytes": 23630,
+    "sha256": "8bd49bb7426adffe4e7d6cf785e293029abb802224946fdfc6dd31df8c0e3276",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353m-residsign.mjs",
+    "bytes": 22856,
+    "sha256": "4cef6f31e1b7174189bdcefc9023bfc4051b3756c135382a86d6f2db9e618d17",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353n-watch098.mjs",
+    "bytes": 26992,
+    "sha256": "22ea47ab31ac9fde56397d080aae39dd81340a183609a6f7466e65f746cbb944",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353p-cancelstd.mjs",
+    "bytes": 24520,
+    "sha256": "2dde45bf3123ddfb9dc1fe54e6641b1afdf00dfe7289e653ff602d790208051b",
+    "mtime": "2026-11-25T19:40:42.092Z"
+   },
+   {
+    "file": "tests/lib-w353q-onek.mjs",
+    "bytes": 27248,
+    "sha256": "2acd6449dc5ac41741afb4a9cff1602fbc888f08377d5f72b3c68a2b4ec1ba1d",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353u-nearrecv.mjs",
+    "bytes": 19578,
+    "sha256": "a82ebefc3e7719425b8a845487b966d873fe0e88173bc6c9188a01adaf2712f7",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353x-twoaxis.mjs",
+    "bytes": 28920,
+    "sha256": "007c3d567f77e212cf0dcefd2b44718d070f5cde742d111b7f7785d41367abb1",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353z-obpower.mjs",
+    "bytes": 30109,
+    "sha256": "258d0b9ceec7f7eb8d1fcfe4f6e0daa5471b865be2ffb645199abaa28ca498c3",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353za-ktilt.mjs",
+    "bytes": 19739,
+    "sha256": "e862ead2b569ddcaa94240031888b92450a388252728387c712d44b342ee23b3",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353zf-threecols.mjs",
+    "bytes": 28474,
+    "sha256": "ff64011515d60e86bbfe1fb5485a376c5ed91dfea1d36a706a6e7a4a0caf1dfb",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353zg-equalradius.mjs",
+    "bytes": 26736,
+    "sha256": "22a5500216afcda0abed630b8327eb0fd4a0e97090d394b15accd5bb3be8307b",
+    "mtime": "2026-11-25T19:40:42.096Z"
+   },
+   {
+    "file": "tests/lib-w353zk-lockdef.mjs",
+    "bytes": 28395,
+    "sha256": "912ccbb1244c4cd9124e32c5e4e058254f38cf9ccc8be1fda09222ef319a8cf2",
+    "mtime": "2026-11-25T19:40:42.100Z"
+   },
+   {
+    "file": "tests/lib-w355b-bgrange.mjs",
+    "bytes": 16791,
+    "sha256": "11808ca3c9ba8d68cf1dd45f25b46bf6442573b25501b234c00647d758b478f8",
+    "mtime": "2026-11-25T19:44:14.768Z"
+   }
+  ],
+  "codeSha256": "b8d79b67bb90387426a6c581be376bdbe2be1a2dcd26b65648313f59871fae9f",
+  "harnessVersion": "w355b-bgrange-1",
+  "stage": "bgrange",
+  "engine": "Node(html を読まない —— 純関数の lib・第353便zk・zf・c・z・g・第352便k・第348便c・第337便c・第347便e の lib を呼ぶ)・1 プロセス",
+  "notClaim": [
+   "範囲の表 —— 背景の大きさを 1 つの値に置かない。0.98 倍は範囲の内の 1 点で、固定しない",
+   "潮汐のトルクは比べる列(DFM の式ではない)—— k₂/Q・観測の自転・構造の係数は仮の値・未照合のノブ。大気熱潮汐は数えない",
+   "ロックの状態は観測の事実として置く(積分で作らない)—— 比の表から由来を結論にしない",
+   "アプリの引きずり・自転・ジャイロの步と、エンジン・内蔵の本へは入れない"
+  ],
+  "recheck": {
+   "version": "w338c-recheck-lib-1",
+   "decl": {
+    "ULP_FNS": [
+     "pow",
+     "sqrt",
+     "cbrt",
+     "hypot",
+     "sin",
+     "cos",
+     "tan",
+     "asin",
+     "acos",
+     "atan",
+     "atan2",
+     "sinh",
+     "cosh",
+     "tanh",
+     "exp",
+     "expm1",
+     "log",
+     "log1p",
+     "log10",
+     "log2"
+    ],
+    "SEEDS": [
+     12345,
+     20261115
+    ],
+    "REL": 1e-9,
+    "ZERO_FACTOR": 4,
+    "ZERO_ACCEPT": 128,
+    "TOL_FACTOR": 8,
+    "why": "尺度 σ は Math の関数の戻り値を ±1〜2 ulp ずらした走り直しの差の最大(葉ごと)。0 と書く係数 4(尺度が値の 1/4 を超える —— 有効数字が 1 桁に満たない葉。打ち消しで 0 になる量はこの内に入り、桁を失っても残る量〔尺度が値の数 % の傾き・近点の率〕は値のまま)・0 と書いた葉の受け入れ 128(0 と書いた葉の Node 24 の作り直しの値 ÷ σ′ の最大 15 —— 約 8 倍の余裕)・照合の係数 8(Node 24 の差 ÷ σ′ の最大 1.7 —— 約 4.7 倍の余裕。16 では統括の検証項目の変異〔環の行の交点の率 → 1e-5 —— 尺度の 14 倍〕を通す —— 第338便c の測り)"
+   },
+   "zeroed": 1,
+   "kept": 1946,
+   "zeroPathsHead": [
+    "/t3/move/1/maxLog10"
+   ],
+   "unstable": 0,
+   "unstableHead": []
+  }
+ }
+}
