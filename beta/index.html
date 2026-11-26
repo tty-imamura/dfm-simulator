@@ -1203,27 +1203,10 @@
       <div class="group"><h3>保存一覧</h3><div id="saveList"></div></div>
     </div>
     <div class="tabPage" id="page-ai">
-      <div class="group"><h3 id="aiProvHead">AIプロバイダ</h3>
-        <div class="prow"><label id="aiProvLabel">プロバイダ</label>
-          <select id="aiProvider" style="flex:1">
-            <option value="anthropic" selected>Claude API(Anthropic)</option>
-            <option value="openai">OpenAI互換 API</option>
-            <option value="gemini">Google Gemini API</option>
-          </select></div>
-        <div class="prow"><label id="aiModelLabel">モデル</label>
-          <input type="text" id="aiModelIn" list="modelSuggest" style="flex:1;min-height:36px;" autocomplete="off">
-          <datalist id="modelSuggest"></datalist></div>
-        <div class="prow" id="baseUrlRow" style="display:none"><label id="aiUrlLabel">API URL</label>
-          <input type="text" id="aiBaseUrl" style="flex:1;min-height:36px;" autocomplete="off" placeholder="https://api.openai.com/v1"></div>
-        <input type="password" id="apiKey" placeholder="APIキー">
-        <div class="prow" style="margin-top:6px"><label id="keyPersistLabel" style="flex:1">キーをこの端末に保存する</label>
-          <input type="checkbox" id="keyPersist"></div>
-        <div class="rowBtns"><button class="btn" id="btnKeySave">キーを設定</button></div>
-        <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
-        <details id="aiKeyDetails"><summary id="aiKeyNoteSum" class="note" style="cursor:pointer">キーの保存</summary>
-        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p></details>
-      </div>
-      <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
+      <!-- 第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」): アプリの中の生成
+           (外の AI の事業者へ送る道 —— 提供元・モデル・キーの欄・「生成する」・送信内容のプレビュー)を外した。
+           AI のタブは「要望を書く → プロンプトをコピーして AI チャットへ → 返答を貼って取り込む」の 1 本の道 -->
+      <div class="group"><h3 id="aiGenHead">作りたいシミュレーション</h3>
         <!-- 第178便(原仮定者の設計指針 2026-08-23): **生成モードの分岐を撤去し自由生成へ一本化**。
              実天体はプリセットとして既に存在するので、「ベースのサンプル」指定で足りる
              (実機で「短縮版をコピー」がモードに連動せず、観測採取モードでも旧プリセット用
@@ -1239,28 +1222,21 @@
           <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(光学迷彩矮星の lightSweep・コアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。</p></details>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(光学迷彩矮星の lightSweep・コアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、コピーするプロンプトに**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。</p></details>
         <!-- 第103便(原仮定者指示): 第74便のスケール雛形挿入UIは撤去(分かりにくいため。
              スケールの誘導は SYSTEM_PROMPT の「要望→設定の対応」とベースサンプル選択が担う) -->
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
-        <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
-        <!-- 第182便(原仮定者指示 2026-08-23): アプリ内生成はウェブ閲覧を持たないので出典転写
-             (出力A=ObservationRecord)ができない。実在天体を作るときの導線を**常設の note** で
-             明示する(details へ畳まない — 気付かれないと意味がないため) -->
+        <!-- 第182便(原仮定者指示 2026-08-23): 実在天体を作るときの導線を**常設の note** で明示する(details へ畳まない —
+             気付かれないと意味がないため)。第357便b: アプリの中の生成を外したので、文は「ウェブを開ける AI チャットで」の形 -->
         <p class="note" id="aiRealNote"></p>
-        <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
-        <details id="aiPreviewWrap"><summary id="aiPreviewSum" class="note" style="cursor:pointer">送信内容を確認(実際に送るテキスト)</summary>
-        <p class="note" id="aiPreviewNote">APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。</p>
-        <textarea id="aiPreviewBody" readonly style="min-height:120px;"></textarea>
-        <p class="note" id="aiPreviewSysNote"></p></details>
       </div>
-      <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、返答をここへ貼る。
+      <!-- 第102便: 外部AIチャット経路 — 生成用プロンプトをコピーし、返答をここへ貼る(第357便b: アプリの中の生成を外した後は、これが唯一の道)。
            第103便(原仮定者指示): details ごと畳まれて気付きにくい → 独立グループへ昇格し、
            ボタンは常時表示・手順説明だけを details に畳む。短縮版(仕様書リンク参照)も追加。
            第178便: **貼付先をこのグループの1欄に統一**(実機で観測レコードがセーブタブの
            プリセットインポート欄へ投入され「追加0件/不正9件」になった事故の解消)。
            貼り付けた内容の形(観測レコード配列 / プリセットJSON)はアプリが自動判別する -->
-      <div class="group"><h3 id="aiExtTitle">外部AIチャットで生成(APIキー不要)</h3>
+      <div class="group"><h3 id="aiExtTitle">AIチャットで生成</h3>
         <div class="rowBtns"><button class="btn primary" id="btnExtCopy">生成用プロンプトをコピー</button>
           <button class="btn" id="btnExtCopyShort">短縮版をコピー</button></div>
         <details id="aiExtWrap"><summary id="aiExtSum" class="note" style="cursor:pointer">手順</summary>
@@ -2039,7 +2015,7 @@ ja: {
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
   // 第51便(Gemini指摘): ビルド番号のハードコード(v1.34-b1 のまま取り残し)を変数展開に変更
-  betaShared:(b)=>`β版(beta ${b})はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。`,
+  betaShared:(b)=>`β版(beta ${b})はルート版とセーブ・設定(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。`,
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -2152,14 +2128,11 @@ ja: {
   fwNoD0pull:"注意: D0pull 未宣言の kFrame=1 の旧セーブ(引きずり近似 q)は pull では周期が数十% ずれます — 再較正版サンプル(退役の本も読み込めます)から読み直してください",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
-  aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
-  keyPersistLabel:"キーをこの端末に保存する", btnKeySave:"キーを設定",
-  aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
-  aiKeyNoteSum:"キーの保存",   // 第36便 B4(原仮定者指示): 折畳み見出し
-  aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
+  aiGenHead:"作りたいシミュレーション", aiListHead:"生成済みプリセット",   // 第357便b: 「生成する」のボタンは外した
+  // 第357便b: アプリの中の生成を外したので、文は「ウェブを開ける AI チャットで出典を転写する」形に書き直した
   // 第182便(原仮定者指示 2026-08-23): アプリ内生成にはウェブ閲覧が無い = 出典を開けないので
   // 出力A(観測レコードの転写)が作れない。実在天体の作り方の導線を常設で示す
-  aiRealNote:"実在の天体を作るとき: ①近い内蔵サンプルがあれば上の「ベースのサンプル」に選ぶ ②無ければ下の「外部AIチャットで生成」でプロンプトをコピーし、ウェブ閲覧できるAIチャットで生成して貼付欄へ。アプリ内の「生成する」はウェブを開けないため出典を転写できず、実在天体の数値は正確になりません(架空の系・現象の実験にはそのまま使えます)。",
+  aiRealNote:"実在の天体を作るとき: ①近い内蔵サンプルがあれば上の「ベースのサンプル」に選ぶ ②無ければ下の「AIチャットで生成」でプロンプトをコピーし、ウェブ閲覧できるAIチャットで生成して貼付欄へ。ウェブを開けないAIチャットでは出典を転写できず、実在天体の数値は正確になりません(架空の系・現象の実験にはそのまま使えます)。",
   // 第170便: 生成モード(既定=実天体カタログ)
   // 第178便: 生成モード(第170/176便)の分岐は撤去 — 自由生成へ一本化。モード関連のラベルは
   // 役目を終えたので削除し、貼付欄1本の導線に置き換える(カタログ・レコードの機構自体は温存)
@@ -2218,18 +2191,14 @@ ja: {
   stabEscape:(c)=>"試走で全粒子が画面外へ脱出しました(全天体が camera.scale×"+c+"より外)— 採用しません",
   stabRejected:"自己診断に通らなかったので取り込みません(理由は下記)",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
-  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(光学迷彩矮星の lightSweep・コアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。",
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(光学迷彩矮星の lightSweep・コアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、コピーするプロンプトに**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。",
   aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
-  // 第32便 W4(台帳4-58): 送信内容の事前確認
-  aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
-  aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
-  aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
-  // 第102便: 外部AIチャット経路(APIキー不要のプロンプトコピー)
+  // 第102便: 外部AIチャット経路(プロンプトのコピー —— 第357便b: アプリの中の生成を外した後は唯一の道)
   // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
-  aiExtTitle:"外部AIチャットで生成(APIキー不要)",
+  aiExtTitle:"AIチャットで生成",
   aiExtSum:"手順",
-  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル(=少数ショット例)と要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきた答えを**そのまま下の貼付欄へ**貼り付けて「取り込む」を押す(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”・全角記号は自動で処理されます)。返答がプリセットJSONでも観測レコード配列でも、アプリが形を自動判別して適切な経路で取り込みます。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです — 中身の骨格は「生成用プロンプト」と同じです。",
+  aiExtNote:"①上の「作りたいシミュレーション」でベースのサンプル(=少数ショット例)と要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきた答えを**そのまま下の貼付欄へ**貼り付けて「取り込む」を押す(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”・全角記号は自動で処理されます)。返答がプリセットJSONでも観測レコード配列でも、アプリが形を自動判別して適切な経路で取り込みます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです — 中身の骨格は「生成用プロンプト」と同じです。",
   btnExtCopy:"生成用プロンプトをコピー",
   btnExtCopyShort:"短縮版をコピー",
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
@@ -2244,19 +2213,8 @@ ja: {
   aiExtExBase:"# 例(利用者が選んだベースのサンプル — この流儀・桁・キー構成に合わせること)\n要望と無関係な構成・数値は維持し、ベースに存在しないキーを発明せず、要望の実現に必要な項目だけを変更してください(seed があれば維持)。",
   aiExtExCur:"# 例(🟠木星とガリレオ衛星(実単位)— 出力の流儀・桁・キー構成の手本)\nこれは手本であって土台ではありません。要望に合わせて構成は自由に変えて構いませんが、キーの綴り・単位の桁感・記法はこの例に合わせてください。",   // 第181便: 暗黙の例は精度の高い固定サンプル
   retryFixMsg:(f)=>"あなたの出力に検証エラーがあります: "+f+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。",
-  apiKeyPh:"APIキー",
-  keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
-  noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
-  generating:(m)=>"生成中("+m+")…", retrying:"検証エラーを修正して再試行中…",
-  // 第170便: 連鎖の向きは選択モデル依存(第278便e 以降 sonnet-5→opus-5-5 / haiku-4-5→sonnet-5)なので、
-  // 向きに依存しない表現にしておく(モデル名は m で必ず示す)
-  fallback:(m)=>"別のモデル("+m+")にフォールバック中…",
-  added:(n)=>"追加しました: "+n, autofix:(w)=>"\n(自動修正: "+w+")",
-  genFailed:(e)=>"生成に失敗しました: "+e,
-  errNet:"ネットワークに接続できません", errKey:"APIキーが無効です",
-  errBusy:"混雑しています。しばらく待って再試行してください",
-  errApi:(s,m)=>"APIエラー("+s+") "+m, errRefusal:"生成が拒否されました。要望の表現を変えてみてください",
-  errLong:"生成が長すぎました。要望を簡潔にしてください", errEmpty:"応答が空でした",
+  // 第357便b: アプリの中の生成の鍵(キー・生成中・フォールバック・事業者の応答の誤り)は外した。autofix は貼り付けの取り込みが使う
+  autofix:(w)=>"\n(自動修正: "+w+")",
   noCustoms:"AI生成プリセットはまだありません。",
   helpTheory:"この現象の法則(自動抽出)",
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
@@ -3403,7 +3361,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:(b)=>`This beta (${b}) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.`,
+  betaShared:(b)=>`This beta (${b}) shares saves and settings (localStorage) with the release version. Export your saves from the Save tab before experimenting.`,
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -3514,13 +3472,9 @@ en: {
   fwNoD0pull:"Caution: an older kFrame=1 save (the drag approximation with q) without D0pull drifts by tens of percent in period under pull — reload it from the recalibrated sample (retired samples still load)",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
-  aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
-  keyPersistLabel:"Remember key on this device", btnKeySave:"Set key",
-  aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
-  aiKeyNoteSum:"Key storage",   // 第36便 B4
-  aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
+  aiGenHead:"The simulation you want", aiListHead:"Generated presets",   // wave 357b: the in-app "Generate" button was removed
   // Wave 182: in-app generation has no web access, so it cannot transcribe sources (OUTPUT A).
-  aiRealNote:"For a REAL astronomical body: 1) pick the closest built-in sample in \"Base sample\" above, or 2) if there is none, copy the prompt in \"Generate via an external AI chat\" below, run it in an AI chat that can browse the web, and paste the reply into the box there. The in-app \"Generate\" button cannot open the web, so it cannot transcribe sources and its numbers for real bodies will not be accurate (invented systems and phenomenon experiments are fine as they are).",
+  aiRealNote:"For a REAL astronomical body: 1) pick the closest built-in sample in \"Base sample\" above, or 2) if there is none, copy the prompt in \"Generate via an AI chat\" below, run it in an AI chat that can browse the web, and paste the reply into the box there. An AI chat that cannot open the web cannot transcribe sources, so its numbers for real bodies will not be accurate (invented systems and phenomenon experiments are fine as they are).",
   // Wave 178: the generation-mode split (waves 170/176) is retired — the AI tab has one
   // free-generation path; the catalogue / ObservationRecord machinery is kept as an internal asset
   obsHeadTable:"Source table (carried verbatim into the description)",
@@ -3538,18 +3492,14 @@ en: {
   astroOutOfCatalog:(r,l)=>"That request is outside the catalogue"+(r?" ("+r+")":"")+". Since the AI is not allowed to invent numbers for real bodies, this system is not generated. Systems in the catalogue: "+l,
   astroBuilt:(s,n)=>"Built from the real-body catalogue: "+s+" ("+n+" bodies)",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
-  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (the optical-camouflage-dwarf lightSweep, the Core v2 core:{}, \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation, and is embedded in the copied prompt as the FEW-SHOT EXAMPLE (with nothing selected, the built-in \ud83d\udfe0 Jupiter and the Galilean moons (real units) sample is used instead \u2014 the quality of that example is what drives the quality of the generated JSON most). Pick the sample closest in scale when you want a real astronomical system too.",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (the optical-camouflage-dwarf lightSweep, the Core v2 core:{}, \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is embedded in the copied prompt as the FEW-SHOT EXAMPLE (with nothing selected, the built-in \ud83d\udfe0 Jupiter and the Galilean moons (real units) sample is used instead \u2014 the quality of that example is what drives the quality of the generated JSON most). Pick the sample closest in scale when you want a real astronomical system too.",
   aiBaseNoteSum:"Base sample",   // Wave 36 B4
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
-  // 第32便 W4(4-58): preview exactly what will be sent
-  aiPreviewSum:"Preview exactly what will be sent",
-  aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
-  aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
-  // 第102便: external AI chat path (copy prompt, no API key)
+  // 第102便: external AI chat path (copy prompt —— wave 357b: the only path once the in-app generation was removed)
   // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
-  aiExtTitle:"Generate via an external AI chat (no API key)",
+  aiExtTitle:"Generate via an AI chat",
   aiExtSum:"How to use",
-  aiExtNote:"1) Write your base sample (= the few-shot example) and your request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Paste the reply AS IT IS into the box below and press \"Import what you pasted\" (```code fences, surrounding text, multiple candidates, trailing commas, smart quotes and full-width punctuation are handled automatically). Whether the reply is a preset JSON or an array of ObservationRecords, the app detects the shape and takes the matching path. Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web; its skeleton is identical to the full prompt.",
+  aiExtNote:"1) Write your base sample (= the few-shot example) and your request in \"The simulation you want\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Paste the reply AS IT IS into the box below and press \"Import what you pasted\" (```code fences, surrounding text, multiple candidates, trailing commas, smart quotes and full-width punctuation are handled automatically). Whether the reply is a preset JSON or an array of ObservationRecords, the app detects the shape and takes the matching path. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web; its skeleton is identical to the full prompt.",
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
@@ -3602,17 +3552,8 @@ en: {
   stabEscape:(c)=>"Every particle left the frame during the trial run (all beyond camera.scale\u00d7"+c+") \u2014 not adopted",
   stabRejected:"Not imported \u2014 it did not pass the self-check (reasons below)",
   retryFixMsg:(f)=>"Your output failed validation: "+f+". For the same request, output a complete corrected JSON.",
-  apiKeyPh:"API key",
-  keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
-  noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
-  generating:(m)=>"Generating ("+m+")…", retrying:"Fixing validation errors, retrying…",
-  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5-5 since wave 278e / haiku-4-5→sonnet-5), so the wording stays direction-neutral
-  added:(n)=>"Added: "+n, autofix:(w)=>"\n(auto-corrected: "+w+")",
-  genFailed:(e)=>"Generation failed: "+e,
-  errNet:"Network unreachable", errKey:"Invalid API key",
-  errBusy:"Service busy. Please retry shortly",
-  errApi:(s,m)=>"API error ("+s+") "+m, errRefusal:"Generation was refused. Try rephrasing your request",
-  errLong:"Output too long. Try a simpler request", errEmpty:"Empty response",
+  // wave 357b: the in-app generation keys (key, generating, fallback, provider errors) were removed; autofix is used by the paste import
+  autofix:(w)=>"\n(auto-corrected: "+w+")",
   noCustoms:"No AI-generated presets yet.",
   helpTheory:"Laws behind this scene (auto-extracted)",
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
@@ -49231,106 +49172,24 @@ function aiIntakeText(text, opts){
   return r;
 }
 
-// ===== AIプロバイダ抽象化(v1.10): Claude / OpenAI互換 / Gemini、モデルIDは自由入力 =====
-const AI_PROVIDERS={
-  // 第170便(原仮定者許可): 実行時 LLM の既定を Haiku 4.5 → Sonnet 5 へ引き上げ
-  // (第25便: Opus 5 は同価格の置き換え上位)。候補の並びも既定を先頭に合わせる
-  // 第238便(第30報): Haiku は使わない — 候補から撤去(手入力で指定された場合は従来どおり Sonnet 5 へフォールバック)
-  // 第278便e(原仮定者の裁定(第68報)「Opus にルーティングする際は最新モデルを使用する」): 候補に
-  // claude-opus-5-5 を足す(既定 Sonnet 5 は不変・claude-opus-5 は手元の指定のために残す)
-  anthropic:{ models:["claude-sonnet-5","claude-opus-5-5","claude-opus-5"],
-    defModel:"claude-sonnet-5", keyPh:"sk-ant-..." },
-  openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
-    defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
-  gemini:{ models:["gemini-2.5-flash","gemini-2.5-pro"],
-    defModel:"gemini-2.5-flash", keyPh:"AIza..." },
-};
-const sessionKeys={};   // 「この端末に保存」OFF時のキー置き場(メモリのみ。タブを閉じると消える)
-// 旧設定(hp_key/hp_model)からの移行: 既に保存していたユーザーの挙動は維持する
-(function migrateAI(){
-  const ok=localStorage.getItem("hp_key");
-  if(ok && !localStorage.getItem("hp_key_anthropic")) localStorage.setItem("hp_key_anthropic",ok);
-  const om=localStorage.getItem("hp_model");
-  if(om && !localStorage.getItem("hp_model_anthropic")) localStorage.setItem("hp_model_anthropic",om);
-  if(ok) localStorage.removeItem("hp_key");
-  if(om) localStorage.removeItem("hp_model");
-})();
-function aiCfg(){
-  let p=localStorage.getItem("hp_provider")||"anthropic";
-  if(!AI_PROVIDERS[p]) p="anthropic";
-  return { provider:p,
-    model:(localStorage.getItem("hp_model_"+p)||AI_PROVIDERS[p].defModel),
-    baseUrl:(localStorage.getItem("hp_baseurl_openai")||AI_PROVIDERS.openai.defBase).replace(/\/+$/,""),
-    key: sessionKeys[p]!==undefined ? sessionKeys[p] : (localStorage.getItem("hp_key_"+p)||"") };
-}
-async function fetchJSON(url, headers, body){
-  let resp;
-  try{ resp=await fetch(url,{method:"POST",headers,body:JSON.stringify(body)}); }
-  catch(e){ throw new Error(T("errNet")); }
-  if(!resp.ok){
-    if(resp.status===401||resp.status===403) throw new Error(T("errKey"));
-    if(resp.status===429||resp.status===503||resp.status===529) throw new Error(T("errBusy"));
-    let msg=""; try{ const j=await resp.json(); msg=(j.error&&(j.error.message||j.error.msg))||""; }catch(e){}
-    throw new Error(T("errApi")(resp.status,String(msg).slice(0,120)));
+// ===== 第357便b(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」): アプリの中の生成を外した =====
+// 外の AI の事業者を呼ぶ道(提供元の表・キーの入力と保存・呼び出し・段構えの生成)は、この html に無い(外へ送る呼び出しは 0)。
+// 以前の版が端末に残したキーと設定は、下の固定の 10 個の名だけを消す(前方一致で総なめにしない —— ほかの hp_* には触れない)。
+// 自動で走るのは公開版の道(パスに /beta/ を含まない配信 —— file:// も含む)で開いたときだけ。beta の道では走らない:
+// 公開版と beta は保存領域を共有するので、昇格の前に beta を開いても、公開版の旧い画面を使っている人のキーを消さない。
+// 掃除は恒久に残す(読み書きのコストは小さい)。検査は HP.apiKeyCleanup357b / HP.apiKeyCleanupAuto357b を呼ぶ。
+const API_KEY_STORAGE_NAMES=["hp_key","hp_key_anthropic","hp_key_openai","hp_key_gemini",
+  "hp_model","hp_model_anthropic","hp_model_openai","hp_model_gemini","hp_provider","hp_baseurl_openai"];
+function apiKeyCleanup(){
+  let n=0;
+  for(const k of API_KEY_STORAGE_NAMES){
+    try{ if(localStorage.getItem(k)!==null){ localStorage.removeItem(k); n++; } }catch(e){ /* 保存領域が使えない端末(個人用モード等) */ }
   }
-  return resp.json();
+  return n;
 }
-// 3プロバイダ共通の呼び出し: system+messages(user/assistant)→ 応答テキスト
-// 第170便: sysOverride — 実天体カタログ経路は自由生成の仕様(SYSTEM_PROMPT)ではなく
-// カタログ仕様プロンプトを送る。省略時は従来どおり getSystemPrompt()
-// 第278便e: claude-opus-5-5 は thinking を無効化できない({type:"disabled"}・budget_tokens は 400)。
-// 送信本文を読んで確かめた結果、従来の本文は sonnet/opus に thinking:{type:"disabled"} を付けていた
-// (tool_choice・budget_tokens・effort は送っていない)ので、この 1 点だけを分岐する。
-function aiThinkingAlwaysOn(model){ return String(model||"").indexOf("opus-5-5")>=0; }
-// Anthropic 経路の送信本文(純関数 — QA ai.modelList が読む)。
-//   ・thinking を切れるモデル(sonnet-5・opus-5 等): 従来どおり thinking:{type:"disabled"}・max_tokens 4000
-//   ・opus-5-5: thinking キーを**送らない**(= 適応的思考。effort も送らない = モデル既定の medium)。
-//     思考のトークンも max_tokens に数えられるので上限を 16000 にする(4000 のままだと思考だけで
-//     上限に達し errLong で落ちうる — 応答 JSON 自体の長さの見込みは同じ)
-function aiAnthropicBody(model, sys, messages){
-  const always=aiThinkingAlwaysOn(model);
-  const body={ model, max_tokens: always? 16000 : 4000, system:sys, messages };
-  if(!always && (model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0)) body.thinking={type:"disabled"};
-  return body;
-}
-async function callLLM(cfg, model, messages, sysOverride){
-  const sys=(typeof sysOverride==="string" && sysOverride)? sysOverride : getSystemPrompt();
-  if(cfg.provider==="anthropic"){
-    const body=aiAnthropicBody(model, sys, messages);
-    const data=await fetchJSON("https://api.anthropic.com/v1/messages",
-      { "content-type":"application/json", "x-api-key":cfg.key, "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true" }, body);
-    if(data.stop_reason==="refusal") throw new Error(T("errRefusal"));
-    if(data.stop_reason==="max_tokens") throw new Error(T("errLong"));
-    const block=(data.content||[]).find(b=>b.type==="text");
-    if(!block) throw new Error(T("errEmpty"));
-    return block.text;
-  }
-  if(cfg.provider==="openai"){
-    const body={ model, messages:[{role:"system",content:sys}].concat(messages) };
-    const data=await fetchJSON(cfg.baseUrl+"/chat/completions",
-      { "content-type":"application/json", "authorization":"Bearer "+cfg.key }, body);
-    const ch=data.choices&&data.choices[0];
-    if(!ch||!ch.message||!ch.message.content) throw new Error(T("errEmpty"));
-    if(ch.finish_reason==="length") throw new Error(T("errLong"));
-    return ch.message.content;
-  }
-  // gemini
-  const body={ systemInstruction:{parts:[{text:sys}]},
-    contents:messages.map(m=>({role:m.role==="assistant"?"model":"user", parts:[{text:m.content}]})),
-    generationConfig:{maxOutputTokens:4000} };
-  const data=await fetchJSON("https://generativelanguage.googleapis.com/v1beta/models/"
-    +encodeURIComponent(model)+":generateContent",
-    { "content-type":"application/json", "x-goog-api-key":cfg.key }, body);
-  const cand=data.candidates&&data.candidates[0];
-  const txt=cand&&cand.content&&cand.content.parts ? cand.content.parts.map(p=>p.text||"").join("") : "";
-  if(!txt){
-    if(cand&&cand.finishReason==="MAX_TOKENS") throw new Error(T("errLong"));
-    if(cand&&(cand.finishReason==="SAFETY"||cand.finishReason==="PROHIBITED_CONTENT")) throw new Error(T("errRefusal"));
-    throw new Error(T("errEmpty"));
-  }
-  return txt;
-}
+// 道の判定(純関数): パスに /beta/(か末尾の /beta)を含まない道 = 公開版の道 → 自動で掃除する
+function apiKeyCleanupAutoOf(pathname){ return !/\/beta(?:\/|$)/.test(String(pathname||"")); }
+try{ if(apiKeyCleanupAutoOf(location.pathname)) apiKeyCleanup(); }catch(e){ /* */ }
 
 // 第26便(原仮定者指示): ベースサンプル選択時は、そのJSONを土台として改変生成させる
 // (光学迷彩矮星の lightSweep・コアv2 core:{}・📡の zonal など参考サンプルの構成をAI生成に利用)。
@@ -49449,146 +49308,14 @@ function buildExternalPrompt(){ return buildUnifiedPrompt(false); }
 // ベースサンプルのJSONは要望の一部なので短縮版でも同梱する(リンクでは渡せない動的文脈)
 const AI_SPEC_URL="https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC.md";
 function buildExternalPromptShort(){ return buildUnifiedPrompt(true); }
-// 段構え: 選択モデル → 検証NG時リトライ1回 → 別モデルへフォールバック
-// (フォールバック連鎖は Anthropic のみ。他プロバイダはモデル階層をアプリが仮定できないため
-//  リトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
-// 第170便(統括再裁定): 既定を Sonnet 5 へ引き上げたうえで、**上位エスカレーションを採る** —
-//   sonnet-5 → opus-5 / haiku-4-5 → sonnet-5(既定を明示的に下げた利用者の段構えは維持)/
-//   opus-5 は最上位なのでフォールバック先なし。
-//   理由(統括): 本便の目的は挙動の安定化=品質優先であり、フォールバックは**検証失敗時のみ**
-//   発火するのでコスト影響は限定的。降格(sonnet-5→haiku-4-5)の案は破棄した。
-// 第278便e(第68報): 上位エスカレーション先を最新の Opus = claude-opus-5-5 へ(sonnet-5 → opus-5-5)。
-//   opus-5 / opus-5-5 を選んだときは従来どおり連鎖なし(null)。
-function aiFallbackModel(model){
-  if(model.indexOf("sonnet")>=0) return "claude-opus-5-5";
-  if(model.indexOf("haiku")>=0)  return "claude-sonnet-5";
-  return null;
-}
-// 第178便: 応答は**貼付欄と同じ取込経路**(形状自動判別 → レコード構築 / 整形・安定化パス)へ
-// 通す。アプリ内生成と外部チャット経路で結果が変わらないことを構造で保証する
-async function generatePreset(userText, onStage, opts){
-  const cfg=aiCfg();
-  const attempt=async (mdl, messages)=>{
-    const text=await callLLM(cfg, mdl, messages);
-    const r=aiIntakeText(text, opts);
-    if(!r.ok) return {fail:(r.errors||[]).join(" / ").slice(0,300), raw:text};
-    return {preset:r.preset, warnings:r.warnings||[], intake:r};
-  };
-  const userContent=aiSendContent(userText);   // 第26便/第178便: 少数ショット例を必ず1つ含む
-  const baseMsgs=[{role:"user",content:userContent}];
-  onStage(T("generating")(cfg.model));
-  let r=await attempt(cfg.model, baseMsgs);
-  if(r.preset) return r;
-  onStage(T("retrying"));
-  // 第102便: リトライ指示を T() 管理へ(EN UI では英語で指示 — 応答言語の混在を防ぐ)
-  const retryMsgs=[{role:"user",content:userContent},
-    {role:"assistant",content:r.raw},
-    {role:"user",content:T("retryFixMsg")(r.fail)}];
-  r=await attempt(cfg.model, retryMsgs);
-  if(r.preset) return r;
-  if(cfg.provider==="anthropic"){
-    const fb=aiFallbackModel(cfg.model);
-    if(fb){
-      onStage(T("fallback")(fb));
-      r=await attempt(fb, baseMsgs);
-      if(r.preset) return r;
-    }
-  }
-  throw new Error(T("genFailed")(r.fail));
-}
-
-// 第170便: 実天体カタログ経路 — LLM は意図(カタログID)だけを返し、数値は1つも返さない。
-// 第178便: 生成モードの廃止により**この経路はUIから呼ばれない**が、カタログ機構ごと
-// **内部資産として温存**する(削除しない — 原仮定者の設計指針。カタログ本体は単一プロンプトの
-// 「内蔵の実天体サンプル一覧」と QA ai.catalog-integrity / ai.placement-determinism /
-// ai.schema-validation が引き続き使う)。将来モードなしで再利用する場合の入口でもある。
-// 段構えは自由生成と同じ(選択モデル → スキーマNGでリトライ1回 → 別モデル1回)。
-// カタログ外は明示的に {outOfCatalog:true} を返す(黙って別の系を出さない)。
-async function generateAstroPreset(userText, onStage){
-  const cfg=aiCfg();
-  const sysPrompt=getAstroSystemPrompt();
-  const attempt=async (mdl, messages)=>{
-    const text=await callLLM(cfg, mdl, messages, sysPrompt);
-    let obj;
-    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSON parse error", raw:text}; }
-    const v=validateAstroSpec(obj);
-    if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
-    return {v};
-  };
-  const userContent=aiUserContent(userText);
-  const baseMsgs=[{role:"user",content:userContent}];
-  onStage(T("generating")(cfg.model));
-  let r=await attempt(cfg.model, baseMsgs);
-  if(!r.v){
-    onStage(T("retrying"));
-    r=await attempt(cfg.model, [{role:"user",content:userContent},
-      {role:"assistant",content:r.raw}, {role:"user",content:T("retryFixMsg")(r.fail)}]);
-  }
-  if(!r.v && cfg.provider==="anthropic"){
-    const fb=aiFallbackModel(cfg.model);
-    if(fb){ onStage(T("fallback")(fb)); r=await attempt(fb, baseMsgs); }
-  }
-  if(!r.v) throw new Error(T("genFailed")(r.fail));
-  if(r.v.outOfCatalog) return {outOfCatalog:true, reason:r.v.reason};
-  const built=buildAstroPreset(r.v.spec);
-  const vp=validatePreset(built);   // 決定的構築の結果も既存の検証を必ず通す
-  if(!vp.ok) throw new Error(T("genFailed")(vp.errors.join(" / ")));
-  return {preset:vp.preset, warnings:vp.warnings, spec:r.v.spec};
-}
+// 第357便b: アプリの中の段構えの生成(generatePreset・generateAstroPreset・フォールバックの表)は外した。
+// 実天体カタログの機構(ASTRO_CATALOG・getAstroSystemPrompt・validateAstroSpec・buildAstroPreset・extractJSON)は
+// 呼び出しに依らない純関数として残す(QA ai.catalog-integrity / ai.placement-determinism / ai.schema-validation が読む)。
 
 function setAiStatus(msg, cls){ const el=$("#aiStatus"); el.className=cls||""; el.textContent="";
   if(cls==="busy"){ const s=document.createElement("span"); s.className="spin"; el.appendChild(s); el.appendChild(document.createTextNode(" "+msg)); }
   else el.textContent=msg; }
-// プロバイダ設定UIの反映
-function renderAiConfig(){
-  const cfg=aiCfg();
-  $("#aiProvider").value=cfg.provider;
-  $("#aiModelIn").value=cfg.model;
-  const dl=$("#modelSuggest"); dl.textContent="";
-  AI_PROVIDERS[cfg.provider].models.forEach(m=>{ const o=document.createElement("option"); o.value=m; dl.appendChild(o); });
-  $("#baseUrlRow").style.display=(cfg.provider==="openai")?"":"none";
-  $("#aiBaseUrl").value=cfg.baseUrl;
-  $("#apiKey").value=cfg.key;
-  $("#apiKey").placeholder=AI_PROVIDERS[cfg.provider].keyPh;
-  $("#keyPersist").checked=!!localStorage.getItem("hp_key_"+cfg.provider);
-}
-$("#aiProvider").addEventListener("change",e=>{ localStorage.setItem("hp_provider",e.target.value); renderAiConfig(); });
-$("#aiModelIn").addEventListener("change",e=>{
-  const p=aiCfg().provider, v=e.target.value.trim();
-  if(v) localStorage.setItem("hp_model_"+p,v); else localStorage.removeItem("hp_model_"+p);
-  renderAiConfig();
-});
-$("#aiBaseUrl").addEventListener("change",e=>{
-  const v=e.target.value.trim();
-  if(v) localStorage.setItem("hp_baseurl_openai",v); else localStorage.removeItem("hp_baseurl_openai");
-  renderAiConfig();
-});
-$("#btnKeySave").addEventListener("click",()=>{
-  const p=aiCfg().provider, k=$("#apiKey").value.trim();
-  if(!k){ delete sessionKeys[p]; localStorage.removeItem("hp_key_"+p); setAiStatus(T("keyCleared"),"ok"); return; }
-  if($("#keyPersist").checked){ localStorage.setItem("hp_key_"+p,k); delete sessionKeys[p]; setAiStatus(T("keySetSaved"),"ok"); }
-  else{ sessionKeys[p]=k; localStorage.removeItem("hp_key_"+p); setAiStatus(T("keySet"),"ok"); }
-});
-$("#keyPersist").addEventListener("change",e=>{
-  const p=aiCfg().provider;
-  if(!e.target.checked && localStorage.getItem("hp_key_"+p)){ // 保存済み→セッションのみへ降格
-    sessionKeys[p]=localStorage.getItem("hp_key_"+p); localStorage.removeItem("hp_key_"+p);
-    setAiStatus(T("keySet"),"ok");
-  }
-});
-// 第32便 W4(台帳4-58): 送信内容の事前確認 — 開いている間だけ要望/ベース選択の変更に追従
-// 第178便: モード分岐は無い — 送るのは常に「仕様全文+共通節(出力の使い分け・内蔵一覧)」+
-// 「例+要望」。プレビューは実際に送る本文(aiSendContent)をそのまま映す
-function updateAiPreview(){
-  const wrap=$("#aiPreviewWrap");
-  if(!wrap || !wrap.open) return;
-  $("#aiPreviewBody").value=aiSendContent($("#aiPrompt").value);
-  const sp=getSystemPrompt();
-  $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(sp.length, sp.slice(0,200));
-}
-$("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
-$("#aiPrompt").addEventListener("input",updateAiPreview);
-$("#aiBasePreset").addEventListener("change",updateAiPreview);
+// 第357便b: 提供元の設定の画面(renderAiConfig と結線)・送信内容のプレビュー(updateAiPreview と結線)は外した
 // 第102便: 外部AIチャット用プロンプトのコピー(クリップボード不可時は copyJSON が
 // #ioArea へフォールバック表示 — セーブタブで全文を選択コピーできる)
 $("#btnExtCopy").addEventListener("click",()=>copyJSON(buildExternalPrompt()));
@@ -49669,33 +49396,12 @@ $("#btnAiPaste").addEventListener("click",()=>aiPasteRun(true));
 $("#btnAiPasteCheck").addEventListener("click",()=>aiPasteRun(false));
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う
-for(const tid of ["ioArea","aiPrompt","aiPreviewBody","saveName","saveComment","aiModelIn","aiBaseUrl","apiKey",
-  "aiPasteArea"]){   // 第178便: AIの返答貼付欄も同じ流儀(貼り付け上書きの手数を減らす)
+for(const tid of ["ioArea","aiPrompt","saveName","saveComment",
+  "aiPasteArea"]){   // 第357便b: アプリの中の生成の欄(モデル・URL・キー・プレビュー)は外した   // 第178便: AIの返答貼付欄も同じ流儀(貼り付け上書きの手数を減らす)
   const tf=document.getElementById(tid); if(!tf) continue;
   tf.addEventListener("focus",()=>{ setTimeout(()=>{ try{ tf.select(); }catch(_){} },0); });
 }
 // 第103便: スケール雛形の挿入ハンドラは撤去(第74便UIの撤去に伴う)
-$("#btnGenerate").addEventListener("click",async ()=>{
-  const cfg=aiCfg();
-  if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
-  const text=$("#aiPrompt").value.trim();
-  if(!text){ setAiStatus(T("noPrompt"),"err"); return; }
-  const btn=$("#btnGenerate"); btn.disabled=true;
-  obsReportClear();
-  try{
-    // 第178便: 経路は1本(自由生成)。応答は貼付欄と同じ取込経路(形状自動判別+整形・安定化)へ
-    const r=await generatePreset(text, (m)=>setAiStatus(m,"busy"), aiPasteOpts());
-    const it=r.intake;
-    if(it){
-      if(it.kind==="records") obsShowTable(it.table, it.notes);
-      else stabShowReport(it);
-      obsShowDiag(it);
-    }
-    aiAdoptPreset(r.preset);
-    setAiStatus(T("added")(r.preset.name)+(r.warnings.length?T("autofix")(r.warnings.join("、")):"")+xkLockStatusOf(it),"ok");   // 第327便d(AN544)
-  }catch(e){ setAiStatus(String(e.message||e),"err"); }
-  btn.disabled=false;
-});
 function renderCustomList(){
   const host=$("#customList"); host.textContent="";
   const arr=getCustomPresets();
@@ -49789,21 +49495,16 @@ function applyLang(){
     for(const r of BODY_LAYER_ROLES){ const op=document.createElement("option"); op.value=r; op.textContent=r; sel.appendChild(op); } }
   $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
-  $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
-  $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
-  $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
-  $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
-  $("#aiKeyNoteSum").textContent=T("aiKeyNoteSum");   // 第36便 B4
+  $("#aiGenHead").textContent=T("aiGenHead");   // 第357便b: 提供元・キーの欄の文は外した
   // 第178便: 生成モードのラベル群は撤去(モード自体が無くなった)
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
   $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
   // 第103便: スケール雛形(第74便)のラベル更新は撤去に伴い削除
-  $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
+  $("#aiListHead").textContent=T("aiListHead");   // 第357便b: 「生成する」のボタンは外した
   // 第182便: 実在天体の導線(常設 note — root 未適用でも落ちないよう存在ガード)
   const rlN=$("#aiRealNote"); if(rlN) rlN.textContent=T("aiRealNote");
   $("#aiPrompt").placeholder=T("aiPromptPh");
-  $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
   // 第102便: 外部AIチャット経路のラベル(root 未適用でも落ちないよう存在ガード)
   // 第103便: 独立グループの見出し+短縮版ボタンを追加
   const exT=$("#aiExtTitle"); if(exT) exT.textContent=T("aiExtTitle");
@@ -49817,7 +49518,6 @@ function applyLang(){
     const pb=$("#btnAiPaste"); if(pb) pb.textContent=T("btnAiPaste");
     const pc=$("#btnAiPasteCheck"); if(pc) pc.textContent=T("btnAiPasteCheck");
     obsReportClear(); }
-  updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   // 第83便B: 相図ランナーのパネルが開いていれば見出し・軸名も言語追随させる
@@ -49825,7 +49525,7 @@ function applyLang(){
   // 第146便: 監査ビューが開いていれば見出し・ラベル・宣言文も言語追随させる(件数は ja/en 同数)
   if($("#avPanel") && $("#avPanel").style.display==="block") avRender();
   if($("#ocPanel") && $("#ocPanel").style.display==="block") ocRender();   // 第285便d
-  renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
+  renderSaves(); renderCustomList(); updatePlayBtn();   // 第357便b: renderAiConfig は外した
   updateBodyEdit();   // 第264便c: 層モードの読み取り専用の数値行(と合計行)も言語追随させる(表示専用)
   requestRender();   // v1.22: オーバーレイ内の文字列も言語追従するため再描画
 }
@@ -66850,14 +66550,13 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
   CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態
   SPIN_AXIS_VERSION, SPIN_AXIS_KEYS, SPIN_AXIS_BOOKS, spinAxisValidate, spinAxisSigBodies, spinAxisOf,   // 第288便e: 点粒子の自転軸の表示専用の宣言
-  verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  verify:VERIFY, traceRay, getSystemPrompt, T:(k)=>T(k), lang:()=>LANG,
   // 第170便: 実天体カタログ(AI追加の安定化)— QA ai.catalog-integrity /
   // ai.placement-determinism / ai.schema-validation が読む公開フック
   ASTRO_CATALOG, buildAstroPreset, validateAstroSpec, buildAstroSpecPrompt,
-  getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode, aiFallbackModel,
-  AI_PROVIDERS,
-  // 第278便e: 実行時 LLM の送信本文(QA ai.modelList — fetch を差し替えて本文を読む)
-  aiAnthropicBody, aiThinkingAlwaysOn, callLLM,
+  getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode,
+  // 第357便b: アプリの中の生成の名(提供元の表・フォールバック・送信本文・呼び出し)は外した。保存済みのキーの掃除の読み口
+  apiKeyCleanup357b:apiKeyCleanup, apiKeyCleanupAuto357b:apiKeyCleanupAutoOf, API_KEY_STORAGE_NAMES357b:API_KEY_STORAGE_NAMES,
   // 第176便: ObservationRecord 経路(カタログ外の出典つき観測転写)— QA ai.obs-schema /
   // ai.obs-build が読む公開フック
   validateObservationRecords, buildAstroFromRecords, buildObsCollectPrompt, astroObsSelfCheck,
