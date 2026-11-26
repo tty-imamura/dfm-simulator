@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T05:56:22.655Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:25.994Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,43 +18,43 @@
     "file": "tests/exp-w280b-sphereKernel.mjs",
     "bytes": 12573,
     "sha256": "7210bbe56308a3cd8c3d16ecca064eb6c856ec03c2c422957fbacd4fe9cbe478",
-    "mtime": "2026-11-21T11:09:32.581Z"
+    "mtime": "2026-11-24T05:41:44.977Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.053Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w345-engine.mjs",
     "bytes": 22936,
     "sha256": "cd381860dc5ad8556769926dcfdaaba292eaea1df437ac8fc3f3f896fd46be98",
-    "mtime": "2026-11-21T10:11:12.205Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    },
    {
     "file": "tests/lib-w345c-crossengine.mjs",
     "bytes": 18052,
     "sha256": "eb67bc1906f5627e691155c954cabbfa82f12ade20aefa5f30ee5edaa8f8ae2e",
-    "mtime": "2026-11-21T21:46:31.852Z"
+    "mtime": "2026-11-24T05:41:45.105Z"
    }
   ],
   "codeSha256": "3942b562d951abec64940bed9f425c387dcf233d63174e573b358ffd1f3d49f3",
@@ -108,11 +108,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 1342,
-   "segments": 1173,
-   "closureShare": 0.288
+   "names": 1329,
+   "segments": 1160,
+   "closureShare": 0.2802
   },
-  "scopeSha256": "3b534cce5bcad9440ea4ed7cd229477a0af89d3d37cc2cad386348119e57eb4f",
+  "scopeSha256": "36f9ce6fe3a9427889b1a157cbe906e39733a7c6fdcd87da9a2a450fd9882172",
   "scopeComplete": true
  },
  "table": {
@@ -1314,7 +1314,7 @@
    "page": "b8a976bf83f0fd7d",
    "node": "6664670d90921598",
    "same": false,
-   "chromium": "157.0.8103.78",
+   "chromium": "158.0.8127.36",
    "nodeVersion": "v22.23.5",
    "relTol": 2.842170943040401e-14,
    "lib": "w345c-crossengine-1"
@@ -2643,5 +2643,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 2.527
+ "elapsedS": 2.879
 }

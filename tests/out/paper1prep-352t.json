@@ -3,7 +3,7 @@
  "libVersion": "w352t-paper1prep-lib-1",
  "generator": "tests/exp-w352t-paper1prep.mjs",
  "target": "beta/index.html",
- "targetSha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "原仮定者の指示(2026-11-21 —— 第145報)「論文の改訂案」・原仮定者の回答(2026-11-21 —— 第145報の回答 1)AN925・統括の検証項目 R457",
  "decl": {
   "geoPNs": [
@@ -713,40 +713,40 @@
    "wallSec": 0.001
   },
   "t1": {
-   "wallSec": 0.452
+   "wallSec": 0.294
   },
   "t2": {
-   "wallSec": 0.453
+   "wallSec": 0.295
   },
   "t3": {
-   "wallSec": 0.453
+   "wallSec": 0.296
   }
  },
- "elapsedS": 2.157,
+ "elapsedS": 1.932,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第352便t",
   "target": "beta/index.html",
-  "targetSha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
-  "generatedAt": "2026-11-24T18:38:11.632Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:53.658Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708556,
-    "sha256": "daac5168d91107bf9483928dd02e3558ffe5b67a622ffa37329f85fa03fa7a49",
-    "mtime": "2026-11-24T17:55:54.034Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "paper/dfm-paper-ja.tex",
     "bytes": 107622,
     "sha256": "f992fd288125f94c7f6f38ad44924d114015f3fd6c0726e2743218f10e89f625",
-    "mtime": "2026-11-24T17:55:54.186Z"
+    "mtime": "2026-11-24T05:41:44.906Z"
    },
    {
     "file": "tests/out/partyconv-344b.json",
     "bytes": 74572,
     "sha256": "9917f793c775f2e37bd80058480ea2674daa4da7e14958ba9f1c4b634f8e5f6c",
-    "mtime": "2026-11-24T17:55:54.542Z"
+    "mtime": "2026-11-24T05:41:45.281Z"
    }
   ],
   "code": [
@@ -754,31 +754,31 @@
     "file": "tests/exp-w352t-paper1prep.mjs",
     "bytes": 20883,
     "sha256": "fa366e3774dd6ddcb914c8b6feac7c47f5ba828841093e35fbc4ccba35057858",
-    "mtime": "2026-11-24T18:38:02.990Z"
+    "mtime": "2026-11-24T20:09:43.518Z"
    },
    {
     "file": "tests/lib-w352t-paper1prep.mjs",
     "bytes": 16628,
     "sha256": "584b436167e22ea2bdd169653ebff3d4766dbdf63f51a3fb4f6d6bc9403c2e2c",
-    "mtime": "2026-11-24T18:38:02.991Z"
+    "mtime": "2026-11-24T20:09:43.570Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-24T17:55:54.310Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-24T17:55:54.306Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-24T17:55:54.314Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "3ea45750deb28ddaf253d6c4fd8b4ce72466df16f3380b9bfe8894a96e03d886",
@@ -816,11 +816,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1343,
-   "segments": 1174,
-   "closureShare": 0.2882
+   "names": 1330,
+   "segments": 1161,
+   "closureShare": 0.2804
   },
-  "scopeSha256": "aa6d0d04cc2265ad0e90d4030e49f010af5e2e74de8d814e557bfa90b6efd4f3",
+  "scopeSha256": "cdfcbff982e1c3850b8cfffe34a63f4c39ab495c650eacbc07820384d0bdc700",
   "scopeComplete": true,
   "inputsStable": [
    {

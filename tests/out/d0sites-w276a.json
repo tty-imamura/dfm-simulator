@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
-  "generatedAt": "2026-11-23T16:19:36.563Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:42.946Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708556,
-    "sha256": "712ccdc81b2372e7fb29745e010548e4b07d28b87e5dbc020960a577c6413f49",
-    "mtime": "2026-11-23T14:32:01.764Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w276a-d0audit2.mjs",
     "bytes": 31872,
     "sha256": "6570b55751c2a5969988ab7f39881f2f85896cef67a00ee1eb7773701f295991",
-    "mtime": "2026-11-19T16:19:54.524Z"
+    "mtime": "2026-11-24T05:41:44.973Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "75d33c8449197a11aa71d8cd622f8972981234255948eb46d50c44b18ece6bbc",
@@ -38,7 +38,7 @@
    "D0",
    "frameWeightPow"
   ],
-  "scriptLineOffset": 1312,
+  "scriptLineOffset": 1301,
   "ruling": "第66報 (1): 「背景決定力 D₀」と別途「背景複素決定力」を用意する。引きずり減衰 q の算出や計算など**影響箇所を精査する**",
   "method": "inline script からコメント・文字列・正規表現リテラルを潰した写しを作り、識別子の出現を機械抽出して最上位関数(波括弧の深さ)で束ねる。**用途と置換可否だけが宣言表**である",
   "notClaim": [
@@ -58,7 +58,7 @@
   "ok": true
  },
  "sites": {
-  "total": 630,
+  "total": 633,
   "groups": 77,
   "byReplaceable": {
    "n/a": 16,
@@ -79,279 +79,281 @@
     "key": "(top-level) :: -",
     "topFn": "(top-level)",
     "innerDef": null,
-    "n": 278,
+    "n": 280,
     "tokens": {
-     "D0": 240,
+     "D0": 242,
      "D0pull": 37,
      "frameWeightPow": 1
     },
     "lines": [
-     2777,
-     2779,
-     4095,
-     4109,
-     6959,
-     7187,
-     12989,
-     13116,
-     13269,
-     13370,
-     13399,
-     13516,
-     13601,
-     13700,
-     13741,
-     13785,
-     13814,
-     13842,
-     13870,
-     13897,
-     13923,
-     13950,
-     13988,
-     14041,
-     14095,
-     14166,
-     14215,
-     14269,
-     14315,
-     14347,
-     14379,
-     14405,
-     14450,
-     14551,
-     14622,
-     14671,
-     14729,
-     14806,
-     14893,
-     14929,
-     14981,
-     15034,
-     15147,
-     15191,
-     15235,
-     15317,
-     15365,
-     15449,
-     15513,
-     15591,
-     15672,
-     15675,
-     15748,
-     15823,
-     15938,
-     15942,
-     16011,
-     16015,
-     16088,
-     16092,
-     16169,
-     16226,
-     16284,
-     16348,
-     16422,
-     16489,
-     16556,
-     16626,
-     16662,
-     16687,
-     16711,
-     16759,
-     16794,
-     16816,
-     16856,
-     16911,
-     16936,
-     16984,
-     17017,
-     17050,
-     17119,
-     17163,
-     17209,
-     17270,
-     17330,
-     17389,
-     17453,
-     17489,
-     17555,
-     17653,
-     17709,
-     17788,
-     17869,
-     17906,
-     17967,
-     18015,
-     18132,
-     18213,
-     18287,
-     18365,
-     18436,
-     18503,
-     18702,
-     18838,
-     18885,
-     18991,
-     19061,
-     19133,
-     19167,
-     19196,
-     19225,
-     19254,
-     19283,
-     19312,
-     19349,
-     19378,
-     19410,
-     19486,
-     19561,
-     19665,
-     19781,
-     19969,
-     20095,
-     20204,
-     20319,
-     20447,
-     20537,
-     20628,
-     20703,
-     20785,
-     20863,
-     20931,
-     21068,
-     21211,
-     21348,
-     21351,
-     21499,
-     21502,
-     21666,
-     21669,
-     21833,
-     21836,
-     21883,
-     21909,
-     21949,
-     21993,
-     22163,
-     22166,
-     22326,
-     22329,
-     22455,
-     22564,
-     22568,
-     22704,
-     22708,
-     22843,
-     22847,
-     22961,
-     22966,
-     23061,
-     23066,
-     23160,
-     23165,
-     23277,
-     23281,
-     23371,
-     23375,
-     23467,
-     23471,
-     23569,
-     23573,
-     23675,
-     23679,
-     23771,
-     23775,
-     23860,
-     23864,
-     23933,
-     24002,
-     24066,
-     24124,
-     24195,
-     24341,
-     24441,
-     24489,
-     24519,
-     24542,
-     24623,
-     24627,
-     24631,
-     24727,
-     24731,
-     24878,
-     24881,
-     25026,
-     25029,
-     25136,
-     25139,
-     25229,
-     25232,
-     25280,
-     25325,
-     25371,
-     25438,
-     25488,
-     25528,
-     25567,
-     25615,
-     25671,
-     25798,
-     25874,
-     25924,
-     26018,
-     26147,
-     26197,
-     26222,
-     26247,
-     26314,
-     26345,
-     26391,
-     26446,
-     26494,
-     26538,
-     26581,
-     26641,
-     26696,
-     26743,
-     26801,
-     26849,
-     26901,
-     47599,
-     47615,
-     47617,
-     47633,
-     47635,
-     47656,
-     47658,
-     47699,
-     47702,
-     47730,
-     51289,
-     51331,
-     51367,
-     51384,
-     51412,
-     51463,
-     51500,
-     51529,
-     51551,
-     51554,
-     51564,
-     51574,
-     51577,
+     2768,
+     2770,
+     4088,
+     4102,
+     6952,
+     7180,
+     12982,
+     13109,
+     13262,
+     13363,
+     13392,
+     13509,
+     13594,
+     13693,
+     13734,
+     13778,
+     13809,
+     13837,
+     13865,
+     13893,
+     13920,
+     13946,
+     13973,
+     14011,
+     14064,
+     14118,
+     14189,
+     14238,
+     14292,
+     14338,
+     14370,
+     14402,
+     14428,
+     14473,
+     14574,
+     14645,
+     14694,
+     14752,
+     14829,
+     14916,
+     14952,
+     15004,
+     15057,
+     15170,
+     15214,
+     15258,
+     15340,
+     15388,
+     15472,
+     15536,
+     15614,
+     15695,
+     15698,
+     15771,
+     15846,
+     15961,
+     15965,
+     16034,
+     16038,
+     16111,
+     16115,
+     16192,
+     16249,
+     16307,
+     16371,
+     16445,
+     16512,
+     16579,
+     16649,
+     16685,
+     16710,
+     16734,
+     16782,
+     16817,
+     16839,
+     16879,
+     16934,
+     16959,
+     17007,
+     17040,
+     17073,
+     17142,
+     17186,
+     17232,
+     17293,
+     17353,
+     17412,
+     17476,
+     17512,
+     17578,
+     17676,
+     17732,
+     17811,
+     17892,
+     17929,
+     17990,
+     18038,
+     18155,
+     18236,
+     18310,
+     18388,
+     18459,
+     18526,
+     18725,
+     18861,
+     18908,
+     19014,
+     19084,
+     19156,
+     19190,
+     19219,
+     19248,
+     19277,
+     19306,
+     19335,
+     19372,
+     19401,
+     19433,
+     19509,
+     19584,
+     19688,
+     19804,
+     19992,
+     20118,
+     20227,
+     20342,
+     20470,
+     20560,
+     20651,
+     20726,
+     20808,
+     20886,
+     20954,
+     21091,
+     21234,
+     21371,
+     21374,
+     21522,
+     21525,
+     21689,
+     21692,
+     21856,
+     21859,
+     21906,
+     21932,
+     21972,
+     22016,
+     22186,
+     22189,
+     22349,
+     22352,
+     22478,
+     22587,
+     22591,
+     22727,
+     22731,
+     22866,
+     22870,
+     22984,
+     22989,
+     23084,
+     23089,
+     23183,
+     23188,
+     23300,
+     23304,
+     23394,
+     23398,
+     23490,
+     23494,
+     23592,
+     23596,
+     23698,
+     23702,
+     23794,
+     23798,
+     23883,
+     23887,
+     23956,
+     24025,
+     24089,
+     24147,
+     24218,
+     24364,
+     24464,
+     24512,
+     24540,
+     24568,
+     24591,
+     24672,
+     24676,
+     24680,
+     24776,
+     24780,
+     24927,
+     24930,
+     25075,
+     25078,
+     25185,
+     25188,
+     25278,
+     25281,
+     25329,
+     25374,
+     25420,
+     25487,
+     25537,
+     25577,
+     25616,
+     25664,
+     25720,
+     25847,
+     25923,
+     25973,
+     26067,
+     26196,
+     26246,
+     26271,
+     26296,
+     26363,
+     26394,
+     26440,
+     26495,
+     26543,
+     26587,
+     26630,
+     26690,
+     26745,
+     26792,
+     26850,
+     26898,
+     26950,
+     47679,
+     47695,
+     47697,
+     47713,
+     47715,
+     47736,
+     47738,
+     47779,
+     47782,
+     47810,
+     51348,
+     51390,
+     51426,
+     51443,
+     51471,
+     51522,
+     51559,
      51588,
-     51612,
-     51678,
-     51718,
-     51747,
-     51773,
-     51820,
-     51845,
-     51877,
-     51924,
-     51989,
-     52027,
-     66347
+     51610,
+     51613,
+     51623,
+     51633,
+     51636,
+     51647,
+     51671,
+     51737,
+     51777,
+     51806,
+     51832,
+     51879,
+     51904,
+     51936,
+     51983,
+     52048,
+     52086,
+     66406
     ],
     "evidence": [
      "params:{D0:\"背景決定力 D₀\", q:\"引きずり減衰 q\", kRep:\"スピン斥力 kRep\", muF:\"摩擦→スピン変換 muF\", gammaN:\"衝突減衰 γn\", kappaS:\"スピン拡散 S_k\", kappaT:\"時空係数 X_k\", cLight:\"基準光速 c_0\", G:\"基準重力 G_0\", bM:\"ウィーン定数 b_m\", etaRad:\"放射冷却 η_ra",
@@ -377,13 +379,13 @@
      "frameWeightPow": 1
     },
     "lines": [
-     53216,
-     53217,
-     53218,
-     53219,
-     53231,
-     53240,
-     53315
+     53275,
+     53276,
+     53277,
+     53278,
+     53290,
+     53299,
+     53374
     ],
     "evidence": [
      "let D0=o.D0;",
@@ -410,12 +412,12 @@
      "D0": 6
     },
     "lines": [
-     57658,
-     57660,
-     57676,
-     57677,
-     57681,
-     57697
+     57717,
+     57719,
+     57735,
+     57736,
+     57740,
+     57756
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -441,11 +443,11 @@
      "D0pull": 2
     },
     "lines": [
-     33124,
-     33129,
-     33132,
-     33133,
-     33182
+     33176,
+     33181,
+     33184,
+     33185,
+     33234
     ],
     "evidence": [
      "const pw=frameWeightPow(p), pull=frameWeightIsPull(p);   // 第262便d: share は p=1 をそのまま返す(番兵 0 は廃止)",
@@ -471,12 +473,12 @@
      "D0": 7
     },
     "lines": [
-     33656,
-     33662,
-     33677,
-     33718,
-     33719,
-     33742
+     33708,
+     33714,
+     33729,
+     33770,
+     33771,
+     33794
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -502,11 +504,11 @@
      "D0pull": 2
     },
     "lines": [
-     53459,
-     53463,
-     53464,
-     53465,
-     53466
+     53518,
+     53522,
+     53523,
+     53524,
+     53525
     ],
     "evidence": [
      "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
@@ -532,11 +534,11 @@
      "D0pull": 2
     },
     "lines": [
-     54054,
-     54058,
-     54059,
-     54060,
-     54061
+     54113,
+     54117,
+     54118,
+     54119,
+     54120
     ],
     "evidence": [
      "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
@@ -562,9 +564,9 @@
      "D0": 5
     },
     "lines": [
-     12624,
-     12625,
-     12626
+     12617,
+     12618,
+     12619
     ],
     "evidence": [
      "const D0p=pull? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;",
@@ -588,11 +590,11 @@
      "D0": 10
     },
     "lines": [
-     53580,
-     53581,
-     53582,
-     53631,
-     53632
+     53639,
+     53640,
+     53641,
+     53690,
+     53691
     ],
     "evidence": [
      "const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
@@ -616,11 +618,11 @@
      "D0": 10
     },
     "lines": [
-     55746,
-     55747,
-     55748,
-     55787,
-     55796
+     55805,
+     55806,
+     55807,
+     55846,
+     55855
     ],
     "evidence": [
      "let Nx=D0*ubg[0], Ny=D0*ubg[1];",
@@ -646,11 +648,11 @@
      "frameWeightPow": 2
     },
     "lines": [
-     56416,
-     56417,
-     56421,
-     56430,
-     56431
+     56475,
+     56476,
+     56480,
+     56489,
+     56490
     ],
     "evidence": [
      "const D0u=pull? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
@@ -677,10 +679,10 @@
      "D0": 4
     },
     "lines": [
-     63817,
-     63818,
-     63823,
-     63825
+     63876,
+     63877,
+     63882,
+     63884
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -706,9 +708,9 @@
      "D0pull": 2
     },
     "lines": [
-     40483,
-     40484,
-     40495
+     40535,
+     40536,
+     40547
     ],
     "evidence": [
      "const p=S.params, pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
@@ -735,10 +737,10 @@
      "D0": 2
     },
     "lines": [
-     56691,
-     56692,
-     56696,
-     56794
+     56750,
+     56751,
+     56755,
+     56853
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, G=p.G;",
@@ -765,9 +767,9 @@
      "D0": 3
     },
     "lines": [
-     56903,
-     56905,
-     56939
+     56962,
+     56964,
+     56998
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -792,9 +794,9 @@
      "D0pull": 2
     },
     "lines": [
-     37669,
-     37670,
-     37707
+     37721,
+     37722,
+     37759
     ],
     "evidence": [
      "const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
@@ -821,9 +823,9 @@
      "D0": 2
     },
     "lines": [
-     39810,
-     39811,
-     39816
+     39862,
+     39863,
+     39868
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -848,9 +850,9 @@
      "D0pull": 2
     },
     "lines": [
-     53140,
-     53141,
-     53146
+     53199,
+     53200,
+     53205
     ],
     "evidence": [
      "const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
@@ -874,11 +876,11 @@
      "D0": 7
     },
     "lines": [
-     55928,
-     55931,
-     55933,
+     55987,
      55990,
-     56013
+     55992,
+     56049,
+     56072
     ],
     "evidence": [
      "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
@@ -904,9 +906,9 @@
      "D0pull": 2
     },
     "lines": [
-     56198,
-     56199,
-     56200
+     56257,
+     56258,
+     56259
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -933,9 +935,9 @@
      "D0": 2
     },
     "lines": [
-     57768,
-     57769,
-     57823
+     57827,
+     57828,
+     57882
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
@@ -959,10 +961,10 @@
      "D0": 6
     },
     "lines": [
-     7623,
-     7654,
-     7655,
-     7656
+     7616,
+     7647,
+     7648,
+     7649
     ],
     "evidence": [
      "|| dSup!==SPACE_MESH_DISK_SUPPORT[0] || capE!==null || a.D0!==undefined)",
@@ -987,8 +989,8 @@
      "D0": 4
     },
     "lines": [
-     37586,
-     37587
+     37638,
+     37639
     ],
     "evidence": [
      "D0u:frameWeightIsPull(pp)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)",
@@ -1011,11 +1013,11 @@
      "D0": 6
     },
     "lines": [
-     53378,
-     53379,
-     53380,
-     53382,
-     53384
+     53437,
+     53438,
+     53439,
+     53441,
+     53443
     ],
     "evidence": [
      "const A=Number(o.A), D0=Number(o.D0), p=Number(o.p), s=Number(o.s);",
@@ -1039,8 +1041,8 @@
      "D0": 6
     },
     "lines": [
-     56461,
-     56462
+     56520,
+     56521
     ],
     "evidence": [
      "const D0=(o.D0===undefined || o.D0===null)? 0 : Number(o.D0);",
@@ -1063,8 +1065,8 @@
      "D0": 6
     },
     "lines": [
-     66249,
-     66260
+     66308,
+     66319
     ],
     "evidence": [
      "const m0=dfmSpaceMeshState(anchor,T,(o.D0!==undefined)? {D0:o.D0} : undefined);",
@@ -1090,7 +1092,7 @@
      "D0": 1
     },
     "lines": [
-     33007
+     33059
     ],
     "evidence": [
      "const pw=frameWeightPow(p), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;"
@@ -1113,8 +1115,8 @@
      "D0p": 1
     },
     "lines": [
-     33266,
-     33271
+     33318,
+     33323
     ],
     "evidence": [
      "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
@@ -1138,8 +1140,8 @@
      "D0p": 1
     },
     "lines": [
-     33420,
-     33424
+     33472,
+     33476
     ],
     "evidence": [
      "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
@@ -1164,8 +1166,8 @@
      "D0": 1
     },
     "lines": [
-     37308,
-     37311
+     37360,
+     37363
     ],
     "evidence": [
      "const pull=(fw===undefined)||(fw===\"pull\")||(fw===\"pull3\")||(fw===\"pull4\"), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)",
@@ -1188,8 +1190,8 @@
      "D0": 5
     },
     "lines": [
-     52275,
-     52284
+     52334,
+     52343
     ],
     "evidence": [
      "function dfmBinaryChi(mA,mB,a,D0,eps,p){",
@@ -1212,9 +1214,9 @@
      "D0": 5
     },
     "lines": [
-     55715,
-     55728,
-     55729
+     55774,
+     55787,
+     55788
     ],
     "evidence": [
      "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
@@ -1239,9 +1241,9 @@
      "D0p": 1
     },
     "lines": [
-     34986,
-     35087,
-     35088
+     35038,
+     35139,
+     35140
     ],
     "evidence": [
      "muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,",
@@ -1265,8 +1267,8 @@
      "D0": 4
     },
     "lines": [
-     52262,
-     52263
+     52321,
+     52322
     ],
     "evidence": [
      "const D0=(o.D0>=0)? +o.D0 : 2, C=(o.shell===\"gas\")? ((o.gasCoh!==undefined)? +o.gasCoh : 1) : 1;",
@@ -1289,8 +1291,8 @@
      "D0": 4
     },
     "lines": [
-     52293,
-     52297
+     52352,
+     52356
     ],
     "evidence": [
      "const M=Number(o.M), h=Math.max(0,Number(o.h)), eps=(o.eps>0)? Number(o.eps) : 0, D0=(o.D0>=0)? Number(o.D0) : 0;",
@@ -1313,8 +1315,8 @@
      "D0": 4
     },
     "lines": [
-     52327,
-     52331
+     52386,
+     52390
     ],
     "evidence": [
      "const M=Number(o.M), D0=(o.D0>=0)? Number(o.D0) : 0, v=Number(o.v), bound=Number(o.bound);",
@@ -1337,8 +1339,8 @@
      "D0": 4
     },
     "lines": [
-     54132,
-     54150
+     54191,
+     54209
     ],
     "evidence": [
      "nd.chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
@@ -1361,8 +1363,8 @@
      "D0": 4
     },
     "lines": [
-     54587,
-     54588
+     54646,
+     54647
     ],
     "evidence": [
      "const D0=Number((o.D0===undefined)? 0 : o.D0);",
@@ -1385,8 +1387,8 @@
      "D0": 4
     },
     "lines": [
-     54674,
-     54689
+     54733,
+     54748
     ],
     "evidence": [
      "const p=ch.decl.p, D0=ch.decl.D0, eps2=ch.decl.eps*ch.decl.eps, hp=p/2, tauD=ch.decl.tauDrag;",
@@ -1409,9 +1411,9 @@
      "D0": 4
     },
     "lines": [
-     60171,
-     60251,
-     60279
+     60230,
+     60310,
+     60338
     ],
     "evidence": [
      "const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kFrame=p.kFrame, D0=p.D0;",
@@ -1435,8 +1437,8 @@
      "D0": 4
     },
     "lines": [
-     63671,
-     63702
+     63730,
+     63761
     ],
     "evidence": [
      "p:(qo.p===undefined)?1:Number(qo.p), D0:(qo.D0===undefined)?0:Number(qo.D0),",
@@ -1460,8 +1462,8 @@
      "D0p": 1
     },
     "lines": [
-     63935,
-     63941
+     63994,
+     64000
     ],
     "evidence": [
      "const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kFrame=p.kFrame, D0=p.D0;",
@@ -1485,8 +1487,8 @@
      "D0p": 1
     },
     "lines": [
-     36255,
-     36260
+     36307,
+     36312
     ],
     "evidence": [
      "const denom=S.params.D0+WB+S.sumW[i];",
@@ -1501,6 +1503,32 @@
     "classified": true
    },
    {
+    "key": "obsMakeSys :: csSpin",
+    "topFn": "obsMakeSys",
+    "innerDef": "csSpin",
+    "n": 3,
+    "tokens": {
+     "D0": 2,
+     "D0pull": 1
+    },
+    "lines": [
+     48287,
+     48302
+    ],
+    "evidence": [
+     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/",
+     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/",
+     "const phG3={G:G, D0:0.1, kFrame:0, q:3, geoPN:3, lambdaPN:0, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag,"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": true,
+    "use": "宣言の生成(観測雛形が physics を作る)",
+    "replaceable": "n/a",
+    "why": "生成する宣言の中に D₀・D0pull を書いている(読み口ではない)",
+    "classified": true
+   },
+   {
     "key": "dfmPullEntrainment :: dfmPullEntrainment",
     "topFn": "dfmPullEntrainment",
     "innerDef": "dfmPullEntrainment",
@@ -1509,7 +1537,7 @@
      "D0p": 3
     },
     "lines": [
-     52305
+     52364
     ],
     "evidence": [
      "const M=Number(o.M), d=Number(o.d), D0p=(o.D0p>=0)? Number(o.D0p) : 0, eps=(o.eps>0)? Number(o.eps) : 0, p=(o.p>0)? Number(o.p) : 2;"
@@ -1532,8 +1560,8 @@
      "D0": 1
     },
     "lines": [
-     56996,
-     57011
+     57055,
+     57070
     ],
     "evidence": [
      "const den=D0p+WB+fl.Wpull;",
@@ -1556,8 +1584,8 @@
      "D0p": 3
     },
     "lines": [
-     57537,
-     57540
+     57596,
+     57599
     ],
     "evidence": [
      "function dfmSpinPairFuse(S, BD, pin, x, y, m, pw, eps, G, D0p, C){",
@@ -1580,8 +1608,8 @@
      "D0": 3
     },
     "lines": [
-     63588,
-     63598
+     63647,
+     63657
     ],
     "evidence": [
      "const n=mm.length, eps2=o.eps*o.eps, pw=o.p, D0=o.D0, eta=o.eta;",
@@ -1604,7 +1632,7 @@
      "D0": 3
     },
     "lines": [
-     66278
+     66337
     ],
     "evidence": [
      "const m1=dfmSpaceMeshState(a,T,(tr.D0!==null)? {D0:tr.D0} : undefined);"
@@ -1626,7 +1654,7 @@
      "D0p": 2
     },
     "lines": [
-     33032
+     33084
     ],
     "evidence": [
      "const di=D0p+Wt[i], dj=D0p+Wt[j];"
@@ -1648,8 +1676,8 @@
      "D0": 2
     },
     "lines": [
-     37224,
-     37234
+     37276,
+     37286
     ],
     "evidence": [
      "const key=camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+hgt+\",\"+S.params.D0+\",\"+S.params.softening+",
@@ -1672,7 +1700,7 @@
      "D0": 2
     },
     "lines": [
-     45767
+     45819
     ],
     "evidence": [
      "(paramRowSync.D0||(paramRowSync.D0=[])).push(wbgRowSync);   // D₀ 行の同期・換算表示の総なめでも引き直す"
@@ -1686,30 +1714,6 @@
     "classified": true
    },
    {
-    "key": "obsMakeSys :: csSpin",
-    "topFn": "obsMakeSys",
-    "innerDef": "csSpin",
-    "n": 2,
-    "tokens": {
-     "D0": 1,
-     "D0pull": 1
-    },
-    "lines": [
-     48207
-    ],
-    "evidence": [
-     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/",
-     "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/"
-    ],
-    "hasPullFallback": false,
-    "readsD0Member": false,
-    "objectKeyOnly": true,
-    "use": "宣言の生成(観測雛形が physics を作る)",
-    "replaceable": "n/a",
-    "why": "生成する宣言の中に D₀・D0pull を書いている(読み口ではない)",
-    "classified": true
-   },
-   {
     "key": "dfmBinaryMassFactor :: dfmBinaryMassFactor",
     "topFn": "dfmBinaryMassFactor",
     "innerDef": "dfmBinaryMassFactor",
@@ -1718,8 +1722,8 @@
      "D0": 2
     },
     "lines": [
-     52338,
-     52342
+     52397,
+     52401
     ],
     "evidence": [
      "function dfmBinaryMassFactor(mAobs,mBobs,a,D0,eps,kFrame,p){",
@@ -1742,8 +1746,8 @@
      "D0": 2
     },
     "lines": [
-     52358,
-     52362
+     52417,
+     52421
     ],
     "evidence": [
      "function dfmBinaryMassFactorLinear(mAobs,mBobs,a,D0,eps,kFrame,p){",
@@ -1766,8 +1770,8 @@
      "D0": 2
     },
     "lines": [
-     56487,
-     56512
+     56546,
+     56571
     ],
     "evidence": [
      "const den=D0+W;",
@@ -1791,8 +1795,8 @@
      "D0": 1
     },
     "lines": [
-     57076,
-     57092
+     57135,
+     57151
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps, G=p.G;",
@@ -1815,7 +1819,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     8544
+     8537
     ],
     "evidence": [
      "if(frameWeightPow(ph)!==1) return W+' は frameWeight:\"share\"(p=1)の本だけ(局所の核と背景の核を同じ p にする)';"
@@ -1837,7 +1841,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     12450
+     12443
     ],
     "evidence": [
      "function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v===\"pull\")? 2 : (v===\"pull3\")? 3 : (v===\"pull4\")? 4 : 1; }"
@@ -1859,7 +1863,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     12632
+     12625
     ],
     "evidence": [
      "const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:bgWbgOf(ph,cf,spinRead).Wbg,"
@@ -1881,7 +1885,7 @@
      "D0": 1
     },
     "lines": [
-     33352
+     33404
     ],
     "evidence": [
      "const bgW=p.D0+WB, sumW=S.sumW, eps=p.softening, eps2=eps*eps;"
@@ -1903,7 +1907,7 @@
      "D0": 1
     },
     "lines": [
-     36333
+     36385
     ],
     "evidence": [
      "let w=S.params.D0; const eps=S.params.softening;"
@@ -1925,7 +1929,7 @@
      "D0": 1
     },
     "lines": [
-     37176
+     37228
     ],
     "evidence": [
      "return camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+ch+\",\"+sim.params.D0+\",\"+sim.params.softening+"
@@ -1947,7 +1951,7 @@
      "D0": 1
     },
     "lines": [
-     37254
+     37306
     ],
     "evidence": [
      "let wmax=sim.params.D0+0.001;"
@@ -1969,7 +1973,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     37613
+     37665
     ],
     "evidence": [
      "const rPl=frameWeightIsPull(pp), rPw=frameWeightPow(pp);   // 第241便(第242便: 既定 pull・一般指数)/第262便d: pull 判定は isPull・指数は pow(share も 1)"
@@ -1991,7 +1995,7 @@
      "D0": 1
     },
     "lines": [
-     37648
+     37700
     ],
     "evidence": [
      "const Wtot=O.D0+O.WB+_RF.w, Wu=O.D0u+O.WB+_RF.wu;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull"
@@ -2013,7 +2017,7 @@
      "D0": 1
     },
     "lines": [
-     37739
+     37791
     ],
     "evidence": [
      "sim.params.kappaT+\",\"+sim.params.cLight+\",\"+sim.params.D0+\",\"+sim.params.q+\",\"+"
@@ -2035,7 +2039,7 @@
      "D0pull": 1
     },
     "lines": [
-     43952
+     44004
     ],
     "evidence": [
      "if(!(s.physics.D0pull>0) && /DFM$|RealKF1$/.test(String(s.presetId||\"\"))) setTimeout(()=>notify(T(\"fwNoD0pull\"),8000),1200);"
@@ -2057,7 +2061,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     45734
+     45786
     ],
     "evidence": [
      "return {Wbg:w.Wbg, from:w.from, toy:t.toy, spinRead:t.spinRead, p:frameWeightPow(ph)};   // 第289便f: p = 採用した核の冪(単位 M/L^p)"
@@ -2079,7 +2083,7 @@
      "D0": 1
     },
     "lines": [
-     50915
+     50974
     ],
     "evidence": [
      "const bgW=p.D0+((S.box && S.boxA)? S.boxA.W : 0);   // tauUpdate と同じ「箱の決定力を足す」書き方"
@@ -2101,7 +2105,7 @@
      "D0": 1
     },
     "lines": [
-     52242
+     52301
     ],
     "evidence": [
      "function chiMassFactors(mA, mB, sep, D0, eps, C){"
@@ -2123,7 +2127,7 @@
      "D0": 1
     },
     "lines": [
-     52244
+     52303
     ],
     "evidence": [
      "const chi=(w)=>w/((D0||0)+w);"
@@ -2145,7 +2149,7 @@
      "D0p": 1
     },
     "lines": [
-     52309
+     52368
     ],
     "evidence": [
      "const w=M*wf(d), chi=w/(D0p+W+w), v=(o.v!==undefined)? Number(o.v) : 0, c=(o.c>0)? Number(o.c) : 0, res=(1-chi)*v;"
@@ -2167,7 +2171,7 @@
      "D0": 1
     },
     "lines": [
-     54632
+     54691
     ],
     "evidence": [
      "bond, kScale:kSc, gammaScale:gSc, D0, p, eps, drive:drv },"
@@ -2189,7 +2193,7 @@
      "D0": 1
     },
     "lines": [
-     55444
+     55503
     ],
     "evidence": [
      "function dfmMeshBlend(node,background,W,gradW,D0,Wdot){"
@@ -2211,7 +2215,7 @@
      "D0": 1
     },
     "lines": [
-     55458
+     55517
     ],
     "evidence": [
      "const Wv=Number(W), D=Number(D0), Wd=(Wdot===undefined || Wdot===null)? 0 : Number(Wdot);"
@@ -2233,7 +2237,7 @@
      "D0": 1
     },
     "lines": [
-     56318
+     56377
     ],
     "evidence": [
      "const g=dfmGalaxyMeshField(list,px,py,{p:pw, eps, D0:Wbg, unSource:srcM, unFit:\"affine\", bg:\"static\","
@@ -2255,7 +2259,7 @@
      "D0": 1
     },
     "lines": [
-     63464
+     63523
     ],
     "evidence": [
      "const bg=(Number(pp.D0)||0)+WB;"
