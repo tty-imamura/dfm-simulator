@@ -48230,8 +48230,23 @@ function obsMakeSys(rec, sc){
         return (nS===1
           ? Object.assign(astroPh(phO), {frameReaction:"pairReduced"})
           : astroPh(phO));
-      })() } },
-    defVariant:"kf1" };
+      })() },
+      // 第357便g(R527・原仮定者の報告(2026-11-26)「実在天体はgeoPN=3で取り込めるのが理想」): **既定の変種** —— 在位の惑星の本と同じ規則の形
+      //   (geoPN=3・kFrame=0・λ_PN=0・invSq の K1 + rdRule:"kappaM"〔全天体 R_d = Y_k m —— 合わせる値を持たない〕・並進だけ・G_loc n = 2・三次元)。
+      //   q=3・D0=0.1・frameWeight:"share" は在位の惑星の本と同じ値(kFrame 0 では走行に効かない)。frameReaction・coupleSink・D0pull は kf1 の鍵
+      //   (三次元では受理器が断る)なので持たない。G_loc は三次元の本だけなので、二次元の同じ宣言は無い。自己診断が通らない族は kf1 のまま(buildAstroFromRecords)
+      g3k1:{ src:"observation-records",
+        name:{ja:"在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m —— 合わせる値なし)—— 較正母集団の外",
+          en:"the same rule form as the in-place planet books (geoPN=3, kFrame=0, R_d = Y_k m - no matched value) - outside the calibration population"},
+        physics:(function(){
+          const phG3={G:G, D0:0.1, kFrame:0, q:3, geoPN:3, lambdaPN:0, softening:0.05, timeScale:timeScale, stepDt:stepDt, dispMag:dispMag,
+            frameWeight:"share", coord:"3d",
+            relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"},
+            gLoc:{law:"kappaC2"}};
+          if(sc.rel){ phG3.cLight=2997.92458; phG3.kappaT=7.42582647410185e-7; }   // 相対論的連星族の c₀ と X_k(kf1 と同じ値)
+          return astroPh(phG3);
+        })() } },
+    defVariant:"g3k1" };
   return { ok:errs.length===0, errors:errs, sys,
     meta:{ q, qStar, qExact, X, aRef:a1, timeScale, stepDt, pRefIn, dispMag, camScale, tier, unitJa, unitEn,
       periodInner:Pin, scale:sc, spinDemoted } };
@@ -48454,7 +48469,9 @@ function buildAstroFromRecords(input, opts){
       v.notes.push(ja);
     }
   }
-  const en=(LANG==="en"), M=built.meta, sc=M.scale, sys=built.sys, p=built.preset;
+  // 第357便g: built.preset は既定の変種(g3k1)の本。kf1 の本は同じ系定義から作り直す(bodies は physics に依らないので同じ —— kf1 の道は前の版と 1 bit も変わらない)
+  const en=(LANG==="en"), M=built.meta, sc=M.scale, sys=built.sys, pG3=built.preset,
+    p=buildAstroPreset({system:"__observation__", variant:"kf1"}, built.sys);
   const relFam=!!sc.rel;   // 第222便: 相対論的連星族(L−T=5・c₀=3×10³)
   const twoBody=(sys.place==="barycentric-peri" || sys.place==="barycentric-apo");
   const apoAdopt=(sys.place==="barycentric-apo");   // 第211便: 恒星二体は遠点整列で採用(診断は近点複製)
@@ -48532,7 +48549,85 @@ function buildAstroFromRecords(input, opts){
     const probe=JSON.parse(JSON.stringify(pp)); probe.bodies=pb.bodies;
     return astroObsSelfCheck(probe, targets, o.steps);
   };
-  let pAdopt=p, diag=diagProbe(p), stabilized=null;
+  // ---- 第357便g(R527・原仮定者の報告(2026-11-26)「実在天体はgeoPN=3で取り込めるのが理想」): 既定は在位の惑星の本と同じ規則の形 ----
+  // 変種 g3k1 の本(三次元・初期状態は平面 z = v_z = 0)を、受理器と同じ自己診断(周期 ±1%・同じ targets・同じ近点の複製)に掛ける。
+  // 通れば採用する。通らなければ(受理器の拒否・自己診断の外れ)今の形(変種 kf1 —— 観測安定則を含む前の版の道)のまま組み立て、
+  // 新しい形が通らなかった理由を説明の文と注記に書く(黙って変えない・合わせ込みを足さない)。opts.form:"kf1" は前の版の道だけを走らせる(比べる道具と経路等価の検査)
+  let g3Adopt=null, g3Why=null;
+  if(o.form!=="kf1"){
+    const gp=pG3;
+    for(const gb of gp.bodies){ gb.z=0; gb.vz=0; }
+    const gIdealJa=rec.ideal.ja.map((s,k)=>k===0? "平面の初期状態(三次元の本・z = v_z = 0 —— 軌道傾斜と第三体の面外の摂動は置かない)" : s.replace(/2D 理想化/g,"平面の初期状態"));
+    const gIdealEn=rec.ideal.en.map((s,k)=>k===0? "a planar initial state (a 3D book with z = v_z = 0 - inclinations and out-of-plane third-body perturbations are not placed)"
+      : s.replace(/in the 2D idealization/g,"in the planar initial state").replace(/in 2D/g,"in the planar initial state"));
+    const gPlaceEn=(apoAdopt? "APHELION alignment (the stellar two-body convention; the self-check probes the PERIHELION phase)" : "perihelion alignment")
+      +" with the real tangential Kepler speed, phases "+sys.phaseStep+"° apart"+(twoBody? " (two-body barycentric, both bodies free)" : " (the central body pinned)");
+    const gPlaceJa=(apoAdopt? "**遠点整列**(恒星二体の規約。自己診断は**近点位相の複製**で行う)" : "近点整列")
+      +"・初速は実ケプラー接線速度・位相は "+sys.phaseStep+"° 刻み"+(twoBody? "(二体は重心系・両方 free)" : "(中心の天体は pinned)");
+    gp.description=userDesc+(en
+      ? "Built deterministically from SOURCED OBSERVATION RECORDS (observation-transcription path). No number here was invented by an AI: every value is transcribed from the source table below, and the unit conversion, the scale exponents, the placement, the initial speeds and the physics declaration are all computed by the app's deterministic functions.\n"
+        +"Units: "+M.unitEn+(relFam? " (the relativistic-binary family L−T=5, c₀=3×10³)" : "")+". Centre: "+rec.center.name+"; satellites: "+satNames+". Placement: "+gPlaceEn+".\n"
+        +"Physics: built in the SAME RULE FORM AS THE IN-PLACE PLANET BOOKS - geoPN=3, kFrame=0, λ_PN=0; inertial drag relativeDrag {law \"inertial\", invSq {kernel \"k1\", rdRule \"kappaM\"}, pairs \"all\", history \"positions\", initMotion \"observed\"} (translation only); local gravity gLoc {law \"kappaC2\"} (n = 2); coord \"3d\" with a planar initial state. Every body's drag radius is set by the rule R_d = Y_k m (Y_k = 10G_0/(C_1c_0²)) - NO value is matched in this system (no q_exact, no shared correction D₀). camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (display only).\n"
+        +"Declared idealizations: "+gIdealEn.join("; ")+".\n"
+        +"Self-check (a short "+OBS_DIAG_STEPS+"-step trial run on a duplicate state): each satellite's estimated period is compared against the transcribed observed period; the system is NOT adopted unless every one lands within ±1%. Nothing is fitted to make it land. The self-check looks at the periods only - it is not an observational 3-sigma, and this book is outside the calibration population.\n"
+        +"SOURCE TABLE\n"+rows.join("\n")
+      : "**出典つき観測レコード**から決定的に生成(観測採取経路)。ここに AI が作った数値は1つも無い — 各値は下の出典表からの転写で、単位換算・スケール指数・配置・初速・物理の宣言はすべてアプリの決定的関数が決めた。\n"
+        +"単位規約: "+M.unitJa+(relFam? "(相対論的連星族 L−T=5・c₀=3×10³)" : "")+"。中心: "+rec.center.name+"、衛星: "+satNames+"。配置は"+gPlaceJa+"。\n"
+        +"物理: **在位の惑星の本と同じ規則の形**で組み立てた —— geoPN=3・kFrame=0・λ_PN=0・慣性引きずり relativeDrag {law \"inertial\", invSq {kernel \"k1\", rdRule \"kappaM\"}, pairs \"all\", history \"positions\", initMotion \"observed\"}(並進だけ)・局所重力 gLoc {law \"kappaC2\"}(n = 2)・coord \"3d\"(初期状態は平面)。全天体の引きずりの半径は規則 R_d = Y_k m(Y_k = 10G_0/(C_1c_0²))で、**この系で合わせた値は無い**(q_exact も共有補正 D₀ も使わない)。camera.scale="+M.camScale+"、timeScale="+M.timeScale+"、dispMag="+M.dispMag+"(表示専用)。\n"
+        +"宣言する理想化: "+gIdealJa.join("・")+"。\n"
+        +"自己診断(複製状態で "+OBS_DIAG_STEPS+" 步の試走): 各衛星の推定周期を転写した観測周期と照合し、**全衛星が ±1% に入らなければ採用しない**。合わせ込みのフィットは一切しない。自己診断が見るのは周期だけで、観測の 3σ ではない(この本は較正母集団の外)。\n"
+        +"出典表\n"+rows.join("\n"));
+    if(typeof o.name==="string" && o.name.trim()) gp.name=o.name.trim().slice(0,30);
+    gp.fidelity="real";
+    gp.sampleClass="principle";
+    gp.referenceKind="theory-control";
+    gp.notClaim=["solar_cal","inposk1_rule"];
+    gp.abBody={ label:{ja:"引きずりと G_loc を切る(両方 OFF —— 重力だけの基線)", en:"drag and G_loc off (both off - the gravity-only baseline)"},
+      physicsPatch:{relativeDrag:{law:"inertial", invSq:{}, enabled:false, pairs:"all", history:"positions"}, gLoc:null} };
+    const gFix=en
+      ? ["scale exponents: "+M.unitEn+(relFam? " (the L−T=5 relativistic-binary family)" : ""), "physics.coord:\"3d\" (a planar initial state: z = v_z = 0, inclinations not placed)",
+        "geoPN=3, kFrame=0, λ_PN=0 (the same rule form as the in-place planet books)",
+        "inertial drag relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"} (translation only; every body R_d = Y_k m)",
+        "local gravity physics.gLoc:{law:\"kappaC2\"} (n = 2)", "q=3, D0=0.1, frameWeight:\"share\" are the in-place planet books' values (they do not act at kFrame 0)",
+        "kRep=muF=γN=S_k=0 / stateCarry:\"double\"", "speed calibration f=1.000 (the real Kepler speed itself — no multiplier)",
+        "initial phases "+sys.phaseStep+"° apart (resonance angles are NOT set as initial conditions)"]
+        .concat(apoAdopt? ["stellar two-body adopted at APHELION; the self-check probes the perihelion phase (maximum sensitivity)"] : [])
+        .concat(gIdealEn.map(s=>s.slice(0,80)))
+      : ["スケール指数 "+M.unitJa+(relFam? "(L−T=5 相対論的連星族)" : ""), "physics.coord:\"3d\"(初期状態は平面 —— z = v_z = 0・軌道傾斜は置かない)",
+        "geoPN=3・kFrame=0・λ_PN=0(在位の惑星の本と同じ規則の形)",
+        "慣性引きずり relativeDrag:{law:\"inertial\", invSq:{kernel:\"k1\", rdRule:\"kappaM\"}, pairs:\"all\", history:\"positions\", initMotion:\"observed\"}(並進だけ・全天体 R_d = Y_k m)",
+        "局所重力 physics.gLoc:{law:\"kappaC2\"}(n = 2)", "q=3・D0=0.1・frameWeight:\"share\" は在位の惑星の本と同じ値(kFrame 0 では走行に効かない)",
+        "kRep=muF=γN=S_k=0 / stateCarry:\"double\"", "初速較正 f=1.000(実ケプラー速度そのもの — 掛け算なし)",
+        "初期位相は "+sys.phaseStep+"° 刻みの理想化配置(共鳴角は初期条件に入れない)"]
+        .concat(apoAdopt? ["恒星二体は**遠点整列**で採用。自己診断は近点位相の複製(感度最大)で実施"] : [])
+        .concat(gIdealJa.map(s=>s.slice(0,80)));
+    const pa0=p.parameterAudit;
+    gp.parameterAudit={ observedInputs:pa0.observedInputs.slice(), fixedConventions:gFix, fitted:[],
+      derived:en
+        ? ["drag radius R_d = Y_k m with Y_k = 10G_0/(C_1c_0²) (a rule - nothing is matched in this system)",
+          relFam? "X_k=G/c₀²=7.4258×10⁻⁷" : "X_k=G/c₀²=7.4258×10⁻⁹",
+          "camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (derived from the stated rules)"]
+        : ["引きずりの半径 R_d = Y_k m・Y_k = 10G_0/(C_1c_0²)(規則 —— この系で合わせた値は無い)",
+          relFam? "X_k=G/c₀²=7.4258×10⁻⁷" : "X_k=G/c₀²=7.4258×10⁻⁹",
+          "camera.scale="+M.camScale+"・timeScale="+M.timeScale+"・dispMag="+M.dispMag+"(規約から決定的に算出)"],
+      numerical:pa0.numerical.slice() };
+    const vg=validatePreset(gp, XK_INTAKE_OPTS);
+    if(!vg.ok) g3Why=(en? "the receiver rejected the new form: " : "受理器が新しい形を断った: ")+vg.errors.slice(0,2).join(" / ");
+    else {
+      const dg=diagProbe(gp);
+      if(dg.ok) g3Adopt={preset:gp, diag:dg};
+      else g3Why=(en? "the self-check did not pass the new form: " : "新しい形が自己診断を通らなかった: ")+dg.errors.slice(0,2).join(" / ");
+    }
+    if(g3Why){
+      p.description+=(en
+        ? "\nNEW FORM NOT ADOPTED: the same rule form as the in-place planet books (geoPN=3, kFrame=0, R_d = Y_k m, 3D) was tried first and not adopted - "+g3Why+". This system is therefore built in the earlier form (the drag-approximation (q) convention, kFrame=1, below). There is no 2D version of the new form (G_loc is for 3D books only)."
+        : "\n新しい形は採用しなかった: 在位の惑星の本と同じ規則の形(geoPN=3・kFrame=0・R_d = Y_k m・三次元)を先に試し、採用しなかった —— "+g3Why+"。そのため、この系は前の形(引きずり近似 q の規約・kFrame=1 —— 下の文)で組み立てた。新しい形の二次元の版は無い(G_loc は三次元の本だけ)。");
+      v.notes.push(en? "new form (geoPN=3) not adopted — "+g3Why : "新しい形(geoPN=3)は採用しなかった —— "+g3Why);
+    }
+  }
+  M.form=g3Adopt? "g3k1" : "kf1";
+  M.g3Why=g3Why;
+  let pAdopt=g3Adopt? g3Adopt.preset : p, diag=g3Adopt? g3Adopt.diag : diagProbe(p), stabilized=null;
   if(!diag.ok){
     // 第199便: 観測安定則(2026-08-25 裁定 —「観測値再現版は、観測値で安定する計算式を採用する。
     // 観測値自体が計算式で算出されている為」)。差し戻しが**永年不安定クラスのみ**(初期状態は
@@ -48599,7 +48694,7 @@ function buildAstroFromRecords(input, opts){
   if(!vp.ok) return {ok:false, stage:"validate", errors:vp.errors, notes:v.notes, meta:M, table:rec.table};
   if(vp.xkLock && vp.xkLock.notices.length) for(const n of vp.xkLock.notices) v.notes.push(n);   // 第327便d(AN544): 物理対応ロックの告知(クランプ ⚠ を含む)を注記へ
   return {ok:true, preset:vp.preset, warnings:vp.warnings, notes:v.notes, diag, meta:M, table:rec.table,
-    ideal:rec.ideal, demoted:built.demoted, stabilized};
+    ideal:rec.ideal, demoted:built.demoted, stabilized, form:M.form, g3Why};   // 第357便g: 採用した形(g3k1 / kf1)と、新しい形を採らなかった理由
 }
 
 // --- ⑤ 採取用プロンプト(外部チャットAI向け — アプリはAPIキーを使わない)---
@@ -49461,7 +49556,9 @@ function obsShowDiag(res){
       +((Math.abs(r.rel0)<=OBS_DIAG_TOL && Math.abs(r.rel)<=OBS_DIAG_TOL)? " PASS" : " FAIL"))));
   if(res.meta) obsReportBlock(T("obsHeadScale"),
     [T("obsScaleRow")(LANG==="en"? res.meta.unitEn : res.meta.unitJa, res.meta.camScale, res.meta.dispMag, res.meta.timeScale),
-     "q_exact="+res.meta.q+" (a_ref="+res.meta.aRef+")"]);
+     (res.meta.form==="g3k1")   // 第357便g: 新しい形には合わせる値が無い(q_exact・D₀ を使わない)
+       ? (LANG==="en"? "geoPN=3, kFrame=0, R_d = Y_k m (rule - no matched value)" : "geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)")
+       : "q_exact="+res.meta.q+" (a_ref="+res.meta.aRef+")"]);
 }
 // 整形・安定化パスの結果表示(変更点は**必ず全部**出す — 黙って書き換えないことの担保)
 // 第357便c(R524): mode = "saved"(取り込んだ)/"check"(検証のみ —— まだ取り込んでいない)/"rejected"(取り込まなかった)。
