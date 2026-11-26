@@ -133487,6 +133487,151 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
   })();   // 第310便c(heap)
 }
 // ==== 第355便i の塊(ここまで)====
+// ==== 第356便e の塊(ここから —— lint.pagesNoJekyll356e・lint.tools356e・docs.tools356e の 3 ブロック。lint は beta・root の両方で走る・docs は root で SKIP)====
+// ---- 第356便e(原仮定者の回答(2026-11-26)「AN1152: 推奨」・統括の検証項目 R517): **公開のサイトを「ファイルをそのまま配る」形に保つ戻り止めと、道具の小さい直し 3 つ**
+// ----   (html・器・物理の lib・正本・検査の閾値と判定式は変えない —— 変えた既存のファイルは tools/box-setup.sh・tools/perf-allow-check.mjs・tests/lib-w353i-qatemp.mjs の 3 つ)。
+// ----   lint.pagesNoJekyll356e: 判定の lib tests/lib-w356e-pages.mjs の変異の自己試験・今の木で根の .nojekyll が在る・追跡されている(git ls-files)・空・
+// ----     Jekyll の設定のファイル(_config.yml・_config.yaml)が 0・頭に --- の塊を持つ追跡ファイル(.md・.html)が 0・今の木の状態を壊した写し(無い・追跡されていない・設定・前置き)で落ちる
+// ----   lint.tools356e:
+// ----     ① tools/box-setup.sh: 構文・値の無い --repo・--node-modules(最後・次が --…)を timeout つきで呼んで終了コード 2 と「使い方の誤り」の文(ブラウザは使わない)
+// ----     ② tools/perf-allow-check.mjs: 版の名の型・文字列の値の自己試験(selfTest356e)・第352便g の自己試験が 356e の行を含む・今の tests/perf.mjs の宣言が読める・
+// ----        今の宣言が空なら通る(判定は変えない)・今の宣言の写しに文字列の値('}//' と "/*")を足すと名を全部読んで落ちる
+// ----     ③ tests/lib-w353i-qatemp.mjs: 版の名の型・自己試験(356e の行を含む)・本物のファイルの更新の時刻で: 生きている他の pid の 7 時間前の写しは古い・今の写しは古くない・
+// ----        自分の pid の写しは古くても入れない・maxAgeMs Infinity は第353便i の選び方・古さの既定は 1 時間以上(事前検査の一周 約 22.5 分の写しを消さない)
+// ----   docs.tools356e: PHYSICS〔第356便e〕(〔第355便i〕の後・〔第328便 — 統括〕の前)・AI_SPEC §409(§404 の後)・post-merge の塊(第355便i の塊の後)・書かない語。
+{
+  await (async () => {   // 第310便c(heap)
+  const rd356e = (f) => { try { return fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { return null; } };
+  const os356e = (await import('node:os')).default;
+  const { spawnSync: sp356e } = await import('node:child_process');
+  // ───── lint.pagesNoJekyll356e ─────
+  {
+    const bad = [], cases = [];
+    let note = '';
+    try {
+      const PG = await import('file://' + path.join(ROOT, 'tests', 'lib-w356e-pages.mjs'));
+      note = PG.PAGES_FAIL_NOTE;
+      if (!/^w356e-pages-lib-\d+$/.test(PG.LIB_VERSION)) bad.push('① 判定の lib の版の型 ' + PG.LIB_VERSION);
+      const st = PG.selfTest356e();
+      if (!(st.ok && st.rows.length >= 12)) bad.push('① 判定の lib の自己試験: ' + st.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+      cases.push(`① 判定の lib(${PG.LIB_VERSION})の変異の自己試験 ${st.rows.length} 通り ${st.ok ? '全部期待どおり' : 'NG'}`);
+      const g = sp356e('git', ['ls-files', '-z'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 28 });
+      const tracked = g.status === 0 ? String(g.stdout || '').split('\0').filter(Boolean) : null;
+      if (!tracked || !tracked.length) bad.push('② git ls-files が読めない(rc ' + g.status + ')—— 追跡を見られない');
+      else {
+        const heads = {};
+        for (const p of PG.headTargets(tracked)) { try { const fd = fs.openSync(path.join(ROOT, p), 'r'); const b = Buffer.alloc(64); const n = fs.readSync(fd, b, 0, 64, 0); fs.closeSync(fd); heads[p] = b.subarray(0, n).toString('utf8'); } catch (e) { /* 読めない —— 判定の側で落とす */ } }
+        let exists = false, size = -1;
+        try { const s = fs.lstatSync(path.join(ROOT, '.nojekyll')); exists = s.isFile(); size = s.size; } catch (e) { exists = false; }
+        const now = { tracked, exists, size, heads };
+        const v = PG.pagesVerdict(now);
+        if (!v.ok) bad.push('② 今の木: ' + v.bad.join(' / '));
+        cases.push(`② 今の木: 根の .nojekyll ${exists ? '在る' : '無い'}・追跡 ${tracked.includes('.nojekyll') ? 'される' : 'されない'}・${size} byte・設定のファイル ${v.counts.config}・頭を読んだ追跡ファイル(.md・.html)${v.counts.headTargets} 本のうち --- の塊 ${v.counts.frontMatter}`);
+        // ③ 今の木の状態を壊した写し(判定の lib に渡すだけ —— 木は変えない)
+        const cp = () => ({ tracked: tracked.slice(), exists, size, heads: Object.assign({}, heads) });
+        const M = [
+          ['無い', (s) => { s.exists = false; s.tracked = s.tracked.filter((p) => p !== '.nojekyll'); }],
+          ['追跡されていない', (s) => { s.tracked = s.tracked.filter((p) => p !== '.nojekyll'); }],
+          ['空でない', (s) => { s.size = 1; }],
+          ['_config.yml が足された', (s) => { s.tracked.push('_config.yml'); }],
+          ['頭に --- の塊の .md が足された', (s) => { s.tracked.push('docs/X356E.md'); s.heads['docs/X356E.md'] = '---\nlayout: x\n---\n'; }],
+          ['頭に --- の塊の .html が足された', (s) => { s.tracked.push('beta/x356e.html'); s.heads['beta/x356e.html'] = '---\r\n---\r\n'; }],
+        ];
+        const caught = M.filter(([, f]) => { const s = cp(); f(s); return !PG.pagesVerdict(s).ok; }).map(([n]) => n);
+        if (caught.length !== M.length) bad.push('③ 壊した写しで落ちない: ' + M.map(([n]) => n).filter((n) => !caught.includes(n)).join('・'));
+        cases.push(`③ 今の木を壊した写し ${M.length} 通り → 落ちる ${caught.length}(${caught.join('・')})`);
+      }
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+    add('lint.pagesNoJekyll356e', bad.length === 0,
+      `**公開のサイトを「ファイルをそのまま配る」形に保つ戻り止め**(第356便e・原仮定者の回答(2026-11-26)「AN1152: 推奨」・R517 —— 根の空の .nojekyll・追跡・変換を前提にしたファイル 0): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件 —— ${note || '公開のサイトが Jekyll の変換を通るようになり、文書の字で生成が止まりうる'}**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── lint.tools356e ─────
+  {
+    const bad = [], cases = [];
+    let tmp = null;
+    try {
+      tmp = fs.mkdtempSync(path.join(os356e.tmpdir(), 'w356e-'));
+      // ① box-setup.sh の値の無い引数
+      const bsh = path.join(ROOT, 'tools', 'box-setup.sh');
+      const syn = sp356e('bash', ['-n', bsh], { encoding: 'utf8' });
+      if (syn.status !== 0) bad.push('① box-setup.sh の構文');
+      const B = (args) => { const r = sp356e('bash', [bsh, ...args], { cwd: tmp, encoding: 'utf8', timeout: 15000, env: Object.assign({}, process.env, { BOX_NODE_MODULES: '' }) }); return { rc: r.status, sig: r.signal, err: String(r.stderr || '') }; };
+      const U = [['--repo'], ['--node-modules'], ['--repo', '--no-engine'], ['--no-engine', '--no-stamps', '--node-modules']];
+      const ur = U.map((a) => ({ a, r: B(a) }));
+      for (const { a, r } of ur) if (!(r.rc === 2 && r.sig === null && /使い方の誤り/.test(r.err) && /値が無い/.test(r.err))) bad.push('① box-setup.sh ' + a.join(' ') + ' → rc ' + r.rc + (r.sig ? '・止められた ' + r.sig + '(終わらない)' : '') + ' ' + r.err.slice(0, 60));
+      cases.push(`① box-setup.sh: 構文・値の無い引数 ${U.length} 通り(${U.map((a) => a.join(' ')).join(' / ')})→ 終了コード ${[...new Set(ur.map((z) => z.r.rc))].join(',')}・「使い方の誤り」の文(15 s の内に終わる)`);
+      // ② perf-allow-check の文字列
+      const PA = await import('file://' + path.join(ROOT, 'tools', 'perf-allow-check.mjs'));
+      if (!/^w352g-perf-allow-check-\d+$/.test(PA.PERF_ALLOW_CHECK_VERSION)) bad.push('② perf-allow-check の版の型 ' + PA.PERF_ALLOW_CHECK_VERSION);
+      const s6 = typeof PA.selfTest356e === 'function' ? PA.selfTest356e() : { ok: false, rows: [] };
+      if (!(s6.ok && s6.rows.length >= 10)) bad.push('② 文字列の値の自己試験: ' + s6.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+      const s2 = PA.selfTest352g();
+      if (!(s2.ok && s2.rows.length >= 8 + s6.rows.length)) bad.push('② 第352便g の自己試験が 356e の行を含まない(' + s2.rows.length + ')');
+      const psrc = rd356e('tests/perf.mjs') || '';
+      const pr = PA.parseAllow(psrc);
+      if (!pr.found) bad.push('② 今の tests/perf.mjs の宣言が読めない');
+      if (/^const ALLOW = \{\};/m.test(psrc) && !(PA.allowVerdict(psrc).pass === true && pr.entries.length === 0)) bad.push('② 今の空の宣言が通らない(判定が変わった)');
+      const mut = psrc.replace(/^const ALLOW = \{/m, "const ALLOW = { galaxy356e: 1.25, note356e: '}//', echo356e: \"/*\", ");
+      const vm = PA.allowVerdict(mut), names = vm.entries.map((z) => z[0]);
+      if (!(mut !== psrc && vm.pass === false && ['galaxy356e', 'note356e', 'echo356e'].every((n) => names.includes(n)))) bad.push('② 写しに文字列の値を足しても名を全部読まない(' + names.join(',') + ')');
+      cases.push(`② perf-allow-check(${PA.PERF_ALLOW_CHECK_VERSION}): 文字列の値の自己試験 ${s6.rows.filter((z) => z.ok).length}/${s6.rows.length}・第352便g の自己試験 ${s2.rows.filter((z) => z.ok).length}/${s2.rows.length}・今の宣言 ${pr.found ? (pr.empty ? '空(通る)' : '名 ' + pr.entries.length) : '読めない'}・写しに '}//' と "/*" の値を足すと名 ${names.length} を読んで落ちる`);
+      // ③ 一時の写しの古さ(本物のファイルの更新の時刻)
+      const QT = await import('file://' + path.join(ROOT, 'tests', 'lib-w353i-qatemp.mjs'));
+      if (!/^w353i-qatemp-lib-\d+$/.test(QT.LIB_VERSION)) bad.push('③ 名の型の lib の版の型 ' + QT.LIB_VERSION);
+      if (!(Number.isFinite(QT.STALE_AGE_MS) && QT.STALE_AGE_MS >= 3600 * 1000)) bad.push('③ 古さの既定が 1 時間より短い(走っている事前検査の写しを消しうる)' + QT.STALE_AGE_MS);
+      fs.mkdirSync(path.join(tmp, 'st'));
+      const st = QT.selfTest353i(path.join(tmp, 'st'));
+      const n356 = st.rows.filter((z) => z.name.indexOf('(第356便e)') === 0).length;
+      if (!(st.ok && n356 >= 5)) bad.push('③ 名の型の lib の自己試験(356e の行 ' + n356 + '): ' + st.rows.filter((z) => !z.ok).map((z) => z.name).join(' , '));
+      const dd = path.join(tmp, 'age'); fs.mkdirSync(dd);
+      const other = process.ppid > 1 ? process.ppid : 1;
+      const fO = '.qa-preflight-' + other + '.mjs', fS = '.qa-preflight-' + process.pid + '.mjs';
+      for (const f of [fO, fS]) fs.writeFileSync(path.join(dd, f), '// w356e\n');
+      const fresh = QT.staleTempCopies(dd);
+      const old7 = (Date.now() - 7 * 3600 * 1000) / 1000;
+      for (const f of [fO, fS]) fs.utimesSync(path.join(dd, f), old7, old7);
+      const aged = QT.staleTempCopies(dd), agedOff = QT.staleTempCopies(dd, QT.pidAlive, process.pid, { maxAgeMs: Infinity });
+      if (!(QT.pidAlive(other) && fresh.length === 0 && JSON.stringify(aged) === JSON.stringify([fO]) && agedOff.length === 0))
+        bad.push('③ 本物の更新の時刻で: 今の写し ' + JSON.stringify(fresh) + '・7 時間前 ' + JSON.stringify(aged) + '・古さを切る ' + JSON.stringify(agedOff) + '(他の pid ' + other + ' 生きている ' + QT.pidAlive(other) + ')');
+      cases.push(`③ 一時の写し(${QT.LIB_VERSION}・古さの既定 ${QT.STALE_AGE_MS / 3600000} 時間): 自己試験 ${st.rows.length} 通り(356e の行 ${n356})${st.ok ? ' 全部期待どおり' : ' NG'}・本物の更新の時刻で 生きている他の pid の今の写し → 古くない・7 時間前 → 古い・自分の pid の 7 時間前 → 入れない・maxAgeMs Infinity → 第353便i の選び方`);
+    } catch (e) { bad.push('例外: ' + String(e && e.stack || e).slice(0, 240)); }
+    finally { if (tmp) { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* 一時の置き場 */ } } }
+    add('lint.tools356e', bad.length === 0,
+      `**道具の小さい直し 3 つの試し**(第356便e・R517 —— box-setup.sh の値の無い引数・perf-allow-check の文字列・一時の写しの古さ。検査の閾値と判定式は変えていない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  // ───── docs.tools356e(root は SKIP)─────
+  if (!TARGET.startsWith('beta/')) { console.log('SKIP docs.tools356e(beta 対象でない: ' + TARGET + ' — beta 線の文書)'); return; }
+  {
+    const bad = [], cases = [];
+    const PH = rd356e('docs/PHYSICS.md') || '', AS = rd356e('docs/AI_SPEC.md') || '', PM = rd356e('tools/post-merge-qa.sh') || '';
+    const secOf = (T, head, next) => { const a = T.indexOf(head); if (a < 0) return ''; const r = T.slice(a + 1), z = r.search(next); return z < 0 ? r : r.slice(0, z); };
+    const p0 = PH.indexOf('\n〔第356便e — '), p355i = PH.indexOf('\n〔第355便i — '), p328 = PH.indexOf('\n〔第328便 — 統括');
+    if (!(p0 >= 0 && p355i >= 0 && p355i < p0 && (p328 < 0 || p0 < p328))) bad.push('① PHYSICS〔第356便e〕の位置(〔第355便i〕の後・〔第328便 — 統括〕の前)');
+    const ph = secOf(PH, '\n〔第356便e — ', /\n〔第/);
+    const WANT = ['R517', '原仮定者の回答(2026-11-26)「AN1152: 推奨」', '`.nojekyll`', '`git ls-files`', '`_config.yml`', '`---`', 'Jekyll', '`tests/lib-w356e-pages.mjs`', '`tools/box-setup.sh`', '`--repo`', '`--node-modules`',
+      '終了コード 2', '`tools/perf-allow-check.mjs`', '`parseAllow`', '`tests/lib-w353i-qatemp.mjs`', '`staleTempCopies`', '6 時間', 'w353i-qatemp-lib-2', 'w352g-perf-allow-check-2', '`tests/data-w353i-versions.json`',
+      'lint.pagesNoJekyll356e', 'lint.tools356e', 'docs.tools356e', '`tools/conventions-check.mjs`'];
+    for (const x of WANT) if (ph.indexOf(x) < 0) bad.push('① PHYSICS〔第356便e〕に「' + x + '」が無い');
+    const a409 = AS.indexOf('\n## 409. 第356便e'), a404 = AS.indexOf('\n## 404. 第355便i');
+    const ai = secOf(AS, '\n## 409. 第356便e', /\n## /);
+    if (!(a409 >= 0 && a404 >= 0 && a404 < a409)) bad.push('② AI_SPEC §409 の位置(§404 の後)');
+    for (const x of ['R517', 'SYSTEM_PROMPT には載せない', 'lint.pagesNoJekyll356e', 'lint.tools356e', 'docs.tools356e', '`.nojekyll`', '`tests/lib-w356e-pages.mjs`']) if (ai.indexOf(x) < 0) bad.push('② AI_SPEC §409 に「' + x + '」が無い');
+    if (!(PM.indexOf('# ==== 第356便e の塊(ここから)====') > PM.indexOf('# ==== 第355便i の塊(ここまで)====') && PM.indexOf('# ==== 第355便i の塊(ここまで)====') >= 0 && /DEFAULT_WAVE_IDS="\$DEFAULT_WAVE_IDS lint\.pagesNoJekyll356e lint\.tools356e docs\.tools356e"/.test(PM)))
+      bad.push('③ post-merge に第356便e の塊(第355便i の塊の後)');
+    const stripQ = (t) => String(t || '').replace(/「[^」]*」/g, '');
+    const rv = (t) => t.split('').reverse().join('');
+    const NG = ['たっま決', 'たため確', 'たし示', 'たきで明説', 'たけ導', 'たっ合', 'たっ直', 'たっなにうよる通', 'たし応対', 'たっか分', 'たい付近', 'たし決解', '束収', '摘指のらか外', 'BACKLOG', 'OPERATIONS_DIGEST',
+      'TPGtahC', 'inimeG', 'edualC', 'supO', 'tennoS', 'ukiaH', 'elbaF', 'ciporhtnA', 'xedoC', 'tolipoC'].map((w) => (/^[A-Z_]+$/.test(w) ? w : rv(w)));
+    for (const w of NG) for (const [nm, tx] of [['PHYSICS〔第356便e〕', ph], ['AI_SPEC §409', ai]]) if (stripQ(tx).indexOf(w) >= 0) bad.push('④ ' + nm + ' に書かない語(' + w.length + ' 字)');
+    for (const [nm, tx] of [['PHYSICS〔第356便e〕', ph], ['AI_SPEC §409', ai]]) if (/第\d+報/.test(tx)) bad.push('④ ' + nm + ' に報の番号');
+    cases.push('① PHYSICS〔第356便e〕(位置・必須の語 ' + WANT.length + ')/ ② AI_SPEC §409(§404 の後・必須の語)/ ③ post-merge の塊(第355便i の塊の後)/ ④ 書かない語 ' + NG.length + ' 種・報の番号');
+    add('docs.tools356e', bad.length === 0, `**第356便e の道具の文書**(統括の検証項目 R517): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
+  }
+  })();   // 第310便c(heap)
+}
+// ==== 第356便e の塊(ここまで)====
 
 // ==== 第352便y の塊(ここから —— behavior.bgwindow352y・docs.bgwindow352y の 2 ブロック。root は SKIP)====
 // ---- 第352便y(原仮定者の整理(2026-11-24 —— 第148報)・原仮定者の回答(2026-11-24 —— 第148報)・統括の検証項目 R462):

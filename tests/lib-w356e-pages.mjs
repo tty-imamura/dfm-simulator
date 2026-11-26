@@ -9,7 +9,7 @@
 //   selfTest356e()     変異の自己試験(無い・追跡されていない・空でない・設定のファイルが足された・頭に `---` の塊を持つ .md / .html が足された ほか)
 // 言わないこと: 「公開のサイトが直った・速くなった」(根のファイル 1 つと、変換を前提にしたファイルが 0 であることを見るだけ)。
 export const LIB_VERSION = 'w356e-pages-lib-1';
-export const PAGES_FAIL_NOTE = '公開のサイトが Jekyll の変換を通るようになり、文書の字(TeX の例の `{%` など)で生成が止まりうる';
+export const PAGES_FAIL_NOTE = '公開のサイトが Jekyll の変換を通るようになり、文書の字で生成が止まりうる';
 
 /** 頭の字が `---` の塊(Jekyll の前置き)の始まりか */
 export function frontMatter(head) {

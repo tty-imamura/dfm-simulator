@@ -1924,6 +1924,12 @@ DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS docs.aichat355h behavior.aichatIntake355h"
 #   docs.replaw355i —— 原文と族の宣言と表と数の文が PHYSICS〔第355便i〕に逐語・PAPER_PLAN の表 6c・文書)と、新しい段 replaw-355i
 DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS behavior.replaw355i docs.replaw355i"
 # ==== 第355便i の塊(ここまで)====
+# ==== 第356便e の塊(ここから)====
+# 第356便e(原仮定者の回答(2026-11-26)・統括の検証項目 R517 —— 道具と戻り止めと文書だけ・html は変えない): 枝 e の新設 3 本
+#   (lint.pagesNoJekyll356e —— 根の空の .nojekyll・追跡・Jekyll の設定のファイルと頭に --- の塊を持つ追跡ファイルが 0・壊した写しで落ちる /
+#   lint.tools356e —— box-setup.sh の値の無い引数・perf-allow-check の文字列・一時の写しの古さ / docs.tools356e —— PHYSICS〔第356便e〕・AI_SPEC §409・本塊)。段は足していない
+DEFAULT_WAVE_IDS="$DEFAULT_WAVE_IDS lint.pagesNoJekyll356e lint.tools356e docs.tools356e"
+# ==== 第356便e の塊(ここまで)====
 # ==== 第352便m の塊(ここから)====
 # 第352便m(統括の検証項目 R450 —— 文書と照合の鍵だけ・html は変えない): 枝 m の新設 1 本(docs.equations352m —— 計算式の一覧の EQ-118〜EQ-129 と表)と、
 #   EQ-117 までの写しで読む形にした既存の照合(docs.equations351h)・一覧を読む既存の照合(docs.equations350h・lint.eqReader350h・docs.equations348g・docs.equations347f)
