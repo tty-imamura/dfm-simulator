@@ -2,7 +2,7 @@
  "version": "w301f-clone-1",
  "generator": "tests/exp-w301f-clone.mjs",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "DECISIONS v58 の AN288 ③④(二次元の本の複製の漏れを原因から・前の本の鍵の持ち越しは build で機能ごとに初期化)・統括の検証項目 R184",
  "steps": {
   "N": 20,
@@ -68,14 +68,14 @@
   "_rdMaintLast"
  ],
  "summary": {
-  "books": 122,
-  "d2": 91,
-  "d3": 31,
-  "cloneOk": 122,
-  "ckOk": 122,
-  "freshOk": 122,
-  "scratchOk": 122,
-  "allOk": 122,
+  "books": 124,
+  "d2": 92,
+  "d3": 32,
+  "cloneOk": 124,
+  "ckOk": 124,
+  "freshOk": 124,
+  "scratchOk": 124,
+  "allOk": 124,
   "openCarried": 0,
   "nan": 0,
   "reverseOpenNg": 0
@@ -133,7 +133,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.055
+   "wallSec": 0.06
   },
   {
    "id": "grcal",
@@ -187,7 +187,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.057
+   "wallSec": 0.038
   },
   {
    "id": "grcalGps",
@@ -241,7 +241,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.062
+   "wallSec": 0.047
   },
   {
    "id": "grcalLight",
@@ -295,7 +295,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.054
+   "wallSec": 0.052
   },
   {
    "id": "grcalShapiro",
@@ -349,7 +349,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.047
+   "wallSec": 0.039
   },
   {
    "id": "projectile",
@@ -403,7 +403,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.032
+   "wallSec": 0.043
   },
   {
    "id": "echo",
@@ -457,7 +457,61 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.145
+   "wallSec": 0.15
+  },
+  {
+   "id": "boxone",
+   "emoji": "☝️",
+   "coord": "2d",
+   "n": 83,
+   "thermal": "spin",
+   "dt": 0.0064,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.471
   },
   {
    "id": "boxtrans",
@@ -511,7 +565,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.112
+   "wallSec": 0.482
   },
   {
    "id": "boxrot",
@@ -565,7 +619,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.701
+   "wallSec": 0.514
   },
   {
    "id": "boxexpand",
@@ -619,7 +673,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.752
+   "wallSec": 0.449
   },
   {
    "id": "boxcomoving",
@@ -673,7 +727,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.326
+   "wallSec": 0.203
   },
   {
    "id": "boxbound",
@@ -727,7 +781,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.2
+   "wallSec": 0.109
   },
   {
    "id": "boxbreath",
@@ -781,7 +835,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.226
+   "wallSec": 0.144
   },
   {
    "id": "boxredshift",
@@ -835,7 +889,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.046
+   "wallSec": 0.028
   },
   {
    "id": "probeH",
@@ -889,7 +943,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.147
+   "wallSec": 0.077
   },
   {
    "id": "freebox",
@@ -943,7 +997,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.903
+   "wallSec": 0.632
   },
   {
    "id": "cosmicweb",
@@ -1000,7 +1054,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 25.396
+   "wallSec": 18.473
   },
   {
    "id": "galaxy",
@@ -1054,7 +1108,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 14.966
+   "wallSec": 11.368
   },
   {
    "id": "galaxyStd",
@@ -1108,7 +1162,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 12.513
+   "wallSec": 9
   },
   {
    "id": "galaxyGeo2",
@@ -1162,7 +1216,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.379
+   "wallSec": 10.161
   },
   {
    "id": "galaxyGeo2Flat3d",
@@ -1217,7 +1271,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 14.664
+   "wallSec": 10.58
   },
   {
    "id": "galaxyGeo2Thick3d",
@@ -1272,7 +1326,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 16.078
+   "wallSec": 10.489
   },
   {
    "id": "galaxyGeo2ThickTilt3d",
@@ -1327,7 +1381,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.359
+   "wallSec": 9.952
   },
   {
    "id": "galaxyDB",
@@ -1381,7 +1435,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 14.304
+   "wallSec": 9.388
   },
   {
    "id": "collapse",
@@ -1435,7 +1489,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 7.887
+   "wallSec": 5.561
   },
   {
    "id": "axisBarStill",
@@ -1489,7 +1543,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 14.122
+   "wallSec": 10.321
   },
   {
    "id": "axisBarArms",
@@ -1543,7 +1597,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.897
+   "wallSec": 9.113
   },
   {
    "id": "axisBarReach",
@@ -1597,7 +1651,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 15.518
+   "wallSec": 8.828
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1651,7 +1705,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 10.511
+   "wallSec": 8.156
   },
   {
    "id": "shapeToyCluster",
@@ -1706,7 +1760,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.855
+   "wallSec": 1.222
   },
   {
    "id": "shapeToyDisk",
@@ -1761,7 +1815,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.033
+   "wallSec": 2.154
   },
   {
    "id": "shapeToyArm",
@@ -1816,7 +1870,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.006
+   "wallSec": 0.805
   },
   {
    "id": "shapeToySpiral",
@@ -1871,7 +1925,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 6.46
+   "wallSec": 3.316
   },
   {
    "id": "shapeToyClusterCore",
@@ -1926,7 +1980,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.099
+   "wallSec": 1.488
   },
   {
    "id": "shapeToyDiskCore",
@@ -1981,7 +2035,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.472
+   "wallSec": 2.213
   },
   {
    "id": "shapeToyArmCore",
@@ -2036,7 +2090,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.129
+   "wallSec": 0.674
   },
   {
    "id": "shapeToySpiralCore",
@@ -2091,7 +2145,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 5.777
+   "wallSec": 4.636
   },
   {
    "id": "lensing",
@@ -2145,7 +2199,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.026
+   "wallSec": 0.022
   },
   {
    "id": "spinlens",
@@ -2199,7 +2253,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.012
+   "wallSec": 0.016
   },
   {
    "id": "blens",
@@ -2253,7 +2307,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.024
+   "wallSec": 0.012
   },
   {
    "id": "reddening",
@@ -2307,7 +2361,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.771
+   "wallSec": 0.627
   },
   {
    "id": "gas",
@@ -2364,7 +2418,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 10.256
+   "wallSec": 7.571
   },
   {
    "id": "pressure",
@@ -2421,7 +2475,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 10.71
+   "wallSec": 7.361
   },
   {
    "id": "conduction",
@@ -2478,7 +2532,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.094
+   "wallSec": 0.045
   },
   {
    "id": "frictionHeat",
@@ -2532,7 +2586,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.639
+   "wallSec": 1.208
   },
   {
    "id": "coolrace",
@@ -2589,7 +2643,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.023
+   "wallSec": 0.017
   },
   {
    "id": "convection",
@@ -2646,7 +2700,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 7.643
+   "wallSec": 3.893
   },
   {
    "id": "buoyancy",
@@ -2703,7 +2757,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 8.202
+   "wallSec": 5.153
   },
   {
    "id": "cooling",
@@ -2760,7 +2814,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 7.321
+   "wallSec": 4.195
   },
   {
    "id": "emergent",
@@ -2817,7 +2871,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.159
+   "wallSec": 2.178
   },
   {
    "id": "emergent2",
@@ -2876,7 +2930,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.5
+   "wallSec": 2.447
   },
   {
    "id": "chain2",
@@ -2935,7 +2989,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 2.7
+   "wallSec": 2.065
   },
   {
    "id": "chaincycle",
@@ -2994,7 +3048,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.169
+   "wallSec": 3.174
   },
   {
    "id": "earthMoonReal",
@@ -3048,7 +3102,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.029
+   "wallSec": 0.026
   },
   {
    "id": "earthMoonRealKF1",
@@ -3102,7 +3156,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.086
+   "wallSec": 0.133
   },
   {
    "id": "emAuditSolar",
@@ -3156,7 +3210,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.015
+   "wallSec": 0.027
   },
   {
    "id": "earthMoonSunInertial3d",
@@ -3211,7 +3265,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.244
+   "wallSec": 0.34
   },
   {
    "id": "earthMoonOnly3d",
@@ -3266,7 +3320,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.335
+   "wallSec": 0.41
   },
   {
    "id": "qLockRadialAudit",
@@ -3320,7 +3374,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.043
+   "wallSec": 0.076
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -3374,7 +3428,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.032
+   "wallSec": 0.073
   },
   {
    "id": "mercury",
@@ -3428,7 +3482,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.024
+   "wallSec": 0.018
   },
   {
    "id": "mercuryReal",
@@ -3482,7 +3536,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.045
+   "wallSec": 0.052
   },
   {
    "id": "mercurySunInertialFit",
@@ -3536,7 +3590,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.066
+   "wallSec": 0.115
   },
   {
    "id": "mercurySunInertial3d",
@@ -3591,7 +3645,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.399
+   "wallSec": 0.363
   },
   {
    "id": "venusSunInertial3d",
@@ -3646,7 +3700,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.193
+   "wallSec": 0.247
   },
   {
    "id": "marsSunInertial3d",
@@ -3701,7 +3755,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.27
+   "wallSec": 0.259
   },
   {
    "id": "jupiterSunInertial3d",
@@ -3756,7 +3810,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.242
+   "wallSec": 0.218
   },
   {
    "id": "saturnSunInertial3d",
@@ -3811,7 +3865,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.32
+   "wallSec": 0.128
   },
   {
    "id": "saturnRingInertial3d",
@@ -3866,7 +3920,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.69
+   "wallSec": 0.603
   },
   {
    "id": "uranusSunInertial3d",
@@ -3921,7 +3975,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.302
+   "wallSec": 0.234
   },
   {
    "id": "neptuneSunInertial3d",
@@ -3976,7 +4030,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.315
+   "wallSec": 0.216
   },
   {
    "id": "solarSystem16Inertial3d",
@@ -4031,7 +4085,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 11.453
+   "wallSec": 10.186
   },
   {
    "id": "jupiterGalilean",
@@ -4139,7 +4193,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.035
+   "wallSec": 0.028
   },
   {
    "id": "marsMoonsReal",
@@ -4193,7 +4247,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.022
+   "wallSec": 0.024
   },
   {
    "id": "plutoCharonDiagInput",
@@ -4247,7 +4301,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.045
+   "wallSec": 0.064
   },
   {
    "id": "plutoCharonInertialFit",
@@ -4301,7 +4355,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.315
+   "wallSec": 2.084
   },
   {
    "id": "uranusReal",
@@ -4355,7 +4409,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.239
+   "wallSec": 0.201
   },
   {
    "id": "neptuneReal",
@@ -4409,7 +4463,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.03
+   "wallSec": 0.02
   },
   {
    "id": "alphaCenAB",
@@ -4463,7 +4517,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.035
+   "wallSec": 0.031
   },
   {
    "id": "siriusAB",
@@ -4517,7 +4571,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.041
+   "wallSec": 0.03
   },
   {
    "id": "siriusABInertial3d",
@@ -4572,7 +4626,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.343
+   "wallSec": 0.21
   },
   {
    "id": "alphaCenABInertial3d",
@@ -4627,7 +4681,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.357
+   "wallSec": 0.214
   },
   {
    "id": "alphaCenABInertial3dJ",
@@ -4682,7 +4736,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.37
+   "wallSec": 0.184
   },
   {
    "id": "psrDoubleABInertial3d",
@@ -4737,7 +4791,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.367
+   "wallSec": 0.222
   },
   {
    "id": "psrDoubleAB",
@@ -4791,7 +4845,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.02
+   "wallSec": 0.034
   },
   {
    "id": "psrJ1757DFM",
@@ -4845,7 +4899,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.019
+   "wallSec": 0.038
   },
   {
    "id": "psrJ1946DFM",
@@ -4899,7 +4953,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.037
+   "wallSec": 0.04
   },
   {
    "id": "psrB1534",
@@ -4953,7 +5007,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.043
+   "wallSec": 0.037
   },
   {
    "id": "compactForceToy",
@@ -5007,7 +5061,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.04
+   "wallSec": 0.026
   },
   {
    "id": "inertialDragPair",
@@ -5061,7 +5115,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.067
+   "wallSec": 0.062
   },
   {
    "id": "coord3dKeplerTilt",
@@ -5116,7 +5170,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.033
+   "wallSec": 0.032
   },
   {
    "id": "coord3dSpinPrecess",
@@ -5171,7 +5225,62 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.029
+   "wallSec": 0.02
+  },
+  {
+   "id": "twoBodyOnly3d",
+   "emoji": "👥",
+   "coord": "3d",
+   "n": 2,
+   "thermal": "spin",
+   "dt": 17.453292519943293,
+   "open": {
+    "carried": [],
+    "missing": [],
+    "val": []
+   },
+   "clone": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyC": [],
+    "max": {}
+   },
+   "scratch": {
+    "ok": true,
+    "painted": [
+     "ax",
+     "ay",
+     "az3",
+     "sumW",
+     "uAx",
+     "uAy",
+     "ds",
+     "dpx",
+     "dpy",
+     "pairD",
+     "coreOmV"
+    ],
+    "val": [],
+    "onlyC2": []
+   },
+   "fresh": {
+    "ok": true,
+    "val": [],
+    "onlyG": [],
+    "onlyF": [],
+    "max": {}
+   },
+   "ck": {
+    "ok": true,
+    "val": [],
+    "onlyBefore": [],
+    "onlyAfter": [],
+    "tSame": true
+   },
+   "nan": false,
+   "ok": true,
+   "wallSec": 0.275
   },
   {
    "id": "binaryCheckEqualInertial3d",
@@ -5226,7 +5335,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.293
+   "wallSec": 0.244
   },
   {
    "id": "binaryCheckRatio3Inertial3d",
@@ -5281,7 +5390,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.19
+   "wallSec": 0.26
   },
   {
    "id": "boxBinaryToy",
@@ -5335,7 +5444,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.05
+   "wallSec": 0.02
   },
   {
    "id": "gw150914",
@@ -5389,7 +5498,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.048
+   "wallSec": 0.016
   },
   {
    "id": "gw150914Merge4s",
@@ -5446,7 +5555,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.047
+   "wallSec": 0.015
   },
   {
    "id": "gw150914SpinDipole",
@@ -5500,7 +5609,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.043
+   "wallSec": 0.012
   },
   {
    "id": "tuc47",
@@ -5554,7 +5663,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.329
+   "wallSec": 1.428
   },
   {
    "id": "ngc3198",
@@ -5608,7 +5717,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.128
+   "wallSec": 1.97
   },
   {
    "id": "supernovaProg",
@@ -5662,7 +5771,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.031
+   "wallSec": 0.019
   },
   {
    "id": "crabRemnant",
@@ -5716,7 +5825,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.657
+   "wallSec": 0.56
   },
   {
    "id": "saturnZonalD68",
@@ -5770,7 +5879,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.083
+   "wallSec": 0.077
   },
   {
    "id": "saturnD68Consistent",
@@ -5824,7 +5933,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.032
+   "wallSec": 0.028
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -5878,7 +5987,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.031
+   "wallSec": 0.019
   },
   {
    "id": "saturnRingReal",
@@ -5932,7 +6041,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.254
+   "wallSec": 0.138
   },
   {
    "id": "binary",
@@ -5986,7 +6095,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 3.622
+   "wallSec": 2.827
   },
   {
    "id": "fig8",
@@ -6040,7 +6149,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.041
+   "wallSec": 0.01
   },
   {
    "id": "counterring",
@@ -6094,7 +6203,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.153
+   "wallSec": 0.879
   },
   {
    "id": "spinup",
@@ -6151,7 +6260,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 1.699
+   "wallSec": 1.668
   },
   {
    "id": "pulsarSolo",
@@ -6262,7 +6371,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.056
+   "wallSec": 0.049
   },
   {
    "id": "whiteDwarfDFM",
@@ -6319,7 +6428,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.06
+   "wallSec": 0.024
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -6376,7 +6485,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.051
+   "wallSec": 0.023
   },
   {
    "id": "envelopeShedDFM",
@@ -6433,7 +6542,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.025
+   "wallSec": 0.026
   },
   {
    "id": "lfbotTrap",
@@ -6490,7 +6599,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.112
+   "wallSec": 0.064
   },
   {
    "id": "layeredCoreDFM",
@@ -6544,7 +6653,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.041
+   "wallSec": 0.046
   },
   {
    "id": "spinDipoleBinary",
@@ -6598,7 +6707,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.03
+   "wallSec": 0.028
   },
   {
    "id": "gasCohSurface",
@@ -6652,7 +6761,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.054
+   "wallSec": 0.061
   },
   {
    "id": "mmPhaseToy",
@@ -6706,7 +6815,7 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.035
+   "wallSec": 0.034
   },
   {
    "id": "saturnRotVertExplore3d",
@@ -6761,23 +6870,23 @@
    },
    "nan": false,
    "ok": true,
-   "wallSec": 0.593
+   "wallSec": 0.607
   }
  ],
  "reverse": [],
- "elapsedS": 325.309,
+ "elapsedS": 230.368,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第301便f",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:26:56.850Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:41:44.431Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -6785,25 +6894,25 @@
     "file": "tests/exp-w301f-clone.mjs",
     "bytes": 14261,
     "sha256": "dd93a97db2faa86033b05def8546aa4484c0d6278b6482f2860ecb72df138f0b",
-    "mtime": "2026-11-19T16:19:54.540Z"
+    "mtime": "2026-11-24T05:41:44.997Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "bbc2a23ccd5e2d6cc9dad538d0ddb146838eb5e9e5da889ad6e5866e8332889d",
@@ -6839,11 +6948,11 @@
    "keepProse": [
     "familyRole"
    ],
-   "names": 1343,
-   "segments": 1174,
-   "closureShare": 0.2887
+   "names": 1330,
+   "segments": 1161,
+   "closureShare": 0.2808
   },
-  "scopeSha256": "d568f946c31cf77bb05ab0d4818ce4cd6ace68b8dc704bcf52aedf70bfa2e0b8",
+  "scopeSha256": "1881cbbbb0185f704e6f10cbfd47d38cbdcf4002f78bdc6450e728d0639be046",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"

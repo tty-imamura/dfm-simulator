@@ -2,7 +2,7 @@
  "version": "w313a-kappam-1",
  "generator": "tests/exp-w313a-kappam.mjs",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "原仮定者の裁定(第115報)AN399 K1 を採用・AN402 太陽を含む全天体に R_d = κm(重力半径に比例する長さ)・補足(外殻は近距離の計算に要る・厚みは考えない・6.5e6 m は K2 の未宣言の上限 —— K1 では無視)・決断事項 AN403・AN404・統括の検証項目 R234",
  "rdRuleVersion": "w313a-invsq-k1-kappam-1",
  "shellRecvVersion": "w313a-shellrecv-1",
@@ -2338,43 +2338,43 @@
  "ok": true,
  "timing": {
   "A": {
-   "wallSec": 0.041
+   "wallSec": 0.042
   },
   "R": {
-   "wallSec": 0.809
+   "wallSec": 1.322
   },
   "B": {
-   "wallSec": 1.052
+   "wallSec": 1.251
   },
   "E": {
-   "wallSec": 0.793
+   "wallSec": 0.864
   }
  },
- "elapsedS": 4.573,
+ "elapsedS": 5.69,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第313便a",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:35:21.081Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:26.270Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    },
    {
     "file": "tests/data-w306a-decl305.json",
     "bytes": 25529,
     "sha256": "ed22f3e086bac8c11a09145953e46a7d0f02d2344a1f806f3a37d89d5b2e1f1a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    }
   ],
   "code": [
@@ -2382,43 +2382,43 @@
     "file": "tests/exp-w313a-kappam.mjs",
     "bytes": 35496,
     "sha256": "7a7b94692c0586a56e2e189ff1333c93ec1c667a2b4b06262bf94c5661503adf",
-    "mtime": "2026-11-19T16:19:54.548Z"
+    "mtime": "2026-11-24T05:41:45.005Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.069Z"
    },
    {
     "file": "tests/lib-w311d-planet3.mjs",
     "bytes": 23994,
     "sha256": "46c10ca1b5641f00e3458cb12e427ebf11402b5b1d88ecfd2cf6ab1bde97493c",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w306a-an336.mjs",
     "bytes": 15115,
     "sha256": "a26d12de0e5b9a4ca3e6a13df85d613103e0b6539a318deb4eaad01d9c2c3ed3",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "b14b4283b094fd0dea8fb3369df68529801d59b8dfa2a7f35f378292555a25a6",
@@ -2463,11 +2463,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1365,
-   "segments": 1196,
-   "closureShare": 0.2936
+   "names": 1352,
+   "segments": 1183,
+   "closureShare": 0.2858
   },
-  "scopeSha256": "bb7576cc03b31281d0f3eede8137908b933bd6720e0318959eb917d4dd46a0a8",
+  "scopeSha256": "bab4f05fd0194d337ae8e11dd07a6a1cfcb6f4afa73d9cd6a63c4c406e52e6dc",
   "scopeComplete": true,
   "inputsStable": [
    {

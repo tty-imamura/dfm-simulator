@@ -4,9 +4,9 @@
   "section": "2 天体思考実験(メッシュ応答)",
   "harness": "w272c-twobody-1",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-  "at": "2026-11-22T06:34:49.644Z",
+  "at": "2026-11-26T21:18:18.195Z",
   "steps": 200000,
   "hypothesis": "**原仮定者の仮説(第62報)**を測れる形にしただけである(正しさの主張ではない)。",
   "decomposition": "∇u = H·I + Ω·ε + 伸縮(対称トレースレス)。H=½(∂ₓu_x+∂_yu_y) が拡縮・Ω=½(∂ₓu_y−∂_yu_x) が回転。",
@@ -17,19 +17,19 @@
     "file": "tests/exp-w272c-twobody.mjs",
     "bytes": 18891,
     "sha256": "de583a26f6523bc2fc6b9d3b9f4ce0603a870931b712611caf35b90a9f777dbf",
-    "mtime": "2026-11-19T16:19:54.524Z"
+    "mtime": "2026-11-24T05:41:44.969Z"
    },
    {
     "file": "tests/lib-w272c-binlock.mjs",
     "bytes": 23335,
     "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "96bafc6bfc5029f434093d2394088b53322c982e806004c140b7a519633b011d",
@@ -50,11 +50,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1340,
-   "segments": 1171,
-   "closureShare": 0.2878
+   "names": 1327,
+   "segments": 1158,
+   "closureShare": 0.2799
   },
-  "scopeSha256": "70f110042058bb6e89242e6bca5fdebfd6f24f0f466bbcdb4d72acabdfa696b9",
+  "scopeSha256": "a90f5abb36ddab05fae23f192e2150348aa38ad5dd5b8880c3fca0cbf571408a",
   "scopeComplete": true
  },
  "fieldResponse": {

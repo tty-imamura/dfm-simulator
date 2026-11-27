@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T01:29:23.088Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T16:22:22.893Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 96545,
-    "sha256": "b06287baa8ea56c3ccc5e7b52f68aecdb60eda199f822e5bd430424f4639f950",
-    "mtime": "2026-11-22T01:28:39.929Z"
+    "sha256": "ea17919c1c7ae6f01181920506578bbf4808db619baac26a530c5d417fb5749b",
+    "mtime": "2026-11-26T16:21:00.977Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w278d-bgequiv.mjs",
     "bytes": 27859,
     "sha256": "95304769659543b3fb88e512b99fa639a365edb762d222d7eb4ccf7f406550d2",
-    "mtime": "2026-11-19T16:19:54.528Z"
+    "mtime": "2026-11-24T05:41:44.977Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "d06440f26e042022b6633c7e07efe28216bbfd91018be7950c1297d978aa8a64",
@@ -100,16 +100,16 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1340,
-   "segments": 1171,
-   "closureShare": 0.2878
+   "names": 1327,
+   "segments": 1158,
+   "closureShare": 0.2799
   },
-  "scopeSha256": "92802f82fff29a841a3e74a5899f03570395e1cf1b98c77eb78ebf3ffb0a9647",
+  "scopeSha256": "22e3b3ee8b3c035243a48975cd099ba7297cdb7811bbd8de3c5d86d4c5be0bb6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "cc692242643eb3729d577f21eeedf3580c6d73149fb76993c9eb6c43e2f32a58",
+    "stableSha256": "6b218ec144c14004eb5daefa95d9ae4c22e8329a62e13efc9d7607b704b67491",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -3706,5 +3706,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 38.786
+ "elapsedS": 74.671
 }

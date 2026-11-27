@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:35:30.860Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:39.804Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 7009,
     "sha256": "c135e99ed3293098ac52f18d38b8c17eeb9d10f7af00c65a45740896a710994a",
-    "mtime": "2026-11-19T16:19:54.524Z"
+    "mtime": "2026-11-24T05:41:44.973Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "dbd5d6c145e45db1ef862869cdf4c1e7c1661678cf035454d9a67a90214d0c96",
@@ -56,14 +56,14 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1342,
-   "segments": 1173,
-   "closureShare": 0.2881
+   "names": 1329,
+   "segments": 1160,
+   "closureShare": 0.2803
   },
-  "scopeSha256": "e857396fbd132f63125cc3e5d178736861ee286798c70fa8156b87f8d73b9d09",
+  "scopeSha256": "da659c4c11add9cae40fd7882900b2ff70620a3f4fbd9d274faba656e75be3e0",
   "scopeComplete": true
  },
- "nPresets": 187,
+ "nPresets": 189,
  "kFrameValues": [
   0,
   1
@@ -228,6 +228,27 @@
    "nBodyDecl": 4,
    "presetSigHash": "d5aa7eda",
    "bodiesSha256": "ce34da8cbe01fefd0c53909bee5ec6540e3876e256743a29de49841b8c4afc43"
+  },
+  {
+   "id": "boxone",
+   "emoji": "☝️",
+   "name": "箱宇宙 — 天体が 1 つだけの箱",
+   "sampleClass": "principle",
+   "kFrame": 1,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0,
+   "D0pull": null,
+   "D0eff": 0,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 4,
+   "geoPN": 0,
+   "nBodyDecl": 5,
+   "presetSigHash": "7d485079",
+   "bodiesSha256": "1a689bda84c93262c4c2b36006a84126ffa0009ec86eef7e368e1dc6cd17b178"
   },
   {
    "id": "boxtrans",
@@ -3210,6 +3231,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "d4249f6b",
    "bodiesSha256": "1de29273dd5bdb362897113f9a236ed71ef88e5cc21f95adbfecbc1a4ca88445"
+  },
+  {
+   "id": "twoBodyOnly3d",
+   "emoji": "👥",
+   "name": "天体が 2 つだけの宇宙 — 互いに慣性と座標を決め合う(質量比 1:10・三次元)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0,
+   "D0pull": null,
+   "D0eff": 0,
+   "q": 4.6111,
+   "frameWeight": "pull",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "b89bac2c",
+   "bodiesSha256": "0a746a9234639972a3de953caa9b42981763f40aa33a1384c8609e497dcb6d98"
   },
   {
    "id": "binaryCheckEqualInertial3d",

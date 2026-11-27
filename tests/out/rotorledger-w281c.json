@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T06:35:35.152Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T21:52:46.502Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-11-19T16:19:54.565Z"
+    "mtime": "2026-11-24T05:41:45.035Z"
    }
   ],
   "code": [
@@ -24,25 +24,25 @@
     "file": "tests/exp-w281c-rotorledger.mjs",
     "bytes": 11406,
     "sha256": "b798e540d1d48601cdf31f6dd48fa858dd4f2799eb705bbf22aab16a4aacd6f5",
-    "mtime": "2026-11-19T16:19:54.528Z"
+    "mtime": "2026-11-24T05:41:44.977Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
   "codeSha256": "e1af05a1ae20a09aa021bff24b5ec0255881edd286bdc5d618a147fa4aec7b94",
@@ -63,11 +63,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1342,
-   "segments": 1173,
-   "closureShare": 0.2881
+   "names": 1329,
+   "segments": 1160,
+   "closureShare": 0.2803
   },
-  "scopeSha256": "e9e17bd78a79ff52b0eb7fb025ca7039d2c08d9b573fe0672792ed36a2cb145b",
+  "scopeSha256": "1498464898d0ad46f8fd47a466f787baa2883176fa7e0b407f3154c569f36e99",
   "scopeComplete": true
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
@@ -314,6 +314,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 197,
+ "headlessMs": 246,
  "headlessErrors": 0
 }

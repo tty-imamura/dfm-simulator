@@ -808,9 +808,10 @@ iPhoneのブラウザで観察できるシミュレータです。
   ID重複はスキップして件数を報告。**ファイルとして保存/共有**(iPhoneは共有シート)、
   `seed` 指定による初期配置の完全再現、overlays の trail(軌跡)/monitor(保存量モニタ)指定に対応。
   v1.32: セーブに箱宇宙(universeBox)パラメータを含めて保存・復元(旧セーブとの後方互換維持)
+  第357便a: 視点の傾きは端末の保存で、書き出しの JSON には入らない。既定の視点を θ=+90 に改めた版(beta v1.47-b346・公開版 v1.47.0)より前に書き出した JSON は、一様重力の向き(gravityY の符号)と配置が旧い約束(+y が画面の下)のまま読まれ、既定の視点では上下が逆に見える(計算は同じ)。取り込みの時に案内を出すだけで、値は変えない。見分けは封筒の appBuild。当時の見え方にするには、共通設定の「視点の傾き θ(°)」を −90 にする(PHYSICS〔第357便a〕)。
 - **日本語 / English 切り替え**(v1.10)— ヘッダーのボタンでUI・サンプル名/説明・ヘルプ・
   グラフラベルまで全て切り替わり、選択は端末に記憶されます。英語UIではAI生成の名前・説明も英語になります。
-- **AIでシミュレーション追加** — 既定は Claude API(**Sonnet 5** → 検証NGでリトライ →
+- **AIでシミュレーション追加** — **第357便b: アプリの中の生成(API キーを入れて外の AI の事業者を呼ぶ方式 —— 下の提供元とモデルの選択・キーの管理・送信内容の事前確認・アプリ内生成ボタン)は外しました。** いまの AI のタブは「作りたいシミュレーションの要望とベースのサンプルを書く → 生成用プロンプト(か短縮版)をコピーして AI チャットへ → 返答を貼付欄に貼り、「検証のみ」か「貼り付けた内容を取り込む」」の 1 本の道で、アプリは外へ何も送りません(html に外へ送る呼び出しは無い)。以前の版がこの端末に保存したキーと設定(固定の 10 個の名)は、公開版の道で開いたときにアプリが消します(beta の道では消しません —— PHYSICS〔第357便b〕)。以下はその前の記録です。—— 既定は Claude API(**Sonnet 5** → 検証NGでリトライ →
   **Opus 5.5**(`claude-opus-5-5`)フォールバック — v1.45-b1・第278便e で最新の Opus へ。候補は
   Sonnet 5 / Opus 5.5 / Opus 5)。Opus 5.5 は思考(thinking)を切れないモデルなので、この経路だけ
   `thinking` を送らず(適応的思考・effort は送らない = モデル既定の medium)、思考の分も含めて
@@ -865,6 +866,7 @@ iPhoneのブラウザで観察できるシミュレータです。
   アプリ内の文字列との逐語一致を QA `prompt.spec-sync` / `ai.obs-schema` / `ai.unified-prompt` が
   機械固定しています。
 
+  > (第357便b でアプリの中の生成を外したので、次の注意は、それより前の版を使う場合の記録です。)
   > ⚠️ **APIキーの取り扱いに関する注意(BYOK方式)**: 本アプリはバックエンドを持たず、
   > キーはブラウザ内でのみ使用されます。ただし一般に、ブラウザへの長期APIキーの入力は
   > 各プロバイダが本番用途に推奨する方式ではありません(公式推奨はバックエンド経由)。
@@ -976,7 +978,7 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
    公開には一切影響しない。機械QA(`npm test`)もブランチ上で完結する。
 2. **公開ベータ(サブパス)** — 候補版を main の `beta/index.html` として置くと
    `https://tty-imamura.github.io/dfm-simulator/beta/` で共有できる(ルートは無影響)。
-   ⚠ **同一オリジンのため localStorage(`hp_*` — セーブ・言語設定・APIキー)は本番と
+   ⚠ **同一オリジンのため localStorage(`hp_*` — セーブ・言語設定。第357便b より前の版では API キーも)は本番と
    共有される**。ベータ試験の前にセーブを JSON エクスポートでバックアップし、
    スキーマを壊しうる実験は第1層で行うこと。試験後は `beta/` を削除してよい。
 3. **完全分離が必要な場合** — 公開の別リポジトリ(例: `dfm-simulator-dev`)に
@@ -1026,13 +1028,29 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 読んだら、最初の返答で、この模型の立場(実行できるトイ模型で、現実の宇宙は主張しないこと)を 1 文で言い、「対話の入口」の進め方に従って、私に最初の問いを 1 つ返してください。
 ```
 
-アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください。
+**アプリのボタンから始める**: アプリの「AI」のタブの先頭のグループ「AIチャットと対話して作る」で「対話を始めるプロンプトをコピー」を押すと、上の文(画面が英語のときは下の英語の文)がコピーされます。AI チャットの返答を同じグループの貼付欄に貼り、「検証のみ」か「貼り付けた内容を取り込む」を押した後は、「この結果をAIに伝える文をコピー」で、取り込みの結果(取り込めなかったときの理由・自動で直した点・変更した点)をまとめてコピーし、そのまま AI チャットへ貼って返せます。「対話の入口のページを開く」は、入口のページ([docs/AI_CHAT.md](docs/AI_CHAT.md))を新しいタブで開くリンクです(アプリがページを取りに行くことはありません)。
+
+**ページを読めない AI チャットのとき**: AI が「ページを読めない」と言ったら、アプリの「AI」のタブの「1回で生成するプロンプト」の「生成用プロンプトをコピー」を使ってください(仕様を全部含むので、ページを読まなくても設定を作れます)。DFM についての質問への答えは、ページを読める AI チャットでお使いください。
+
+English (the text copied when the app is in English):
+
+```text
+From now on, you will hold a dialogue with me as the guide for "Virtual Physics Lab (DFM simulator)", an educational toy model that runs in a browser.
+First read the following 2 pages.
+1. The dialogue entry page (all of it): https://tty-imamura.github.io/dfm-simulator/docs/AI_CHAT.md
+2. The specification for building a simulation: https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC_CORE.md
+If you cannot read them, the same content is under https://raw.githubusercontent.com/tty-imamura/dfm-simulator/main/docs/ (AI_CHAT.md, AI_SPEC_CORE.md).
+If there is a page you cannot read at either address, say so first (do not answer by guessing what it says).
+After reading, in your first reply, state the stance of this model in one sentence (an executable toy model that makes no claim about the real universe), then follow the way of proceeding in the dialogue entry page and ask me one first question.
+```
+
+アプリの中の生成(API キーを入れる方式)は外しました(公開版は v1.48.0 から)。対話式をお使いください。
 
 ## AI追加機能のコスト
 
-アプリの中の生成(API キーを入れる方式)は、廃止の予定です。対話式をお使いください(上の節)。
+アプリの中の生成(API キーを入れる方式)は外しました(公開版は v1.48.0 から)。対話式をお使いください(上の節)。アプリの側の費用はかかりません(AI チャットの利用の条件は、そのチャットの側の決まりによります)。
 
-プリセット生成1回 ≈ $0.03〜0.05(約5〜8円、Claude Sonnet 5 既定 — 第170便で Haiku 4.5 から引き上げ・第238便で Haiku は候補から撤去)。
+(記録 —— 外す前の版のアプリの中の生成)プリセット生成1回 ≈ $0.03〜0.05(約5〜8円、Claude Sonnet 5 既定 — 第170便で Haiku 4.5 から引き上げ・第238便で Haiku は候補から撤去)。
 
 ## 技術メモ
 

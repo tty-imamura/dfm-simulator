@@ -24,6 +24,8 @@ the branching itself, so the branching is gone:
   the same skeleton: *specification* + *decision clause* + *few-shot example* + *request*. The
   short version differs only in that the specification is a link to this page rather than inline
   text. (Wave 182 removed the *built-in real-body list* section from every path — see §1.2.)
+  **Retired (wave 357b, 2026-11-26):** the in-app generation was removed from the app (§4.1); the
+  two copy buttons are the only paths now, and they still carry this same skeleton.
 - **One example.** The prompt always embeds one preset JSON as a few-shot example: the selected
   "base sample", or — when none is selected — the built-in 🟠 "Jupiter and the Galilean moons
   (real units)" sample, whole and unabridged (wave 181; it used to be whatever sample happened to
@@ -48,7 +50,7 @@ the branching itself, so the branching is gone:
 **In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds and the physics declaration are computed by the app's deterministic functions — you never touch them (every body has a rotation row -> geoPN=3, the same rule form as the in-place planet books; a body without a rotation row -> geoPN=1, the reference form checked against the observed inputs as they are; no matched value either way).
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
@@ -194,6 +196,10 @@ with no web access, so it cannot open the "url" that OUTPUT A requires. For a re
 body the two working routes are (1) pick the closest built-in sample as the *base sample*, or
 (2) copy the prompt into an AI chat that can browse the web and paste the reply back. The AI tab
 states this permanently next to the Generate button (wave 182).
+**Retired (wave 357b, 2026-11-26):** the in-app "Generate" button no longer exists (§4.1). The
+permanent note stays in the AI tab under the request box and now reads: an AI chat that cannot
+open the web cannot transcribe sources — for a real body, use the base sample or an AI chat that
+can browse the web.
 
 **Embedded copies drop display-only notes.** When a preset is embedded in a prompt (as the
 few-shot example or as the selected base), the keys `note`, `noteEn`, `roleNote` and `roleNoteEn`
@@ -214,6 +220,10 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
+(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
+geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
+uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
+system whose self-check does not pass the new form. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.
@@ -276,6 +286,14 @@ guarantee that it does not overwrite curated work (QA `ai.stabilize`).
 
 ## 4.1 Runtime model routing (wave 278e, 2026-09-23)
 
+**Retired (wave 357b, 2026-11-26 — originator's answer of 2026-11-25: "AN1134: API方式は、セキュリティも考慮して廃止予定"):**
+the app no longer calls any AI provider. The provider / model / API key fields, the "Generate"
+button, the "preview exactly what will be sent" panel and the code behind them (`AI_PROVIDERS`,
+`callLLM`, `aiAnthropicBody`, `aiFallbackModel`, `generatePreset`, …) were removed; the html
+contains no outgoing network call. The text below is kept as the record of what the removed
+route did. The specification (section 5) is unchanged. Keys that earlier builds saved on the
+device are removed by the app on the release path (see §415).
+
 This section is about **which model the app's own "Generate" button calls**, not about the
 specification text sent to it (section 5 is unchanged, byte for byte).
 
@@ -319,7 +337,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
-- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
+- 一様重力場: physics.gravityY<0 で画面全体に一様な下向きの外力場がかかる(既定の視点では +y が画面の上 —— 床は y の負の側。gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ時空係数 X_k(kappaT)で決まり、X_k が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き X_k を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
@@ -330,7 +348,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 光を曲げる・ブラックホール: rays + 時空係数 X_k(kappaT)0.017〜0.025 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
 - 加熱・冷却: ヒーター=pinned 高スピン(8〜12)の列、冷却板=pinned スピン0 の列。系全体を冷やすなら etaRad 0.005〜0.05。
 - 銀河・渦巻き・円盤: 中心 single(質量500〜2000)+ disk vMode:"kepler" aroundMass=中心質量。
-- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面)。自己重力は G=0〜0.05。
+- 地上実験・落下・対流: gravityY −0.1〜−0.02(下向き)+ world.boundary:"box"(加熱する床は world.thermalWalls の top —— y=−size の面。面の名は y の向きで付いていて、既定の視点では top が画面の下・bottom〔y=+size〕が画面の上に見える)。自己重力は G=0〜0.05。
 
 # スケールタグと表示換算(表示専用 — 物理は不変)
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
@@ -413,6 +431,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 配るプロンプトは**1系統**。アプリ内生成・生成用プロンプト・短縮版とも
   「仕様+出力の使い分け+**少数ショット例**+要望」の同じ骨格を運ぶ
   (内蔵実天体一覧の節は**第182便で全経路から撤去** — §6.2b)。
+  **第357便b(2026-11-26)でアプリ内生成を外した**(§6.2c)—— いまの道は生成用プロンプト・短縮版の 2 つで、骨格は同じ。
 - 少数ショット例は**必ず1つ入る**(選択中のベースのサンプル、未選択なら 🟠「木星とガリレオ衛星
   (実単位)」を**丸ごと** — 第181便で固定。間引き・改変・字数上限は無い)。
 - 貼付欄は AIタブの**1つだけ**。レコード配列かプリセットJSONかは**アプリが自動判別**する。
@@ -435,6 +454,8 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   手段は ①近い内蔵サンプルを**ベースのサンプル**に選ぶ ②ウェブ閲覧できるAIチャットへ
   プロンプトを貼って生成し、返答を貼付欄へ — の2つである。AIタブは「生成する」の直下に
   この導線を**常設**で表示する。
+  **第357便b(2026-11-26)で「生成する」を外した**(§6.2c)。常設の文は要望の欄の下に残り、
+  「ウェブを開けない AI チャットでは出典を転写できない —— 実在天体はベースのサンプルか、ウェブ閲覧できる AI チャットで」の形になった。
 - **埋込用の複製から表示専用の注記を落とす。** プロンプトへ埋め込むプリセット
   (少数ショット例・選択したベース)からは `note` / `noteEn` / `roleNote` / `roleNoteEn` を
   機械的に除去する(文字数削減)。**プリセット本体・アプリ内データ・保存は不変**で、
@@ -453,6 +474,12 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   新設 QA `prompt.schema-sync` が機械照合する。
 
 ## 6.2c 実行時 LLM のモデル(第278便e・2026-09-23)
+
+**外した(第357便b・2026-11-26 —— 原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」)**:
+アプリは外の AI の事業者を呼ばない。提供元・モデル・API キーの欄・「生成する」・「送信内容を確認」と、その裏の
+コード(`AI_PROVIDERS`・`callLLM`・`aiAnthropicBody`・`aiFallbackModel`・`generatePreset` ほか)を外し、html に外へ送る
+呼び出しは無い。下の文は、外した道が何をしていたかの記録として残す。送る仕様文(§5)は変えていない。
+以前の版が端末に保存したキーは、公開版の道でアプリが消す(§415)。
 
 - 本節は**アプリの「生成する」が呼ぶモデル**の話で、送る仕様文(§5)は 1 バイトも変えていない。
 - 候補は `claude-sonnet-5`(既定・不変)/ `claude-opus-5-5` / `claude-opus-5`。原仮定者の裁定
@@ -485,7 +512,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
-観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・物理の宣言は**アプリの決定的関数**が決めます(あなたは触りません —— 全部の天体に自転の行が在れば geoPN=3〔在位の惑星の本と同じ規則の形〕・自転の行が無い天体が在れば geoPN=1〔観測入力のまま照合する基準の形〕。どちらも合わせる値なし)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
@@ -686,10 +713,12 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 | 配置・初速 | カタログ経路と**同一の関数**(実ケプラー接線速度。二体は重心系 — 惑星ティアは近点整列 `barycentric-peri`・**恒星ティアは遠点整列 `barycentric-apo`**〔第211便: DFM 版と初期位相を統一。自己診断は感度最大の近点位相の複製で実施〕、多衛星は近点整列 `kepler-peri`)。初速較正 f=1.000 |
 | `q` | qLock の**厳密一致式** `q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)`(第172便の運用規約)を**最内衛星の a で1回だけ**評価した直値(小数4桁)。多天体系では実行時 qLock を掛けない(a_ref が一意に決まらない — 🟠🌞 と同じ既存裁定) |
 | `D₀` | **0.006**(🌘 で決まった共有値の流用。**本系でのフィットはゼロ**) |
+| 物理の宣言(第357便g〔§419〕から —— **既定**) | **在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。この形が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。二次元の同じ宣言は無い(G_loc は三次元の本だけ) |
 | `camera.scale` | 最外衛星の遠点距離 × 1.2 を**有効2桁へ切り捨て** |
 | `dispMag` | 中心天体の描画半径が `camera.scale` の 3〜15% 帯の幾何中央へ最も近くなる刻み(1/3×10^k) |
 | `timeScale` | 最内衛星の1公転が実時間で約5秒(60fps)になる刻み(1/3×10^k) |
 | メタ | `fidelity:"real"` / `sampleClass:"calibration"` / `notClaim:["solar_cal"]` / `abBody`(kFrame=0 対照)/ `parameterAudit` / 出典表つき provenance を機械付与 |
+| メタ(第357便g —— 新しい形で組んだ本) | `fidelity:"real"` / `sampleClass:"principle"` / `referenceKind:"theory-control"` / `notClaim:["solar_cal","inposk1_rule"]` / `abBody`(引きずりと G_loc を切る —— 在位の本と同じ形)/ `parameterAudit`(fitted は 0 件)/ 出典表つき provenance。較正母集団の外・観測の 3σ を付けない |
 
 ### 6.4.4 自己診断(生成直後・自動)
 
@@ -5992,3 +6021,47 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **何を足したか**: 器 `tests/exp-w356i-dragbox.mjs`・lib `tests/lib-w356i-dragbox.mjs`(第356便d の lib の引きずりの口を呼び、周期の箱の最近の像の約束・面を横切る運動量の流れ・壁を源にする口を足した)・文書の lib `tests/lib-w356i-dragboxdoc.mjs`・正本 `tests/out/dragbox-356i.json`・段 `dragbox-356i`・PHYSICS〔第356便i〕・PAPER_PLAN の論文 5 の節の表 6e。
 - **AI が読むときの要点**: 候補の表 —— 「引きずり」をどの項で読むかは選んでいない(推奨と次点は節の決断事項の候補)。周期の箱(壁なし)では、引きずりは座標変換なので慣性の運動エネルギー・内部の温度・スピンのエネルギーは (T) と丁度同じ(門)。圧力は面を横切る運動量の流れで測り、(T) では並進の運動の圧力と同じ。この器・このノブでは、周期の箱で (T) との比が 1 を越えるのは (S1) だけ・(D) はどの作りでも下げる側・(D) の箱を振る冪と温度への冪は作りの上で 1 の近く。斥力を引きずりで言い切る文・圧力の出どころを引きずりと言い切る文は書かない。冪は窓の内か外かで書く。アナロジーとしての玩具の量(現実の熱力学の記述ではない)。壁の箱の数は第356便d の正本から読んだもの(走らせ直していない)。
 - QA `behavior.dragbox356i`(零試験 12・零試験と周期の箱の (T) の冪と (T+S1) の点と門の 2 行を作り直して正本と照合・冪と比と印を QA の中で別に書いた式で照合・finish の作り直し)・`docs.dragbox356i`(原文と表と数の文が PHYSICS〔第356便i〕に逐語・表 6e・本節・段の行・.gitignore・post-merge・書かない語)。
+
+## 414. 第357便a —— 後回しの 2 つ: AI 用の説明文の一様重力の目安を符号つきに・旧い視点の約束で書き出した JSON を取り込んだときの案内(原仮定者の回答(2026-11-25)「AN1065: 後回しで良い」「AN1066: 案内だけ出す」・原仮定者の回答(2026-11-26)「AN1159: 推奨」・統括の検証項目 R522・**説明文と注と取り込みの通知だけ** —— エンジン・受理器・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分は不変・取り込む本の値は 1 つも変えない)
+- **何を変えたか**: SYSTEM_PROMPT の 2 行(「一様重力場」の目安を `目安は −0.1〜−0.02(下向きは負 —— 正の値は上向きの場になる)。` に・「地上実験・落下・対流」の行に、thermalWalls の面の名と既定の視点での画面の上下の 1 文)—— §5 の逐語の写しと `docs/AI_SPEC_CORE.md` も同じ字に。html の注 4 か所(gravityY と伝熱の箱の面の向き —— 値は不変)。画面の文 `legacyViewNote`(ja/en)と、取り込み(`doImportText`)の通知: 書き出しの封筒の `appBuild` が既定の視点を改めた版(β `v1.47-b346`・公開版 `v1.47.0`)より前で(`appBuild` の無い旧い封筒も)、中のカスタムの本かセーブに gravityY が 0 でないものが在れば、通知の末尾に案内を 1 文(2 件以上は件数つき)。封筒の無い形(単独の本・配列・AI の返答)は見分けない。PHYSICS〔第357便a〕に前の字と後の字の表・見分けの表・出ない場合と誤って出る場合の表。
+- **AI が読むときの要点**: 一様重力 `physics.gravityY` は、下向きが負(既定の視点では +y が画面の上)。目安は −0.1〜−0.02。正の値は上向きの場になる。伝熱の箱の面の名(`top` = y=−size・`bottom` = y=+size)は y の向きで付いていて、既定の視点では `top` が画面の下に見える —— 加熱する床は `top`。生成する JSON に視点の傾きを書く欄は無い(視点の傾きは端末の保存)。
+- QA `ai.gravitySign357a`(説明文の 2 行・旧い字が無い・来歴の語が無い・§5 と短いページに逐語・`DEFAULT_PHYSICS` の値・変異)・`behavior.legacyViewNote357a`(見分けの表・数える関数・変異の自己試験・ページの中の表・取り込みの通知・本の値が新しい印の時と同じ・画面の文 ja/en)・`docs.deferred357a`(root は SKIP —— PHYSICS〔第357便a〕・本節・README の 1 段・post-merge の塊・書かない語)。
+## 415. 第357便b —— AI 追加のアプリの中の生成(API 方式)を外す・保存済みのキーの掃除は公開版の道でだけ動く(原仮定者の回答(2026-11-25)「AN1134: API方式は、セキュリティも考慮して廃止予定」・原仮定者の指示(2026-11-25)・統括の検証項目 R523・**画面と結線と文書と検査だけ** —— エンジン・受理器・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・SYSTEM_PROMPT は不変)
+- **何を外したか**: AI のタブの「AIプロバイダ」のグループ(提供元・モデル・URL・API キーの欄・「キーをこの端末に保存する」・「キーを設定」・キーの保存の説明)・「生成する」のボタン・「送信内容を確認」のプレビュー。裏のコード(提供元の表 `AI_PROVIDERS`・キーの置き場・`aiCfg`・`fetchJSON`・`callLLM`・`aiAnthropicBody`・`aiThinkingAlwaysOn`・`aiFallbackModel`・`generatePreset`・`generateAstroPreset`・`renderAiConfig`・`updateAiPreview` と結線)・画面の文の鍵(ja/en 同数)・`window.HP` の名。html に外へ送る呼び出し(`fetch(`)と、事業者の宛先・ヘッダの字は無い。§4.1・§6.2c は退役の記録の 1 段を付けて残した。
+- **何を残したか**: 生成用プロンプト・短縮版のコピー(`buildUnifiedPrompt` —— 骨格は同じ)・返答の貼り付けの取り込みと検証(`aiIntakeText` ほか)・仕様の文 `SYSTEM_PROMPT`(§5 —— 1 字も変えていない)・要望の欄・ベースのサンプル・状態の行(外部チャットのグループへ移した)・`retryFixMsg`(検査の結果を AI チャットへ伝える文)・実天体カタログの純関数(`getAstroSystemPrompt`・`validateAstroSpec`・`buildAstroPreset`・`extractJSON`)。
+- **保存済みのキーの掃除**: 固定の 10 個の名(`hp_key`・`hp_key_anthropic`・`hp_key_openai`・`hp_key_gemini`・`hp_model`・`hp_model_anthropic`・`hp_model_openai`・`hp_model_gemini`・`hp_provider`・`hp_baseurl_openai`)だけを消す(前方一致で消さない —— セーブ・自作のプリセット・言語ほか、ほかの `hp_*` には触れない)。自動で走るのは、パスに `/beta/` を含まない道(公開版の配信と、手元の `file://`)で開いたときだけ —— 公開版と beta は保存領域を共有するので、昇格の前に beta を開いても公開版の旧い画面のキーは消さない。掃除は恒久に残す。
+- **AI が読むときの要点**: 変わらない —— 返す JSON の形・鍵・値域(§5)は同じ。アプリへは、利用者が返答を貼り付けて取り込む。
+- QA `lint.noApiRoute357b`(静的 —— 宛先とヘッダの字・`fetch(`・キーの保存領域の読み書きが掃除の 1 か所だけ・画面の口・`window.HP` の名・I18N の鍵と字・変異の自己試験。API 方式を持つ版〔昇格の前の root〕では事実を書いて PASS)・`behavior.apiKeyCleanup357b`(10 個が消え、ほかの `hp_*` は同じ・beta の道では読み込みだけでは消えない・道の判定の表)・`docs.apiRemoval357b`(root は SKIP —— PHYSICS〔第357便b〕・本節・文書の該当の所・post-merge の塊・書かない語)。書き換えた既存の鍵 7 本(`ai.modelList`・`ai.schema-validation`・`ai.ui-unified`・`ai.payload-preview`・`ai.help-collapsed`・`behavior.xkClampShown327d`・`behavior.xkExemptScope327d`)は、外した版では「無いことを見る」形。
+
+## 416. 第357便c —— AI のタブを対話式が先に: 対話を始めるプロンプトのコピー・入口のページを開くリンク・取り込みの結果を AI チャットへ伝える文のコピーと、取り込みの画面の文 3 つ(原仮定者の指示(2026-11-25)・統括の検証項目 R524・**画面と文と検査と文書だけ** —— エンジン・受理器の判定・取り込む本の値・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・SYSTEM_PROMPT は不変)
+
+- **AI が読むときの要点**: 返す JSON の形・鍵・値域(§5)は変わらない。SYSTEM_PROMPT は 1 字も変えていない(§5 の写しと `docs/AI_SPEC_CORE.md` はそのまま)。対話の入口は `docs/AI_CHAT.md`。
+- **アプリの AI のタブ(上から)**: 「AIチャットと対話して作る」(「対話を始めるプロンプトをコピー」—— 字は README の節のプロンプトと同じ・I18N の鍵 `aiChatPrompt` の ja/en/入口のページを開くリンク〔新しいタブ・noopener —— アプリは取りに行かない〕/返答の貼付欄・取り込み・検証・状態の行・報告/「この結果をAIに伝える文をコピー」)→「作りたいシミュレーション」→「1回で生成するプロンプト」(生成用・短縮版 —— 前の見出しは「AIチャットで生成」)→「生成済みプリセット」。
+- **伝える文**: 「アプリの検査の結果: 取り込みませんでした(追加 0 件・不正 1 件)」/「…検証 OK —— まだ取り込んでいません(…)」/「…取り込みました(…): 名」の見出し・拒否の段の見出しと × の行(画面の字のまま)・自動で直した点・変更した点・拒否のときは `retryFixMsg`(理由を「 / 」で繋いで 300 字まで)。英語の画面では "App check result: …"。
+- **取り込みの画面の文**: 読めない JSON の位置は、コードブロックが在ればその中の行と列(「コードブロックの中の n行 m列目の …」・途中で切れたら「(最後)で JSON が終わっています」)。受理器が減らした粒子の数は「変更した点」の先頭に(別の欄 `capRows` —— `stabilizePreset` の `changes` は不変)。取り込まなかったときは変更点が無ければ変更点の段を出さない・検証のみは「変更点なし(このまま取り込めます)」。
+- QA `ai.chatButtons357c`(静的の判定と変異 7・ページ)・`behavior.intakeText357c`(Node の vm —— 5 つの題・取り込む値は同じ・走査の表・変異 3)・`docs.chatButtons357c`(root は 3 本とも SKIP)。書き換えた既存の鍵: `ai.ui-unified`(対話式の版ではコピーのボタンを名で 4 つ)・`lint.noApiRoute357b` の変異の種の字。
+
+## 419. 第357便g —— 観測レコードの道(出力A)の既定を、在位の惑星の本と同じ規則の形に: geoPN=3・kFrame=0・invSq の K1 + rdRule "kappaM"・G_loc n = 2・三次元の平面の初期状態(原仮定者の報告(2026-11-26)「実在天体はgeoPN=3で取り込めるのが理想」・統括の検証項目 R527・**組み立ての道だけ** —— エンジン・受理器・内蔵の本・`DEFAULT_PHYSICS` の値・physics の鍵・積分・`ASTRO_CATALOG` の変種は不変)
+- **何を変えたか**: `obsMakeSys` に変種 `g3k1`(既定)を足した —— `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`coord:"3d"`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`D0:0.1`・`q:3`・`frameWeight:"share"`(最後の 3 つは在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(`q_exact`・D₀ 0.006・`D0pull` を使わない)。`buildAstroFromRecords` は新しい形を先に試し(初期状態は平面 z = v_z = 0)、受理器と自己診断(周期 ±1%)が通れば採る。通らない系だけ前の形(変種 `kf1` —— 観測安定則を含む前の版の道)で組み、説明の文と注記に理由を書く。`buildAstroFromRecords(レコード, {form:"kf1"})` は前の版の道だけを走らせる。結果に `form`("g3k1" / "kf1")と `g3Why` を足した。
+- **出来る本の欄**: `sampleClass:"principle"`・`referenceKind:"theory-control"`・`notClaim:["solar_cal","inposk1_rule"]`・`abBody`(引きずりと G_loc を切る)・`parameterAudit`(fitted 0 件)・説明の文(新しい形の字)。取り込みの報告の「アプリが決めた規約値」の 2 行目は `geoPN=3・kFrame=0・R_d = Y_k m(規則 —— 合わせる値なし)`。
+- **二次元の版は無い**: G_loc は三次元の本だけ(受理器が断る)。`frameReaction`・`coupleSink`・`D0pull` は三次元で受理器が断る鍵(kFrame=1 のための鍵)なので持たない。
+- **AI が読むときの要点**: 返す観測レコードの形・量・単位・必須の量は変わらない。SYSTEM_PROMPT の出力A の節の 1 行だけを新しい字にした(「単位換算・スケール指数・配置・初速・物理の宣言〔在位の惑星の本と同じ規則の形〕はアプリの決定的関数が決めます」—— §5 の写しと `docs/AI_SPEC_CORE.md` も同じ字)。出力A・出力B の選び方の文は変えていない。
+- **族(実測)**: 仕様の例・太陽 + 3 惑星・多衛星の降格・自由中心の二体・逆行・恒星級の二体・恒星連星(遠点整列)・相対論的連星族 L−T=5 の全部が新しい形になった(前の形のまま残る族は 0)。
+- QA `behavior.obsGeo3_357g`(Node だけ —— 族の題材 8・physics の鍵と値・受理器の拒否 0・自己診断・合わせた値 0・前の形の道・③ の道の自己試験・変異 6)・`docs.obsGeo3_357g`(PHYSICS〔第357便g〕・本項・post-merge の塊・書かない語)。前の形の道を名指しする形にした既存の鍵: `behavior.alphaCenAB`・`behavior.siriusAB`・`behavior.psrDoubleAB`・`ai.obs-build`・`ai.obs-freecenter`・`ai.obs-binary`。
+- **統合の後の直し 2**(原仮定者の報告(2026-11-26)「自転無しはgeoPN=1、自転有りはgeoPN=3が良い」): 形は自転の行の有無で選ぶ —— 中心の天体と衛星の全部に自転の行(`rotation_period` か `spin`)が在れば `g3k1`(geoPN=3)、1 つでも欠ければ新しい変種 `g1kf0`(`geoPN:1`・`kFrame:0`・`lambdaPN:1`・`D0:0.1`・`q:3`・`frameWeight:"share"`・二次元・`sampleClass:"calibration"`・`notClaim:["solar_cal"]`・`abBody` = λ_PN=0 —— 実天体の表の kf0 と在位の geoPN=1 の実単位の本と同じ形・合わせる値なし)。変種の physics は `buildAstroFromRecords` の側で足す(`obsMakeSys` の本文は変えない)。在る自転の値は転写する。結果の `form` は "g3k1" / "g1kf0" / "kf1"、`meta.spinMissing` に自転の行が無い天体の名。SYSTEM_PROMPT の出力A の節の 1 行(§5 の写しと短いページも)と `docs/AI_CHAT.md` の 1 文を、この決まりの字に。出来た本の 1 行(`aiBuiltLineOf` —— I18N `aiResBuilt` の後ろに `aiResBuiltWhy`)に、形を選んだ理由の句を添える(観測レコードの道だけ —— 自転の行が全部に在る/自転の行が無い天体の名/新しい形を採らなかった理由)。QA `behavior.obsGeo3_357g`(lib 版 3 —— 題材 16〔族ごとに自転の行が全部に在る/欠ける〕・出来た本の 1 行の句・③ の道の自己試験 2・変異 12)・`ai.chatHints357h`(lib 版 4 —— 観測レコードの題 2〔句 2 種〕・プリセットの道は句なし)。
+
+## 420. 第357便h —— 対話の入口の、試しの後の直し 3 つ: 実在天体の頼みは出力A で返す案内・ページを読めないチャットの道・出来た本の geoPN の 1 行(原仮定者の報告(2026-11-26)・統括の検証項目 R528・**文と表示と検査と文書だけ** —— 受理器の判定・取り込む本の値・観測レコードの組み立て・SYSTEM_PROMPT・§5 は不変)
+
+- **AI が読むときの要点**: 実在の天体の頼み(「実単位で」も)は出力A(出典つきの観測レコード)で返す。出典を開けないときは、先にその旨と「出力B は近似のトイで、実単位の本にはならない」ことを利用者に伝え、聞いてから出力B(`docs/AI_CHAT.md` の「作るとき」)。出力A・出力B の選び方の仕様の文(§1・§5)は変えていない。
+- **アプリ**: 取り込みの報告と「この結果をAIに伝える文」(2 行目)に「出来た本: geoPN=<値>(観測レコードから組み立てた実単位の本 / プリセットをそのまま —— 実単位の宣言あり / …実単位ではありません)」(I18N の鍵 `aiResBuilt`・値は出来た本の `physics.geoPN` を読むだけ —— 報告では先頭の段)。コピーのボタンと入口のページのリンクの後ろの短い段(鍵 `aiChatUnread`)に、ページを読めないチャットは「1回で生成するプロンプト」を使う 1 文。
+- QA `ai.chatHints357h`(vm の 3 題・変異 4・ページの部分)・`docs.chatHints357h`(root は SKIP)。
+
+## 417. 第357便d —— 論文 2 の入口の本: 天体が 1 つだけの箱 ☝️ `boxone`(箱と天体 1 つ・geoPN=0)を内蔵の本に 1 本足す(原仮定者の指示(2026-11-21)・原仮定者の指示(2026-11-17)・統括の検証項目 R525・**本を 1 本足すだけ** —— エンジン・既定の値・受理器・physics の鍵・既存の 187 本の宣言は不変・式は足していない・**SYSTEM_PROMPT には載せない**)
+- **何を足したか**: 内蔵の本 ☝️ `boxone`(群「箱宇宙の実験」の頭 —— 📦 `boxtrans` の直前・`sampleClass:"principle"`)・器 `tests/exp-w357d-boxone.mjs`・lib `tests/lib-w357d-boxone.mjs`・正本 `tests/out/boxone-w357d.json`・段 `boxone-357d`・PHYSICS〔第357便d〕・PHYSICS §6 の本の表の行・構成案の論文2 の ⑤ と ⑧ の V2-1 の行(「足した」を継ぐ)・状況の原稿の行。
+- **AI が読むときの要点**: 壁は 📦 と同じ質点リング(G=0・D0=0)・箱の中の質量を持つ天体は 1 つ・見張りの粒は試験粒子(源にならない)。「天体が 1 つ」は箱の中の天体の数と読む(壁の質点は数えない —— 統括の読み・決断事項の候補)。「検知できない」と言うのは、並進ありと並進を引いた写しで 600 步の後の相対の位置・相対の速さ・時計の比の差が門 1e-3 の内だった 3 つの量だけ(実測の差は単精度の丸めの桁)。回転・膨張・天体の自転は利得が 0 でない(読める —— 写しの読みの表)。今の模型では自己の項は 0(未解決 U2-1 のまま)。現実の宇宙が箱である・天体が 1 つである、とは言わない。
+- QA `behavior.boxone357d`(門 ① 天体 1 ② 並進 ③ 走り直しの指紋 ④ 保存・自己試験 12 例・対象の html で作り直して正本と照合・本の宣言の守り)・`docs.boxone357d`(本の文 ja/en・本節・§6 の表・構成案の行・段の行・.gitignore・post-merge・書かない語)。
+
+## 418. 第357便e —— 論文 3 の入口の本: 天体が 2 つだけの宇宙 👥 `twoBodyOnly3d`(質量比 1:10・geoPN=3・三次元)を内蔵の本に 1 本足す(原仮定者の指示(2026-11-21)・統括の検証項目 R526・**本を 1 本足すだけ** —— エンジン・既定の値・受理器・physics の鍵・既存の 188 本の宣言は不変・式は足していない・**SYSTEM_PROMPT には載せない**)
+- **何を足したか**: 内蔵の本 👥 `twoBodyOnly3d`(群「運動と時空」の ♊ の直前・`sampleClass:"principle"`)・器 `tests/exp-w357e-twobody.mjs`・lib `tests/lib-w357e-twobody.mjs`・正本 `tests/out/twobody-w357e.json`・段 `twobody-357e`・PHYSICS〔第357便e〕・構成案の論文3 の ⑤ と V3-1 に「足した」。
+- **AI が読むときの要点**: 宣言は ⚖️ `binaryCheckRatio3Inertial3d` の写しで、変えたのは質量比 1:10・D0 = 0(背景なし)・説明の文だけ。宇宙に在るのは 2 つの天体だけで、引きずりの比と局所重力の比が質量の比と同じ(軽い方が重い方の座標に引かれる)。2 体に共通の並進は、相対の位置と相対の速さに出ない(門で見た 2 つの量だけ)。近点の移動の物差しは ♊・⚖️ で見る(画面の刻みでは刻みの誤差の方が大きい)。2 体で慣性と重力の解釈を言い切らない・ジャイロトルクの採否には触れない。
+- QA `behavior.twobody357e`(門 count・trans・beta・ratio・canon・bookSame・rerun・自己試験 16 例・対象の html で作り直して正本と照合・本の宣言の守り)・`docs.twobody357e`(本の文 ja/en・本節・入口の表・§6 の表・構成案の行・段の行・.gitignore・post-merge・書かない語)。

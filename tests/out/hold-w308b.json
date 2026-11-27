@@ -3,7 +3,7 @@
  "libVersion": "w308b-hold-lib-1",
  "generator": "tests/exp-w308b-hold.mjs",
  "target": "beta/index.html",
- "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
+ "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
  "ruling": "原仮定者の裁定(第101報)AN348 → (C)・(第102報)①「引きずりの計算は相互 —— 反作用を返すと二重計上にならないかを確認する」・決断事項 AN348・AN349・AN355・統括の検証項目 R215",
  "holdVersion": "w308b-axishold-1",
  "quick": false,
@@ -3940,40 +3940,40 @@
    "wallSec": 0.004
   },
   "E": {
-   "wallSec": 0.017
+   "wallSec": 0.015
   },
   "L": {
-   "wallSec": 0.274
+   "wallSec": 0.174
   },
   "K": {
-   "wallSec": 0.019
+   "wallSec": 0.011
   },
   "D": {
-   "wallSec": 0.296
+   "wallSec": 0.238
   },
   "V": {
-   "wallSec": 6.938
+   "wallSec": 6.61
   }
  },
- "elapsedS": 9.54,
+ "elapsedS": 8.78,
  "meta": {
   "provenanceVersion": "w272e-1",
   "wave": "第308便b",
   "target": "beta/index.html",
-  "targetSha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-  "generatedAt": "2026-11-22T05:56:16.922Z",
+  "targetSha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+  "generatedAt": "2026-11-26T16:38:02.015Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 7708050,
-    "sha256": "df8b26bbdfca8f28fdcfb0a667bf90e4062376b7e9c39433b55deb99e37f9480",
-    "mtime": "2026-11-21T23:40:53.976Z"
+    "bytes": 7745694,
+    "sha256": "74d6903dc9016272bedc1d0f7dfbcd33f137916ee7de524fcc98e7a355d192b9",
+    "mtime": "2026-11-26T11:58:33.043Z"
    },
    {
     "file": "tests/data-w315c-legacy7.json",
     "bytes": 194518,
     "sha256": "e724f91935066ce8205f01ad755e0e9c8eef957202c25ffbe72bdf82d19f060a",
-    "mtime": "2026-11-19T16:19:54.501Z"
+    "mtime": "2026-11-24T05:41:44.929Z"
    }
   ],
   "code": [
@@ -3981,43 +3981,43 @@
     "file": "tests/exp-w308b-hold.mjs",
     "bytes": 39449,
     "sha256": "e3af2fb093596030236b69b82972cf418b49ff6bea26f74e9282098e5679628f",
-    "mtime": "2026-11-19T16:19:54.544Z"
+    "mtime": "2026-11-24T05:41:45.005Z"
    },
    {
     "file": "tests/lib-w315c-legacy7.mjs",
     "bytes": 6556,
     "sha256": "a375d959d4f13ff833938bb0b3c63b1c059428f616b69d95bfb1a6f0140072fe",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.069Z"
    },
    {
     "file": "tests/lib-w308b-hold.mjs",
     "bytes": 14098,
     "sha256": "93cae1dfcec4f351108e8bfb476f7b207e6855ed3c0165d626564d9a959cfbbf",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w307b-tide3d.mjs",
     "bytes": 12240,
     "sha256": "021621e8fb17ba191a96fbfc7457d7b22cef9cd19a64526bfb7d515fc72ff5de",
-    "mtime": "2026-11-19T16:19:54.580Z"
+    "mtime": "2026-11-24T05:41:45.065Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-11-19T16:19:54.572Z"
+    "mtime": "2026-11-24T05:41:45.049Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-11-19T16:19:54.568Z"
+    "mtime": "2026-11-24T05:41:45.045Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 135653,
     "sha256": "886f43dbfac40f204921a435aea68bcc67498eb5e41fb84b62dd7836d72ded92",
-    "mtime": "2026-11-19T16:19:54.576Z"
+    "mtime": "2026-11-24T05:41:45.057Z"
    }
   ],
   "codeSha256": "18afd13d2138e13cc2a66fe432c1153a89f210356e8c04ab2f83d63ce080961b",
@@ -4062,11 +4062,11 @@
    "consts": [],
    "complete": true,
    "abBody": false,
-   "names": 1384,
-   "segments": 1215,
-   "closureShare": 0.2961
+   "names": 1371,
+   "segments": 1202,
+   "closureShare": 0.2883
   },
-  "scopeSha256": "450d6382fc7f44baab1793c468770c1a230df03bfa88c28125d1d72967749970",
+  "scopeSha256": "cdaed73313d2f6a0263f55636ea61a4e7010c467a0b8cad73b75fb82490bbec9",
   "scopeComplete": true,
   "inputsStable": [
    {
