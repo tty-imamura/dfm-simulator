@@ -21975,6 +21975,10 @@ if (!FAST) {
         if (has292d285 && ids295c.length && W296B_FIT) { for (const id of W296B_FITIDS) OTHER285.add(id); const nb = nBuiltin285[nBuiltin285.length - 1];
           // 第297便b(R162): 🌥️(W297B_NEWIDS)を足した世代 —— 正本が鎖で刻み直されるまでは前の世代(🟫🟪 だけ)の本数も許す
           if (W297B_NEWIDS.length) nBuiltin285.push(nb + W296B_FIT - W297B_NEWIDS.length); nBuiltin285.push(nb + W296B_FIT); }
+        // 第357便d(統括の統合): ☝️ boxone(二次元の新本 —— 基点 b92ffa1 には無い本なので、1 步の比較では「違う本」に入る・contactMode の宣言の外)を足した世代は +1。
+        //   世代の守り: 正本の 1 步の比較(oneStep.differ)に ☝️ の行がある世代だけ本数に足す(行の無い正本は、☝️ の前に刻んだ世代 —— 鎖で作り直すと入る)
+        const has357d285 = has292d285 && (O.differ || []).indexOf('boxone') >= 0;
+        if (has357d285) { OTHER285.add('boxone'); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + 1); }
         // 第298便(統括代行 g): 三次元の新本(三次元の本は別の 1 步 dfmStep3 で走る・基点 b92ffa1 には無い本)を足した世代は
         //   +三次元の新本の数(正本が鎖で刻み直されるまでは前の世代の本数 —— 両方を許す)。🔩🪛 は contactMode none の宣言の側・🌦️🌐🎲 は宣言の外でよい
         //   第299便a(AN282 ①): 正本は第298便の鎖で刻み直した世代(三次元の本を含む本数)だけを受ける —— 前の世代の本数の分岐を外した
