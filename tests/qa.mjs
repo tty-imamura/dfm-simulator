@@ -135729,6 +135729,7 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
 // ----   ai.chatHints357h(vm + ページ —— 世代切替 = beta 対象 ∧ html に `function aiBuiltLineOf(`): vm で 3 題(プリセット・実単位の宣言のあるプリセット・観測レコード)の
 // ----     報告の「出来た本: geoPN=…」の 1 行・伝える文の 2 行目・geoPN は出来た本の値・手順の 1 文 ja/en・前の版と同じ取り込む値(プリセットの 2 題)・変異 4。ページ = 報告の 1 行と手順の 1 文。
 // ----   docs.chatHints357h(文書): PHYSICS〔第357便h〕・AI_SPEC §420・入口のページ(ja と英語の節)と README の足した行・post-merge の塊・書かない語(製品の名を含む)。
+// ----     第358便(公開版への昇格の便)で足した: 形の決まりの字(入口の「実在の天体」の 2 行・仕様の英語の §2・§6.4.3 の表の行 —— 自転の行が全部に在れば geoPN=3・無い天体が在れば geoPN=1)と、変異 3。
 {
   await (async () => {   // 第310便c(heap)
   const H357h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
@@ -135817,7 +135818,20 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       if (CH.indexOf(w) < 0) bad.push('③ 入口のページに「' + w.slice(0, 24) + '」が無い');
     const iMake = CH.indexOf('**作るとき**'), iReal = CH.indexOf('**実在の天体のとき**');
     if (!(iMake >= 0 && iReal > iMake && iReal < CH.indexOf('\n## 3.'))) bad.push('③ 分かれ道の行が「作るとき」の中に無い');
-    cases.push('③ 入口のページ(ja の 3 か所・英語の 2 行)と README の段');
+    // 第358便(公開版への昇格の便 —— 文書の字の直し): 入口のページの「実在の天体」の行(ja・英語)と、仕様の英語の §2 の段・§6.4.3 の表の行は、
+    //   アプリの決まり(全部の天体に自転の行が在れば geoPN=3〔変種 g3k1〕・無い天体が在れば geoPN=1〔変種 g1kf0〕)と同じ字 —— 「いつも geoPN=3」の字に戻さない
+    const formTextWhy = (ch, as) => {
+      const why = [], lineOf = (t, w) => { const i = t.indexOf(w); return i >= 0 ? t.slice(i, (t.indexOf('\n', i) + 1 || t.length + 1) - 1) : ''; };
+      for (const [nm, l] of [['ja', lineOf(ch, '**実在の天体のとき**')], ['英語', lineOf(ch, '- **Real bodies**')]])
+        if (!['geoPN=3', 'geoPN=1', '`rotation_period`'].every((w) => l.indexOf(w) >= 0)) why.push('③ 入口のページの「実在の天体」の行(' + nm + ')に geoPN=3・geoPN=1・rotation_period が揃っていない');
+      const e0 = as.indexOf('\n## 2. The ObservationRecord path'), e1 = e0 >= 0 ? as.indexOf('\n## ', e0 + 5) : -1, E2 = e0 >= 0 ? as.slice(e0, e1 >= 0 ? e1 : as.length) : '';
+      if (!['`g3k1`', '`g1kf0`', 'geoPN=3', 'geoPN=1', 'rotation row'].every((w) => E2.indexOf(w) >= 0)) why.push('③ AI_SPEC の英語の §2 に、2 つの形(g3k1・g1kf0)と自転の行の決まりが揃っていない');
+      const rowJ = lineOf(as, '| 物理の宣言(第357便g〔§419〕から —— **既定**) |');
+      if (!['`g3k1`', '`g1kf0`', '`geoPN:3`', '`geoPN:1`'].every((w) => rowJ.indexOf(w) >= 0)) why.push('③ AI_SPEC §6.4.3 の表の行に、2 つの形(g3k1・g1kf0)が揃っていない');
+      return why;
+    };
+    bad.push(...formTextWhy(CH, AS));
+    cases.push('③ 入口のページ(ja の 3 か所・英語の 2 行)と README の段・形の決まりの字(入口の 2 行・仕様の英語の §2・表の行)');
     const p0 = PM.indexOf('# ==== 第357便h の塊(ここから)===='), p1 = PM.indexOf('# ==== 第357便h の塊(ここまで)===='), pc = PM.indexOf('# ==== 第357便c の塊(ここまで)====');
     if (!(p0 >= 0 && p1 > p0 && pc >= 0 && pc < p0 && /ai\.chatHints357h docs\.chatHints357h/.test(PM.slice(p0, p1)))) bad.push('④ post-merge に第357便h の塊(第357便c の塊の後・2 鍵)');
     const cb = CLx.search(/^## v1\.48(?:-b\d+|\.0)[((]/m), clg = cb >= 0 ? CLx.slice(cb, (CLx.indexOf('\n## ', cb + 5) + 1 || CLx.length + 1) - 1) : '', cls = clg.split('\n');
@@ -135844,7 +135858,17 @@ function view345aOf348g(eq) { return view347fOf348g(eq); }
       const m1 = secCheck(PH.split('「' + ORIG[1] + '」').join('「まとめ: 実在天体はgeoPN=3が理想」'));
       if (!m1.why.length) bad.push('⑥ 変異(原文の字)で落ちない');
     }
-    cases.push('⑥ 変異 1');
+    {
+      // 変異 2〜4(第358便): 形の決まりの字を「いつも geoPN=3」の字へ戻すと落ちる(入口の英語の行・仕様の英語の §2・表の行)
+      const cut = (t, a, b) => { const i = t.indexOf(a), j = i >= 0 ? t.indexOf(b, i) : -1; return (i >= 0 && j > i) ? t.slice(0, i) + t.slice(j) : null; };
+      const m2 = cut(CH, ' — geoPN=3 (the same rule form as the standing planet presets) when every body', ' If you cannot open sources,');
+      const m3 = cut(AS, 'When any body has no rotation row,', 'Neither form evaluates');
+      const m4 = cut(AS, '1 つでも欠ければ **観測入力のまま照合する基準の形**', '**在位の惑星の本と同じ規則の形**(変種 `g3k1`): ');
+      if (!(m2 && formTextWhy(m2, AS).length === 1)) bad.push('⑥ 変異 2(入口の英語の行)で落ちないか、切る所が無い');
+      if (!(m3 && formTextWhy(CH, m3).length === 1)) bad.push('⑥ 変異 3(仕様の英語の §2)で落ちないか、切る所が無い');
+      if (!(m4 && formTextWhy(CH, m4).length === 1)) bad.push('⑥ 変異 4(仕様の表の行)で落ちないか、切る所が無い');
+    }
+    cases.push('⑥ 変異 4');
     add('docs.chatHints357h', bad.length === 0,
       `**PHYSICS〔第357便h〕・AI_SPEC §420・入口のページと README の足した行**(第357便h・R528): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 8).join(' , ')}` : ''));
   }

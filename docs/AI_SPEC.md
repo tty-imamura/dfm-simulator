@@ -220,10 +220,15 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
-(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
-geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
-uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
-system whose self-check does not pass the new form. See §419.)
+(Wave 357g: the builder now declares the form by the rotation rows. When the central body and every
+satellite have a rotation row (`rotation_period` or `spin`), it declares **the same rule form as the
+in-place planet books** — variant `g3k1`: geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D
+book with a planar initial state. When any body has no rotation row, it declares the reference form
+compared with the observed inputs as they are — variant `g1kf0`: geoPN=1, kFrame=0, λ_PN=1, a 2D book.
+Neither form evaluates `q_exact` or reuses the shared D₀, and neither has a matched value; `q_exact`
+and D₀ remain only in the earlier form (variant `kf1`), which is kept for a system whose receiver check
+or self-check does not pass the declared form. The app's result line names the form taken and, for
+geoPN=1, the bodies without a rotation row. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.
@@ -713,7 +718,7 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 | 配置・初速 | カタログ経路と**同一の関数**(実ケプラー接線速度。二体は重心系 — 惑星ティアは近点整列 `barycentric-peri`・**恒星ティアは遠点整列 `barycentric-apo`**〔第211便: DFM 版と初期位相を統一。自己診断は感度最大の近点位相の複製で実施〕、多衛星は近点整列 `kepler-peri`)。初速較正 f=1.000 |
 | `q` | qLock の**厳密一致式** `q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)`(第172便の運用規約)を**最内衛星の a で1回だけ**評価した直値(小数4桁)。多天体系では実行時 qLock を掛けない(a_ref が一意に決まらない — 🟠🌞 と同じ既存裁定) |
 | `D₀` | **0.006**(🌘 で決まった共有値の流用。**本系でのフィットはゼロ**) |
-| 物理の宣言(第357便g〔§419〕から —— **既定**) | **在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。この形が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。二次元の同じ宣言は無い(G_loc は三次元の本だけ) |
+| 物理の宣言(第357便g〔§419〕から —— **既定**) | **形は自転の行の有無で選ぶ**(§419 の「統合の後の直し 2」): 中心の天体と衛星の全部に自転の行(`rotation_period` か `spin`)が在れば下の `g3k1`、1 つでも欠ければ **観測入力のまま照合する基準の形**(変種 `g1kf0`: `geoPN:1`・`kFrame:0`・`lambdaPN:1`・`D0:0.1`・`q:3`・`frameWeight:"share"`・二次元 —— 合わせる値を持たない)。出来た本の 1 行が、採った形と、自転の行が無い天体の名を挙げる。**在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。選んだ形(`g3k1` か `g1kf0`)が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。`g3k1` と同じ宣言の二次元の版は無い(G_loc は三次元の本だけ) |
 | `camera.scale` | 最外衛星の遠点距離 × 1.2 を**有効2桁へ切り捨て** |
 | `dispMag` | 中心天体の描画半径が `camera.scale` の 3〜15% 帯の幾何中央へ最も近くなる刻み(1/3×10^k) |
 | `timeScale` | 最内衛星の1公転が実時間で約5秒(60fps)になる刻み(1/3×10^k) |
