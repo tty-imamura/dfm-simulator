@@ -20675,7 +20675,11 @@ if (!FAST) {
           if (!r.ok || !r.on || r.deny || r.n0 !== g.sources || r.nTp !== g.particles || r.groups !== g.groups || !r.allTp || !r.tail || !r.massOk || !r.sigMoves)
             bad.push('宣言・入場 ' + JSON.stringify(r));
         }
-        if (live.flagged.join(',') !== TS.SIGNED_IDS.slice().sort().join(',')) bad.push('宣言のある内蔵が 4 本でない: ' + live.flagged.join(','));
+        // 第357便d(統括の統合): 世代切替 —— 後から足した本のうち、見張りの粒を試験粒子として宣言した本(W357D_ADD2D_IDS —— ☝️ boxone)は、
+        //   第284便e の署名の 4 本(🌞💠💍💿)の外に在る(宣言どおり —— 旗が立つことは docs.heavyCal が見る)。4 本の照合の前に、名指しで外す(ほかの本に宣言が増えれば、これまでどおり落ちる)
+        const flagged357d = live.flagged.filter((id) => W357D_ADD2D_IDS.indexOf(id) < 0);
+        if (flagged357d.join(',') !== TS.SIGNED_IDS.slice().sort().join(',')) bad.push('宣言のある内蔵が 4 本でない: ' + live.flagged.join(','));
+        if (flagged357d.length !== live.flagged.length) cases.push(`後から足した試験粒子の本 ${live.flagged.length - flagged357d.length} 本(${live.flagged.filter((id) => flagged357d.indexOf(id) < 0).join(',')} —— 署名の 4 本の外)`);
         cases.push(`宣言 ${live.rows.filter((r) => r.on).length}/4(源 ${live.rows.map((r) => r.n0).join('/')}・試験粒子 ${live.rows.map((r) => r.nTp).join('/')}・末尾に連続・質量は宣言どおり・署名に入る)・内蔵 ${live.n} 本のうち宣言は 4 本だけ`);
         const Jt = rd('tests/out/tpsign-w284e.json');
         if (!Jt) bad.push('正本 tpsign-w284e.json が読めない');
@@ -42546,6 +42550,9 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
       // ==== 第324便b の塊(ここから)====
       MIG.push('alphaCenABInertial3dJ', 'psrDoubleABInertial3d');   // 第324便b(R280): 🔸📟 は 🔶 と 📻 の pull 世代の宣言の写し(frameWeight "pull"・kFrame 0 で走行に効かない)
       // ==== 第324便b の塊(ここまで)====
+      // ==== 第357便e の塊(統括の統合 —— ここから)====
+      MIG.push('twoBodyOnly3d');   // 第357便e(R526): 👥 は ⚖️ の pull 世代の宣言の写し(引きずりの宣言が同じ JSON —— frameWeight "pull"・kFrame 0 で走行に効かない)
+      // ==== 第357便e の塊(ここまで)====
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
