@@ -52,6 +52,36 @@ function secUntilNext329c(text, i, seps) {
   return text.slice(i, end);
 }
 // ==== 第329便c の塊(ここまで)====
+// ==== 第358便 の塊(ここから —— 大きいファイルの読みを 1 つの写しに)====
+// 第358便(公開版 v1.48.0 への昇格の便): **同じファイルを utf8 で読むたびに、新しい文字列の写しが出来る**(docs/PHYSICS.md は 1 回の読みで約 16 MB・この台本は約 23 MB)。
+//   最上位の塊の局所の値は QA の終わりまで残る(第310便c)ので、文書を読む塊が増えるほど heap が伸び、beta のフルの QA が heap の上限 6144 MB に当たって止まった
+//   (第358便の手元のゲート —— 落ち 0 のまま 1,884 本の所。鍵ごとの heap の記録では、400 本目で生きている 1.4 GB のうち 845 MB が、この台本の最上位の読みの写し)。
+//   ここで fs.readFileSync を包む: **リポジトリの中のファイルを、文字列(utf8)で読むとき**、大きさ・更新時刻・inode が前の読みと同じなら、前の読みと同じ文字列を返す
+//   (文字列は書き換えられない値なので、写しを共有しても、読む側の結果は同じ)。ファイルが書き換わっていれば読み直す。バッファで読む読み・リポジトリの外の道・小さいファイル・
+//   stat できない道(無いファイル ほか)は、元の関数をそのまま呼ぶ(例外の字も元のまま)。持つ字数には上限(古い順に手放す)。QA_READ_CACHE=0 で切る(比べるため)。
+//   heap の上限・判定・検査の順は変えていない。QA lint.qaHeapRelease310 が、この塊の在ることと働き(同じ読みは数えられる・書き換えで読み直す・外の道とバッファは素通し)を見る。
+const QA_READ_CACHE_358 = (() => {
+  const orig = fs.readFileSync, cache = new Map(), st = { hit: 0, miss: 0, pass: 0, chars: 0, evict: 0 };
+  const MAX_CHARS = Number(process.env.QA_READ_CACHE_MAX_CHARS || 96e6), MIN_BYTES = 65536n, on = process.env.QA_READ_CACHE !== '0';
+  const rootPrefix = ROOT.endsWith(path.sep) ? ROOT : ROOT + path.sep;
+  function readFileSyncShared358(p, opt) {
+    const enc = typeof opt === 'string' ? opt : (opt && typeof opt === 'object' && (opt.flag === undefined || opt.flag === 'r') ? opt.encoding : null);
+    if (typeof p !== 'string' || !(enc === 'utf8' || enc === 'utf-8')) { st.pass++; return orig.apply(fs, arguments); }
+    let abs, s;
+    try { abs = path.resolve(p); if (!abs.startsWith(rootPrefix)) { st.pass++; return orig.apply(fs, arguments); } s = fs.statSync(abs, { bigint: true }); } catch (e) { st.pass++; return orig.apply(fs, arguments); }
+    if (!s.isFile() || s.size < MIN_BYTES) { st.pass++; return orig.apply(fs, arguments); }
+    const key = s.dev + ':' + s.ino + ':' + s.size + ':' + s.mtimeNs + ':' + s.ctimeNs, c = cache.get(abs);
+    if (c && c.key === key) { st.hit++; cache.delete(abs); cache.set(abs, c); return c.text; }
+    const text = orig.call(fs, abs, 'utf8');
+    if (c) { st.chars -= c.text.length; cache.delete(abs); }
+    cache.set(abs, { key, text }); st.chars += text.length; st.miss++;
+    for (const [k, v] of cache) { if (st.chars <= MAX_CHARS || k === abs) break; cache.delete(k); st.chars -= v.text.length; st.evict++; }
+    return text;
+  }
+  if (on) fs.readFileSync = readFileSyncShared358;
+  return { version: 'w358-readcache-1', on, stats: st, files: () => cache.size, orig, maxChars: MAX_CHARS };
+})();
+// ==== 第358便 の塊(ここまで)====
 // 第286便b(原仮定者の裁定(第76報)AN59): **cLight の真値化の世代**。実単位の本の c は c_SI·10^(T−L)(L−T=4 の族 29979.2458・
 //   L−T=5 の族 2997.92458・L−T=7 の族 29.9792458)、κ=G/c² も同期。root(旧則 —— 3×10⁴・3×10³・30 の丸め)と beta を分ける。
 //   世代の目印は html の CAL_CONTRACT の units 欄(第286便b)。旧値は履歴(tests/data-w286b-clight.json)。
@@ -86015,11 +86045,38 @@ if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
         for (const r of a.unwrapped) bad.push(`包みの無いブロック ${r.l0} 行(${r.id || '?'}${r.why.length ? ' —— 包めない形: ' + r.why.join('+') : ''})`);
         if (!/^ {2}await \(async \(\) => \{/.test(HW.WRAP_OPEN) || !/^ {2}\}\)\(\);/.test(HW.WRAP_CLOSE)) bad.push('包みの行の形(2 字下げの async の即時の呼び出し)が崩れた');
       } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+      // 第358便(公開版への昇格の便): 大きいファイルの読みを 1 つの写しに(台本の頭の塊 QA_READ_CACHE_358)—— 塊の在ることと、働き
+      let rc358 = '';
+      try {
+        const RC = QA_READ_CACHE_358, src358 = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+        const i0 = src358.indexOf('// ==== 第358便 の塊(ここから —— 大きいファイルの読みを 1 つの写しに)===='), i1 = src358.indexOf('const C_TRUE_286B');
+        if (!(i0 >= 0 && i1 > i0 && RC.version === 'w358-readcache-1')) bad.push('第358便: 読みの共有の塊が、最初の大きい読み(C_TRUE_286B)の前に無い');
+        if (RC.on) {
+          if (fs.readFileSync.name !== 'readFileSyncShared358') bad.push('第358便: fs.readFileSync が包まれていない');
+          const big = path.join(ROOT, 'docs', 'PHYSICS.md'), h0 = RC.stats.hit;
+          const t1 = fs.readFileSync(big, 'utf8'), t2 = fs.readFileSync(big, { encoding: 'utf8' }), t0 = RC.orig.call(fs, big, 'utf8');
+          if (!(RC.stats.hit >= h0 + 1 && t1 === t0 && t2 === t0)) bad.push('第358便: 同じファイルの 2 度目の読みが、共有に当たらないか、元の読みと字が違う');
+          const p0 = RC.stats.pass, bf = fs.readFileSync(big);
+          if (!(Buffer.isBuffer(bf) && RC.stats.pass === p0 + 1)) bad.push('第358便: バッファの読みが素通しでない');
+          const os358 = await import('node:os'), tmpOut = path.join(os358.tmpdir(), 'w358-readcache-' + process.pid + '.txt');
+          const tmpIn = path.join(ROOT, 'tests', 'out', '.w358-readcache-' + process.pid + '.tmp');
+          try {
+            fs.writeFileSync(tmpOut, 'a'.repeat(70000)); const p1 = RC.stats.pass; fs.readFileSync(tmpOut, 'utf8');
+            if (RC.stats.pass !== p1 + 1) bad.push('第358便: リポジトリの外の道が素通しでない');
+            fs.writeFileSync(tmpIn, 'a'.repeat(70000)); const r1 = fs.readFileSync(tmpIn, 'utf8'); const hA = RC.stats.hit; const r1b = fs.readFileSync(tmpIn, 'utf8');
+            fs.writeFileSync(tmpIn, 'b'.repeat(70001)); const r2 = fs.readFileSync(tmpIn, 'utf8');
+            if (!(r1 === r1b && RC.stats.hit === hA + 1 && r1[0] === 'a' && r2[0] === 'b' && r2.length === 70001)) bad.push('第358便: 書き換えたファイルを読み直さないか、同じ読みが共有に当たらない');
+            let thrown = ''; try { fs.readFileSync(path.join(ROOT, 'tests', 'out', '.w358-none-' + process.pid), 'utf8'); } catch (e) { thrown = String(e && e.code); }
+            if (thrown !== 'ENOENT') bad.push('第358便: 無いファイルの例外が元のままでない(' + thrown + ')');
+          } finally { for (const f of [tmpOut, tmpIn]) { try { fs.unlinkSync(f); } catch { /* 無い */ } } }
+        }
+        rc358 = ` / **大きいファイルの読みを 1 つの写しに**(第358便 —— 台本の頭の塊 ${RC.version}・${RC.on ? '働いている' : 'QA_READ_CACHE=0 で切ってある'}): リポジトリの中の utf8 の読みは、ファイルが同じなら同じ文字列を返す(ここまでの共有 ${RC.stats.hit} 回・読み ${RC.stats.miss} 回・素通し ${RC.stats.pass} 回・持つ字数の上限 ${RC.maxChars})・書き換えで読み直す・外の道とバッファと無いファイルは元のまま。heap の上限は変えていない`;
+      } catch (e) { bad.push('第358便: 読みの共有の確かめが走らない: ' + String(e && e.stack || e).slice(0, 200)); }
       add('lint.qaHeapRelease310', bad.length === 0,
         `**QA の heap —— headless の写しをブロックの後で手放す**(第310便c・R224): headless の写し(loadHtmlHeadless・vm.createContext)を作る最上位のブロック `
         + `${a ? a.blocks : '?'} 本のうち包んだもの ${a ? a.wrapped : '?'} 本(本文は不変 —— \`await (async () => { … })();\`)。最上位の待ちのある module では`
         + `ブロックを抜けた局所の値が残り、写しの vm が最後まで手放されない(第310便c の枝の実測 —— PHYSICS〔第310便c〕⑩)。新しい headless のブロックは `
-        + '`node tools/qa-heap-wrap.mjs --apply` で包む' + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+        + '`node tools/qa-heap-wrap.mjs --apply` で包む' + rc358 + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
 }
