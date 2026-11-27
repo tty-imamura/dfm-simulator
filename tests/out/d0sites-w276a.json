@@ -4,7 +4,7 @@
   "wave": "第276便a",
   "target": "beta/index.html",
   "targetSha256": "aeeb6937dfe65b94cd67a890ad7d4acb2e608da2e506ed0d638a0f143f1f1c0a",
-  "generatedAt": "2026-11-26T22:48:32.877Z",
+  "generatedAt": "2026-11-27T00:09:23.609Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -16,9 +16,9 @@
   "code": [
    {
     "file": "tests/exp-w276a-d0audit2.mjs",
-    "bytes": 31872,
-    "sha256": "6570b55751c2a5969988ab7f39881f2f85896cef67a00ee1eb7773701f295991",
-    "mtime": "2026-11-24T05:41:44.973Z"
+    "bytes": 32398,
+    "sha256": "84aec1c1fd639a003216ec56ff8f6456dd2615bb94618e4626eb80af93ed9434",
+    "mtime": "2026-11-26T23:39:45.070Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,7 +27,7 @@
     "mtime": "2026-11-24T05:41:45.045Z"
    }
   ],
-  "codeSha256": "75d33c8449197a11aa71d8cd622f8972981234255948eb46d50c44b18ece6bbc",
+  "codeSha256": "a6ead02d93998270b8330f745d5fb2049f79347b4c37dadd91946dc9adb674cc",
   "harness": "tests/exp-w276a-d0audit2.mjs",
   "harnessVersion": "w276a-d0sites-2",
   "tokens": [
@@ -61,14 +61,11 @@
   "total": 634,
   "groups": 78,
   "byReplaceable": {
-   "n/a": 16,
+   "n/a": 17,
    "candidate": 55,
-   "forbidden": 6,
-   "unclassified": 1
+   "forbidden": 6
   },
-  "unclassified": [
-   "buildAstroFromRecords :: spinRowOf"
-  ],
+  "unclassified": [],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -2094,10 +2091,10 @@
     "hasPullFallback": false,
     "readsD0Member": false,
     "objectKeyOnly": true,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "宣言の生成(観測レコードの本の変種の physics を作る)",
+    "replaceable": "n/a",
+    "why": "生成する宣言の中に D₀ を書いている(読み口ではない)",
+    "classified": true
    },
    {
     "key": "updateBodyEdit :: updateBodyEdit",
