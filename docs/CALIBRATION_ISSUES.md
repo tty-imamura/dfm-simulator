@@ -2,8 +2,8 @@
 
 本書は **`tests/exp-w272a-issues.mjs` が正本 JSON から機械生成**する。手で打った数字は 1 つも無い(**数えただけ**であって、直した記録ではない)。
 
-- 入力: `tests/out/calaudit-w249.json`(SHA-256 `432b529377e9…`) / `tests/out/solarsigma-w262d.json`
-- 対象 HTML: `beta/index.html`(SHA-256 `aeeb6937dfe6…`)
+- 入力: `tests/out/calaudit-w249.json`(SHA-256 `6cd0f8c6acab…`) / `tests/out/solarsigma-w262d.json`
+- 対象 HTML: `beta/index.html`(SHA-256 `ec710e2ad726…`)
 - 生成時刻の走行: 4 値 **0/2/1/16**・門 **2/1/10/6/0/151**
 
 **書かないこと**: 「問題を解決した」「較正した」「較正を完了した」「判定が増えた」「カロンが合」「カロンが否」。
