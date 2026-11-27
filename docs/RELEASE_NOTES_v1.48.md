@@ -59,6 +59,7 @@
 | 性能の検査の許可 | `tests/perf.mjs` の `ALLOW` は昇格の前から空(外すものは無い) |
 | 昇格の直後の部分 QA | __GATE_PM__(版名を読む鍵 —— 落ちた鍵の型: 生成文書の見出しの版名〔鎖で作り直す型〕) |
 | 再生成の鎖(`tools/regen-plan.mjs` → `tools/regen-chain.mjs`・`--base` = 昇格の前の beta) | __GATE_CHAIN__ |
+| 検査の台本の heap(手元のゲートの 1 回目が止まった件) | __GATE_HEAP__ |
 | 転記照合 | __GATE_TRANSCRIPT__ |
 | フルゲート(手元 —— CI の qa ジョブと同じ設定) | 指紋/署名 __GATE_SAME__・root と beta が byte 同一・**beta __GATE_BETA__**・**root __GATE_ROOT__**・**perf __GATE_PERF__** |
 

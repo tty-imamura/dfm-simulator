@@ -419,6 +419,7 @@ W324D_RESUME_DIR=<置き場> node tests/exp-w318b-satnext.mjs --resume-gate     
 - **常時群の影の照合の揮発の欄**: `tests/lib-w326e-alwaysshadow.mjs` の `SHADOW_VOLATILE_329C`(stoprule の正本の時間の欄と文の中の秒 —— `--always-shadow-check` の比べ)。
 - **固定の字数の窓**: tests/qa.mjs の `secUntilNext329c(text, i, seps)`(次の見出しの前まで)—— 新しい QA は節を固定の字数で切らない。
 - **QA_FAST の heap の既定**: `QA_FAST=1 node tests/qa.mjs` は heap の上限が 6144 MB より小さく heap を明示していなければ --max-old-space-size=6144 の子で起こし直す(`QA_HEAP_DEFAULT=0` で切る)。
+- **QA の大きいファイルの読みの共有(第358便)**: `tests/qa.mjs` は、リポジトリの中のファイルを utf8 で読むとき、ファイルが前の読みと同じ(大きさ・更新時刻・inode)なら、同じ文字列を返す(読みの写しが heap に溜まるのを防ぐ —— 上限 6144 MB は変えない)。比べるために切るときは `QA_READ_CACHE=0`・持つ字数の上限は `QA_READ_CACHE_MAX_CHARS`(既定 96e6)。確かめは `lint.qaHeapRelease310`。
 - **契約の継ぎ目**: 第328便b の lib の `slipOf(c, OmegaArm)`(Ω_arm は明示の引数)・器は第328便a の `buildFieldContract`(版 w328b-response-2)。
 
 ## 第330便c — 道具: 計画と lint の道具の照合を 1 つの関数に・名指しの段の physics の鍵の集合の守り(AN584)・batchKeys を半開区間に・§5.19 の窓
