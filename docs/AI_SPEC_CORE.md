@@ -223,10 +223,15 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
-(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
-geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
-uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
-system whose self-check does not pass the new form. See §419.)
+(Wave 357g: the builder now declares the form by the rotation rows. When the central body and every
+satellite have a rotation row (`rotation_period` or `spin`), it declares **the same rule form as the
+in-place planet books** — variant `g3k1`: geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D
+book with a planar initial state. When any body has no rotation row, it declares the reference form
+compared with the observed inputs as they are — variant `g1kf0`: geoPN=1, kFrame=0, λ_PN=1, a 2D book.
+Neither form evaluates `q_exact` or reuses the shared D₀, and neither has a matched value; `q_exact`
+and D₀ remain only in the earlier form (variant `kf1`), which is kept for a system whose receiver check
+or self-check does not pass the declared form. The app's result line names the form taken and, for
+geoPN=1, the bodies without a rotation row. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.

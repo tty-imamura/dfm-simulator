@@ -220,10 +220,15 @@ implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 One object per measured quantity, in a JSON array. The app converts units, chooses the scale
 exponents, places the bodies, derives the initial speeds, evaluates the qLock exponent `q_exact`
 and reuses the shared correction D₀ — **the AI supplies transcribed observations only**.
-(Wave 357g: the builder now declares, by default, **the same rule form as the in-place planet books** —
-geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D book with a planar initial state — and
-uses no `q_exact` and no D₀; `q_exact` and D₀ remain only in the earlier form, which is kept for a
-system whose self-check does not pass the new form. See §419.)
+(Wave 357g: the builder now declares the form by the rotation rows. When the central body and every
+satellite have a rotation row (`rotation_period` or `spin`), it declares **the same rule form as the
+in-place planet books** — variant `g3k1`: geoPN=3, kFrame=0, the K1 rule R_d = Y_k m, G_loc n = 2, a 3D
+book with a planar initial state. When any body has no rotation row, it declares the reference form
+compared with the observed inputs as they are — variant `g1kf0`: geoPN=1, kFrame=0, λ_PN=1, a 2D book.
+Neither form evaluates `q_exact` or reuses the shared D₀, and neither has a matched value; `q_exact`
+and D₀ remain only in the earlier form (variant `kf1`), which is kept for a system whose receiver check
+or self-check does not pass the declared form. The app's result line names the form taken and, for
+geoPN=1, the bodies without a rotation row. See §419.)
 The mandatory quantities, the SI units, the rejection rules and the ±1% self-check are unchanged
 from wave 176 and are specified in Japanese in §6.4 (schema tables), which remains the normative
 text for this path.
@@ -713,7 +718,7 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 | 配置・初速 | カタログ経路と**同一の関数**(実ケプラー接線速度。二体は重心系 — 惑星ティアは近点整列 `barycentric-peri`・**恒星ティアは遠点整列 `barycentric-apo`**〔第211便: DFM 版と初期位相を統一。自己診断は感度最大の近点位相の複製で実施〕、多衛星は近点整列 `kepler-peri`)。初速較正 f=1.000 |
 | `q` | qLock の**厳密一致式** `q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)`(第172便の運用規約)を**最内衛星の a で1回だけ**評価した直値(小数4桁)。多天体系では実行時 qLock を掛けない(a_ref が一意に決まらない — 🟠🌞 と同じ既存裁定) |
 | `D₀` | **0.006**(🌘 で決まった共有値の流用。**本系でのフィットはゼロ**) |
-| 物理の宣言(第357便g〔§419〕から —— **既定**) | **在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。この形が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。二次元の同じ宣言は無い(G_loc は三次元の本だけ) |
+| 物理の宣言(第357便g〔§419〕から —— **既定**) | **形は自転の行の有無で選ぶ**(§419 の「統合の後の直し 2」): 中心の天体と衛星の全部に自転の行(`rotation_period` か `spin`)が在れば下の `g3k1`、1 つでも欠ければ **観測入力のまま照合する基準の形**(変種 `g1kf0`: `geoPN:1`・`kFrame:0`・`lambdaPN:1`・`D0:0.1`・`q:3`・`frameWeight:"share"`・二次元 —— 合わせる値を持たない)。出来た本の 1 行が、採った形と、自転の行が無い天体の名を挙げる。**在位の惑星の本と同じ規則の形**(変種 `g3k1`): `geoPN:3`・`kFrame:0`・`lambdaPN:0`・`relativeDrag:{law:"inertial", invSq:{kernel:"k1", rdRule:"kappaM"}, pairs:"all", history:"positions", initMotion:"observed"}`・`gLoc:{law:"kappaC2"}`・`coord:"3d"`(初期状態は平面 z = v_z = 0)。引きずりの半径は規則 R_d = Y_k m で、**合わせる値を持たない**(上の `q`・`D₀` の行は使わない —— q=3・D0=0.1・frameWeight "share" は在位の惑星の本と同じ値で、kFrame 0 では走行に効かない)。選んだ形(`g3k1` か `g1kf0`)が受理器か自己診断を通らない系だけ、上の行の前の形(変種 `kf1`)で組み立て、理由を説明の文と注記に書く。`g3k1` と同じ宣言の二次元の版は無い(G_loc は三次元の本だけ) |
 | `camera.scale` | 最外衛星の遠点距離 × 1.2 を**有効2桁へ切り捨て** |
 | `dispMag` | 中心天体の描画半径が `camera.scale` の 3〜15% 帯の幾何中央へ最も近くなる刻み(1/3×10^k) |
 | `timeScale` | 最内衛星の1公転が実時間で約5秒(60fps)になる刻み(1/3×10^k) |
@@ -4043,6 +4048,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **QA の heap**: 対象の html を Node の vm で読む試験(`loadHtmlHeadless`)は、ブロックの中身を `await (async () => { … })();` で包む(本文はそのまま —— 最上位の待ちのある module ではブロックを抜けた局所の値が残り、写しの vm が最後まで手放されない)。`lint.qaHeapRelease310` が包みの無い headless のブロックを数える。`tools/qa-heap-wrap.mjs --all` は最上位のブロックの全部を対象にする(本便では適用していない —— headless でないブロックの大きな値も同じ型で残る。全枝の統合の後に 1 回が候補)。
 - **behavior.merger-causal の削除**: 第251便b の約束(root 昇格時に本節ごと削除)—— root(35780a1)も beta も 🌠 を持たない。W5c ユニット mergerCausal も削除。
 - **QA**: `docs.w310c`・`lint.qaHeapRelease310`(root は SKIP)・`lint.regenChain`(表の版の世代切替と (s))。
+- **第358便(公開版 v1.48.0 への昇格の便)で足した —— 大きいファイルの読みを 1 つの写しに**: QA の台本(`tests/qa.mjs`)は、同じ文書を utf8 で何百回も読む(`docs/PHYSICS.md` は 1 回の読みで約 16 MB の文字列)。最上位の塊の局所の値は QA の終わりまで残るので、読みの写しが溜まり、beta のフルの QA が heap の上限 6144 MB に当たって止まった(昇格の後の手元のゲート —— 落ち 0 のまま 1,884 本の所。鍵ごとの heap の記録で、700 本目の生きている 2,260 MB のうち 1,584 MB が、この読みの写し)。台本の頭の塊(`QA_READ_CACHE_358`・版 `w358-readcache-1`)が `fs.readFileSync` を包み、リポジトリの中のファイルを utf8 で読むとき、大きさ・更新時刻・inode が前の読みと同じなら、前の読みと同じ文字列を返す(書き換わっていれば読み直す・バッファの読みとリポジトリの外の道と小さいファイルと無いファイルは元の関数のまま・持つ字数に上限・`QA_READ_CACHE=0` で切る)。`lint.qaHeapRelease310` に、塊の在ることと働きの確かめを足した。**heap の上限(手元と CI の 6144 MB)・判定・検査の順は変えていない**。
 - **AI 生成の規則**: SYSTEM_PROMPT には載せない。AI が本を作るときに第107報を理由に宣言を変えない(新則の宣言は在位の移行の便で)。「第107報の法則で在位の結果を作り直した」「m_d を決めた」と書かない。
 ## 118. 第310便d —— 太陽の m_d の掃引の器(外殻〔一様の厚い殻・比較に薄い殻〕の参照の lib・m_d の表・近点への寄与の一次の見積り・エンジンの近点・標的 1PN + A1 に届くか)(原仮定者の裁定(第109報)AN380・決断事項 AN384・AN385・AN386・AN336・統括の検証項目 R225・**器と lib と正本だけ** —— html・宣言の鍵・正準形・エンジンの式・`S._core` は不変・在位の本は 1 本も宣言しない・フィットの値を在位へ入れない・**SYSTEM_PROMPT には載せない**)
 
@@ -6055,6 +6061,7 @@ SYSTEM_PROMPT の規則 13(逐語):
 - **AI が読むときの要点**: 実在の天体の頼み(「実単位で」も)は出力A(出典つきの観測レコード)で返す。出典を開けないときは、先にその旨と「出力B は近似のトイで、実単位の本にはならない」ことを利用者に伝え、聞いてから出力B(`docs/AI_CHAT.md` の「作るとき」)。出力A・出力B の選び方の仕様の文(§1・§5)は変えていない。
 - **アプリ**: 取り込みの報告と「この結果をAIに伝える文」(2 行目)に「出来た本: geoPN=<値>(観測レコードから組み立てた実単位の本 / プリセットをそのまま —— 実単位の宣言あり / …実単位ではありません)」(I18N の鍵 `aiResBuilt`・値は出来た本の `physics.geoPN` を読むだけ —— 報告では先頭の段)。コピーのボタンと入口のページのリンクの後ろの短い段(鍵 `aiChatUnread`)に、ページを読めないチャットは「1回で生成するプロンプト」を使う 1 文。
 - QA `ai.chatHints357h`(vm の 3 題・変異 4・ページの部分)・`docs.chatHints357h`(root は SKIP)。
+- **第358便(公開版 v1.48.0 への昇格の便)で足した**: 英語の入口の「Real bodies」の行と、本仕様の英語の §2 の段・§6.4.3 の表の「物理の宣言」の行を、アプリの決まり(全部の天体に自転の行が在れば geoPN=3・無い天体が在れば geoPN=1)と同じ字に直した(日本語の入口の行は前から同じ字)。`docs.chatHints357h` に、形の決まりの字の検査(入口の 2 行・英語の §2・表の行)と、字を前へ戻す変異 3 本を足した。アプリの html は変えていない。
 
 ## 417. 第357便d —— 論文 2 の入口の本: 天体が 1 つだけの箱 ☝️ `boxone`(箱と天体 1 つ・geoPN=0)を内蔵の本に 1 本足す(原仮定者の指示(2026-11-21)・原仮定者の指示(2026-11-17)・統括の検証項目 R525・**本を 1 本足すだけ** —— エンジン・既定の値・受理器・physics の鍵・既存の 187 本の宣言は不変・式は足していない・**SYSTEM_PROMPT には載せない**)
 - **何を足したか**: 内蔵の本 ☝️ `boxone`(群「箱宇宙の実験」の頭 —— 📦 `boxtrans` の直前・`sampleClass:"principle"`)・器 `tests/exp-w357d-boxone.mjs`・lib `tests/lib-w357d-boxone.mjs`・正本 `tests/out/boxone-w357d.json`・段 `boxone-357d`・PHYSICS〔第357便d〕・PHYSICS §6 の本の表の行・構成案の論文2 の ⑤ と ⑧ の V2-1 の行(「足した」を継ぐ)・状況の原稿の行。
